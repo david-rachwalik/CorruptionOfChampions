@@ -1,0 +1,34 @@
+{
+  "name": "nekogoo.github.io",
+  "version": "1.0.0",
+  "description": "NekoGoo personal site for content drops",
+  "main": "scripts/app.js",
+  "scripts": {
+    "test": "test type",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "lite": "lite-server",
+    "start": "concurrently \"npm run tsc:w\" \"npm run lite\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NekoGoo/nekogoo.github.io.git"
+  },
+  "author": "NekoGoo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NekoGoo/nekogoo.github.io/issues"
+  },
+  "homepage": "https://github.com/NekoGoo/nekogoo.github.io#readme",
+  "dependencies": {
+    "concurrently": "^6.3.0",
+    "lite-server": "^2.6.1",
+    "lodash": "^4.17.21",
+    "typescript": "^4.4.4"
+  },
+  "devDependencies": {
+    "@types/bootstrap": "^5.1.8",
+    "@types/jquery": "^3.5.11",
+    "@types/lodash": "^4.14.176"
+  }
+}
