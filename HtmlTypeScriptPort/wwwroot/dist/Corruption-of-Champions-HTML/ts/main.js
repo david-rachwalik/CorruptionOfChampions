@@ -1,14 +1,15 @@
-import { clearOutput } from "./engine/text";
+import { clearOutput, outputText } from "./engine/text";
 function mainMenu() {
     // Check to see if the user has a bad browser
-    if (typeof (Storage) !== "undefined") {
+    if (typeof Storage !== "undefined") {
         // All good to go!
     }
     else if (GetIEVersion() < 11) {
         errorOldInternetExplorerEwwww();
         return;
     }
-    else if (GetIEVersion() >= 11) { //Don't run the game if on Edge or IE11 due to issues.
+    else if (GetIEVersion() >= 11) {
+        //Don't run the game if on Edge or IE11 due to issues.
         errorEdgeNeverWorks();
         return;
     }
@@ -19,7 +20,7 @@ function mainMenu() {
     Data.loadSettings();
     clearOutput();
     // Load the start screen
-    outputText("<img src=\"assets/interface/CoCLogo.png\" height=\"300\" width=\"400\"><br>");
+    outputText('<img src="assets/interface/CoCLogo.png" height="300" width="400"><br>');
     outputText("Corruption of Champions: HTML Edition (" + gameVersion + ")<br><br>");
     outputText("Original CoC by Fenoxo. Rewritten by Kitteh6660.");
     menu();
@@ -71,7 +72,7 @@ function errorOldInternetExplorerEwwww() {
 }
 function errorEdgeNeverWorks() {
     clearOutput();
-    outputText("<font size=\"64\"><b>:(</b></font><br>Unfortunately, it appears that Microsoft Edge won't be able to run this game properly due to issue with local storage. I will look for possible workarounds. Until then, please switch to Firefox or Chrome.");
+    outputText('<font size="64"><b>:(</b></font><br>Unfortunately, it appears that Microsoft Edge won\'t be able to run this game properly due to issue with local storage. I will look for possible workarounds. Until then, please switch to Firefox or Chrome.');
     menu();
     hideMenus();
 }
@@ -83,9 +84,9 @@ function settingsScreenMain() {
     clearOutput();
     //Silly Mode
     if (silly)
-        outputText("Silly Mode: <b><font color=\"#008000\">ON</font></b><br>&nbsp; Crazy, nonsensical, and possibly hilarious things may occur.<br><br>");
+        outputText('Silly Mode: <b><font color="#008000">ON</font></b><br>&nbsp; Crazy, nonsensical, and possibly hilarious things may occur.<br><br>');
     else
-        outputText("Silly Mode: <b><font color=\"#800000\">OFF</font></b><br>&nbsp; You're an incorrigable stick-in-the-mud with no sense of humour.<br><br>");
+        outputText('Silly Mode: <b><font color="#800000">OFF</font></b><br>&nbsp; You\'re an incorrigable stick-in-the-mud with no sense of humour.<br><br>');
     //Time Format
     if (use12Hours)
         outputText("Time Format: <b>12 hours</b><br>&nbsp; 12-hour format will be used. Time will use AM/PM.<br><br>");
@@ -239,7 +240,7 @@ function creditsScreen() {
     creditsContents += "<li> Silmarion (Canine Pepper Bad End)</li>";
     creditsContents += "<li> Soretu (Original Minotaur Rape)</li>";
     creditsContents += "<li> NinjArt (Small Male on Goblin Rape Variant)</li>";
-    creditsContents += "<li> DoubleRedd (\"Too Big\" Corrupt Goblin Fuck)</li>";
+    creditsContents += '<li> DoubleRedd ("Too Big" Corrupt Goblin Fuck)</li>';
     creditsContents += "<li> Nightshade (Additional Minotaur Rape)</li>";
     creditsContents += "<li> JCM (Imp Night Gangbang, Addition Minotaur Loss Rape - Oral)</li>";
     creditsContents += "<li> Xodin (Nipplefucking paragraph of Imp GangBang, Encumbered by Big Genitals Exploration Scene, Big Bits Run Encumbrance, Player Getting Beer Tits, Sand Witch Dungeon Misc Scenes)</li>";
@@ -301,7 +302,8 @@ function creditsScreen() {
     creditsContents += "<li> Space (Victory Anal Sex vs Kiha)</li>";
     creditsContents += "<li> Venithil (LippleLock w/Scylla & Additional Urta Scenes)</li>";
     creditsContents += "<li> Butts McGee (Minotaur Hot-dogging PC loss, Tamani Lesbo Face-ride, Bimbo Sophie Mean/Nice Fucks)</li>";
-    creditsContents += "<li> Savin (Hel the Salamander, Valeria, Spanking Drunk Urta, Tower of the Phoenix, Drider Anal Victory, Hel x Isabella 3Some, Centaur Sextoys, Thanksgiving Turkey, Uncorrupt Latexy Recruitment, Assert Path for Direct Feeding Latexy, Sanura the Sphinx)</li>";
+    creditsContents +=
+        "<li> Savin (Hel the Salamander, Valeria, Spanking Drunk Urta, Tower of the Phoenix, Drider Anal Victory, Hel x Isabella 3Some, Centaur Sextoys, Thanksgiving Turkey, Uncorrupt Latexy Recruitment, Assert Path for Direct Feeding Latexy, Sanura the Sphinx)</li>";
     creditsContents += "<li> Gats (Lottie, Spirit & Soldier Xmas Event, Kiha forced masturbation, Goblin Doggystyle, Chicken Harpy Egg Vendor)</li>";
     creditsContents += "<li> Aeron the Demoness (Generic Goblin Anal, Disciplining the Eldest Minotaur)</li>";
     creditsContents += "<li> Gats, Shamblesworth, Symphonie, and Fenoxo (Corrupted Drider)</li>";
@@ -330,4 +332,5 @@ function creditsScreen() {
     outputText(creditsContents);
     doNext(mainMenu);
 }
+export { mainMenu, GetIEVersion, errorOldBrowser, errorOldInternetExplorerEwwww, errorEdgeNeverWorks, settingsScreenMain, toggleSilly, toggleTimeFormat, fontSettings, changeMainFont, changeMainFontSize, applyFontSettings, creditsScreen };
 //# sourceMappingURL=main.js.map

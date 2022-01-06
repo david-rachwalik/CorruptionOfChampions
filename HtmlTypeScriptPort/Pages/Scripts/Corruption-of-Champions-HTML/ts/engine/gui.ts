@@ -1,216 +1,435 @@
+import { liveData, GameContext } from "../globalVariables"
+import { createCallBackFunction } from "./utils"
+
 // This code holds the positioning of the GUI display. The look of the display is handled through the CSS file.
 // This holds some of the most important code for the engine of the game. It turns the buttons on and off, sets their labels and tool tips
 // and tells the program which function to go to next.
 
-
-//Events
-document.onmousemove = getMousePosition;
-initializeTooltipEvents();
-
-function getMousePosition(event) {
-    document.getElementById("tooltip").style.top = (event.clientY - 220) + "px";
-    if (event.clientX + 20 < document.documentElement.clientWidth - 320)
-        document.getElementById("tooltip").style.left = (event.clientX + 20) + "px";
-    else
-        document.getElementById("tooltip").style.left = (document.documentElement.clientWidth - 320) + "px";
+function getMousePosition(event: any): void {
+    const tooltip = document.getElementById("tooltip")
+    if (tooltip) {
+        tooltip.style.top = event.clientY - 220 + "px"
+        if (event.clientX + 20 < document.documentElement.clientWidth - 320) {
+            tooltip.style.left = event.clientX + 20 + "px"
+        } else {
+            tooltip.style.left = document.documentElement.clientWidth - 320 + "px"
+        }
+    }
 }
 
 //Stats Pane
-function refreshStats() {
-	//------------
-	// NUMBERS
-	//------------
-	//Core Stats
-	document.getElementById("strNum").innerHTML = Math.floor(player.str);
-	document.getElementById("touNum").innerHTML = Math.floor(player.tou);
-	document.getElementById("speNum").innerHTML = Math.floor(player.spe);
-	document.getElementById("intNum").innerHTML = Math.floor(player.inte);
-	document.getElementById("libNum").innerHTML = Math.floor(player.lib);
-	document.getElementById("senNum").innerHTML = Math.floor(player.sens);
-	document.getElementById("corNum").innerHTML = Math.floor(player.cor);
-	//Combat Stats
-	document.getElementById("hpNum").innerHTML = Math.floor(player.HP) + " / " + player.maxHP();
-    document.getElementById("hpNum").title = "HP: " + Math.floor(player.HP) + " / " + player.maxHP();
-	document.getElementById("lustNum").innerHTML = Math.floor(player.lust) + " / " + player.maxLust();
-    document.getElementById("lustNum").title = "Lust: " + Math.floor(player.lust) + " / " + player.maxLust() + " \nMinimum: " + player.minLust() + "\nLust Resistance: " + (Math.floor((1 - player.lustVuln) * 1000) / 10) + "%";
-	document.getElementById("fatigueNum").innerHTML = Math.floor(player.fatigue) + " / " + player.maxFatigue();
-    document.getElementById("fatigueNum").title = "Fatigue: " + Math.floor(player.fatigue) + " / " + player.maxFatigue();
-	//Advancement
-	document.getElementById("levelNum").innerHTML = player.level;
-	document.getElementById("xpNum").innerHTML = player.XP + " / " + (player.level * 100);
-	document.getElementById("gemNum").innerHTML = player.gems;
+function refreshStats(): void {
+    //------------
+    // NUMBERS
+    //------------
 
-	//------------
-	// BARS
-	//------------
-	//Core Stats
-	document.getElementById("strBar").style.width = Math.floor((player.str / 100) * 100) + "%";
-	document.getElementById("touBar").style.width = Math.floor((player.tou / 100) * 100) + "%";
-	document.getElementById("speBar").style.width = Math.floor((player.spe / 100) * 100) + "%";
-	document.getElementById("intBar").style.width = Math.floor((player.inte / 100) * 100) + "%";
-	document.getElementById("libBar").style.width = Math.floor((player.lib / 100) * 100) + "%";
-	document.getElementById("senBar").style.width = Math.floor((player.sens / 100) * 100) + "%";
-	document.getElementById("corBar").style.width = Math.floor((player.cor / 100) * 100) + "%";
-	//Combat Stats
-	document.getElementById("hpBar").style.width = Math.floor((player.HP / player.maxHP()) * 100) + "%";
-	document.getElementById("lustBar").style.width = Math.floor((player.lust / player.maxLust()) * 100) + "%";
-	document.getElementById("fatigueBar").style.width = Math.floor((player.fatigue / player.maxFatigue()) * 100) + "%";
-    document.getElementById("hungerFrame").style.visibility = "hidden";
-	//Advancement
-	if ((player.XP / (player.level * 100)) < 1)
-		document.getElementById("xpBar").style.width = Math.floor((player.XP / (player.level * 100)) * 100) + "%";
-	else 
-		document.getElementById("xpBar").style.width = "100%";
-	//Name
-    document.getElementById("charName").innerHTML = player.name;
-	//Time
-	var timeText = "";
-    timeText += "Day#: " + time.days + "<br>Time: ";
-    if (use12Hours) {
-        if (time.hours < 12) { //am
-            if (time.hours == 0)
-                timeText += (time.hours + 12) + ":" + (time.minutes < 10 ? "0" : "") + time.minutes;
-            else
-                timeText += time.hours + ":" + (time.minutes < 10 ? "0" : "") + time.minutes;
-            timeText += "am";
-        }
-        else { //pm
-            if (time.hours == 0)
-                timeText += time.hours + ":" + (time.minutes < 10 ? "0" : "") + time.minutes;
-            else
-                timeText += (time.hours - 12) + ":" + (time.minutes < 10 ? "0" : "") + time.minutes;
-            timeText += "pm";
+    //Core Stats
+    const strNum = document.getElementById("strNum")
+    const touNum = document.getElementById("touNum")
+    const speNum = document.getElementById("speNum")
+    const intNum = document.getElementById("intNum")
+    const libNum = document.getElementById("libNum")
+    const senNum = document.getElementById("senNum")
+    const corNum = document.getElementById("corNum")
+    if (strNum) {
+        strNum.innerHTML = Math.floor(liveData.player.str).toString()
+    }
+    if (touNum) {
+        touNum.innerHTML = Math.floor(liveData.player.tou).toString()
+    }
+    if (speNum) {
+        speNum.innerHTML = Math.floor(liveData.player.spe).toString()
+    }
+    if (intNum) {
+        intNum.innerHTML = Math.floor(liveData.player.inte).toString()
+    }
+    if (libNum) {
+        libNum.innerHTML = Math.floor(liveData.player.lib).toString()
+    }
+    if (senNum) {
+        senNum.innerHTML = Math.floor(liveData.player.sens).toString()
+    }
+    if (corNum) {
+        corNum.innerHTML = Math.floor(liveData.player.cor).toString()
+    }
+
+    //Combat Stats
+    const hpNum = document.getElementById("hpNum")
+    const lustNum = document.getElementById("lustNum")
+    const fatigueNum = document.getElementById("fatigueNum")
+    if (hpNum) {
+        hpNum.innerHTML = (Math.floor(liveData.player.HP) + " / " + liveData.player.maxHP()).toString()
+    }
+    if (hpNum) {
+        hpNum.title = ("HP: " + Math.floor(liveData.player.HP) + " / " + liveData.player.maxHP()).toString()
+    }
+    if (lustNum) {
+        lustNum.innerHTML = (Math.floor(liveData.player.lust) + " / " + liveData.player.maxLust()).toString()
+    }
+    if (lustNum) {
+        lustNum.title = ("Lust: " + Math.floor(liveData.player.lust) + " / " + liveData.player.maxLust() + " \nMinimum: " + liveData.player.minLust() + "\nLust Resistance: " + Math.floor((1 - liveData.player.lustVuln) * 1000) / 10 + "%").toString()
+    }
+    if (fatigueNum) {
+        fatigueNum.innerHTML = (Math.floor(liveData.player.fatigue) + " / " + liveData.player.maxFatigue()).toString()
+    }
+    if (fatigueNum) {
+        fatigueNum.title = ("Fatigue: " + Math.floor(liveData.player.fatigue) + " / " + liveData.player.maxFatigue()).toString()
+    }
+
+    //Advancement
+    const levelNum = document.getElementById("levelNum")
+    const xpNum = document.getElementById("xpNum")
+    const gemNum = document.getElementById("gemNum")
+    if (levelNum) {
+        levelNum.innerHTML = liveData.player.level.toString()
+    }
+    if (xpNum) {
+        xpNum.innerHTML = (liveData.player.XP + " / " + liveData.player.level * 100).toString()
+    }
+    if (gemNum) {
+        gemNum.innerHTML = liveData.player.gems.toString()
+    }
+
+    //------------
+    // BARS
+    //------------
+
+    //Core Stats
+    const strBar = document.getElementById("strBar")
+    const touBar = document.getElementById("touBar")
+    const speBar = document.getElementById("speBar")
+    const intBar = document.getElementById("intBar")
+    const libBar = document.getElementById("libBar")
+    const senBar = document.getElementById("senBar")
+    const corBar = document.getElementById("corBar")
+    if (strBar) {
+        strBar.innerHTML = (Math.floor((liveData.player.str / 100) * 100) + "%").toString()
+    }
+    if (touBar) {
+        touBar.innerHTML = (Math.floor((liveData.player.tou / 100) * 100) + "%").toString()
+    }
+    if (speBar) {
+        speBar.innerHTML = (Math.floor((liveData.player.spe / 100) * 100) + "%").toString()
+    }
+    if (intBar) {
+        intBar.innerHTML = (Math.floor((liveData.player.inte / 100) * 100) + "%").toString()
+    }
+    if (libBar) {
+        libBar.innerHTML = (Math.floor((liveData.player.lib / 100) * 100) + "%").toString()
+    }
+    if (senBar) {
+        senBar.innerHTML = (Math.floor((liveData.player.sens / 100) * 100) + "%").toString()
+    }
+    if (corBar) {
+        corBar.innerHTML = (Math.floor((liveData.player.cor / 100) * 100) + "%").toString()
+    }
+
+    //Combat Stats
+    const hpBar = document.getElementById("hpBar")
+    const lustBar = document.getElementById("lustBar")
+    const fatigueBar = document.getElementById("fatigueBar")
+    const hungerFrame = document.getElementById("hungerFrame")
+    if (hpBar) {
+        hpBar.style.width = (Math.floor((liveData.player.HP / liveData.player.maxHP()) * 100) + "%").toString()
+    }
+    if (lustBar) {
+        lustBar.style.width = (Math.floor((liveData.player.lust / liveData.player.maxLust()) * 100) + "%").toString()
+    }
+    if (fatigueBar) {
+        fatigueBar.style.width = (Math.floor((liveData.player.fatigue / liveData.player.maxFatigue()) * 100) + "%").toString()
+    }
+    if (hungerFrame) {
+        hungerFrame.style.visibility = "hidden"
+    }
+
+    //Advancement
+    const xpBar = document.getElementById("xpBar")
+    if (xpBar) {
+        if (liveData.player.XP / (liveData.player.level * 100) < 1) {
+            xpBar.style.width = (Math.floor((liveData.player.XP / (liveData.player.level * 100)) * 100) + "%").toString()
+        } else {
+            xpBar.style.width = "100%"
         }
     }
-    else
-        timeText += time.hours + ":" + (time.minutes < 10 ? "0" : "") + time.minutes;
-    document.getElementById("timeDisplay").innerHTML = timeText;
-}
-function showStats() {
-	refreshStats();
-	document.getElementById("stats").style.visibility = "visible";
-}
-function hideStats() {
-	document.getElementById("stats").style.visibility = "hidden";
-}
 
-function hideUpDown() {
-    var arrows = ["strArrow", "touArrow", "speArrow", "intArrow", "libArrow", "senArrow", "corArrow", "hpArrow", "lustArrow", "fatigueArrow"];
-    for (var i = 0; i < arrows.length; i++) {
-        document.getElementById(arrows[i]).style.visibility = "hidden";
+    //Name
+    const charName = document.getElementById("charName")
+    if (charName) {
+        charName.innerHTML = liveData.player.name
+    }
+
+    //Time
+    let timeText = ""
+    timeText += "Day#: " + liveData.time.days + "<br>Time: "
+    if (liveData.use12Hours) {
+        if (liveData.time.hours < 12) {
+            //am
+            if (liveData.time.hours == 0) timeText += liveData.time.hours + 12 + ":" + (liveData.time.minutes < 10 ? "0" : "") + liveData.time.minutes
+            else timeText += liveData.time.hours + ":" + (liveData.time.minutes < 10 ? "0" : "") + liveData.time.minutes
+            timeText += "am"
+        } else {
+            //pm
+            if (liveData.time.hours == 0) timeText += liveData.time.hours + ":" + (liveData.time.minutes < 10 ? "0" : "") + liveData.time.minutes
+            else timeText += liveData.time.hours - 12 + ":" + (liveData.time.minutes < 10 ? "0" : "") + liveData.time.minutes
+            timeText += "pm"
+        }
+    } else {
+        timeText += liveData.time.hours + ":" + (liveData.time.minutes < 10 ? "0" : "") + liveData.time.minutes
+    }
+
+    const timeDisplay = document.getElementById("timeDisplay")
+    if (timeDisplay) {
+        timeDisplay.innerHTML = timeText
     }
 }
-function showUpDown(arrowToDisplay, upDown) {
+
+function showStats(): void {
+    refreshStats()
+    const stats = document.getElementById("stats")
+    if (stats) {
+        stats.style.visibility = "visible"
+    }
+}
+function hideStats(): void {
+    const stats = document.getElementById("stats")
+    if (stats) {
+        stats.style.visibility = "hidden"
+    }
+}
+
+function hideUpDown(): void {
+    let arrows = ["strArrow", "touArrow", "speArrow", "intArrow", "libArrow", "senArrow", "corArrow", "hpArrow", "lustArrow", "fatigueArrow"]
+    for (let i = 0; i < arrows.length; i++) {
+        const arrow = document.getElementById(arrows[i])
+        if (arrow) {
+            arrow.style.visibility = "hidden"
+        }
+    }
+}
+function showUpDown(arrowToDisplay: string, upDown: string): void {
     //Auto-route parameter
-    if (arrowToDisplay == "sensArrow") arrowToDisplay = "senArrow";
-    if (arrowToDisplay == "inteArrow") arrowToDisplay = "intArrow";
-    //Display arrow
-    if (upDown == "up")
-        document.getElementById(arrowToDisplay).style.backgroundImage = "url(assets/interface/arrow-up.png)";
-    else if (upDown == "down")
-        document.getElementById(arrowToDisplay).style.backgroundImage = "url(assets/interface/arrow-down.png)";
-    document.getElementById(arrowToDisplay).style.visibility = "visible";
-}
-function displaySprite(spriteId) {
-    if (spriteId == undefined) {
-        document.getElementById("spriteDisplay").innerHTML = "";
+    if (arrowToDisplay == "sensArrow") {
+        arrowToDisplay = "senArrow"
     }
-    else {
-        var image = new Image();
-        image.src = "assets/sprites/" + spriteId + ".png";
-
-        document.getElementById("spriteDisplay").innerHTML = "<img src=\"assets/sprites/" + spriteId + ".png\">"
+    if (arrowToDisplay == "inteArrow") {
+        arrowToDisplay = "intArrow"
+    }
+    //Display arrow
+    const arrowElToDisplay = document.getElementById(arrowToDisplay)
+    if (arrowElToDisplay) {
+        if (upDown == "up") {
+            arrowElToDisplay.style.backgroundImage = "url(assets/interface/arrow-up.png)"
+        } else if (upDown == "down") {
+            arrowElToDisplay.style.backgroundImage = "url(assets/interface/arrow-down.png)"
+        } else {
+            arrowElToDisplay.style.visibility = "visible"
+        }
+    }
+}
+function displaySprite(spriteId = undefined): void {
+    const spriteDisplay = document.getElementById("spriteDisplay")
+    if (spriteDisplay) {
+        if (spriteId == undefined) {
+            spriteDisplay.innerHTML = ""
+        } else {
+            let image = new Image()
+            image.src = "assets/sprites/" + spriteId + ".png"
+            spriteDisplay.innerHTML = '<img src="assets/sprites/' + spriteId + '.png">'
+        }
     }
 }
 
 //Bottom menu buttons
-function menu() {
-	for (var i = 0; i < 15; i++) {
-		document.getElementById("button" + i).style.visibility = "hidden";
-	}
+function menu(): void {
+    for (let i = 0; i < 15; i++) {
+        const buttonEl = document.getElementById("button" + i)
+        if (buttonEl) {
+            buttonEl.style.visibility = "hidden"
+        }
+    }
 }
 
-function addButton(pos, txt, func, arg1, arg2, arg3, tooltipText, tooltipHeader) {
-    if (tooltipHeader == undefined) tooltipHeader = txt;
-    var callback = createCallBackFunction(func, arg1, arg2, arg3);
-	document.getElementById("button" + pos).innerHTML = txt;
-	document.getElementById("button" + pos).style.visibility = "visible";
-    //document.getElementById("button" + pos).style.opacity = "1";
-	document.getElementById("button" + pos).onclick = callback;
-    document.getElementById("button" + pos).tooltipHeader = tooltipHeader;
-    document.getElementById("button" + pos).tooltipText = tooltipText;
-    return document.getElementById("button" + pos);
+function addButton(pos: number, txt: string, func: (a: string) => void, arg1 = 0, arg2 = "", arg3 = "", tooltipText = "", tooltipHeader = ""): void {
+    if (!tooltipHeader) {
+        tooltipHeader = txt
+    }
+    let callback = createCallBackFunction(func, arg1, arg2, arg3)
+    const buttonEl = document.getElementById("button" + pos)
+    if (buttonEl) {
+        buttonEl.innerHTML = txt
+        buttonEl.style.visibility = "visible"
+        //buttonEl.style.opacity = "1";
+        buttonEl.onclick = callback
+        // TODO: (DMR) uncomment below and see if there was ever a use for tooltipHeader & tooltipText
+        // buttonEl.tooltipHeader = tooltipHeader
+        // buttonEl.tooltipText = tooltipText
+        // return buttonEl
+    }
 }
-function addButtonDisabled(pos, txt, tooltipText, tooltipHeader) {
-    if (tooltipHeader == undefined) tooltipHeader = txt;
-    document.getElementById("button" + pos).innerHTML = txt;
-    document.getElementById("button" + pos).style.visibility = "visible";
-    //document.getElementById("button" + pos).style.opacity = "0.4";
-    document.getElementById("button" + pos).onclick = null;
-    document.getElementById("button" + pos).tooltipHeader = tooltipHeader;
-    document.getElementById("button" + pos).tooltipText = tooltipText;
+function addButtonDisabled(pos: number, txt: string, tooltipText = "", tooltipHeader = ""): void {
+    if (!tooltipHeader) {
+        tooltipHeader = txt
+    }
+    const buttonEl = document.getElementById("button" + pos)
+    if (buttonEl) {
+        buttonEl.innerHTML = txt
+        buttonEl.style.visibility = "visible"
+        //buttonEl.style.opacity = "0.4";
+        buttonEl.onclick = null
+        // TODO: (DMR) uncomment below and see if there was ever a use for tooltipHeader & tooltipText
+        // buttonEl.tooltipHeader = tooltipHeader
+        // buttonEl.tooltipText = tooltipText
+    }
 }
-function removeButton(pos) {
-    document.getElementById("button" + pos).style.visibility = "hidden";
+function removeButton(pos: number): void {
+    const buttonEl = document.getElementById("button" + pos)
+    if (buttonEl) {
+        buttonEl.style.visibility = "hidden"
+    }
 }
 
-function doNext(func) {
-	    menu();
-	addButton(0, "Next", func);
+function doNext(func: (a: string) => void): void {
+    menu()
+    addButton(0, "Next", func)
 }
-function doYesNo(yesFunc, noFunc) {
-	menu();
-	addButton(0, "Yes", yesFunc);
-	addButton(1, "No", noFunc);
+function doYesNo(yesFunc: (a: string) => void, noFunc: (a: string) => void): void {
+    menu()
+    addButton(0, "Yes", yesFunc)
+    addButton(1, "No", noFunc)
 }
 
-function isButtonVisible(index) {
-    return document.getElementById("button" + index).style.visibility == "visible";
+function isButtonVisible(index: number): boolean {
+    const buttonEl = document.getElementById("button" + index)
+    if (buttonEl) {
+        return buttonEl.style.visibility == "visible"
+    }
+    return false
 }
 
 //Top menu buttons
-function showMenus() {
-	document.getElementById("buttonMain").style.visibility = "visible";
-	document.getElementById("buttonData").style.visibility = "visible";
-	//document.getElementById("buttonLevel").style.visibility = "visible";
-	document.getElementById("buttonStats").style.visibility = "visible";
-	document.getElementById("buttonPerks").style.visibility = "visible";
-	document.getElementById("buttonAppearance").style.visibility = "visible";
+function showMenus(): void {
+    const buttonMain = document.getElementById("buttonMain")
+    const buttonData = document.getElementById("buttonData")
+    // const buttonLevel = document.getElementById("buttonLevel")
+    const buttonStats = document.getElementById("buttonStats")
+    const buttonPerks = document.getElementById("buttonPerks")
+    const buttonAppearance = document.getElementById("buttonAppearance")
+    if (buttonMain) {
+        buttonMain.style.visibility = "visible"
+    }
+    if (buttonData) {
+        buttonData.style.visibility = "visible"
+    }
+    // if (buttonLevel) {
+    //     buttonLevel.style.visibility = "visible"
+    // }
+    if (buttonStats) {
+        buttonStats.style.visibility = "visible"
+    }
+    if (buttonPerks) {
+        buttonPerks.style.visibility = "visible"
+    }
+    if (buttonAppearance) {
+        buttonAppearance.style.visibility = "visible"
+    }
 }
-function hideMenus() {
-	document.getElementById("buttonMain").style.visibility = "hidden";
-	document.getElementById("buttonData").style.visibility = "hidden";
-	document.getElementById("buttonLevel").style.visibility = "hidden";
-	document.getElementById("buttonStats").style.visibility = "hidden";
-	document.getElementById("buttonPerks").style.visibility = "hidden";
-	document.getElementById("buttonAppearance").style.visibility = "hidden";
+function hideMenus(): void {
+    const buttonMain = document.getElementById("buttonMain")
+    const buttonData = document.getElementById("buttonData")
+    const buttonLevel = document.getElementById("buttonLevel")
+    const buttonStats = document.getElementById("buttonStats")
+    const buttonPerks = document.getElementById("buttonPerks")
+    const buttonAppearance = document.getElementById("buttonAppearance")
+    if (buttonMain) {
+        buttonMain.style.visibility = "hidden"
+    }
+    if (buttonData) {
+        buttonData.style.visibility = "hidden"
+    }
+    if (buttonLevel) {
+        buttonLevel.style.visibility = "hidden"
+    }
+    if (buttonStats) {
+        buttonStats.style.visibility = "hidden"
+    }
+    if (buttonPerks) {
+        buttonPerks.style.visibility = "hidden"
+    }
+    if (buttonAppearance) {
+        buttonAppearance.style.visibility = "hidden"
+    }
 }
-function hideMenuButton(menuButton) {
-	document.getElementById(menuButton).style.visibility = "hidden";
+function hideMenuButton(menuButton: string): void {
+    const menuButtonEl = document.getElementById(menuButton)
+    if (menuButtonEl) {
+        menuButtonEl.style.visibility = "hidden"
+    }
 }
-function showMenuButton(menuButton) {
-	document.getElementById(menuButton).style.visibility = "visible";
+function showMenuButton(menuButton: string): void {
+    const menuButtonEl = document.getElementById(menuButton)
+    if (menuButtonEl) {
+        menuButtonEl.style.visibility = "visible"
+    }
 }
-function setMenuButton(menuButton, text, func) {
-	document.getElementById(menuButton).innerHTML = text;
-	document.getElementById(menuButton).onclick = func;
+function setMenuButton(menuButton: string, text: string, func: () => void): void {
+    const menuButtonEl = document.getElementById(menuButton)
+    if (menuButtonEl) {
+        menuButtonEl.innerHTML = text
+        menuButtonEl.onclick = func
+    }
 }
 
 //Tooltip
-function initializeTooltipEvents() {
-    for (var i = 0; i < 15; i++) {
+function initializeTooltipEvents(): void {
+    for (let i = 0; i < 15; i++) {
         //Create blank variable
-        document.getElementById("button" + i).tooltipHeader = undefined;
-        document.getElementById("button" + i).tooltipText = undefined;
-        //Hook events
-        document.getElementById("button" + i).onmouseover = (function(event) {
-            if (event.currentTarget.tooltipText != undefined) {
-                document.getElementById("tooltip").style.visibility = "visible";
-                document.getElementById("tooltip").innerHTML = "<h4>" + event.currentTarget.tooltipHeader + "</h4><p>" + event.currentTarget.tooltipText + "</p>";
+        const buttonEl = document.getElementById("button" + i)
+        if (buttonEl) {
+            // TODO: (DMR) uncomment below and see if there was ever a use for tooltipHeader & tooltipText
+            // buttonEl.tooltipHeader = undefined
+            // buttonEl.tooltipText = undefined
+            // //Hook events
+            // buttonEl.onmouseover = function (event) {
+            //     const tooltip = document.getElementById("tooltip")
+            //     if (tooltip && event && event.currentTarget) {
+            //         if (event.currentTarget.tooltipText != undefined) {
+            //             tooltip.style.visibility = "visible"
+            //             tooltip.innerHTML = "<h4>" + event.currentTarget.tooltipHeader + "</h4><p>" + event.currentTarget.tooltipText + "</p>"
+            //         }
+            //     }
+            // }
+            buttonEl.onmouseout = function () {
+                const tooltip = document.getElementById("tooltip")
+                if (tooltip) {
+                    tooltip.style.visibility = "hidden"
+                }
             }
-        });
-        document.getElementById("button" + i).onmouseout = function() {
-            document.getElementById("tooltip").style.visibility = "hidden";
         }
     }
+}
+
+//Events
+document.onmousemove = getMousePosition
+initializeTooltipEvents()
+
+export {
+    getMousePosition,
+    refreshStats,
+    showStats,
+    hideStats,
+    hideUpDown,
+    showUpDown,
+    displaySprite,
+    menu,
+    addButton,
+    addButtonDisabled,
+    removeButton,
+    doNext,
+    doYesNo,
+    isButtonVisible,
+    showMenus,
+    hideMenus,
+    hideMenuButton,
+    showMenuButton,
+    setMenuButton
 }

@@ -1,4 +1,3 @@
-"use strict";
 var monster = null;
 var currentTurn = 0;
 var currentRound = 0;
@@ -11,7 +10,7 @@ battleMenu = function () {
     outputText(monster.battleDesc);
     outputText("<br><br><b><u>" + capitalizeFirstLetter(monster.name) + "'s Stats</u></b>");
     outputText("<br>Level: " + monster.level);
-    outputText("<br>HP: " + monster.HP + " / " + monster.maxHP() + " (" + (Math.floor(monster.HP / monster.maxHP() * 1000) / 10) + "%)");
+    outputText("<br>HP: " + monster.HP + " / " + monster.maxHP() + " (" + Math.floor((monster.HP / monster.maxHP()) * 1000) / 10 + "%)");
     outputText("<br>Lust: " + monster.lust + " / " + monster.maxLust());
     outputText("<br>Fatigue: " + monster.fatigue + " / " + monster.maxFatigue());
     refreshStats();
@@ -67,6 +66,7 @@ tease = function (justText) {
     combatRoundOver();
 };
 flee = function (callHook) {
+    //There are 4 states. Undefined means proceed to escape probability, null means return to battle menu, true if success, false if failure.
     clearOutput();
     //------------
     // PREEMPTIVE
@@ -87,7 +87,7 @@ flee = function (callHook) {
     }
     if (monster.trap >= 0 && player.canFly()) {
         clearOutput();
-        outputText("You flex the muscles in your back and, shaking clear of the sand, burst into the air! Wasting no time you fly free of the sandtrap and its treacherous pit. \"<i>One day your wings will fall off, little ant,</i>\" the snarling voice of the thwarted androgyne carries up to you as you make your escape. \"<i>And I will be waiting for you when they do!</i>\"");
+        outputText('You flex the muscles in your back and, shaking clear of the sand, burst into the air! Wasting no time you fly free of the sandtrap and its treacherous pit. "<i>One day your wings will fall off, little ant,</i>" the snarling voice of the thwarted androgyne carries up to you as you make your escape. "<i>And I will be waiting for you when they do!</i>"');
         success = true;
     }
     if (monster.findStatusEffect(StatusEffects.GenericRunDisabled) >= 0 /* || urtaQuest.isUrta()*/) {
@@ -165,7 +165,8 @@ flee = function (callHook) {
             outputText("You turn tail and attempt to flee! ");
     }
     //Determine if escape is successful. If not, roll to determine if you'll escape.
-    if (success === null) { //3 equal signs to ensure it doesn't pick up if undefined.
+    if (success === null) {
+        //3 equal signs to ensure it doesn't pick up if undefined.
         doNext(battleMenu);
         return;
     }
@@ -196,7 +197,8 @@ flee = function (callHook) {
         escapeMod -= 25;
     if (monster.findStatusEffect(StatusEffects.Stunned) >= 0)
         escapeMod -= 50;
-    else { //Big tits doesn't matter as much if ya can fly!
+    else {
+        //Big tits doesn't matter as much if ya can fly!
         if (player.biggestTitSize() >= 35)
             escapeMod += 5;
         if (player.biggestTitSize() >= 66)
@@ -229,9 +231,11 @@ flee = function (callHook) {
             }
             //Run failed:
             else {
-                outputText("You try to shake off the fog and run but the anemone slinks over to you and her tentacles wrap around your waist. <i>\"Stay?\"</i> she asks, pressing her small breasts into you as a tentacle slides inside your " + player.armorName + " and down to your nethers. The combined stimulation of the rubbing and the tingling venom causes your knees to buckle, hampering your resolve and ending your escape attempt.", false);
+                outputText('You try to shake off the fog and run but the anemone slinks over to you and her tentacles wrap around your waist. <i>"Stay?"</i> she asks, pressing her small breasts into you as a tentacle slides inside your ' +
+                    player.armorName +
+                    " and down to your nethers. The combined stimulation of the rubbing and the tingling venom causes your knees to buckle, hampering your resolve and ending your escape attempt.", false);
                 //(gain lust, temp lose spd/str)
-                monster.applyVenom((4 + player.sen / 20));
+                monster.applyVenom(4 + player.sen / 20);
                 success = false;
             }
         }
@@ -265,14 +269,21 @@ flee = function (callHook) {
             doNext(prison.prisonEscapeFinalePart1);
             return;
         }*/
-        /*else */ if (player.canFly()) //Fliers flee!
+        /*else */ if (player.canFly())
+            //Fliers flee!
             outputText(capitalize(monster.a) + monster.refName + " can't catch you.");
-        else if (player.tailType == TAIL_TYPE_RACCOON && player.earType == EARS_RACCOON && player.findPerk(PerkLib.Runner) >= 0) //sekrit benefit: if you have coon ears, coon tail, and Runner perk, change normal Runner escape to flight-type escape
-            outputText("Using your running skill, you build up a head of steam and jump, then spread your arms and flail your tail wildly; your opponent dogs you as best " + monster.heShe + " can, but stops and stares dumbly as your spastic tail slowly propels you several meters into the air! You leave " + monster.himHer + " behind with your clumsy, jerky, short-range flight.");
-        else //Non-fliers flee
+        else if (player.tailType == TAIL_TYPE_RACCOON && player.earType == EARS_RACCOON && player.findPerk(PerkLib.Runner) >= 0)
+            //sekrit benefit: if you have coon ears, coon tail, and Runner perk, change normal Runner escape to flight-type escape
+            outputText("Using your running skill, you build up a head of steam and jump, then spread your arms and flail your tail wildly; your opponent dogs you as best " +
+                monster.heShe +
+                " can, but stops and stares dumbly as your spastic tail slowly propels you several meters into the air! You leave " +
+                monster.himHer +
+                " behind with your clumsy, jerky, short-range flight.");
+        //Non-fliers flee
+        else
             outputText(capitalize(monster.a) + monster.refName + " rapidly disappears into the shifting landscape behind you.");
         if (monster.name == "Izma") {
-            outputText("<br><br>As you leave the tigershark behind, her taunting voice rings out after you. \"<i>Oooh, look at that fine backside! Are you running or trying to entice me? Haha, looks like we know who's the superior specimen now! Remember: next time we meet, you owe me that ass!</i>\" Your cheek tingles in shame at her catcalls.");
+            outputText('<br><br>As you leave the tigershark behind, her taunting voice rings out after you. "<i>Oooh, look at that fine backside! Are you running or trying to entice me? Haha, looks like we know who\'s the superior specimen now! Remember: next time we meet, you owe me that ass!</i>" Your cheek tingles in shame at her catcalls.');
         }
         success = true;
     }
@@ -281,7 +292,7 @@ flee = function (callHook) {
         inCombat = false;
         outputText("Thanks to your talent for running, you manage to escape.");
         if (monster.name == "Izma") {
-            outputText("<br><br>As you leave the tigershark behind, her taunting voice rings out after you. \"<i>Oooh, look at that fine backside! Are you running or trying to entice me? Haha, looks like we know who's the superior specimen now! Remember: next time we meet, you owe me that ass!</i>\" Your cheek tingles in shame at her catcalls.", false);
+            outputText('<br><br>As you leave the tigershark behind, her taunting voice rings out after you. "<i>Oooh, look at that fine backside! Are you running or trying to entice me? Haha, looks like we know who\'s the superior specimen now! Remember: next time we meet, you owe me that ass!</i>" Your cheek tingles in shame at her catcalls.', false);
         }
         success = true;
     }
@@ -291,15 +302,18 @@ flee = function (callHook) {
             monster.escapeFailWithHolli();
             return;
         }
-        if (player.canFly()) { //Flyers get special failure message.
+        if (player.canFly()) {
+            //Flyers get special failure message.
             if (monster.plural)
                 outputText(capitalize(monster.a) + monster.refName + " manage to grab your " + player.legs() + " and drag you back to the ground before you can fly away!");
             else
                 outputText(capitalize(monster.a) + monster.refName + " manages to grab your " + player.legs() + " and drag you back to the ground before you can fly away!");
         }
-        else if (player.tailType == TAIL_TYPE_RACCOON && player.earType == EARS_RACCOON && player.findPerk(PerkLib.Runner) >= 0) // >>>>>>[P] FAIL
+        else if (player.tailType == TAIL_TYPE_RACCOON && player.earType == EARS_RACCOON && player.findPerk(PerkLib.Runner) >= 0)
+            // >>>>>>[P] FAIL
             outputText("Using your running skill, you build up a head of steam and jump, but before you can clear the ground more than a foot, your opponent latches onto you and drags you back down with a thud!");
-        else { //Nonflyer messages
+        else {
+            //Nonflyer messages
             //Huge balls messages
             if (player.balls > 0 && player.ballSize >= 24) {
                 if (player.ballSize < 48)
@@ -320,7 +334,11 @@ flee = function (callHook) {
                     else if (player.buttRating >= 20)
                         outputText("Your " + player.skinTone + player.buttDescript() + " and " + player.chestDesc() + " wobble and bounce heavily, throwing you off balance and preventing you from moving quick enough to escape.");
                     else
-                        outputText("Your " + player.chestDesc() + " jiggle and wobble side to side like the " + player.skinTone + " sacks of milky fat they are, with such force as to constantly throw you off balance, preventing you from moving quick enough to escape.");
+                        outputText("Your " +
+                            player.chestDesc() +
+                            " jiggle and wobble side to side like the " +
+                            player.skinTone +
+                            " sacks of milky fat they are, with such force as to constantly throw you off balance, preventing you from moving quick enough to escape.");
                 }
                 //FOR PLAYERS WITH MASSIVE BREASTS
                 else if (player.biggestTitSize() >= 66) {
@@ -331,7 +349,12 @@ flee = function (callHook) {
                         outputText("forcing your body off balance and preventing you from moving quick enough to get escape.");
                     }
                     else if (player.buttRating >= 20)
-                        outputText("Your " + player.chestDesc() + " nearly drag along the ground while the fat of your " + player.skinTone + player.buttDescript() + " wobbles heavily from side to side, forcing your body off balance and preventing you from moving quick enough to escape.");
+                        outputText("Your " +
+                            player.chestDesc() +
+                            " nearly drag along the ground while the fat of your " +
+                            player.skinTone +
+                            player.buttDescript() +
+                            " wobbles heavily from side to side, forcing your body off balance and preventing you from moving quick enough to escape.");
                     else
                         outputText("Your " + player.chestDesc() + " nearly drag along the ground, preventing you from moving quick enough to get escape.");
                 }
@@ -479,7 +502,14 @@ fantasize = function () {
         lustGain = 5 + rand(player.lib / 5 + player.cor / 8);
     }
     else if (player.biggestLactation() >= 6 && rand(2) == 0) {
-        outputText("You fantasize about grabbing " + monster.a + monster.refName + " and forcing " + monster.himHer + " against a " + player.nippleDescript(0) + ", and feeling your milk let down. The desire to forcefeed SOMETHING makes your nipples hard and moist with milk.<br>");
+        outputText("You fantasize about grabbing " +
+            monster.a +
+            monster.refName +
+            " and forcing " +
+            monster.himHer +
+            " against a " +
+            player.nippleDescript(0) +
+            ", and feeling your milk let down. The desire to forcefeed SOMETHING makes your nipples hard and moist with milk.<br>");
         lustGain = 5 + rand(player.lib / 5 + player.cor / 8);
     }
     else {
@@ -498,7 +528,8 @@ struggle = function () {
     var damage = 0;
     switch (player.statusEffectValue(StatusEffects.Bind, 1)) {
         case BIND_TYPE_GOO:
-            if (rand(80) < 33 + (player.str)) { //33% chance to break free + up to 100% chance for strength
+            if (rand(80) < 33 + player.str) {
+                //33% chance to break free + up to 100% chance for strength
                 outputText("You claw your fingers wildly within the slime and manage to brush against her heart-shaped nucleus. The girl silently gasps and loses cohesion, allowing you to pull yourself free while she attempts to solidify.");
                 player.removeStatusEffect(StatusEffects.Bind);
             }
@@ -509,7 +540,8 @@ struggle = function () {
             }
             break;
         case BIND_TYPE_NAGA:
-            if (rand(80) < 33 + (player.str / 1.5)) { //33% chance to break free + up to 66% chance for strength
+            if (rand(80) < 33 + player.str / 1.5) {
+                //33% chance to break free + up to 66% chance for strength
                 outputText("You wriggle and squirm violently, tearing yourself out from within the naga's coils.");
                 player.removeStatusEffect(StatusEffects.Bind);
             }
@@ -517,17 +549,19 @@ struggle = function () {
                 outputText("The naga's grip on you tightens as you struggle to break free from the stimulating pressure. ");
                 damage += 7 + rand(5);
                 player.changeHP(-damage, true, false);
-                player.changeLust((player.sens / 10) + 2, true, false);
+                player.changeLust(player.sens / 10 + 2, true, false);
             }
             break;
         case BIND_TYPE_TENTACLE:
             outputText("You struggle with all of your might to free yourself from the tentacles before the creature can fulfill whatever unholy desire it has for you.<br>");
-            if (rand(80) < 33 + (player.str / 2)) { //33% chance to break free + up to 50% chance for strength
+            if (rand(80) < 33 + player.str / 2) {
+                //33% chance to break free + up to 50% chance for strength
                 outputText("As the creature attempts to adjust your position in its grip, you free one of your " + player.legs() + " and hit the beast in its beak, causing it to let out an inhuman cry and drop you to the ground smartly.<br><br>");
                 player.removeStatusEffect(StatusEffects.Bind);
                 monster.createStatusEffect(StatusEffects.TentacleCoolDown, 3, 0, 0, 0);
             }
-            else { //Fail to break free
+            else {
+                //Fail to break free
                 outputText("Despite trying to escape, the creature only tightens its grip, making it difficult to breathe. ");
                 damage += 5;
                 player.changeHP(-damage, true, false);
@@ -536,8 +570,10 @@ struggle = function () {
                 else if (player.hasVagina())
                     outputText("The creature continues sucking your clit and now has latched two more suckers on your nipples, amplifying your growing lust. You must escape or you will become a mere toy to this thing! ");
                 else
-                    outputText("The creature continues probing at your asshole and has now latched " + num2Text(player.totalNipples()) + " more suckers onto your nipples, amplifying your growing lust. You must escape or you will become a mere toy to this thing! ");
-                player.changeLust((3 + player.sens / 10 + player.lib / 20), true, false);
+                    outputText("The creature continues probing at your asshole and has now latched " +
+                        num2Text(player.totalNipples()) +
+                        " more suckers onto your nipples, amplifying your growing lust. You must escape or you will become a mere toy to this thing! ");
+                player.changeLust(3 + player.sens / 10 + player.lib / 20, true, false);
             }
             break;
         default:
@@ -580,7 +616,7 @@ function teaseXP(XP) {
         }
     }
 }
-function combatRoundOver(skipEnemy) {
+export function combatRoundOver(skipEnemy) {
     if (skipEnemy == undefined)
         skipEnemy = false;
     //Is combat over? Check if it is.
@@ -658,7 +694,7 @@ function gameOver() {
     var gameOverTexts = ["GAME OVER", "Game over, man! Game over!", "You just got Bad-Ended!", "Your adventures have came to an end..."];
     if (silly)
         gameOverTexts[4] = "You cannot give up just yet. " + player.name + "! Stay determined..."; //You are still filled with DETERMINATION.
-    outputText("<br><br><font color=\"#800000\"><b>" + randomChoice(gameOverTexts) + "</b></font>");
+    outputText('<br><br><font color="#800000"><b>' + randomChoice(gameOverTexts) + "</b></font>");
     addButton(0, "Game Over", null, null, null, null, "Your game has ended. Please load a game or start a new game.");
     //addButton(1, "Quick Load", null, null, null, null, "Load your most recent save file.");
     //addButton(2, "Retry", null, null, null, null, "Retry from your last checkpoint.");

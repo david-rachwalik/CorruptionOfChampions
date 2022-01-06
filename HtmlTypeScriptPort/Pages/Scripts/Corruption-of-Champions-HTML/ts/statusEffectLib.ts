@@ -1,55 +1,109 @@
-StatusEffectIDs = []; //Hold status effect IDs for purpose of looking up.
-StatusEffects = [];
+import { StatusEffect, StatusEffectIDs, StatusEffectType } from "./statusEffectClass"
 
-BIND_TYPE_GOO = 0;
-BIND_TYPE_NAGA = 1;
-BIND_TYPE_TENTACLE = 2;
+enum BindType {
+    BIND_TYPE_GOO = 0,
+    BIND_TYPE_NAGA,
+    BIND_TYPE_TENTACLE
+}
 
-VENOM_TYPE_BEE = 0;
-VENOM_TYPE_NAGA = 1;
+enum VenomType {
+    VENOM_TYPE_BEE = 0,
+    VENOM_TYPE_NAGA
+}
 
-//------------
-// NON-COMBAT
-//------------
-//Bonus
-StatusEffects.BonusACapacity = new StatusEffectType("Bonus aCapacity");
-StatusEffects.BonusVCapacity = new StatusEffectType("Bonus vCapacity");
-StatusEffects.Heat = new StatusEffectType("Heat");
-StatusEffects.CuntStretched = new StatusEffectType("Cunt Stretched");
+class StatusEffectTypeContainer {
+    //------------
+    // NON-COMBAT
+    //------------
+    //Bonus
+    BonusACapacity: StatusEffectType
+    BonusVCapacity: StatusEffectType
+    Heat: StatusEffectType
+    CuntStretched: StatusEffectType
+    //Penalties
+    Infested: StatusEffectType
+    WormPlugged: StatusEffectType
+    Dysfunction: StatusEffectType
+    SlimeCraving: StatusEffectType
+    //Neutral
+    Feeder: StatusEffectType
+    MeanToNaga: StatusEffectType
+    Contraceptives: StatusEffectType
+    Eggs: StatusEffectType
+    Uniball: StatusEffectType
 
-//Penalties
-StatusEffects.Infested = new StatusEffectType("Infested");
-StatusEffects.WormPlugged = new StatusEffectType("Worm Plugged");
-StatusEffects.Dysfunction = new StatusEffectType("Dysfunction");
-StatusEffects.SlimeCraving = new StatusEffectType("Slime Craving");
+    //------------
+    // COMBAT
+    //------------
+    //Buffs
+    ChargeWeapon: StatusEffectType
+    Might: StatusEffectType
+    Climbed: StatusEffectType
+    //Debuffs
+    Acid: StatusEffectType
+    Blind: StatusEffectType
+    Bind: StatusEffectType
+    Confusion: StatusEffectType
+    NoFlee: StatusEffectType
+    Poison: StatusEffectType
+    Silence: StatusEffectType
+    StoneLust: StatusEffectType
+    Stunned: StatusEffectType
+    TemporaryHeat: StatusEffectType
+    Venom: StatusEffectType
+    ParalyzeVenom: StatusEffectType
+    LustVenom: StatusEffectType
+    Fertilized: StatusEffectType
 
-//Neutral
-StatusEffects.Feeder = new StatusEffectType("Feeder");
-StatusEffects.MeanToNaga = new StatusEffectType("Mean to Naga");
-StatusEffects.Contraceptives = new StatusEffectType("Contraceptives");
-StatusEffects.Eggs = new StatusEffectType("Eggs");
-StatusEffects.Uniball = new StatusEffectType("Uniball"); //TODO: Check code to see if this would be better as a gameflag
+    constructor() {
+        //------------
+        // NON-COMBAT
+        //------------
+        //Bonus
+        this.BonusACapacity = new StatusEffectType("Bonus aCapacity")
+        this.BonusVCapacity = new StatusEffectType("Bonus vCapacity")
+        this.Heat = new StatusEffectType("Heat")
+        this.CuntStretched = new StatusEffectType("Cunt Stretched")
 
-//------------
-// COMBAT
-//------------
-//Buffs
-StatusEffects.ChargeWeapon = new StatusEffectType("ChargeWeapon");
-StatusEffects.Might = new StatusEffectType("Might");
-StatusEffects.Climbed = new StatusEffectType("Climbed"); // Used in Sand Trap fight;
-//Debuffs
-StatusEffects.Acid = new StatusEffectType("Acid");
-StatusEffects.Blind = new StatusEffectType("Blind");
-StatusEffects.Bind = new StatusEffectType("Bind"); //Value determines the type.
-StatusEffects.Confusion = new StatusEffectType("Confusion");
-StatusEffects.NoFlee = new StatusEffectType("NoFlee");
-StatusEffects.Poison = new StatusEffectType("Poison");
-StatusEffects.Silence = new StatusEffectType("Silence");
-StatusEffects.StoneLust = new StatusEffectType("StoneLust");
-StatusEffects.Stunned = new StatusEffectType("Stunned");
-StatusEffects.TemporaryHeat = new StatusEffectType("TempHeat");
-StatusEffects.Venom = new StatusEffectType("Venom");
-StatusEffects.ParalyzeVenom = new StatusEffectType("ParalyzeVenom");
-StatusEffects.LustVenom = new StatusEffectType("LustVenom");
+        //Penalties
+        this.Infested = new StatusEffectType("Infested")
+        this.WormPlugged = new StatusEffectType("Worm Plugged")
+        this.Dysfunction = new StatusEffectType("Dysfunction")
+        this.SlimeCraving = new StatusEffectType("Slime Craving")
 
-StatusEffects.Fertilized = new StatusEffectType("Fertilized"); // Used in SandTrap battles.
+        //Neutral
+        this.Feeder = new StatusEffectType("Feeder")
+        this.MeanToNaga = new StatusEffectType("Mean to Naga")
+        this.Contraceptives = new StatusEffectType("Contraceptives")
+        this.Eggs = new StatusEffectType("Eggs")
+        this.Uniball = new StatusEffectType("Uniball") //TODO: Check code to see if this would be better as a gameflag
+
+        //------------
+        // COMBAT
+        //------------
+        //Buffs
+        this.ChargeWeapon = new StatusEffectType("ChargeWeapon")
+        this.Might = new StatusEffectType("Might")
+        this.Climbed = new StatusEffectType("Climbed") // Used in Sand Trap fight;
+        //Debuffs
+        this.Acid = new StatusEffectType("Acid")
+        this.Blind = new StatusEffectType("Blind")
+        this.Bind = new StatusEffectType("Bind") //Value determines the type.
+        this.Confusion = new StatusEffectType("Confusion")
+        this.NoFlee = new StatusEffectType("NoFlee")
+        this.Poison = new StatusEffectType("Poison")
+        this.Silence = new StatusEffectType("Silence")
+        this.StoneLust = new StatusEffectType("StoneLust")
+        this.Stunned = new StatusEffectType("Stunned")
+        this.TemporaryHeat = new StatusEffectType("TempHeat")
+        this.Venom = new StatusEffectType("Venom")
+        this.ParalyzeVenom = new StatusEffectType("ParalyzeVenom")
+        this.LustVenom = new StatusEffectType("LustVenom")
+
+        this.Fertilized = new StatusEffectType("Fertilized") // Used in SandTrap battles.
+    }
+}
+
+let StatusEffects = new StatusEffectTypeContainer()
+
+export { BindType, VenomType, StatusEffects }

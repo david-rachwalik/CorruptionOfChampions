@@ -1,12 +1,17 @@
-function Ass(wetness, looseness, virgin) {
-    //Because WebStorm complains!
-    if (wetness == undefined) wetness = 1;
-    if (looseness == undefined) looseness = 0;
-    if (virgin == undefined) virgin = false;
-	//Base info
-	this.analWetness = wetness;
-	this.analLooseness = looseness;
-	//Virginity info
-	this.virgin = virgin;
+class Ass {
+    //Base info
+    analWetness: number
+    analLooseness: number
+    //Virginity info
+    virgin: boolean
+
+    constructor(wetness = 1, looseness = 0, virgin = false) {
+        //Base info
+        this.analWetness = wetness
+        this.analLooseness = looseness
+        //Virginity info
+        this.virgin = virgin
+    }
 }
-Ass.constructor = Ass;
+
+export { Ass }

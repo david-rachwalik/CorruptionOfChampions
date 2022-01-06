@@ -1,38 +1,73 @@
-KeyItemIDs = []; //Hold key item IDs for purpose of looking up.
-KeyItems = [];
+import { KeyItemType } from "./keyItemClass"
 
-//Books
-KeyItems.BookDangerousPlants = new KeyItemType("Book - Dangerous Plants");
-KeyItems.BookHentaiComic = new KeyItemType("Book - Hentai Comic");
-KeyItems.BookTravelGuide = new KeyItemType("Book - Travel Guide");
-KeyItems.BookYogaGuide = new KeyItemType("Book - Yoga Guide");
+class KeyItemTypeContainer {
+    //Books
+    BookDangerousPlants: KeyItemType
+    BookHentaiComic: KeyItemType
+    BookTravelGuide: KeyItemType
+    BookYogaGuide: KeyItemType
+    //Toys
+    ToyANBelt: KeyItemType
+    ToyANOnahole: KeyItemType
+    ToyCentaurPole: KeyItemType
+    ToyDeluxeDildo: KeyItemType
+    ToyDeluxeOnahole: KeyItemType
+    ToyDildo: KeyItemType
+    ToyDualBelt: KeyItemType
+    ToyFakeMare: KeyItemType
+    ToyOnahole: KeyItemType
+    ToyStimBelt: KeyItemType
+    //Milker Stuff
+    BreastMilker: KeyItemType
+    BreastMilkerInstalled: KeyItemType
+    CockMilker: KeyItemType
+    CockMilkerInstalled: KeyItemType
+    //Storage Containers
+    ArmorRack: KeyItemType
+    WeaponRack: KeyItemType
+    ShieldRack: KeyItemType
+    //Others
+    Bow: KeyItemType
+    PotentMixture: KeyItemType
 
-//Toys
-KeyItems.ToyANBelt = new KeyItemType("Toy - All-Natural Belt");
-KeyItems.ToyANOnahole = new KeyItemType("Toy - All-Natural Onahole");
-KeyItems.ToyCentaurPole = new KeyItemType("Toy - Centaur Pole");
-KeyItems.ToyDeluxeDildo = new KeyItemType("Toy - Deluxe Dildo");
-KeyItems.ToyDeluxeOnahole = new KeyItemType("Toy - Deluxe Onahole");
-KeyItems.ToyDildo = new KeyItemType("Toy - Dildo");
-KeyItems.ToyDualBelt = new KeyItemType("Toy - Dual Belt");
-KeyItems.ToyFakeMare = new KeyItemType("Toy - Fake Mare");
-KeyItems.ToyOnahole = new KeyItemType("Toy - Onahole");
-KeyItems.ToyStimBelt = new KeyItemType("Toy - Stimulation Belt");
+    constructor() {
+        //Books
+        this.BookDangerousPlants = new KeyItemType("Book - Dangerous Plants")
+        this.BookHentaiComic = new KeyItemType("Book - Hentai Comic")
+        this.BookTravelGuide = new KeyItemType("Book - Travel Guide")
+        this.BookYogaGuide = new KeyItemType("Book - Yoga Guide")
 
-//Milker Stuff
-KeyItems.BreastMilker = new KeyItemType("Breast Milker");
-KeyItems.BreastMilkerInstalled = new KeyItemType("Breast Milker - Installed at Whitney's Farm");
-KeyItems.CockMilker = new KeyItemType("Cock Milker");
-KeyItems.CockMilkerInstalled = new KeyItemType("Cock Milker - Installed at Whitney's Farm");
+        //Toys
+        this.ToyANBelt = new KeyItemType("Toy - All-Natural Belt")
+        this.ToyANOnahole = new KeyItemType("Toy - All-Natural Onahole")
+        this.ToyCentaurPole = new KeyItemType("Toy - Centaur Pole")
+        this.ToyDeluxeDildo = new KeyItemType("Toy - Deluxe Dildo")
+        this.ToyDeluxeOnahole = new KeyItemType("Toy - Deluxe Onahole")
+        this.ToyDildo = new KeyItemType("Toy - Dildo")
+        this.ToyDualBelt = new KeyItemType("Toy - Dual Belt")
+        this.ToyFakeMare = new KeyItemType("Toy - Fake Mare")
+        this.ToyOnahole = new KeyItemType("Toy - Onahole")
+        this.ToyStimBelt = new KeyItemType("Toy - Stimulation Belt")
 
-//Keys
+        //Milker Stuff
+        this.BreastMilker = new KeyItemType("Breast Milker")
+        this.BreastMilkerInstalled = new KeyItemType("Breast Milker - Installed at Whitney's Farm")
+        this.CockMilker = new KeyItemType("Cock Milker")
+        this.CockMilkerInstalled = new KeyItemType("Cock Milker - Installed at Whitney's Farm")
 
-//Storage Containers
-KeyItems.ArmorRack = new KeyItemType("Equipment Rack - Armor");
-KeyItems.WeaponRack = new KeyItemType("Equipment Rack - Weapons");
-KeyItems.ShieldRack = new KeyItemType("Equipment Rack - Shields");
+        //Keys
 
+        //Storage Containers
+        this.ArmorRack = new KeyItemType("Equipment Rack - Armor")
+        this.WeaponRack = new KeyItemType("Equipment Rack - Weapons")
+        this.ShieldRack = new KeyItemType("Equipment Rack - Shields")
 
-//Others
-KeyItems.Bow = new KeyItemType("Bow");
-KeyItems.PotentMixture = new KeyItemType("Potent Mixture");
+        //Others
+        this.Bow = new KeyItemType("Bow")
+        this.PotentMixture = new KeyItemType("Potent Mixture")
+    }
+}
+
+let KeyItems = new KeyItemTypeContainer()
+
+export { KeyItems }
