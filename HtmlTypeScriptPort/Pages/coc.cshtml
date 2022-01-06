@@ -1,0 +1,191 @@
+﻿@page
+@model CocModel
+@{
+    Layout = "_CocLayout";
+    ViewData["Title"] = "Corruption of Champions: HTML Edition";
+}
+
+<!--<link href="coc.css" rel="stylesheet">-->
+
+<div id="wrapper">
+    <header>
+        <div id="topbuttonset">
+            <div class="buttonrow">
+                <a><div class="button" id="buttonMain" onclick="mainMenu()">Main Menu</div></a>
+                <a><div class="button buttonbuffer" id="buttonData" onClick="dataScreen()">Data</div></a>
+                <a><div class="button" id="buttonLevel" onclick="levelScreen()">Level Up</div></a>
+                <a><div class="button" id="buttonStats" onclick="statsScreen()">Stats</div></a>
+                <a><div class="button" id="buttonPerks" onclick="perksScreen()">Perks</div></a>
+                <a><div class="button" id="buttonAppearance" onclick="appearanceScreen()">Appearance</div></a>
+            </div>
+        </div>
+    </header>
+    <nav>
+        <div id="stats">
+            <h2 id="charName">Name</h2>
+            <h2>Core Stats</h2>
+            <div class="statframe"><div class="statbar" id="strBar"><p class="statlabel" title="Strength affects how much physical damage you can do.">Strength:</p><p class="statnum" id="strNum">100</p></div><div class="statupdown" id="strArrow"></div></div>
+            <div class="statframe"><div class="statbar" id="touBar"><p class="statlabel" title="Toughness affects how much maximum HP you have and also reduces damage taken.">Toughness:</p><p class="statnum" id="touNum">100</p></div><div class="statupdown" id="touArrow"></div></div>
+            <div class="statframe"><div class="statbar" id="speBar"><p class="statlabel" title="Speed affects how nimble and fast you are. Higher speed makes it easier to dodge enemies and run from combat.">Speed:</p><p class="statnum" id="speNum">100</p></div><div class="statupdown" id="speArrow"></div></div>
+            <div class="statframe"><div class="statbar" id="intBar"><p class="statlabel" title="Intelligence affects how powerful your spells are. It also influences mental resistance checks.">Intelligence:</p><p class="statnum" id="intNum">100</p></div><div class="statupdown" id="intArrow"></div></div>
+            <div class="statframe"><div class="statbar" id="libBar"><p class="statlabel" title="Libido determines how easier it is for you to get horny.">Libido:</p><p class="statnum" id="libNum">100</p></div><div class="statupdown" id="libArrow"></div></div>
+            <div class="statframe"><div class="statbar" id="senBar"><p class="statlabel" title="Sensitivity affects how easier it is for you to get horny by physical touch.">Sensitivity:</p><p class="statnum" id="senNum">100</p></div><div class="statupdown" id="senArrow"></div></div>
+            <div class="statframe"><div class="statbar" id="corBar"><p class="statlabel" title="Corruption determines how perverted and warped your mind is. Higher corruption may make it easier to encounter Bad Ends.">Corruption:</p><p class="statnum" id="corNum">100</p></div><div class="statupdown" id="corArrow"></div></div>
+            <h2>Combat Stats</h2>
+            <div class="statframe"><div class="statbar" id="hpBar"><p class="statlabel" title="Your HP is a measure of how much damage you can sustain before you are knocked out.">HP:</p><p class="statnum" id="hpNum">9999 / 9999</p></div><div class="statupdown" id="hpArrow"></div></div>
+            <div class="statframe"><div class="statbar" id="lustBar"><p class="statlabel" title="Your lust is a measure of how horny you are. If this reaches the maximum, you're overwhelmed by desires and will lose the battle.">Lust:</p><p class="statnum" id="lustNum">100 / 100</p></div><div class="statupdown" id="lustArrow"></div></div>
+            <div class="statframe"><div class="statbar" id="fatigueBar"><p class="statlabel" title="Your fatigue is a measure of how tired you are. You'll be unable to cast spells and perform intense activity when this is at or near the maximum.">Fatigue:</p><p class="statnum" id="fatigueNum">100 / 100</p></div><div class="statupdown" id="fatigueArrow"></div></div>
+            <div class="statframe" id="hungerFrame"><div class="statbar" id="hungerBar"><p class="statlabel">Fullness:</p><p class="statnum" id="hungerNum">100 / 100</p></div><div class="statupdown" id="hungerArrow"></div></div>
+            <h2>Advancement</h2>
+            <div class="statframeblank"><p class="statlabel">Level:</p><p class="statnum" id="levelNum">99</p></div>
+            <div class="statframe"><div class="statbar" id="xpBar"><p class="statlabel" title="Your XP is a measure of your current progress towards level up.">XP:</p><p class="statnum" id="xpNum">9999 / 9999</p></div></div>
+            <div class="statframeblank"><p class="statlabel">Gems:</p><p class="statnum" id="gemNum">999,999,999</p></div>
+            <div id="timeDisplay"><p>Day#: 1337<br>Time: 12:00pm<br></p></div>
+            <div id="spriteDisplay"></div>
+        </div>
+    </nav>
+    <main>
+        <div id="maintext">
+            The game is loading. Please be patient. If it doesn't load, make sure JavaScript is enabled then refresh.
+        </div>
+        <div id="tooltip">
+            Tooltip Text
+        </div>
+    </main>
+    <footer>
+        <div id="buttonset">
+            <div class="buttonrow">
+                <a><div class="button" id="button0">Button 0</div></a>
+                <a><div class="button" id="button1">Button 1</div></a>
+                <a><div class="button" id="button2">Button 2</div></a>
+                <a><div class="button" id="button3">Button 3</div></a>
+                <a><div class="button" id="button4">Button 4</div></a>
+            </div>
+            <div class="buttonrow">
+                <a><div class="button" id="button5">Button 5</div></a>
+                <a><div class="button" id="button6">Button 6</div></a>
+                <a><div class="button" id="button7">Button 7</div></a>
+                <a><div class="button" id="button8">Button 8</div></a>
+                <a><div class="button" id="button9">Button 9</div></a>
+            </div>
+            <div class="buttonrow">
+                <a><div class="button" id="button10">Button 10</div></a>
+                <a><div class="button" id="button11">Button 11</div></a>
+                <a><div class="button" id="button12">Button 12</div></a>
+                <a><div class="button" id="button13">Button 13</div></a>
+                <a><div class="button" id="button14">Button 14</div></a>
+            </div>
+        </div>
+    </footer>
+    <!--Needed to be moved here-->
+
+</div>
+
+<!--Additional APIs-->
+<!-- ### ENGINE ### -->
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/engine/gui.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/engine/text.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/engine/utils.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/engine/input.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/engine/saves.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/engine/time.js"></script>
+
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/flags/dataFlags.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/flags/legacyFlags.js"></script>
+
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/appearanceEnums.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/appearance.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/assClass.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/pregnancy.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/pregnancyProgression.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/breastRowClass.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/cockClass.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/vaginaClass.js"></script>
+
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/itemClass.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/keyItemClass.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/keyItemLib.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/itemConstructors.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/itemSlotClass.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/perkClass.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/perkLib.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/perkBuildMenu.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/statusEffectClass.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/statusEffectLib.js"></script>
+
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/globalVariables.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/main.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/playerInfo.js"></script>
+
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/inventory.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/combat.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/combatSpecial.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/combatTeases.js"></script>
+<!-- ### ITEMS ### -->
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/items/weapons.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/items/armor.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/items/materials.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/items/consumableEffects.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/items/transformationEffects.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/items/consumables.js"></script>
+
+<!--Core entities-->
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/creature.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/player.js"></script>
+
+<!-- ### SCENES ### -->
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/intro.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/camp.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/exploration.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/places.js"></script>
+
+<!--Areas-->
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/areas/forest.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/areas/forest/beeGirl.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/areas/forest/tamani.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/areas/forest/tentacleBeast.js"></script>
+
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/areas/lake.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/areas/lake/callu.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/areas/lake/gooGirl.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/areas/lake/greenSlime.js"></script>
+
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/areas/desert.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/areas/desert/sandWitch.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/areas/desert/marcusLucia.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/areas/desert/naga.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/areas/desert/sandTrap.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/areas/desert/oasis.js"></script>
+
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/areas/mountain.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/areas/mountain/hellhound.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/areas/mountain/minotaur.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/areas/mountain/wormmass.js"></script>
+
+<!--Places-->
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/places/farm.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/places/farm/kelt.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/places/farm/whitney.js"></script>
+
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/places/townruins.js"></script>
+
+<!--Generic Monsters-->
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/monsters/goblin.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/monsters/imp.js"></script>
+
+<!--NPCs-->
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/npcs/giacomo.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/npcs/jojo.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/npcs/lumi.js"></script>
+<!--script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/npcs/marble.js"></script-->
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/npcs/rathazul.js"></script>
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/npcs/amily.js"></script>
+
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/scenes/campEvents.js"></script>
+
+<script type="text/javascript" src="~/dist/Corruption-of-Champions-HTML/ts/debug.js"></script>
+
+<script>
+    //Start the game!
+    mainMenu();
+</script>
