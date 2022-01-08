@@ -45,14 +45,14 @@ function Jojo() {
     this.ass.analWetness = ANAL_WETNESS_NORMAL;
     if (gameFlags[JOJO_CORRUPTION_STAGE] == 3) {
         this.lust += 30;
-        this.cocks[0].cockThickness += .2;
+        this.cocks[0].cockThickness += 0.2;
         this.cocks[0].cockLength += 1.5;
         if (player.gender == 1 || player.gender == 3)
             this.ass.analLooseness = 2;
     }
     if (gameFlags[JOJO_CORRUPTION_STAGE] == 4) {
         this.lust += 40;
-        this.cocks[0].cockThickness += .5;
+        this.cocks[0].cockThickness += 0.5;
         this.cocks[0].cockLength += 3.5;
         if (player.gender == 1 || player.gender == 3)
             this.ass.analLooseness = 3;
@@ -67,7 +67,8 @@ function Jojo() {
         this.HP += 60;
         if (player.gender == 1 || player.gender == 3)
             this.ass.analLooseness = 4;
-        this.long = "Jojo is an anthropomorphic mouse with immaculate white fur. Though he stands only four feet tall, he is covered in lean muscle and moves with incredible speed. He's naked, with a large tainted throbbing member bouncing at attention. A fuzzy sack with painfully large looking balls dangles between his legs.";
+        this.long =
+            "Jojo is an anthropomorphic mouse with immaculate white fur. Though he stands only four feet tall, he is covered in lean muscle and moves with incredible speed. He's naked, with a large tainted throbbing member bouncing at attention. A fuzzy sack with painfully large looking balls dangles between his legs.";
     }
     //Victory/defeat
     this.victory = JojoScene.defeatedJojo;
@@ -118,7 +119,7 @@ Jojo.selfCorruption = function () {
         outputText("The mouse's skin remains flushed with the beginnings of arousal. ");
 };
 //------------
-// UTILS
+// UTIL
 //------------
 JojoScene.jojoSprite = function () {
     displaySprite("jojo"); //Currently, no tentacle variant.
@@ -169,7 +170,8 @@ JojoScene.lowCorruptionJojoEncounter = function () {
         outputText("The force of the blow knocks you flat on your [ass]. Shaking it off, you immediately climb to your feet and take on a fighting stance.<br><br>");
     else if (player.isTaur())
         outputText("The blow does little more than leave you momentarily dazed but isn’t enough to knock you over. You shake it off and ready your [weapon] as you assume a fighting stance.<br><br>");
-    else // Was originally isNaga() only, but this will also cover Drider just as well
+    // Was originally isNaga() only, but this will also cover Drider just as well
+    else
         outputText("You recoil as you are struck, but the force of the blow does little more than leave you momentarily dazed. You assume a fighting stance, ready to defend yourself.<br><br>");
     outputText("To your surprise you are greeted with the visage of a rather surprised mouse.<br><br>");
     outputText("“<i>Oh... erm... I’m sorry. You spooked me,</i>” he says apologetically, rubbing the back of his neck in embarrassment.<br><br>");
@@ -208,11 +210,13 @@ JojoScene.lowCorruptionIntro = function () {
 };
 JojoScene.highCorruptionJojoEncounter = function () {
     JojoScene.jojoSprite();
-    outputText("While marvelling at the strange trees and vegetation of the forest, the bushes ruffle ominously. A bush seems to explode into a flurry of swirling leaves and movement. Before you can react you feel your " + player.feet() + " being swept out from under you, and land hard on your back.");
+    outputText("While marvelling at the strange trees and vegetation of the forest, the bushes ruffle ominously. A bush seems to explode into a flurry of swirling leaves and movement. Before you can react you feel your " +
+        player.feet() +
+        " being swept out from under you, and land hard on your back.");
     outputText("<br><br>The angry visage of a lithe white mouse gazes down on your prone form with a look of confusion.");
-    outputText("<br><br>\"<i>I'm sorry, I sensed a great deal of corruption, and thought a demon or monster had come to my woods,</i>\" says the mouse, \"<i>Oh, where are my manners!</i>\"");
-    outputText("<br><br>He helps you to your feet and introduces himself as Jojo. Now that you have a good look at him, it is obvious this mouse is some kind of monk, dressed in robes, holy symbols, and draped with prayer beads.<br><br>He smiles knowingly, \"<i>Yes I am a monk, and yes this is a strange place for one such as I... this world was not always this way. Long ago this world was home to many villages, including my own. But then the demons came. I'm not sure if they were summoned, created, or simply a perversion of magic or breeding, but they came swarming out of the mountains to destroy everything in their path.</i>\"");
-    outputText("<br><br>Jojo sighs sadly, \"<i>Enough of my woes. You are very corrupted. If you cannot be sufficiently purified you WILL become one of them in time. Will you let me help you?");
+    outputText('<br><br>"<i>I\'m sorry, I sensed a great deal of corruption, and thought a demon or monster had come to my woods,</i>" says the mouse, "<i>Oh, where are my manners!</i>"');
+    outputText('<br><br>He helps you to your feet and introduces himself as Jojo. Now that you have a good look at him, it is obvious this mouse is some kind of monk, dressed in robes, holy symbols, and draped with prayer beads.<br><br>He smiles knowingly, "<i>Yes I am a monk, and yes this is a strange place for one such as I... this world was not always this way. Long ago this world was home to many villages, including my own. But then the demons came. I\'m not sure if they were summoned, created, or simply a perversion of magic or breeding, but they came swarming out of the mountains to destroy everything in their path.</i>"');
+    outputText('<br><br>Jojo sighs sadly, "<i>Enough of my woes. You are very corrupted. If you cannot be sufficiently purified you WILL become one of them in time. Will you let me help you?');
     //Choices time!
     menu();
     addButton(0, "Accept", JojoScene.meditateInForest);
@@ -227,13 +231,13 @@ JojoScene.repeatJojoEncounter = function () {
     menu();
     if (player.findStatusEffect(StatusEffects.Infested) >= 0) {
         outputText("As you approach the serene monk, you see his nose twitch, disturbing his meditation.<br><br>");
-        outputText("\"<i>It seems that the agents of corruption have taken residence within the temple that is your body.</i>\", Jojo says flatly. \"<i>This is a most unfortunate development. There is no reason to despair as there are always ways to fight the corruption. However, great effort will be needed to combat this form of corruption and may leave lasting impressions upon you. If you are ready, we can purge your being of the rogue creatures of lust.</i>\"<br><br>");
+        outputText('"<i>It seems that the agents of corruption have taken residence within the temple that is your body.</i>", Jojo says flatly. "<i>This is a most unfortunate development. There is no reason to despair as there are always ways to fight the corruption. However, great effort will be needed to combat this form of corruption and may leave lasting impressions upon you. If you are ready, we can purge your being of the rogue creatures of lust.</i>"<br><br>');
         addButton(0, "Meditate", JojoScene.meditateInForest);
         addButton(1, "Purge", JojoScene.wormRemoval, null, null, null, "Request him to purge the worms from your body.");
         addButton(4, "Leave", Camp.returnToCampUseOneHour);
     }
     else {
-        outputText("Jojo the monk appears before you, robes and soft white fur fluttering in the breeze. He asks, \"<i>Are you ready for a meditation session?</i>\"", false);
+        outputText('Jojo the monk appears before you, robes and soft white fur fluttering in the breeze. He asks, "<i>Are you ready for a meditation session?</i>"', false);
         doYesNo(JojoScene.meditateInForest, Camp.returnToCampUseOneHour);
     }
     if (player.gender > 0 && player.lust >= 33 && flags[DISABLED_JOJO_RAPE] == 0)
@@ -243,7 +247,7 @@ JojoScene.corruptJojoEncounter = function () {
     JojoScene.jojoSprite();
     outputText("You are enjoying a peaceful walk through the woods when Jojo drops out of the trees ahead, ");
     if (gameFlags[JOJO_CORRUPTION_STAGE] == 2)
-        outputText("his mousey visage twisted into a ferocious snarl. \"YOU!\" he screams, launching himself towards you, claws extended.");
+        outputText('his mousey visage twisted into a ferocious snarl. "YOU!" he screams, launching himself towards you, claws extended.');
     if (gameFlags[JOJO_CORRUPTION_STAGE] == 3)
         outputText("unsteady on his feet, but looking for a fight!");
     if (gameFlags[JOJO_CORRUPTION_STAGE] == 4)
@@ -255,8 +259,8 @@ JojoScene.corruptJojoEncounter = function () {
 JojoScene.meditateInForest = function () {
     displaySprite("jojo");
     clearOutput();
-    outputText("Jojo smiles and leads you off the path to a small peaceful clearing. There is a stump in the center, polished smooth and curved in a way to be comfortable. He gestures for you to sit, and instructs you to meditate.<br><br>An indeterminate amount of time passes, but you feel more in control of yourself. Jojo congratulates you, but offers a warning as well. \"<i>Be ever mindful of your current state, and seek me out before you lose yourself to the taints of this world. Perhaps someday this tainted world can be made right again.</i>\"");
-    player.modStats("str", 0.5, "tou", 0.5, "int", 0.5, "lib", -1, "cor", (-1 - player.countCockSocks("alabaster")));
+    outputText('Jojo smiles and leads you off the path to a small peaceful clearing. There is a stump in the center, polished smooth and curved in a way to be comfortable. He gestures for you to sit, and instructs you to meditate.<br><br>An indeterminate amount of time passes, but you feel more in control of yourself. Jojo congratulates you, but offers a warning as well. "<i>Be ever mindful of your current state, and seek me out before you lose yourself to the taints of this world. Perhaps someday this tainted world can be made right again.</i>"');
+    player.modStats("str", 0.5, "tou", 0.5, "int", 0.5, "lib", -1, "cor", -1 - player.countCockSocks("alabaster"));
     gameFlags[JOJO_MEDITATION_COUNTER]++;
     if (gameFlags[JOJO_MEDITATION_COUNTER] >= 5) {
         outputText("<br><br>Jojo nods respectfully at you when the meditation session is over and smiles. ");
@@ -264,12 +268,14 @@ JojoScene.meditateInForest = function () {
         if (flags[FUCK_FLOWER_LEVEL] >= 4 && flags[FUCK_FLOWER_KILLED] == 0 && gameFlags[JOJO_MEDITATION_COUNTER] % 5 == 0) {
             //replaces 'Jojo nods respectfully at you [...] "It seems you have quite a talent for this. [...]"' invite paragraphs while Treefingers is getting slut all over your campsite
             //gives Small Talisman if PC never had follower Jojo or used it and ran from the fight
-            if (player.hasKeyItem("Jojo's Talisman") >= 0) { //[(if PC has Small Talisman)
-                outputText("Jojo smiles at you. \"<i>[name], well done. Your talent at focusing is undiminished. Regarding the other issue... you still have the item I gave you?</i>\"");
-                outputText("<br><br>You hold up the talisman, and he nods. \"<i>Good. Stay safe and signal me with it if you need help.</i>\"");
+            if (player.hasKeyItem("Jojo's Talisman") >= 0) {
+                //[(if PC has Small Talisman)
+                outputText('Jojo smiles at you. "<i>[name], well done. Your talent at focusing is undiminished. Regarding the other issue... you still have the item I gave you?</i>"');
+                outputText('<br><br>You hold up the talisman, and he nods. "<i>Good. Stay safe and signal me with it if you need help.</i>"');
             }
-            else { //(else no Small Talisman)
-                outputText("Jojo nods at you respectfully. \"<i>Well done today; your dedication is impressive. We could meditate together more often.</i>\"");
+            else {
+                //(else no Small Talisman)
+                outputText('Jojo nods at you respectfully. "<i>Well done today; your dedication is impressive. We could meditate together more often.</i>"');
                 outputText("<br><br>As much as you'd like to, you can't stay in the forest, and you can't invite him back with you right now. Reluctantly, you mention the stubborn, demonic godseed's presence on the borders of your camp. Jojo's eyebrows furrow in concentration.");
                 outputText("<br><br>\"<i>Yes, that's a problem. Oh, that we did not have to resist the very spirit of the land! [name], take this. Use it to call me if the demon gives you trouble; I will come and render what aid I can.</i>\" The monk fishes in his robe and places a small talisman into your hand.<br><br>(Gained Key Item: Jojo's Talisman)");
                 //get a small talisman if not have one
@@ -279,7 +285,7 @@ JojoScene.meditateInForest = function () {
             return;
         }
         else
-            outputText("\"<i>It seems you have quite a talent for this. We should meditate together more often.</i>\"");
+            outputText('"<i>It seems you have quite a talent for this. We should meditate together more often.</i>"');
     }
     player.changeLust(-10, false);
     if (gameFlags[JOJO_MEDITATION_COUNTER] % 5 == 0) {
@@ -314,15 +320,17 @@ JojoScene.jojoCamp = function () {
         getGame().followerInteractions.catchRathazulNapping();
         return;
     }*/
-    if (player.findStatusEffect(StatusEffects.Infested) >= 0) { // Worms overrides everything else
+    if (player.findStatusEffect(StatusEffects.Infested) >= 0) {
+        // Worms overrides everything else
         outputText("As you approach the serene monk, you see his nose twitch.<br><br>");
-        outputText("\"<i>It seems that the agents of corruption have taken residence within the temple that is your body,</i>\" Jojo says flatly, \"<i>This is a most unfortunate development. There is no reason to despair as there are always ways to fight the corruption. However, great effort will be needed to combat this form of corruption and may have a lasting impact upon you. If you are ready, we can purge your being of the rogue creatures of lust.</i>\"<br><br>");
+        outputText('"<i>It seems that the agents of corruption have taken residence within the temple that is your body,</i>" Jojo says flatly, "<i>This is a most unfortunate development. There is no reason to despair as there are always ways to fight the corruption. However, great effort will be needed to combat this form of corruption and may have a lasting impact upon you. If you are ready, we can purge your being of the rogue creatures of lust.</i>"<br><br>');
         JojoScene.jojoCampMenu();
         return;
     }
-    if (player.cor > 10 && flags[JOJO_LAST_MEDITATION] != time.days) { //New "offer of help" menu
+    if (player.cor > 10 && flags[JOJO_LAST_MEDITATION] != time.days) {
+        //New "offer of help" menu
         if (player.cor >= 40)
-            outputText("You walk toward the boulder where Jojo usually sits, and as soon as you're close Jojo approaches you with urgency. \"<i>By Marae! [name], we must do something! I feel the corruption surrounding you like a dense fog. We need to meditate or I’m going to lose you!</i>\" Jojo pleads.<br><br>");
+            outputText('You walk toward the boulder where Jojo usually sits, and as soon as you\'re close Jojo approaches you with urgency. "<i>By Marae! [name], we must do something! I feel the corruption surrounding you like a dense fog. We need to meditate or I’m going to lose you!</i>" Jojo pleads.<br><br>');
         else
             outputText("You walk up to the boulder where Jojo usually sits, and see him sitting cross legged with his eyes closed. He seems to be deep in meditation, but when you approach his eyes open suddenly and he gets up appearing slightly distressed, “<i>Uh... [name], I can feel a bit of corruption within you. It is not much, but I think you should be concerned about it before it gets out of hand and you do something you might regret. If you want to I'd be happy to meditate with you as you rid yourself of it.</i>” he offers with a concerned look on his face.<br><br>");
         outputText("Do you accept Jojo's help?<br><br>");
@@ -330,9 +338,14 @@ JojoScene.jojoCamp = function () {
         if (player.lust >= 33 && player.gender > 0 && gameFlags[JOJO_CORRUPTION_STAGE] >= 0)
             addButton(4, "Rape", JojoScene.jojoAtCampRape);
     }
-    else { //Normal shit
+    else {
+        //Normal shit
         if (player.cor > 10)
-            outputText("You walk up to the boulder where Jojo usually sits, and see him sitting cross legged with his eyes closed. He seems to be deep in meditation, but when you approach his eyes open suddenly and he gets up appearing slightly distressed, “<i>Uh... [name], " + (player.cor >= 40 ? "I feel the corruption surrounding you like a dense fog. We need to meditate more or I’m going to lose you!" : "I still can feel a bit of corruption within you. It is not much, but I think you should be concerned about it before it gets out of hand and you do something you might regret.") + " If you want to I'd be happy to meditate with you as you rid yourself of it.</i>” he offers with a concerned look on his face. <br><br>");
+            outputText("You walk up to the boulder where Jojo usually sits, and see him sitting cross legged with his eyes closed. He seems to be deep in meditation, but when you approach his eyes open suddenly and he gets up appearing slightly distressed, “<i>Uh... [name], " +
+                (player.cor >= 40
+                    ? "I feel the corruption surrounding you like a dense fog. We need to meditate more or I’m going to lose you!"
+                    : "I still can feel a bit of corruption within you. It is not much, but I think you should be concerned about it before it gets out of hand and you do something you might regret.") +
+                " If you want to I'd be happy to meditate with you as you rid yourself of it.</i>” he offers with a concerned look on his face. <br><br>");
         else {
             switch (rand(3)) {
                 case 0:
@@ -341,7 +354,10 @@ JojoScene.jojoCamp = function () {
                 case 1:
                     outputText("You walk up to the boulder where Jojo usually sits and find him a few paces behind it. He is standing and practicing his form, gracefully moving from one pose to the next. As you approach him you see his ears visibly perk and he turns his head towards you without breaking his stance, saying, “<i>Greetings [name], is there anything I can assist you with?</i>”<br><br>");
                     break;
-                default: outputText("You find Jojo sitting cross-legged on a flat rock with his staff leaning against his shoulder, thinking. He looks to you and nods, \"<i>Greetings, " + player.short + ". Is there something I could do to assist you?</i>\"<br><br>");
+                default:
+                    outputText('You find Jojo sitting cross-legged on a flat rock with his staff leaning against his shoulder, thinking. He looks to you and nods, "<i>Greetings, ' +
+                        player.short +
+                        '. Is there something I could do to assist you?</i>"<br><br>');
             }
         }
         JojoScene.jojoCampMenu();
@@ -358,7 +374,7 @@ JojoScene.jojoCampMenu = function () {
     if (flags[UNLOCKED_JOJO_TRAINING] > 0)
         addButton(2, "Train", JojoScene.apparantlyJojoDOESlift, null, null, null, "Join him in a training session.");
     addButton(3, "Meditate", JojoScene.jojoFollowerMeditate);
-    addButton(4, "N.Watch: " + (gameFlags[JOJO_NIGHT_WATCH] > 0 ? "On" : "Off"), JojoScene.jojoDefenseToggle, null, null, null, (gameFlags[JOJO_NIGHT_WATCH] > 0 ? "Request him to stop guarding the camp." : "Request him to guard the camp at night."));
+    addButton(4, "N.Watch: " + (gameFlags[JOJO_NIGHT_WATCH] > 0 ? "On" : "Off"), JojoScene.jojoDefenseToggle, null, null, null, gameFlags[JOJO_NIGHT_WATCH] > 0 ? "Request him to stop guarding the camp." : "Request him to guard the camp at night.");
     if (player.findStatusEffect(StatusEffects.Infested) >= 0)
         addButton(5, "Purge", JojoScene.wormRemoval, null, null, null, "Request him to purge the worms from your body.");
     if (player.cor > 10 && player.lust >= 33 && player.gender > 0 && flags[DISABLED_JOJO_RAPE] <= 0)
@@ -368,11 +384,13 @@ JojoScene.jojoCampMenu = function () {
     addButton(14, "Leave", Camp.campFollowersMenu);
 };
 JojoScene.acceptOfferOfHelp = function () {
+    //[Yes]
     clearOutput();
     outputText("<i>“Thank Marae. You’re much stronger than I, my friend... to hold so much corruption and still retain your will. But let us not tempt fate,”</i> he says before the two of you get to it.<br><br>");
     JojoScene.jojoFollowerMeditate();
 };
 JojoScene.refuseOfferOfHelp = function () {
+    //[No]
     clearOutput();
     outputText("You assure Jojo you're fine, and that you'll consider his offer. “<i>But... I... we...</i>” he stammers. “<i>Alright, but please do not let the corruption get the better of you. You’re my friend and I couldn't bear to lose you to its vile influence.</i>” He recomposes himself and asks, “<i>So... is there anything I can assist you with?</i>”<br><br>");
     JojoScene.jojoCampMenu();
@@ -413,7 +431,13 @@ JojoScene.talkMenu = function () {
             addButtonDisabled(9, "Sex?", "You've raped Jojo in the past, now you can't ask him out. Ya dun goofed.");
     }
     if (player.cor <= 10 && player.lust >= 33 && gameFlags[JOJO_CORRUPTION_STAGE] == -1)
-        addButtonDisabled(9, "Sex?", "You need to spend more time with Jojo. <br><br>Talk sessions: " + flags[TIMES_TALKED_WITH_JOJO] + "/6 <br>Training sessions: " + flags[TIMES_TRAINED_WITH_JOJO] + "/10 <br>Meditation sessions: " + gameFlags[JOJO_MEDITATION_COUNTER] + "/10 <br>You must be pure enough and have sufficient lust as well.");
+        addButtonDisabled(9, "Sex?", "You need to spend more time with Jojo. <br><br>Talk sessions: " +
+            flags[TIMES_TALKED_WITH_JOJO] +
+            "/6 <br>Training sessions: " +
+            flags[TIMES_TRAINED_WITH_JOJO] +
+            "/10 <br>Meditation sessions: " +
+            gameFlags[JOJO_MEDITATION_COUNTER] +
+            "/10 <br>You must be pure enough and have sufficient lust as well.");
     if (player.cor <= 10 && player.lust >= 33 && flags[TIMES_TALKED_WITH_JOJO] >= 6 && flags[TIMES_TRAINED_WITH_JOJO] >= 10 && flags[TIMES_TALKED_WITH_JOJO] >= 10 && gameFlags[JOJO_CORRUPTION_STAGE] > -3)
         addButton(9, "Sex?", JojoScene.offerSexFirstTimeHighAffection, null, null, null, "You've spent quite the time with Jojo, maybe you can offer him if he's willing to have sex with you?"); //Will unlock consensual sex scenes.
     if (gameFlags[JOJO_CORRUPTION_STAGE] <= -3)
@@ -600,14 +624,19 @@ JojoScene.jojoTalkSandCave = function () {
         // [if {PC has bath slut in camp}
         else {
             outputText("As the question leaves his lips you give Jojo a confused look and, with a glance, direct his gaze toward " + flags[MILK_NAME] + ".<br><br>");
-            outputText("He slaps his own forehead and says, “<i>Oh... yeah... right.</i>” Obviously embarrassed by not putting two and two together. He smiles good naturedly though, “<i>I don’t know I guess I just assumed you found some poor mind addled soul and decided to save her.</i>” Jojo says as he looks over at " + flags[MILK_NAME] + ".<br><br>");
-            if (flags[MILK_SIZE] == 0) { //[if (bathSlutStage1 - unaltered)
+            outputText("He slaps his own forehead and says, “<i>Oh... yeah... right.</i>” Obviously embarrassed by not putting two and two together. He smiles good naturedly though, “<i>I don’t know I guess I just assumed you found some poor mind addled soul and decided to save her.</i>” Jojo says as he looks over at " +
+                flags[MILK_NAME] +
+                ".<br><br>");
+            if (flags[MILK_SIZE] == 0) {
+                //[if (bathSlutStage1 - unaltered)
                 outputText("“<i>She’ll fare much better in our care than in the coven’s,</i>” he states with conviction.<br><br>");
             }
-            else if (flags[MILK_SIZE] == 1) { //[if (bathSlutStage2 - HHH)
+            else if (flags[MILK_SIZE] == 1) {
+                //[if (bathSlutStage2 - HHH)
                 outputText("“<i>She’s already much better than she was when she got here,</i>” he says with a grin.<br><br>");
             }
-            else { //[if (bathSlutStage3 - DD)
+            else {
+                //[if (bathSlutStage3 - DD)
                 outputText("“<i>The coven wouldn’t have done what you’ve done for her. You’ve given her a much, much better life and even aided in fixing her condition, you truly are a champion, [name],</i>” he says, giving you a fond smile and a pat on the back.<br><br>");
             }
         }
@@ -642,7 +671,7 @@ JojoScene.apparantlyJojoDOESlift = function () {
         flags[UNLOCKED_JOJO_TRAINING] = 1;
         outputText("You ask Jojo if he can teach you how to fight like a monk.<br><br>");
         outputText("Jojo considers you for a moment before saying, “<i>Yes I can teach you the forms, skills and techniques I was taught by my order. Plus...</i>” Jojo gazes off into the distance, his attention drifing for a moment before he continues, “<i>since I am all that is left, it is up to me to bestow this knowledge upon a worthy soul.</i>”<br><br>");
-        if (player.cor >= (25 + player.corruptionTolerance())) {
+        if (player.cor >= 25 + player.corruptionTolerance()) {
             outputText("Jojo frowns, “<i>I am willing to teach you [name], when I can. However I am no master, therefore I am unworthy of taking a disciple. But as your friend, I will teach you what I know so that you may protect yourself. I believe our time would be better spent meditating. There is very little you can do with these techniques without first finding your center.</i>”<br><br>");
             // Kick back to previous menu
             menu();
@@ -666,7 +695,7 @@ JojoScene.apparantlyJojoDOESlift = function () {
             doNext(JojoScene.jojoCamp);
             return;
         }
-        if (player.cor >= (25 + player.corruptionTolerance())) {
+        if (player.cor >= 25 + player.corruptionTolerance()) {
             outputText("You ask the monk to continue your training; but he shakes his head.<br><br>");
             outputText("“<i>I fear that your time would be better spend meditating before we continue your training. Would you like to do so now?</i>”<br><br>");
             menu();
@@ -793,26 +822,26 @@ JojoScene.jojoDefenseToggle = function () {
     clearOutput();
     if (gameFlags[JOJO_NIGHT_WATCH] > 0) {
         gameFlags[JOJO_NIGHT_WATCH] = 0;
-        outputText("You tell Jojo that you no longer need him to watch the camp at night. He nods, then speaks. \"<i>Alright. Please let me know if you require my help again.</i>\"");
+        outputText('You tell Jojo that you no longer need him to watch the camp at night. He nods, then speaks. "<i>Alright. Please let me know if you require my help again.</i>"');
     }
     else {
         gameFlags[JOJO_NIGHT_WATCH] = 1;
-        outputText("You ask the monk if he could guard the camp for you at night. He smiles politely. \"<i>Certainly, [name].</i>\"");
+        outputText('You ask the monk if he could guard the camp for you at night. He smiles politely. "<i>Certainly, [name].</i>"');
     }
     doNext(JojoScene.jojoCamp);
 };
 JojoScene.wormRemoval = function () {
     clearOutput();
-    outputText("\"<i>Excellent, young one,</i>\" Jojo continues. \"<i>Your dedication to purification is admirable. Relax and know that the parasites will leave you soon.</i>\"<br><br>");
+    outputText('"<i>Excellent, young one,</i>" Jojo continues. "<i>Your dedication to purification is admirable. Relax and know that the parasites will leave you soon.</i>"<br><br>');
     outputText("Jojo gets up and walks over to a backpack hidden in the bushes. He removes a lacquered box. He removes and combines a rather noxious combination of herbs, oils and other concoctions into a mortar and grinds it with a pestle. After a few minutes, he ignites the mixture and uses a feathered fan to blow the fumes over you. The smell of the mix is nauseating and repugnant. Your stomach turns and you fight the urge to vomit. Eventually, you are no longer able to resist and you purge yourself onto the ground. Cramping from your vomiting fits, you wrack with discomfort, which slowly builds to genuine pain. As the pain sets in, you feel a stirring deep in your crotch. The worms inside you are stirring and thus are compelling another unwanted orgasm. Unable to control your body, your cock explodes, launching cum and worms everywhere. Jojo begins fanning faster as he sees the worms leave your body.<br><br>");
-    outputText("\"<i>Further endurance is needed, young one,</i>\" Jojo says. \"<i>The root of your problem must leave before you may pursue further purification. Healing is always twice as uncomfortable as the illness requiring attention.</i>\"<br><br>");
+    outputText('"<i>Further endurance is needed, young one,</i>" Jojo says. "<i>The root of your problem must leave before you may pursue further purification. Healing is always twice as uncomfortable as the illness requiring attention.</i>"<br><br>');
     outputText("Your body cramps up as you feel the fat worm struggle. You feel it pushing up your urethra, fighting to escape your fumigated body. The worm rapidly peeks from the end of your penis. With expedience, Jojo quickly grabs the worm and pulls it out of you, triggering one last orgasm. The monk casts the fat worm to the ground and strikes it dead with his staff.<br><br>");
-    outputText("\"<i>The culprit has been exorcised and will no longer trouble you. Rest here for a while and join me in some meditation to heal your exhausted body and soul.</i>\"<br><br>");
+    outputText('"<i>The culprit has been exorcised and will no longer trouble you. Rest here for a while and join me in some meditation to heal your exhausted body and soul.</i>"<br><br>');
     outputText("Being too tired for anything else, you join Jojo in meditation, which does much to relive you of your former woes.");
     //Infestation removed. HP reduced to 50% of MAX. Sensitivity reduced by -25 or reduced to 10, which ever is the smaller reduction.
     //Infestation purged. Hit Points reduced to 10% of MAX. Corruption -20.
-    if (player.HP > (player.maxHP() * .5))
-        player.HP = Math.floor(player.maxHP() * .5);
+    if (player.HP > player.maxHP() * 0.5)
+        player.HP = Math.floor(player.maxHP() * 0.5);
     player.damageHunger(30);
     player.sens = 11;
     player.removeStatusEffect(StatusEffects.Infested);
@@ -824,12 +853,16 @@ JojoScene.wormRemoval = function () {
 JojoScene.offerSexFirstTime = function () {
     clearOutput();
     outputText("You ask Jojo if he would be willing to help you with a... personal problem.");
-    outputText("<br><br>\"<i>Yes, of course! What is it, [name]?</i>\"");
+    outputText('<br><br>"<i>Yes, of course! What is it, [name]?</i>"');
     outputText("<br><br>You tell him that it has to do with certain... needs of yours. Desires that need slaking. You would much rather something consensual, with a friendly face, than to go out and offer yourself to the depraved interests of whatever corrupted being you find, or to engage in the uncomfortably demonic act of beating down and then raping one of the degenerates that roam this corrupted land.");
-    outputText("<br><br>Jojo's eyes open wide in realization and he blushes so hard you can even see it through his white fur. \"<i>I... I'm flattered you would consider me for this... and I think you're really " + (player.femininity >= 50 ? "beautiful" : "handsome") + ", " + ((player.thickness >= 60 && player.tone < 60) ? "although you should work harder to keep yourself in shape." : "and you obviously keep yourself in good shape.") + " You're also nice to me and I do find you attractive but...</i>\"");
+    outputText("<br><br>Jojo's eyes open wide in realization and he blushes so hard you can even see it through his white fur. \"<i>I... I'm flattered you would consider me for this... and I think you're really " +
+        (player.femininity >= 50 ? "beautiful" : "handsome") +
+        ", " +
+        (player.thickness >= 60 && player.tone < 60 ? "although you should work harder to keep yourself in shape." : "and you obviously keep yourself in good shape.") +
+        " You're also nice to me and I do find you attractive but...</i>\"");
     outputText("<br><br>But...? You press. After all, isn't it better for the both of you to turn to each other to slake your lusts then to bottle things up or go to the monsters who roam this land?");
     outputText("<br><br>\"<i>I-I can't... I made a vow of chastity... I can't simply break my vows... please understand, [name]...</i>\" he says gazing at you apologetically, though you detect just the slightest hint of desire in his eyes before he averts his gaze and shakes his head of whatever thoughts could be plaguing it.");
-    outputText("<br><br>You acknowledge his position and excuse yourself, but before you can leave he calls out to you. \"<i>Wait, [name]!</i>\" he says getting up and moving towards you. \"<i>While I can't really have sex with you, that doesn't mean I can't help you. If you want we could meditate to help you... umm... restrain your needs?</i>\" he suggests.");
+    outputText('<br><br>You acknowledge his position and excuse yourself, but before you can leave he calls out to you. "<i>Wait, [name]!</i>" he says getting up and moving towards you. "<i>While I can\'t really have sex with you, that doesn\'t mean I can\'t help you. If you want we could meditate to help you... umm... restrain your needs?</i>" he suggests.');
     gameFlags[JOJO_CORRUPTION_STAGE] = -1;
     doYesNo(JojoScene.agreeToMeditate, JojoScene.noThanksToMeditate);
 };
@@ -847,7 +880,7 @@ JojoScene.noThanksToMeditate = function () {
 JojoScene.offerSexFirstTimeHighAffection = function () {
     clearOutput();
     outputText("You've been spending great time with Jojo. You've meditated with him, you've discussed with him and you've even trained with him! Now's the time to ask him out.");
-    outputText("<br><br>You approach Jojo. \"Yes, [name]? What is it you need?\" Jojo asks. You ask him if he would like to have sex.");
+    outputText('<br><br>You approach Jojo. "Yes, [name]? What is it you need?" Jojo asks. You ask him if he would like to have sex.');
     outputText("<br><br>\"<i>I'm sorry. I still can't break my vows of chastity,</i>\" he says apologetically.");
     gameFlags[JOJO_CORRUPTION_STAGE] = -2;
     menu();
@@ -859,7 +892,7 @@ JojoScene.offerSexFirstTimeHighAffection = function () {
 JojoScene.confrontChastity = function () {
     clearOutput();
     outputText("He cannot keep his vows forever. After all, he's missing out on the pleasure! He probably never knew how he would feel if he has a perfect cock that fits perfectly in his butthole or his cock that fits perfectly in a vagina or an anus. He should be fine as long as he stays faithful to you.");
-    outputText("<br><br>\"<i>What about pleasure? " + (player.hasVagina() ? "How about potential mate like me? " : "") + "You're missing out!</i>\" you say. Jojo stares deeply into your eyes for a good moment.");
+    outputText('<br><br>"<i>What about pleasure? ' + (player.hasVagina() ? "How about potential mate like me? " : "") + "You're missing out!</i>\" you say. Jojo stares deeply into your eyes for a good moment.");
     outputText("<br><br>\"<i>Well... young one, you're right. You did spend time together with me. We've meditated, I've taught you some important lessons and now we're here,</i>\" Jojo says hesitantly but he starts to smile, \"<i>Let's have sex; I want to experience.</i>\"");
     outputText("<br><br>You smile back at Jojo, knowing that you can have sex with him.");
     outputText("<br><br><b>You have unlocked Jojo sex menu!</b>");
@@ -873,7 +906,7 @@ JojoScene.pureJojoSexMenu = function () {
     //Capacity
     var capacity = 40;
     if (flags[JOJO_ANAL_XP] < 10)
-        capacity += (flags[JOJO_ANAL_XP] * 3);
+        capacity += flags[JOJO_ANAL_XP] * 3;
     else
         capacity += 30; //Caps at 70.
     //Call for the purpose of cock size.
@@ -883,9 +916,9 @@ JojoScene.pureJojoSexMenu = function () {
     clearOutput();
     outputText("You ask Jojo if he's in the mood for sex right now. ");
     if (flags[JOJO_SEX_COUNTER] < 3)
-        outputText("Jojo looks into your eyes and says, \"<i>Only if you're going to be gentle.</i>\"");
+        outputText('Jojo looks into your eyes and says, "<i>Only if you\'re going to be gentle.</i>"');
     else
-        outputText("Jojo looks into your eyes and says, \"<i>Yes, young one. Let's go.</i>\"");
+        outputText('Jojo looks into your eyes and says, "<i>Yes, young one. Let\'s go.</i>"');
     outputText("<br><br>Jojo escorts you to the forest and chooses the area with the most privacy.");
     outputText("<br><br>(What way should you have with Jojo?)");
     /*if (debug) {
@@ -906,7 +939,7 @@ JojoScene.anallyFuckTheMouseButtSlut = function () {
     //Capacity
     var capacity = 40;
     if (flags[JOJO_ANAL_XP] < 10)
-        capacity += (flags[JOJO_ANAL_XP] * 3);
+        capacity += flags[JOJO_ANAL_XP] * 3;
     else
         capacity += 30; //Caps at 70.
     var x = player.cockThatFits(capacity);
@@ -922,15 +955,17 @@ JojoScene.anallyFuckTheMouseButtSlut = function () {
     if (flags[JOJO_ANAL_XP] < 3) {
         //Intro
         if (flags[JOJO_ANAL_XP] < 1)
-            outputText("<br><br>\"<i>Just go gentle,</i>\" Jojo says with a whimpered look on his face as he gets down on all fours.");
+            outputText('<br><br>"<i>Just go gentle,</i>" Jojo says with a whimpered look on his face as he gets down on all fours.');
         else
-            outputText("<br><br>\"<i>Even though we've done it before, still, just go gentle please,</i>\" Jojo says with a whimpered look on his face as he gets down on all fours.");
+            outputText('<br><br>"<i>Even though we\'ve done it before, still, just go gentle please,</i>" Jojo says with a whimpered look on his face as he gets down on all fours.');
         //Check anal tightness
         outputText("<br><br>You gently caress Jojo’s toned, quivering butt-cheeks and get a good glance at his anus. ");
         if (flags[JOJO_ANAL_XP] < 1)
-            outputText("It’s a bit too tight to suddenly insert your " + player.cockDescript(x) + " into. You’ll have to stretch it out a little. You warn Jojo that you’ll be inserting your hand in first. Jojo feels like he was almost regretting this, but nods. You slick your fingers up with some saliva, and then gently start to probe Jojo’s pucker, trying to stretch it out a little. ");
+            outputText("It’s a bit too tight to suddenly insert your " +
+                player.cockDescript(x) +
+                " into. You’ll have to stretch it out a little. You warn Jojo that you’ll be inserting your hand in first. Jojo feels like he was almost regretting this, but nods. You slick your fingers up with some saliva, and then gently start to probe Jojo’s pucker, trying to stretch it out a little. ");
         else
-            outputText("You decide to test it out again. You warn Jojo that you’ll be inserting your hand in first. Jojo says, \"<i>If you have to.</i>\" You slick your fingers up with some saliva, and then gently start to probe Jojo’s pucker, testing out the looseness.");
+            outputText('You decide to test it out again. You warn Jojo that you’ll be inserting your hand in first. Jojo says, "<i>If you have to.</i>" You slick your fingers up with some saliva, and then gently start to probe Jojo’s pucker, testing out the looseness.');
         //Anal fingering and stretching
         outputText("<br><br>The second your digits invade Jojo’s bowels, his cock starts leaking precum. Jojo’s face kept flickering between pain and arousal. Jojo must really be sensitive. ");
         if (flags[JOJO_ANAL_XP] < 1)
@@ -938,20 +973,26 @@ JojoScene.anallyFuckTheMouseButtSlut = function () {
         else
             outputText("Hmm... his ass seems more stretched out compared to last time; you should be able to insert without worry. ");
         //Get lubed up and get your cock into Jojo's anus.
-        outputText("<br><br>You spit on your hands and apply saliva evenly all over your " + player.cockDescript(x) + " to get it all lubed up. Deeming the lubrication sufficient, you let Jojo know that you’re going to start and you slowly slide your " + player.cockDescript(x) + " into Jojo’s butthole. " + (flags[JOJO_ANAL_XP] > 0 ? "His sphincter closes around you tightly. By Marae, he’s tight as ever!" : "By Marae, he's tight!") + " ");
+        outputText("<br><br>You spit on your hands and apply saliva evenly all over your " +
+            player.cockDescript(x) +
+            " to get it all lubed up. Deeming the lubrication sufficient, you let Jojo know that you’re going to start and you slowly slide your " +
+            player.cockDescript(x) +
+            " into Jojo’s butthole. " +
+            (flags[JOJO_ANAL_XP] > 0 ? "His sphincter closes around you tightly. By Marae, he’s tight as ever!" : "By Marae, he's tight!") +
+            " ");
         if (flags[JOJO_ANAL_XP] < 1) {
             outputText("<b>Jojo has lost his anal virginity!</b>");
-            outputText("<br><br>You ask him if he’s all right. \"<i>Yes. It feels strange and it hurt a little... but it’s not bad! Keep going,</i>\" Jojo says. ");
+            outputText('<br><br>You ask him if he’s all right. "<i>Yes. It feels strange and it hurt a little... but it’s not bad! Keep going,</i>" Jojo says. ');
         }
         else {
-            outputText("<br><br>Jojo starts panting in arousal. You ask him is he’s ok. Jojo gives you a thumbs-up. \"<i>I’m... fine. Keep going.</i>\" ");
+            outputText('<br><br>Jojo starts panting in arousal. You ask him is he’s ok. Jojo gives you a thumbs-up. "<i>I’m... fine. Keep going.</i>" ');
         }
         outputText("His cock reaches full erection, ready to cum at any time. You smile at him and start to pick up the pace while keeping it at comfortable level. As you feel his loosening up, you decide to go faster and harder. Jojo starts moaning in both ecstasy and pain, releasing a shrill squeak with every thrust.");
         //ORGASM!
         outputText("<br><br>Eventually, you can’t hold back any more and you unleash your seed right into his bowels. ");
         if (flags[JOJO_ANAL_XP] < 1) {
             outputText("Jojo orgasms as well, cumming all over the grass.");
-            outputText("<br><br>Now spent, you lay next to Jojo. There’s small trail of cum leaking out of Jojo’s ass. \"<i>It’s a new experience. I’m willing to try it again,</i>\" Jojo says smilingly. You smile knowingly; you knew the two of you will do this often.");
+            outputText('<br><br>Now spent, you lay next to Jojo. There’s small trail of cum leaking out of Jojo’s ass. "<i>It’s a new experience. I’m willing to try it again,</i>" Jojo says smilingly. You smile knowingly; you knew the two of you will do this often.');
         }
         else {
             outputText("Jojo starts pumping his hips in order to suck all the cum into his bowels. He, soon, orgasms as well, cumming all over the grass.");
@@ -962,13 +1003,19 @@ JojoScene.anallyFuckTheMouseButtSlut = function () {
     else {
         outputText("<br><br>Jojo gets on all fours in a hurry, sticking his firm ass in the air for you to see. Jojo is such an anal slut. Jojo starts stretching his butt cheeks apart, looking at you with an eager face.");
         //Check anal tightness
-        outputText("<br><br>His eagerness makes your " + player.multiCockDescriptLight() + " hard. You gently caress Jojo’s toned, quivering butt-cheeks and get a good glance at his anus. You decide to test it out again. You warn Jojo that you’ll be inserting your hand in first. Jojo says, “Hurry up.” You smile at his response. You slick your fingers up with some saliva, and then gently start to probe Jojo’s pucker, testing out the looseness.");
+        outputText("<br><br>His eagerness makes your " +
+            player.multiCockDescriptLight() +
+            " hard. You gently caress Jojo’s toned, quivering butt-cheeks and get a good glance at his anus. You decide to test it out again. You warn Jojo that you’ll be inserting your hand in first. Jojo says, “Hurry up.” You smile at his response. You slick your fingers up with some saliva, and then gently start to probe Jojo’s pucker, testing out the looseness.");
         //Anal fingering and stretching
         outputText("<br><br>The second your digits invade Jojo’s bowels, his cock starts leaking precum. Jojo’s face kept flickering between pain and arousal. Jojo must really be sensitive. ");
         outputText("Hmm... his ass seems more stretched out compared to the second time; you should be able to insert without worry. ");
         //Get lubed up and get your cock into Jojo's anus.
-        outputText("<br><br>You spit on your hands and apply saliva evenly all over your " + player.cockDescript(x) + " to get it all lubed up. Deeming the lubrication sufficient, you let Jojo know that you’re going to start and you slowly slide your " + player.cockDescript(x) + " into Jojo’s butthole. His sphincter closes around you tightly. By Marae, he’s tight as ever! ");
-        outputText("<br><br>Jojo starts panting in arousal. You ask him is he’s ok. Jojo gives you a thumbs-up. \"<i>I’m... fine. Keep going.</i>\" His cock reaches full erection, ready to cum at any time. You smile at him and start to pick up the pace while keeping it at comfortable level. As you feel his loosening up, you decide to go faster and harder. Jojo starts moaning in both ecstasy and pain, releasing a shrill squeak with every thrust. ");
+        outputText("<br><br>You spit on your hands and apply saliva evenly all over your " +
+            player.cockDescript(x) +
+            " to get it all lubed up. Deeming the lubrication sufficient, you let Jojo know that you’re going to start and you slowly slide your " +
+            player.cockDescript(x) +
+            " into Jojo’s butthole. His sphincter closes around you tightly. By Marae, he’s tight as ever! ");
+        outputText('<br><br>Jojo starts panting in arousal. You ask him is he’s ok. Jojo gives you a thumbs-up. "<i>I’m... fine. Keep going.</i>" His cock reaches full erection, ready to cum at any time. You smile at him and start to pick up the pace while keeping it at comfortable level. As you feel his loosening up, you decide to go faster and harder. Jojo starts moaning in both ecstasy and pain, releasing a shrill squeak with every thrust. ');
         //ORGASM!
         outputText("<br><br>Eventually, you can’t hold back any more and you unleash your seed right into his bowels. ");
         outputText("Jojo starts pumping his hips in order to suck all the cum into his bowels and he wraps his long tail around you to pull you closer. He, soon, orgasms as well, cumming all over the grass.");
@@ -977,7 +1024,7 @@ JojoScene.anallyFuckTheMouseButtSlut = function () {
     //The End
     if (flags[JOJO_SEX_COUNTER] >= 4)
         outputText("He plants a kiss on your lips.");
-    outputText("<br><br>\After a good while of rest, " + player.clothedOrNaked("the two of you get redressed and", "Jojo gets redressed and the two of you") + " return to your camp.");
+    outputText("<br><br>After a good while of rest, " + player.clothedOrNaked("the two of you get redressed and", "Jojo gets redressed and the two of you") + " return to your camp.");
     player.modStats("cor", -1);
     flags[JOJO_ANAL_XP]++;
     flags[JOJO_SEX_COUNTER]++;
@@ -985,29 +1032,36 @@ JojoScene.anallyFuckTheMouseButtSlut = function () {
     doNext(Camp.returnToCampUseOneHour);
 };
 JojoScene.getAnallyFuckedByMouseYouSlut = function () {
-    var isVirgin = (player.looseness(false) == 0);
+    var isVirgin = player.looseness(false) == 0;
     clearOutput();
-    outputText("You finally make up your mind; you want his mouse-cock in your [ass]. " + player.clothedOrNaked("You remove your [armor] and ") + "Jojo " + (flags[JOJO_SEX_COUNTER] < 4 ? "hesitantly " : "") + "strips out of his robe, revealing his naked form.");
-    outputText("<br><br>\"<i>Get down on all fours and I can begin,</i>\" Jojo instructs. You nod and get down on all fours, presenting your [butt] to Jojo. His cock grows to full erection. \"<i>I'm going to need to get this lubricated first,</i>\" Jojo says. He spits on his hands and applies the saliva evenly across his cock.");
-    outputText("<br><br>Jojo gently massages your [butt] to assure you that he's going to go gentle. \"<i>Here I come,</i>\" Jojo announces as he slowly slides his cock right into your [ass].");
+    outputText("You finally make up your mind; you want his mouse-cock in your [ass]. " +
+        player.clothedOrNaked("You remove your [armor] and ") +
+        "Jojo " +
+        (flags[JOJO_SEX_COUNTER] < 4 ? "hesitantly " : "") +
+        "strips out of his robe, revealing his naked form.");
+    outputText('<br><br>"<i>Get down on all fours and I can begin,</i>" Jojo instructs. You nod and get down on all fours, presenting your [butt] to Jojo. His cock grows to full erection. "<i>I\'m going to need to get this lubricated first,</i>" Jojo says. He spits on his hands and applies the saliva evenly across his cock.');
+    outputText('<br><br>Jojo gently massages your [butt] to assure you that he\'s going to go gentle. "<i>Here I come,</i>" Jojo announces as he slowly slides his cock right into your [ass].');
     player.buttChange(monster.cocks[0].cockThickness, true);
     if (isVirgin)
         outputText(" \"<i>That's really tight; I'm going to enjoy your tightness while it lasts,</i>\" Jojo remarks. ");
     else if (player.looseness(false) < 2)
-        outputText(" \"<i>That's tight,</i>\" Jojo says. ");
+        outputText(' "<i>That\'s tight,</i>" Jojo says. ');
     else
-        outputText(" \"<i>That's nice,</i>\" Jojo remarks. ");
+        outputText(' "<i>That\'s nice,</i>" Jojo remarks. ');
     outputText("Slowly, he begins to rock his hips back and forth, placing his hands on your [hips] for support. ");
-    outputText("<br><br>\"<i>Does it feel good, [name]?</i>\" Jojo asks. You reply that you wish he would go a little faster. Wanting to please you, Jojo start thrusting his erect cock into you farther and faster than before. You start moaning in pleasure as his penis hollows out your insides.");
-    outputText("<br><br>\As the tension builds, Jojo keeps thrusting faster and faster. Not wanting him to be left out, you start moving in time with him and taking his cock up to the hilt. Jojo moans louder and shouts, \"<i>I’m going to cum!</i>\" Jojo rams you one last time hitting your prostate with all he’s got. He starts dumping his massive load into you" + (JojoScene.jojoCumQ() >= 750 ? ", filling your bowels" + (JojoScene.jojoCumQ() >= 1000 ? " and distending your belly" : "") : "") + ". With a tremendous shudder, you orgasm, your [asshole] clenching around his member, trying to wring it of all its delicious load. ");
+    outputText('<br><br>"<i>Does it feel good, [name]?</i>" Jojo asks. You reply that you wish he would go a little faster. Wanting to please you, Jojo start thrusting his erect cock into you farther and faster than before. You start moaning in pleasure as his penis hollows out your insides.');
+    outputText('<br><br>As the tension builds, Jojo keeps thrusting faster and faster. Not wanting him to be left out, you start moving in time with him and taking his cock up to the hilt. Jojo moans louder and shouts, "<i>I’m going to cum!</i>" Jojo rams you one last time hitting your prostate with all he’s got. He starts dumping his massive load into you' +
+        (JojoScene.jojoCumQ() >= 750 ? ", filling your bowels" + (JojoScene.jojoCumQ() >= 1000 ? " and distending your belly" : "") : "") +
+        ". With a tremendous shudder, you orgasm, your [asshole] clenching around his member, trying to wring it of all its delicious load. ");
     if (player.hasCock())
         outputText("[EachCock] twitches with pleasure, soaking the ground beneath you with a small lake of cum. ");
     if (player.hasVagina())
         outputText("Your [pussy] spontaneously " + (player.averageVaginalWetness() >= 4 ? "sprays" : "leaks") + " juices all over the ground. ");
     if (player.gender == 0)
         outputText("Your body rocks with ecstasy. ");
-    outputText("<br><br>His cock slides out of your [ass] with a pop. Cum start dripping out of your [ass]. \"<i>That was... You were amazing, [name].</i>\" You smile at him while rubbing your inflated belly and tell him he wasn’t too bad himself. " + (flags[JOJO_SEX_COUNTER] >= 4 ? "You give Jojo a lingering kiss." : ""));
-    outputText("<br><br>\After a good while of rest, " + player.clothedOrNaked("the two of you get redressed and", "Jojo gets redressed and the two of you") + " return to your camp.");
+    outputText('<br><br>His cock slides out of your [ass] with a pop. Cum start dripping out of your [ass]. "<i>That was... You were amazing, [name].</i>" You smile at him while rubbing your inflated belly and tell him he wasn’t too bad himself. ' +
+        (flags[JOJO_SEX_COUNTER] >= 4 ? "You give Jojo a lingering kiss." : ""));
+    outputText("<br><br>After a good while of rest, " + player.clothedOrNaked("the two of you get redressed and", "Jojo gets redressed and the two of you") + " return to your camp.");
     player.modStats("sens", 1, "cor", -1);
     flags[JOJO_ANAL_CATCH_COUNTER]++;
     flags[JOJO_SEX_COUNTER]++;
@@ -1016,31 +1070,44 @@ JojoScene.getAnallyFuckedByMouseYouSlut = function () {
     doNext(Camp.returnToCampUseOneHour);
 };
 JojoScene.getVagFuckedByMouse = function () {
-    var isVirgin = (player.looseness(true) == 0);
+    var isVirgin = player.looseness(true) == 0;
     clearOutput();
-    outputText("You finally make up your mind; you want his mouse-cock in your [vagina]. " + player.clothedOrNaked("You remove your [armor] and ") + "and Jojo " + (flags[JOJO_SEX_COUNTER] < 4 ? "hesitantly " : "") + " strips out of his robe, revealing his naked form.");
+    outputText("You finally make up your mind; you want his mouse-cock in your [vagina]. " +
+        player.clothedOrNaked("You remove your [armor] and ") +
+        "and Jojo " +
+        (flags[JOJO_SEX_COUNTER] < 4 ? "hesitantly " : "") +
+        " strips out of his robe, revealing his naked form.");
     if (flags[JOJO_VAGINAL_CATCH_COUNTER] == 0) {
-        outputText("<br><br>You see that Jojo’s uncomfortable, so you lean back on your legs and pull open the lips of your [vagina], showing him your wet, hot insides. Jojo’s jaw drops and his cock gets fully erect. You tease Jojo by telling him to hurry up or you’ll go find some imps. Jojo’s snaps his jaws shut and says, \"<i>No. I promised to help you deal with your lust, so you can avoid corrupted creature. It’s just... well this is my first time.</i>\" You’re surprised, considering that virginity was impossible in a land like Mareth. You tell him you’d be honored if he gave you his virginity. Jojo looks at you for a second and nods. \"<i>You’re the only one who I can trust it with... I’m ready now.</i>\"");
+        outputText('<br><br>You see that Jojo’s uncomfortable, so you lean back on your legs and pull open the lips of your [vagina], showing him your wet, hot insides. Jojo’s jaw drops and his cock gets fully erect. You tease Jojo by telling him to hurry up or you’ll go find some imps. Jojo’s snaps his jaws shut and says, "<i>No. I promised to help you deal with your lust, so you can avoid corrupted creature. It’s just... well this is my first time.</i>" You’re surprised, considering that virginity was impossible in a land like Mareth. You tell him you’d be honored if he gave you his virginity. Jojo looks at you for a second and nods. "<i>You’re the only one who I can trust it with... I’m ready now.</i>"');
         outputText("<br><br>Jojo hesitates at the entrance of your [vagina] and suddenly with a single stroke jams his dick deep into you. ");
         player.cuntChange(monster.cocks[0].cockThickness, true);
         outputText("Taken aback with his suddenness, you clench your muscles so tight that Jojo’s dick becomes stuck inside you. Jojo howls in pain and pleasure. You scold Jojo for his reckless action, but secretly you’re pleased that he took the initiative. You instruct Jojo to start slow and to go faster over time. Jojo nods and smiles nervously. You say don’t worry, you’ll guide him.");
-        outputText("<br><br>You relax and let Jojo gently work his pace. His erect cock slides in and out out of your [vagina] smoothly. So far, so good. Jojo starts picking up the pace. You can’t stop the moans of ecstasy from coming out of your mouth and that seemed to encourage Jojo to further exertions. He started ramming your cervix as if he wanted to invade your womb. You didn’t bother trying anymore, you let loose screams of pleasure. Jojo seemed to be near the end of his stamina because he started to slow down. He shouts, \"<i>I’m going to cum!</i>\" You hook your legs behind Jojo’s back to lock him in place. Jojo’s cock was right next to the entrance of your womb. When Jojo cummed, the force of his ejaculation pierces your womb and stuffs it full of hot mouse cum. " + (JojoScene.jojoCumQ() >= 750 ? "His orgasm seems to never end and he continues to stuff your womb. " + (JojoScene.jojoCumQ() >= 900 ? "Excessive mouse-spunk spills out of your [pussy]. Gods, that was intense!" : "") : ""));
-        outputText("<br><br>You orgasm at the same time, spraying girlcum all over Jojo" + (player.hasCock() ? "; [eachCock] let loose a cum shower, drenching your belly and thighs" : "") + ". Losing strength in your limbs, you release Jojo. Jojo falls back on the grass, panting. \"<i>That was… That was amazing… We are going to do this again, aren’t we?</i>\" You smile at him and nod, thinking privately that if he’s this good as a virgin, how good he’ll be when you’re through with him.");
+        outputText('<br><br>You relax and let Jojo gently work his pace. His erect cock slides in and out out of your [vagina] smoothly. So far, so good. Jojo starts picking up the pace. You can’t stop the moans of ecstasy from coming out of your mouth and that seemed to encourage Jojo to further exertions. He started ramming your cervix as if he wanted to invade your womb. You didn’t bother trying anymore, you let loose screams of pleasure. Jojo seemed to be near the end of his stamina because he started to slow down. He shouts, "<i>I’m going to cum!</i>" You hook your legs behind Jojo’s back to lock him in place. Jojo’s cock was right next to the entrance of your womb. When Jojo cummed, the force of his ejaculation pierces your womb and stuffs it full of hot mouse cum. ' +
+            (JojoScene.jojoCumQ() >= 750 ? "His orgasm seems to never end and he continues to stuff your womb. " + (JojoScene.jojoCumQ() >= 900 ? "Excessive mouse-spunk spills out of your [pussy]. Gods, that was intense!" : "") : ""));
+        outputText("<br><br>You orgasm at the same time, spraying girlcum all over Jojo" +
+            (player.hasCock() ? "; [eachCock] let loose a cum shower, drenching your belly and thighs" : "") +
+            '. Losing strength in your limbs, you release Jojo. Jojo falls back on the grass, panting. "<i>That was… That was amazing… We are going to do this again, aren’t we?</i>" You smile at him and nod, thinking privately that if he’s this good as a virgin, how good he’ll be when you’re through with him.');
     }
     else if (flags[JOJO_VAGINAL_CATCH_COUNTER] == 1) {
         outputText("<br><br>You see that Jojo’s still a little uncomfortable, so you lean back on your legs and pull open the lips of your [vagina], showing him your wet, hot insides. Jojo’s cock gets fully erect. With just a little hesitation, he gets into position in front of you. You’re impressed by Jojo’s growth. Soon he’ll be able to fuck you with no hesitation whatsoever. While you were musing the change in Jojo, he had dipped his head down and started licking your [clit] with his warm, soft tongue. You shiver, brought almost to the edge of orgasming. ");
-        outputText("<br><br>Embarrassed, you ask him where he learned that. He replies \"<i>I heard about something called foreplay. Apparently I have to make you wet enough before I stick it in you or it will hurt you.</i>\" Impressed, you relax and let him continue his ministrations. After a while Jojo says \"<i>I think it’s wet enough now, so there shouldn’t be any pain this time.</i>\" and with that, he penetrates your [vagina] with a single stroke. ");
+        outputText('<br><br>Embarrassed, you ask him where he learned that. He replies "<i>I heard about something called foreplay. Apparently I have to make you wet enough before I stick it in you or it will hurt you.</i>" Impressed, you relax and let him continue his ministrations. After a while Jojo says "<i>I think it’s wet enough now, so there shouldn’t be any pain this time.</i>" and with that, he penetrates your [vagina] with a single stroke. ');
         player.cuntChange(monster.cocks[0].cockThickness, true);
-        outputText("<br><br>Jojo starts out slow, rocking his hips and gyrating to simulate you as much as possible. It’s hard to imagine that he was a virgin not too long ago. Gradually he speeds up, reaching further and further into you. You can’t stop the moans of ecstasy from coming out of your mouth and that seemed to encourage Jojo to further exertions. He started ramming your cervix as if he wanted to break your womb. You didn’t bother trying anymore, you let loose screams of pleasure. Jojo seemed to be near the end of his stamina because he started to slow down. He shouts, \"<i>I’m going to cum!</i>\" You hook your legs behind Jojo’s back to lock him in place. Jojo’s cock was right next to the entrance of your womb. When Jojo cummed, the force of his ejaculation pierces your womb and stuffs it full of hot mouse cum. " + (JojoScene.jojoCumQ() >= 750 ? "His orgasm seems to never end and he continues to stuff your womb. " + (JojoScene.jojoCumQ() >= 900 ? "Excessive mouse-spunk spills out of your [pussy]. Gods, that was intense!" : "") : ""));
-        outputText("<br><br>You orgasm at the same time, spraying girlcum all over Jojo" + (player.hasCock() ? "; [eachCock] let loose a cum shower, drenching your belly and thighs" : "") + ". Losing strength in your limbs, you release Jojo. Jojo falls back on the grass, panting. \"<i>How’d I do?</i>\" You smile at him and say that if he kept fucking you like that, you might just avoid imps all together. He smiles, obviously happy to hear that.");
+        outputText('<br><br>Jojo starts out slow, rocking his hips and gyrating to simulate you as much as possible. It’s hard to imagine that he was a virgin not too long ago. Gradually he speeds up, reaching further and further into you. You can’t stop the moans of ecstasy from coming out of your mouth and that seemed to encourage Jojo to further exertions. He started ramming your cervix as if he wanted to break your womb. You didn’t bother trying anymore, you let loose screams of pleasure. Jojo seemed to be near the end of his stamina because he started to slow down. He shouts, "<i>I’m going to cum!</i>" You hook your legs behind Jojo’s back to lock him in place. Jojo’s cock was right next to the entrance of your womb. When Jojo cummed, the force of his ejaculation pierces your womb and stuffs it full of hot mouse cum. ' +
+            (JojoScene.jojoCumQ() >= 750 ? "His orgasm seems to never end and he continues to stuff your womb. " + (JojoScene.jojoCumQ() >= 900 ? "Excessive mouse-spunk spills out of your [pussy]. Gods, that was intense!" : "") : ""));
+        outputText("<br><br>You orgasm at the same time, spraying girlcum all over Jojo" +
+            (player.hasCock() ? "; [eachCock] let loose a cum shower, drenching your belly and thighs" : "") +
+            '. Losing strength in your limbs, you release Jojo. Jojo falls back on the grass, panting. "<i>How’d I do?</i>" You smile at him and say that if he kept fucking you like that, you might just avoid imps all together. He smiles, obviously happy to hear that.');
     }
     else if (flags[JOJO_VAGINAL_CATCH_COUNTER] >= 2) {
-        outputText("<br><br>There was no need to excite him now; Jojo’s cock was already fully erect. With no hesitation, he gets into position in front of you. You’re impressed by Jojo’s growth. While you were musing the change in Jojo, he had dipped his head down and started licking your [clit] with his warm, soft tongue. You shiver, brought almost to the edge of orgasming. Jojo’s gotten pretty good with using that tongue of his. You’ll have to be careful or you’ll end up cumming before he does. After a while Jojo sticks his hand into your [vagina] and finding it wet enough says, \"<i>I’m sticking it in now,</i>\" and with a single stroke, penetrates your vagina. ");
+        outputText('<br><br>There was no need to excite him now; Jojo’s cock was already fully erect. With no hesitation, he gets into position in front of you. You’re impressed by Jojo’s growth. While you were musing the change in Jojo, he had dipped his head down and started licking your [clit] with his warm, soft tongue. You shiver, brought almost to the edge of orgasming. Jojo’s gotten pretty good with using that tongue of his. You’ll have to be careful or you’ll end up cumming before he does. After a while Jojo sticks his hand into your [vagina] and finding it wet enough says, "<i>I’m sticking it in now,</i>" and with a single stroke, penetrates your vagina. ');
         player.cuntChange(monster.cocks[0].cockThickness, true);
-        outputText("<br><br>Jojo starts out slow, rocking his hips and gyrating to simulate you as much as possible. It’s hard to imagine that he was a virgin not too long ago. Gradually he speeds up, reaching further and further into you. You can’t stop the moans of ecstasy from coming out of your mouth and that seemed to encourage Jojo to further exertions. He started ramming your cervix as if he wanted to breach open. You didn’t bother trying anymore, you let loose screams of pleasure. Jojo just kept pounding you as if in a rut. His meager stamina was gone; he was a fucking machine now. Just when you were about to orgasm, he shouts, \"<i>I’m going to cum!</i>\" You hook your legs behind Jojo’s back to lock him in place. Jojo’s cock was right next to the entrance of your womb. When Jojo cummed, the force of his ejaculation pierces your womb and stuffs it full of hot mouse cum. ");
-        outputText("<br><br>You orgasm at the same time, spraying girlcum all over Jojo" + (player.hasCock() ? "; [eachCock] let loose a cum shower, drenching your belly and thighs" : "") + ". Losing strength in your limbs, you release Jojo. Jojo falls back on the grass, panting. \"<i>I can’t wait to do that again.</i>\" You laugh and tease him by saying that this was supposed to be about satiating your lust, not his. Jojo blushes. You smile and tell him that you would let him fuck you anytime. He smiles, obviously happy to hear that. " + (flags[JOJO_SEX_COUNTER] >= 4 ? "You give Jojo a lingering kiss." : ""));
+        outputText('<br><br>Jojo starts out slow, rocking his hips and gyrating to simulate you as much as possible. It’s hard to imagine that he was a virgin not too long ago. Gradually he speeds up, reaching further and further into you. You can’t stop the moans of ecstasy from coming out of your mouth and that seemed to encourage Jojo to further exertions. He started ramming your cervix as if he wanted to breach open. You didn’t bother trying anymore, you let loose screams of pleasure. Jojo just kept pounding you as if in a rut. His meager stamina was gone; he was a fucking machine now. Just when you were about to orgasm, he shouts, "<i>I’m going to cum!</i>" You hook your legs behind Jojo’s back to lock him in place. Jojo’s cock was right next to the entrance of your womb. When Jojo cummed, the force of his ejaculation pierces your womb and stuffs it full of hot mouse cum. ');
+        outputText("<br><br>You orgasm at the same time, spraying girlcum all over Jojo" +
+            (player.hasCock() ? "; [eachCock] let loose a cum shower, drenching your belly and thighs" : "") +
+            '. Losing strength in your limbs, you release Jojo. Jojo falls back on the grass, panting. "<i>I can’t wait to do that again.</i>" You laugh and tease him by saying that this was supposed to be about satiating your lust, not his. Jojo blushes. You smile and tell him that you would let him fuck you anytime. He smiles, obviously happy to hear that. ' +
+            (flags[JOJO_SEX_COUNTER] >= 4 ? "You give Jojo a lingering kiss." : ""));
     }
-    outputText("<br><br>\After recovering, " + player.clothedOrNaked("the two of you get redressed and", "Jojo gets redressed and the two of you") + " return to your camp.");
+    outputText("<br><br>After recovering, " + player.clothedOrNaked("the two of you get redressed and", "Jojo gets redressed and the two of you") + " return to your camp.");
     player.modStats("sens", 1, "cor", -1);
     flags[JOJO_VAGINAL_CATCH_COUNTER]++;
     flags[JOJO_SEX_COUNTER]++;
@@ -1050,11 +1117,11 @@ JojoScene.getVagFuckedByMouse = function () {
     doNext(Camp.returnToCampUseOneHour);
 };
 JojoScene.giveBirthToPureJojoBabies = function () {
-    outputText("Pain shoots through you as they pull open your cervix forcefully, causing you to cry out involuntarily. Jojo comes running to you and says, \"<i>I sense something happening, is it time?</i>\" You scream, \"<i>No, I just like screaming in pain. YES, IT'S TIME!\" You grip the ground and pant and push as the pains of labor overwhelm you. Jojo grips your hand tightly and seemed to be saying some prayers. You feel comforted for a second by the prayers before the pain brings you back to reality. You feel your hips being forcibly widened by the collective mass of the creatures moving down your birth canal. You spread your legs wide, laying your head back with groans and cries of agony as the first child moves out of your womb, through your cervix, down and into your twat. Your lips part and, with a grunt, you expel the first child into Jojo’s waiting hand. Jojo looks at it was if it the most beautiful thing he’s ever seen. He holds it up to you so you can see your firstborn; it’s a little mouselet with large innocent eyes, even larger ears, a cute, sniffling nose, and a long slender pink tail. Jojo helps hold it to your [chest], where it eagerly takes hold of your [nipples] and starts to suckle. As it drinks, it starts to grow larger, and fur the same color as your own hair starts to cover its body. It quickly drinks its fill and then detaches, its father putting it aside, which is good, because by this time there’s another baby waiting for its turn... and another... and another...<br><br>");
+    outputText('Pain shoots through you as they pull open your cervix forcefully, causing you to cry out involuntarily. Jojo comes running to you and says, "<i>I sense something happening, is it time?</i>" You scream, "<i>No, I just like screaming in pain. YES, IT\'S TIME!" You grip the ground and pant and push as the pains of labor overwhelm you. Jojo grips your hand tightly and seemed to be saying some prayers. You feel comforted for a second by the prayers before the pain brings you back to reality. You feel your hips being forcibly widened by the collective mass of the creatures moving down your birth canal. You spread your legs wide, laying your head back with groans and cries of agony as the first child moves out of your womb, through your cervix, down and into your twat. Your lips part and, with a grunt, you expel the first child into Jojo’s waiting hand. Jojo looks at it was if it the most beautiful thing he’s ever seen. He holds it up to you so you can see your firstborn; it’s a little mouselet with large innocent eyes, even larger ears, a cute, sniffling nose, and a long slender pink tail. Jojo helps hold it to your [chest], where it eagerly takes hold of your [nipples] and starts to suckle. As it drinks, it starts to grow larger, and fur the same color as your own hair starts to cover its body. It quickly drinks its fill and then detaches, its father putting it aside, which is good, because by this time there’s another baby waiting for its turn... and another... and another...<br><br>');
     outputText("Soon, you are back to your old self again, lying down in exhaustion with Jojo sitting nearby, your many rambunctious offspring already starting to walk and play around you.<br><br>");
     if (flags[AMILY_FOLLOWER] == 1) {
         if (flags[JOJO_LITTERS_AMILY_REACTION_COUNTER] == 0) {
-            outputText("Amily comes running to you and shouts \"<i>What happened, why were you screaming?</i>\" then looks at the litter of mice in awe and says, \"<i>[name], those aren't mine...who's are they.</i>\" Jojo bites his lips and says, \"<i>They're mine.</i>\" Amily just stares at Jojo for a second. Jojo trys to placate her \"<i>I was..I was just trying to help [name] and it just happened and...</i>\" He stops and Amily starts to laugh. \"<i>I haven't seen you so worried since we were mouselets... I'm fine with it. I'm glad you found someone as great as [name]. If you want, I can takes these kids to a secret settlement my kids have erected.</i>\" Jojo seemed surprised at Amily's lack of anger, but quickly joy transforms his face. \"<i>Thanks Amily. We been worried about where we can send them, and you have solved all our problems. Thank you.</i>\" Amily smiles and says, \"<i>It's the least I can do.</i>\"<br><br>");
+            outputText('Amily comes running to you and shouts "<i>What happened, why were you screaming?</i>" then looks at the litter of mice in awe and says, "<i>[name], those aren\'t mine...who\'s are they.</i>" Jojo bites his lips and says, "<i>They\'re mine.</i>" Amily just stares at Jojo for a second. Jojo trys to placate her "<i>I was..I was just trying to help [name] and it just happened and...</i>" He stops and Amily starts to laugh. "<i>I haven\'t seen you so worried since we were mouselets... I\'m fine with it. I\'m glad you found someone as great as [name]. If you want, I can takes these kids to a secret settlement my kids have erected.</i>" Jojo seemed surprised at Amily\'s lack of anger, but quickly joy transforms his face. "<i>Thanks Amily. We been worried about where we can send them, and you have solved all our problems. Thank you.</i>" Amily smiles and says, "<i>It\'s the least I can do.</i>"<br><br>');
             outputText("Exhausted, you start slipping into slumber. As your eyes close, you get a glimpse of Amily taking your litter away.<br><br>");
         }
         else {
@@ -1064,7 +1131,7 @@ JojoScene.giveBirthToPureJojoBabies = function () {
         flags[JOJO_LITTERS_AMILY_REACTION_COUNTER]++;
     }
     else
-        outputText("\"<i>Look at them all. You... I never I would be able to have kids when my village was destroyed, but you made it happen. Thank you,</i>\" Jojo tells you sincerely. You ask him how they were going to raise them. Jojo frowned thoughtfully and says, \"<i>Hmm, you’re right...we can’t raise them here... I know of a place we can send them. It’s safe from corruption and it should do till we find better arrangements.</i>\" As sad as you were about sending your kids away, you agree with Jojo; it’s was for the best. You're too exhausted to keep your eyes open for long, but he promises watch them and even as you fall asleep, he’s gathering up your children and taking them away.<br><br>");
+        outputText('"<i>Look at them all. You... I never I would be able to have kids when my village was destroyed, but you made it happen. Thank you,</i>" Jojo tells you sincerely. You ask him how they were going to raise them. Jojo frowned thoughtfully and says, "<i>Hmm, you’re right...we can’t raise them here... I know of a place we can send them. It’s safe from corruption and it should do till we find better arrangements.</i>" As sad as you were about sending your kids away, you agree with Jojo; it’s was for the best. You\'re too exhausted to keep your eyes open for long, but he promises watch them and even as you fall asleep, he’s gathering up your children and taking them away.<br><br>');
     flags[JOJO_LITTERS]++;
 };
 JojoScene.suckJojosCock = function () {
@@ -1073,15 +1140,23 @@ JojoScene.suckJojosCock = function () {
         outputText("You tell Jojo that you feel like it’s his turn to be pleasured. " + player.clothedOrNaked("You remove your [armor] and ") + "Jojo hesitantly drops his pants, revealing his sheathed cock.");
     else
         outputText("You tell Jojo that you want to have a taste of his dick today. " + player.clothedOrNaked("You remove your [armor] and ") + "Jojo drops his pants, revealing his flaccid, sheathed cock.");
-    outputText("<br><br>You approach him and position yourself before him, contemplating how to begin. You decide to tease Jojo as much as possible. You wrap your tongue around the head of his cock and start tugging at his sheathe. Instead of pulling his sheath back with your hands, you tug at it with your mouth. The second the sheath gets pulled back, the heady scent of Jojo’s animal musk almost overwhelms you. You feel yourself getting warmer" + (player.gender > 0 ? ", " : "") + (player.hasCock() ? "your [cocks] leaking pre" : "") + (player.gender == 3 ? " and " : "") + (player.hasVagina() ? "your [pussy] leaking juices" : "") + ". Your hot breath excites Jojo’s cock into full erection.");
-    outputText("<br><br>You lick your lips in anticipation. \"<i>Thank you for the meal,</i>\" you say as you start licking his shaft from the cock head all the way to the balls. The first thing that hits you is the taste. Jojo’s cock tasted like sweat and old cheese which, surprisingly, tasted arousing. Combined with the heady scent of musk, it took all your self-control not to pounce on him. ");
+    outputText("<br><br>You approach him and position yourself before him, contemplating how to begin. You decide to tease Jojo as much as possible. You wrap your tongue around the head of his cock and start tugging at his sheathe. Instead of pulling his sheath back with your hands, you tug at it with your mouth. The second the sheath gets pulled back, the heady scent of Jojo’s animal musk almost overwhelms you. You feel yourself getting warmer" +
+        (player.gender > 0 ? ", " : "") +
+        (player.hasCock() ? "your [cocks] leaking pre" : "") +
+        (player.gender == 3 ? " and " : "") +
+        (player.hasVagina() ? "your [pussy] leaking juices" : "") +
+        ". Your hot breath excites Jojo’s cock into full erection.");
+    outputText('<br><br>You lick your lips in anticipation. "<i>Thank you for the meal,</i>" you say as you start licking his shaft from the cock head all the way to the balls. The first thing that hits you is the taste. Jojo’s cock tasted like sweat and old cheese which, surprisingly, tasted arousing. Combined with the heady scent of musk, it took all your self-control not to pounce on him. ');
     outputText("<br><br>Jojo starts moaning around the time you got to his balls. When you look up, you notice some pre coming out. You let go of his wet balls and started lapping up his precum. It tasted salty, making a great appetizer. You start massaging Jojo’s balls to keep the precum coming. Unnoticed to you, Jojo had been slowly moving his hands behind you. He suddenly grabs hold of your [hair] and forces your head back all the way to his hilt. Surprised and almost choking, you try to force your head back, but Jojo holds you firmly. You look up at Jojo see him panting in arousal, his eyes unfocused. Damn, you pushed him too far. Oh well, you kind of like it rough anyway.");
-    outputText("<br><br>Instead of resisting him, you start moving in time with him, deep-throating his tasty cock. Jojo start moaning louder and started rocking his hips back and forth rapidly. It felt like he was raping your throat. Jojo didn’t seem to be cumming anytime soon and you were getting impatient. You suddenly jab your finger into Jojo’s ass and stimulate his prostate. Panting, Jojo shouts, \"<i>I’m gonna cum!</i>\" and pull your head forward as much as possible. Hot cum came gushing out like a hose, instantly " + (JojoScene.jojoCumQ() >= 600 ? "distending" : "stuffing") + " your stomach. Jojo falls back, his cock spraying cum all over your [face] and running down your [fullchest]. " + (JojoScene.jojoCumQ() >= 900 ? "His orgasm seems to never end and he continues to cum for a good while." : ""));
+    outputText('<br><br>Instead of resisting him, you start moving in time with him, deep-throating his tasty cock. Jojo start moaning louder and started rocking his hips back and forth rapidly. It felt like he was raping your throat. Jojo didn’t seem to be cumming anytime soon and you were getting impatient. You suddenly jab your finger into Jojo’s ass and stimulate his prostate. Panting, Jojo shouts, "<i>I’m gonna cum!</i>" and pull your head forward as much as possible. Hot cum came gushing out like a hose, instantly ' +
+        (JojoScene.jojoCumQ() >= 600 ? "distending" : "stuffing") +
+        " your stomach. Jojo falls back, his cock spraying cum all over your [face] and running down your [fullchest]. " +
+        (JojoScene.jojoCumQ() >= 900 ? "His orgasm seems to never end and he continues to cum for a good while." : ""));
     if (flags[JOJO_BLOWJOB_XP] <= 0)
-        outputText("<br><br>Jojo collapses on his back, winded. When he comes up, he says, \"<i>I can’t feel my legs... I don’t know what came over me, sorry [name].</i>\" You rub your full belly and smile and tell him he’ll have to make it up to you. He asks “How, I’ll do anything.” You tell him that the next time they eat it’s his treat. You lean in close and tell him that you prefer mouse-spunk. Jojo blushes and you lean back and says with a smile, \"<i>Um... sure. Since I made a promise, I’ll have to fulfill it.</i>\"");
+        outputText('<br><br>Jojo collapses on his back, winded. When he comes up, he says, "<i>I can’t feel my legs... I don’t know what came over me, sorry [name].</i>" You rub your full belly and smile and tell him he’ll have to make it up to you. He asks “How, I’ll do anything.” You tell him that the next time they eat it’s his treat. You lean in close and tell him that you prefer mouse-spunk. Jojo blushes and you lean back and says with a smile, "<i>Um... sure. Since I made a promise, I’ll have to fulfill it.</i>"');
     else
         outputText("<br><br>Jojo collapses on his back, winded. When he comes up, you say that was delicious and to treat you next time as well. Jojo’s too tired to say anything, but smiles in response.");
-    outputText("<br><br>\After a good while of rest, " + player.clothedOrNaked("the two of you get redressed and", "Jojo gets redressed and the two of you") + " return to your camp.");
+    outputText("<br><br>After a good while of rest, " + player.clothedOrNaked("the two of you get redressed and", "Jojo gets redressed and the two of you") + " return to your camp.");
     if (JojoScene.jojoCumQ() < 2500)
         player.refillHunger(JojoScene.jojoCumQ() / 25);
     else
@@ -1096,7 +1171,7 @@ JojoScene.suckJojosCock = function () {
 JojoScene.loseToJojo = function () {
     clearOutput();
     if (gameFlags[JOJO_CORRUPTION_STAGE] <= 3) {
-        outputText("Jojo glares down at you, and begins praying, slowly laying prayer papers all over your battered form. You feel rage that quickly dissipates, replaced with a calm sense of peace. You quickly lose consciousness, but are happy he defeated you.<br><br>When you wake, you discover a note:<br>\"<i>The fighting allowed me to exorcise most of your inner demons. A part of me wanted to seek revenge for what you had done to me, but I know it was the taint on your soul that was responsible. If we meet again I would be happy to meditate with you.<br><br> -Jojo.</i>\"");
+        outputText('Jojo glares down at you, and begins praying, slowly laying prayer papers all over your battered form. You feel rage that quickly dissipates, replaced with a calm sense of peace. You quickly lose consciousness, but are happy he defeated you.<br><br>When you wake, you discover a note:<br>"<i>The fighting allowed me to exorcise most of your inner demons. A part of me wanted to seek revenge for what you had done to me, but I know it was the taint on your soul that was responsible. If we meet again I would be happy to meditate with you.<br><br> -Jojo.</i>"');
         player.orgasm();
         player.modStats("lib", -10, "cor", -15);
         if (player.cockTotal() == 1)
@@ -1117,15 +1192,25 @@ JojoScene.loseToJojo = function () {
         outputText("Jojo grins wickedly as he senses your defeat, " + monster.cockDescriptShort(0) + " throbbing hard. ");
         if (player.lust >= player.maxLust()) {
             if (player.gender == 1) {
-                outputText("Too aroused to think, you just bend over, displaying your bum and letting your " + player.multiCockDescriptLight() + " dangle freely. The mouse doesn't hesitate, and he thrusts his " + monster.cockDescriptShort(0) + " with painful force. You stagger from the size and struggle to stay conscious as he fucks you like a mad beast, hammering your ass with incredible force. ");
+                outputText("Too aroused to think, you just bend over, displaying your bum and letting your " +
+                    player.multiCockDescriptLight() +
+                    " dangle freely. The mouse doesn't hesitate, and he thrusts his " +
+                    monster.cockDescriptShort(0) +
+                    " with painful force. You stagger from the size and struggle to stay conscious as he fucks you like a mad beast, hammering your ass with incredible force. ");
                 if (player.cockTotal() == 1)
-                    outputText("Pre and cum drip from your " + player.cockDescript(0) + ", forced out of your prostate by the rough beating it's taking. You feel a flash of warm wetness inside you, and realize Jojo is cumming. A sense of relief washes over you as the last burst of cum squirts out from your cheeks, only to be replaced with a dawning sense of horror as he continues fucking you harder than ever.<br><br>You black out after a few dozen of his orgasms and one or two of your own, your gut painfully distended with semen.");
+                    outputText("Pre and cum drip from your " +
+                        player.cockDescript(0) +
+                        ", forced out of your prostate by the rough beating it's taking. You feel a flash of warm wetness inside you, and realize Jojo is cumming. A sense of relief washes over you as the last burst of cum squirts out from your cheeks, only to be replaced with a dawning sense of horror as he continues fucking you harder than ever.<br><br>You black out after a few dozen of his orgasms and one or two of your own, your gut painfully distended with semen.");
                 if (player.cockTotal() > 1)
-                    outputText("Pre and cum drip from your " + player.cockDescript(0) + "s, forced out of your prostate by the rough beating it's taking. You feel a flash of warm wetness inside you, and realize Jojo is cumming. A sense of relief washes over you as the last burst of cum squirts out from your cheeks, only to be replaced with a dawning sense of horror as he continues fucking you harder than ever.<br><br>You black out after a few dozen of his orgasms and one or two of your own, your gut painfully distended with semen.");
+                    outputText("Pre and cum drip from your " +
+                        player.cockDescript(0) +
+                        "s, forced out of your prostate by the rough beating it's taking. You feel a flash of warm wetness inside you, and realize Jojo is cumming. A sense of relief washes over you as the last burst of cum squirts out from your cheeks, only to be replaced with a dawning sense of horror as he continues fucking you harder than ever.<br><br>You black out after a few dozen of his orgasms and one or two of your own, your gut painfully distended with semen.");
                 player.buttChange(monster.cockArea(0), true);
             }
             if (player.gender >= 2) {
-                outputText("Too aroused to think, you bend over, displaying your bum and " + player.vaginaDescript(0) + " to Jojo as open targets. The mouse obliges, plunging himself into you, hard. He fucks you with abandon, pounding your wanton little pussy with no regard for your pleasure. Despite yourself, you enjoy the rough treatment. A spasm of warmth erupts inside you as Jojo cums. You worry he might stop, but as the mouse's orgasm ends he resumes fucking with even greater energy. You cum powerfully, his jizz seeping down your thighs as you begin lose track of yourself. ");
+                outputText("Too aroused to think, you bend over, displaying your bum and " +
+                    player.vaginaDescript(0) +
+                    " to Jojo as open targets. The mouse obliges, plunging himself into you, hard. He fucks you with abandon, pounding your wanton little pussy with no regard for your pleasure. Despite yourself, you enjoy the rough treatment. A spasm of warmth erupts inside you as Jojo cums. You worry he might stop, but as the mouse's orgasm ends he resumes fucking with even greater energy. You cum powerfully, his jizz seeping down your thighs as you begin lose track of yourself. ");
                 if (player.cockTotal() > 1)
                     outputText("Your " + player.cockDescript(0) + " splatters the ground with cum repeatedly, until both your genders are raw and sore. ");
                 else
@@ -1136,7 +1221,9 @@ JojoScene.loseToJojo = function () {
                 //player.knockUp(PregnancyStore.PREGNANCY_MOUSE, PregnancyStore.INCUBATION_MOUSE + 82, 101); //Jojo's kids take longer for some reason
             }
             if (player.gender == 0) {
-                outputText("Too aroused to think, you just bend over, displaying your bum and wiggling enticingly. The mouse doesn't hesitate, and he thrusts his " + monster.cockDescriptShort(0) + " with painful force. You stagger from the size and struggle to stay conscious as he fucks you like a mad beast, hammering your ass with incredible force.");
+                outputText("Too aroused to think, you just bend over, displaying your bum and wiggling enticingly. The mouse doesn't hesitate, and he thrusts his " +
+                    monster.cockDescriptShort(0) +
+                    " with painful force. You stagger from the size and struggle to stay conscious as he fucks you like a mad beast, hammering your ass with incredible force.");
                 player.buttChange(monster.cockArea(0), true);
                 outputText("You feel a flash of warm wetness inside you, and realize Jojo is cumming. A sense of relief washes over you as the last burst of cum squirts out from your cheeks, only to be replaced with a dawning sense of horror as he continues fucking you harder than ever.<br><br>");
                 outputText("You black out after a few dozen of his orgasms and one or two of your own, your gut painfully distended with semen.");
@@ -1155,7 +1242,9 @@ JojoScene.loseToJojo = function () {
 JojoScene.defeatedJojo = function (hpVictory) {
     if (player.lust > 33 && player.gender > 0) {
         clearOutput();
-        outputText("You smile in satisfaction as Jojo" + (hpVictory ? " collapses, unable to continue fighting" : " collapses and begins masturbating feverishly") + ". Sadly you realize your own needs have not been met. Of course, you could always rape the poor thing...<br><br>Do you rape him?");
+        outputText("You smile in satisfaction as Jojo" +
+            (hpVictory ? " collapses, unable to continue fighting" : " collapses and begins masturbating feverishly") +
+            ". Sadly you realize your own needs have not been met. Of course, you could always rape the poor thing...<br><br>Do you rape him?");
         doYesNo(JojoScene.postCombatRape, cleanupAfterCombat);
     }
     else {
@@ -1202,19 +1291,35 @@ JojoScene.jojoRape = function (postCombat) {
 };
 JojoScene.jojosFirstRape = function () {
     outputText("You pretend to agree, and follow Jojo into the woods. You bide your time, waiting for him to relax. Eventually the mouse stumbles, and you have your chance!<br><br>");
-    if (player.gender == 1) { //Males
+    if (player.gender == 1) {
+        //Males
         outputText("You push him hard, following through to pin his small frame. He struggles but you twist his arm expertly and hold him down with your larger bodyweight. He squirms as you tear off the bottom of his outfit, protesting mightily as you force him into the dirt and expose his toned bottom.<br><br>");
         if (player.cockTotal() == 1) {
-            outputText("You grin and press your " + player.cockDescript(0) + " against him, making him squeal in protest. You press on, eager to violate his puckered asshole, reveling in the crushing tightness. His muscles quiver nervelessly as you pound him raw, his muted protests getting weaker as you notice a rapidly swelling bulge under him. You reach around and begin jerking him off as you fuck him, fantasizing about pouring him full of corruptive demon power, making him your slave. The dirty thoughts make your balls feel full; a pulsing, squeezing tightness builds in your nethers as your " + player.cockDescript(0) + " flexes and bulges inside your prey. You cum hard, pressing his muzzle into the dirt as you pump glob after glob of cum up his ass, violating him to his core.<br><br>");
-            outputText("With a satisfied sigh, you pull your " + player.cockDescript(0) + " out with an audible 'pop'. Your cum begins leaking out, pooling under him and mixing with his own. The little guy must have cum hard; he seems fairly comatose. As you leave your senseless victim, you realize you feel more satisfied than you have in a while, almost like you've cum so hard it took some of your libido with it.");
+            outputText("You grin and press your " +
+                player.cockDescript(0) +
+                " against him, making him squeal in protest. You press on, eager to violate his puckered asshole, reveling in the crushing tightness. His muscles quiver nervelessly as you pound him raw, his muted protests getting weaker as you notice a rapidly swelling bulge under him. You reach around and begin jerking him off as you fuck him, fantasizing about pouring him full of corruptive demon power, making him your slave. The dirty thoughts make your balls feel full; a pulsing, squeezing tightness builds in your nethers as your " +
+                player.cockDescript(0) +
+                " flexes and bulges inside your prey. You cum hard, pressing his muzzle into the dirt as you pump glob after glob of cum up his ass, violating him to his core.<br><br>");
+            outputText("With a satisfied sigh, you pull your " +
+                player.cockDescript(0) +
+                " out with an audible 'pop'. Your cum begins leaking out, pooling under him and mixing with his own. The little guy must have cum hard; he seems fairly comatose. As you leave your senseless victim, you realize you feel more satisfied than you have in a while, almost like you've cum so hard it took some of your libido with it.");
         }
         else {
-            outputText("You grin and press your " + player.multiCockDescriptLight() + " against him, making him squeal in protest. You press on, eager to violate his tight asshole, reveling in the crushing tightness. His muscles quiver nervelessly as you pound him raw, his muted protests getting weaker as you notice a rapidly swelling bulge under him. You reach around and begin jerking him off as you fuck him, fantasizing about pouring him full of corruptive demon power, making him your slave. The dirty thoughts make your balls feel full, a pulsing squeezing tightness building in your nethers as your " + player.cockDescript(0) + " flexes and bulges inside your prey. You cum hard, pressing his muzzle into the dirt as you pump glob after glob of cum up his ass, violating him to his core. Cum sprays over his ass, the rest of your equipment soaking him as it cums as hard as the one you sank up into the mouse-hole.<br><br>");
-            outputText("With a satisfied sigh, you pull your " + player.cockDescript(0) + " out with an audible 'pop'. Your cum begins leaking out, pooling under him and mixing with his own. The little guy must have cum hard, he seems fairly comatose. As you leave your senseless victim, you realize you feel more satisfied than you have in a while, almost like you've cum so hard it took some of your libido with it.");
+            outputText("You grin and press your " +
+                player.multiCockDescriptLight() +
+                " against him, making him squeal in protest. You press on, eager to violate his tight asshole, reveling in the crushing tightness. His muscles quiver nervelessly as you pound him raw, his muted protests getting weaker as you notice a rapidly swelling bulge under him. You reach around and begin jerking him off as you fuck him, fantasizing about pouring him full of corruptive demon power, making him your slave. The dirty thoughts make your balls feel full, a pulsing squeezing tightness building in your nethers as your " +
+                player.cockDescript(0) +
+                " flexes and bulges inside your prey. You cum hard, pressing his muzzle into the dirt as you pump glob after glob of cum up his ass, violating him to his core. Cum sprays over his ass, the rest of your equipment soaking him as it cums as hard as the one you sank up into the mouse-hole.<br><br>");
+            outputText("With a satisfied sigh, you pull your " +
+                player.cockDescript(0) +
+                " out with an audible 'pop'. Your cum begins leaking out, pooling under him and mixing with his own. The little guy must have cum hard, he seems fairly comatose. As you leave your senseless victim, you realize you feel more satisfied than you have in a while, almost like you've cum so hard it took some of your libido with it.");
         }
     }
-    else if (player.gender == 2) { //Females
-        outputText("You smack the back of his head hard, dazing him. You spin him around as you take his feet out from under him, one hand pulling his pants while the other slashes his belt. He literally 'falls out of his pants' and onto the soft earth of the forest. You pounce on the stunned monk, " + player.clothedOrNakedLower("shedding your own clothes and ") + "pinning him to the ground. He begins to resist, squirming under you, ");
+    else if (player.gender == 2) {
+        //Females
+        outputText("You smack the back of his head hard, dazing him. You spin him around as you take his feet out from under him, one hand pulling his pants while the other slashes his belt. He literally 'falls out of his pants' and onto the soft earth of the forest. You pounce on the stunned monk, " +
+            player.clothedOrNakedLower("shedding your own clothes and ") +
+            "pinning him to the ground. He begins to resist, squirming under you, ");
         if (player.wetness() < 2)
             outputText("but the sensation of you grinding your folds against him momemtarily breaks his will. ");
         else
@@ -1222,7 +1327,11 @@ JojoScene.jojosFirstRape = function () {
         outputText("You smile when you realize how large he is for his frame, and mount him, taking care to keep him pinned hard to the ground.");
         player.cuntChange(12, true, true, false);
         outputText("<br><br>");
-        outputText("He lets out little grunts and whines of protest as you ride him hard, but quickly cums. The flood of warmth inside your canal only serves to spur you on, slamming your " + player.vaginaDescript(0) + " down on him with brutal force. You envision yourself raping others, corrupting all those you come across with your needy pussy. You imagine what it must be like to be a succubus, fucking poor monks like this, your magics making your victim's manhood ever larger. The thought breaks over you like a wave and you cum, hard; your " + player.vaginaDescript(0) + " clamps down hard on Jojo's cock as he finds himself cumming again, eyes rolling back in his head. You shudder and moan, cum squirting out of your fuck-hole with each bounce on the poor mouse.");
+        outputText("He lets out little grunts and whines of protest as you ride him hard, but quickly cums. The flood of warmth inside your canal only serves to spur you on, slamming your " +
+            player.vaginaDescript(0) +
+            " down on him with brutal force. You envision yourself raping others, corrupting all those you come across with your needy pussy. You imagine what it must be like to be a succubus, fucking poor monks like this, your magics making your victim's manhood ever larger. The thought breaks over you like a wave and you cum, hard; your " +
+            player.vaginaDescript(0) +
+            " clamps down hard on Jojo's cock as he finds himself cumming again, eyes rolling back in his head. You shudder and moan, cum squirting out of your fuck-hole with each bounce on the poor mouse.");
         if (player.biggestLactation() >= 1 && player.biggestLactation() < 2)
             outputText(" Milk squirts from your nipples, spraying him down with small droplets of your creamy tit-treat.");
         if (player.biggestLactation() >= 2 && player.biggestLactation() < 3)
@@ -1233,27 +1342,40 @@ JojoScene.jojosFirstRape = function () {
         //Preggers chance!
         //player.knockUp(PregnancyStore.PREGNANCY_JOJO, PregnancyStore.INCUBATION_MOUSE + 82); //Jojo's kids take longer for some reason
     }
-    else if (player.gender == 3) { //Hermaphrodites
+    else if (player.gender == 3) {
+        //Hermaphrodites
         outputText("You push him hard, following through to pin his small frame. He struggles but you twist his arm expertly and hold him down with your larger bodyweight. He squirms as you tear off the bottom of his outfit, protesting mightily as you force him into the dirt and expose his toned bottom.<br><br>");
         if (player.cockTotal() == 1) {
-            outputText("You grin and press your " + player.cockDescript(0) + " against him, making him squeal in protest. You press on, eager to violate his tight asshole, reveling in the crushing tightness. His muscles quiver nervelessly as you pound him raw, his muted protests getting weaker as you notice a rapidly swelling bulge under him. You reach around and begin jerking him off as you fuck him, fantasizing about pouring him full of corruptive demon power, making him your slave. The dirty thoughts make your balls feel full, a pulsing squeezing tightness building in your nethers as your " + player.cockDescript(0) + " flexes and bulges inside your prey. You cum hard, pressing his muzzle into the dirt as you pump glob after glob of cum up his ass, violating him to his core. Your pussy quivers, cumming as well, feeling empty. You resolve to take his cock's virginity next time.");
+            outputText("You grin and press your " +
+                player.cockDescript(0) +
+                " against him, making him squeal in protest. You press on, eager to violate his tight asshole, reveling in the crushing tightness. His muscles quiver nervelessly as you pound him raw, his muted protests getting weaker as you notice a rapidly swelling bulge under him. You reach around and begin jerking him off as you fuck him, fantasizing about pouring him full of corruptive demon power, making him your slave. The dirty thoughts make your balls feel full, a pulsing squeezing tightness building in your nethers as your " +
+                player.cockDescript(0) +
+                " flexes and bulges inside your prey. You cum hard, pressing his muzzle into the dirt as you pump glob after glob of cum up his ass, violating him to his core. Your pussy quivers, cumming as well, feeling empty. You resolve to take his cock's virginity next time.");
             if (player.biggestLactation() >= 1 && player.biggestLactation() < 2)
                 outputText(" Milk squirts from your nipples, spraying him down with small droplets of your creamy tit-treat. ");
             if (player.biggestLactation() >= 2 && player.biggestLactation() < 3)
                 outputText(" Streams of milk spray from your nipples in time with your pussy contractions, hosing the poor mouse down and puddling on his fur. ");
             if (player.biggestLactation() >= 3)
                 outputText(" Gouts of milk erupt from your nipples, spraying continually as you cum. The poor mouse is soaked from head to toe, your cream utterly drenching the monk. ");
-            outputText("<br><br>With a satisfied sigh, you pull your " + player.cockDescript(0) + " out with an audible 'pop'. Your cum begins leaking out, pooling under him and mixing with his own. The little guy must have cum hard, he seems fairly comatose. As you leave your senseless victim, you realize you feel more satisfied than you have in a while, almost like you've cum so hard it took some of your libido with it.");
+            outputText("<br><br>With a satisfied sigh, you pull your " +
+                player.cockDescript(0) +
+                " out with an audible 'pop'. Your cum begins leaking out, pooling under him and mixing with his own. The little guy must have cum hard, he seems fairly comatose. As you leave your senseless victim, you realize you feel more satisfied than you have in a while, almost like you've cum so hard it took some of your libido with it.");
         }
         else {
-            outputText("You grin and press your " + player.multiCockDescriptLight() + " against him, making him squeal in protest. You press on, eager to violate his tight asshole, reveling in the crushing tightness. His muscles quiver nervelessly as you pound him raw, his muted protests getting weaker as you notice a rapidly swelling bulge under him. You reach around and begin jerking him off as you fuck him, fantasizing about pouring him full of corruptive demon power, making him your slave. The dirty thoughts make your balls feel full, a pulsing squeezing tightness building in your nethers as your " + player.cockDescript(0) + " flexes and bulges inside your prey. You cum hard, pressing his muzzle into the dirt as you pump glob after glob of cum up his ass, violating him to his core. Cum sprays over his ass, the rest of your equipment soaking him as it cums as hard as the one you sank up into the mouse-hole. Your pussy quivers, cumming as well, feeling empty. Mentally you resolve to take his cock's virginity next time.");
+            outputText("You grin and press your " +
+                player.multiCockDescriptLight() +
+                " against him, making him squeal in protest. You press on, eager to violate his tight asshole, reveling in the crushing tightness. His muscles quiver nervelessly as you pound him raw, his muted protests getting weaker as you notice a rapidly swelling bulge under him. You reach around and begin jerking him off as you fuck him, fantasizing about pouring him full of corruptive demon power, making him your slave. The dirty thoughts make your balls feel full, a pulsing squeezing tightness building in your nethers as your " +
+                player.cockDescript(0) +
+                " flexes and bulges inside your prey. You cum hard, pressing his muzzle into the dirt as you pump glob after glob of cum up his ass, violating him to his core. Cum sprays over his ass, the rest of your equipment soaking him as it cums as hard as the one you sank up into the mouse-hole. Your pussy quivers, cumming as well, feeling empty. Mentally you resolve to take his cock's virginity next time.");
             if (player.biggestLactation() >= 1 && player.biggestLactation() < 2)
                 outputText(" Milk squirts from your nipples, spraying him down with small droplets of your creamy tit-treat. ");
             if (player.biggestLactation() >= 2 && player.biggestLactation() < 3)
                 outputText(" Streams of milk spray from your nipples in time with your pussy contractions, hosing the poor mouse down and puddling on his fur. ");
             if (player.biggestLactation() >= 3)
                 outputText(" Gouts of milk erupt from your nipples, spraying continually as you cum. The poor mouse is soaked from head to toe, your cream utterly drenching the monk. ");
-            outputText("<br><br>With a satisfied sigh, you pull your " + player.cockDescript(0) + " out with an audible 'pop'. Your cum begins leaking out, pooling under him and mixing with his own. The little guy must have cum hard, he seems fairly comatose. As you leave your senseless victim, you realize you feel more satisfied than you have in a while, almost like you've cum so hard it took some of your libido with it.");
+            outputText("<br><br>With a satisfied sigh, you pull your " +
+                player.cockDescript(0) +
+                " out with an audible 'pop'. Your cum begins leaking out, pooling under him and mixing with his own. The little guy must have cum hard, he seems fairly comatose. As you leave your senseless victim, you realize you feel more satisfied than you have in a while, almost like you've cum so hard it took some of your libido with it.");
         }
     }
     player.orgasm();
@@ -1266,14 +1388,20 @@ JojoScene.jojosSecondRape = function () {
         outputText("You force Jojo over a log, running your hands through his fur and slapping his ass. He grunts, but it's impossible to tell if it's in frustration, anger, or arousal. You quickly force yourself back into his ass, finding it noticably stretched from your last incursion. ");
         if (player.averageCockThickness() >= 3)
             outputText("It makes little difference to your " + player.cockDescript(0) + ", he still feels tight as a virgin's cunt to you. ");
-        outputText("You grab him by the waist and fuck him powerfully, slamming your " + player.cockDescript(0) + " in brutally hard and fast. You notice his hands are in his crotch, feverishly masturbating his disproportionately large cock like a slut. You start leaking pre-cum like a sieve, realizing you're doing it, really doing it - making this virtuous mouse into a wanton slut! You squeeze him tightly as you cum into his bowels, his belly distending slightly as your orgasm goes on and on. Trails of cum run down his fur as it becomes more than his ass can handle.");
+        outputText("You grab him by the waist and fuck him powerfully, slamming your " +
+            player.cockDescript(0) +
+            " in brutally hard and fast. You notice his hands are in his crotch, feverishly masturbating his disproportionately large cock like a slut. You start leaking pre-cum like a sieve, realizing you're doing it, really doing it - making this virtuous mouse into a wanton slut! You squeeze him tightly as you cum into his bowels, his belly distending slightly as your orgasm goes on and on. Trails of cum run down his fur as it becomes more than his ass can handle.");
         if (player.cockTotal() > 1)
             outputText(" Your remaining equipment showers him with jizz, more than you ever thought you could produce.");
         outputText(" The mouse moans and cums himself, with loud moans and messy splurts coating the ground every time your hips meet.<br><br>");
         outputText("Eventually it ends, and you drop him into the puddled spooge like a used condom. He lays there, idly stroking himself in a daze, his prick still swollen with need and dripping fluids. You can't wait to corrupt him some more.");
     }
     if (player.gender == 2 || player.gender == 3) {
-        outputText("You throw him on the soft soil of the forest and mount him, skillfully guiding his member towards your now dripping wet hole. As you slide down you marvel at how he feels larger and thicker than before, deliciously so. Your " + player.vaginaDescript(0) + " throbs in the most pleasant way as you rape his small form. You play with your clit, watching Jojo's face flit between rapture and disgust. You lick your lips and smile as the disgust vanishes, his hot jets of cum painting your cunt-walls. You giggle and keep fucking him, hoping that somehow your corruption and lust are influencing him, turning him into your personal fucktoy. The thought brings you over the edge. You clamp down, your " + player.vaginaDescript(0) + " milking, squeezing every last drop from him as his prick erupts inside you. ");
+        outputText("You throw him on the soft soil of the forest and mount him, skillfully guiding his member towards your now dripping wet hole. As you slide down you marvel at how he feels larger and thicker than before, deliciously so. Your " +
+            player.vaginaDescript(0) +
+            " throbs in the most pleasant way as you rape his small form. You play with your clit, watching Jojo's face flit between rapture and disgust. You lick your lips and smile as the disgust vanishes, his hot jets of cum painting your cunt-walls. You giggle and keep fucking him, hoping that somehow your corruption and lust are influencing him, turning him into your personal fucktoy. The thought brings you over the edge. You clamp down, your " +
+            player.vaginaDescript(0) +
+            " milking, squeezing every last drop from him as his prick erupts inside you. ");
         player.cuntChange(1.5, true);
         if (player.biggestLactation() >= 1 && player.biggestLactation() < 2)
             outputText("Milk squirts from your nipples, spraying him down with small droplets of your creamy tit-treat. ");
@@ -1299,7 +1427,8 @@ JojoScene.jojosSecondRape = function () {
 };
 JojoScene.jojosThirdRape = function () {
     outputText("It's no wonder the monk's body has betrayed him so thoroughly, his " + monster.cockDescriptShort(0) + " is nearly ten inches long, pulsing with hot need.<br><br>");
-    if (player.gender == 1) { //Males
+    if (player.gender == 1) {
+        //Males
         outputText("You yank Jojo up from the ground and onto his knees, ");
         if (player.cockTotal() == 1) {
             outputText("presenting your " + player.cockDescript(0) + " to him. ");
@@ -1311,7 +1440,9 @@ JojoScene.jojosThirdRape = function () {
             outputText("to ram your " + player.cockDescript(0) + " deep into his maw. You roughly grab his ears, facefucking him hard, his tongue working hard to please. ");
         if (player.cockTotal() > 1)
             outputText("to cram two cocks deep into his maw, making his jaw stretch obscenely. You roughly grab his ears, facefucking him hard, his tongue working hard to please you. ");
-        outputText("One of Jojo's paws is buried in his groin, stroking his " + monster.cockDescriptShort(0) + " with feverish intensity. The hornier he gets, the more his throat seems to relax, allowing you to push deeper. The glazed, lust-addled look on his face is so hot, you can't hold back any longer. ");
+        outputText("One of Jojo's paws is buried in his groin, stroking his " +
+            monster.cockDescriptShort(0) +
+            " with feverish intensity. The hornier he gets, the more his throat seems to relax, allowing you to push deeper. The glazed, lust-addled look on his face is so hot, you can't hold back any longer. ");
         if (player.cockTotal() == 1)
             outputText("Your " + player.cockDescript(0) + " clenches tightly, erupting ");
         if (player.cockTotal() > 1)
@@ -1320,7 +1451,9 @@ JojoScene.jojosThirdRape = function () {
         if (player.lib > 60 && player.cor > 40) {
             outputText("You flip him onto his back, both of you still hard and ready for more. He gets up on all fours and wiggles his bum tantalizingly. You press on, ");
             if (player.cockTotal() == 1)
-                outputText("violating his loosened sphincter, and begin to fuck him hard. He whimpers with a mixture of pain and pleasure, your spit-lubed " + player.cockDescript(0) + " pounding his prostate mercilessly. Thick ropes of mousey-cum drool with each anus-stretching thrust of your cock, pooling below you. You wickedly smile, slapping his ass, imagining him stretched further, his ass gaping, his cock huge and dripping with cum. The strange thoughts filling your mind seem to travel straight to your balls and distill into pools of cum. Like a long dormant volcano, you erupt, hot liquid spraying into Jojo, pumping his ass full and leaking down his legs. He cums again, harder than before, his pulsing prick seeming to grow larger throughout his orgasm.<br><br>");
+                outputText("violating his loosened sphincter, and begin to fuck him hard. He whimpers with a mixture of pain and pleasure, your spit-lubed " +
+                    player.cockDescript(0) +
+                    " pounding his prostate mercilessly. Thick ropes of mousey-cum drool with each anus-stretching thrust of your cock, pooling below you. You wickedly smile, slapping his ass, imagining him stretched further, his ass gaping, his cock huge and dripping with cum. The strange thoughts filling your mind seem to travel straight to your balls and distill into pools of cum. Like a long dormant volcano, you erupt, hot liquid spraying into Jojo, pumping his ass full and leaking down his legs. He cums again, harder than before, his pulsing prick seeming to grow larger throughout his orgasm.<br><br>");
             else
                 outputText("violating his loosened sphincter, and begin to fuck him hard. He whimpers with a mixture of pain and pleasure, a spit-lubed cock pounding his prostate mercilessly. Thick ropes of mousey-cum drool with each anus-stretching thrust of your cock, pooling below you. You wickedly smile, slapping his ass, imagining him stretched further, his ass gaping, his cock huge and dripping with cum. The strange thoughts filling your mind seem to travel straight to your balls and distill into pools of cum. Like a long dormant volcano, you erupt, hot liquid spraying into Jojo, pumping his ass full and leaking down his legs. He cums again, harder than before, his pulsing prick seeming to grow larger throughout his orgasm.<br><br>");
         }
@@ -1335,12 +1468,17 @@ JojoScene.jojosThirdRape = function () {
             player.modStats("lib", 2, "cor", 1);
         }
     }
-    if (player.gender == 2) { //Females
+    if (player.gender == 2) {
+        //Females
         if (player.isBiped())
             outputText("You spread your legs and crook your finger");
         else
             outputText("You crook your finger");
-        outputText(", beckoning him towards your " + player.vaginaDescript(0) + ". He looks disheartened, but obediently kneels before you, his whiskers tickling your " + player.vaginaDescript(0) + ", his wet nose bumping your clit, his tongue taking long licks between your lips. ");
+        outputText(", beckoning him towards your " +
+            player.vaginaDescript(0) +
+            ". He looks disheartened, but obediently kneels before you, his whiskers tickling your " +
+            player.vaginaDescript(0) +
+            ", his wet nose bumping your clit, his tongue taking long licks between your lips. ");
         if (player.biggestTitSize() >= 2) {
             outputText("You sigh and knead your breasts in pleasure. ");
         }
@@ -1368,7 +1506,13 @@ JojoScene.jojosThirdRape = function () {
         outputText(" shaking your rump. ");
         if (player.hasLongTail() > 0)
             outputText("Your tail swishes back and forth teasingly. ");
-        outputText("Your tantalizing backside is too much for him. He pounces your ass in a second, penetrating your " + player.vaginaDescript(0) + " forcefully. The knowledge that your demonic influence is responsible for his state nearly makes you cream all over his cock. You fantasize about your cunt making his cock grow longer and fatter as it corrupts him further, transforming his morals and values into cock and cum. Jojo thrashes against you, brutally pounding your " + player.vaginaDescript(0) + " as he orgasms. His " + monster.cockDescriptShort(0) + " erupts inside you, the feeling of being filled with mouse-spunk drives you over the edge with him. More and more of his cum sprays inside you, unnatural amounts for a creature his size. Thick streams of the stuff escape down your thighs as your belly distends. ");
+        outputText("Your tantalizing backside is too much for him. He pounces your ass in a second, penetrating your " +
+            player.vaginaDescript(0) +
+            " forcefully. The knowledge that your demonic influence is responsible for his state nearly makes you cream all over his cock. You fantasize about your cunt making his cock grow longer and fatter as it corrupts him further, transforming his morals and values into cock and cum. Jojo thrashes against you, brutally pounding your " +
+            player.vaginaDescript(0) +
+            " as he orgasms. His " +
+            monster.cockDescriptShort(0) +
+            " erupts inside you, the feeling of being filled with mouse-spunk drives you over the edge with him. More and more of his cum sprays inside you, unnatural amounts for a creature his size. Thick streams of the stuff escape down your thighs as your belly distends. ");
         player.cuntChange(2, true);
         outputText("<br><br>");
         outputText("You let the drained mouse pop free, reveling in the sensation of cum pouring from");
@@ -1389,7 +1533,8 @@ JojoScene.jojosThirdRape = function () {
         //Preggers chance!
         //player.knockUp(PregnancyStore.PREGNANCY_JOJO, PregnancyStore.INCUBATION_MOUSE + 82); //Jojo's kids take longer for some reason
     }
-    if (player.gender == 3) { //Hermaphrodites
+    if (player.gender == 3) {
+        //Hermaphrodites
         if (player.isBiped())
             outputText("You spread your legs and crook your finger");
         else
@@ -1421,7 +1566,13 @@ JojoScene.jojosThirdRape = function () {
         outputText(" shaking your rump. ");
         if (player.hasLongTail() > 0)
             outputText("Your tail swishes back and forth teasingly. ");
-        outputText("Your tantalizing backside is too much for him. He pounces your ass in a second, penetrating your " + player.vaginaDescript(0) + " forcefully. The knowledge that your demonic influence is responsible for his state nearly makes you cream all over his cock. You fantasize about your cunt making his cock grow longer and fatter as it corrupts him further, transforming his morals and values into cock and cum. Jojo thrashes against you, brutally pounding your " + player.vaginaDescript(0) + " as he orgasms. His " + monster.cockDescriptShort(0) + " erupts inside you, the feeling of being filled with mouse-spunk drives you over the edge with him. More and more of his cum sprays inside you, unnatural amounts for a creature his size. Thick streams of the stuff escape down your thighs as your belly distends. ");
+        outputText("Your tantalizing backside is too much for him. He pounces your ass in a second, penetrating your " +
+            player.vaginaDescript(0) +
+            " forcefully. The knowledge that your demonic influence is responsible for his state nearly makes you cream all over his cock. You fantasize about your cunt making his cock grow longer and fatter as it corrupts him further, transforming his morals and values into cock and cum. Jojo thrashes against you, brutally pounding your " +
+            player.vaginaDescript(0) +
+            " as he orgasms. His " +
+            monster.cockDescriptShort(0) +
+            " erupts inside you, the feeling of being filled with mouse-spunk drives you over the edge with him. More and more of his cum sprays inside you, unnatural amounts for a creature his size. Thick streams of the stuff escape down your thighs as your belly distends. ");
         player.cuntChange(2, true);
         if (player.cockTotal() == 1)
             outputText("Your " + player.cockDescript(0) + " trembles in orgasm, squirting your load into the thick forest loam. ");
@@ -1449,12 +1600,19 @@ JojoScene.jojosThirdRape = function () {
 };
 JojoScene.jojosFourthRape = function () {
     outputText("Jojo flops down, eyes filled with anticipation. His self-control has really slipped away. The corrupted and horny mouse on display here is anathema to the studious monk you met before. His cock is close to a foot long and over two inches thick, veiny with arousal.<br><br>");
-    if (player.gender == 1) { //Male Version
+    if (player.gender == 1) {
+        //Male Version
         outputText("The mousy former-monk kneels as you disrobe, his will nearly broken by desire. ");
         if (player.cockTotal() == 1)
-            outputText("You touch his head softly and guide him to your " + player.cockDescript(0) + ", smiling as he licks his lips with anticipation. You gasp at the feeling of his soft lips and wet tongue as he pleasures you, your knees going weak from his efforts. Jojo cups your balls and slips a fuzzy finger into your ass. He labors to take as much of you as possible into his mouth, panting warmly and wetly around your " + player.cockDescript(0) + ". You twitch in pleasure as he alternates pressure on your prostate with smooth strokes of his slick tongue. ");
+            outputText("You touch his head softly and guide him to your " +
+                player.cockDescript(0) +
+                ", smiling as he licks his lips with anticipation. You gasp at the feeling of his soft lips and wet tongue as he pleasures you, your knees going weak from his efforts. Jojo cups your balls and slips a fuzzy finger into your ass. He labors to take as much of you as possible into his mouth, panting warmly and wetly around your " +
+                player.cockDescript(0) +
+                ". You twitch in pleasure as he alternates pressure on your prostate with smooth strokes of his slick tongue. ");
         else
-            outputText("You touch his head softly and guide him to your " + player.multiCockDescriptLight() + ", smiling as he licks his lips in anticipation. You gasp at the feelings of his soft lips and wet tongue on your heads as he pleasures you, your knees going weak from his efforts. Jojo cups your balls and slips a fuzzy finger into your ass. He labors to take in two shafts, struggling to swallow them as deep as possible, panting wetly around you. You twitch with pleasure as he alternates pressure on your prostate with smooth strokes of his slick tongue. ");
+            outputText("You touch his head softly and guide him to your " +
+                player.multiCockDescriptLight() +
+                ", smiling as he licks his lips in anticipation. You gasp at the feelings of his soft lips and wet tongue on your heads as he pleasures you, your knees going weak from his efforts. Jojo cups your balls and slips a fuzzy finger into your ass. He labors to take in two shafts, struggling to swallow them as deep as possible, panting wetly around you. You twitch with pleasure as he alternates pressure on your prostate with smooth strokes of his slick tongue. ");
         //Too thick for him
         if (player.averageCockThickness() > 3 || (player.countCocksOfType(CockTypesEnum.DOG) > 0 && player.averageCockThickness() > 3))
             outputText("Jojo is forced to back off of your " + player.cockDescript(0) + " from time to time to come up for air, barely opening his jaw wide enough to take your girth back inside his mouth. ");
@@ -1475,8 +1633,10 @@ JojoScene.jojosFourthRape = function () {
             outputText("You buck against him as you orgasm, the slutty mouse's cheeks bulging in surprise as your cum explodes into his mouth. Thick streams escape from the corners of his muzzle, your seed pouring into him faster than he can swallow. Eventually you finish, and see the mouse dripping with your spunk nearly to the waist, a small bulge in his belly.");
         outputText(" Jojo leans back, panting for breath, a dull smile on his face. He spits a load of your cum into his paw and begins jerking himself off with it, lewdly putting on a show for you.<br><br>");
         if (player.lib > 50 && player.cor > 80) {
-            outputText("<b>You feel a familiar power growing within you and decide to unleash it.</b> You grab the prayer beads from his outfit and spit on them, making them slick and wet. Holding them below your flagging cock, you focus on the demonic visions in your mind, slowly but constantly milking larger and larger dollops of cum onto the once holy beads. Jojo moans as he comes to understand your intent, and turns around, shaking his lithe mouse-bum at you. You lean over him, whispering into his ear, \"<i>Each defiled bead I push into you is going to make you more of a willing slut. More of a willing receptacle for demon cum. More of a fountain of desire waiting to be tapped by Succubi. More my toy.</i>\"<br><br>");
-            outputText("He whimpers as you slide the first bead in, his eyes growing foggy and his bum wiggling more eagerly. You push the second bead inside him, and feel his asshole stretch and loosen, welcoming the corruption. The third bead slips right in, and he moans, \"<i>sluuuut</i>,\" His cock grows longer and thicker throughout the moan, stopping at over a foot long and 3 inches thick, dribbling cum. You whisper, \"<i>Cum, my Toy,</i>\" and push the remaining beads inside him. His eyes roll back as his paws frantically milk his " + monster.cockDescriptShort(0) + ", cum spraying from him like a fountain. Jojo trembles, losing complete control and falling away from you. You still hold the end of his beads, and smile as they pop out, stained almost as dark as the poor mouse's soul.<br><br>");
+            outputText('<b>You feel a familiar power growing within you and decide to unleash it.</b> You grab the prayer beads from his outfit and spit on them, making them slick and wet. Holding them below your flagging cock, you focus on the demonic visions in your mind, slowly but constantly milking larger and larger dollops of cum onto the once holy beads. Jojo moans as he comes to understand your intent, and turns around, shaking his lithe mouse-bum at you. You lean over him, whispering into his ear, "<i>Each defiled bead I push into you is going to make you more of a willing slut. More of a willing receptacle for demon cum. More of a fountain of desire waiting to be tapped by Succubi. More my toy.</i>"<br><br>');
+            outputText('He whimpers as you slide the first bead in, his eyes growing foggy and his bum wiggling more eagerly. You push the second bead inside him, and feel his asshole stretch and loosen, welcoming the corruption. The third bead slips right in, and he moans, "<i>sluuuut</i>," His cock grows longer and thicker throughout the moan, stopping at over a foot long and 3 inches thick, dribbling cum. You whisper, "<i>Cum, my Toy,</i>" and push the remaining beads inside him. His eyes roll back as his paws frantically milk his ' +
+                monster.cockDescriptShort(0) +
+                ", cum spraying from him like a fountain. Jojo trembles, losing complete control and falling away from you. You still hold the end of his beads, and smile as they pop out, stained almost as dark as the poor mouse's soul.<br><br>");
             outputText("You walk away, leaving your new pet to explore his outlook on life, and to test your awakened powers. ");
             gameFlags[JOJO_CORRUPTION_STAGE]++;
             player.orgasm();
@@ -1488,10 +1648,17 @@ JojoScene.jojosFourthRape = function () {
             player.modStats("lib", 2, "cor", 1);
         }
     }
-    if (player.gender == 2 || player.gender == 3) { //Female or Herm Version
+    if (player.gender == 2 || player.gender == 3) {
+        //Female or Herm Version
         //Oral
         outputText("The mousy once-monk kneels as you disrobe, his will nearly broken by desire. ");
-        outputText("You touch his head softly, guiding him to your " + player.vaginaDescript(0) + ", lips breaking into a grin as he licks his mouth with desire. You gasp at the feeling of his wet nose as it bumps against your groin, shooting thunderbolts of pleasure from your " + player.clitDescript() + ". He attacks with his tongue, thrusting strikes practically attacking your " + player.vaginaDescript(0) + " with his long, practically serpentine, tongue. You shudder, knowing a visible sign of corruption when you see it, moisture slicking the mouse's face.<br><br>");
+        outputText("You touch his head softly, guiding him to your " +
+            player.vaginaDescript(0) +
+            ", lips breaking into a grin as he licks his mouth with desire. You gasp at the feeling of his wet nose as it bumps against your groin, shooting thunderbolts of pleasure from your " +
+            player.clitDescript() +
+            ". He attacks with his tongue, thrusting strikes practically attacking your " +
+            player.vaginaDescript(0) +
+            " with his long, practically serpentine, tongue. You shudder, knowing a visible sign of corruption when you see it, moisture slicking the mouse's face.<br><br>");
         outputText("Jojo moans into your folds as his " + monster.cockDescriptShort(0));
         if (player.isBiped())
             outputText(" brushes against your calf");
@@ -1499,9 +1666,31 @@ JojoScene.jojosFourthRape = function () {
             outputText(" brushes against your [leg]");
         outputText(". You get a devilish idea, ");
         if (player.lowerBody == LOWER_BODY_TYPE_GOO)
-            outputText("and push his " + monster.cockDescriptShort(0) + " in between folds of slime, sandwiching it in a mass of slippery, gooey tightness. Holding his shoulder for balance, you slowly squeeze him, gently milking out small dribbles of pre. He redoubles his efforts, burying his nose into your " + player.vaginaDescript(0) + ", tongue swirling over your folds and around your " + player.clitDescript() + ". For every effort on his part you step up your own, squeezing and stroking him with your goo, doing your best to impart a fetish for being masturbated with someone's lower body on his slowly warping mind. You feel a hot wetness in your slime, and it grows slicker and wetter every second. Jojo's cum drips out of you, glazing your jello-like form white. ");
+            outputText("and push his " +
+                monster.cockDescriptShort(0) +
+                " in between folds of slime, sandwiching it in a mass of slippery, gooey tightness. Holding his shoulder for balance, you slowly squeeze him, gently milking out small dribbles of pre. He redoubles his efforts, burying his nose into your " +
+                player.vaginaDescript(0) +
+                ", tongue swirling over your folds and around your " +
+                player.clitDescript() +
+                ". For every effort on his part you step up your own, squeezing and stroking him with your goo, doing your best to impart a fetish for being masturbated with someone's lower body on his slowly warping mind. You feel a hot wetness in your slime, and it grows slicker and wetter every second. Jojo's cum drips out of you, glazing your jello-like form white. ");
         else
-            outputText("and push his " + monster.cockDescriptShort(0) + " with your " + player.foot() + ", sandwiching it under one " + player.foot() + " and on top of the other. Holding his shoulder for balance, you slowly squeeze him, gently milking out small dribbles of pre. He redoubles his efforts, burying his nose into your " + player.vaginaDescript(0) + ", tongue swirling over your folds and around your " + player.clitDescript() + ". For every effort on his part you step up your own, squeezing and stroking him with your " + player.feet() + ", doing your best to impart a " + player.foot() + " fetish on his slowly warping mind. You feel a hot wetness on your " + player.feet() + ", and they grow slicker and wetter every second. Jojo's cum drips out from between them, glazing them white. ");
+            outputText("and push his " +
+                monster.cockDescriptShort(0) +
+                " with your " +
+                player.foot() +
+                ", sandwiching it under one " +
+                player.foot() +
+                " and on top of the other. Holding his shoulder for balance, you slowly squeeze him, gently milking out small dribbles of pre. He redoubles his efforts, burying his nose into your " +
+                player.vaginaDescript(0) +
+                ", tongue swirling over your folds and around your " +
+                player.clitDescript() +
+                ". For every effort on his part you step up your own, squeezing and stroking him with your " +
+                player.feet() +
+                ", doing your best to impart a " +
+                player.foot() +
+                " fetish on his slowly warping mind. You feel a hot wetness on your " +
+                player.feet() +
+                ", and they grow slicker and wetter every second. Jojo's cum drips out from between them, glazing them white. ");
         if (player.averageVaginalWetness() <= 1)
             outputText("You clamp down on his muzzle as you writhe in orgasm. ");
         if (player.averageVaginalWetness() > 1 && player.averageVaginalWetness() <= 3)
@@ -1516,7 +1705,13 @@ JojoScene.jojosFourthRape = function () {
             outputText("Your " + player.cockDescript(0) + "s drizzle him with cum, covering his head with thick white streams of your jizz. ");
         outputText("Twitching weakly with pleasure, you fall back.<br><br>");
         //Fux!
-        outputText("The pleasure was magnificent... but you want MORE. You push yourself up, feeling pleased as you spy Jojo stroking his cum-slick " + monster.cockDescriptShort(0) + ", thick streams of cum leaking from the tip. You pounce on him, pushing him down on the ground, and position your " + player.vaginaDescript(0) + " over him, allowing him to scent your sex. With a triumphant smile, you sink down onto him, impaling yourself on his " + monster.cockDescriptShort(0) + ". ");
+        outputText("The pleasure was magnificent... but you want MORE. You push yourself up, feeling pleased as you spy Jojo stroking his cum-slick " +
+            monster.cockDescriptShort(0) +
+            ", thick streams of cum leaking from the tip. You pounce on him, pushing him down on the ground, and position your " +
+            player.vaginaDescript(0) +
+            " over him, allowing him to scent your sex. With a triumphant smile, you sink down onto him, impaling yourself on his " +
+            monster.cockDescriptShort(0) +
+            ". ");
         if (player.averageVaginalLooseness() == 0)
             outputText("He is painfully large, so much so that you feel more pain than pleasure. ");
         if (player.averageVaginalLooseness() == 1)
@@ -1528,19 +1723,33 @@ JojoScene.jojosFourthRape = function () {
         if (player.averageVaginalLooseness() == 4)
             outputText("You easily accomadate his member into your " + player.vaginaDescript(0) + ". ");
         if (player.averageVaginalLooseness() == 5)
-            outputText("His " + monster.cockDescriptShort(0) + " slips inside your " + player.vaginaDescript(0) + " with little resistance, easily sinking in to the hilt. You muse to yourself, \"<i>If only he were thicker...</i>\" ");
-        outputText("You ride him slowly, gyrating your hips in tiny grinding circles while you run your hands through his fur. His hips bounce you gently with tiny twitching thrusts, cum pooling out of your " + player.vaginaDescript(0) + " as it continues to drip from him. ");
-        outputText("He gradually ups the tempo, and you are forced to go along for the ride as you begin to bounce on his " + monster.cockDescriptShort(0) + ". You grab fistfuls of his fur and hang on as he begins pounding your " + player.vaginaDescript(0) + ", his huge balls slapping against you. Cum squirts from your pussy with each of his violent thrusts, more pouring deep inside you continually. Jojo squeals with glee and slams his hips into yours a final time, triggering an eruption of seed in your channel. You feel it pouring into your womb, slowly distending your belly with every shuddering pump of cum. You orgasm helplessly, fingering your " + player.clitDescript() + " the whole time. ");
+            outputText("His " + monster.cockDescriptShort(0) + " slips inside your " + player.vaginaDescript(0) + ' with little resistance, easily sinking in to the hilt. You muse to yourself, "<i>If only he were thicker...</i>" ');
+        outputText("You ride him slowly, gyrating your hips in tiny grinding circles while you run your hands through his fur. His hips bounce you gently with tiny twitching thrusts, cum pooling out of your " +
+            player.vaginaDescript(0) +
+            " as it continues to drip from him. ");
+        outputText("He gradually ups the tempo, and you are forced to go along for the ride as you begin to bounce on his " +
+            monster.cockDescriptShort(0) +
+            ". You grab fistfuls of his fur and hang on as he begins pounding your " +
+            player.vaginaDescript(0) +
+            ", his huge balls slapping against you. Cum squirts from your pussy with each of his violent thrusts, more pouring deep inside you continually. Jojo squeals with glee and slams his hips into yours a final time, triggering an eruption of seed in your channel. You feel it pouring into your womb, slowly distending your belly with every shuddering pump of cum. You orgasm helplessly, fingering your " +
+            player.clitDescript() +
+            " the whole time. ");
         //Futacawk here
         if (player.cockTotal() > 0) {
             //Single Cock
             if (player.cockTotal() == 1) {
                 //Horsefun!
                 if (player.horseCocks() == 1)
-                    outputText("Your " + player.cockDescript(0) + " feels a building pressure, the whole thing pulsating wildly with each of your heartbeats, most noticably the tip, which flares out wildly. Powerful contractions wrack your sheath and " + player.cockDescript(0) + " as pre practically fountains from it. ");
+                    outputText("Your " +
+                        player.cockDescript(0) +
+                        " feels a building pressure, the whole thing pulsating wildly with each of your heartbeats, most noticably the tip, which flares out wildly. Powerful contractions wrack your sheath and " +
+                        player.cockDescript(0) +
+                        " as pre practically fountains from it. ");
                 //DogFun!
                 if (player.dogCocks() == 1)
-                    outputText("Your " + player.cockDescript(0) + " feels an intense pressure, and begins bulging out obscenely above your sheath. The knot thickens gratuitiously, filling as it pulses with need. Cum drips from your pointed tip as it continues to bulge wider, filling you with unbearable pressure. ");
+                    outputText("Your " +
+                        player.cockDescript(0) +
+                        " feels an intense pressure, and begins bulging out obscenely above your sheath. The knot thickens gratuitiously, filling as it pulses with need. Cum drips from your pointed tip as it continues to bulge wider, filling you with unbearable pressure. ");
                 //Else
                 if (player.normalCocks() == 1)
                     outputText("Your " + player.cockDescript(0) + " twitches, muscle contractions slowly working their way up from the base. ");
@@ -1551,20 +1760,31 @@ JojoScene.jojosFourthRape = function () {
                     if (player.countCocksOfType(CockTypesEnum.HORSE) == 1)
                         outputText(" Your " + player.cockDescript(0) + " flares wildly as musky horse-cum erupts from it, splattering over Jojo. ");
                     if (player.countCocksOfType(CockTypesEnum.DOG) == 1)
-                        outputText("The terrible pressure in your " + player.cockDescript(0) + " finally relents, in the form of a fountain of doggie-cum, spraying out from your " + player.cockDescript(0) + " in a steady stream that seems to last and last. ");
+                        outputText("The terrible pressure in your " +
+                            player.cockDescript(0) +
+                            " finally relents, in the form of a fountain of doggie-cum, spraying out from your " +
+                            player.cockDescript(0) +
+                            " in a steady stream that seems to last and last. ");
                     if (player.cocks[0].cockType == CockTypesEnum.HUMAN || player.cocks[0].cockType > 2)
                         outputText("Your body tenses and cums a thick eruption far beyond what a normal human could produce. Jojo is splattered with the stuff. ");
                 }
                 if (player.cumQ() >= 250) {
                     if (player.countCocksOfType(CockTypesEnum.HORSE) == 1)
-                        outputText("Your " + player.cockDescript(0) + " ripples and bulges with animalistic vigor, horse-cum splattering everywhere with each contraction. The musky animal-jizz never seems to stop pouring from your equine organ, soaking the mouse from the waist up. ");
+                        outputText("Your " +
+                            player.cockDescript(0) +
+                            " ripples and bulges with animalistic vigor, horse-cum splattering everywhere with each contraction. The musky animal-jizz never seems to stop pouring from your equine organ, soaking the mouse from the waist up. ");
                     if (player.countCocksOfType(CockTypesEnum.DOG) == 1)
-                        outputText("Your " + player.cockDescript(0) + " suddenly releases the pressure, a constant stream of doggie-cum spouting from your " + player.cockDescript(0) + " like some kind of cum-hose. It seems to go on endlessly, covering the mouse from the waist up with thick ribbons of doggie-spooge as your knot slowly shrinks to normal. ");
+                        outputText("Your " +
+                            player.cockDescript(0) +
+                            " suddenly releases the pressure, a constant stream of doggie-cum spouting from your " +
+                            player.cockDescript(0) +
+                            " like some kind of cum-hose. It seems to go on endlessly, covering the mouse from the waist up with thick ribbons of doggie-spooge as your knot slowly shrinks to normal. ");
                     if (player.cocks[0].cockType == CockTypesEnum.HUMAN || player.cocks[0].cockType > 2)
                         outputText("Your body tenses and cums a thick eruption far beyond what a normal human could produce. Jojo is splattered with the stuff. ");
                 }
             }
-            if (player.cockTotal() > 1) { //Sorry multicocks, I'm donE!
+            if (player.cockTotal() > 1) {
+                //Sorry multicocks, I'm donE!
                 outputText("Your cocks feel a building pressure at their base. It only seems to get stronger and stronger, until at last it explodes out from you, jizz covering the poor mouse from the waist up. ");
             }
         }
@@ -1577,15 +1797,19 @@ JojoScene.jojosFourthRape = function () {
             if (player.biggestTitSize() * player.biggestLactation() * player.breastRows.length < 35 && player.biggestTitSize() * player.biggestLactation() * player.breastRows.length >= 20)
                 outputText("Milk erupts from your " + player.breastDescript(0) + ", spraying in pulsing blasts, soaking the mouse. Each nerve-wracking orgasm seems to wring more and more milk from you, until it puddles around.");
             if (player.biggestTitSize() * player.biggestLactation() * player.breastRows.length >= 35)
-                outputText("Milk fountains from your " + player.breastDescript(0) + ", soaking the mouse with a continuous river of cream. For every blob of cum you feel pushing into your over-filled uterus, another torrent of milk sprays out. As your mind-bending orgasms drag on, a small lake of milk forms around you.");
+                outputText("Milk fountains from your " +
+                    player.breastDescript(0) +
+                    ", soaking the mouse with a continuous river of cream. For every blob of cum you feel pushing into your over-filled uterus, another torrent of milk sprays out. As your mind-bending orgasms drag on, a small lake of milk forms around you.");
         }
         player.cuntChange(3, true);
         //Preggers chance!
         //player.knockUp(PregnancyStore.PREGNANCY_JOJO, PregnancyStore.INCUBATION_MOUSE + 82); //Jojo's kids take longer for some reason
         //The end
         if (player.lib > 50 && player.cor > 80) {
-            outputText("<br><br><b>You feel a familiar power growing within you and decide to unleash it.</b> You grab the prayer beads from his outfit and spit on them, making them slick and wet. Holding them below his flagging cock, you focus on the demonic visions in your mind, slowly but constantly milking larger and larger dollops of cum onto the once holy beads. Jojo moans as he comes to understand your intent, and turns around, shaking his lithe mouse-bum at you. You lean over him, whispering into his ear, \"<i>Each defiled bead I push into you is going to make you more of a willing slut. More of a willing receptacle for demon cum. More of a fountain of desire waiting to be tapped by Succubi. More my toy.</i>\"<br><br>");
-            outputText("He whimpers as you slide the first bead in, his eyes growing foggy and his bum wiggling more eagerly. You push the second bead inside him, and feel his asshole stretch and loosen, welcoming the corruption. The third bead slips right in, and he moans, \"<i>sluuuut</i>,\" His cock grows longer and thicker throughout the moan, stopping at over a foot long and 3 inches thick, dribbling cum. You whisper, \"<i>Cum, my Toy,</i>\" and push the remaining beads inside him. His eyes roll back as his paws frantically milk his " + monster.cockDescriptShort(0) + ", cum spraying from him like a fountain. Jojo trembles, losing complete control and falling away from you. You still hold the end of his beads, and smile as they pop out, stained almost as dark as the poor mouse's soul.<br><br>");
+            outputText('<br><br><b>You feel a familiar power growing within you and decide to unleash it.</b> You grab the prayer beads from his outfit and spit on them, making them slick and wet. Holding them below his flagging cock, you focus on the demonic visions in your mind, slowly but constantly milking larger and larger dollops of cum onto the once holy beads. Jojo moans as he comes to understand your intent, and turns around, shaking his lithe mouse-bum at you. You lean over him, whispering into his ear, "<i>Each defiled bead I push into you is going to make you more of a willing slut. More of a willing receptacle for demon cum. More of a fountain of desire waiting to be tapped by Succubi. More my toy.</i>"<br><br>');
+            outputText('He whimpers as you slide the first bead in, his eyes growing foggy and his bum wiggling more eagerly. You push the second bead inside him, and feel his asshole stretch and loosen, welcoming the corruption. The third bead slips right in, and he moans, "<i>sluuuut</i>," His cock grows longer and thicker throughout the moan, stopping at over a foot long and 3 inches thick, dribbling cum. You whisper, "<i>Cum, my Toy,</i>" and push the remaining beads inside him. His eyes roll back as his paws frantically milk his ' +
+                monster.cockDescriptShort(0) +
+                ", cum spraying from him like a fountain. Jojo trembles, losing complete control and falling away from you. You still hold the end of his beads, and smile as they pop out, stained almost as dark as the poor mouse's soul.<br><br>");
             outputText("You walk away, leaving your new pet to explore his outlook on life, and to test your awakened powers. ");
             gameFlags[JOJO_CORRUPTION_STAGE]++;
             player.orgasm();
@@ -1640,23 +1864,36 @@ JojoScene.corruptJojoSexMenu = function () {
     }
     addButton(1, "Give BJ", JojoScene.corruptJojoCunnilingus);
     if (player.biggestTitSize() >= 2)
-        addButton(6, (player.biggestLactation() > 1 ? "Suckle" : "Breasts"), JojoScene.corruptJojoBreasts); //All ya need is bewbs
+        addButton(6, player.biggestLactation() > 1 ? "Suckle" : "Breasts", JojoScene.corruptJojoBreasts); //All ya need is bewbs
     addButton(14, "Back", JojoScene.jojoCampCorrupt);
 };
 JojoScene.corruptJojoBJCruel = function () {
     clearOutput();
     var x = player.biggestCockIndex();
-    outputText("You yell out into the jungle, \"<i>Slut!</i>\" Minutes later Jojo slips into your camp from the jungle's shadows, dropping to his knees with a timid look of fear in his eyes. You step forward and grip the fur between his shell-like ears firmly, hissing angrily, \"<i>When I call for you, you need to be here. Do I need to teach you your place again?</i>\"  ");
+    outputText('You yell out into the jungle, "<i>Slut!</i>" Minutes later Jojo slips into your camp from the jungle\'s shadows, dropping to his knees with a timid look of fear in his eyes. You step forward and grip the fur between his shell-like ears firmly, hissing angrily, "<i>When I call for you, you need to be here. Do I need to teach you your place again?</i>"  ');
     outputText("He shakes his head as you say this, trying to marshal up the strength to resist you. You draw your teeth back in a snarl of anger at this resistance and punch the mouse in the gut, dropping him to his knees gasping for breath.  ");
     if (player.cocks[x].cArea() < 10)
-        outputText("You grip the fur on his head tightly in one hand and pull his mouth over your " + player.cockDescript(x) + ", thrusting into his muzzle with little concern for letting him catch his breath. You shove your length down his throat and start sawing away, making the mouse's eyes roll back from breathlessness. You can feel the muscles of his throat grip and spasm around your cock flesh as he chokes on the length, his thin lips trembling around your.  ");
+        outputText("You grip the fur on his head tightly in one hand and pull his mouth over your " +
+            player.cockDescript(x) +
+            ", thrusting into his muzzle with little concern for letting him catch his breath. You shove your length down his throat and start sawing away, making the mouse's eyes roll back from breathlessness. You can feel the muscles of his throat grip and spasm around your cock flesh as he chokes on the length, his thin lips trembling around your.  ");
     else if (player.cocks[x].cArea() < 36)
-        outputText("You grip the fur on his head tightly in one hand and pull his mouth over your " + player.cockDescript(x) + ", thrusting into his muzzle with little concern for letting him catch his breath. The girth of your " + player.cockDescript(x) + " nearly dislocates his jaw. You can feel his throat stretching around you, like a hot, wet, tight sleeve, trembling with the pulse of his racing heart as you grind in and out of his mouth.  ");
+        outputText("You grip the fur on his head tightly in one hand and pull his mouth over your " +
+            player.cockDescript(x) +
+            ", thrusting into his muzzle with little concern for letting him catch his breath. The girth of your " +
+            player.cockDescript(x) +
+            " nearly dislocates his jaw. You can feel his throat stretching around you, like a hot, wet, tight sleeve, trembling with the pulse of his racing heart as you grind in and out of his mouth.  ");
     else
-        outputText("You grip the fur on his head tightly in one hand and pull his mouth over your " + player.cockDescript(x) + ", thrusting against his muzzle with your " + player.cockDescript(x) + ". You can feel his buck teeth scratching against the top and bottom of your " + player.cockDescript(x) + "'s crown, but it does nothing to prevent what is to come. He lifts his hands to try to push your huge erection away, and since you can't fit your girth in his mouth, you decide to use that; grabbing hold of his hands and using them to stroke your length.  ");
-    outputText("His eyes turn to you in fear and his body shudders for lack of breath, but it does nothing more than stoke the fires of your lust. You groan in pleasure as your balls draw up tight, churning with your corrupted seed, and in a rush you feed it to him, your orgasm overtaking you as surge after hot surge of cum flares through your flesh and into his throat.  " + (player.hasVagina() ? "A sympathetic orgasm hits your pussy, causing a surge of feminine juices to splash against his chest and dribble down your thighs lewdly.  " : ""));
+        outputText("You grip the fur on his head tightly in one hand and pull his mouth over your " +
+            player.cockDescript(x) +
+            ", thrusting against his muzzle with your " +
+            player.cockDescript(x) +
+            ". You can feel his buck teeth scratching against the top and bottom of your " +
+            player.cockDescript(x) +
+            "'s crown, but it does nothing to prevent what is to come. He lifts his hands to try to push your huge erection away, and since you can't fit your girth in his mouth, you decide to use that; grabbing hold of his hands and using them to stroke your length.  ");
+    outputText("His eyes turn to you in fear and his body shudders for lack of breath, but it does nothing more than stoke the fires of your lust. You groan in pleasure as your balls draw up tight, churning with your corrupted seed, and in a rush you feed it to him, your orgasm overtaking you as surge after hot surge of cum flares through your flesh and into his throat.  " +
+        (player.hasVagina() ? "A sympathetic orgasm hits your pussy, causing a surge of feminine juices to splash against his chest and dribble down your thighs lewdly.  " : ""));
     outputText("Your orgasm seems to last forever, filling his belly with your corrupted essence, causing his stomach to bulge slightly with the sheer volume of it. You pull away at last, letting him gasp for breath and fall to the ground, curling around his bloated belly.  ");
-    outputText("You sneer at him and shake your head, hissing out, \"<i>It would be so much better for you if you didn't try to resist, my slut.</i>\"  ");
+    outputText('You sneer at him and shake your head, hissing out, "<i>It would be so much better for you if you didn\'t try to resist, my slut.</i>"  ');
     player.orgasm();
     player.modStats("cor", 1);
     doNext(Camp.returnToCampUseOneHour);
@@ -1667,12 +1904,26 @@ JojoScene.corruptJojoBJGentle = function () {
     outputText("As if on command, Jojo slips into your camp from the jungle's shadows, dropping to his knees with a timid look of fear in his eyes. You step forward and caress your fingers through the fur between his shell-like ears, whispering softly to him, \"<i>It's all right, my beautiful slut, it will all be over soon.</i>\"");
     outputText("  He whimpers as you say this, feeling the corruption flowing off of your body like an alluring musk, drawing him deeper into your service.  ");
     if (player.cocks[x].cArea() < 10)
-        outputText("He opens his mouth to protest, but you never give him the chance, sliding your " + player.cockDescript(x) + " between his lips and down his throat. You can feel the muscles of his throat grip and spasm around your " + player.cockDescript(x) + " as he chokes on the length, his thin lips trembling around your girth as his tongue slides across your vein-lined underside.  " + (player.biggestTitSize() >= 2 ? "Your hands lift to massage your breasts and tug at your nipples, and you can see him watching transfixed as you fuck his throat.  " : ""));
+        outputText("He opens his mouth to protest, but you never give him the chance, sliding your " +
+            player.cockDescript(x) +
+            " between his lips and down his throat. You can feel the muscles of his throat grip and spasm around your " +
+            player.cockDescript(x) +
+            " as he chokes on the length, his thin lips trembling around your girth as his tongue slides across your vein-lined underside.  " +
+            (player.biggestTitSize() >= 2 ? "Your hands lift to massage your breasts and tug at your nipples, and you can see him watching transfixed as you fuck his throat.  " : ""));
     else if (player.cocks[x].cArea() < 36)
-        outputText("He opens his mouth to protest, but you never give him the chance, forcing your " + player.cockDescript(x) + " between his lips and nearly dislocating his jaw with the girth of it. You can feel his throat stretching around you, like a hot, wet, tight sleeve, trembling with the pulse of his racing heart as you grind in and out of his mouth.  " + (player.biggestTitSize() >= 2 ? "Your hands lift to massage your breasts and tug at your nipples, and you can see him watching transfixed as you fuck his throat.  " : ""));
+        outputText("He opens his mouth to protest, but you never give him the chance, forcing your " +
+            player.cockDescript(x) +
+            " between his lips and nearly dislocating his jaw with the girth of it. You can feel his throat stretching around you, like a hot, wet, tight sleeve, trembling with the pulse of his racing heart as you grind in and out of his mouth.  " +
+            (player.biggestTitSize() >= 2 ? "Your hands lift to massage your breasts and tug at your nipples, and you can see him watching transfixed as you fuck his throat.  " : ""));
     else
-        outputText("He opens his mouth to protest, only to have your " + player.cockDescript(x) + " mute him. You can feel his buck teeth scratching against the top and bottom of your " + player.cockDescript(x) + "'s crown, but it does nothing to prevent what is to come. He lifts his hands to try to push your huge erection away, and since you can't fit your girth in his mouth, you decide to use that; grabbing hold of his hands and using them to stroke your length.  " + (player.biggestTitSize() >= 2 ? "His eyes move from your massive member to your bouncing breasts above with a look of wanton desire that makes you laugh softly.  " : ""));
-    outputText("His eyes turn to you in fear and awe, pleading for release, and a slip of your foot to his own straining erection lets you know how in need of an orgasm he is, but this time is yours. You groan in pleasure as your balls draw up tight, churning with your corrupted seed, and in a rush you feed it to him, your orgasm overtaking you as surge after hot surge of cum flares through your flesh and into his throat.  " + (player.hasVagina() ? "A sympathetic orgasm hits your pussy, causing a surge of feminine juices to splash against his chest and dribble down your thighs lewdly.  " : ""));
+        outputText("He opens his mouth to protest, only to have your " +
+            player.cockDescript(x) +
+            " mute him. You can feel his buck teeth scratching against the top and bottom of your " +
+            player.cockDescript(x) +
+            "'s crown, but it does nothing to prevent what is to come. He lifts his hands to try to push your huge erection away, and since you can't fit your girth in his mouth, you decide to use that; grabbing hold of his hands and using them to stroke your length.  " +
+            (player.biggestTitSize() >= 2 ? "His eyes move from your massive member to your bouncing breasts above with a look of wanton desire that makes you laugh softly.  " : ""));
+    outputText("His eyes turn to you in fear and awe, pleading for release, and a slip of your foot to his own straining erection lets you know how in need of an orgasm he is, but this time is yours. You groan in pleasure as your balls draw up tight, churning with your corrupted seed, and in a rush you feed it to him, your orgasm overtaking you as surge after hot surge of cum flares through your flesh and into his throat.  " +
+        (player.hasVagina() ? "A sympathetic orgasm hits your pussy, causing a surge of feminine juices to splash against his chest and dribble down your thighs lewdly.  " : ""));
     outputText("Your orgasm seems to last forever, filling his belly with your corrupted essence, causing his stomach to bulge slightly with the sheer volume of it. You pull away at last, letting him gasp for breath and fall to the ground, curling around his bloated belly.  ");
     if (player.biggestTitSize() >= 2)
         outputText("You draw him to your bosom and kiss his forehead and then stand and go about your duties, leaving him to recover from the intense encounter and then retreat back into the jungle.  ");
@@ -1704,7 +1955,9 @@ JojoScene.corruptJojoCunnilingus = function () {
 JojoScene.corruptJojoVaginalGentle = function () {
     clearOutput();
     outputText("Feeling the urge to be filled, you summon your mouse slut to you and smile as he quickly responds, moving to kneel before you reverently. You let your hand caress the side of his head, then order him to lay back.  ");
-    outputText("He swallows and nods, nervously obeying, stretching himself out on his back on the ground. He watches as you crawl slowly up his body and press a firm kiss to his muzzle, which he returns with the impossible lust you have planted within him. You can feel his member stirring between your legs, rising up firm against your " + (player.hasCock() ? "own endowments" : "crotch") + " as you grind your dripping slit along it.  ");
+    outputText("He swallows and nods, nervously obeying, stretching himself out on his back on the ground. He watches as you crawl slowly up his body and press a firm kiss to his muzzle, which he returns with the impossible lust you have planted within him. You can feel his member stirring between your legs, rising up firm against your " +
+        (player.hasCock() ? "own endowments" : "crotch") +
+        " as you grind your dripping slit along it.  ");
     if (player.vaginalCapacity() < 10) {
         outputText("You lower your hand to take hold of his cock, lining it up with your entrance, and then with a soft grunt, you start to lower your weight atop him.\n");
         player.cuntChange(36.4, true);
@@ -1718,9 +1971,11 @@ JojoScene.corruptJojoVaginalGentle = function () {
     else {
         outputText("You shift forward, and then tilt your hips and drive back, taking his length into your wide stretched body.\n");
         player.cuntChange(36.4, true);
-        outputText("\n\nYou laugh at him, barely able to feel his dick within you, and whisper into his ear, \"<i>Just like a mouse to be tiny...</i>\" You watch his blush as you start to grind and roll atop his cock and belly, taking all the pleasure that you can from your slut.  ");
+        outputText('\n\nYou laugh at him, barely able to feel his dick within you, and whisper into his ear, "<i>Just like a mouse to be tiny...</i>" You watch his blush as you start to grind and roll atop his cock and belly, taking all the pleasure that you can from your slut.  ');
     }
-    outputText("You cry out in pleasure as your orgasm floods through your body, causing your juices to splash out around your mouse slut's cock" + (player.hasCock() ? ", and your own " + player.multiCockDescriptLight() + " to explode with thick splashes of your hot cum across his chest and belly" : "") + ". You stay seated on his hips until your orgasm fades, then with a sigh of pleasure you stand off of him and dismiss him with a wave of your hand.  ");
+    outputText("You cry out in pleasure as your orgasm floods through your body, causing your juices to splash out around your mouse slut's cock" +
+        (player.hasCock() ? ", and your own " + player.multiCockDescriptLight() + " to explode with thick splashes of your hot cum across his chest and belly" : "") +
+        ". You stay seated on his hips until your orgasm fades, then with a sigh of pleasure you stand off of him and dismiss him with a wave of your hand.  ");
     //Preggers chance!
     //player.knockUp(PregnancyStore.PREGNANCY_JOJO, PregnancyStore.INCUBATION_MOUSE + 82); //Jojo's kids take longer for some reason
     player.orgasm();
@@ -1730,7 +1985,7 @@ JojoScene.corruptJojoVaginalGentle = function () {
 JojoScene.corruptJojoVaginalSmother = function () {
     clearOutput();
     outputText("You feel the need to gain a little sexual relief and a mischievous idea comes to your mind, making you grin wickedly. You slip off into the jungle to seek out your monk mouse fuck toy, and when you find him, you practically pounce atop him, pinning him to his back. He struggles in surprise until he realizes that it is you, at which point he blushes and tries to look away, unable to help the erection that you are sitting against as you straddle him.  ");
-    outputText("You crawl further up his body and grin down at him as you press your already dripping pussy to his mouth and command sharply, \"<i>Start licking if you want to breathe.</i>\" His eyes go wide, but you can feel his tongue already starting to work at your lusty slit.  ");
+    outputText('You crawl further up his body and grin down at him as you press your already dripping pussy to his mouth and command sharply, "<i>Start licking if you want to breathe.</i>" His eyes go wide, but you can feel his tongue already starting to work at your lusty slit.  ');
     if (player.vaginas.wetness > 4)
         outputText("You moan as he works, your juices flowing liberally across his muzzle and into his mouth and nose, making him struggle not to drown in your pleasure as he focuses on giving you even more so.  ");
     else if (rand(2) == 0)
@@ -1747,13 +2002,25 @@ JojoScene.corruptJojoAnalCruel = function () {
     clearOutput();
     var x = player.biggestCockIndex();
     outputText("You decided that it is time to seek out your pet monk slut, and stalk into the jungle after the mouse. It doesn't take long to find him, so you move silently to avoid his notice. You move with a predator's grace as you sneak up behind him, your hand reaching down to grab hold of his tail firmly as you shove him against a nearby tree.  ");
-    outputText("You press your body up behind him" + (player.biggestTitSize() >= 2 ? ", mashing your breasts against his back" : "") + " and hiss into his ear, \"<i>Hello slut...</i>\" You keep hold of the base of his tail, hiking it up to lift his ass enough that he has to go to his toes to stay standing. You listen to him whimper softly as he feels your stirring loins press against the cleft of his oh-so-fuckable ass.  ");
+    outputText("You press your body up behind him" +
+        (player.biggestTitSize() >= 2 ? ", mashing your breasts against his back" : "") +
+        ' and hiss into his ear, "<i>Hello slut...</i>" You keep hold of the base of his tail, hiking it up to lift his ass enough that he has to go to his toes to stay standing. You listen to him whimper softly as he feels your stirring loins press against the cleft of his oh-so-fuckable ass.  ');
     if (player.cocks[x].cArea() < 10)
-        outputText("You saw your swelling erection between his ass cheeks a few times, and then with little warning, you shove yourself deep into his body, making the mouse gasp out as you fill his well used rear. You groan in pleasure as you feel his anal ring grip in flutters along your " + player.cockDescript(x) + " as you spear in and out of him, fucking your slut toy with wild abandon.  ");
+        outputText("You saw your swelling erection between his ass cheeks a few times, and then with little warning, you shove yourself deep into his body, making the mouse gasp out as you fill his well used rear. You groan in pleasure as you feel his anal ring grip in flutters along your " +
+            player.cockDescript(x) +
+            " as you spear in and out of him, fucking your slut toy with wild abandon.  ");
     else if (player.cocks[x].cArea() < 36)
-        outputText("You press the mouse hard against the tree, inhaling his scent and sliding your " + player.cockDescript(x) + " between his firm cheeks.  There is little in the way of tenderness as you thrust deep into his body. You can hear him groan as your " + player.cockDescript(x) + " forces his intestines to shift to accommodate you.  ");
+        outputText("You press the mouse hard against the tree, inhaling his scent and sliding your " +
+            player.cockDescript(x) +
+            " between his firm cheeks.  There is little in the way of tenderness as you thrust deep into his body. You can hear him groan as your " +
+            player.cockDescript(x) +
+            " forces his intestines to shift to accommodate you.  ");
     else
-        outputText("You grin as your mouse slut cries out with your " + player.cockDescript(x) + " spearing into his bowels. You can feel the weight of the tree against your " + player.cockDescript(x) + " as you force his belly to bulge out vulgarly to accommodate the enormous girth.  ");
+        outputText("You grin as your mouse slut cries out with your " +
+            player.cockDescript(x) +
+            " spearing into his bowels. You can feel the weight of the tree against your " +
+            player.cockDescript(x) +
+            " as you force his belly to bulge out vulgarly to accommodate the enormous girth.  ");
     outputText("You thrust away at your squirming and mewling mouse, taking out your pleasure on him with little concern for his own enjoyment, not that this is really a problem, as before you manage to cum, you feel him tense as he 'fertilizes' the tree you have him pressed against. The feel of his orgasm milks you to your own explosion within his belly, emptying your balls with a low groan of relief.  ");
     outputText("You pull out of Jojo's ass once your orgasm has subsided and wipe your " + player.cockDescript(x) + " off on the fur of his back, then walk away to leave him to his own devices.  ");
     player.orgasm();
@@ -1768,9 +2035,15 @@ JojoScene.corruptJojoAnalGentle = function () {
     if (player.cocks[x].cArea() < 10)
         outputText("You lift the mouse's balls out of the way and spit down onto the crinkled star of his anus, then lever your tip to the well used hole. There is little ceremony or foreplay, but his cock is already straining erect, and a blush colors his cheeks as you push into his ass, inch by inch. You set a slow and tender pace at first, but as your orgasm nears, your thrusts become more animal and needy.  ");
     else if (player.biggestCockArea() < 36)
-        outputText("You slide your thick and drooling cockhead beneath the mouse's balls, working the musky drool of your pre-cum against the well used crinkle of his ass before forcing the thick vein-lined length of your " + player.cockDescript(x) + " into him. You watch as inch after thick, vulgar inch disappears into his body, grinning as his face contorts in a mix of pain and pleasure from it, and then start to fuck him in earnest, watching as his belly bulges with each thrust of your massive prick.  ");
+        outputText("You slide your thick and drooling cockhead beneath the mouse's balls, working the musky drool of your pre-cum against the well used crinkle of his ass before forcing the thick vein-lined length of your " +
+            player.cockDescript(x) +
+            " into him. You watch as inch after thick, vulgar inch disappears into his body, grinning as his face contorts in a mix of pain and pleasure from it, and then start to fuck him in earnest, watching as his belly bulges with each thrust of your massive prick.  ");
     else
-        outputText("You force your " + player.cockDescript(x) + " against the mouse's ass and watch as he shakes his head, silently begging you not to do it. You smile and grip his hips, then press forward hard, forcing his body to adapt to your girth, stretching his ass and belly dangerously. You can barely get more than a foot of your " + player.cockDescript(x) + " into him before bottoming out against his diaphragm, so you just fuck him with what you can, churning his insides with each thrust.  ");
+        outputText("You force your " +
+            player.cockDescript(x) +
+            " against the mouse's ass and watch as he shakes his head, silently begging you not to do it. You smile and grip his hips, then press forward hard, forcing his body to adapt to your girth, stretching his ass and belly dangerously. You can barely get more than a foot of your " +
+            player.cockDescript(x) +
+            " into him before bottoming out against his diaphragm, so you just fuck him with what you can, churning his insides with each thrust.  ");
     outputText("You pound away at the mouse's tight body for as long as you can, then feel your orgasm hit you hard, your balls drawing up tight as your seed churns and pulses through you and into the mouse's ass, filling his belly with your lust and corruption. You watch his belly swell with the seed in a beautifully vulgar display.  ");
     outputText("His eyes glaze over from the intensity of the act, his teeth tightly grit, and then you can hear a keening groan from him as he falls over the edge into his own orgasm, his untouched mouse cock bouncing and jerking on his belly as his thick seed is sprayed across his chest and face lewdly. He blushes deep at the visible proof that he enjoyed what you did to him and trembles beneath you.  ");
     outputText("You can't help but laugh at the scene, and draw out of his ass with a groan of pleasure. You watch as he crawls back into the jungle in shame, leaving a trail of your cum the whole way.  ");
@@ -1781,7 +2054,7 @@ JojoScene.corruptJojoAnalGentle = function () {
 JojoScene.corruptJojoAnalSmother = function () {
     clearOutput();
     outputText("You feel the need to gain a little sexual relief and a mischievous idea comes to your mind, making you grin wickedly. You slip off into the jungle to seek out your monk mouse fuck toy, and when you find him, you practically pounce atop him, pinning him to his back. He struggles in surprise until he realizes that it is you, at which point he blushes and tries to look away, unable to help the erection that you are sitting against as you straddle him.  ");
-    outputText("You crawl further up his body and grin down at him as he stares at your exposed pussy. You suddenly spin, sitting down the other way, so that your ass cheeks envelope his muzzle, trapping his nose and mouth against your tight pucker. \"<i>Get that tongue up in there slut.</i>\"  ");
+    outputText('You crawl further up his body and grin down at him as he stares at your exposed pussy. You suddenly spin, sitting down the other way, so that your ass cheeks envelope his muzzle, trapping his nose and mouth against your tight pucker. "<i>Get that tongue up in there slut.</i>"  ');
     switch (rand(3)) {
         case 0:
             outputText("You grind your ass against him as he eats you out, moaning with pleasure and writhing above him. You lift off of his face every so often, giving him just enough of a break to catch his breath before cutting it off with your ass once again.  ");
@@ -1799,10 +2072,12 @@ JojoScene.corruptJojoAnalSmother = function () {
     doNext(Camp.returnToCampUseOneHour);
 };
 JojoScene.corruptJojoBreasts = function () {
+    //Should only be available to players with biggestBreastSize > 2
     clearOutput();
     outputText("You lay yourself out for a quiet moment of self pleasure, your hands moving to your breasts and fondling them gently, when the sound of a snapping twig brings your attention to the edge of camp. Jojo stands timidly, half hidden within the shadows just outside your encampment, watching you with a look of submissive desire. You smile and lift your hand, beckoning him towards you with a crook of your finger.  ");
     outputText("Your mouse slut obediently slips from the darkness and into your camp, approaching you and kneeling at your side. You can see the lust in his eyes as he looks at your breasts, longing and love reflecting wonderfully. You nod your approval and let him worship your bosom.  ");
-    if (player.biggestLactation() > 1) { //For suckling the scene is the same regardless of player's gender
+    if (player.biggestLactation() > 1) {
+        //For suckling the scene is the same regardless of player's gender
         outputText("He leans in and starts to kiss along your nipples before taking one into his mouth. He gives a firm suckle at the engorged teat, and you can see his eyes open wider in surprise at the sudden surge of milk that fills his muzzle. He shivers and starts to suckle in earnest, drinking from first one breast, then the other, ");
         if (player.breastRows.length > 1)
             outputText("and then all the others, "); //Extra boob coverage
@@ -1810,7 +2085,8 @@ JojoScene.corruptJojoBreasts = function () {
         player.milked();
     }
     else if (player.biggestTitSize() <= 5) {
-        outputText("He leans in to nuzzle and kiss at your breasts, his hands moving to caress the soft and full orbs in gentle worship. His kissing and licking slowly circles in on your nipples, bringing them to firm points that send jolts of warm pleasure through your body when he at last takes them into his mouth. You reach down between your legs, " + (player.hasCock() ? "taking hold of your shaft and masturbating it lazily as he works.  " : "slipping your fingers into your slit as you lazily masturbate with the pleasure he brings.  "));
+        outputText("He leans in to nuzzle and kiss at your breasts, his hands moving to caress the soft and full orbs in gentle worship. His kissing and licking slowly circles in on your nipples, bringing them to firm points that send jolts of warm pleasure through your body when he at last takes them into his mouth. You reach down between your legs, " +
+            (player.hasCock() ? "taking hold of your shaft and masturbating it lazily as he works.  " : "slipping your fingers into your slit as you lazily masturbate with the pleasure he brings.  "));
     }
     else {
         outputText("He leans in close and presses a kiss to first one nipple, then the other, starting to worship your breasts lovingly. You have other plans, however, and one hand grabs the fur at the back of his neck as the other slips beneath your breasts to pull them together to either side of his face as you press him in tight against the curves of your cleavage, forcing the mouse to fight for every breath.  ");

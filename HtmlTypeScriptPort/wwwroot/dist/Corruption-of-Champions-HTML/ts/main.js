@@ -1,4 +1,5 @@
 import { clearOutput, outputText } from "./engine/text";
+import { GUI } from "./engine/gui";
 function mainMenu() {
     // Check to see if the user has a bad browser
     if (typeof Storage !== "undefined") {
@@ -25,7 +26,7 @@ function mainMenu() {
     outputText("Original CoC by Fenoxo. Rewritten by Kitteh6660.");
     menu();
     hideStats();
-    hideUpDown();
+    GUI.hideUpDown();
     hideMenus();
     setMenuButton("buttonMain", "New Game", CharCreation.initializeNewGame);
     showMenuButton("buttonMain");

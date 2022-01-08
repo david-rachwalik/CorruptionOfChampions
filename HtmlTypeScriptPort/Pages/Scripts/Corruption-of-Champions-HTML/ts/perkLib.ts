@@ -60,6 +60,35 @@ class PerkTypeContainer {
     MaraesGiftStud: PerkType
     StaffChanneling: PerkType
 
+    AscensionFertility: PerkType
+    BigTits: PerkType
+    BroBody: PerkType
+    Cornucopia: PerkType
+    ElvenBounty: PerkType
+    Feeder: PerkType
+    FerasBoonAlpha: PerkType
+    FerasBoonBreedingBitch: PerkType
+    FerasBoonMilkingTwat: PerkType
+    FerasBoonSeeder: PerkType
+    FerasBoonWideOpen: PerkType
+    FertilityMinus: PerkType
+    FertilityPlus: PerkType
+    HistorySlut: PerkType
+    ImmovableObject: PerkType
+    LungingAttacks: PerkType
+    LustyRegeneration: PerkType
+    MagicalFertility: PerkType
+    MagicalVirility: PerkType
+    MaraesGiftFertility: PerkType
+    Masochist: PerkType
+    MilkMaid: PerkType
+    OneTrackMind: PerkType
+    PentUp: PerkType
+    PiercedFertite: PerkType
+    PilgrimsBounty: PerkType
+    SatyrSexuality: PerkType
+    WetPussy: PerkType
+
     constructor() {
         //------------
         // LEVEL UP
@@ -139,6 +168,38 @@ class PerkTypeContainer {
         this.Androgyny = new PerkType("Androgyny", "Androgyny", "TO BE ADDED")
         this.MaraesGiftStud = new PerkType("MaraesGiftStud", "Marae's Gift - Stud", "TO BE ADDED")
         this.StaffChanneling = new PerkType("StaffChanneling", "Staff Channeling", "TO BE ADDED")
+
+        //----------
+        // TODO: verify: were called in Creature but not originally defined; seem like Starter Perks
+        //---------
+        this.AscensionFertility = new PerkType("AscensionFertility", "Ascension Fertility", "TO BE ADDED")
+        this.BigTits = new PerkType("BigTits", "Big Tits", "TO BE ADDED")
+        this.BroBody = new PerkType("BroBody", "Bro Body", "TO BE ADDED")
+        this.Cornucopia = new PerkType("Cornucopia", "Cornucopia", "TO BE ADDED")
+        this.ElvenBounty = new PerkType("ElvenBounty", "Elven Bounty", "TO BE ADDED")
+        this.Feeder = new PerkType("Feeder", "Feeder", "TO BE ADDED")
+        this.FerasBoonAlpha = new PerkType("FerasBoonAlpha", "Feras Boon Alpha", "TO BE ADDED")
+        this.FerasBoonBreedingBitch = new PerkType("FerasBoonBreedingBitch", "Feras Boon Breeding Bitch", "TO BE ADDED")
+        this.FerasBoonMilkingTwat = new PerkType("FerasBoonMilkingTwat", "Feras Boon Milking Twat", "TO BE ADDED")
+        this.FerasBoonSeeder = new PerkType("FerasBoonSeeder", "Feras Boon Seeder", "TO BE ADDED")
+        this.FerasBoonWideOpen = new PerkType("FerasBoonWideOpen", "Feras Boon Wide Open", "TO BE ADDED")
+        this.FertilityMinus = new PerkType("FertilityMinus", "Fertility Minus", "TO BE ADDED")
+        this.FertilityPlus = new PerkType("FertilityPlus", "Fertility Plus", "TO BE ADDED")
+        this.HistorySlut = new PerkType("HistorySlut", "History Slut", "TO BE ADDED")
+        this.ImmovableObject = new PerkType("ImmovableObject", "Immovable Object", "TO BE ADDED")
+        this.LungingAttacks = new PerkType("LungingAttacks", "Lunging Attacks", "TO BE ADDED")
+        this.LustyRegeneration = new PerkType("LustyRegeneration", "Lusty Regeneration", "TO BE ADDED")
+        this.MagicalFertility = new PerkType("MagicalFertility", "Magical Fertility", "TO BE ADDED")
+        this.MagicalVirility = new PerkType("MagicalVirility", "Magical Virility", "TO BE ADDED")
+        this.MaraesGiftFertility = new PerkType("MaraesGiftFertility", "Maraes Gift Fertility", "TO BE ADDED")
+        this.Masochist = new PerkType("Masochist", "Masochist", "TO BE ADDED")
+        this.MilkMaid = new PerkType("MilkMaid", "Milk Maid", "TO BE ADDED")
+        this.OneTrackMind = new PerkType("OneTrackMind", "One Track Mind", "TO BE ADDED")
+        this.PentUp = new PerkType("PentUp", "Pent Up", "TO BE ADDED")
+        this.PiercedFertite = new PerkType("PiercedFertite", "Pierced Fertite", "TO BE ADDED")
+        this.PilgrimsBounty = new PerkType("PilgrimsBounty", "Pilgrims Bounty", "TO BE ADDED")
+        this.SatyrSexuality = new PerkType("SatyrSexuality", "Satyr Sexuality", "TO BE ADDED")
+        this.WetPussy = new PerkType("WetPussy", "Wet Pussy", "TO BE ADDED")
     }
 }
 

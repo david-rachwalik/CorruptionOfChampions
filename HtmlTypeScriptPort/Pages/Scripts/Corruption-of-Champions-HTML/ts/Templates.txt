@@ -82,7 +82,7 @@ function Creature() {
 
 	//Sexual Characteristics
 	//Cocks
-	this.createCock(6, 1, CockTypesEnum.HUMAN);
+	this.createCock(6, 1, ENUM.CockType.HUMAN);
 	//Vaginas
 	this.createVagina(false, VAGINA_WETNESS_NORMAL, VAGINA_LOOSENESS_NORMAL);
 	//Ass

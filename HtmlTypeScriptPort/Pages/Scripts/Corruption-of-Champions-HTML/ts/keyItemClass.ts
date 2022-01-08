@@ -1,11 +1,11 @@
 class KeyItem {
-    ktype: number
+    ktype: KeyItemType
     value1: number
     value2: number
     value3: number
     value4: number
 
-    constructor(type = 0, val1 = 0, val2 = 0, val3 = 0, val4 = 0) {
+    constructor(type: KeyItemType, val1 = 0, val2 = 0, val3 = 0, val4 = 0) {
         this.ktype = type
         this.value1 = val1
         this.value2 = val2

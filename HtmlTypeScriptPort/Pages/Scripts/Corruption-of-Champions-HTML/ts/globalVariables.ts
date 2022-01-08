@@ -1,7 +1,20 @@
 import { Player } from "./player"
 import { Time } from "./engine/time"
+import { Creature } from "./creature"
+import { Amily } from "./scenes/npcs/amily"
+import { IPlayer } from "./interfaces/iplayer"
+import { ICreature } from "./interfaces/icreature"
+import { IItemSlot } from "./itemSlotClass"
 
-class Exploration {
+interface IExploration {
+    explored: number
+    exploredForest: number
+    exploredLake: number
+    exploredDesert: number
+    exploredMountain: number
+}
+
+class Exploration implements IExploration {
     explored: number
     exploredForest: number
     exploredLake: number
@@ -17,7 +30,7 @@ class Exploration {
     }
 }
 
-class GameContext {
+interface IGameContext {
     //Variables that can be set as development progresses.
     gameVersion: string
     saveVersion: number
@@ -27,7 +40,7 @@ class GameContext {
     silly: boolean
     hyperHappy: boolean
     lowStandards: boolean
-    hungerEnabled: boolean
+    hungerEnabled: boolean // realistic mode
     SFWMode: boolean
     //Interface settings
     use12Hours: boolean
@@ -38,15 +51,56 @@ class GameContext {
     mainFontSizeArray: string[]
     mainFontSizeIndex: number
     //Core variables
-    player: Player
+    player: IPlayer
     playerMenu: any
     gameStarted: boolean
     shiftKeyDown: boolean
 
-    time: Time
-    exploration: Exploration
+    time: ITime
+    exploration: IExploration
     gameFlags: { [key: string]: number }
-    amily: Amily
+
+    amily?: IAmily
+    monster?: ICreature
+}
+
+class GameContext implements IGameContext {
+    //Variables that can be set as development progresses.
+    gameVersion: string
+    saveVersion: number
+    levelCap: number
+    //Game settings
+    debug: boolean
+    silly: boolean
+    hyperHappy: boolean
+    lowStandards: boolean
+    hungerEnabled: boolean // realistic mode
+    SFWMode: boolean
+    //Interface settings
+    use12Hours: boolean
+    useMetrics: boolean
+    //Store data for fonts
+    buttonFont: string
+    mainFont: string
+    mainFontSizeArray: string[]
+    mainFontSizeIndex: number
+    //Core variables
+    player: IPlayer
+    playerMenu: any
+    gameStarted: boolean
+    shiftKeyDown: boolean
+
+    time: ITime
+    exploration: IExploration
+    gameFlags: { [key: string]: number }
+
+    amily?: IAmily
+    monster?: ICreature
+
+    //Inventory
+    currentItemSlot?: IItemSlot
+    callNext: () => void
+    callOnAbandon: () => void
 
     constructor() {
         //Variables that can be set as development progresses.
@@ -89,7 +143,10 @@ class GameContext {
         // let gameFlags = []
         this.gameFlags = {}
 
-        this.amily = new Amily() // Used for Pregnancy tracking
+        //Inventory
+        this.currentItemSlot
+        this.callNext = () => {} // empty lambda to immediately override
+        this.callOnAbandon = () => {}
     }
 
     advanceMinutes(minutes: number) {

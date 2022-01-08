@@ -204,7 +204,7 @@ enum PiercingType {
     PIERCING_TYPE_CHAIN
 }
 
-// renamed from CockTypesEnum
+// renamed from ENUM.CockType
 enum CockType {
     UNDEFINED = -1,
     HUMAN,

@@ -1,5 +1,8 @@
+import { GUI } from "./engine/gui";
 import { clearOutput, outputText } from "./engine/text";
-let ItemLib = {}; //Hold item IDs for purpose of looking up or for save data.
+import { UTIL } from "./engine/utils";
+import { liveData } from "./globalVariables";
+import { Inventory } from "./scenes/inventory";
 export const ITEM_TYPE_WEAPON = "Weapon";
 export const ITEM_TYPE_ARMOUR = "Armour";
 export const ITEM_TYPE_UNDERGARMENT = "Undergarment";
@@ -68,14 +71,14 @@ class Item {
         var oldItem = null;
         //Determine if it's weapon or armour.
         if (this.type == ITEM_TYPE_WEAPON) {
-            if (player.weapon.id != Items.NOTHING.id)
-                oldItem = lookupItem(player.weapon.id);
-            player.weapon = this;
+            if (liveData.player.weapon.id != Items.NOTHING.id)
+                oldItem = UTIL.lookupItem(liveData.player.weapon.id);
+            liveData.player.weapon = this;
         }
         if (this.type == ITEM_TYPE_ARMOUR) {
-            if (player.armor.id != Items.NOTHING.id)
-                oldItem = lookupItem(player.armor.id);
-            player.armor = this;
+            if (liveData.player.armor.id != Items.NOTHING.id)
+                oldItem = UTIL.lookupItem(liveData.player.armor.id);
+            liveData.player.armor = this;
         }
         //Check if you aren't previously using fists or naked.
         if (oldItem != null) {
@@ -83,13 +86,14 @@ class Item {
             Inventory.takeItem(oldItem, Inventory.inventoryMenu);
         }
         else {
-            doNext(Inventory.inventoryMenu);
+            GUI.doNext(Inventory.inventoryMenu);
         }
     }
     unequipItem() {
         //TODO
     }
 }
+let ItemLib = {}; //Hold item IDs for purpose of looking up or for save data.
 class ItemContainer {
     constructor() {
         this.NOTHING = new Item("Nothing", "NOTHING!", "nothing", ITEM_TYPE_MATERIAL);

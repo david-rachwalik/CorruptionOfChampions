@@ -1,8 +1,9 @@
-"use strict";
+import { COMBAT } from "./combat";
 //------------
 // SPELLS
 //------------
-magicMenu = function () {
+function magicMenu() {
+    //Spells are housed within combatSpecial.js file.
     menu();
     //White Spells
     if (player.spells.blind)
@@ -21,11 +22,10 @@ magicMenu = function () {
     //Special
     if (player.findPerk(PerkLib.CleansingPalm) >= 0)
         addButton(10, "CleansingPalm", spellCleansingPalm);
-    addButton(14, "Back", battleMenu);
-};
-//White Spells
-function spellBlind() {
+    addButton(14, "Back", COMBAT.battleMenu);
 }
+//White Spells
+function spellBlind() { }
 function spellChargeWeapon(silent) {
     if (silent) {
         player.createStatusEffect(StatusEffects.ChargeWeapon, 10 * spellMod(), 0, 0, 0);
@@ -43,34 +43,29 @@ function spellChargeWeapon(silent) {
     spellPerkUnlock();
     monster.combatAI();
 }
-function spellWhitefire() {
-}
+function spellWhitefire() { }
 //Black Spells
-function spellArouse() {
-}
-function spellHeal() {
-}
-function spellMight(silent) {
-}
+function spellArouse() { }
+function spellHeal() { }
+function spellMight(silent = undefined) { }
 //Special Spells
-function spellCleansingPalm() {
-}
+function spellCleansingPalm() { }
 //------------
 // P. SPECIAL
 //------------
-physicalSpecials = function () {
+function physicalSpecials() {
     menu();
-    addButton(14, "Back", battleMenu);
-};
+    addButton(14, "Back", COMBAT.battleMenu);
+}
 //------------
 // M. SPECIAL
 //------------
-mentalSpecials = function () {
+function mentalSpecials() {
     menu();
-    addButton(14, "Back", battleMenu);
-};
+    addButton(14, "Back", COMBAT.battleMenu);
+}
 //------------
-// SPEC UTILS
+// SPEC UTIL
 //------------
 function spellCost(cost) {
     var temp = cost;
@@ -97,4 +92,5 @@ function spellPerkUnlock() {
         player.setPerkValue(PerkLib.SpellcastingAffinity, 1, 50);
     }
 }
+export { magicMenu, spellChargeWeapon, physicalSpecials, mentalSpecials, spellCost, physicalCost, spellMod, spellPerkUnlock };
 //# sourceMappingURL=combatSpecial.js.map

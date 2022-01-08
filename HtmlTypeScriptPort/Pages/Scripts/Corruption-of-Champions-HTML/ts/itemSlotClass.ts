@@ -1,15 +1,22 @@
-import { Item, Items } from "./itemClass"
+import { IItem, Item, Items } from "./itemClass"
+
+interface IItemSlot {
+    quantity: number
+    itype: IItem
+
+    setItemAndQty: (item: IItem, arg1: number) => void
+}
 
 class ItemSlot {
     quantity: number
-    itype: Item
+    itype: IItem
 
     constructor() {
         this.quantity = 0
         this.itype = Items.NOTHING
     }
 
-    setItemAndQty(itype: Item, quant: number) {
+    setItemAndQty(itype: IItem, quant: number) {
         if (itype == null) itype = Items.NOTHING
         if (quant == 0 && itype == Items.NOTHING) {
             this.emptySlot()
@@ -35,4 +42,4 @@ class ItemSlot {
     }
 }
 
-export { ItemSlot }
+export { IItemSlot, ItemSlot }

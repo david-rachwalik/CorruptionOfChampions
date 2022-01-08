@@ -1,91 +1,31 @@
 import { outputText } from "./engine/text"
-import * as GUI from "../../engine/gui"
-import * as ENUMS from "./appearanceEnums"
-import * as UTILS from "./engine/utils"
-import { Item, Items } from "./itemClass"
+import * as ENUM from "./appearanceEnums"
+import { GUI } from "./engine/gui"
+import { UTIL } from "./engine/utils"
+import { IPlayer } from "./interfaces/iplayer"
+import { Ass, IAss } from "./assClass"
+import { IItem, Item, Items } from "./itemClass"
 import { ItemSlot } from "./itemSlotClass"
+import { liveData } from "./globalVariables"
 import { Creature } from "./creature"
 import { StatusEffects } from "./statusEffectLib"
-import { rand } from "./engine/utils"
-import { liveData } from "./globalVariables"
 import { PerkLib } from "./perkLib"
-import { Ass } from "./assClass"
 
-export class Player extends Creature {
-    a: string
-    name: string
-    refName: string
-    isAre: string
-    heShe: string
-    himHer: string
-    hisHer: string
-    plural: boolean
-    //Appearance
-    gender: number //0 genderless, 1 male, 2 female, 3 hermaphrodite
-    tallness: number //Height in inches
-    skinTone: string
-    skinType: number
-    skinAdj: string
-    hairType: number
-    hairColor: string
-    hairLength: number
+export class Player extends Creature implements IPlayer {
     beardType: number
-    beardLength: number
-    furColor: string
-
-    earType: number
-    tailType: number
-    tailVenom: number
-    tailRecharge: number
-    lowerBody: number
-
-    tone: number
-    thickness: number
-    hipRating: number
-    buttRating: number
-
-    //Sexual Characteristics
-    //Cocks
-    cocks: []
-    balls: number
-    ballSize: number
-    hoursSinceCum: number
-    cumMultiplier: number
-    //Vaginas
-    vaginas: []
-    //Ass
-    ass: Ass
-    //Breasts
-    breastRows: []
-    lactationMultiplier: number
-
-    //Equipment
-    weapon: Item
-    armor: string
-
     teaseLevel: number
     teaseXP: number
-
     itemSlots: ItemSlot[]
-    keyItems: []
-    statusEffects: []
-    perks: []
-
     //Spells
     spells: []
-
     //Stats points
     statPoints: number
     perkPoints: number
-
     hunger: number
-
     location: string
-
     //Race
     originalGender: number
     originalRace: string
-
     // Temporary defaults
     tempStr: number
     tempTou: number
@@ -107,25 +47,25 @@ export class Player extends Creature {
         this.gender = 0 //0 genderless, 1 male, 2 female, 3 hermaphrodite
         this.tallness = 60 //Height in inches
         this.skinTone = "light"
-        this.skinType = ENUMS.SkinType.SKIN_TYPE_PLAIN
+        this.skinType = ENUM.SkinType.SKIN_TYPE_PLAIN
         this.skinAdj = ""
-        this.hairType = ENUMS.HairType.HAIR_NORMAL
+        this.hairType = ENUM.HairType.HAIR_NORMAL
         this.hairColor = "brown"
         this.hairLength = 1
-        this.beardType = ENUMS.BeardType.BEARD_NORMAL
+        this.beardType = ENUM.BeardType.BEARD_NORMAL
         this.beardLength = 0
         this.furColor = "none"
 
-        this.earType = ENUMS.EarType.EARS_HUMAN
-        this.tailType = ENUMS.TailType.TAIL_TYPE_NONE
+        this.earType = ENUM.EarType.EARS_HUMAN
+        this.tailType = ENUM.TailType.TAIL_TYPE_NONE
         this.tailVenom = 0
         this.tailRecharge = 0
-        this.lowerBody = ENUMS.LowerBodyType.LOWER_BODY_TYPE_HUMAN
+        this.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN
 
         this.tone = 50
         this.thickness = 50
-        this.hipRating = ENUMS.HipRatingType.HIP_RATING_BOYISH
-        this.buttRating = ENUMS.ButtRatingType.BUTT_RATING_AVERAGE
+        this.hipRating = ENUM.HipRatingType.HIP_RATING_BOYISH
+        this.buttRating = ENUM.ButtRatingType.BUTT_RATING_AVERAGE
 
         //Sexual Characteristics
         //Cocks
@@ -214,7 +154,7 @@ export class Player extends Creature {
         //Determine race type:
         var race = "human"
         if (this.catScore() >= 4) {
-            if (this.isTaur() && this.lowerBody == ENUMS.LowerBodyType.LOWER_BODY_TYPE_CAT) {
+            if (this.isTaur() && this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT) {
                 race = "cat-taur"
                 if (this.faceType == 0) race = "sphinx-morph" // no way to be fully feral anyway
             } else {
@@ -232,14 +172,14 @@ export class Player extends Creature {
             if (this.balls > 0 && this.ballSize > 5) race = "tanuki-morph"
         }
         if (this.dogScore() >= 4) {
-            if (this.isTaur() && this.lowerBody == ENUMS.LowerBodyType.LOWER_BODY_TYPE_DOG) race = "dog-taur"
+            if (this.isTaur() && this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG) race = "dog-taur"
             else {
                 race = "dog-morph"
                 if (this.faceType == 0) race = "dog-" + this.mf("man", "girl")
             }
         }
         if (this.foxScore() >= 4) {
-            if (this.isTaur() && this.lowerBody == ENUMS.LowerBodyType.LOWER_BODY_TYPE_FOX) race = "fox-taur"
+            if (this.isTaur() && this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_FOX) race = "fox-taur"
             else if (this.skinType == 1) race = "fox-morph"
             else race = "fox-" + this.mf("morph", "girl")
         }
@@ -252,7 +192,7 @@ export class Player extends Creature {
         }
         if (this.horseScore() >= 3) {
             if (this.isTaur()) race = "centaur-morph"
-            else if (this.hornType == ENUMS.HornType.HORNS_UNICORN) race = "unicorn-morph"
+            else if (this.hornType == ENUM.HornType.HORNS_UNICORN) race = "unicorn-morph"
             else race = "equine-morph"
         }
         if (this.mutantScore() >= 5 && race == "human") race = "corrupted mutant"
@@ -322,11 +262,11 @@ export class Player extends Creature {
         }
         //</mod>
         if (this.lowerBody == 3) race = "naga"
-        if (this.lowerBody == ENUMS.LowerBodyType.LOWER_BODY_TYPE_HOOFED && this.isTaur()) {
-            if (this.wingType == ENUMS.WingType.WING_TYPE_FEATHERED_LARGE) race = "pegataur"
+        if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED && this.isTaur()) {
+            if (this.wingType == ENUM.WingType.WING_TYPE_FEATHERED_LARGE) race = "pegataur"
             else race = "centaur"
         }
-        if (this.lowerBody == ENUMS.LowerBodyType.LOWER_BODY_TYPE_PONY) race = "pony-kin"
+        if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_PONY) race = "pony-kin"
         if (this.gooScore() >= 3) {
             race = "goo-"
             race += this.mf("boi", "girl")
@@ -345,7 +285,7 @@ export class Player extends Creature {
         if (this.skinType == 0 && this.cor > 50) demonCounter++
         if (this.faceType == 0 && this.cor > 50) demonCounter++
         if (this.lowerBody == 5 || this.lowerBody == 6) demonCounter++
-        if (this.countCocksOfType(ENUMS.CockType.DEMON) > 0) demonCounter++
+        if (this.countCocksOfType(ENUM.CockType.DEMON) > 0) demonCounter++
         return demonCounter
     }
 
@@ -358,7 +298,7 @@ export class Player extends Creature {
         if (this.tailType == 0) humanCounter++
         if (this.wingType == 0) humanCounter++
         if (this.lowerBody == 0) humanCounter++
-        if (this.countCocksOfType(ENUMS.CockType.HUMAN) == 1 && this.totalCocks() == 1) humanCounter++
+        if (this.countCocksOfType(ENUM.CockType.HUMAN) == 1 && this.totalCocks() == 1) humanCounter++
         if (this.breastRows.length == 1 && this.skinType == 0) humanCounter++
         return humanCounter
     }
@@ -373,7 +313,7 @@ export class Player extends Creature {
         if (this.lowerBody == 1 && minoCounter > 0) minoCounter++
         if (this.tallness > 80 && minoCounter > 0) minoCounter++
         if (this.cocks.length > 0 && minoCounter > 0) {
-            if (this.countCocksOfType(ENUMS.CockType.HORSE) > 0) minoCounter++
+            if (this.countCocksOfType(ENUM.CockType.HORSE) > 0) minoCounter++
         }
         if (this.vaginas.length > 0) minoCounter--
         return minoCounter
@@ -404,8 +344,8 @@ export class Player extends Creature {
         if (this.findStatusEffect(StatusEffects.BlackNipples) >= 0) counter++
         if (this.findStatusEffect(StatusEffects.Uniball) >= 0) counter++
         if (this.hasVagina() && this.vaginaType() == 5) counter++
-        if (this.eyeType == ENUMS.EyeType.EYES_BLACK_EYES_SAND_TRAP) counter++
-        if (this.wingType == ENUMS.WingType.WING_TYPE_GIANT_DRAGONFLY) counter++
+        if (this.eyeType == ENUM.EyeType.EYES_BLACK_EYES_SAND_TRAP) counter++
+        if (this.wingType == ENUM.WingType.WING_TYPE_GIANT_DRAGONFLY) counter++
         if (this.findStatusEffect(StatusEffects.Uniball) >= 0) counter++
         return counter
     }
@@ -431,12 +371,12 @@ export class Player extends Creature {
     //Determine Ferret Rating!
     ferretScore() {
         var counter = 0
-        if (this.faceType == ENUMS.FaceType.FACE_FERRET_MASK) counter++
-        if (this.faceType == ENUMS.FaceType.FACE_FERRET) counter += 2
-        if (this.earType == ENUMS.EarType.EARS_FERRET) counter++
-        if (this.tailType == ENUMS.TailType.TAIL_TYPE_FERRET) counter++
-        if (this.lowerBody == ENUMS.LowerBodyType.LOWER_BODY_TYPE_FERRET) counter++
-        if (this.skinType == ENUMS.SkinType.SKIN_TYPE_FUR && counter > 0) counter++
+        if (this.faceType == ENUM.FaceType.FACE_FERRET_MASK) counter++
+        if (this.faceType == ENUM.FaceType.FACE_FERRET) counter += 2
+        if (this.earType == ENUM.EarType.EARS_FERRET) counter++
+        if (this.tailType == ENUM.TailType.TAIL_TYPE_FERRET) counter++
+        if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_FERRET) counter++
+        if (this.skinType == ENUM.SkinType.SKIN_TYPE_FUR && counter > 0) counter++
         return counter
     }
     //Determine Dog Rating
@@ -446,7 +386,7 @@ export class Player extends Creature {
         if (this.earType == 2) dogCounter++
         if (this.tailType == 2) dogCounter++
         if (this.lowerBody == 2) dogCounter++
-        if (this.countCocksOfType(ENUMS.CockType.DOG) > 0) dogCounter++
+        if (this.countCocksOfType(ENUM.CockType.DOG) > 0) dogCounter++
         if (this.breastRows.length > 1) dogCounter++
         if (this.breastRows.length == 3) dogCounter++
         if (this.breastRows.length > 3) dogCounter--
@@ -488,7 +428,7 @@ export class Player extends Creature {
         if (this.earType == 9) foxCounter++
         if (this.tailType == 13) foxCounter++
         if (this.lowerBody == 17) foxCounter++
-        if (this.countCocksOfType(ENUMS.CockType.DOG) && foxCounter > 0) foxCounter++
+        if (this.countCocksOfType(ENUM.CockType.DOG) && foxCounter > 0) foxCounter++
         if (this.breastRows.length > 1 && foxCounter > 0) foxCounter++
         if (this.breastRows.length == 3 && foxCounter > 0) foxCounter++
         if (this.breastRows.length == 4 && foxCounter > 0) foxCounter++
@@ -504,7 +444,7 @@ export class Player extends Creature {
         if (this.earType == 5) catCounter++
         if (this.tailType == 8) catCounter++
         if (this.lowerBody == 9) catCounter++
-        if (this.countCocksOfType(ENUMS.CockType.CAT) > 0) catCounter++
+        if (this.countCocksOfType(ENUM.CockType.CAT) > 0) catCounter++
         if (this.breastRows.length > 1 && catCounter > 0) catCounter++
         if (this.breastRows.length == 3 && catCounter > 0) catCounter++
         if (this.breastRows.length > 3) catCounter -= 2
@@ -520,7 +460,7 @@ export class Player extends Creature {
         if (this.earType == 6) lizardCounter++
         if (this.tailType == 9) lizardCounter++
         if (this.lowerBody == 10) lizardCounter++
-        if (this.countCocksOfType(ENUMS.CockType.LIZARD) > 0) lizardCounter++
+        if (this.countCocksOfType(ENUM.CockType.LIZARD) > 0) lizardCounter++
         if (this.horns > 0 && (this.hornType == 3 || this.hornType == 4)) lizardCounter++
         if (this.skinType == 2) lizardCounter++
         return lizardCounter
@@ -544,7 +484,7 @@ export class Player extends Creature {
         if (this.faceType == 1) horseCounter++
         if (this.earType == 1) horseCounter++
         if (this.tailType == 1) horseCounter++
-        if (this.countCocksOfType(ENUMS.CockType.HORSE) > 0) horseCounter++
+        if (this.countCocksOfType(ENUM.CockType.HORSE) > 0) horseCounter++
         if (this.lowerBody == 1 || this.lowerBody == 4) horseCounter++
         //Fur only counts if some equine features are present
         if (this.skinType == 1 && horseCounter > 0) horseCounter++
@@ -555,18 +495,18 @@ export class Player extends Creature {
     kitsuneScore() {
         var kitsuneCounter = 0
         //If the character has fox ears, +1
-        if (this.earType == ENUMS.EarType.EARS_FOX) kitsuneCounter++
+        if (this.earType == ENUM.EarType.EARS_FOX) kitsuneCounter++
         //If the character has a fox tail, +1
-        if (this.tailType == ENUMS.TailType.TAIL_TYPE_FOX) kitsuneCounter++
+        if (this.tailType == ENUM.TailType.TAIL_TYPE_FOX) kitsuneCounter++
         //If the character has two or more fox tails, +2
-        if (this.tailType == ENUMS.TailType.TAIL_TYPE_FOX && this.tailVenom >= 2) kitsuneCounter += 2
+        if (this.tailType == ENUM.TailType.TAIL_TYPE_FOX && this.tailVenom >= 2) kitsuneCounter += 2
         //If the character has tattooed skin, +1
         //9999
         //If the character has a 'vag of holding', +1
         if (this.vaginalCapacity() >= 8000) kitsuneCounter++
         //If the character's kitsune score is greater than 0 and:
         //If the character has a normal face, +1
-        if (kitsuneCounter > 0 && (this.faceType == ENUMS.FaceType.FACE_HUMAN || this.faceType == ENUMS.FaceType.FACE_FOX)) kitsuneCounter++
+        if (kitsuneCounter > 0 && (this.faceType == ENUM.FaceType.FACE_HUMAN || this.faceType == ENUM.FaceType.FACE_FOX)) kitsuneCounter++
         //If the character's kitsune score is greater than 1 and:
         //If the character has "blonde","black","red","white", or "silver" hair, +1
         //if (kitsuneCounter > 0 && (InCollection(furColor, KitsuneScene.basicKitsuneHair) || InCollection(furColor, KitsuneScene.elderKitsuneColors)))
@@ -576,15 +516,15 @@ export class Player extends Creature {
         //If the character has fur, scales, or gooey skin, -1
         //if (this.skinType == SKIN_TYPE_FUR && !InCollection(furColor, KitsuneScene.basicKitsuneFur) && !InCollection(furColor, KitsuneScene.elderKitsuneColors))
         //    kitsuneCounter--;
-        if (this.skinType > ENUMS.SkinType.SKIN_TYPE_FUR) kitsuneCounter -= this.skinType // -2 sor scales, -3 for goo
+        if (this.skinType > ENUM.SkinType.SKIN_TYPE_FUR) kitsuneCounter -= this.skinType // -2 sor scales, -3 for goo
         //If the character has abnormal legs, -1
-        if (this.lowerBody != ENUMS.LowerBodyType.LOWER_BODY_TYPE_HUMAN && this.lowerBody != ENUMS.LowerBodyType.LOWER_BODY_TYPE_FOX) kitsuneCounter--
+        if (this.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN && this.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_FOX) kitsuneCounter--
         //If the character has a nonhuman face, -1
-        if (this.faceType != ENUMS.FaceType.FACE_HUMAN && this.faceType != ENUMS.FaceType.FACE_FOX) kitsuneCounter--
+        if (this.faceType != ENUM.FaceType.FACE_HUMAN && this.faceType != ENUM.FaceType.FACE_FOX) kitsuneCounter--
         //If the character has ears other than fox ears, -1
-        if (this.earType != ENUMS.EarType.EARS_FOX) kitsuneCounter--
+        if (this.earType != ENUM.EarType.EARS_FOX) kitsuneCounter--
         //If the character has tail(s) other than fox tails, -1
-        if (this.tailType != ENUMS.TailType.TAIL_TYPE_FOX) kitsuneCounter--
+        if (this.tailType != ENUM.TailType.TAIL_TYPE_FOX) kitsuneCounter--
 
         return kitsuneCounter
     }
@@ -592,16 +532,16 @@ export class Player extends Creature {
     //Determine Dragon Rating
     dragonScore() {
         var dragonCounter = 0
-        if (this.faceType == ENUMS.FaceType.FACE_DRAGON) dragonCounter++
-        if (this.earType == ENUMS.EarType.EARS_DRAGON) dragonCounter++
-        if (this.tailType == ENUMS.TailType.TAIL_TYPE_DRACONIC) dragonCounter++
-        if (this.tongueType == ENUMS.TongueType.TONGUE_DRACONIC) dragonCounter++
-        if (this.countCocksOfType(ENUMS.CockType.DRAGON) > 0) dragonCounter++
-        if (this.wingType == ENUMS.WingType.WING_TYPE_DRACONIC_SMALL || this.wingType == ENUMS.WingType.WING_TYPE_DRACONIC_LARGE) dragonCounter++
-        if (this.lowerBody == ENUMS.LowerBodyType.LOWER_BODY_TYPE_DRAGON) dragonCounter++
-        if (this.horns > 0 && (this.hornType == ENUMS.HornType.HORNS_DRACONIC_X2 || this.hornType == ENUMS.HornType.HORNS_DRACONIC_X4_12_INCH_LONG)) dragonCounter++
-        if (this.skinType == ENUMS.SkinType.SKIN_TYPE_SCALES && dragonCounter > 0) dragonCounter++
-        if (this.hornType == ENUMS.HornType.HORNS_DRACONIC_X4_12_INCH_LONG || this.hornType == ENUMS.HornType.HORNS_DRACONIC_X2) dragonCounter++
+        if (this.faceType == ENUM.FaceType.FACE_DRAGON) dragonCounter++
+        if (this.earType == ENUM.EarType.EARS_DRAGON) dragonCounter++
+        if (this.tailType == ENUM.TailType.TAIL_TYPE_DRACONIC) dragonCounter++
+        if (this.tongueType == ENUM.TongueType.TONGUE_DRACONIC) dragonCounter++
+        if (this.countCocksOfType(ENUM.CockType.DRAGON) > 0) dragonCounter++
+        if (this.wingType == ENUM.WingType.WING_TYPE_DRACONIC_SMALL || this.wingType == ENUM.WingType.WING_TYPE_DRACONIC_LARGE) dragonCounter++
+        if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DRAGON) dragonCounter++
+        if (this.horns > 0 && (this.hornType == ENUM.HornType.HORNS_DRACONIC_X2 || this.hornType == ENUM.HornType.HORNS_DRACONIC_X4_12_INCH_LONG)) dragonCounter++
+        if (this.skinType == ENUM.SkinType.SKIN_TYPE_SCALES && dragonCounter > 0) dragonCounter++
+        if (this.hornType == ENUM.HornType.HORNS_DRACONIC_X4_12_INCH_LONG || this.hornType == ENUM.HornType.HORNS_DRACONIC_X2) dragonCounter++
         if (this.findPerk(PerkLib.Dragonfire) >= 0) dragonCounter++
         return dragonCounter
     }
@@ -609,13 +549,13 @@ export class Player extends Creature {
     //Goblinscore
     goblinScore() {
         var horseCounter = 0
-        if (this.earType == ENUMS.EarType.EARS_ELFIN) horseCounter++
+        if (this.earType == ENUM.EarType.EARS_ELFIN) horseCounter++
         if (this.skinTone == "pale yellow" || this.skinTone == "grayish-blue" || this.skinTone == "green" || this.skinTone == "dark green") horseCounter++
         if (horseCounter > 0) {
-            if (this.faceType == ENUMS.FaceType.FACE_HUMAN) horseCounter++
+            if (this.faceType == ENUM.FaceType.FACE_HUMAN) horseCounter++
             if (this.tallness < 48) horseCounter++
             if (this.hasVagina()) horseCounter++
-            if (this.lowerBody == ENUMS.LowerBodyType.LOWER_BODY_TYPE_HUMAN) horseCounter++
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN) horseCounter++
         }
         return horseCounter
     }
@@ -623,7 +563,7 @@ export class Player extends Creature {
     //Gooscore
     gooScore() {
         var gooCounter = 0
-        if (this.hairType == ENUMS.HairType.HAIR_GOO) gooCounter++
+        if (this.hairType == ENUM.HairType.HAIR_GOO) gooCounter++
         if (this.skinAdj == "slimy") gooCounter++
         if (this.lowerBody == 8) gooCounter++
         if (this.vaginalCapacity() > 9000) gooCounter++
@@ -634,8 +574,8 @@ export class Player extends Creature {
     //Nagascore
     nagaScore() {
         var nagaCounter = 0
-        if (this.faceType == ENUMS.FaceType.FACE_SNAKE_FANGS) nagaCounter++
-        if (this.tongueType == ENUMS.TongueType.TONGUE_SNAKE) nagaCounter++
+        if (this.faceType == ENUM.FaceType.FACE_SNAKE_FANGS) nagaCounter++
+        if (this.tongueType == ENUM.TongueType.TONGUE_SNAKE) nagaCounter++
         if (nagaCounter > 0 && this.antennae == 0) nagaCounter++
         if (nagaCounter > 0 && this.wingType == 0) nagaCounter++
         return nagaCounter
@@ -644,14 +584,14 @@ export class Player extends Creature {
     //Bunnyscore
     bunnyScore() {
         var bunnyCounter = 0
-        if (this.faceType == ENUMS.FaceType.FACE_BUNNY) bunnyCounter++
-        if (this.tailType == ENUMS.TailType.TAIL_TYPE_RABBIT) bunnyCounter++
-        if (this.earType == ENUMS.EarType.EARS_BUNNY) bunnyCounter++
-        if (this.lowerBody == ENUMS.LowerBodyType.LOWER_BODY_TYPE_BUNNY) bunnyCounter++
+        if (this.faceType == ENUM.FaceType.FACE_BUNNY) bunnyCounter++
+        if (this.tailType == ENUM.TailType.TAIL_TYPE_RABBIT) bunnyCounter++
+        if (this.earType == ENUM.EarType.EARS_BUNNY) bunnyCounter++
+        if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_BUNNY) bunnyCounter++
         //More than 2 balls reduces bunny score
         if (this.balls > 2 && bunnyCounter > 0) bunnyCounter--
         //Human skin on bunmorph adds
-        if (this.skinType == ENUMS.SkinType.SKIN_TYPE_PLAIN && bunnyCounter > 1) bunnyCounter++
+        if (this.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN && bunnyCounter > 1) bunnyCounter++
         //No wings and antennae a plus
         if (bunnyCounter > 0 && this.antennae == 0) bunnyCounter++
         if (bunnyCounter > 0 && this.wingType == 0) bunnyCounter++
@@ -661,59 +601,59 @@ export class Player extends Creature {
     //Harpyscore
     harpyScore() {
         var harpy = 0
-        if (this.armType == ENUMS.ArmType.ARM_TYPE_HARPY) harpy++
-        if (this.hairType == ENUMS.HairType.HAIR_FEATHER) harpy++
-        if (this.wingType == ENUMS.WingType.WING_TYPE_FEATHERED_LARGE) harpy++
-        if (this.tailType == ENUMS.TailType.TAIL_TYPE_HARPY) harpy++
-        if (this.lowerBody == ENUMS.LowerBodyType.LOWER_BODY_TYPE_HARPY) harpy++
-        if (harpy >= 2 && this.faceType == ENUMS.FaceType.FACE_HUMAN) harpy++
-        if (harpy >= 2 && (this.earType == ENUMS.EarType.EARS_HUMAN || this.earType == ENUMS.EarType.EARS_ELFIN)) harpy++
+        if (this.armType == ENUM.ArmType.ARM_TYPE_HARPY) harpy++
+        if (this.hairType == ENUM.HairType.HAIR_FEATHER) harpy++
+        if (this.wingType == ENUM.WingType.WING_TYPE_FEATHERED_LARGE) harpy++
+        if (this.tailType == ENUM.TailType.TAIL_TYPE_HARPY) harpy++
+        if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HARPY) harpy++
+        if (harpy >= 2 && this.faceType == ENUM.FaceType.FACE_HUMAN) harpy++
+        if (harpy >= 2 && (this.earType == ENUM.EarType.EARS_HUMAN || this.earType == ENUM.EarType.EARS_ELFIN)) harpy++
         return harpy
     }
 
     //Kangascore
     kangaScore() {
         var kanga = 0
-        if (this.countCocksOfType(ENUMS.CockType.KANGAROO) > 0) kanga++
-        if (this.earType == ENUMS.EarType.EARS_KANGAROO) kanga++
-        if (this.tailType == ENUMS.TailType.TAIL_TYPE_KANGAROO) kanga++
-        if (this.lowerBody == ENUMS.LowerBodyType.LOWER_BODY_TYPE_KANGAROO) kanga++
-        if (this.faceType == ENUMS.FaceType.FACE_KANGAROO) kanga++
-        if (kanga >= 2 && this.skinType == ENUMS.SkinType.SKIN_TYPE_FUR) kanga++
+        if (this.countCocksOfType(ENUM.CockType.KANGAROO) > 0) kanga++
+        if (this.earType == ENUM.EarType.EARS_KANGAROO) kanga++
+        if (this.tailType == ENUM.TailType.TAIL_TYPE_KANGAROO) kanga++
+        if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_KANGAROO) kanga++
+        if (this.faceType == ENUM.FaceType.FACE_KANGAROO) kanga++
+        if (kanga >= 2 && this.skinType == ENUM.SkinType.SKIN_TYPE_FUR) kanga++
         return kanga
     }
 
     //sharkscore
     sharkScore() {
         var sharkCounter = 0
-        if (this.faceType == ENUMS.FaceType.FACE_SHARK_TEETH) sharkCounter++
-        if (this.wingType == ENUMS.WingType.WING_TYPE_SHARK_FIN) sharkCounter++
-        if (this.tailType == ENUMS.TailType.TAIL_TYPE_SHARK) sharkCounter++
-        if (this.skinType == ENUMS.SkinType.SKIN_TYPE_PLAIN && (this.skinTone == "rough gray" || player.skinTone == "orange and black striped")) sharkCounter++
+        if (this.faceType == ENUM.FaceType.FACE_SHARK_TEETH) sharkCounter++
+        if (this.wingType == ENUM.WingType.WING_TYPE_SHARK_FIN) sharkCounter++
+        if (this.tailType == ENUM.TailType.TAIL_TYPE_SHARK) sharkCounter++
+        if (this.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN && (this.skinTone == "rough gray" || player.skinTone == "orange and black striped")) sharkCounter++
         return sharkCounter
     }
 
     //Determine Mutant Rating
     mutantScore() {
         var mutantCounter = 0
-        if (this.faceType > ENUMS.FaceType.FACE_HUMAN) mutantCounter++
-        if (this.skinType > ENUMS.SkinType.SKIN_TYPE_PLAIN) mutantCounter++
-        if (this.tailType > ENUMS.TailType.TAIL_TYPE_NONE) mutantCounter++
+        if (this.faceType > ENUM.FaceType.FACE_HUMAN) mutantCounter++
+        if (this.skinType > ENUM.SkinType.SKIN_TYPE_PLAIN) mutantCounter++
+        if (this.tailType > ENUM.TailType.TAIL_TYPE_NONE) mutantCounter++
         if (this.cockTotal() > 1) mutantCounter++
         if (this.hasCock() && this.hasVagina()) mutantCounter++
         if (this.hasFuckableNipples()) mutantCounter++
         if (this.breastRows.length > 1) mutantCounter++
-        if (this.faceType == ENUMS.FaceType.FACE_HORSE) {
-            if (this.skinType == ENUMS.SkinType.SKIN_TYPE_FUR) mutantCounter--
-            if (this.tailType == ENUMS.TailType.TAIL_TYPE_HORSE) mutantCounter--
+        if (this.faceType == ENUM.FaceType.FACE_HORSE) {
+            if (this.skinType == ENUM.SkinType.SKIN_TYPE_FUR) mutantCounter--
+            if (this.tailType == ENUM.TailType.TAIL_TYPE_HORSE) mutantCounter--
         }
-        if (this.faceType == ENUMS.FaceType.FACE_DOG) {
-            if (this.skinType == ENUMS.SkinType.SKIN_TYPE_FUR) mutantCounter--
-            if (this.tailType == ENUMS.TailType.TAIL_TYPE_DOG) mutantCounter--
+        if (this.faceType == ENUM.FaceType.FACE_DOG) {
+            if (this.skinType == ENUM.SkinType.SKIN_TYPE_FUR) mutantCounter--
+            if (this.tailType == ENUM.TailType.TAIL_TYPE_DOG) mutantCounter--
         }
-        if (this.faceType == ENUMS.FaceType.FACE_CAT) {
-            if (this.skinType == ENUMS.SkinType.SKIN_TYPE_FUR) mutantCounter--
-            if (this.tailType == ENUMS.TailType.TAIL_TYPE_CAT) mutantCounter--
+        if (this.faceType == ENUM.FaceType.FACE_CAT) {
+            if (this.skinType == ENUM.SkinType.SKIN_TYPE_FUR) mutantCounter--
+            if (this.tailType == ENUM.TailType.TAIL_TYPE_CAT) mutantCounter--
         }
         return mutantCounter--
     }
@@ -721,30 +661,30 @@ export class Player extends Creature {
     //Mod-added
     sirenScore() {
         var sirenCounter = 0
-        if (this.faceType == ENUMS.FaceType.FACE_SHARK_TEETH && this.tailType == ENUMS.TailType.TAIL_TYPE_SHARK && this.wingType == ENUMS.WingType.WING_TYPE_FEATHERED_LARGE && this.armType == ENUMS.ArmType.ARM_TYPE_HARPY) sirenCounter += 4
+        if (this.faceType == ENUM.FaceType.FACE_SHARK_TEETH && this.tailType == ENUM.TailType.TAIL_TYPE_SHARK && this.wingType == ENUM.WingType.WING_TYPE_FEATHERED_LARGE && this.armType == ENUM.ArmType.ARM_TYPE_HARPY) sirenCounter += 4
         if (this.hasVagina() && sirenCounter > 0) sirenCounter++
-        if (this.hasCock() && this.countCocksOfType(ENUMS.CockType.ANEMONE) > 0 && sirenCounter > 0) sirenCounter++
+        if (this.hasCock() && this.countCocksOfType(ENUM.CockType.ANEMONE) > 0 && sirenCounter > 0) sirenCounter++
         return sirenCounter++
     }
 
     pigScore() {
         var pigCounter = 0
-        if (this.earType == ENUMS.EarType.EARS_PIG) pigCounter++
-        if (this.tailType == ENUMS.TailType.TAIL_TYPE_PIG) pigCounter++
-        if (this.faceType == ENUMS.FaceType.FACE_PIG || ENUMS.FaceType.FACE_BOAR) pigCounter++
-        if (this.lowerBody == ENUMS.LowerBodyType.LOWER_BODY_TYPE_CLOVEN_HOOFED) pigCounter += 2
-        if (this.countCocksOfType(ENUMS.CockType.PIG) > 0) pigCounter++
+        if (this.earType == ENUM.EarType.EARS_PIG) pigCounter++
+        if (this.tailType == ENUM.TailType.TAIL_TYPE_PIG) pigCounter++
+        if (this.faceType == ENUM.FaceType.FACE_PIG || ENUM.FaceType.FACE_BOAR) pigCounter++
+        if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CLOVEN_HOOFED) pigCounter += 2
+        if (this.countCocksOfType(ENUM.CockType.PIG) > 0) pigCounter++
         return pigCounter
     }
 
     satyrScore() {
         var satyrCounter = 0
-        if (this.lowerBody == ENUMS.LowerBodyType.LOWER_BODY_TYPE_HOOFED) satyrCounter++
-        if (this.tailType == ENUMS.TailType.TAIL_TYPE_GOAT) satyrCounter++
+        if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED) satyrCounter++
+        if (this.tailType == ENUM.TailType.TAIL_TYPE_GOAT) satyrCounter++
         if (satyrCounter >= 2) {
-            if (this.earType == ENUMS.EarType.EARS_ELFIN) satyrCounter++
-            if (this.faceType == ENUMS.FaceType.FACE_HUMAN) satyrCounter++
-            if (this.countCocksOfType(ENUMS.CockType.HUMAN) > 0) satyrCounter++
+            if (this.earType == ENUM.EarType.EARS_ELFIN) satyrCounter++
+            if (this.faceType == ENUM.FaceType.FACE_HUMAN) satyrCounter++
+            if (this.countCocksOfType(ENUM.CockType.HUMAN) > 0) satyrCounter++
             if (this.balls > 0 && this.ballSize >= 3) satyrCounter++
         }
         return satyrCounter
@@ -752,12 +692,12 @@ export class Player extends Creature {
 
     rhinoScore() {
         var rhinoCounter = 0
-        if (this.earType == ENUMS.EarType.EARS_RHINO) rhinoCounter++
-        if (this.tailType == ENUMS.TailType.TAIL_TYPE_RHINO) rhinoCounter++
-        if (this.faceType == ENUMS.FaceType.FACE_RHINO) rhinoCounter++
-        if (this.hornType == ENUMS.HornType.HORNS_RHINO) rhinoCounter++
+        if (this.earType == ENUM.EarType.EARS_RHINO) rhinoCounter++
+        if (this.tailType == ENUM.TailType.TAIL_TYPE_RHINO) rhinoCounter++
+        if (this.faceType == ENUM.FaceType.FACE_RHINO) rhinoCounter++
+        if (this.hornType == ENUM.HornType.HORNS_RHINO) rhinoCounter++
         if (rhinoCounter >= 2 && this.skinTone == "gray") rhinoCounter++
-        if (rhinoCounter >= 2 && this.hasCock() && this.countCocksOfType(ENUMS.CockType.RHINO) > 0) rhinoCounter++
+        if (rhinoCounter >= 2 && this.hasCock() && this.countCocksOfType(ENUM.CockType.RHINO) > 0) rhinoCounter++
         return rhinoCounter
     }
 
@@ -769,31 +709,31 @@ export class Player extends Creature {
         if (this.tongueType == TONGUE_ECHIDNA) echidnaCounter++
         if (this.lowerBody == LOWER_BODY_TYPE_ECHIDNA) echidnaCounter++
         if (echidnaCounter >= 2 && this.skinType == SKIN_TYPE_FUR) echidnaCounter++
-        if (echidnaCounter >= 2 && this.hasCock() && this.countCocksOfType(ENUMS.CockType.ECHIDNA) > 0) echidnaCounter++
+        if (echidnaCounter >= 2 && this.hasCock() && this.countCocksOfType(ENUM.CockType.ECHIDNA) > 0) echidnaCounter++
         return echidnaCounter
     }
 
     deerScore() {
         var deerCounter = 0
-        if (this.earType == ENUMS.EarType.EARS_DEER) deerCounter++
-        if (this.tailType == ENUMS.TailType.TAIL_TYPE_DEER) deerCounter++
-        if (this.faceType == ENUMS.FaceType.FACE_DEER) deerCounter++
-        if (this.lowerBody == ENUMS.LowerBodyType.LOWER_BODY_TYPE_CLOVEN_HOOFED || this.lowerBody == ENUMS.LowerBodyType.LOWER_BODY_TYPE_DEERTAUR) deerCounter++
-        if (this.hornType == ENUMS.HornType.HORNS_ANTLERS && this.horns >= 4) deerCounter++
-        if (deerCounter >= 2 && this.skinType == ENUMS.SkinType.SKIN_TYPE_FUR) deerCounter++
-        if (deerCounter >= 3 && this.countCocksOfType(ENUMS.CockType.HORSE) > 0) deerCounter++
+        if (this.earType == ENUM.EarType.EARS_DEER) deerCounter++
+        if (this.tailType == ENUM.TailType.TAIL_TYPE_DEER) deerCounter++
+        if (this.faceType == ENUM.FaceType.FACE_DEER) deerCounter++
+        if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CLOVEN_HOOFED || this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DEERTAUR) deerCounter++
+        if (this.hornType == ENUM.HornType.HORNS_ANTLERS && this.horns >= 4) deerCounter++
+        if (deerCounter >= 2 && this.skinType == ENUM.SkinType.SKIN_TYPE_FUR) deerCounter++
+        if (deerCounter >= 3 && this.countCocksOfType(ENUM.CockType.HORSE) > 0) deerCounter++
         return deerCounter
     }
 
     //Dragonne
     dragonneScore() {
         var dragonneCounter = 0
-        if (this.faceType == ENUMS.FaceType.FACE_CAT) dragonneCounter++
-        if (this.earType == ENUMS.EarType.EARS_CAT) dragonneCounter++
-        if (this.tailType == ENUMS.TailType.TAIL_TYPE_CAT) dragonneCounter++
-        if (this.tongueType == ENUMS.TongueType.TONGUE_DRACONIC) dragonneCounter++
-        if (this.wingType == ENUMS.WingType.WING_TYPE_DRACONIC_LARGE || this.wingType == ENUMS.WingType.WING_TYPE_DRACONIC_SMALL) dragonneCounter++
-        if (this.lowerBody == ENUMS.LowerBodyType.LOWER_BODY_TYPE_CAT) dragonneCounter++
+        if (this.faceType == ENUM.FaceType.FACE_CAT) dragonneCounter++
+        if (this.earType == ENUM.EarType.EARS_CAT) dragonneCounter++
+        if (this.tailType == ENUM.TailType.TAIL_TYPE_CAT) dragonneCounter++
+        if (this.tongueType == ENUM.TongueType.TONGUE_DRACONIC) dragonneCounter++
+        if (this.wingType == ENUM.WingType.WING_TYPE_DRACONIC_LARGE || this.wingType == ENUM.WingType.WING_TYPE_DRACONIC_SMALL) dragonneCounter++
+        if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT) dragonneCounter++
         if (this.skinType == 2 && dragonneCounter > 0) dragonneCounter++
         return dragonneCounter
     }
@@ -801,14 +741,14 @@ export class Player extends Creature {
     //Manticore
     manticoreScore() {
         var catCounter = 0
-        if (this.faceType == ENUMS.FaceType.FACE_CAT) catCounter++
-        if (this.earType == ENUMS.EarType.EARS_CAT) catCounter++
-        if (this.tailType == ENUMS.TailType.TAIL_TYPE_SCORPION) catCounter += 2
-        if (this.lowerBody == ENUMS.LowerBodyType.LOWER_BODY_TYPE_CAT) catCounter++
+        if (this.faceType == ENUM.FaceType.FACE_CAT) catCounter++
+        if (this.earType == ENUM.EarType.EARS_CAT) catCounter++
+        if (this.tailType == ENUM.TailType.TAIL_TYPE_SCORPION) catCounter += 2
+        if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT) catCounter++
         if (catCounter >= 4) {
-            if (this.hornType == ENUMS.HornType.HORNS_DEMON || this.hornType == ENUMS.HornType.HORNS_DRACONIC_X2 || this.hornType == ENUMS.HornType.HORNS_DRACONIC_X4_12_INCH_LONG) catCounter++
-            if (this.wingType == ENUMS.WingType.WING_TYPE_BAT_LIKE_TINY || this.wingType == ENUMS.WingType.WING_TYPE_DRACONIC_SMALL) catCounter++
-            if (this.wingType == ENUMS.WingType.WING_TYPE_BAT_LIKE_LARGE || this.wingType == ENUMS.WingType.WING_TYPE_DRACONIC_LARGE) catCounter += 2
+            if (this.hornType == ENUM.HornType.HORNS_DEMON || this.hornType == ENUM.HornType.HORNS_DRACONIC_X2 || this.hornType == ENUM.HornType.HORNS_DRACONIC_X4_12_INCH_LONG) catCounter++
+            if (this.wingType == ENUM.WingType.WING_TYPE_BAT_LIKE_TINY || this.wingType == ENUM.WingType.WING_TYPE_DRACONIC_SMALL) catCounter++
+            if (this.wingType == ENUM.WingType.WING_TYPE_BAT_LIKE_LARGE || this.wingType == ENUM.WingType.WING_TYPE_DRACONIC_LARGE) catCounter += 2
         }
         //Fur only counts if some canine features are present
         if (this.skinType == 1 && catCounter >= 6) catCounter++
@@ -911,7 +851,7 @@ export class Player extends Creature {
                 if (ncocks > 1 && ncocks < this.cocks.length)
                     outputText(
                         "A very pleasurable feeling spreads from your groin as " +
-                            num2Text(cocks) +
+                            UTIL.num2Text(cocks) +
                             " of your " +
                             player.multiCockDescriptLight() +
                             " grow permanently longer, by at least an inch, and leak plenty of pre-cum from the pleasure of the change."
@@ -922,7 +862,7 @@ export class Player extends Creature {
             if (this.cocks.length == 1) outputText("Your " + this.cockDescript(0) + " feels incredibly tight as a few more inches of length seem to pour out from your crotch.")
             if (this.cocks.length > 1) {
                 if (ncocks == 1) outputText("Your " + this.multiCockDescriptLight() + " feel incredibly tight as one of their number begins to grow inch after inch of length.")
-                if (ncocks > 1 && ncocks < this.cocks.length) outputText("Your " + this.multiCockDescriptLight() + " feel incredibly number as " + num2Text(ncocks) + " of them begin to grow inch after inch of added length.")
+                if (ncocks > 1 && ncocks < this.cocks.length) outputText("Your " + this.multiCockDescriptLight() + " feel incredibly number as " + UTIL.num2Text(ncocks) + " of them begin to grow inch after inch of added length.")
                 if (ncocks == this.cocks.length) outputText("Your " + this.multiCockDescriptLight() + " feel incredibly tight as inch after inch of length pour out from your groin.")
             }
         }
@@ -939,7 +879,7 @@ export class Player extends Creature {
             if (this.cocks[0].cockLength >= 16 && this.cocks[0].cockLength - amount < 16) {
                 if (this.cocks.length == 1) outputText("  <b>Your " + this.cockDescript(0) + " would look more at home on a large horse than you.</b>")
                 if (this.cocks.length > 1) outputText("  <b>Your " + this.multiCockDescriptLight() + " would look more at home on a large horse than on your body.</b>")
-                if (this.biggestTitSize() >= ENUMS.BreastSizeType.BREAST_CUP_C) {
+                if (this.biggestTitSize() >= ENUM.BreastSizeType.BREAST_CUP_C) {
                     if (this.cocks.length == 1) outputText("  You could easily stuff your " + this.cockDescript(0) + " between your breasts and give yourself the titty-fuck of a lifetime.")
                     if (this.cocks.length > 1) outputText("  They reach so far up your chest it would be easy to stuff a few cocks between your breasts and give yourself the titty-fuck of a lifetime.")
                 } else {
@@ -978,16 +918,16 @@ export class Player extends Creature {
             if (this.cocks.length == 1) outputText("Your " + this.multiCockDescriptLight() + " has shrunk to a slightly shorter length.")
             if (this.cocks.length > 1) {
                 if (ncocks == this.cocks.length) outputText("Your " + this.multiCockDescriptLight() + " have shrunk to a slightly shorter length.")
-                if (ncocks > 1 && ncocks < this.cocks.length) outputText("You feel " + num2Text(ncocks) + " of your " + this.multiCockDescriptLight() + " have shrunk to a slightly shorter length.")
-                if (ncocks == 1) outputText("You feel " + num2Text(ncocks) + " of your " + this.multiCockDescriptLight() + " has shrunk to a slightly shorter length.")
+                if (ncocks > 1 && ncocks < this.cocks.length) outputText("You feel " + UTIL.num2Text(ncocks) + " of your " + this.multiCockDescriptLight() + " have shrunk to a slightly shorter length.")
+                if (ncocks == 1) outputText("You feel " + UTIL.num2Text(ncocks) + " of your " + this.multiCockDescriptLight() + " has shrunk to a slightly shorter length.")
             }
         }
         if (amount < -1 && amount > -3) {
             if (this.cocks.length == 1) outputText("Your " + this.multiCockDescriptLight() + " shrinks smaller, flesh vanishing into your groin.")
             if (this.cocks.length > 1) {
                 if (ncocks == this.cocks.length) outputText("Your " + this.multiCockDescriptLight() + " shrink smaller, the flesh vanishing into your groin.")
-                if (ncocks == 1) outputText("You feel " + num2Text(ncocks) + " of your " + this.multiCockDescriptLight() + " shrink smaller, the flesh vanishing into your groin.")
-                if (ncocks > 1 && ncocks < this.cocks.length) outputText("You feel " + num2Text(ncocks) + " of your " + this.multiCockDescriptLight() + " shrink smaller, the flesh vanishing into your groin.")
+                if (ncocks == 1) outputText("You feel " + UTIL.num2Text(ncocks) + " of your " + this.multiCockDescriptLight() + " shrink smaller, the flesh vanishing into your groin.")
+                if (ncocks > 1 && ncocks < this.cocks.length) outputText("You feel " + UTIL.num2Text(ncocks) + " of your " + this.multiCockDescriptLight() + " shrink smaller, the flesh vanishing into your groin.")
             }
         }
         if (amount <= -3) {
@@ -995,15 +935,13 @@ export class Player extends Creature {
             if (this.cocks.length > 1) {
                 if (ncocks == this.cocks.length) outputText("A large portion of your " + this.multiCockDescriptLight() + " receeds towards your groin, receding rapidly in length.")
                 if (ncocks == 1) outputText("A single member of your " + this.multiCockDescriptLight() + " vanishes into your groin, receding rapidly in length.")
-                if (ncocks > 1 && this.cocks.length > ncocks) outputText("Your " + this.multiCockDescriptLight() + " tingles as " + num2Text(ncocks) + " of your members vanish into your groin, receding rapidly in length.")
+                if (ncocks > 1 && this.cocks.length > ncocks) outputText("Your " + this.multiCockDescriptLight() + " tingles as " + UTIL.num2Text(ncocks) + " of your members vanish into your groin, receding rapidly in length.")
             }
         }
     }
 
     //Armour Descript & Clothed or Naked!
-    armorDescript(nakedText) {
-        //Default
-        if (nakedText == undefined) nakedText = "gear"
+    armorDescript(nakedText = "gear") {
         //Main Function
         var textArray = []
         var text = ""
@@ -1012,24 +950,24 @@ export class Player extends Creature {
         if (this.armor.equipmentName != "naked") textArray.push(this.armor.name)
         //if (upperGarment != UndergarmentLib.NOTHING) textArray.push(upperGarmentName);
         //if (lowerGarment != UndergarmentLib.NOTHING) textArray.push(lowerGarmentName);
-        if (textArray.length > 0) text = formatStringArray(textArray)
+        if (textArray.length > 0) text = UTIL.formatStringArray(textArray)
         //Naked?
         if (this.armor.equipmentName == "naked") text = nakedText
         //if (upperGarment == UndergarmentLib.NOTHING && lowerGarment == UndergarmentLib.NOTHING && armor == ArmorLib.NOTHING) text = nakedText;
         return text
     }
 
-    clothedOrNaked(clothedText, nakedText) {
+    clothedOrNaked(clothedText: string, nakedText: string) {
         if (nakedText == undefined) nakedText = ""
         return this.armorDescript() != "nothing" ? clothedText : nakedText
     }
 
-    clothedOrNakedUpper(clothedText, nakedText) {
+    clothedOrNakedUpper(clothedText: string, nakedText: string) {
         if (nakedText == undefined) nakedText = ""
         return this.armor.equipmentName != "nothing" && this.upperGarment.equipmentName == "nothing" ? clothedText : nakedText
     }
 
-    clothedOrNakedLower(clothedText, nakedText) {
+    clothedOrNakedLower(clothedText: string, nakedText: string) {
         if (nakedText == undefined) nakedText = ""
         return this.armor.equipmentName != "nothing" && this.armor.equipmentName != "lethicite armor" && this.lowerGarment.equipmentName == "nothing" && !this.isTaur() ? clothedText : nakedText
     }
@@ -1146,9 +1084,9 @@ export class Player extends Creature {
         if (this.findStatusEffect(StatusEffects.VineHealUsed) >= 0) this.removeStatusEffect(StatusEffects.VineHealUsed)
     }
 
-    setFurColor(colorArray) {
-        if (this.skinType == ENUMS.SkinType.SKIN_TYPE_FUR) {
-            this.furColor = colorArray[rand(colorArray.length)]
+    setFurColor(colorArray: string[]) {
+        if (this.skinType == ENUM.SkinType.SKIN_TYPE_FUR) {
+            this.furColor = colorArray[UTIL.rand(colorArray.length)]
         }
     }
 
@@ -1183,12 +1121,12 @@ export class Player extends Creature {
         return slots
     }
 
-    hasItem(itype, minQuantity = -1) {
+    hasItem(itype: IItem, minQuantity = -1) {
         if (minQuantity == -1) minQuantity = 1
         return this.itemCount(itype) >= minQuantity
     }
 
-    itemCount(itype) {
+    itemCount(itype: IItem) {
         var count = 0
         for (var i = 0; i < this.itemSlots.length; i++) {
             if (this.itemSlots[i].itype == itype) count += this.itemSlots[i].quantity
@@ -1196,7 +1134,7 @@ export class Player extends Creature {
         return count
     }
 
-    roomInExistingStack(itype) {
+    roomInExistingStack(itype: IItem) {
         for (var i = 0; i < 10; i++) {
             if (this.itemSlots[i].itype == itype && this.itemSlots[i].quantity != 0 && this.itemSlots[i].quantity < 5) return i
         }
@@ -1210,7 +1148,7 @@ export class Player extends Creature {
         return -1
     }
 
-    destroyItems(itype, numOfItemToRemove: number) {
+    destroyItems(itype: IItem, numOfItemToRemove: number) {
         for (var slotNum = 0; slotNum < this.itemSlots.length; slotNum += 1) {
             if (this.itemSlots[slotNum].itype == itype) {
                 while (this.itemSlots[slotNum].quantity > 0 && numOfItemToRemove > 0) {

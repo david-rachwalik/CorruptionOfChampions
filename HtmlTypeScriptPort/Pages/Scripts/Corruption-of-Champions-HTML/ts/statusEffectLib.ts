@@ -55,6 +55,10 @@ class StatusEffectTypeContainer {
     LustVenom: StatusEffectType
     Fertilized: StatusEffectType
 
+    ButtStretched: StatusEffectType
+    LactationEndurance: StatusEffectType
+    LactationReduction: StatusEffectType
+
     constructor() {
         //------------
         // NON-COMBAT
@@ -101,9 +105,15 @@ class StatusEffectTypeContainer {
         this.LustVenom = new StatusEffectType("LustVenom")
 
         this.Fertilized = new StatusEffectType("Fertilized") // Used in SandTrap battles.
+
+        //----------
+        // TODO: verify: were called in Creature but not originally defined
+        //---------
+        this.ButtStretched = new StatusEffectType("ButtStretched")
+        this.LactationEndurance = new StatusEffectType("LactationEndurance")
+        this.LactationReduction = new StatusEffectType("LactationReduction")
     }
 }
-
 let StatusEffects = new StatusEffectTypeContainer()
 
 export { BindType, VenomType, StatusEffects }

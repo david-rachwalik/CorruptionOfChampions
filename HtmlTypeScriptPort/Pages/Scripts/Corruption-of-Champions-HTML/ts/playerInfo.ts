@@ -1,7 +1,7 @@
 import { clearOutput, outputText } from "./engine/text"
 import * as GUI from "./engine/gui"
-import * as ENUMS from "./appearanceEnums"
-import * as UTILS from "./engine/utils"
+import * as ENUM from "./appearanceEnums"
+import * as UTIL from "./engine/utils"
 import { liveData } from "./globalVariables"
 import { addToGameFlags } from "./engine/saves"
 // import { Creature } from "./creature"
@@ -19,7 +19,7 @@ function levelScreen() {
     liveData.player.level++
     liveData.player.statPoints += 5
     liveData.player.perkPoints += 1
-    outputText("<b>You are now level " + UTILS.num2Text(liveData.player.level) + "!</b><br><br>You have gained five attribute points and one perk point!")
+    outputText("<b>You are now level " + UTIL.num2Text(liveData.player.level) + "!</b><br><br>You have gained five attribute points and one perk point!")
     GUI.doNext(attributeMenu)
 }
 function attributeMenu() {
@@ -217,7 +217,7 @@ function perksScreen() {
     //Additional buttons
     let button = 1
     if (liveData.player.perkPoints > 0) {
-        outputText("<br><b>You have " + UTILS.num2Text(liveData.player.perkPoints) + " perk point")
+        outputText("<br><b>You have " + UTIL.num2Text(liveData.player.perkPoints) + " perk point")
         if (liveData.player.perkPoints > 1) outputText("s")
         outputText(" to spend.</b>")
         GUI.addButton(button++, "Perk Up", perkBuyMenu)
@@ -434,7 +434,7 @@ function appearanceScreen() {
         outputText(" You have a " + liveData.player.beardDescript() + " ")
         if (liveData.player.beardStyle != BEARD_GOATEE) {
             outputText("covering your ")
-            if (UTILS.rand(2) == 0) outputText("jaw")
+            if (UTIL.rand(2) == 0) outputText("jaw")
             else outputText("chin and cheeks")
         } else {
             outputText("protruding from your chin")
@@ -462,7 +462,7 @@ function appearanceScreen() {
                     " A large number of thick demonic horns sprout through your " +
                         liveData.player.skinDesc +
                         ", each pair sprouting behind the ones before. The front jut forwards nearly ten inches while the rest curve back over your head, some of the points ending just below your ears. You estimate you have a total of " +
-                        UTILS.num2Text(liveData.player.horns) +
+                        UTIL.num2Text(liveData.player.horns) +
                         " horns."
                 )
             break
@@ -474,14 +474,14 @@ function appearanceScreen() {
             if (liveData.player.horns >= 20) outputText(" Two huge horns erupt from your forehead, curving outward at first, then forwards. The weight of them is heavy, and they end in dangerous looking points.")
             break
         case HORNS_DRACONIC_X2:
-            if (useMetrics) outputText(" A pair of " + UTILS.num2Text(Math.floor(liveData.player.horns * 2.54)) + " centimetre horns grow from the sides of your head, sweeping backwards and adding to your imposing visage.")
-            else outputText(" A pair of " + UTILS.num2Text(liveData.player.horns) + " inch horns grow from the sides of your head, sweeping backwards and adding to your imposing visage.")
+            if (useMetrics) outputText(" A pair of " + UTIL.num2Text(Math.floor(liveData.player.horns * 2.54)) + " centimetre horns grow from the sides of your head, sweeping backwards and adding to your imposing visage.")
+            else outputText(" A pair of " + UTIL.num2Text(liveData.player.horns) + " inch horns grow from the sides of your head, sweeping backwards and adding to your imposing visage.")
             break
         case HORNS_DRACONIC_X4_12_INCH_LONG:
             outputText(" Two pairs of horns, roughly a foot long, sprout from the sides of your head. They sweep back and give you a fearsome look, almost like the dragons from your village's legends.")
             break
         case HORNS_ANTLERS:
-            outputText(" Two antlers, forking into " + UTILS.num2Text(liveData.player.horns) + " points, have sprouted from the top of your head, forming a spiky, regal crown of bone.")
+            outputText(" Two antlers, forking into " + UTIL.num2Text(liveData.player.horns) + " points, have sprouted from the top of your head, forming a spiky, regal crown of bone.")
             break
         case HORNS_GOAT:
             if (liveData.player.horns == 1) outputText(" A pair of stubby goat horns sprout from the sides of your head.")
@@ -541,10 +541,10 @@ function appearanceScreen() {
     //Done with head bits. Move on to body stuff
     //Horse lowerbody, other lowerbody texts appear lower
     if (liveData.player.isTaur()) {
-        if (liveData.player.lowerBody == LOWER_BODY_TYPE_HOOFED) outputText(" From the waist down you have the body of a horse, with all " + UTILS.num2Text(liveData.player.legCount) + " legs capped by hooves.")
-        else if (liveData.player.lowerBody == LOWER_BODY_TYPE_PONY) outputText(" From the waist down you have an incredibly cute and cartoonish parody of a horse's body, with all " + UTILS.num2Text(liveData.player.legCount) + " legs ending in flat, rounded feet.")
-        else if (liveData.player.lowerBody == LOWER_BODY_TYPE_DRIDER_LOWER_BODY) outputText(" Where your legs would normally start you have grown the body of a spider, with " + UTILS.num2Text(liveData.player.legCount) + " spindly legs that sprout from its sides.")
-        else outputText(" Where your legs would normally start you have grown the body of a feral animal, with all " + UTILS.num2Text(liveData.player.legCount) + " legs.")
+        if (liveData.player.lowerBody == LOWER_BODY_TYPE_HOOFED) outputText(" From the waist down you have the body of a horse, with all " + UTIL.num2Text(liveData.player.legCount) + " legs capped by hooves.")
+        else if (liveData.player.lowerBody == LOWER_BODY_TYPE_PONY) outputText(" From the waist down you have an incredibly cute and cartoonish parody of a horse's body, with all " + UTIL.num2Text(liveData.player.legCount) + " legs ending in flat, rounded feet.")
+        else if (liveData.player.lowerBody == LOWER_BODY_TYPE_DRIDER_LOWER_BODY) outputText(" Where your legs would normally start you have grown the body of a spider, with " + UTIL.num2Text(liveData.player.legCount) + " spindly legs that sprout from its sides.")
+        else outputText(" Where your legs would normally start you have grown the body of a feral animal, with all " + UTIL.num2Text(liveData.player.legCount) + " legs.")
     }
     //Hip info only displays if you aren't a centaur.
     if (!liveData.player.isTaur()) {
@@ -728,18 +728,18 @@ function appearanceScreen() {
     //LOWERBODY SPECIAL
     if (liveData.player.lowerBody == LOWER_BODY_TYPE_HUMAN) outputText(" " + Num2Text(liveData.player.legCount) + " normal human legs grow down from your waist, ending in normal human feet.")
     else if (liveData.player.lowerBody == LOWER_BODY_TYPE_FERRET) outputText(" " + Num2Text(liveData.player.legCount) + " furry, digitigrade legs form below your [hips]. The fur is thinner on the feet, and your toes are tipped with claws.")
-    else if (liveData.player.lowerBody == LOWER_BODY_TYPE_HOOFED) outputText(" Your " + UTILS.num2Text(liveData.player.legCount) + " legs are muscled and jointed oddly, covered in fur, and end in a bestial hooves.")
+    else if (liveData.player.lowerBody == LOWER_BODY_TYPE_HOOFED) outputText(" Your " + UTIL.num2Text(liveData.player.legCount) + " legs are muscled and jointed oddly, covered in fur, and end in a bestial hooves.")
     else if (liveData.player.lowerBody == LOWER_BODY_TYPE_DOG) outputText(" " + Num2Text(liveData.player.legCount) + " digitigrade legs grow downwards from your waist, ending in dog-like hind-paws.")
     else if (liveData.player.lowerBody == LOWER_BODY_TYPE_NAGA) outputText(" Below your waist your flesh is fused together into a very long snake-like tail.")
     //Horse body is placed higher for readability purposes
     else if (liveData.player.lowerBody == LOWER_BODY_TYPE_DEMONIC_HIGH_HEELS)
-        outputText(" Your " + UTILS.num2Text(liveData.player.legCount) + " perfect lissome legs end in mostly human feet, apart from the horn protruding straight down from the heel that forces you to walk with a sexy, swaying gait.")
+        outputText(" Your " + UTIL.num2Text(liveData.player.legCount) + " perfect lissome legs end in mostly human feet, apart from the horn protruding straight down from the heel that forces you to walk with a sexy, swaying gait.")
     else if (liveData.player.lowerBody == LOWER_BODY_TYPE_DEMONIC_CLAWS)
-        outputText(" Your " + UTILS.num2Text(liveData.player.legCount) + " lithe legs are capped with flexible clawed feet. Sharp black nails grow where once you had toe-nails, giving you fantastic grip.")
+        outputText(" Your " + UTIL.num2Text(liveData.player.legCount) + " lithe legs are capped with flexible clawed feet. Sharp black nails grow where once you had toe-nails, giving you fantastic grip.")
     else if (liveData.player.lowerBody == LOWER_BODY_TYPE_BEE)
         outputText(
             " Your " +
-                UTILS.num2Text(player.legCount) +
+                UTIL.num2Text(player.legCount) +
                 " legs are covered in a shimmering insectile carapace up to mid-thigh, looking more like a set of 'fuck-me-boots' than exoskeleton. A bit of downy yellow and black fur fuzzes your upper thighs, just like a bee."
         )
     else if (liveData.player.lowerBody == LOWER_BODY_TYPE_GOO)
@@ -748,23 +748,23 @@ function appearanceScreen() {
     else if (liveData.player.lowerBody == LOWER_BODY_TYPE_LIZARD)
         outputText(" " + Num2Text(liveData.player.legCount) + " digitigrade legs grow down from your " + liveData.player.hipDescript() + ", ending in clawed feet. There are three long toes on the front, and a small hind-claw on the back.")
     else if (liveData.player.lowerBody == LOWER_BODY_TYPE_BUNNY)
-        outputText(" Your " + UTILS.num2Text(liveData.player.legCount) + " legs thicken below the waist as they turn into soft-furred rabbit-like legs. You even have large bunny feet that make hopping around a little easier than walking.")
+        outputText(" Your " + UTIL.num2Text(liveData.player.legCount) + " legs thicken below the waist as they turn into soft-furred rabbit-like legs. You even have large bunny feet that make hopping around a little easier than walking.")
     else if (liveData.player.lowerBody == LOWER_BODY_TYPE_HARPY)
         outputText(
             " Your " +
-                UTILS.num2Text(liveData.player.legCount) +
+                UTIL.num2Text(liveData.player.legCount) +
                 " legs are covered with " +
                 liveData.player.furColor +
                 " plumage. Thankfully the thick, powerful thighs are perfect for launching you into the air, and your feet remain mostly human, even if they are two-toed and tipped with talons."
         )
-    else if (liveData.player.lowerBody == LOWER_BODY_TYPE_KANGAROO) outputText(" Your " + UTILS.num2Text(liveData.player.legCount) + " furry legs have short thighs and long calves, with even longer feet ending in prominently-nailed toes.")
+    else if (liveData.player.lowerBody == LOWER_BODY_TYPE_KANGAROO) outputText(" Your " + UTIL.num2Text(liveData.player.legCount) + " furry legs have short thighs and long calves, with even longer feet ending in prominently-nailed toes.")
     else if (liveData.player.lowerBody == LOWER_BODY_TYPE_CHITINOUS_SPIDER_LEGS)
-        outputText(" Your " + UTILS.num2Text(liveData.player.legCount) + " legs are covered in a reflective black, insectile carapace up to your mid-thigh, looking more like a set of 'fuck-me-boots' than exoskeleton.")
-    else if (liveData.player.lowerBody == LOWER_BODY_TYPE_FOX) outputText(" Your " + UTILS.num2Text(liveData.player.legCount) + " legs are crooked into high knees with hocks and long feet, like those of a fox; cute bulbous toes decorate the ends.")
+        outputText(" Your " + UTIL.num2Text(liveData.player.legCount) + " legs are covered in a reflective black, insectile carapace up to your mid-thigh, looking more like a set of 'fuck-me-boots' than exoskeleton.")
+    else if (liveData.player.lowerBody == LOWER_BODY_TYPE_FOX) outputText(" Your " + UTIL.num2Text(liveData.player.legCount) + " legs are crooked into high knees with hocks and long feet, like those of a fox; cute bulbous toes decorate the ends.")
     else if (liveData.player.lowerBody == LOWER_BODY_TYPE_DRAGON)
         outputText(" " + Num2Text(liveData.player.legCount) + " human-like legs grow down from your " + liveData.player.hipDescript() + ", sheathed in scales and ending in clawed feet. There are three long toes on the front, and a small hind-claw on the back.")
     else if (liveData.player.lowerBody == LOWER_BODY_TYPE_RACCOON)
-        outputText(" Your " + UTILS.num2Text(liveData.player.legCount) + " legs, though covered in fur, are humanlike. Long feet on the ends bear equally long toes, and the pads on the bottoms are quite sensitive to the touch.")
+        outputText(" Your " + UTIL.num2Text(liveData.player.legCount) + " legs, though covered in fur, are humanlike. Long feet on the ends bear equally long toes, and the pads on the bottoms are quite sensitive to the touch.")
     else if (liveData.player.lowerBody == LOWER_BODY_TYPE_CLOVEN_HOOFED) outputText(" " + Num2Text(liveData.player.legCount) + " digitigrade legs form below your [hips], ending in cloven hooves.")
     if (liveData.player.findPerk(PerkLib.Incorporeality) >= 0) outputText(" Of course, your " + liveData.player.legs() + " are partially transparent due to their ghostly nature.") // isn't goo transparent anyway?
 
@@ -895,12 +895,12 @@ function appearanceScreen() {
     if (liveData.player.gills) outputText("A pair of feathery gills are growing out just below your neck, spreading out horizontally and draping down your chest. They allow you to stay in the water for quite a long time. ")
     //Chesticles..I mean bewbz.
     if (liveData.player.breastRows.length == 0) {
-        outputText("You have " + UTILS.num2Text(liveData.player.breastRows.length) + " rows of breasts, which is pretty paradoxical.")
+        outputText("You have " + UTIL.num2Text(liveData.player.breastRows.length) + " rows of breasts, which is pretty paradoxical.")
         //Done with tits.  Move on.
         outputText("<br>")
     } else if (liveData.player.breastRows.length == 1) {
-        outputText("You have " + UTILS.num2Text(liveData.player.breastRows[0].breasts) + " " + liveData.player.breastDescript(temp) + ", each supporting ")
-        outputText(UTILS.num2Text(liveData.player.breastRows[0].nipplesPerBreast) + " ") //Number of nipples.
+        outputText("You have " + UTIL.num2Text(liveData.player.breastRows[0].breasts) + " " + liveData.player.breastDescript(temp) + ", each supporting ")
+        outputText(UTIL.num2Text(liveData.player.breastRows[0].nipplesPerBreast) + " ") //Number of nipples.
         if (useMetrics) outputText(Math.floor(liveData.player.breastRows[0].nippleLength * 2.54 * 10) / 10 + "-cm ")
         //Centimeter display
         else outputText(Math.floor(liveData.player.breastRows[0].nippleLength * 10) / 10 + "-inch ") //Inches display
@@ -912,7 +912,7 @@ function appearanceScreen() {
     }
     //many rows
     else {
-        outputText("You have " + UTILS.num2Text(liveData.player.breastRows.length) + " rows of breasts, the topmost pair starting at your chest.")
+        outputText("You have " + UTIL.num2Text(liveData.player.breastRows.length) + " rows of breasts, the topmost pair starting at your chest.")
         let breastListText = ""
         breastListText += "<ul>"
         while (temp < liveData.player.breastRows.length) {
@@ -922,8 +922,8 @@ function appearanceScreen() {
             if (temp == 2) breastListText += "Your third row of breasts contains "
             if (temp == 3) breastListText += "Your fourth set of tits cradles "
             if (temp == 4) breastListText += "Your fifth and final mammory grouping swells with "
-            breastListText += UTILS.num2Text(liveData.player.breastRows[temp].breasts) + " " + liveData.player.breastDescript(temp) + " with "
-            breastListText += UTILS.num2Text(liveData.player.breastRows[temp].nipplesPerBreast) + " " //Number of nipples per breast
+            breastListText += UTIL.num2Text(liveData.player.breastRows[temp].breasts) + " " + liveData.player.breastDescript(temp) + " with "
+            breastListText += UTIL.num2Text(liveData.player.breastRows[temp].nipplesPerBreast) + " " //Number of nipples per breast
             if (useMetrics) breastListText += Math.floor(player.breastRows[temp].nippleLength * 2.54 * 10) / 10 + "-cm "
             //Centimeter
             else breastListText += Math.floor(liveData.player.breastRows[temp].nippleLength * 10) / 10 + "-inch " //Inches
@@ -959,13 +959,13 @@ function appearanceScreen() {
                 if (Math.round(liveData.player.cocks[temp].cockThickness * 10) / 10 == 1) outputText(Math.round(liveData.player.cocks[temp].cockThickness * 10) / 10 + " inch thick.")
                 else outputText(Math.round(liveData.player.cocks[temp].cockThickness * 10) / 10 + " inches thick.")
             }
-        } else outputText(UTILS.num2Text(Math.round(10 * liveData.player.cocks[temp].cockThickness) / 10) + " inches wide.")
+        } else outputText(UTIL.num2Text(Math.round(10 * liveData.player.cocks[temp].cockThickness) / 10) + " inches wide.")
         //Horsecock flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.HORSE) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.HORSE) {
             outputText(" It's mottled black and brown in a very animalistic pattern. The 'head' of your shaft flares proudly, just like a horse's.")
         }
         //dog cock flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.DOG || liveData.player.cocks[temp].cockType == CockTypesEnum.FOX || liveData.player.cocks[temp].cockType == CockTypesEnum.FOX) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.DOG || liveData.player.cocks[temp].cockType == ENUM.CockType.FOX || liveData.player.cocks[temp].cockType == ENUM.CockType.FOX) {
             if (liveData.player.cocks[temp].knotMultiplier >= 1.8) outputText(" The obscenely swollen lump of flesh near the base of your " + liveData.player.cockDescript(temp) + " looks almost too big for your cock.")
             else if (liveData.player.cocks[temp].knotMultiplier >= 1.4) outputText(" A large bulge of flesh nestles just above the bottom of your " + liveData.player.cockDescript(temp) + ", to ensure it stays where it belongs during mating.")
             else if (liveData.player.cocks[temp].knotMultiplier > 1) outputText(" A small knot of thicker flesh is near the base of your " + liveData.player.cockDescript(temp) + ", ready to expand to help you lodge it inside a female.")
@@ -973,57 +973,57 @@ function appearanceScreen() {
             outputText(" The knot is " + Math.round(liveData.player.cocks[temp].cockThickness * liveData.player.cocks[temp].knotMultiplier * 10) / 10 + " inches wide when at full size.")
         }
         //Demon cock flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.DEMON) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.DEMON) {
             outputText(" The crown is ringed with a circle of rubbery protrusions that grow larger as you get more aroused. The entire thing is shiny and covered with tiny, sensitive nodules that leave no doubt about its demonic origins.")
         }
         //Tentacle cock flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.TENTACLE) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.TENTACLE) {
             outputText(
                 " The entirety of its green surface is covered in perspiring beads of slick moisture. It frequently shifts and moves of its own volition, the slightly oversized and mushroom-like head shifting in coloration to purplish-red whenever you become aroused."
             )
         }
         //Cat cock flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.CAT) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.CAT) {
             outputText(
                 " It ends in a single point, much like a spike, and is covered in small, fleshy barbs. The barbs are larger at the base and shrink in size as they get closer to the tip. Each of the spines is soft and flexible, and shouldn't be painful for any of your partners."
             )
         }
         //Snake cock flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.LIZARD) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.LIZARD) {
             outputText(" It's a deep, iridescent purple in color. Unlike a human penis, the shaft is not smooth, and is instead patterned with multiple bulbous bumps.")
         }
         //Anemone cock flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.ANEMONE) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.ANEMONE) {
             outputText(" The crown is surrounded by tiny tentacles with a venomous, aphrodisiac payload. At its base a number of similar, longer tentacles have formed, guaranteeing that pleasure will be forced upon your partners.")
         }
         //Kangawang flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.KANGAROO) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.KANGAROO) {
             outputText(" It usually lies coiled inside a sheath, but undulates gently and tapers to a point when erect, somewhat like a taproot.")
         }
         //Draconic Cawk Flava flav
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.DRAGON) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.DRAGON) {
             outputText(" With its tapered tip, there are few holes you wouldn't be able to get into. It has a strange, knot-like bulb at its base, but doesn't usually flare during arousal as a dog's knot would.")
         }
         //Bee flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.BEE) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.BEE) {
             outputText(
                 " It's a long, smooth black shaft that's rigid to the touch. Its base is ringed with a layer of four inch long soft bee hair. The tip has a much finer layer of short yellow hairs. The tip is very sensitive, and it hurts constantly if you don’t have bee honey on it."
             )
         }
         //Pig flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.PIG) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.PIG) {
             outputText(" It's bright pinkish red, ending in a prominent corkscrew shape at the tip.")
         }
         //Avian flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.AVIAN) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.AVIAN) {
             outputText(" It's a red, tapered cock that ends in a tip. It rests nicely in a sheath.")
         }
         //Rhino flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.RHINO) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.RHINO) {
             outputText(" It's a smooth, tough pink colored and takes on a long and narrow shape with an oval shaped bulge along the center.")
         }
         //Echidna flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.ECHIDNA) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.ECHIDNA) {
             outputText(" It is quite a sight to behold, coming well-equiped with four heads.")
         }
         //Worm flavor
@@ -1035,7 +1035,7 @@ function appearanceScreen() {
     }
     if (liveData.player.cocks.length > 1) {
         temp = 0
-        let rando = UTILS.rand(4)
+        let rando = UTIL.rand(4)
         if (liveData.player.isTaur()) outputText("<br>Between hind legs of your bestial body you have grown " + liveData.player.multiCockDescript() + "!<br>")
         else outputText("<br>Where a penis would normally be located, you have instead grown " + liveData.player.multiCockDescript() + "!<br>")
         while (temp < liveData.player.cocks.length) {
@@ -1046,7 +1046,7 @@ function appearanceScreen() {
                 outputText(liveData.player.cockDescript(temp), false)
                 outputText(" is ")
                 outputText(Math.floor(10 * liveData.player.cocks[temp].cockLength) / 10 + " inches long and ")
-                if (Math.floor(liveData.player.cocks[temp].cockThickness) >= 2) outputText(UTILS.num2Text(Math.round(liveData.player.cocks[temp].cockThickness * 10) / 10) + " inches wide.")
+                if (Math.floor(liveData.player.cocks[temp].cockThickness) >= 2) outputText(UTIL.num2Text(Math.round(liveData.player.cocks[temp].cockThickness * 10) / 10) + " inches wide.")
                 else {
                     if (liveData.player.cocks[temp].cockThickness == 1) outputText("one inch wide.")
                     else outputText(Math.round(liveData.player.cocks[temp].cockThickness * 10) / 10 + " inches wide.")
@@ -1055,7 +1055,7 @@ function appearanceScreen() {
             if (rando == 1) {
                 outputText("--One of your ")
                 outputText(liveData.player.cockDescript(temp) + "s is " + Math.round(10 * liveData.player.cocks[temp].cockLength) / 10 + " inches long and ")
-                if (Math.floor(liveData.player.cocks[temp].cockThickness) >= 2) outputText(UTILS.num2Text(Math.round(liveData.player.cocks[temp].cockThickness * 10) / 10) + " inches thick.")
+                if (Math.floor(liveData.player.cocks[temp].cockThickness) >= 2) outputText(UTIL.num2Text(Math.round(liveData.player.cocks[temp].cockThickness * 10) / 10) + " inches thick.")
                 else {
                     if (liveData.player.cocks[temp].cockThickness == 1) outputText("one inch thick.")
                     else outputText(Math.round(liveData.player.cocks[temp].cockThickness * 10) / 10 + " inches thick.")
@@ -1065,7 +1065,7 @@ function appearanceScreen() {
                 if (temp > 0) outputText("--Another of your ")
                 else outputText("--One of your ")
                 outputText(liveData.player.cockDescript(temp) + "s is " + Math.round(10 * liveData.player.cocks[temp].cockLength) / 10 + " inches long and ")
-                if (Math.floor(liveData.player.cocks[temp].cockThickness) >= 2) outputText(UTILS.num2Text(Math.round(liveData.player.cocks[temp].cockThickness * 10) / 10) + " inches thick.")
+                if (Math.floor(liveData.player.cocks[temp].cockThickness) >= 2) outputText(UTIL.num2Text(Math.round(liveData.player.cocks[temp].cockThickness * 10) / 10) + " inches thick.")
                 else {
                     if (liveData.player.cocks[temp].cockThickness == 1) outputText("one inch thick.")
                     else outputText(Math.round(liveData.player.cocks[temp].cockThickness * 10) / 10 + " inches thick.")
@@ -1075,66 +1075,66 @@ function appearanceScreen() {
                 if (temp > 0) outputText("--Your next ")
                 else outputText("--Your first ")
                 outputText(liveData.player.cockDescript(temp) + " is " + Math.round(10 * liveData.player.cocks[temp].cockLength) / 10 + " inches long and ")
-                if (Math.floor(liveData.player.cocks[temp].cockThickness) >= 2) outputText(UTILS.num2Text(Math.round(liveData.player.cocks[temp].cockThickness * 10) / 10) + " inches in diameter.")
+                if (Math.floor(liveData.player.cocks[temp].cockThickness) >= 2) outputText(UTIL.num2Text(Math.round(liveData.player.cocks[temp].cockThickness * 10) / 10) + " inches in diameter.")
                 else {
                     if (Math.round(liveData.player.cocks[temp].cockThickness * 10) / 10 == 1) outputText("one inch in diameter.")
                     else outputText(Math.round(liveData.player.cocks[temp].cockThickness * 10) / 10 + " inches in diameter.")
                 }
             }
             //horse cock flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.HORSE) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.HORSE) {
                 outputText(" It's mottled black and brown in a very animalistic pattern. The 'head' of your " + liveData.player.cockDescript(temp) + " flares proudly, just like a horse's.")
             }
             //dog cock flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.DOG || liveData.player.cocks[temp].cockType == CockTypesEnum.FOX) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.DOG || liveData.player.cocks[temp].cockType == ENUM.CockType.FOX) {
                 outputText(" It is shiny, pointed, and covered in veins, just like a large ")
-                if (liveData.player.cocks[temp].cockType == CockTypesEnum.DOG) outputText("dog's cock.")
+                if (liveData.player.cocks[temp].cockType == ENUM.CockType.DOG) outputText("dog's cock.")
                 else outputText("fox's cock.")
             }
             //Demon cock flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.DEMON) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.DEMON) {
                 outputText(" The crown is ringed with a circle of rubbery protrusions that grow larger as you get more aroused. The entire thing is shiny and covered with tiny, sensitive nodules that leave no doubt about its demonic origins.")
             }
             //Tentacle cock flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.TENTACLE) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.TENTACLE) {
                 outputText(
                     " The entirety of its green surface is covered in perspiring beads of slick moisture. It frequently shifts and moves of its own volition, the slightly oversized and mushroom-like head shifting in coloration to purplish-red whenever you become aroused."
                 )
             }
             //Cat cock flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.CAT) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.CAT) {
                 outputText(
                     " It ends in a single point, much like a spike, and is covered in small, fleshy barbs. The barbs are larger at the base and shrink in size as they get closer to the tip. Each of the spines is soft and flexible, and shouldn't be painful for any of your partners."
                 )
             }
             //Snake cock flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.LIZARD) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.LIZARD) {
                 outputText(" It's a deep, iridescent purple in color. Unlike a human penis, the shaft is not smooth, and is instead patterned with multiple bulbous bumps.")
             }
             //Anemone cock flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.ANEMONE) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.ANEMONE) {
                 outputText(" The crown is surrounded by tiny tentacles with a venomous, aphrodisiac payload. At its base a number of similar, longer tentacles have formed, guaranteeing that pleasure will be forced upon your partners.")
             }
             //Kangwang flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.KANGAROO) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.KANGAROO) {
                 outputText(" It usually lies coiled inside a sheath, but undulates gently and tapers to a point when erect, somewhat like a taproot.")
             }
             //Draconic Cawk Flava flav
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.DRAGON) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.DRAGON) {
                 outputText(" With its tapered tip, there are few holes you wouldn't be able to get into. It has a strange, knot-like bulb at its base, but doesn't usually flare during arousal as a dog's knot would.")
             }
             //Bee flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.BEE) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.BEE) {
                 outputText(
                     " It's a long, smooth black shaft that's rigid to the touch. Its base is ringed with a layer of four inch long soft bee hair. The tip has a much finer layer of short yellow hairs. The tip is very sensitive, and it hurts constantly if you don’t have bee honey on it."
                 )
             }
             //Pig flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.PIG) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.PIG) {
                 outputText(" It's bright pinkish red, ending in a prominent corkscrew shape at the tip.")
             }
             //Avian flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.AVIAN) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.AVIAN) {
                 outputText(" It's a red, tapered cock that ends in a tip. It rests nicely in a sheath.")
             }
 
@@ -1176,7 +1176,7 @@ function appearanceScreen() {
             if (liveData.player.skinType == SKIN_TYPE_SCALES) outputText("A scaley " + liveData.player.sackDescript() + " hugs your " + liveData.player.ballsDescript() + " tightly against your body.")
             if (liveData.player.skinType == SKIN_TYPE_GOO) outputText("An oozing, semi-solid sack with " + liveData.player.ballsDescript() + " swings heavily beneath your " + liveData.player.multiCockDescriptLight() + ".")
         }
-        outputText(" You estimate each of them to be about " + UTILS.num2Text(Math.round(liveData.player.ballSize)) + " ")
+        outputText(" You estimate each of them to be about " + UTIL.num2Text(Math.round(liveData.player.ballSize)) + " ")
         if (Math.round(liveData.player.ballSize) == 1) outputText("inch")
         else outputText("inches")
         outputText(" across.<br>")

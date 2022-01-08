@@ -1,10 +1,10 @@
 import { clearOutput, outputText } from "../../engine/text";
-import * as GUI from "../../engine/gui";
-import * as ENUMS from "../../appearanceEnums";
+import { GUI } from "../../engine/gui";
+import * as ENUM from "../../appearanceEnums";
 import { liveData } from "../../globalVariables";
 import { addToGameFlags } from "../../engine/saves";
-// import { Creature } from "../../creature"
-import { Player } from "../../player";
+import { Creature } from "../../creature";
+// import { Player } from "../../player"
 import { StatusEffects } from "../../statusEffectLib";
 import { Items } from "../../itemClass";
 /*
@@ -42,12 +42,12 @@ Go through file and find out everything that's been commented out. Fix or remove
 //------------
 //Amily Definitions and utility functions
 //------------
-// class Amily extends Creature {
-class Amily extends Player {
+// class Amily extends Player {
+class Amily extends Creature {
     constructor() {
         super();
-        this.analLooseness = ENUMS.AnalLoosenessType.ANAL_LOOSENESS_TIGHT;
-        this.analWetness = ENUMS.AnalWetnessType.ANAL_WETNESS_DRY;
+        this.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_TIGHT;
+        this.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_DRY;
         //Victory/defeat
         this.victory = this.rapeCorruptAmily1;
         this.defeat = cleanupAfterCombat;
@@ -85,17 +85,17 @@ class Amily extends Player {
         this.lustVuln = 1;
         //Appearance
         this.tallness = 48;
-        this.hipRating = ENUMS.HipRatingType.HIP_RATING_AMPLE + 2;
-        this.buttRating = ENUMS.ButtRatingType.BUTT_RATING_LARGE;
+        this.hipRating = ENUM.HipRatingType.HIP_RATING_AMPLE + 2;
+        this.buttRating = ENUM.ButtRatingType.BUTT_RATING_LARGE;
         this.skinTone = "dark green";
         this.hairColor = "purple";
         this.hairLength = 4;
         //Sexual characteristics
-        this.createVagina(false, ENUMS.VaginalWetnessType.VAGINA_WETNESS_DROOLING, ENUMS.VaginalLoosenessType.VAGINA_LOOSENESS_NORMAL);
+        this.createVagina(false, ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING, ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_NORMAL);
         this.createStatusEffect(StatusEffects.BonusVCapacity, 40, 0, 0, 0);
         this.createBreastRow(Appearance.breastCupInverse("E"));
-        this.ass.analLooseness = ENUMS.AnalLoosenessType.ANAL_LOOSENESS_TIGHT;
-        this.ass.analWetness = ENUMS.AnalWetnessType.ANAL_WETNESS_DRY;
+        this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_TIGHT;
+        this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_DRY;
         this.createStatusEffect(StatusEffects.BonusACapacity, 30, 0, 0, 0);
         //Drops
         this.clearDrops(); //Need to be called before populating the item arrays.
@@ -148,19 +148,25 @@ class Amily extends Player {
         */
     }
 }
-class AmilyScene extends Amily {
+// class AmilyScene extends Amily {
+class AmilyScene {
     constructor() {
-        super();
-        this.sexForced = false; // Used to get around a nasty bug.
+        this._sexForced = false; // Used to get around a nasty bug.
     }
-    amilySprite() {
+    get sexForced() {
+        return this._sexForced;
+    }
+    set sexForced(active) {
+        this._sexForced = active;
+    }
+    static amilySprite() {
         if (liveData.gameFlags[AMILY_NOT_FURRY] > 0)
             displaySprite("amily_defurr");
         else
             displaySprite("amily");
     }
     // Used for later checks when Amily is a follower. - COMPLETE
-    amilyFollower() {
+    static amilyFollower() {
         if (liveData.gameFlags[AMILY_FOLLOWER] > 0) {
             //Amily not a follower while visiting Urta
             if (liveData.gameFlags[AMILY_VISITING_URTA] != 0) {
@@ -171,14 +177,14 @@ class AmilyScene extends Amily {
         }
     }
     // A check function to see if Amily is corrupt or not. - COMPLETE
-    amilyCorrupt() {
+    static amilyCorrupt() {
         return liveData.gameFlags[AMILY_FOLLOWER] == 2;
     }
     //-------------
     // Amily standard scenes in Town Ruins
     //-------------
     // this.start begins encounters in the Town Ruins - MAIN WORK LOOP. CLEAN OTHER LOOPS BEFORE RETURNING HERE
-    start() {
+    static start() {
         // BOOKKEEPING
         GUI.menu();
         // set initial gender flag, these may need to be changed throughout!
@@ -496,7 +502,7 @@ class AmilyScene extends Amily {
         }
     }
     // Standard meeting loop after first time - COMPLETE
-    amilyStandardMeeting() {
+    static amilyStandardMeeting() {
         clearOutput();
         // Amily does NOT like seeing the player change gender
         outputText("Curious on how Amily is holding up, you head back into the ruined village. This time you don't bother trying to hide your presence, hoping to attract Amily's attention quicker. After all, she did say that the place is basically empty of anyone except her, and you can otherwise handle a measly Imp or Goblin.<br><br>");
@@ -589,14 +595,14 @@ class AmilyScene extends Amily {
         GUI.addButton(4, "Leave", Camp.returnToCampUseOneHour);
     }
     // Failsafe function to return player to camp. - COMPLETE
-    amilyMeetingFailed() {
+    static amilyMeetingFailed() {
         outputText("You shouldn't have reached this failsafe message. Printing default message and allowing return to camp.<br><br>");
         outputText("You enter the ruined village cautiously. There are burnt-down houses, smashed-in doorways, ripped-off roofs... everything is covered with dust and grime. You explore for an hour, but you cannot find any sign of another living being, or anything of value. The occasional footprint from an imp or a goblin turns up in the dirt, but you don't see any of the creatures themselves. It looks like time and passing demons have stripped the place bare since it was originally abandoned. Finally, you give up and leave. You feel much easier when you're outside of the village – you had the strangest sensation of being watched while you were in there.");
         GUI.doNext(Camp.returnToCampUseOneHour);
     }
     //MALE MEETINGS AFTER INITIAL REJECTION
     // Male PC rejected Amily's offer, meets her again - COMPLETE
-    amilyRemeetingContinued() {
+    static amilyRemeetingContinued() {
         clearOutput();
         outputText('"<i>So, have you changed your mind? Have you come to help me out?</i>" Amily asks curiously.<br><br>');
         GUI.menu();
@@ -607,7 +613,7 @@ class AmilyScene extends Amily {
         // There's a straight-up leave option here in the code, but it doesn't make much sense story-wise to leave without answering the question.
     }
     // Accept offer the second time, move to sex loops. - COMPLETE
-    secondTimeAmilyOfferedAccepted() {
+    static secondTimeAmilyOfferedAccepted() {
         clearOutput();
         outputText("You tell her that, yes – you'll give her the children she wants. She smiles pleasantly and tells you to follow her.<br><br>");
         //Offer accepted
@@ -615,7 +621,7 @@ class AmilyScene extends Amily {
         GUI.doNext(this.amilySexHappens);
     }
     // Refuse offer politely a second time. No affection boost. No change to the encounters. - COMPLETE
-    secondTimeAmilyRefuseAgain() {
+    static secondTimeAmilyRefuseAgain() {
         clearOutput();
         outputText("You shake your head gently and explain that your position has not changed. Amily looks annoyed, but respects your decision.<br><br>");
         outputText('"<i>All right; it is your choice. But my offer still stands, you know,</i>" she tells you.<br><br>');
@@ -623,7 +629,7 @@ class AmilyScene extends Amily {
         GUI.doNext(Camp.returnToCampUseOneHour);
     }
     // Talking to Amily again after offer refusal - COMPLETE
-    repeatAmilyTalk() {
+    static repeatAmilyTalk() {
         clearOutput();
         outputText("You tell her that you only wanted to talk.<br><br>");
         outputText('"<i>Just to talk?</i>" Amily asks, and then adds quietly, "<i>Well... it has been a long time since I actually had somebody to talk to...</i>" She looks distracted for a moment, but then she smiles. Clearly, Amily is pleased with the prospect. "<i>So, is there anything in particular you want to talk about?</i>"<br><br>');
@@ -631,7 +637,7 @@ class AmilyScene extends Amily {
     }
     // This text needs updating. Looks like it was originally going to shut out the whole ruins, but there could still be racks and/or Shouldra encounters the player would want to encounter. Leaving text as is for now. Otherwise Complete.
     // Shuts off Amily encounters
-    tellAmilyToGetLost() {
+    static tellAmilyToGetLost() {
         outputText("You jeer at Amily that you have no interest in a hypocrite who claims to be pure but is really just like everything else in this tainted world; no higher purpose other than her next fuck.<br><br>");
         outputText("Amily goes red with rage. \"<i>Why you arrogant, puffed-up, pigheaded...!</i>\" She's livid! \"<i>The demons'll have you – see if they don't! I don't need you – you're probably infertile anyway, you—</i>\" She trails off into a stream of the most perverse profanity you have ever heard, and then runs off into the ruins.<br><br>");
         outputText("You spin on your heel and stalk off. You figure that she will go out of her way to avoid you in the future; there's no point coming back here.");
@@ -641,7 +647,7 @@ class AmilyScene extends Amily {
     }
     // IF MALE OFFER IS ACCEPTED FIRST TIME
     // Male PC accepts Amily's offer eagerly. (Consider changing this response to Lusty. It's a bit beyond eager...) - COMPLETE
-    acceptAmilysOfferEagerly() {
+    static acceptAmilysOfferEagerly() {
         clearOutput();
         GUI.menu();
         outputText("You grin lecherously, unable to help it. It's rare when someone in this world wants to fuck and actually asks you, rather than just trying to beat you senseless and then rape you. You tell Amily that if she wants you to fuck her, you'll be happy to do so.<br><br>");
@@ -659,7 +665,7 @@ class AmilyScene extends Amily {
         GUI.doNext(this.amilySexHappens);
     }
     // Male PC accepts Amily's offer hesitantly. - COMPLETE
-    acceptAmilysOfferHesitantly() {
+    static acceptAmilysOfferHesitantly() {
         clearOutput();
         GUI.menu();
         outputText("The offer is shocking... and yet, strangely enticing. You cannot help but think that it's nice to meet somebody who, even if they are more sexually explicit than in your village, actually approaches the matter with some decorum. You are still surprised and even embarrassed by the invitation, but you can't help but think it might be worthwhile to accept. It's for a good cause, and she's clearly not entirely comfortable with it herself. Maybe you've been too long in this world of beast-people and monsters, but she actually is kind of cute.<br><br>");
@@ -677,7 +683,7 @@ class AmilyScene extends Amily {
         GUI.doNext(this.amilySexHappens);
     }
     // Refuse Amily's Offer. Impress her! - COMPLETE
-    refuseAmilysOffer() {
+    static refuseAmilysOffer() {
         clearOutput();
         GUI.menu();
         outputText("You shake your head in refusal.<br><br>");
@@ -693,7 +699,7 @@ class AmilyScene extends Amily {
         GUI.doNext(Camp.returnToCampUseOneHour);
     }
     // Refuse Amily because she's a mouse and mice are gross. - COMPLETE
-    amilyNoFur() {
+    static amilyNoFur() {
         clearOutput();
         GUI.menu();
         liveData.gameFlags[AMILY_OFFERED_DEFURRY] = 1;
@@ -705,7 +711,7 @@ class AmilyScene extends Amily {
     }
     //MALE DESPERATE AMILY ENCOUNTERS
     //Accept Amily Desperate Plea - COMPLETE
-    desperateAmilyPleaAcceptHer() {
+    static desperateAmilyPleaAcceptHer() {
         clearOutput();
         //set accepted flag
         liveData.gameFlags[AMILY_OFFER_ACCEPTED] = 1;
@@ -714,7 +720,7 @@ class AmilyScene extends Amily {
         GUI.doNext(this.amilySexHappens);
     }
     //Let Amily Down Gently, shuts off her encounters - NEED TEL'ADRE TO FINISH
-    desperateAmilyPleaTurnDown() {
+    static desperateAmilyPleaTurnDown() {
         clearOutput();
         outputText("You softly tell her that you're sorry, but it just can't be helped. You have a quest to fulfill, and you don't even know if you'll be staying around instead of going home when it's over. That's even assuming you succeed, and don't end up dead in a ditch somewhere. You can't countenance taking a lover with something like that hanging over your head. Besides, you tell Amily that she should have more respect for her body than what this plan of hers entails, anyway.<br><br>");
         outputText('Amily sniffs loudly, tears blatantly running down her cheeks. "<i>If... if that\'s the way it has to be, then,</i>" she sniffles, "<i>I... I guess that there\'s nothing left for me here. I\'ll just have to leave... Maybe I can find somewhere that will at least give me shelter.</i>"<br><br>');
@@ -734,7 +740,7 @@ class AmilyScene extends Amily {
         GUI.doNext(Camp.returnToCampUseOneHour);
     }
     //Be an ass and turn her down bluntly- COMPLETE
-    desperateAmilyPleaTurnDownBlunt() {
+    static desperateAmilyPleaTurnDownBlunt() {
         clearOutput();
         outputText("Without mercy or hesitation, you tell her that there is indeed something wrong with her: You could never be attracted to a woman that looks like a pest and should be hiding in a granary.<br><br>");
         outputText('"<i>Why you-! I bare my soul to you, and this is how you repay me?!</i>" Amily screams; rage, hurt and betrayal are all evident in her words.<br><br>');
@@ -750,7 +756,7 @@ class AmilyScene extends Amily {
     }
     //FEMALE AMILY ENCOUNTERS
     //Lesbian Love Confession:- COMPLETE
-    amilyLesbian() {
+    static amilyLesbian() {
         clearOutput();
         outputText("Strangely, you don't need to seek Amily out this time; she's waiting for you. You ask her if something is wrong, and she shakes her head... but she looks kind of embarrassed as she does so.<br><br>");
         outputText("\"<i>There's... ah... something I want to talk about with you, " +
@@ -764,7 +770,7 @@ class AmilyScene extends Amily {
         GUI.addButton(1, "Let Her Go", this.amilyLesbianLetHerGo, null, null, null, "Tooltip added later.");
     }
     // Admit you want Lesbian Mouse Lovin - COMPLETE
-    amilyLesbianStopHer() {
+    static amilyLesbianStopHer() {
         clearOutput();
         outputText("Before she can get too far, though, your hand shoots out and clasps her shoulder. She starts to question what you're doing, but you spin her around and pull her into a tight embrace, telling her that you feel the same way. Shyly, she offers her lips to you, and you kiss them eagerly. When you seperate for breath, you ask if she wants to see what it's like with another woman. Her eyes glazed, she nods at you wordlessly and starts leading you away down the street.<br><br>");
         //WHAT THE FUCK DOES THIS SCENE LEAD TO?
@@ -773,7 +779,7 @@ class AmilyScene extends Amily {
     }
     // Deny the Mousie Lesbian Mouse Lovin. Old comment in here about you having other relationships and shutting off her encounter.
     // - NEED URTA AND MARBLE TO FINISH
-    amilyLesbianLetHerGo() {
+    static amilyLesbianLetHerGo() {
         clearOutput();
         /*(If player is already locked into a relationship):
             if (player.hasStatusEffect(StatusEffects.CampMarble) >= 0 || urtaLove()) {
@@ -790,7 +796,7 @@ class AmilyScene extends Amily {
     }
     // HERM PLAYER ENCOUNTERS
     // Make Amily a Herm for dual pregnancy action. - COMPLETE. TEST ITEM CONSUMPTION AT SOME POINT.
-    makeAmilyAHerm() {
+    static makeAmilyAHerm() {
         clearOutput();
         outputText("You talk to Amily about how she and you have grown to know each other well, so well that she has been willing to have sex with you despite her aversion to hermaphrodites.<br><br>");
         outputText("\"<i>That's true... I... I can't say I can understand what life must be like for you like that.</i>\" She admits.<br><br>");
@@ -817,7 +823,7 @@ class AmilyScene extends Amily {
         GUI.doNext(this.amilyHermOnFemalePC);
     }
     // Question dislike of herms. - COMPLETE
-    whyNotHerms() {
+    static whyNotHerms() {
         clearOutput();
         outputText("As you head into the ruined village to find Amily, your thoughts drift yet again to the strange conundrum that has been puzzling you. You haven't failed to realize that Amily initially seemed to want to talk to you about her plans for reviving her people, but after realizing your bi-gendered nature, she insists on dropping the subject if it ever comes up.<br><br>");
         outputText("You are so intent on asking her why it is that she doesn't want to talk about it that you almost walk into her.");
@@ -835,7 +841,7 @@ class AmilyScene extends Amily {
         GUI.doNext(Camp.returnToCampUseOneHour);
     }
     //"Maybe Herms Aren't So Bad": - COMPLETE
-    hermRenegotiate() {
+    static hermRenegotiate() {
         clearOutput();
         outputText("Yet again, you find yourself wandering through the ruined village where Amily stalks. Not entirely sure if you want to speak to her, you turn and are about to leave when you hear the sound of a rock plinking off of a wall. Looking around, you find Amily has joined you, looking apologetic.<br><br>");
         outputText("\"<i>I... I want to say that I'm sorry. I was a real asshole, in that conversation, but... I've seen so many others mutated into herms to become mindless fucktoys, or who could only think about sex after they became herms. I've never met somebody who had two genders and could think about anything besides pussy and dick... until I met you, anyway.</i>\"<br><br>");
@@ -847,7 +853,7 @@ class AmilyScene extends Amily {
             GUI.addButton(2, "No Furries", null, null, null, "Add Tooltip Later.");
     }
     // Agree to Amily's hermness. - COMPLETE
-    amilyAgreeHerm() {
+    static amilyAgreeHerm() {
         clearOutput();
         liveData.gameFlags[AMILY_HERM_QUEST] = 2;
         outputText("You tell her that you'll forgive her, and you will help her breed the " +
@@ -857,7 +863,7 @@ class AmilyScene extends Amily {
         GUI.doNext(this.amilySexHappens);
     }
     // Reject Amily's Hermness - COMPLETE
-    amilyRejectHerm() {
+    static amilyRejectHerm() {
         clearOutput();
         outputText("You scoff at her, and tell her that she called you a freak of nature, an unnatural demon-crafted thing. You have no interest in having sex with somebody who thinks of you as some kind of breeding toy.<br><br>");
         outputText("Amily winces, looking deeply hurt. \"<i>I... You're right, what I said was unforgivable. I... think it's best that we part ways.</i>\"<br><br>");
@@ -867,7 +873,7 @@ class AmilyScene extends Amily {
     }
     // CHANGED GENDER RESPONSES
     // NEEDS LOTS OF TESTING. NEED TO BUILD GENDER CHANGE DEBUGGING TOOL AT CAMP.
-    amilyNewGenderConfrontation() {
+    static amilyNewGenderConfrontation() {
         clearOutput();
         var sex = null;
         //Remember old gender.
@@ -1171,7 +1177,7 @@ class AmilyScene extends Amily {
     // Conversation starts
     //---------------
     // Opening conversation scene - COMPLETE
-    talkToAmily() {
+    static talkToAmily() {
         clearOutput();
         if (liveData.gameFlags[AMILY_MET_AS] == 2 && liveData.player.gender == 2)
             outputText("You tell Amily that you came here because you wanted to talk with her.<br><br>");
@@ -1212,7 +1218,7 @@ class AmilyScene extends Amily {
         GUI.doNext(this.amilyConversationStart);
     }
     // GIANT CONVERSATION TREE START! - COMPLETE
-    amilyConversationStart() {
+    static amilyConversationStart() {
         clearOutput();
         // Get a random conversation out of the 15 options
         var convo = rand(15);
@@ -1587,7 +1593,7 @@ class AmilyScene extends Amily {
         GUI.doNext(Camp.returnToCampUseOneHour);
     }
     //Talk and then Sex - COMPLETE
-    talkThenSexWithAmily() {
+    static talkThenSexWithAmily() {
         clearOutput();
         outputText("You tell Amily that you came here because you wanted to talk with her.  If she feels like having sex when you are done, though, you would be happy to oblige.<br><br>");
         switch (liveData.amily.pregnancyEventNum) {
@@ -1668,7 +1674,7 @@ class AmilyScene extends Amily {
         }
     }
     // Switcher for Talk Then Sex - COMPLETE
-    talkToAmilyWithSexAfter() {
+    static talkToAmilyWithSexAfter() {
         this.sexForced = true;
         this.amilyConversationStart();
     }
@@ -1677,7 +1683,7 @@ class AmilyScene extends Amily {
     //-----------
     //MALE
     // Kicks off the male sex paths - COMPLETE, CHECK COCK EVENT THOUGH.
-    amilySexHappens() {
+    static amilySexHappens() {
         clearOutput();
         var x = liveData.player.cockThatFits(61);
         //If too big
@@ -1723,7 +1729,7 @@ class AmilyScene extends Amily {
         }
     }
     // Switches sex scenes with Amily depending on gender, pregnancy, and other things - COMPLETE
-    determineAmilySexEvent() {
+    static determineAmilySexEvent() {
         // May need to force a false boolean to determine if sex is forced
         // Set the sex variable to none
         // Assume Amily isn't forcing you to fuck her.
@@ -1824,7 +1830,7 @@ class AmilyScene extends Amily {
         }
     }
     // Amily response to you proposing sex in later meetings - COMPLETE
-    sexWithAmily() {
+    static sexWithAmily() {
         clearOutput();
         outputText("You tell Amily that you came here because you wanted to have sex with her.<br><br>");
         switch (liveData.amily.pregnancyEventNum) {
@@ -1911,7 +1917,7 @@ class AmilyScene extends Amily {
          / Male Low Affection Amily Sex Path
         ******/
     // Low Affection Section 1 Choice 1 - COMPLETE
-    amilySexBusiness() {
+    static amilySexBusiness() {
         clearOutput();
         outputText("Allowing Amily to take care of her clothes, you hastily remove your own " +
             liveData.player.armor.equipmentName +
@@ -1919,7 +1925,7 @@ class AmilyScene extends Amily {
         this.amilySexPtII();
     }
     // Low Affection Section 1Choice 2 - COMPLETE
-    amilySexPlaytimeFirst() {
+    static amilySexPlaytimeFirst() {
         clearOutput();
         outputText("As Amily begins reaching for her clothes, rather than start stripping off yourself, you close the distance between the two of you and take hold of her hands.<br><br>");
         outputText('"<i>W-What are you doing?</i>" She asks, curious and a little wary.<br><br>');
@@ -1932,7 +1938,7 @@ class AmilyScene extends Amily {
         this.amilySexPtII();
     }
     // Low Affection Section 2 - NEED WORM FUNCTIONS TO FINISH
-    amilySexPtII() {
+    static amilySexPtII() {
         //worm infested reaction
         /*
             if (player.findStatusEffect(StatusEffects.Infested) >= 0) {
@@ -1949,7 +1955,7 @@ class AmilyScene extends Amily {
         GUI.addButton(1, "Caress Her", this.amilySexCaressHer, null, null, null, "Maybe I could show her how it's done?");
     }
     // Low Affection Section 2 Choice 1 - COMPLETE
-    amilySexSitAndWatch() {
+    static amilySexSitAndWatch() {
         clearOutput();
         var x = liveData.player.cockThatFits(61);
         outputText("You stay right where you are, not wanting to spoil the show. By the time that she is visibly starting to drip girlcum and approaches you, clearly ready to move on to the main event, your " + player.cockDescript(x) + " is iron-hard.<br><br>");
@@ -1958,14 +1964,14 @@ class AmilyScene extends Amily {
         this.amilySexPartIII();
     }
     // Low Affection Section 2 Choice 2 - COMPLETE
-    amilySexCaressHer() {
+    static amilySexCaressHer() {
         clearOutput();
         outputText("Watching Amily masturbate and tease herself in front of you is definitely erotic... but you want something more to this session than that. Licking your lips with a combination of arousal and nervousness, you tentatively reach out one hand and brush a feather-light touch against her fingers.  Her eyes, which she had previously been keeping closed, suddenly spring open, and you ready yourself to withdraw and apologize if she protests. But, for whatever reason, she does not protest and, emboldened, you continue to touch and caress her. You keep your touches gentle, light and restricted to non-intimate regions, but she seems to be enjoying this; she draws a little closer, and reaches out to brush your cheek, absentmindedly using the very hand she had been stroking her netherlips with before, and so the scent of her intimate regions drifts to your nostrils from where her fingers lay. Her eyes have rolled almost completely shut, the gaze she is giving you is a very languid one, but something about the set of her lips, only just starting to open, entices you to kiss them.<br><br>");
         GUI.addButton(0, "Refrain", this.amilySexRefrainKiss, null, null, null, "Do I really want to take it that far? Maybe I shouldn't...");
         GUI.addButton(1, "Kiss Her", this.amilySexKiss, null, null, null, "Maybe I could show her how it's done?");
     }
     // Low Affection Section 2 Choice 2.1 - COMPLETE
-    amilySexRefrainKiss() {
+    static amilySexRefrainKiss() {
         clearOutput();
         outputText("You pull your mind back from that thought. That's taking things in directions you're not sure that either you or Amily are actually comfortable with.<br><br>");
         // Affection hit!
@@ -1973,7 +1979,7 @@ class AmilyScene extends Amily {
         this.amilySexPartIII();
     }
     // Low Affection Section 2 Choice 2.2 - COMPLETE
-    amilySexKiss() {
+    static amilySexKiss() {
         clearOutput();
         outputText("Slowly, doing your best to convey that you will stop or back away if Amily is uncomfortable with this, you press your lips tenderly to Amily's.");
         if (liveData.gameFlags[AMILY_NOT_FURRY] == 0)
@@ -1985,7 +1991,7 @@ class AmilyScene extends Amily {
         this.amilySexPartIII();
     }
     // Low Affection Section 3 (final) - COMPLETE
-    amilySexPartIII() {
+    static amilySexPartIII() {
         var x = liveData.player.cockThatFits(61);
         //outputText(images.showImage("amily-forest-plainfuck"), false);
         outputText("The time couldn't be any more right for either of you, and you both sink onto the bedding that Amily has prepared. Lying side by side, Amily guides you with surprising efficiency into her entry, and then, once you are comfortably inside, she begins to thrust, her cunt gripping your " +
@@ -2016,13 +2022,13 @@ class AmilyScene extends Amily {
      * Male Medium Affection Amily Sex Path
      ***********/
     // COMPLETE
-    amilySexStepIn() {
+    static amilySexStepIn() {
         clearOutput();
         outputText("Eager, confused and feeling impatient, you rise from your seat to help Amily undress. She accepts your help, and does seem to enjoy your touches and help, but at the same time she seems disappointed... maybe even a little hurt? Almost as if she had been wanting you to watch her efforts?<br><br>");
         this.amilySexMidPartII();
     }
     // COMPLETE
-    amilySexEnjoyShow() {
+    static amilySexEnjoyShow() {
         clearOutput();
         outputText("Surprised, curious and aroused in equal measures, you decide to sit back and watch the show. Amily seems very happy to perform for you, and does her best to make it as intriguing as possible.");
         if (liveData.amily.pregnancyEventNum >= 6)
@@ -2031,7 +2037,7 @@ class AmilyScene extends Amily {
         this.amilySexMidPartII();
     }
     // COMPLETE
-    amilySexMidPartII() {
+    static amilySexMidPartII() {
         liveData.player.changeLust(5);
         outputText("By the time Amily is completely naked, she is clearly excited about what is coming up; you even think she's wet already. She stares at you with a mischievous, turned-on smile, waiting to see what you will do now that it is your turn to strip.<br><br>");
         outputText("Do you do a striptease of your own or just strip naked and get to business?");
@@ -2039,7 +2045,7 @@ class AmilyScene extends Amily {
         GUI.addButton(1, "Business", this.amilySexGetTheFunStarted, null, null, null, "She doesn't need to tease you anymore to get you going! Let's get to the fun part...");
     }
     // COMPLETE
-    amilySexYouStrip() {
+    static amilySexYouStrip() {
         clearOutput();
         var x = liveData.player.cockThatFits(61);
         outputText("It is your turn to give her a mischievous smile back. Feeling turned on and excited, and remembering the elders in the village telling you that fair is only fair, you decide to give her a little show of her own. Standing up, you tilt your head back and thrust out your chest, trying to look enticing. As Amily watches, at first bemused and then pleased, you slowly strip off your " +
@@ -2051,7 +2057,7 @@ class AmilyScene extends Amily {
         //continueWithMoreMidLevelAmilySex();
     }
     // COMPLETE
-    amilySexGetTheFunStarted() {
+    static amilySexGetTheFunStarted() {
         clearOutput();
         var x = liveData.player.cockThatFits(61);
         outputText("Too horny to think of anything else than what lies ahead, you hastily remove your " + liveData.player.armor.equipmentName + ".  Amily smiles at what she can see, enjoying the sight of your body and your " + player.cockDescript(x) + "<br><br>");
@@ -2059,14 +2065,14 @@ class AmilyScene extends Amily {
         //continueWithMoreMidLevelAmilySex();
     }
     // COMPLETE
-    amilySexMidPartIII() {
+    static amilySexMidPartIII() {
         liveData.player.changeLust(5);
         outputText("Once you are both naked, you embrace and begin with a deep kiss. Slowly you both sink down and start exploring each other's bodies. You feel Amily's hands caressing you while you lightly kiss her breasts, one of your hands slowly drifting down to her cute ass and lightly squeezing it. Looking into her eyes, you see a sparkle in them before she surprises you and somehow manages to turn you onto your back. Now she's sitting on your belly, with your already hard cock being fondled by her rather flexible tail. Grinning at you, she seems to plan on teasing you as long as possible before allowing you to enter her.<br><br>");
         GUI.addButton(0, "Play Along", this.amilySexPlayAlong, null, null, null, "Tooltip to be added");
         GUI.addButton(1, "Please Her", this.amilySexWorkToPlease, null, null, null, "Tooltip to be added");
     }
     // COMPLETE
-    amilySexPlayAlong() {
+    static amilySexPlayAlong() {
         outputText("", true);
         //outputText(images.showImage("amily-forest-reverse-cowgirl"), false);
         outputText("You decide to let her take the dominant position, relax (as much as you can with a beautiful, hot and very wet little mouse-girl sitting on you and fondling you) and simply enjoy her attentions. Amily obviously knows what she is doing - though you have no idea HOW she knows - and manages to bring you nearly to the climax before drawing back a little and letting you calm down.  She repeats this several times until you're nearly going crazy.  Just when you think you can't stand it anymore, she removes her tail from your cock and instead uses it to lightly bind your hands. You could easily move your hands, but decide not to. Grinning at you, she hovers a moment over your cock before slowly sinking down. You somehow manage to avoid cumming as soon as you enter her, but it's really, really hard. Amily's tail draws your 'bound' hands onto her breasts, while hers start caressing yours as she begins slowly riding you. Soon, the speed increases, and it isn't long before you both orgasm.<br><br>");
@@ -2075,7 +2081,7 @@ class AmilyScene extends Amily {
         this.amilySexMidPartIV();
     }
     // COMPLETE
-    amilySexWorkToPlease() {
+    static amilySexWorkToPlease() {
         clearOutput();
         outputText("You decide to take a more active role and start caressing her, kneading her breasts and making sure she enjoys it just as much as you do. Soon, Amily can't hold herself back and sinks down on you, beginning to ride you for all she's worth. It doesn't take you two long to reach the climax.<br><br>");
         liveData.player.orgasm();
@@ -2083,7 +2089,7 @@ class AmilyScene extends Amily {
         this.amilySexMidPartIV();
     }
     // POSSIBLE AFFECTION GAIN?
-    amilySexMidPartIV() {
+    static amilySexMidPartIV() {
         outputText("Quite spent from your lovemaking, Amily sinks down on your breast, smiles at you and slowly dozes off. You also drift off to sleep soon after. Some time later, you wake up to find her already putting on her clothes again.<br><br>");
         //Affection gain here?
         this.amilyPreggoChance();
@@ -2094,13 +2100,13 @@ class AmilyScene extends Amily {
         GUI.addButton(1, "Stay Awhile", this.amilySexStayAwhile, null, null, null, "Tooltip to be added");
     }
     // COMPLETE
-    amilySexSayGoodbye() {
+    static amilySexSayGoodbye() {
         clearOutput();
         outputText("You smile at her and give her a kiss before saying goodbye and returning to your camp.");
         GUI.doNext(Camp.returnToCampUseOneHour);
     }
     // COMPLETE
-    amilySexStayAwhile() {
+    static amilySexStayAwhile() {
         clearOutput();
         outputText("You decide you'd rather stay with her a little longer, so you get up, go to her and with a kiss and some caresses draw her down again. She doesn't really put up any resistance, so you both lie there kissing and caressing each other for some time before you finally say goodbye and return to your camp.");
         //Bonus affection mayhapz?
@@ -2111,7 +2117,7 @@ class AmilyScene extends Amily {
      * Male High Affection Amily Sex Path
      **********/
     //[High Affection - Non-Pregnant/Slightly Pregnant] -- COMPLETE
-    amilyHighAffectionSex() {
+    static amilyHighAffectionSex() {
         var x = liveData.player.cockThatFits(61);
         outputText("Amily really didn't waste any time getting to her hidden bedroom, sprinting as fast as she could with you in tow.");
         if (liveData.amily.isPregnant())
@@ -2176,7 +2182,7 @@ class AmilyScene extends Amily {
         GUI.doNext(Camp.returnToCampUseOneHour);
     }
     //High Affection - Very Pregnant - COMPLETE
-    fuckAmilyPreg() {
+    static fuckAmilyPreg() {
         clearOutput();
         outputText("Amily leads you by the hand to her hiding place as quickly as possible... which is a relatively brisk walking speed. You don't rush her or anything, understanding how the heavy bump on her belly is slowing her down, moving side-by-side at the same pace.  You try to help Amily over the difficult terrain facing her.");
         if (liveData.gameFlags[AMILY_WANG_LENGTH] > 0)
@@ -2196,7 +2202,7 @@ class AmilyScene extends Amily {
         outputText("\"<i>I did some research on the matter, just in case you still wanted to make love while I'm like this... I'm pretty glad you do - you have no idea how horny I've been from this.</i>\" Amily says as she straddles your hips, feeling the extra weight that the cute little mouse-girl has put on. Nothing you can't handle, and certainly something you're not going to call attention to.<br><br>");
         //CHECK THIS TOO!
         outputText("Amily teases you for a little while, running her pussy-lips and tail along the tip of your erection a few times, earning a few moans and groans from you. Amily smirks slightly before sliding herself down your fully erect " +
-            Appearance.cockNoun(ENUMS.CockType.HUMAN) +
+            Appearance.cockNoun(ENUM.CockType.HUMAN) +
             ", taking as much as she can. You're a little worried that this might be harmful for your offspring, or worse - that they'll know what's going on... but Amily really seems to know more about this than you do, so you're just going to go along with her suggestions on the matter.<br><br>");
         outputText("Amily manages to keep a rather impressive rhythm and pace as she rides your cock like a mechanical bull. In time you manage to return her motions, thrusting your hips up to meet her and twisting yourself around counter-clockwise. The way Amily shrieks, or squeeks, in pleasure is a good sign, and as a result, you pick up speed with your gyrations. The intense pleasure makes you wish this session didn't have to end, but as you feel your orgasm rapidly approach, you sigh in defeat and resolve to make it a memorable one. You quickly clasp your hands around Amily's hips and pick up speed, making Amily gasp in surprise. You keep your motions up for another few minutes, before the two of you bring each other to a powerful simultaneous orgasm, mixed fluids drooling from Amily's thoroughly stretched cunt");
         if (liveData.gameFlags[AMILY_WANG_LENGTH] > 0)
@@ -2215,7 +2221,7 @@ class AmilyScene extends Amily {
     }
     //FEMALE SEX
     // First time and subsequent times. Some problems with this scene. See notes. - COMPLETE
-    girlyGirlMouseSex() {
+    static girlyGirlMouseSex() {
         clearOutput();
         outputText("You take Amily by the hand and allow her to lead you to where it is she plans on having sex with you. Soon enough, through many twists and turns, you are in a makeshift bedroom in an otherwise gutted building.<br><br>");
         //(If first time:
@@ -2255,7 +2261,7 @@ class AmilyScene extends Amily {
     }
     // Amily turns Herm for you scenes.
     // COMPLETE
-    amilyPostConfessionGirlRemeeting() {
+    static amilyPostConfessionGirlRemeeting() {
         clearOutput();
         outputText('Amily looks happy to see you, as usual, but shy as well. "<i>Ah... ' + liveData.player.name + "... it's good to see you again.</i>\"<br><br>");
         outputText("You agree that it is, then ask if something is the matter.<br><br>");
@@ -2269,14 +2275,14 @@ class AmilyScene extends Amily {
         GUI.addButton(1, "Reject", this.denyHermAmily, null, null, null, "Add Tooltip Later");
     }
     // Accept Herm Amily's offer - COMPLETE
-    acceptHermAmily() {
+    static acceptHermAmily() {
         clearOutput();
         outputText("Her increasingly nervous, high-pitched tone is cut off when you press a finger to her lips, smiling affectionately at her. You tell her that you understand what she is saying and why she did this, and you're happy to be with her in that way. Putting on a saucy grin, you stage-whisper into her ear about giving her new appendage a trial-run, and she blushes bright red.<br><br>");
         outputText("She still starts leading you away, though.");
         GUI.doNext(this.amilyHermOnFemalePC);
     }
     // Reject Amily Herm offer. Closes encounter off - COMPLETE
-    denyHermAmily() {
+    static denyHermAmily() {
         clearOutput();
         outputText("You scowl and take a pointed step back. You cared about her because she was another woman, alone and lost in this twisted world full of horny freaks that seem to be nothing but dicks and lust; now she's turned herself into one of them? She couldn't accept the pure love that the two of you already had?<br><br>");
         outputText("Amily stops, her new cock wilting, her expression making it quite obvious that she's heartbroken. Her head falls, tears dripping from her eyes, and she turns and runs away. You glare after her as she vanishes, sobbing, into the ruins, hoping she never comes back.");
@@ -2285,7 +2291,7 @@ class AmilyScene extends Amily {
         GUI.doNext(Camp.returnToCampUseOneHour);
     }
     // COMPLETE
-    amilyHermOnFemalePC() {
+    static amilyHermOnFemalePC() {
         clearOutput();
         outputText("Amily's efforts at leading you to a place to make love are a bit hampered by the erection tenting her pants, which she is clearly still having a bit of difficulty adjusting to. Finally, though, you have reached her current den, where you waste no time in removing your " +
             liveData.player.armor.equipmentName +
@@ -2368,7 +2374,7 @@ class AmilyScene extends Amily {
      * First time having sex with Amily
      *******/
     //Having sex with Amily for the first time - COMPLETE
-    amilySexFirstTime() {
+    static amilySexFirstTime() {
         clearOutput();
         outputText("Amily leads you on a convulated route through the ruins of the village. Up streets, down streets, around corners, even straight through some ruins. ");
         //(If player is five feet or less in height:
@@ -2383,7 +2389,7 @@ class AmilyScene extends Amily {
         GUI.addButton(2, "Kiss Her", this.amilySexFirstTimeKiss, null, null, null, "Romance is key. Maybe you shouldn't let her forget?");
     }
     // "Take charge" (i.e be a total douche) during first sexual encounter with Amily - NEED COCK VARS? NEED TO TEST THE TRANSFORMATIONS
-    amilySexFirstTimeTakeCharge() {
+    static amilySexFirstTimeTakeCharge() {
         clearOutput();
         //outputText(images.showImage("amily-forest-takecharge"), false);
         outputText('You decide that the scenery doesn\'t matter; Amily promised you sex, and you want that sex. Without a word you step forward and give her a mighty push, sending her falling onto her butt with a squeak as you thrust her towards the "<i>bed</i>" - that she lands in it is more coincidence than anything. You drop down on top of her, pinning her arms and legs with your own.<br><br>');
@@ -2428,7 +2434,7 @@ class AmilyScene extends Amily {
         GUI.doNext(Camp.returnToCampUseOneHour);
     }
     // Wait for Amily to make the first move during first sexual encounter. - COMPLETE
-    amilySexFirstTimeHesitate() {
+    static amilySexFirstTimeHesitate() {
         clearOutput();
         //outputText(images.showImage("amily-forest-plainfuck"), false);
         outputText("Amily may be a cute little girl, but you're not sure it's really a good idea to... proceed... So you just wait for her to decide whether she really wants to have sex here and now. After a few moments, when it's clear that you're not going to do anything, she frowns a little and steps up to you. Looking up into your eyes, you suddenly realize she wants a kiss. Bending down your head, you plan to give her a rather chaste kiss, but Amily obviously has other ideas. You feel your tongue entering her mouth, and what was intended as a short, innocent kiss turns into a very hot, rather 'not-so-innocent' one.  Suddenly you feel her little hand (or paw?) grabbing your ass.<br><br>");
@@ -2447,7 +2453,7 @@ class AmilyScene extends Amily {
         GUI.doNext(Camp.returnToCampUseOneHour);
     }
     // Kiss Amily first before going further during first sexual encounter -- COMPLETE
-    amilySexFirstTimeKiss() {
+    static amilySexFirstTimeKiss() {
         clearOutput();
         //outputText(images.showImage("amily-forest-kissingfuck"), false);
         outputText('While the scenery certainly isn\'t anything you\'d call "<i>romantic</i>" or "<i>arousing</i>", the eager little mouse-girl in front of you is quite appealing, so you step up to her, take her in your arms and lightly kiss her. Seeing her eyes widen in surprise for a moment, she soon closes her eyes and returns the kiss. Continuing the kiss you two begin to explore each other. Along the way, you help each other out of your clothes and slowly, almost reluctantly step back so you can for the first time see each other without anything in the way.<br><br>');
@@ -2478,7 +2484,7 @@ class AmilyScene extends Amily {
     // Amily Pregnancy code and birthing scenes
     //---------
     // COMPLETE
-    amilyPreggoChance() {
+    static amilyPreggoChance() {
         //Is amily a chaste follower?
         if (liveData.gameFlags[AMILY_FOLLOWER] == 1) {
             //If pregnancy not enabled, GTFO
@@ -2499,7 +2505,7 @@ class AmilyScene extends Amily {
         }
     }
     // COMPLETE
-    amilyGivesBirth() {
+    static amilyGivesBirth() {
         outputText("You head into the ruined village, wondering how Amily is doing. You can't be sure, but you think that it will soon be time for her to give birth. Right as that thought sinks in, you hear a squeaking wail of pain in the distance. You hurriedly take off to find the source, and you soon find her; Amily, squatting naked in the shelter of a building. She squeals softly with exertion as her swollen abdomen visibly ripples, and fluids drip from her swollen pink vagina. She is definitely in labor.<br><br>");
         outputText("What will you do?");
         //Increase baby count here rather than in 3 places.
@@ -2510,7 +2516,7 @@ class AmilyScene extends Amily {
         GUI.addButton(2, "Help", this.amilyLaborHelp, null, null, null, "Tooltip to be added.");
     }
     // COMPLETE
-    amilyLaborLeave() {
+    static amilyLaborLeave() {
         clearOutput();
         outputText("You make a hasty retreat. You aren't sure why; maybe it was fear, maybe it was memories of the way the midwives always chased the men away when one of the women back in the village went into labor. Reassuring yourself that she will be fine, you head back to camp.<br><br>");
         outputText('The next morning, you find a note scratched onto a slab of bark beside your sleeping roll, reading, "<i>The babies and I are both fine. No thanks to you!</i>"<br><br>');
@@ -2519,7 +2525,7 @@ class AmilyScene extends Amily {
         GUI.doNext(Camp.returnToCampUseOneHour);
     }
     // COMPLETE
-    amilyLaborWatch() {
+    static amilyLaborWatch() {
         clearOutput();
         outputText("You don't want to just run away and leave her, but at the same time you think it would be best to respect her privacy. You stand a respectful distance away, watching as she strains. Her pink nether lips part and a small");
         if (liveData.gameFlags[AMILY_NOT_FURRY] == 0)
@@ -2542,7 +2548,7 @@ class AmilyScene extends Amily {
         GUI.doNext(Camp.returnToCampUseOneHour);
     }
     // COMPLETE
-    amilyLaborHelp() {
+    static amilyLaborHelp() {
         clearOutput();
         outputText("You move forward instinctively. Amily is in labor – she needs help. The fact that you are the father only makes it more natural for you to want to help her.<br><br>");
         outputText('"<i>Hghnn... ' +
@@ -2588,7 +2594,7 @@ class AmilyScene extends Amily {
         GUI.doNext(Camp.returnToCampUseOneHour);
     }
     //Player gives Birth (quest version): UPDATE WHEN WE WORK ON AMILY IN CAMP!
-    pcBirthsAmilysKidsQuestVersion() {
+    static pcBirthsAmilysKidsQuestVersion() {
         liveData.gameFlags[PC_TIMES_BIRTHED_AMILYKIDS]++;
         //In camp version:
         //    if (flags[kFLAGS.AMILY_FOLLOWER] == 1) {
@@ -2639,7 +2645,7 @@ class AmilyScene extends Amily {
         outputText("\"<i>Look at them all. You... I never thought it would turn out this way, but you're helping my dream to come true. Thank you,</i>\" Amily tells you sincerely. You're too exhausted to keep your eyes open for long, but she promises to stay in touch and, even as you fall asleep, she's gathering up your children and taking them away.");
         liveData.player.knockUpForce(0, 0); // May not need this
     }
-    postBirthingEndChoices() {
+    static postBirthingEndChoices() {
         clearOutput();
         outputText("When you awake, the children are gone, and Amily has prepared something for you to eat. You eagerly start to feed yourself as Amily, looking grave, begins to speak.<br><br>");
         outputText("\"<i>You know that this... well, this isn't how I saw my future going. I wanted a human mate to help me make pure children, to revive my race, that's true, but... I kind of always saw myself as the mother to those children. But, being the father... well, it's not so bad.</i>\" She takes your hands in hers, looking deep into your eyes. \"<i>I... I never dreamed I'd say this to ");
@@ -2657,7 +2663,7 @@ class AmilyScene extends Amily {
         GUI.addButton(1, "Stay Friends", this.declineAmilyHermPath, null, null, null, "TO BE ADDED");
         GUI.addButton(2, "Shoot Down", this.rejectAmilyHermPath, null, null, null, "TO BE ADDED");
     }
-    acceptAmilyHermPath() {
+    static acceptAmilyHermPath() {
         clearOutput();
         outputText("You stare at her in surprise. Then, you take hold of her hands and smile at her. You tell her that nothing would make you happier than to have her here, living with you, being with her. Amily squeaks loudly with joy and passionately embraces you, kissing you as deeply as she can. When she finally lets you go for lack of air, she takes a good long look around the camp, as if she's seeing it for the first time.<br><br>");
         outputText('"<i>Well, I better start moving in, huh?</i>" she jokes. She then flops down on your sleeping roll beside you, "<i>There we are, I\'m moved in.</i>" She grins at you, and you can\'t help but laugh.<br><br>');
@@ -2675,7 +2681,7 @@ class AmilyScene extends Amily {
         GUI.doNext(playerMenu); // Check this.
     }
     //[=Stay Friends=]
-    declineAmilyHermPath() {
+    static declineAmilyHermPath() {
         clearOutput();
         outputText("You think about it, and then shake your head. You tell her that you do appreciate her feelings, but you're not sure the two of you are ready to make the committment that living together entails. Besides, your camp is set up to guard the portal leading back to your world; that makes it a magnet for demons. You can't imagine exposing her to the danger that moving to camp would entail for her.<br><br>");
         outputText("Amily doesn't look entirely happy, but you assure her that you will keep coming back to see her. And when you tease at the possibility of a few more litters in your respective futures, stroking her penis through her tattered pants, she blushes but agrees to go.<br><br>");
@@ -2683,7 +2689,7 @@ class AmilyScene extends Amily {
         GUI.doNext(playerMenu); // Check this
     }
     //Shoot the bitch down!
-    rejectAmilyHermPath() {
+    static rejectAmilyHermPath() {
         clearOutput();
         outputText("You stare at her coldly, and inform her that you have no interest in any kind of relationship with her on that level. You decided to let her plant her brats in you out of pity, but now that she no longer needs your womb, you have no more intention of renting it out to her.<br><br>");
         outputText("Amily reels, heartstruck, her expression making it clear that her heart has shattered, tears rolling down her face. \"<i>I...I didn't know that was the way you felt about me. F-Fine, if that's how it is...</i>\" She bursts into sobs and runs away; you know she'll never come back.<br><br>");
@@ -2695,7 +2701,7 @@ class AmilyScene extends Amily {
     // CORRUPTION PATH
     //--------------
     //Requires PC have done first meeting and be corrupt - NEED PERK CODE AND A FEW OTHER PLAYER THANGS
-    meetAmilyAsACorruptAsshat() {
+    static meetAmilyAsACorruptAsshat() {
         clearOutput();
         outputText("Curious about how Amily is holding up, you head back into the ruined village. This time, you don't bother making any secret of your presence, hoping to attract Amily's attention quicker. After all, she did say that the place is basically empty of anyone except her, and you can handle a measly Imp or Goblin.<br><br>");
         switch (amily.pregnancyEventNum) {
@@ -2750,7 +2756,7 @@ class AmilyScene extends Amily {
         //FLAG THAT THIS SHIT WENT DOWN
     }
     // COOKING THE POTENT MIXTURE - COMPLETE
-    cookAmilyASnack() {
+    static cookAmilyASnack() {
         clearOutput();
         //[Cooking the drug - repeat]
         if (liveData.gameFlags[CREATE_POTENT_MIXTURE] > 0) {
@@ -2883,7 +2889,7 @@ class AmilyScene extends Amily {
         GUI.doNext(Camp.returnToCampUseOneHour);
     }
     // COMPLETE
-    amilyCorrupt1() {
+    static amilyCorrupt1() {
         clearOutput();
         outputText("You step into the ruined village and set out to look for Amily.<br><br>");
         //(If PC's intellingence >= 50 and speed >= 65)
@@ -2921,7 +2927,7 @@ class AmilyScene extends Amily {
         }
     }
     //COMPLETE
-    amilyCorrupt2() {
+    static amilyCorrupt2() {
         clearOutput();
         //(if PC is genderless)
         if (liveData.player.gender == 0) {
@@ -2973,7 +2979,7 @@ class AmilyScene extends Amily {
         }
     }
     //COMPLETE
-    amilyCorrupt3() {
+    static amilyCorrupt3() {
         clearOutput();
         //(if PC is genderless)
         if (liveData.player.gender == 0) {
@@ -3006,7 +3012,7 @@ class AmilyScene extends Amily {
         this.amilyCorruptionRape(); //chooseYourAmilyRape();
     }
     //COMPLETE
-    amilyCorruptionRape() {
+    static amilyCorruptionRape() {
         if (liveData.gameFlags[AMILY_CORRUPTION_PATH] == 0) {
             GUI.doNext(this.rapeCorruptAmily1);
         }
@@ -3040,7 +3046,7 @@ class AmilyScene extends Amily {
         }
     }
     //OMPLETE
-    rapeCorruptAmily1() {
+    static rapeCorruptAmily1() {
         liveData.gameFlags[AMILY_CORRUPTION_PATH]++;
         clearOutput();
         //[Raping Amily]
@@ -3081,7 +3087,7 @@ class AmilyScene extends Amily {
             GUI.doNext(this.rapeCorruptAmily1Female);
     }
     //COMPLETE
-    rapeCorruptAmily1Male() {
+    static rapeCorruptAmily1Male() {
         var x = liveData.player.cockThatFits(61);
         if (x < 0)
             x = 0;
@@ -3113,7 +3119,7 @@ class AmilyScene extends Amily {
             GUI.doNext(Camp.returnToCampUseOneHour);
     }
     //NEED COMBAT CODE
-    rapeCorruptAmily1Female() {
+    static rapeCorruptAmily1Female() {
         clearOutput();
         liveData.player.removeKeyItem(KeyItems.PotentMixture);
         outputText("You smile and say, \"<i>Fine, but you're gonna have to work for it.</i>\" Amily's answer is to open her mouth wide. The invitation clear, you advance and lower your " + liveData.player.vaginaDescript() + " towards her open mouth.<br><br>");
@@ -3149,7 +3155,7 @@ class AmilyScene extends Amily {
         else
             GUI.doNext(Camp.returnToCampUseOneHour);
     }
-    rapeCorruptAmily2Male() {
+    static rapeCorruptAmily2Male() {
         clearOutput();
         var x = liveData.player.cockThatFits(61);
         if (x < 0)
@@ -3197,7 +3203,7 @@ class AmilyScene extends Amily {
         this.rapeCorruptAmily2Epilogue();
     }
     //COMPLETE
-    rapeCorruptAmily2Female() {
+    static rapeCorruptAmily2Female() {
         clearOutput();
         outputText("You roughly grab ahold of Amily's ears and shove her face on your " + liveData.player.vaginaDescript() + ".");
         //[(if PC is a squirter)
@@ -3228,7 +3234,7 @@ class AmilyScene extends Amily {
         this.rapeCorruptAmily2Epilogue();
     }
     // COMPLETE
-    rapeCorruptAmily2Epilogue() {
+    static rapeCorruptAmily2Epilogue() {
         liveData.gameFlags[AMILY_CORRUPTION_PATH]++;
         //Both variations link into this next paragraph
         outputText("Amily falls on her back, panting happily and licking her mouth to taste as much of you as possible. That's when you notice her beginning to change, slowly but significantly.<br><br>");
@@ -3240,7 +3246,7 @@ class AmilyScene extends Amily {
         GUI.doNext(Camp.returnToCampUseOneHour);
     }
     // COMPLETE
-    rapeCorruptAmily3Male() {
+    static rapeCorruptAmily3Male() {
         clearOutput();
         outputText("You strip while Amily watches hungrily. Finally naked, you order the mouse to come closer and use her breasts to pleasure you. Amily quickly scoots closer on her knees and press her breasts around your " + player.cockDescript(0) + ".");
         //[(if PC is huge)
@@ -3292,7 +3298,7 @@ class AmilyScene extends Amily {
         this.rapeCorruptAmily3Epilogue();
     }
     // COMPLETE
-    rapeCorruptAmily3Female() {
+    static rapeCorruptAmily3Female() {
         clearOutput();
         outputText("You strip while Amily watches hungrily.  Finally naked, you order the mouse to come closer and use her breasts to pleasure you. Amily scoots closer on her knees and presses her breasts against your " +
             liveData.player.vaginaDescript() +
@@ -3340,7 +3346,7 @@ class AmilyScene extends Amily {
         this.rapeCorruptAmily3Epilogue();
     }
     //COMPLETE
-    rapeCorruptAmily3Epilogue() {
+    static rapeCorruptAmily3Epilogue() {
         liveData.gameFlags[AMILY_CORRUPTION_PATH]++;
         outputText("Amily falls on her back, licking her lips and rubbing her bulging belly. Then she begins moaning as something starts changing. Her tail thrashes madly between her legs, and you watch enraptured as a spade-like tip forms on the tip of her tail. On top of her head a pair of small bumps appear, then develop into small cute demonic horns... Just like you imagined. Could it be that the true source of Amily's transformation was you, and not the mixture?<br><br>");
         outputText("You smile wickedly. It was you all along; corrupting the mousette into a slut. You turn around and start back towards your camp.<br><br>");
@@ -3355,7 +3361,7 @@ class AmilyScene extends Amily {
         GUI.doNext(Camp.returnToCampUseOneHour);
     }
     // COMPLETE
-    rapeCorruptAmily4Meeting() {
+    static rapeCorruptAmily4Meeting() {
         clearOutput();
         //(if PC is genderless)
         if (liveData.player.gender == 0) {
@@ -3380,7 +3386,7 @@ class AmilyScene extends Amily {
             GUI.doNext(this.rapeCorruptAmily4Male);
     }
     //COMPLETE
-    rapeCorruptAmily4Male() {
+    static rapeCorruptAmily4Male() {
         clearOutput();
         outputText("You slowly strip off your " +
             liveData.player.armor.equipmentName +
@@ -3470,7 +3476,7 @@ class AmilyScene extends Amily {
         this.rapeCorruptAmily4Epilogue();
     }
     //COMPLETE
-    rapeCorruptAmily4Female() {
+    static rapeCorruptAmily4Female() {
         clearOutput();
         outputText("You slowly strip off your " + liveData.player.armor.equipmentName + ", while Amily pants in anticipation. When you're done you present to her your dripping " + liveData.player.vaginaDescript() + "; she quickly nuzzles and kisses your clit.");
         //[(if PC has balls)
@@ -3551,7 +3557,7 @@ class AmilyScene extends Amily {
         this.rapeCorruptAmily4Epilogue();
     }
     //NEED MARBLE TO FINISH
-    rapeCorruptAmily4Epilogue() {
+    static rapeCorruptAmily4Epilogue() {
         outputText("Your cum is completely absorbed by her and she doubles over in pleasure as she screams. Her biggest orgasm yet rocks her to the core; her eyes roll back and you see her begin to change.<br><br>");
         outputText("Her " +
             (liveData.gameFlags[AMILY_NOT_FURRY] == 0 ? "fur turns to a lewd purple" : "hair turns into a lewd purple, skin fading to a light lavender") +
@@ -3596,7 +3602,7 @@ class AmilyScene extends Amily {
     // Amily Human Transformation
     //--------
     // GAME NOT LIKING THIS FUNCTION FOR SOME REASON!
-    amilyCanHaveTFNow() {
+    static amilyCanHaveTFNow() {
         return !!(liveData.gameFlags[AMILY_NOT_FURRY] == 0 &&
             liveData.gameFlags[AMILY_OFFERED_DEFURRY] == 1 &&
             liveData.player.hasItem(Items.Consumables.GoldenSeed) &&
@@ -3605,7 +3611,7 @@ class AmilyScene extends Amily {
     }
     // COMPLETE
     // Arrive with all the stuff you need to make Amily not look completely rediculous.
-    amilyDefurrify() {
+    static amilyDefurrify() {
         // Figure out how to consume items
         liveData.player.destroyItems(Items.Consumables.GoldenSeed, 1);
         if (liveData.player.hasItem(Items.Consumables.BlackEgg))
@@ -3637,7 +3643,7 @@ class AmilyScene extends Amily {
     //--------------
     // Bad ending happens when there's five litters and affection is below 40.
     // FIX [MEN] REFERENCE IN THIS BLOCK OF CODE
-    amilyBadEnding() {
+    static amilyBadEnding() {
         clearOutput();
         outputText("You wander through the empty streets of the ruined village, wondering where Amily is. For all her many faults, she's an acceptable fuck. The sudden sound of footsteps catches your attention, and you ready yourself for battle; Amily never makes her presence felt so clumsily.<br><br>");
         outputText('Except for today. Amily walks out to confront you casually. "<i>Ah, ' + liveData.player.name + ', there you are,</i>" she states. "<i>Good. I was hoping to see you one last time; I thought you at least deserved a goodbye.</i>"<br><br>');
@@ -3655,7 +3661,7 @@ class AmilyScene extends Amily {
     }
     //Have over five litters and affection is 40 or higher
     //ADD AMILY APPEARANCE VARIABLES, MARBLE  AND IZMA FREAKOUT CODE
-    amilyBecomesFollower() {
+    static amilyBecomesFollower() {
         clearOutput();
         outputText("As you wander through the empty streets of the ruined village, you wonder where Amily is. Even beyond what she means to you now, you simply enjoy knowing that there's someone else in this twisted place you can talk to.<br><br>");
         outputText('"<i>' + liveData.player.name + "! Darling! You're here!</i>\"<br><br>");
@@ -3716,6 +3722,7 @@ class AmilyScene extends Amily {
         GUI.doNext(Camp.returnToCampUseOneHour);
     }
 }
+liveData.amily = new Amily(); // Used for Pregnancy tracking
 // Add a pregnancy event array NEW CODE
 liveData.amily.eventFill(INCUBATION_AMILY_EVENT);
 export { Amily, AmilyScene };

@@ -43,7 +43,10 @@ class GameContext {
         //let flags = [0] * 3000; //For legacy purposes only.
         // let gameFlags = []
         this.gameFlags = {};
-        this.amily = new Amily(); // Used for Pregnancy tracking
+        //Inventory
+        this.currentItemSlot;
+        this.callNext = () => { }; // empty lambda to immediately override
+        this.callOnAbandon = () => { };
     }
     advanceMinutes(minutes) {
         //if (timeAware.length > 0) { // If there's a function in timeAware

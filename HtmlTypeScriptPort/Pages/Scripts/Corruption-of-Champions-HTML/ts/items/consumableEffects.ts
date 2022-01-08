@@ -1,8 +1,8 @@
 import { clearOutput, outputText } from "../engine/text"
 import { liveData } from "../globalVariables"
 import { addToGameFlags } from "../engine/saves"
-import { rand } from "../engine/utils"
-import { doNext } from "../engine/gui"
+import { UTIL } from "../engine/utils"
+import { GUI } from "../engine/gui"
 
 addToGameFlags(TIMES_TRANSFORMED, HAIR_GROWTH_STOPPED_BECAUSE_LIZARD)
 
@@ -30,12 +30,12 @@ let fishFillet = function () {
 let lactaid = function () {
     liveData.player.slimeFeed()
     var i = 0
-    outputText("You gulp down the bottle of lactaid, easily swallowing the creamy liquid.", true)
+    outputText("You gulp down the bottle of lactaid, easily swallowing the creamy liquid.")
     //Bump up size!
     if (liveData.player.averageBreastSize() < 8) {
         outputText("<br><br>", false)
-        if (liveData.player.breastRows.length == 1) liveData.player.growTits(1 + rand(5), 1, true, 1)
-        else liveData.player.growTits(1 + rand(2), liveData.player.breastRows.length, true, 1)
+        if (liveData.player.breastRows.length == 1) liveData.player.growTits(1 + UTIL.rand(5), 1, true, 1)
+        else liveData.player.growTits(1 + UTIL.rand(2), liveData.player.breastRows.length, true, 1)
     }
     //Player doesn't lactate
     if (liveData.player.biggestLactation() < 1) {
@@ -50,11 +50,11 @@ let lactaid = function () {
         outputText("<br><br>", false)
         outputText("Milk leaks from your " + liveData.player.nippleDescript(0) + "s in thick streams.  You're lactating even more!", false)
         for (i = 0; i < liveData.player.breastRows.length; i++) {
-            liveData.player.breastRows[i].lactationMultiplier += 1 + rand(10) / 10
+            liveData.player.breastRows[i].lactationMultiplier += 1 + UTIL.rand(10) / 10
         }
     }
     liveData.player.changeLust(10)
-    if (rand(3) == 0) {
+    if (UTIL.rand(3) == 0) {
         outputText(liveData.player.modFem(95, 1), false)
     }
 }
@@ -66,7 +66,7 @@ let lustDraft = function (fuck) {
     if (fuck) outputText("red", false)
     else outputText("pink", false)
     outputText(" potion, and its unnatural warmth immediately flows to your groin. ", false)
-    liveData.player.changeLust(30 + rand(liveData.player.lib / 10), true, false, false)
+    liveData.player.changeLust(30 + UTIL.rand(liveData.player.lib / 10), true, false, false)
 
     //Heat/Rut for those that can have them if "fuck draft"
     if (fuck) {
@@ -103,13 +103,13 @@ let vitalityTincture = function () {
     liveData.player.slimeFeed()
     outputText("You down the contents of the bottle. The liquid is thick and tastes remarkably like cherries. Within moments, you feel much more fit and healthy.", true)
     //Strength changes
-    var temp = rand(3)
+    var temp = UTIL.rand(3)
     liveData.player.modStats("str", temp)
     //Guaranteed toughness if no str
     if (temp == 0) {
-        temp = rand(3)
+        temp = UTIL.rand(3)
         if (temp == 0) temp = 1
-    } else temp = rand(3)
+    } else temp = UTIL.rand(3)
     //tou change
     liveData.player.modStats("tou", temp)
     //Chance of fitness change
@@ -117,7 +117,7 @@ let vitalityTincture = function () {
         liveData.player.changeHP(50, true)
         outputText(" Any aches, pains and bruises you have suffered no longer hurt and you feel much better.")
     }
-    if (rand(3) == 0) outputText(liveData.player.modTone(95, 3), false)
+    if (UTIL.rand(3) == 0) outputText(liveData.player.modTone(95, 3), false)
     liveData.player.refillHunger(10)
 }
 
@@ -127,12 +127,12 @@ let scholarsTea = function () {
     outputText(
         "Following the merchant's instructions, you steep and drink the tea. Its sharp taste fires up your palate and in moments, you find yourself more alert and insightful. As your mind wanders, a creative, if somewhat sordid, story comes to mind. It is a shame that you do not have writing implements as you feel you could make a coin or two off what you have conceived. The strange seller was not lying about the power of the tea."
     )
-    if (rand(3) == 0) outputText(liveData.player.modTone(15, 1), false)
+    if (UTIL.rand(3) == 0) outputText(liveData.player.modTone(15, 1), false)
     //Now NERFED!
-    if (liveData.player.inte < 40) liveData.player.modStats("int", 1.5 + rand(4))
-    else if (liveData.player.inte < 60) liveData.player.modStats("int", 1 + rand(3))
-    else if (liveData.player.inte < 80) liveData.player.modStats("int", 0.5 + rand(2))
-    else liveData.player.modStats("int", 0.2 + rand(2))
+    if (liveData.player.inte < 40) liveData.player.modStats("int", 1.5 + UTIL.rand(4))
+    else if (liveData.player.inte < 60) liveData.player.modStats("int", 1 + UTIL.rand(3))
+    else if (liveData.player.inte < 80) liveData.player.modStats("int", 0.5 + UTIL.rand(2))
+    else liveData.player.modStats("int", 0.2 + UTIL.rand(2))
     liveData.player.refillHunger(10)
 }
 
@@ -341,7 +341,7 @@ function liquidDesc(_adj: string) {
             //Failsafe
             liquidArrays = ["liquid", "cream"]
     }
-    liquidDesc = liquidArrays[rand(liquidArrays.length)]
+    liquidDesc = liquidArrays[UTIL.rand(liquidArrays.length)]
     return liquidDesc
 }
 
@@ -415,12 +415,12 @@ let tatteredScroll = function () {
             liveData.player.changeLust(10)
         }
         outputText('<br><br>Your mouth curls into a sick smile and, with a voice that isn\'t your own, speaks, "<i>I ALWAYS get what I want, dear...</i>"')
-        doNext(Camp.returnToCampUseOneHour)
+        GUI.doNext(Camp.returnToCampUseOneHour)
     } else {
         outputText('Your mouth forms a smile of its own volition, reading, "<i>nuf erutuf rof riah ydnas, nus tresed eht sa ydnas.</i>"<br><br>You feel a tingling in your scalp, and realize your hair has become a sandy blonde!')
         liveData.player.hairColor = "sandy blonde"
         outputText('<br><br>Your mouth curls with a sick smile, speaking with a voice that isn\'t your own, "<i>I ALWAYS get what I want, dear...</i>"')
-        doNext(Camp.returnToCampUseOneHour)
+        GUI.doNext(Camp.returnToCampUseOneHour)
     }
     // Using Tattered Scroll in Combat
     /*
@@ -519,7 +519,7 @@ let minotaurCum = function (purified) {
     else liveData.player.minoCumAddiction(-2)
     outputText("As soon as you crack the seal on the bottled white fluid, a ", false)
     if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_STATE] == 0 && liveData.player.findPerk(PerkLib.MinotaurCumResistance) < 0) outputText("potent musk washes over you.", false)
-    else outputText("heavenly scent fills your nostrils.", false)
+    else outputText("heavenly scent fills your nostrils.")
     if (!purified) {
         if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] < 50) outputText("  It makes you feel dizzy, ditzy, and placid.", false)
         else outputText("  It makes you feel euphoric, happy, and willing to do ANYTHING to keep feeling this way.", false)
@@ -552,13 +552,13 @@ let minotaurCum = function (purified) {
         else outputText("  Slick fluids soak your thighs as your body reacts to this new stimulus.", false)
     }
     //(Minotaur fantasy)
-    if (!inCombat() == true && rand(10) == 1 && !purified && liveData.player.findPerk(PerkLib.MinotaurCumResistance) < 0) {
+    if (!inCombat() == true && UTIL.rand(10) == 1 && !purified && liveData.player.findPerk(PerkLib.MinotaurCumResistance) < 0) {
         outputText(
             "<br><br>Your eyes flutter closed for a second as a fantasy violates your mind.  You're on your knees, prostrate before a minotaur.  Its narcotic scent fills the air around you, and you're swaying back and forth with your belly already sloshing and full of spunk.  Its equine-like member is rubbing over your face, and you submit to the beast, stretching your jaw wide to take its sweaty, glistening girth inside you.  Your tongue quivers happily as you begin sucking and slurping, swallowing each drop of pre-cum you entice from the beastly erection.  Gurgling happily, you give yourself to your inhuman master for a chance to swallow into unthinking bliss.",
             false
         )
         liveData.player.dynStats("lib", 1)
-        liveData.player.changeLust(rand(5) + liveData.player.cor / 20 + liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] / 5)
+        liveData.player.changeLust(UTIL.rand(5) + liveData.player.cor / 20 + liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] / 5)
     }
     //(Healing – if hurt and uber-addicted (hasperk))
     if (liveData.player.HP < liveData.player.maxHP() && liveData.player.findPerk(PerkLib.MinotaurCumAddict) >= 0) {
@@ -567,7 +567,7 @@ let minotaurCum = function (purified) {
     }
     //Uber-addicted status!
     if (liveData.player.findPerk(PerkLib.MinotaurCumAddict) >= 0 && liveData.gameFlags[MINOTAUR_CUM_REALLY_ADDICTED_STATE] <= 0 && !purified) {
-        liveData.gameFlags[MINOTAUR_CUM_REALLY_ADDICTED_STATE] = 3 + rand(2)
+        liveData.gameFlags[MINOTAUR_CUM_REALLY_ADDICTED_STATE] = 3 + UTIL.rand(2)
         outputText("<br><br><b>Your body feels so amazing and sensitive.  Experimentally you pinch yourself and discover that even pain is turning you on!</b>", false)
     }
     //Clear mind a bit

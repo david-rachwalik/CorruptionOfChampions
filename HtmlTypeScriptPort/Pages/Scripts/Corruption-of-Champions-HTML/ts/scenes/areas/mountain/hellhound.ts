@@ -1,106 +1,107 @@
 /**
  * Created by aimozg on 04.01.14.
  */
-HellhoundScene = [];
+HellhoundScene = []
 
 function Hellhound() {
     //Name and references
-    this.a = "the ";
-    this.name = "hellhound";
-    this.refName = this.name;
-    this.isAre = "is";
-    this.heShe = "he";
-    this.himHer = "him";
-    this.hisHer = "his";
-    this.battleDesc = "It looks like a large demon on all fours with two heads placed side-by-side. The heads are shaped almost like human heads, but they have dog ears on the top and have a long dog snout coming out where their mouths and noses would be. Its eyes and mouth are filled with flames and its hind legs capped with dog paws, but its front ones almost look like human hands. Its limbs end in large, menacing claws. A thick layer of dark fur covers his entire body like armor. Both heads look at you hungrily as the hellhound circles around you. You get the feeling that reasoning with this beast will be impossible.";
+    this.a = "the "
+    this.name = "hellhound"
+    this.refName = this.name
+    this.isAre = "is"
+    this.heShe = "he"
+    this.himHer = "him"
+    this.hisHer = "his"
+    this.battleDesc =
+        "It looks like a large demon on all fours with two heads placed side-by-side. The heads are shaped almost like human heads, but they have dog ears on the top and have a long dog snout coming out where their mouths and noses would be. Its eyes and mouth are filled with flames and its hind legs capped with dog paws, but its front ones almost look like human hands. Its limbs end in large, menacing claws. A thick layer of dark fur covers his entire body like armor. Both heads look at you hungrily as the hellhound circles around you. You get the feeling that reasoning with this beast will be impossible."
 
     //Stats
-    this.str = 55;
-    this.tou = 60;
-    this.spe = 40;
-    this.inte = 1;
-    this.lib = 95;
-    this.sens = 20;
-    this.cor = 100;
+    this.str = 55
+    this.tou = 60
+    this.spe = 40
+    this.inte = 1
+    this.lib = 95
+    this.sens = 20
+    this.cor = 100
     //Combat stats
-    this.HP = this.maxHP();
-    this.bonusHP = 20 + rand(this.ballSize * 2);
-    this.lust = 25;
-    this.fatigue = 0;
-    this.temperment = 3; //Temperment Love Grapples
+    this.HP = this.maxHP()
+    this.bonusHP = 20 + rand(this.ballSize * 2)
+    this.lust = 25
+    this.fatigue = 0
+    this.temperment = 3 //Temperment Love Grapples
     //Advancement
-    this.level = 5;
-    this.gems = 10 + rand(10);
+    this.level = 5
+    this.gems = 10 + rand(10)
     //Battle variables
-    this.weapon.equipmentName = "claws";
-    this.weapon.verb = "claw";
-    this.weapon.attack = 10;
-    this.armor.equipmentName = "thick fur";
-    this.lustVuln = 1;
+    this.weapon.equipmentName = "claws"
+    this.weapon.verb = "claw"
+    this.weapon.attack = 10
+    this.armor.equipmentName = "thick fur"
+    this.lustVuln = 1
 
     //Appearance
-    this.tallness = rand(37) + 84;
-    this.hipRating = HIP_RATING_AVERAGE;
-    this.buttRating = BUTT_RATING_AVERAGE + 1;
-    this.lowerBody = LOWER_BODY_TYPE_DOG;
-    this.skinTone = "black";
-    this.skinType = SKIN_TYPE_FUR;
-    this.hairColor = "red";
-    this.hairLength = 3;
-    this.tailType = TAIL_TYPE_DOG;
+    this.tallness = rand(37) + 84
+    this.hipRating = HIP_RATING_AVERAGE
+    this.buttRating = BUTT_RATING_AVERAGE + 1
+    this.lowerBody = LOWER_BODY_TYPE_DOG
+    this.skinTone = "black"
+    this.skinType = SKIN_TYPE_FUR
+    this.hairColor = "red"
+    this.hairLength = 3
+    this.tailType = TAIL_TYPE_DOG
     //Sexual characteristics
-    this.createBreastRow();
-    this.createBreastRow();
-    this.createBreastRow();
-    this.createCock(8,2,CockTypesEnum.DOG);
-    this.createCock(8,2,CockTypesEnum.DOG);
-    this.balls = 2;
-    this.ballSize = 4;
-    this.cumMultiplier = 5;
-    this.ass.analLooseness = ANAL_LOOSENESS_STRETCHED;
-    this.ass.analWetness = ANAL_WETNESS_NORMAL;
-    this.createStatusEffect(StatusEffects.BonusACapacity, 30, 0, 0, 0);
+    this.createBreastRow()
+    this.createBreastRow()
+    this.createBreastRow()
+    this.createCock(8, 2, ENUM.CockType.DOG)
+    this.createCock(8, 2, ENUM.CockType.DOG)
+    this.balls = 2
+    this.ballSize = 4
+    this.cumMultiplier = 5
+    this.ass.analLooseness = ANAL_LOOSENESS_STRETCHED
+    this.ass.analWetness = ANAL_WETNESS_NORMAL
+    this.createStatusEffect(StatusEffects.BonusACapacity, 30, 0, 0, 0)
 
     //Drops
-    this.clearDrops(); //Need to be called before populating the item arrays.
-    this.addDrop(Items.Consumables.CaninePepper, 30);
-    this.addDrop(Items.Consumables.CaninePepperBulby, 12);
-    this.addDrop(Items.Consumables.CaninePepperKnotty, 12);
-    this.addDrop(Items.Consumables.CaninePepperBlack, 12);
-    this.addDrop(Items.Consumables.CaninePepperDouble, 12);
-    this.addDrop(Items.Consumables.CaninePepperLarge, 12);
+    this.clearDrops() //Need to be called before populating the item arrays.
+    this.addDrop(Items.Consumables.CaninePepper, 30)
+    this.addDrop(Items.Consumables.CaninePepperBulby, 12)
+    this.addDrop(Items.Consumables.CaninePepperKnotty, 12)
+    this.addDrop(Items.Consumables.CaninePepperBlack, 12)
+    this.addDrop(Items.Consumables.CaninePepperDouble, 12)
+    this.addDrop(Items.Consumables.CaninePepperLarge, 12)
 
     //Victory/defeat
-    this.victory = HellhoundScene.hellhoundWin;
-    this.defeat = HellhoundScene.hellhoundLoss;
+    this.victory = HellhoundScene.hellhoundWin
+    this.defeat = HellhoundScene.hellhoundLoss
 }
-Hellhound.prototype = new Creature();
-Hellhound.constructor = Hellhound;
+Hellhound.prototype = new Creature()
+Hellhound.constructor = Hellhound
 
 //------------
 // COMBAT
 //------------
-Hellhound.prototype.doAI = function() {
-    switch(rand(4)) {
+Hellhound.prototype.doAI = function () {
+    switch (rand(4)) {
         case 0:
-            Hellhound.hellhoundFire();
-            break;
+            Hellhound.hellhoundFire()
+            break
         case 1:
-            Hellhound.hellhoundScent();
-            break;
+            Hellhound.hellhoundScent()
+            break
         default:
-            this.attack();
+            this.attack()
     }
-    combatRoundOver();
-};
+    combatRoundOver()
+}
 
 //comment in this function commented out in original code
-Hellhound.hellhoundFire = function() {
+Hellhound.hellhoundFire = function () {
     //Blind dodge change
     if (monster.findStatusEffect(StatusEffects.Blind) >= 0) {
-        outputText(capitalize(monster.a) + monster.refName + " completely misses you with a wave of dark fire! Thank the gods it's blind!");
-        combatRoundOver();
-        return;
+        outputText(capitalize(monster.a) + monster.refName + " completely misses you with a wave of dark fire! Thank the gods it's blind!")
+        combatRoundOver()
+        return
     }
     /*if (player.hasStatusAffect(StatusAffects.Web_dash_Silence) >= 0) {
      outputText("You reach inside yourself to breathe flames, but as you ready to release a torrent of fire, it backs up in your throat, blocked by the webbing across your mouth.  It causes you to cry out as the sudden, heated force explodes in your own throat.<br>", false);
@@ -110,172 +111,269 @@ Hellhound.hellhoundFire = function() {
      return;
      }*/
     if (player.findPerk(PerkLib.Evade) >= 0 && player.spe >= 35 && rand(3) != 0) {
-        outputText("Both the hellhound's heads breathe in deeply before blasting a wave of dark fire at you.  You easily avoid the wave, diving to the side and making the most of your talents at evasion.", false);
-    }
-    else if (player.findPerk(PerkLib.Misdirection) >= 0 && rand(100) < 20 && player.armor.equipmentName == "red, high-society bodysuit") {
-        outputText("Using Raphael's teachings and the movement afforded by your bodysuit, you anticipate and sidestep " + monster.a + monster.refName + "'s fire.<br>", false);
-    }
-    else if (player.findPerk(PerkLib.Flexibility) >= 0 && player.spe > 30 && rand(10) != 0) {
-        outputText("Both the hellhound's heads breathe in deeply before blasting a wave of dark fire at you.  You twist and drop with incredible flexibility, watching the fire blow harmlessly overhead.", false);
-    }
-    else {
+        outputText("Both the hellhound's heads breathe in deeply before blasting a wave of dark fire at you.  You easily avoid the wave, diving to the side and making the most of your talents at evasion.", false)
+    } else if (player.findPerk(PerkLib.Misdirection) >= 0 && rand(100) < 20 && player.armor.equipmentName == "red, high-society bodysuit") {
+        outputText("Using Raphael's teachings and the movement afforded by your bodysuit, you anticipate and sidestep " + monster.a + monster.refName + "'s fire.<br>", false)
+    } else if (player.findPerk(PerkLib.Flexibility) >= 0 && player.spe > 30 && rand(10) != 0) {
+        outputText("Both the hellhound's heads breathe in deeply before blasting a wave of dark fire at you.  You twist and drop with incredible flexibility, watching the fire blow harmlessly overhead.", false)
+    } else {
         //Determine the damage to be taken
-        var temp = 15 + rand(10);
-        outputText("Both the hellhound's heads breathe in deeply before blasting a wave of dark fire at you. While the flames don't burn much, the unnatural heat fills your body with arousal. ");
-        player.changeHP(-temp, true, false);
-        player.changeLust(20 + (player.sens/10), true, false);
+        var temp = 15 + rand(10)
+        outputText("Both the hellhound's heads breathe in deeply before blasting a wave of dark fire at you. While the flames don't burn much, the unnatural heat fills your body with arousal. ")
+        player.changeHP(-temp, true, false)
+        player.changeLust(20 + player.sens / 10, true, false)
     }
-};
+}
 
-Hellhound.hellhoundScent = function() {
+Hellhound.hellhoundScent = function () {
     if (player.findStatusEffect(StatusEffects.NoFlee) >= 0) {
         if (monster.spe == 100) {
-            Hellhound.hellhoundFire();
-            return;
+            Hellhound.hellhoundFire()
+            return
+        } else {
+            outputText("The hellhound sniffs your scent again, seemingly gaining more and more energy as he circles faster around you.", false)
+            monster.spe = 100
         }
-        else {
-            outputText("The hellhound sniffs your scent again, seemingly gaining more and more energy as he circles faster around you.", false);
-            monster.spe = 100;
-        }
+    } else {
+        monster.spe += 40
+        outputText("The hellhound keeps his four eyes on you as he sniffs the ground where you were moments ago. He raises his heads back up and gives you a fiery grin - he seems to have acquired your scent!  It'll be hard to get away now...", false)
+        player.createStatusEffect(StatusEffects.NoFlee, 0, 0, 0, 0)
     }
-    else {
-        monster.spe += 40;
-        outputText("The hellhound keeps his four eyes on you as he sniffs the ground where you were moments ago. He raises his heads back up and gives you a fiery grin - he seems to have acquired your scent!  It'll be hard to get away now...", false);
-        player.createStatusEffect(StatusEffects.NoFlee, 0, 0, 0, 0);
-    }
-    combatRoundOver();
-};
+    combatRoundOver()
+}
 
 //------------
 // SCENES
 //------------
-HellhoundScene.hellhoundEncounter = function() {
-    clearOutput();
-    displaySprite("hellhound");
-    outputText("You hear a fiery howl as a demonic, two-headed beast-man leaps out in front of you!");
+HellhoundScene.hellhoundEncounter = function () {
+    clearOutput()
+    displaySprite("hellhound")
+    outputText("You hear a fiery howl as a demonic, two-headed beast-man leaps out in front of you!")
     if (gameFlags[CODEX_ENTRY_HELLHOUNDS] <= 0) {
-        gameFlags[CODEX_ENTRY_HELLHOUNDS] = 1;
+        gameFlags[CODEX_ENTRY_HELLHOUNDS] = 1
         outputText("<br><br><b>New codex entry unlocked: Hellhounds!</b>")
     }
-    startCombat(new Hellhound());
-};
+    startCombat(new Hellhound())
+}
 
-HellhoundScene.hellhoundWin = function() {
-
+HellhoundScene.hellhoundWin = function () {
     if (monster.HP <= 0) {
-        outputText("The hellhound's flames dim and the heads let out a whine before the creature slumps down, defeated and nearly unconscious.", true);
+        outputText("The hellhound's flames dim and the heads let out a whine before the creature slumps down, defeated and nearly unconscious.", true)
         //Rape if not naga, turned on, and girl that can fit!
         if (player.hasVagina() && player.lust >= 33 && !player.isNaga()) {
-            outputText("  You find yourself musing that you could probably take advantage of the poor 'doggy'.  Do you fuck it?", false);
-            addButton(0, "Fuck It", HellhoundScene.hellhoundPropahRape);
-            addButton(5, "Leave", cleanupAfterCombat);
+            outputText("  You find yourself musing that you could probably take advantage of the poor 'doggy'.  Do you fuck it?", false)
+            addButton(0, "Fuck It", HellhoundScene.hellhoundPropahRape)
+            addButton(5, "Leave", cleanupAfterCombat)
+        } else {
+            cleanupAfterCombat()
         }
-
-        else {
-            cleanupAfterCombat();
-        }
-    }
-    else {
-        outputText("Unable to bear hurting you anymore, the hellhound's flames dim as he stops his attack. The two heads look at you, whining plaintively.  The hellhound slowly pads over to you and nudges its noses at your crotch.  It seems he wishes to pleasure you.<br><br>", true);
-        var temp2 = null;
+    } else {
+        outputText(
+            "Unable to bear hurting you anymore, the hellhound's flames dim as he stops his attack. The two heads look at you, whining plaintively.  The hellhound slowly pads over to you and nudges its noses at your crotch.  It seems he wishes to pleasure you.<br><br>",
+            true
+        )
+        var temp2 = null
         if (player.gender > 0 && player.lust >= 33) {
-            outputText("You realize your desires aren't quite sated.  You could let it please you", false);
+            outputText("You realize your desires aren't quite sated.  You could let it please you", false)
             //Rape if not naga, turned on, and girl that can fit!
             if (player.hasVagina() && player.lust >= 33 && !player.isNaga()) {
-                outputText(" or make it fuck you", false);
-
+                outputText(" or make it fuck you", false)
             }
-            outputText(".  What do you do?", false);
-            addButton(0, "Lick", HellhoundScene.hellhoundGetsRaped);
-            addButton(1, "Fuck", HellhoundScene.hellhoundPropahRape);
-            addButton(5, "Leave", cleanupAfterCombat);
-        }
-        else {
-            outputText("You turn away, not really turned on enough to be interested in such an offer.", false);
-            cleanupAfterCombat();
+            outputText(".  What do you do?", false)
+            addButton(0, "Lick", HellhoundScene.hellhoundGetsRaped)
+            addButton(1, "Fuck", HellhoundScene.hellhoundPropahRape)
+            addButton(5, "Leave", cleanupAfterCombat)
+        } else {
+            outputText("You turn away, not really turned on enough to be interested in such an offer.", false)
+            cleanupAfterCombat()
         }
     }
-};
+}
 
 //TODO Worms
-HellhoundScene.hellhoundLoss = function() {
+HellhoundScene.hellhoundLoss = function () {
     /*
     if(pcCameWorms){
         outputText("<br><br>The hellhound snorts and leaves you to your fate.", false);
         doNext(game.combat.cleanupAfterCombat);
     } else { */
-    HellhoundScene.hellhoundRapesPlayer();
-};
-
-HellhoundScene.hellhoundRapesPlayer = function() {
-    if (gameFlags[SFW_MODE] == 1) return; //No rape in SFW mode.
-//Lust or HP loss texts here
-    if (player.lust >= player.maxLust()) outputText("Overcome by sexual desire, you submit to the hungry hellhound.<br><br>", true);
-    else outputText("Too weak to continue fighting, you fall to your knees.<br><br>", true);
-    outputText("The heads of the hellhound grin with desire as he rises onto his hind legs. As the hellhound stands before you, your eyes widen at the sight of its equipment: a pair of eight-inch long black rods, one above the other, with a sack containing a quad of flaming balls underneath. As the hound swaggers closer, you gulp at the thought of what those fiery balls are going to be pumping into you. You are helpless against the hellhound as he pushes you onto your ", false);
-    if (player.lowerBody == LOWER_BODY_TYPE_HOOFED) outputText("hocks and knees", false);
-    else outputText("hands and knees", false);
-    outputText(" and positions himself behind you. He grips you with his clawed hands on your shoulders and easily holds you in place. The powerful creature is easily able to get past your " + player.armorName + " and you feel one of his rods brush against your " + player.buttDescript() + ".  A shudder shoots through your body as he brings his two heads down to either side of your own, his hot canine breath blowing past your ears. He stays there for a few moments, completely still... before suddenly pulling his heads back and ", false);
-    if (player.vaginas.length > 0 && player.lowerBody != LOWER_BODY_TYPE_NAGA) outputText("slamming his twin dicks into your " + player.vaginaDescript(0) + " and your " + player.assholeDescript() + ".  ", false);
-    else outputText("slamming his lower dick into your " + player.assholeDescript() + ", while rubbing the other between the cheeks of your " + player.buttDescript() + ".  ", false);
-    if (player.vaginas.length > 0 && player.lowerBody != LOWER_BODY_TYPE_NAGA) {
-        if (player.vaginalCapacity() < monster.cockArea(0)) outputText("You feel an intense mixture of sensations in your lower body as your " + player.assholeDescript() + " feels like it is being torn apart, while your " + player.vaginaDescript(0) + " is filled with an intense pleasure at being filled with the creature's large member.  ", false);
-        else outputText("Your lower body explodes with pain as the hellhound forces himself in too quickly for either your " + player.assholeDescript() + " or your " + player.vaginaDescript(0) + " to handle.  ", false);
-        if (player.vaginas[0].virgin) outputText("<b>You are no longer a virgin!  </b>", false);
-        if (player.cuntChange(monster.cockArea(0), false)) outputText("The beast howls as your " + player.vaginaDescript(0) + " is stretched to accommodate the large shaft.  ", false);
-        outputText("The hellhound pants for a few seconds before continuing.  ", false);
-        if (player.vaginas[0].vaginalWetness < VAGINA_WETNESS_WET) outputText("The pause gives your " + player.vaginaDescript(0) + " time to moisten, ensuring the next thrust won't be quite as rough.  ", false);
-        outputText("This time the beast starts pumping in and out more gently, only a short distance at a time as the hellhound continues panting.  As the pain in your " + player.assholeDescript() + " fades, you start feeling pleasure to match the sensations rising from your " + player.vaginaDescript(0) + ". Each thrust of the beast's twin manhoods bring you closer and closer to your peak.<br><br>", false);
-        //Cum
-        outputText("As you reach your climax, the beast howls and you feel its incredibly hot seed pour into you.  ", false);
-        if (player.cor < 40) outputText("You moan as your insides begin to heat up. The uncomfortably hot sensation only grows as more and more of its fiery seed is pumped into your body. After what feels like an eternity, the beast pulls out of you. He gives your " + player.vaginaDescript(0) + " and your " + player.assholeDescript() + " a single extended lick with its long dog-like tongue before running off out of sight. The tainted heat inside you proves to be too much and you pass out. After some time passes, you wake up to find the corrupt warmth inside you has thankfully faded away. You're able to stand up again, but the damage is done and the creature's seed has left you feeling rather weak.", false);
-        else outputText("His flaming seed brings about a pleasure you had not expected; your insides feel like they are burning with passion and power.  It is an incredible and fiery experience, one that you don't think you could have had if it wasn't for the power of corruption that you've gained since you got here. Too soon, the beast pulls out of you.  He gives your " + player.vaginaDescript(0) + " and your " + player.assholeDescript() + " a single extended lick with his long dog-like tongue before he runs off. You quickly look over and manage to catch a glimpse of its tail before it disappears from view, just before your body falls into a deep sleep. When you wake, you can still feel the afterglow of the hot seed inside you.", false);
-        //Preggers chance!
-        player.knockUp(PREGNANCY_HELL_HOUND, INCUBATION_HELL_HOUND, 101);
-    }
-    else {
-        outputText("Your lower body explodes with pain as the hellhound forces himself in too quickly for your " + player.assholeDescript() + " to handle. He pauses and pants for a few seconds, but you barely have enough time to catch your breath before the beast starts thrusting in and out again. However, this time the beast starts pumping in and out more gently, only a short distance at a time as the hellhound continues panting.  As the pain in your " + player.assholeDescript() + " fades, you start feeling strong pleasure from it. Each thrust of the beast's lower manhood, combined with the upper one tickling and teasing your " + player.buttDescript() + " above it brings you closer and closer to your peak.<br><br>", false);
-        //Cum
-        outputText("As you reach your climax, the beast howls and you feel its incredibly hot seed pour into you and onto your back.  ", false);
-        if (player.cor < 40) outputText("You moan while trying to break free to get the heat off your back... but the beast keeps a firm grip on you as more and more of its fiery seed is pumped into and onto your body. After what feels like an eternity, the beast pulls out of you. He gives your " + player.assholeDescript() + " a single extended lick with his long dog-like tongue before running off out of sight. You are finally able to roll around and get the heat off of your back, but you can do nothing about the tainted warmth inside you. The heat proves to be too much and you pass out. After some time passes, you wake up to find the fire inside you has thankfully faded away. You're able to stand up again, but the damage is done and the creature's seed has left you feeling rather weak.", false);
-        else outputText("His flaming seed brings about a pleasure you had not expected; your insides feel like they are alight with passion and power. You feel a similar joy on your back, and your muscles feel like they are being massaged from the heat.  It is an incredible and fiery experience, one that you don't think you could have had if it wasn't for the power of corruption that you've gained since you got here. Too soon, the beast pulls out of you, giving your " + player.assholeDescript() + " a single extended lick with its long dog-like tongue before running off. You quickly look over and manage to catch a glimpse of its tail before it disappears from view, just before your body falls into a deep sleep. When you wake, you can still feel the afterglow of the flaming seed inside you.", false);
-    }
-    player.slimeFeed();
-//(after either of them)
-//(Lose player anal virginity; if player has vagina, lose vaginal virginity)
-    player.buttChange(monster.cockArea(0), true);
-
-//[if not corrupt]
-    if (player.cor < 40) player.dynStats("tou", -2, "cor", 1);
-//[if corrupt]
-    else player.dynStats("cor", 1.5);
-    cleanupAfterCombat();
-    player.orgasm();
-};
-
-HellhoundScene.hellhoundGetsRaped = function() {
-
-    clearOutput();
-//(Raped by player)
-//[if player has only one dick and no vagina]
-    if (player.cocks.length == 1 && player.vaginas.length == 0) outputText("The twin heads of the hellhound eagerly lick your " + player.cockDescript(0) + " for a while.  The large, flat tongues give you a rather unusual feeling, but it is definitely effective. As you approach your peak, one of the heads tries to take your manhood into its mouth. But the other head doesn't seem all that pleased with this, and the two start to nip at each other in an effort to claim the right to be the one to push you over the edge. Annoyed at being ignored, you give both heads a smack with your hand. After a moment of recoil, they look down apologetically before resuming their licking. As you peak, the heads pull back and try to catch all the cum that erupts from your " + player.cockDescript(0) + " in their mouths. The fierce competition between the two means that most of the cum ends up outside their eager maws, but they are nontheless satisfied.  With a pair of happy barks, the hellhound turns and runs away.", false);
-//[if player has only a vagina and no dick]
-    if (player.gender == 2) outputText("The twin heads of the hellhound eagerly lick your " + player.vaginaDescript(0) + " for a while.  The large, flat tongues give you a rather unusual feeling, but it is definitely effective. As you approach your peak, one of the heads tries to force the other out of the way and push its snout into your " + player.vaginaDescript(0) + ". But the other head doesn't seem all that pleased with this, and the two start to nip at each other in an effort to claim the right to be the one to push you over the edge. Annoyed at being ignored, you give both heads a smack with your hand. After a moment of recoil, they look down apologetically before resuming their licking. As you peak, the heads resume their quarrel and try to drink as much as the fluids coming from your " + player.vaginaDescript(0) + " as they can.  You don't know which got the most, but before long your " + player.vaginaDescript(0) + " is definitely quite clean.  With a pair of happy barks, the hellhound turns and runs away.", false);
-//[if player has a dick and a vagina]
-    if (player.gender == 3 && player.cocks.length == 1) outputText("One of the heads eagerly starts licking your " + player.cockDescript(0) + " while the other starts working on your " + player.vaginaDescript(0) + ". The large, flat tongues give you a rather unusual feeling, but it is definitely effective.  As you approach your peak, the head that had been licking your " + player.cockDescript(0) + " suddenly takes it into its mouth while the other pushes its snout into your " + player.vaginaDescript(0) + ". The pleasure from this new arrangement quickly overwhelms you, leaving you dazed.  When your senses return to you, you look up to see the hellhound's tongues running all over their mouths, clearly very happy.  With a pair of happy barks, the hellhound turns and runs away.", false);
-//If player has multiple endowments
-    if (player.cocks.length > 1) outputText("One of the heads eagerly starts licking your " + player.cockDescript(0) + " while the other starts to work on your " + player.cockDescript(1) + ". The large, flat tongues give you a rather unusual feeling, but it is definitely effective.   As you approach your peak, the heads quickly take your " + player.cockDescript(0) + " and " + player.cockDescript(1) + " into their mouths. The pleasure from this new arrangement quickly overwhelms you, leaving you dazed.  When your senses return to you, you look up to see the hellhound's tongues running all over their mouths, clearly very happy.  With a pair of happy barks, the hellhound turns and runs away.", false);
-//[if player has no endowments]
-    if (player.gender == 0) {
-        outputText("The two heads stare at your lack of sexual endowments for a few seconds before looking up at you sadly.  With a whine, the hellhound wanders off.  Feeling rather unsatisfied, you think that you should probably fix your lack of sexual 'parts'...", false);
-        cleanupAfterCombat();
-    }
-    else {
-        player.orgasm();
-        cleanupAfterCombat();
-    }
+    HellhoundScene.hellhoundRapesPlayer()
 }
 
+HellhoundScene.hellhoundRapesPlayer = function () {
+    if (gameFlags[SFW_MODE] == 1) return //No rape in SFW mode.
+    //Lust or HP loss texts here
+    if (player.lust >= player.maxLust()) outputText("Overcome by sexual desire, you submit to the hungry hellhound.<br><br>", true)
+    else outputText("Too weak to continue fighting, you fall to your knees.<br><br>", true)
+    outputText(
+        "The heads of the hellhound grin with desire as he rises onto his hind legs. As the hellhound stands before you, your eyes widen at the sight of its equipment: a pair of eight-inch long black rods, one above the other, with a sack containing a quad of flaming balls underneath. As the hound swaggers closer, you gulp at the thought of what those fiery balls are going to be pumping into you. You are helpless against the hellhound as he pushes you onto your ",
+        false
+    )
+    if (player.lowerBody == LOWER_BODY_TYPE_HOOFED) outputText("hocks and knees", false)
+    else outputText("hands and knees", false)
+    outputText(
+        " and positions himself behind you. He grips you with his clawed hands on your shoulders and easily holds you in place. The powerful creature is easily able to get past your " +
+            player.armorName +
+            " and you feel one of his rods brush against your " +
+            player.buttDescript() +
+            ".  A shudder shoots through your body as he brings his two heads down to either side of your own, his hot canine breath blowing past your ears. He stays there for a few moments, completely still... before suddenly pulling his heads back and ",
+        false
+    )
+    if (player.vaginas.length > 0 && player.lowerBody != LOWER_BODY_TYPE_NAGA) outputText("slamming his twin dicks into your " + player.vaginaDescript(0) + " and your " + player.assholeDescript() + ".  ", false)
+    else outputText("slamming his lower dick into your " + player.assholeDescript() + ", while rubbing the other between the cheeks of your " + player.buttDescript() + ".  ", false)
+    if (player.vaginas.length > 0 && player.lowerBody != LOWER_BODY_TYPE_NAGA) {
+        if (player.vaginalCapacity() < monster.cockArea(0))
+            outputText(
+                "You feel an intense mixture of sensations in your lower body as your " +
+                    player.assholeDescript() +
+                    " feels like it is being torn apart, while your " +
+                    player.vaginaDescript(0) +
+                    " is filled with an intense pleasure at being filled with the creature's large member.  ",
+                false
+            )
+        else outputText("Your lower body explodes with pain as the hellhound forces himself in too quickly for either your " + player.assholeDescript() + " or your " + player.vaginaDescript(0) + " to handle.  ", false)
+        if (player.vaginas[0].virgin) outputText("<b>You are no longer a virgin!  </b>", false)
+        if (player.cuntChange(monster.cockArea(0), false)) outputText("The beast howls as your " + player.vaginaDescript(0) + " is stretched to accommodate the large shaft.  ", false)
+        outputText("The hellhound pants for a few seconds before continuing.  ", false)
+        if (player.vaginas[0].vaginalWetness < VAGINA_WETNESS_WET) outputText("The pause gives your " + player.vaginaDescript(0) + " time to moisten, ensuring the next thrust won't be quite as rough.  ", false)
+        outputText(
+            "This time the beast starts pumping in and out more gently, only a short distance at a time as the hellhound continues panting.  As the pain in your " +
+                player.assholeDescript() +
+                " fades, you start feeling pleasure to match the sensations rising from your " +
+                player.vaginaDescript(0) +
+                ". Each thrust of the beast's twin manhoods bring you closer and closer to your peak.<br><br>",
+            false
+        )
+        //Cum
+        outputText("As you reach your climax, the beast howls and you feel its incredibly hot seed pour into you.  ", false)
+        if (player.cor < 40)
+            outputText(
+                "You moan as your insides begin to heat up. The uncomfortably hot sensation only grows as more and more of its fiery seed is pumped into your body. After what feels like an eternity, the beast pulls out of you. He gives your " +
+                    player.vaginaDescript(0) +
+                    " and your " +
+                    player.assholeDescript() +
+                    " a single extended lick with its long dog-like tongue before running off out of sight. The tainted heat inside you proves to be too much and you pass out. After some time passes, you wake up to find the corrupt warmth inside you has thankfully faded away. You're able to stand up again, but the damage is done and the creature's seed has left you feeling rather weak.",
+                false
+            )
+        else
+            outputText(
+                "His flaming seed brings about a pleasure you had not expected; your insides feel like they are burning with passion and power.  It is an incredible and fiery experience, one that you don't think you could have had if it wasn't for the power of corruption that you've gained since you got here. Too soon, the beast pulls out of you.  He gives your " +
+                    player.vaginaDescript(0) +
+                    " and your " +
+                    player.assholeDescript() +
+                    " a single extended lick with his long dog-like tongue before he runs off. You quickly look over and manage to catch a glimpse of its tail before it disappears from view, just before your body falls into a deep sleep. When you wake, you can still feel the afterglow of the hot seed inside you.",
+                false
+            )
+        //Preggers chance!
+        player.knockUp(PREGNANCY_HELL_HOUND, INCUBATION_HELL_HOUND, 101)
+    } else {
+        outputText(
+            "Your lower body explodes with pain as the hellhound forces himself in too quickly for your " +
+                player.assholeDescript() +
+                " to handle. He pauses and pants for a few seconds, but you barely have enough time to catch your breath before the beast starts thrusting in and out again. However, this time the beast starts pumping in and out more gently, only a short distance at a time as the hellhound continues panting.  As the pain in your " +
+                player.assholeDescript() +
+                " fades, you start feeling strong pleasure from it. Each thrust of the beast's lower manhood, combined with the upper one tickling and teasing your " +
+                player.buttDescript() +
+                " above it brings you closer and closer to your peak.<br><br>",
+            false
+        )
+        //Cum
+        outputText("As you reach your climax, the beast howls and you feel its incredibly hot seed pour into you and onto your back.  ", false)
+        if (player.cor < 40)
+            outputText(
+                "You moan while trying to break free to get the heat off your back... but the beast keeps a firm grip on you as more and more of its fiery seed is pumped into and onto your body. After what feels like an eternity, the beast pulls out of you. He gives your " +
+                    player.assholeDescript() +
+                    " a single extended lick with his long dog-like tongue before running off out of sight. You are finally able to roll around and get the heat off of your back, but you can do nothing about the tainted warmth inside you. The heat proves to be too much and you pass out. After some time passes, you wake up to find the fire inside you has thankfully faded away. You're able to stand up again, but the damage is done and the creature's seed has left you feeling rather weak.",
+                false
+            )
+        else
+            outputText(
+                "His flaming seed brings about a pleasure you had not expected; your insides feel like they are alight with passion and power. You feel a similar joy on your back, and your muscles feel like they are being massaged from the heat.  It is an incredible and fiery experience, one that you don't think you could have had if it wasn't for the power of corruption that you've gained since you got here. Too soon, the beast pulls out of you, giving your " +
+                    player.assholeDescript() +
+                    " a single extended lick with its long dog-like tongue before running off. You quickly look over and manage to catch a glimpse of its tail before it disappears from view, just before your body falls into a deep sleep. When you wake, you can still feel the afterglow of the flaming seed inside you.",
+                false
+            )
+    }
+    player.slimeFeed()
+    //(after either of them)
+    //(Lose player anal virginity; if player has vagina, lose vaginal virginity)
+    player.buttChange(monster.cockArea(0), true)
+
+    //[if not corrupt]
+    if (player.cor < 40) player.dynStats("tou", -2, "cor", 1)
+    //[if corrupt]
+    else player.dynStats("cor", 1.5)
+    cleanupAfterCombat()
+    player.orgasm()
+}
+
+HellhoundScene.hellhoundGetsRaped = function () {
+    clearOutput()
+    //(Raped by player)
+    //[if player has only one dick and no vagina]
+    if (player.cocks.length == 1 && player.vaginas.length == 0)
+        outputText(
+            "The twin heads of the hellhound eagerly lick your " +
+                player.cockDescript(0) +
+                " for a while.  The large, flat tongues give you a rather unusual feeling, but it is definitely effective. As you approach your peak, one of the heads tries to take your manhood into its mouth. But the other head doesn't seem all that pleased with this, and the two start to nip at each other in an effort to claim the right to be the one to push you over the edge. Annoyed at being ignored, you give both heads a smack with your hand. After a moment of recoil, they look down apologetically before resuming their licking. As you peak, the heads pull back and try to catch all the cum that erupts from your " +
+                player.cockDescript(0) +
+                " in their mouths. The fierce competition between the two means that most of the cum ends up outside their eager maws, but they are nontheless satisfied.  With a pair of happy barks, the hellhound turns and runs away.",
+            false
+        )
+    //[if player has only a vagina and no dick]
+    if (player.gender == 2)
+        outputText(
+            "The twin heads of the hellhound eagerly lick your " +
+                player.vaginaDescript(0) +
+                " for a while.  The large, flat tongues give you a rather unusual feeling, but it is definitely effective. As you approach your peak, one of the heads tries to force the other out of the way and push its snout into your " +
+                player.vaginaDescript(0) +
+                ". But the other head doesn't seem all that pleased with this, and the two start to nip at each other in an effort to claim the right to be the one to push you over the edge. Annoyed at being ignored, you give both heads a smack with your hand. After a moment of recoil, they look down apologetically before resuming their licking. As you peak, the heads resume their quarrel and try to drink as much as the fluids coming from your " +
+                player.vaginaDescript(0) +
+                " as they can.  You don't know which got the most, but before long your " +
+                player.vaginaDescript(0) +
+                " is definitely quite clean.  With a pair of happy barks, the hellhound turns and runs away.",
+            false
+        )
+    //[if player has a dick and a vagina]
+    if (player.gender == 3 && player.cocks.length == 1)
+        outputText(
+            "One of the heads eagerly starts licking your " +
+                player.cockDescript(0) +
+                " while the other starts working on your " +
+                player.vaginaDescript(0) +
+                ". The large, flat tongues give you a rather unusual feeling, but it is definitely effective.  As you approach your peak, the head that had been licking your " +
+                player.cockDescript(0) +
+                " suddenly takes it into its mouth while the other pushes its snout into your " +
+                player.vaginaDescript(0) +
+                ". The pleasure from this new arrangement quickly overwhelms you, leaving you dazed.  When your senses return to you, you look up to see the hellhound's tongues running all over their mouths, clearly very happy.  With a pair of happy barks, the hellhound turns and runs away.",
+            false
+        )
+    //If player has multiple endowments
+    if (player.cocks.length > 1)
+        outputText(
+            "One of the heads eagerly starts licking your " +
+                player.cockDescript(0) +
+                " while the other starts to work on your " +
+                player.cockDescript(1) +
+                ". The large, flat tongues give you a rather unusual feeling, but it is definitely effective.   As you approach your peak, the heads quickly take your " +
+                player.cockDescript(0) +
+                " and " +
+                player.cockDescript(1) +
+                " into their mouths. The pleasure from this new arrangement quickly overwhelms you, leaving you dazed.  When your senses return to you, you look up to see the hellhound's tongues running all over their mouths, clearly very happy.  With a pair of happy barks, the hellhound turns and runs away.",
+            false
+        )
+    //[if player has no endowments]
+    if (player.gender == 0) {
+        outputText(
+            "The two heads stare at your lack of sexual endowments for a few seconds before looking up at you sadly.  With a whine, the hellhound wanders off.  Feeling rather unsatisfied, you think that you should probably fix your lack of sexual 'parts'...",
+            false
+        )
+        cleanupAfterCombat()
+    } else {
+        player.orgasm()
+        cleanupAfterCombat()
+    }
+}
 
 //TODO HELLHOUND BAD ENDING
 /*
@@ -423,8 +521,8 @@ if (player.dogCocks() >= 2) {
     if (player.totalCocks() > 2 || player.cockThatFits(60) < 0) {
         outputText("He then reaches around your waist and takes a hold of your " + player.multiCockDescriptLight() + ".  \"<i>Before we get started, let's make sure you're just right for Cremera.</i>\"  He then reforms your body to have twin doggy pricks of appropriately sized.  \"<i>Now.</i>\"<br><br>", false);
         //PC's dicks become two 14 by 3 inch dog dicks, all other dicks are removed
-        player.cocks[0].cockType = CockTypesEnum.DOG;
-        player.cocks[1].cockType = CockTypesEnum.DOG;
+        player.cocks[0].cockType = ENUM.CockType.DOG;
+        player.cocks[1].cockType = ENUM.CockType.DOG;
         player.cocks[0].cockThickness = 3;
         player.cocks[1].cockThickness = 3;
         player.cocks[0].cockLength = 14;
@@ -479,82 +577,133 @@ getGame().gameOver();
 }
 */
 
-HellhoundScene.hellhoundPropahRape = function() {
-    clearOutput();
-    if (monster.HP < 1) outputText("The hellhound's flames dim and the heads let out a whine before the creature slumps down, defeated and barely conscious. After all the trouble you had with him, you want to have some fun in exchange. \"<i>Bad boy, roll over!</i>\" you command as if the hellhound was just an ordinary domestic dog. To your surprise the creature actually does as you say. Accepting your victory he rolls onto his back, exposing his human-like abs and throat, signaling submissiveness. Looking down on your foe, your lustful gaze rests upon his privates. You examine the unusual ballsack with its quadruple testes, but the real treasure is yet to be found. Pulling on his sheath you reveal his twin dog members. An obsessive idea comes to your mind and you are determined to put his magnificent tools to a good use.<br><br>", false);
-    else outputText("Unable to bear hurting you anymore, the hellhound's flames dim as he stops its attack. The two heads look at you, whining plaintively. After all the trouble you had with him, you want to have some fun in exchange. \"<i>Bad boy, roll over!</i>\" you command as if the hellhound was just an ordinary domestic dog. To your surprise the creature actually does as you say. Accepting your victory he rolls onto his back, exposing his human-like abs and throat, signaling submissiveness. Looking down on your foe, your lustful gaze rests upon his privates. You examine the unusual ballsack with its quadruple testes, but the real treasures are pulsating just above it. Pulling on his sheath, you smile as his twin members twitch in response. An obsessive idea comes to your mind and you are determined to put his magnificent tools to a good use.<br><br>", false);
+HellhoundScene.hellhoundPropahRape = function () {
+    clearOutput()
+    if (monster.HP < 1)
+        outputText(
+            'The hellhound\'s flames dim and the heads let out a whine before the creature slumps down, defeated and barely conscious. After all the trouble you had with him, you want to have some fun in exchange. "<i>Bad boy, roll over!</i>" you command as if the hellhound was just an ordinary domestic dog. To your surprise the creature actually does as you say. Accepting your victory he rolls onto his back, exposing his human-like abs and throat, signaling submissiveness. Looking down on your foe, your lustful gaze rests upon his privates. You examine the unusual ballsack with its quadruple testes, but the real treasure is yet to be found. Pulling on his sheath you reveal his twin dog members. An obsessive idea comes to your mind and you are determined to put his magnificent tools to a good use.<br><br>',
+            false
+        )
+    else
+        outputText(
+            'Unable to bear hurting you anymore, the hellhound\'s flames dim as he stops its attack. The two heads look at you, whining plaintively. After all the trouble you had with him, you want to have some fun in exchange. "<i>Bad boy, roll over!</i>" you command as if the hellhound was just an ordinary domestic dog. To your surprise the creature actually does as you say. Accepting your victory he rolls onto his back, exposing his human-like abs and throat, signaling submissiveness. Looking down on your foe, your lustful gaze rests upon his privates. You examine the unusual ballsack with its quadruple testes, but the real treasures are pulsating just above it. Pulling on his sheath, you smile as his twin members twitch in response. An obsessive idea comes to your mind and you are determined to put his magnificent tools to a good use.<br><br>',
+            false
+        )
 
-    outputText("You start caressing his pair of wonderful canine cocks. Although the hellhound is pretty out of it, his dicks ", false);
-    if (monster.HP < 1) outputText("spring to life, extending rapidly from the sheath. Tentatively you give one of them a gentle lick, being rewarded with a drop of pre-cum.<br><br>", false);
-    else outputText("still manage to leak plenty of hot, steamy pre-cum all over his belly. Tentatively you give one of them a gentle lick, being rewarded with a dollop of the stuff.<br><br>", false);
-//--- IF CORRUPTION < 20 ---
+    outputText("You start caressing his pair of wonderful canine cocks. Although the hellhound is pretty out of it, his dicks ", false)
+    if (monster.HP < 1) outputText("spring to life, extending rapidly from the sheath. Tentatively you give one of them a gentle lick, being rewarded with a drop of pre-cum.<br><br>", false)
+    else outputText("still manage to leak plenty of hot, steamy pre-cum all over his belly. Tentatively you give one of them a gentle lick, being rewarded with a dollop of the stuff.<br><br>", false)
+    //--- IF CORRUPTION < 20 ---
     if (player.cor < 20) {
-        outputText("The corrupt juice burns on your tongue, far worse than the hottest spicy dish you have ever had. You instantly back off from his member, cursing this abomination of nature. Leaving the submissive creature as it is, you head back for your camp.", false);
-        player.changeLust(-99);
-        cleanupAfterCombat();
-        return;
+        outputText(
+            "The corrupt juice burns on your tongue, far worse than the hottest spicy dish you have ever had. You instantly back off from his member, cursing this abomination of nature. Leaving the submissive creature as it is, you head back for your camp.",
+            false
+        )
+        player.changeLust(-99)
+        cleanupAfterCombat()
+        return
     }
-//--- ELSE (CORRUPTION >= 20) ---
+    //--- ELSE (CORRUPTION >= 20) ---
     else {
-        outputText("The musky scent sends pleasure all over your body, moistening your " + player.vaginaDescript(0) + ". You decide the foreplay is over and remove the lower part of your " + player.armorName + ". You stroke both members, bringing them to full, overly-erect state. You grab one of them while you carefully position your butt over the first mastiff-like dong. Its pointy tip pushes against your asshole. Relaxing your sphincter, the pre-dripping cone-shaped rod easily slides into you. Having the first penis halfway buried into your ready asshole, you stop. Struggling with your balance, you grab the hellhound's other throbbing member, guiding it to your now soaking vagina. Slowly you let yourself down, impaling yourself on his gorgeous twin members.  ", false);
-        player.cuntChange(monster.cockArea(0), true, false, true);
-        player.buttChange(monster.cockArea(1), true, false, true);
+        outputText(
+            "The musky scent sends pleasure all over your body, moistening your " +
+                player.vaginaDescript(0) +
+                ". You decide the foreplay is over and remove the lower part of your " +
+                player.armorName +
+                ". You stroke both members, bringing them to full, overly-erect state. You grab one of them while you carefully position your butt over the first mastiff-like dong. Its pointy tip pushes against your asshole. Relaxing your sphincter, the pre-dripping cone-shaped rod easily slides into you. Having the first penis halfway buried into your ready asshole, you stop. Struggling with your balance, you grab the hellhound's other throbbing member, guiding it to your now soaking vagina. Slowly you let yourself down, impaling yourself on his gorgeous twin members.  ",
+            false
+        )
+        player.cuntChange(monster.cockArea(0), true, false, true)
+        player.buttChange(monster.cockArea(1), true, false, true)
         // --- CORRUPTION < 40 (and not masocistic - I lost track if there is such a perk) ---
         if (player.cor < 40 && player.findPerk(PerkLib.Masochist) < 0) {
-            outputText("As you bottom out on his sheath, you lean forward to engulf more of his hot cocks inside you. The hellhound enjoys the treatment you are giving him. As a result, the flames along his eyes and snout flicker back to life. Just as your hardening clit presses against the top of his ballsack, the hellhound's natural flames lick across your sex. The magical fire fills you with arousal, but also applies intense pain to your most sensitive spot. You practically jump off the corrupt creature, pulling the dicks from your holes in great speed. Nearly blacking out from the sensations, you cover your burnt button, not daring to touch it. You curse the creature, loudly swearing at the hellhound. In your fury, you barely notice that he looks disappointed and maybe even somewhat sorry.", false);
-            player.changeHP(-20, false);
-            player.changeLust(-99);
+            outputText(
+                "As you bottom out on his sheath, you lean forward to engulf more of his hot cocks inside you. The hellhound enjoys the treatment you are giving him. As a result, the flames along his eyes and snout flicker back to life. Just as your hardening clit presses against the top of his ballsack, the hellhound's natural flames lick across your sex. The magical fire fills you with arousal, but also applies intense pain to your most sensitive spot. You practically jump off the corrupt creature, pulling the dicks from your holes in great speed. Nearly blacking out from the sensations, you cover your burnt button, not daring to touch it. You curse the creature, loudly swearing at the hellhound. In your fury, you barely notice that he looks disappointed and maybe even somewhat sorry.",
+                false
+            )
+            player.changeHP(-20, false)
+            player.changeLust(-99)
             //--> deals 20dmg (lowering hp to a minimum of 1), introduces inability to masturbate
-            cleanupAfterCombat();
-            return;
+            cleanupAfterCombat()
+            return
         }
         //--- ELSE (CORRUPTION >= 40) ---
-        outputText("His magical natural flames fill your body with fierce warmth, arousing you further. You pick yourself up, letting the hellhound's cocks nearly escape your nethers just to sit down again, taking the duo of dog members to the hilt. Grabbing his hind legs like the handlebars of an exercise machine, you bring yourself into position for a good amount of training. Gradually, you pick up the pace, rocking your hips up and down, enjoying the awesome double penetration.", false);
-        if (player.biggestTitSize() > 1) outputText("  Your " + player.chestDesc() + " jiggle in exquisite ways along with your bumping, grinding motions.", false);
-        outputText("  Riding the hound for a couple of minutes, you feel the dick in your " + player.assholeDescript() + " extending, giving you a good stretching. Its brother in your " + player.vaginaDescript(0) + " does the same, pushing more and more girl-fluids out of your slippery slit while stimulating your sensitive clit from the inside. You lean forward, running your hands through your fuckpet's dense midnight black fur, feeling his animal body warmth. The hellhound is moaning and panting beneath you, unsure whether to fear you or to enjoy what you are doing to him.<br><br>", false);
+        outputText(
+            "His magical natural flames fill your body with fierce warmth, arousing you further. You pick yourself up, letting the hellhound's cocks nearly escape your nethers just to sit down again, taking the duo of dog members to the hilt. Grabbing his hind legs like the handlebars of an exercise machine, you bring yourself into position for a good amount of training. Gradually, you pick up the pace, rocking your hips up and down, enjoying the awesome double penetration.",
+            false
+        )
+        if (player.biggestTitSize() > 1) outputText("  Your " + player.chestDesc() + " jiggle in exquisite ways along with your bumping, grinding motions.", false)
+        outputText(
+            "  Riding the hound for a couple of minutes, you feel the dick in your " +
+                player.assholeDescript() +
+                " extending, giving you a good stretching. Its brother in your " +
+                player.vaginaDescript(0) +
+                " does the same, pushing more and more girl-fluids out of your slippery slit while stimulating your sensitive clit from the inside. You lean forward, running your hands through your fuckpet's dense midnight black fur, feeling his animal body warmth. The hellhound is moaning and panting beneath you, unsure whether to fear you or to enjoy what you are doing to him.<br><br>",
+            false
+        )
 
         //--- IF PC HAS PENIS ---
         if (player.hasCock()) {
-            outputText("His canine cock in your anus stimulates your prostate perfectly. His exotic black dong applies pressure in parts of your body you wouldn't expect to get such pleasure from.", false);
+            outputText("His canine cock in your anus stimulates your prostate perfectly. His exotic black dong applies pressure in parts of your body you wouldn't expect to get such pleasure from.", false)
             //--- IF ONE PENIS ---
-            if (player.totalCocks() == 1) outputText("  Soon your own " + player.cockDescript(0) + " reacts, quickly growing into a full throbbing erection. You leave your member alone, and it keeps flapping against the hellhound's belly while you ride him.", false);
+            if (player.totalCocks() == 1)
+                outputText("  Soon your own " + player.cockDescript(0) + " reacts, quickly growing into a full throbbing erection. You leave your member alone, and it keeps flapping against the hellhound's belly while you ride him.", false)
             //--- ELSE ---
-            else outputText("  Soon " + player.sMultiCockDesc() + " reacts, quickly growing into a throbbing erection.  You leave your members alone, and they flap against the hellhound's belly while you ride him.", false);
+            else outputText("  Soon " + player.sMultiCockDesc() + " reacts, quickly growing into a throbbing erection.  You leave your members alone, and they flap against the hellhound's belly while you ride him.", false)
         }
         //--- IF PC HAS BALLS ---
-        if (player.balls > 0) outputText("  Whenever you lower your hips to your mates belly, your " + player.ballsDescriptLight() + " touches his. The magical flames fill your scrotum with unnatural heat but no pain. You literally feel the cum in your balls boiling upwards, building up immense pressure.", false);
-        outputText("<br><br>", false);
+        if (player.balls > 0)
+            outputText(
+                "  Whenever you lower your hips to your mates belly, your " +
+                    player.ballsDescriptLight() +
+                    " touches his. The magical flames fill your scrotum with unnatural heat but no pain. You literally feel the cum in your balls boiling upwards, building up immense pressure.",
+                false
+            )
+        outputText("<br><br>", false)
 
-        outputText("Way too early, the two doggie pricks stuffed inside you start to twitch, unloading four balls worth of spunk into you. In ecstasy, the hellhound's eyes look in four different directions. The dual eruptions in your love-canal and rectum feel amazing as they pulse in and out of sync, dumping cum into your body over and over.  The hellhound's contractions ebb away as he finishes, but you're not done yet. You slowly start tilting your hips back and forth, continuing to fiercely fuck the prime member while the other rests nearly motionless in your ass. Soon the hellhound whines from the unwanted stimulation of his now sensitive pricks, but he is too defeated to put up much of a struggle.<br><br>", false);
+        outputText(
+            "Way too early, the two doggie pricks stuffed inside you start to twitch, unloading four balls worth of spunk into you. In ecstasy, the hellhound's eyes look in four different directions. The dual eruptions in your love-canal and rectum feel amazing as they pulse in and out of sync, dumping cum into your body over and over.  The hellhound's contractions ebb away as he finishes, but you're not done yet. You slowly start tilting your hips back and forth, continuing to fiercely fuck the prime member while the other rests nearly motionless in your ass. Soon the hellhound whines from the unwanted stimulation of his now sensitive pricks, but he is too defeated to put up much of a struggle.<br><br>",
+            false
+        )
 
-        outputText("Slowly but steadily you bring yourself to the verge of orgasm. The hellhound under you squirms and tries to get free, his hind legs flailing through the air behind your back. You keep riding his magnificent member, grinding it up and down in your moist cave. Finally you feel the familiar rippling of your vaginal walls, milking his cock and intensifying your pleasant sensations. Clamping down on his members, you keep moving your hips in a circling motion, working your clit, vagina and butt in equal measure. The sensations eventually grant you an intense orgasm while the hellhound's still-distended members apply the perfect pressure to all of your sensitive spots and prolong your bliss.", false);
+        outputText(
+            "Slowly but steadily you bring yourself to the verge of orgasm. The hellhound under you squirms and tries to get free, his hind legs flailing through the air behind your back. You keep riding his magnificent member, grinding it up and down in your moist cave. Finally you feel the familiar rippling of your vaginal walls, milking his cock and intensifying your pleasant sensations. Clamping down on his members, you keep moving your hips in a circling motion, working your clit, vagina and butt in equal measure. The sensations eventually grant you an intense orgasm while the hellhound's still-distended members apply the perfect pressure to all of your sensitive spots and prolong your bliss.",
+            false
+        )
         //--- IF PC HAS PENIS ---
         if (player.totalCocks() > 0) {
             // --- IF ONE PENIS ---
-            if (player.cockTotal() == 1) outputText("Your " + player.cockDescript(0) + " twitches as it ejects its sticky load.", false);
+            if (player.cockTotal() == 1) outputText("Your " + player.cockDescript(0) + " twitches as it ejects its sticky load.", false)
             //--- ELSE ---
-            else outputText("Your " + player.multiCockDescriptLight() + " twitch as they eject their sticky loads.", false);
-            outputText("  Keeping up your motions, you scatter your cum across the hellhound's body and the ground nearby.", false);
+            else outputText("Your " + player.multiCockDescriptLight() + " twitch as they eject their sticky loads.", false)
+            outputText("  Keeping up your motions, you scatter your cum across the hellhound's body and the ground nearby.", false)
             //--- IF MESSY ORGASM PERK OR CUM MULTIPILER > 5 ---
-            if (player.cumQ() > 700) outputText("  As your orgasm drags on, you practically drench the hellhound in your seed. An especially large load lands on his snouts and the heads greedily start licking your juice with their canine toungues. Your mate's black fur is soaked with your cum, and he'll definitely be busy licking himself clean for some time.", false);
+            if (player.cumQ() > 700)
+                outputText(
+                    "  As your orgasm drags on, you practically drench the hellhound in your seed. An especially large load lands on his snouts and the heads greedily start licking your juice with their canine toungues. Your mate's black fur is soaked with your cum, and he'll definitely be busy licking himself clean for some time.",
+                    false
+                )
         }
 
+        outputText("<br><br>", false)
 
-        outputText("<br><br>", false);
+        outputText(
+            "Busy with your own orgasm, you barely notice the twitching of the dual pricks buried inside you.  The hellhound launches into another orgasm or two, his dongs aching for peace and wanting to go soft, but forced to orgasm by your body.  You clench your muscles, locking the blood in the throbbing members, trying to preserve the sensations forever.<br><br>",
+            false
+        )
 
-        outputText("Busy with your own orgasm, you barely notice the twitching of the dual pricks buried inside you.  The hellhound launches into another orgasm or two, his dongs aching for peace and wanting to go soft, but forced to orgasm by your body.  You clench your muscles, locking the blood in the throbbing members, trying to preserve the sensations forever.<br><br>", false);
-
-        outputText("Finally having finished, you relax your anal sphincter and allow his member to leave your anus. His members rise from the feel of the incredible amount of cum his quadruple balls pumped into your holes squirting back out to wash over them. The hellhound curls up, spent, his tail covering his privates. His rods look a little red from the intense fuck, and you're sure that in spite of his fiery nature he is experiencing a little more than a burning sensation.", false);
+        outputText(
+            "Finally having finished, you relax your anal sphincter and allow his member to leave your anus. His members rise from the feel of the incredible amount of cum his quadruple balls pumped into your holes squirting back out to wash over them. The hellhound curls up, spent, his tail covering his privates. His rods look a little red from the intense fuck, and you're sure that in spite of his fiery nature he is experiencing a little more than a burning sensation.",
+            false
+        )
         //--> increases corruption, usual post coital procedure
-        player.orgasm();
+        player.orgasm()
         //[if not corrupt]
-        if (player.cor < 40) player.dynStats("tou", -2, "cor", 1);
+        if (player.cor < 40) player.dynStats("tou", -2, "cor", 1)
         //[if corrupt]
-        else player.dynStats("cor", 1.5);
+        else player.dynStats("cor", 1.5)
         //Preggers chance!
-        player.knockUp(PREGNANCY_HELL_HOUND, INCUBATION_HELL_HOUND, 101);
+        player.knockUp(PREGNANCY_HELL_HOUND, INCUBATION_HELL_HOUND, 101)
     }
-    cleanupAfterCombat();
+    cleanupAfterCombat()
 }
-
-

@@ -1,5 +1,5 @@
 import { clearOutput, outputText } from "../engine/text";
-import * as GUI from "./gui";
+import { GUI } from "./gui";
 import { liveData, GameContext } from "../globalVariables";
 import { Player } from "../player";
 import { ItemSlot } from "../itemSlotClass";

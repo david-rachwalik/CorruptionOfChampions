@@ -1,6 +1,10 @@
+import { GUI } from "./engine/gui"
 import { clearOutput, outputText } from "./engine/text"
-
-let ItemLib: { [key: string]: Item } = {} //Hold item IDs for purpose of looking up or for save data.
+import { UTIL } from "./engine/utils"
+import { liveData } from "./globalVariables"
+import { ItemArmor } from "./items/armor"
+import { ItemMaterials } from "./items/materials"
+import { Inventory } from "./scenes/inventory"
 
 export const ITEM_TYPE_WEAPON = "Weapon"
 export const ITEM_TYPE_ARMOUR = "Armour"
@@ -8,6 +12,30 @@ export const ITEM_TYPE_UNDERGARMENT = "Undergarment"
 export const ITEM_TYPE_CONSUMABLE = "Consumable"
 export const ITEM_TYPE_MATERIAL = "Material"
 export const ITEM_TYPE_SHIELD = "Shield"
+
+interface IItem {
+    //Required values, will be declared by parameters
+    id: string
+    shortName: string
+    longName: string
+    type: string
+    //Optional
+    description: string //This will appear on tooltip.
+    value: number //The value in gems. Defaults at 6.
+    //Consumable values that can be set
+    consumeEffect: any
+    //Equipment values that can be set
+    equipmentName: string
+    attack: number
+    defense: number
+    sexiness: number
+    verb: string
+
+    canUse: () => boolean
+    useItem: () => boolean
+    useText: () => void
+    getTooltipDescription: () => string
+}
 
 class Item {
     //Required values, will be declared by parameters
@@ -92,19 +120,19 @@ class Item {
         var oldItem = null
         //Determine if it's weapon or armour.
         if (this.type == ITEM_TYPE_WEAPON) {
-            if (player.weapon.id != Items.NOTHING.id) oldItem = lookupItem(player.weapon.id)
-            player.weapon = this
+            if (liveData.player.weapon.id != Items.NOTHING.id) oldItem = UTIL.lookupItem(liveData.player.weapon.id)
+            liveData.player.weapon = this
         }
         if (this.type == ITEM_TYPE_ARMOUR) {
-            if (player.armor.id != Items.NOTHING.id) oldItem = lookupItem(player.armor.id)
-            player.armor = this
+            if (liveData.player.armor.id != Items.NOTHING.id) oldItem = UTIL.lookupItem(liveData.player.armor.id)
+            liveData.player.armor = this
         }
         //Check if you aren't previously using fists or naked.
         if (oldItem != null) {
             outputText(" You still have your old " + oldItem.equipmentName + " left over. ")
             Inventory.takeItem(oldItem, Inventory.inventoryMenu)
         } else {
-            doNext(Inventory.inventoryMenu)
+            GUI.doNext(Inventory.inventoryMenu)
         }
     }
 
@@ -112,9 +140,12 @@ class Item {
         //TODO
     }
 }
+let ItemLib: { [key: string]: Item } = {} //Hold item IDs for purpose of looking up or for save data.
 
 class ItemContainer {
-    NOTHING: Item
+    NOTHING: IItem
+    Materials: ItemMaterials
+    Armor: ItemArmor
 
     constructor() {
         this.NOTHING = new Item("Nothing", "NOTHING!", "nothing", ITEM_TYPE_MATERIAL)
@@ -124,8 +155,10 @@ class ItemContainer {
         this.NOTHING.value = -1
         this.NOTHING.defense = 0
         this.NOTHING.attack = 0
+        this.Materials = new ItemMaterials()
+        this.Armor = new ItemArmor()
     }
 }
 let Items = new ItemContainer()
 
-export { Item, ItemLib, Items }
+export { IItem, Item, ItemLib, Items }

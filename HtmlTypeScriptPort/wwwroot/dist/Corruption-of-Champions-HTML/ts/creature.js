@@ -1,23 +1,16 @@
 import { clearOutput, outputText } from "./engine/text";
-import * as GUI from "./engine/gui";
-import * as ENUMS from "./appearanceEnums";
+import { GUI } from "./engine/gui";
+import * as ENUM from "./appearanceEnums";
 import { liveData } from "./globalVariables";
-import { combatRoundOver } from "./scenes/combat";
+import { COMBAT } from "./scenes/combat";
 import { Items } from "./itemClass";
 import { PerkLib } from "./perkLib";
-import { capitalize, capitalizeFirstLetter, rand } from "./engine/utils";
 import { StatusEffects } from "./statusEffectLib";
 import { KeyItem } from "./keyItemClass";
 import { Ass } from "./assClass";
-export class Creature {
+import { UTIL } from "./engine/utils";
+class Creature {
     constructor() {
-        //Sexual Characteristics
-        //Cocks
-        this.cocks = [];
-        //Vaginas
-        this.vaginas = [];
-        this.pregnancyEventArr = [];
-        this.buttPregnancyEventArr = [];
         //Name and references
         this.a = "";
         this.name = "";
@@ -82,7 +75,7 @@ export class Creature {
         this.armType = 0;
         //Extra parts
         this.antennae = 0;
-        this.clawType = ENUMS.ClawType.CLAW_TYPE_NORMAL;
+        this.clawType = ENUM.ClawType.CLAW_TYPE_NORMAL;
         this.clawTone = "";
         this.hornType = 0;
         this.horns = 0;
@@ -122,18 +115,18 @@ export class Creature {
         this.statusEffects = [];
         this.perks = [];
         //Victory/defeat
-        this.victory = cleanupAfterCombat;
-        this.defeat = cleanupAfterCombat;
+        this.victory = COMBAT.cleanupAfterCombat;
+        this.defeat = COMBAT.cleanupAfterCombat;
     }
     //------------
     // COMBAT
     //------------
     doAI() {
-        switch (rand(4)) {
+        switch (UTIL.rand(4)) {
             default:
                 this.attack();
         }
-        combatRoundOver();
+        COMBAT.combatRoundOver();
     }
     attack() {
         var enemy;
@@ -143,15 +136,16 @@ export class Creature {
             enemy = liveData.player;
         //Hit or miss?
         var hitRoll = 70 + (this.spe - enemy.spe / 2);
-        var hitNeed = rand(100);
+        var hitNeed = UTIL.rand(100);
         if (hitRoll < hitNeed) {
             //Miss
             if (hitRoll - hitNeed >= -5)
-                outputText(capitalize(this.a) + this.refName + " narrowly miss" + (this.plural ? "" : "es") + " " + enemy.a + enemy.refName + "! ");
+                outputText(UTIL.capitalize(this.a) + this.refName + " narrowly miss" + (this.plural ? "" : "es") + " " + enemy.a + enemy.refName + "! ");
             else
-                outputText(capitalize(this.a) + this.refName + " miss" + (this.plural ? "" : "es") + " " + enemy.a + enemy.refName + "! ");
+                outputText(UTIL.capitalize(this.a) + this.refName + " miss" + (this.plural ? "" : "es") + " " + enemy.a + enemy.refName + "! ");
             outputText("<br><br>");
-            return;
+            // return
+            break attack;
         }
         //Damage
         var damage = this.baseDamage();
@@ -159,7 +153,7 @@ export class Creature {
         if (damage < 1)
             damage = 1;
         //Critical
-        var critical = rand(100) < this.criticalChance();
+        var critical = UTIL.rand(100) < this.criticalChance();
         if (critical) {
             damage *= 1.75;
             if (damage < 5)
@@ -190,19 +184,19 @@ export class Creature {
                 outputText("You are struck a glancing blow by " + this.a + this.refName + "! ");
             }
             else if (damage <= 10) {
-                outputText(capitalizeFirstLetter(this.a) + this.refName + " wound");
+                outputText(UTIL.capitalizeFirstLetter(this.a) + this.refName + " wound");
                 if (!this.plural)
                     outputText("s");
                 outputText(" you! ");
             }
             else if (damage <= 20) {
-                outputText(capitalizeFirstLetter(this.a) + this.refName + " stagger");
+                outputText(UTIL.capitalizeFirstLetter(this.a) + this.refName + " stagger");
                 if (!this.plural)
                     outputText("s");
                 outputText(" you with the force of " + this.hisHer + " " + this.weapon.verb + "! ");
             }
             else if (damage > 20) {
-                outputText(capitalizeFirstLetter(this.a) + this.refName + " <b>mutilate");
+                outputText(UTIL.capitalizeFirstLetter(this.a) + this.refName + " <b>mutilate");
                 if (!this.plural)
                     outputText("s");
                 outputText("</b> you with " + this.hisHer + " powerful " + this.weapon.verb + "! ");
@@ -214,11 +208,11 @@ export class Creature {
     }
     victoryScene() {
         clearOutput();
-        cleanupAfterCombat();
+        COMBAT.cleanupAfterCombat();
     }
     defeatScene() {
         clearOutput();
-        cleanupAfterCombat();
+        COMBAT.cleanupAfterCombat();
     }
     maxHP() {
         var temp = 50;
@@ -281,7 +275,7 @@ export class Creature {
         return [5, 10, 20, 30, 40, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125][Math.round(this.level)] || 200;
     }
     bonusXP() {
-        return rand([5, 10, 20, 30, 40, 50, 55, 60, 65, 70, 75, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98][Math.round(this.level)] || 100);
+        return UTIL.rand([5, 10, 20, 30, 40, 50, 55, 60, 65, 70, 75, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98][Math.round(this.level)] || 100);
     }
     getAwardableXP() {
         var xpGained = this.baseXP() + this.bonusXP() + this.additionalXP;
@@ -301,11 +295,11 @@ export class Creature {
         return Math.round(xpGained);
     }
     //Stats Change
-    modStats() {
-        for (var i = 0; i < arguments.length; i += 2) {
+    modStats(...args) {
+        for (var i = 0; i < args.length; i += 2) {
             //Get variables
-            var attribute = arguments[i];
-            var mod = arguments[i + 1];
+            var attribute = args[i];
+            var mod = args[i + 1];
             //Alternate
             if (attribute == "int")
                 attribute = "inte";
@@ -332,9 +326,9 @@ export class Creature {
             }
         }
     }
-    dynStats() {
+    dynStats(...args) {
         //For legacy compatibility only.
-        this.modStats(arguments);
+        this.modStats(args);
     }
     changeHP(amount, display, newpg) {
         //Defaulting
@@ -350,9 +344,9 @@ export class Creature {
             this.HP = 0;
         if (display) {
             if (amount < 0)
-                outputText(capitalize(this.a) + " " + this.refName + " take" + (this.isAre == "is" ? "s" : "") + ' <font color="#800000"><b>' + Math.abs(amount) + "</b></font> damage!");
+                outputText(UTIL.capitalize(this.a) + " " + this.refName + " take" + (this.isAre == "is" ? "s" : "") + ' <font color="#800000"><b>' + Math.abs(amount) + "</b></font> damage!");
             else if (amount > 0)
-                outputText(capitalize(this.a) + " " + this.refName + " " + this.isAre + ' healed for <font color="#008000"><b>' + Math.abs(amount) + "</b></font> HP!");
+                outputText(UTIL.capitalize(this.a) + " " + this.refName + " " + this.isAre + ' healed for <font color="#008000"><b>' + Math.abs(amount) + "</b></font> HP!");
             if (newpg)
                 outputText("<br><br>");
             else
@@ -366,14 +360,7 @@ export class Creature {
             GUI.refreshStats();
         }
     }
-    changeLust(amount, display, newpg, resisted) {
-        //Defaulting
-        if (display == undefined)
-            display = false;
-        if (newpg == undefined)
-            newpg = true;
-        if (resisted == undefined)
-            resisted = true;
+    changeLust(amount, display = false, newpg = true, resisted = true) {
         //Main function
         if (resisted)
             amount *= this.lustVuln;
@@ -384,9 +371,9 @@ export class Creature {
             this.lust = 0;
         if (display) {
             if (amount < 0)
-                outputText(capitalize(this.a) + " " + this.refName + " " + this.isAre + ' calmed for a reduction of <font color="#A05050"><b>' + Math.abs(amount) + "</b></font> lust!");
+                outputText(UTIL.capitalize(this.a) + " " + this.refName + " " + this.isAre + ' calmed for a reduction of <font color="#A05050"><b>' + Math.abs(amount) + "</b></font> lust!");
             else if (amount > 0)
-                outputText(capitalize(this.a) + " " + this.refName + " " + this.isAre + ' aroused for <font color="#A05050"><b>' + Math.abs(amount) + "</b></font> points of lust!");
+                outputText(UTIL.capitalize(this.a) + " " + this.refName + " " + this.isAre + ' aroused for <font color="#A05050"><b>' + Math.abs(amount) + "</b></font> points of lust!");
             if (newpg)
                 outputText("<br><br>");
             else
@@ -414,9 +401,9 @@ export class Creature {
             this.fatigue = 0;
         if (display) {
             if (amount < 0)
-                outputText(capitalize(this.a) + " " + this.refName + " " + this.isAre + ' rejuvenated for <font color="#000080"><b>' + Math.abs(amount) + "</b></font> points of fatigue!");
+                outputText(UTIL.capitalize(this.a) + " " + this.refName + " " + this.isAre + ' rejuvenated for <font color="#000080"><b>' + Math.abs(amount) + "</b></font> points of fatigue!");
             else if (amount > 0)
-                outputText(capitalize(this.a) + " " + this.refName + " " + this.isAre + ' fatigued for <font color="#000080"><b>' + Math.abs(amount) + "</b></font> points of fatigue!");
+                outputText(UTIL.capitalize(this.a) + " " + this.refName + " " + this.isAre + ' fatigued for <font color="#000080"><b>' + Math.abs(amount) + "</b></font> points of fatigue!");
             if (newpg)
                 outputText("<br><br>");
             else
@@ -446,7 +433,7 @@ export class Creature {
         if (displayMode)
             return temp;
         else
-            return rand(temp);
+            return UTIL.rand(temp);
     }
     damagePercent(displayMode, applyModifiers) {
         var mult = 100;
@@ -518,31 +505,31 @@ export class Creature {
     outputDefaultTeaseReaction(lustDelta) {
         if (this.plural) {
             if (lustDelta == 0)
-                outputText("<br><br>" + capitalizeFirstLetter(this.a) + this.refName + " seem unimpressed.");
+                outputText("<br><br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " seem unimpressed.");
             if (lustDelta > 0 && lustDelta < 4)
-                outputText("<br>" + capitalizeFirstLetter(this.a) + this.refName + " look intrigued by what " + this.heShe + " see.");
+                outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " look intrigued by what " + this.heShe + " see.");
             if (lustDelta >= 4 && lustDelta < 10)
-                outputText("<br>" + capitalizeFirstLetter(this.a) + this.refName + " definitely seem to be enjoying the show.");
+                outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " definitely seem to be enjoying the show.");
             if (lustDelta >= 10 && lustDelta < 15)
-                outputText("<br>" + capitalizeFirstLetter(this.a) + this.refName + " openly stroke " + this.himHer + "selves as " + this.heShe + " watch you.");
+                outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " openly stroke " + this.himHer + "selves as " + this.heShe + " watch you.");
             if (lustDelta >= 15 && lustDelta < 20)
-                outputText("<br>" + capitalizeFirstLetter(this.a) + this.refName + " flush hotly with desire, " + this.hisHer + " eyes filled with longing.");
+                outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " flush hotly with desire, " + this.hisHer + " eyes filled with longing.");
             if (lustDelta >= 20)
-                outputText("<br>" + capitalizeFirstLetter(this.a) + this.refName + " lick " + this.hisHer + " lips in anticipation, " + this.hisHer + " hands idly stroking " + this.hisHer + " bodies.");
+                outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " lick " + this.hisHer + " lips in anticipation, " + this.hisHer + " hands idly stroking " + this.hisHer + " bodies.");
         }
         else {
             if (lustDelta == 0)
-                outputText("<br>" + capitalizeFirstLetter(this.a) + this.refName + " seems unimpressed.");
+                outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " seems unimpressed.");
             if (lustDelta > 0 && lustDelta < 4)
-                outputText("<br>" + capitalizeFirstLetter(this.a) + this.refName + " looks intrigued by what " + this.heShe + " sees.");
+                outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " looks intrigued by what " + this.heShe + " sees.");
             if (lustDelta >= 4 && lustDelta < 10)
-                outputText("<br>" + capitalizeFirstLetter(this.a) + this.refName + " definitely seems to be enjoying the show.");
+                outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " definitely seems to be enjoying the show.");
             if (lustDelta >= 10 && lustDelta < 15)
-                outputText("<br>" + capitalizeFirstLetter(this.a) + this.refName + " openly strokes " + this.himHer + "self as " + this.heShe + " watches you.");
+                outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " openly strokes " + this.himHer + "self as " + this.heShe + " watches you.");
             if (lustDelta >= 15 && lustDelta < 20)
-                outputText("<br>" + capitalizeFirstLetter(this.a) + this.refName + " flushes hotly with desire, " + this.hisHer + " eyes filled with longing.");
+                outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " flushes hotly with desire, " + this.hisHer + " eyes filled with longing.");
             if (lustDelta >= 20)
-                outputText("<br>" + capitalizeFirstLetter(this.a) + this.refName + " licks " + this.hisHer + " lips in anticipation, " + this.hisHer + " hands idly stroking " + this.hisHer + " own body.");
+                outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " licks " + this.hisHer + " lips in anticipation, " + this.hisHer + " hands idly stroking " + this.hisHer + " own body.");
         }
         outputText(" ");
     }
@@ -574,7 +561,7 @@ export class Creature {
         }
     }
     dropItem() {
-        var roll = rand(100);
+        var roll = UTIL.rand(100);
         var dropIndex = -1;
         for (var i in this.dropThresholds) {
             if (roll < this.dropThresholds[i]) {
@@ -705,9 +692,9 @@ export class Creature {
     addPerkValue(ptype, valueIdx, bonus) {
         var counter = this.findPerk(ptype);
         if (counter < 0)
-            return;
+            break addPerkValue;
         if (valueIdx < 1 || valueIdx > 4)
-            return;
+            break addPerkValue;
         if (valueIdx == 1)
             this.perks[i].value1 += bonus;
         if (valueIdx == 2)
@@ -721,9 +708,9 @@ export class Creature {
         var counter = this.findPerk(ptype);
         //Various Errors preventing action
         if (counter < 0)
-            return;
+            break setPerkValue;
         if (valueIdx < 1 || valueIdx > 4)
-            return;
+            break setPerkValue;
         if (valueIdx == 1)
             this.perks[i].value1 = newNum;
         if (valueIdx == 2)
@@ -740,7 +727,7 @@ export class Creature {
     removeStatusEffect(stype) {
         var counter = this.findStatusEffect(stype);
         if (counter < 0)
-            return;
+            break removeStatusEffect;
         this.statusEffects.splice(counter, 1);
     }
     findStatusEffect(stype) {
@@ -771,9 +758,9 @@ export class Creature {
     addStatusValue(stype, valueIdx, bonus) {
         var counter = this.findStatusEffect(stype);
         if (counter < 0)
-            return;
+            break addStatusValue;
         if (valueIdx < 1 || valueIdx > 4)
-            return;
+            break addStatusValue;
         if (valueIdx == 1)
             this.statusEffects[stype].value1 += bonus;
         if (valueIdx == 2)
@@ -787,9 +774,9 @@ export class Creature {
         var counter = this.findStatusEffect(stype);
         //Various Errors preventing action
         if (counter < 0)
-            return;
+            break changeStatusValue;
         if (valueIdx < 1 || valueIdx > 4)
-            return;
+            break changeStatusValue;
         if (valueIdx == 1)
             this.statusEffects[stype].value1 = newNum;
         if (valueIdx == 2)
@@ -877,7 +864,7 @@ export class Creature {
     removeKeyItem(ktype) {
         var counter = this.hasKeyItem(ktype);
         if (counter < 0)
-            return;
+            break removeKeyItem;
         this.statusEffects.splice(counter, 1);
     }
     //Check if a Key Item exists
@@ -910,9 +897,9 @@ export class Creature {
     addKeyValue(ptype, valueIdx, bonus) {
         var counter = this.hasKeyItem(ptype);
         if (counter < 0)
-            return;
+            break addKeyValue;
         if (valueIdx < 1 || valueIdx > 4)
-            return;
+            break addKeyValue;
         if (valueIdx == 1)
             this.keyItems[i].value1 += bonus;
         if (valueIdx == 2)
@@ -926,9 +913,9 @@ export class Creature {
         var counter = this.findPerk(ptype);
         //Various Errors preventing action
         if (counter < 0)
-            return;
+            break setKeyValue;
         if (valueIdx < 1 || valueIdx > 4)
-            return;
+            break setKeyValue;
         if (valueIdx == 1)
             this.keyItems[i].value1 = newNum;
         if (valueIdx == 2)
@@ -2048,19 +2035,19 @@ export class Creature {
             cockNum = 0;
         if (cockNum < 0 || cockNum > this.cocks.length - 1) {
             outputText("Something went wrong in Creature.cockHead()!");
-            return;
+            return "";
         }
         switch (this.cocks[cockNum].cockType) {
             case CockTypesEnum.CAT:
-                if (rand(2) == 0)
+                if (UTIL.rand(2) == 0)
                     return "point";
                 return "narrow tip";
             case CockTypesEnum.DEMON:
-                if (rand(2) == 0)
+                if (UTIL.rand(2) == 0)
                     return "tainted crown";
                 return "nub-ringed tip";
             case CockTypesEnum.DISPLACER:
-                switch (rand(5)) {
+                switch (UTIL.rand(5)) {
                     case 0:
                         return "star tip";
                     case 1:
@@ -2074,42 +2061,42 @@ export class Creature {
                 }
             case CockTypesEnum.DOG:
             case CockTypesEnum.FOX:
-                if (rand(2) == 0)
+                if (UTIL.rand(2) == 0)
                     return "pointed tip";
                 return "narrow tip";
             case CockTypesEnum.HORSE:
-                if (rand(2) == 0)
+                if (UTIL.rand(2) == 0)
                     return "flare";
                 return "flat tip";
             case CockTypesEnum.KANGAROO:
-                if (rand(2) == 0)
+                if (UTIL.rand(2) == 0)
                     return "tip";
                 return "point";
             case CockTypesEnum.LIZARD:
-                if (rand(2) == 0)
+                if (UTIL.rand(2) == 0)
                     return "crown";
                 return "head";
             case CockTypesEnum.TENTACLE:
-                if (rand(2) == 0)
+                if (UTIL.rand(2) == 0)
                     return "mushroom-like tip";
                 return "wide plant-like crown";
             case CockTypesEnum.PIG:
-                if (rand(2) == 0)
+                if (UTIL.rand(2) == 0)
                     return "corkscrew tip";
                 return "corkscrew head";
             case CockTypesEnum.RHINO:
-                if (rand(2) == 0)
+                if (UTIL.rand(2) == 0)
                     return "flared head";
                 return "rhinoceros dickhead";
             case CockTypesEnum.ECHIDNA:
-                if (rand(2) == 0)
+                if (UTIL.rand(2) == 0)
                     return "quad heads";
                 return "echidna quad heads";
             default:
         }
-        if (rand(2) == 0)
+        if (UTIL.rand(2) == 0)
             return "crown";
-        if (rand(2) == 0)
+        if (UTIL.rand(2) == 0)
             return "head";
         return "cock-head";
     }
@@ -2119,7 +2106,7 @@ export class Creature {
     //Addition of parts
     createCock(clength, cthickness, ctype) {
         if (this.cocks.length >= 11)
-            return; //This one goes to eleven.
+            break createCock; //This one goes to eleven.
         //Defaulting parameters
         if (clength == undefined)
             clength = 5.5;
@@ -2134,7 +2121,7 @@ export class Creature {
     }
     createVagina(virgin, vagwetness, vaglooseness) {
         if (this.vaginas.length >= 3)
-            return; //Limit of 3 vaginas
+            break createVagina; //Limit of 3 vaginas
         //Defaulting parameters
         if (virgin == undefined)
             virgin = true;
@@ -2267,7 +2254,7 @@ export class Creature {
                 var temp = 1;
                 this.breastRows[0].breastRating--;
                 //Shrink again 50% chance
-                if (this.breastRows[0].breastRating >= 1 && rand(2) == 0 && this.findPerk(PerkLib.BigTits) < 0) {
+                if (this.breastRows[0].breastRating >= 1 && UTIL.rand(2) == 0 && this.findPerk(PerkLib.BigTits) < 0) {
                     temp++;
                     this.breastRows[0].breastRating--;
                 }
@@ -2321,7 +2308,7 @@ export class Creature {
         var temp2 = 0;
         var temp3 = 0;
         //Chance for "big tits" perked characters to grow larger!
-        if (this.findPerk(PerkLib.BigTits) >= 0 && rand(3) == 0 && amount < 1)
+        if (this.findPerk(PerkLib.BigTits) >= 0 && UTIL.rand(3) == 0 && amount < 1)
             amount = 1;
         // Needs to be a number, since uint will round down to 0 prevent growth beyond a certain point
         var temp = this.breastRows.length;
@@ -2568,12 +2555,12 @@ export class Creature {
                 stretched = true;
             }
             //If within top 10% of capacity, 50% stretch
-            else if (cArea >= 0.9 * this.vaginalCapacity() && rand(2) == 0) {
+            else if (cArea >= 0.9 * this.vaginalCapacity() && UTIL.rand(2) == 0) {
                 this.vaginas[0].vaginalLooseness++;
                 stretched = true;
             }
             //if within 75th to 90th percentile, 25% stretch
-            else if (cArea >= 0.75 * this.vaginalCapacity() && rand(4) == 0) {
+            else if (cArea >= 0.75 * this.vaginalCapacity() && UTIL.rand(4) == 0) {
                 this.vaginas[0].vaginalLooseness++;
                 stretched = true;
             }
@@ -2629,7 +2616,7 @@ export class Creature {
     buttChangeNoDisplay(cArea) {
         var stretched = false;
         //cArea > capacity = autostreeeeetch half the time.
-        if (cArea >= this.analCapacity() && rand(2) == 0) {
+        if (cArea >= this.analCapacity() && UTIL.rand(2) == 0) {
             if (this.ass.analLooseness >= 5) {
             }
             else
@@ -2640,12 +2627,12 @@ export class Creature {
                 this.changeStatusValue(StatusEffects.ButtStretched, 1, 0);
         }
         //If within top 10% of capacity, 25% stretch
-        if (cArea < this.analCapacity() && cArea >= 0.9 * this.analCapacity() && rand(4) == 0) {
+        if (cArea < this.analCapacity() && cArea >= 0.9 * this.analCapacity() && UTIL.rand(4) == 0) {
             this.ass.analLooseness++;
             stretched = true;
         }
         //if within 75th to 90th percentile, 10% stretch
-        if (cArea < 0.9 * this.analCapacity() && cArea >= 0.75 * this.analCapacity() && rand(10) == 0) {
+        if (cArea < 0.9 * this.analCapacity() && cArea >= 0.75 * this.analCapacity() && UTIL.rand(10) == 0) {
             this.ass.analLooseness++;
             stretched = true;
         }
@@ -2803,7 +2790,7 @@ export class Creature {
             return "<b>Gender error!</b>";
     }
     //------------
-    // BODY UTILS
+    // BODY UTIL
     //------------
     //Lower body
     isBiped() {
@@ -2825,7 +2812,7 @@ export class Creature {
         if (this.isDrider())
             return num2Text(this.legCount) + " spider legs";
         if (this.isTaur()) {
-            if (this.lowerBody == LOWER_BODY_TYPE_PONY && rand(3) == 0)
+            if (this.lowerBody == LOWER_BODY_TYPE_PONY && UTIL.rand(3) == 0)
                 return "cute pony-legs";
             return num2Text(this.legCount) + " legs";
         }
@@ -2837,7 +2824,7 @@ export class Creature {
             //Biped, has several variants.
             //Bunny legs
             if (this.lowerBody == LOWER_BODY_TYPE_BUNNY) {
-                switch (rand(5)) {
+                switch (UTIL.rand(5)) {
                     case 0:
                         return "fuzzy, bunny legs";
                     case 1:
@@ -2850,7 +2837,7 @@ export class Creature {
             }
             //Avian legs
             if (this.lowerBody == LOWER_BODY_TYPE_HARPY) {
-                switch (rand(4)) {
+                switch (UTIL.rand(4)) {
                     case 0:
                         return "bird-like legs";
                     case 1:
@@ -2861,7 +2848,7 @@ export class Creature {
             }
             //Fox legs
             if (this.lowerBody == LOWER_BODY_TYPE_FOX) {
-                switch (rand(4)) {
+                switch (UTIL.rand(4)) {
                     case 0:
                         return "fox-like legs";
                     case 1:
@@ -2872,7 +2859,7 @@ export class Creature {
             }
             //Raccoon legs
             if (this.lowerBody == LOWER_BODY_TYPE_RACCOON) {
-                switch (rand(4)) {
+                switch (UTIL.rand(4)) {
                     case 0:
                         return "raccoon-like legs";
                     default:
@@ -2881,7 +2868,7 @@ export class Creature {
             }
             //Cloven hooved
             if (this.lowerBody == LOWER_BODY_TYPE_CLOVEN_HOOFED) {
-                switch (rand(4)) {
+                switch (UTIL.rand(4)) {
                     case 0:
                         return "pig-like legs";
                     case 1:
@@ -2898,7 +2885,7 @@ export class Creature {
         if (this.isDrider())
             return num2Text(this.legCount) + " spider legs";
         if (this.isTaur()) {
-            if (this.lowerBody == LOWER_BODY_TYPE_PONY && rand(3) == 0)
+            if (this.lowerBody == LOWER_BODY_TYPE_PONY && UTIL.rand(3) == 0)
                 return "cute pony-leg";
             return "leg";
         }
@@ -2910,7 +2897,7 @@ export class Creature {
             //Biped, has several variants.
             //Bunny legs
             if (this.lowerBody == LOWER_BODY_TYPE_BUNNY) {
-                switch (rand(5)) {
+                switch (UTIL.rand(5)) {
                     case 0:
                         return "fuzzy, bunny leg";
                     case 1:
@@ -2923,7 +2910,7 @@ export class Creature {
             }
             //Avian legs
             if (this.lowerBody == LOWER_BODY_TYPE_HARPY) {
-                switch (rand(4)) {
+                switch (UTIL.rand(4)) {
                     case 0:
                         return "bird-like leg";
                     case 1:
@@ -2934,7 +2921,7 @@ export class Creature {
             }
             //Fox legs
             if (this.lowerBody == LOWER_BODY_TYPE_FOX) {
-                switch (rand(4)) {
+                switch (UTIL.rand(4)) {
                     case 0:
                         return "fox-like leg";
                     case 1:
@@ -2945,7 +2932,7 @@ export class Creature {
             }
             //Raccoon legs
             if (this.lowerBody == LOWER_BODY_TYPE_RACCOON) {
-                switch (rand(4)) {
+                switch (UTIL.rand(4)) {
                     case 0:
                         return "raccoon-like leg";
                     default:
@@ -2954,7 +2941,7 @@ export class Creature {
             }
             //Cloven hooved
             if (this.lowerBody == LOWER_BODY_TYPE_CLOVEN_HOOFED) {
-                switch (rand(4)) {
+                switch (UTIL.rand(4)) {
                     case 0:
                         return "pig-like leg";
                     case 1:
@@ -2971,7 +2958,7 @@ export class Creature {
         if (this.isDrider())
             return "spider feet";
         if (this.isTaur()) {
-            if (this.lowerBody == LOWER_BODY_TYPE_PONY && rand(3) == 0)
+            if (this.lowerBody == LOWER_BODY_TYPE_PONY && UTIL.rand(3) == 0)
                 return "flat pony-feet";
             return "hooves";
         }
@@ -2987,14 +2974,14 @@ export class Creature {
             if (this.lowerBody == LOWER_BODY_TYPE_CLOVEN_HOOFED)
                 return "cloven hooves";
             if (this.lowerBody == LOWER_BODY_TYPE_DOG || this.lowerBody == LOWER_BODY_TYPE_CAT || this.lowerBody == LOWER_BODY_TYPE_FOX || this.lowerBody == LOWER_BODY_TYPE_RACCOON) {
-                if (this.lowerBody == LOWER_BODY_TYPE_FOX && rand(3) > 0) {
-                    if (rand(2) == 0)
+                if (this.lowerBody == LOWER_BODY_TYPE_FOX && UTIL.rand(3) > 0) {
+                    if (UTIL.rand(2) == 0)
                         return "fox-like feet";
                     else
                         return "soft, padded paws";
                 }
-                if (this.lowerBody == LOWER_BODY_TYPE_RACCOON && rand(3) > 0) {
-                    if (rand(2) == 0)
+                if (this.lowerBody == LOWER_BODY_TYPE_RACCOON && UTIL.rand(3) > 0) {
+                    if (UTIL.rand(2) == 0)
                         return "raccoon-like feet";
                     else
                         return "long-toed paws";
@@ -3006,7 +2993,7 @@ export class Creature {
             if (this.lowerBody == LOWER_BODY_TYPE_DEMONIC_CLAWS)
                 return "demonic foot-claws";
             if (this.lowerBody == LOWER_BODY_TYPE_BUNNY) {
-                switch (rand(5)) {
+                switch (UTIL.rand(5)) {
                     case 0:
                         return "large bunny feet";
                     case 1:
@@ -3018,7 +3005,7 @@ export class Creature {
                 }
             }
             if (this.lowerBody == LOWER_BODY_TYPE_HARPY) {
-                switch (rand(3)) {
+                switch (UTIL.rand(3)) {
                     case 0:
                         return "taloned feet";
                     default:
@@ -3034,7 +3021,7 @@ export class Creature {
         if (this.isDrider())
             return "spider feet";
         if (this.isTaur()) {
-            if (this.lowerBody == LOWER_BODY_TYPE_PONY && rand(3) == 0)
+            if (this.lowerBody == LOWER_BODY_TYPE_PONY && UTIL.rand(3) == 0)
                 return "flat pony-foot";
             return "hoof";
         }
@@ -3050,14 +3037,14 @@ export class Creature {
             if (this.lowerBody == LOWER_BODY_TYPE_CLOVEN_HOOFED)
                 return "cloven hoof";
             if (this.lowerBody == LOWER_BODY_TYPE_DOG || this.lowerBody == LOWER_BODY_TYPE_CAT || this.lowerBody == LOWER_BODY_TYPE_FOX || this.lowerBody == LOWER_BODY_TYPE_RACCOON) {
-                if (this.lowerBody == LOWER_BODY_TYPE_FOX && rand(3) > 0) {
-                    if (rand(2) == 0)
+                if (this.lowerBody == LOWER_BODY_TYPE_FOX && UTIL.rand(3) > 0) {
+                    if (UTIL.rand(2) == 0)
                         return "fox-like foot";
                     else
                         return "soft, padded paw";
                 }
-                if (this.lowerBody == LOWER_BODY_TYPE_RACCOON && rand(3) > 0) {
-                    if (rand(2) == 0)
+                if (this.lowerBody == LOWER_BODY_TYPE_RACCOON && UTIL.rand(3) > 0) {
+                    if (UTIL.rand(2) == 0)
                         return "raccoon-like foot";
                     else
                         return "long-toed paw";
@@ -3065,7 +3052,7 @@ export class Creature {
                 return "paw";
             }
             if (this.lowerBody == LOWER_BODY_TYPE_BUNNY) {
-                switch (rand(5)) {
+                switch (UTIL.rand(5)) {
                     case 0:
                         return "large bunny foot";
                     case 1:
@@ -3077,7 +3064,7 @@ export class Creature {
                 }
             }
             if (this.lowerBody == LOWER_BODY_TYPE_HARPY) {
-                switch (rand(3)) {
+                switch (UTIL.rand(3)) {
                     case 0:
                         return "taloned foot";
                     default:
@@ -3361,15 +3348,15 @@ export class Creature {
         //7 - lizard face (durned argonians!)
         //9 - kangaface
         if (this.hasMuzzle()) {
-            if (rand(3) == 0 && this.faceType == FACE_HORSE)
+            if (UTIL.rand(3) == 0 && this.faceType == FACE_HORSE)
                 stringo = "long ";
-            if (rand(3) == 0 && this.faceType == FACE_CAT)
+            if (UTIL.rand(3) == 0 && this.faceType == FACE_CAT)
                 stringo = "feline ";
-            if (rand(3) == 0 && this.faceType == FACE_RHINO)
+            if (UTIL.rand(3) == 0 && this.faceType == FACE_RHINO)
                 stringo = "rhino ";
-            if (rand(3) == 0 && (this.faceType == FACE_LIZARD || this.faceType == FACE_DRAGON))
+            if (UTIL.rand(3) == 0 && (this.faceType == FACE_LIZARD || this.faceType == FACE_DRAGON))
                 stringo = "reptilian ";
-            switch (rand(3)) {
+            switch (UTIL.rand(3)) {
                 case 0:
                     return stringo + "muzzle";
                 case 1:
@@ -3382,9 +3369,9 @@ export class Creature {
         }
         //3 - cowface
         if (this.faceType == FACE_COW_MINOTAUR) {
-            if (rand(4) == 0)
+            if (UTIL.rand(4) == 0)
                 stringo = "bovine ";
-            if (rand(2) == 0)
+            if (UTIL.rand(2) == 0)
                 return "muzzle";
             return stringo + "face";
         }
@@ -3477,14 +3464,14 @@ export class Creature {
         return Appearance.sackDescript(this);
     }
     //Vagoos!
-    vaginaDescript(x) {
+    vaginaDescript(x = 0) {
         return Appearance.vaginaDescript(this, x);
     }
     allVaginaDescript() {
         if (liveData.player.vaginas.length == 1)
-            return this.vaginaDescript(rand(liveData.player.vaginas.length - 1));
+            return this.vaginaDescript(UTIL.rand(liveData.player.vaginas.length - 1));
         if (liveData.player.vaginas.length > 1)
-            return this.vaginaDescript(rand(liveData.player.vaginas.length - 1)) + "s";
+            return this.vaginaDescript(UTIL.rand(liveData.player.vaginas.length - 1)) + "s";
         return "ERROR: allVaginaDescript called with no vaginas.";
     }
     clitDescript() {
@@ -3544,7 +3531,7 @@ export class Creature {
         return Appearance.wingsDescript(this);
     }
     //---------
-    // PREGNANCY UTILS
+    // PREGNANCY UTIL
     //---------
     isPregnant() {
         return this.pregnancyType != 0;
@@ -3866,4 +3853,5 @@ export class Creature {
         return this.findPerk(PerkLib.MinotaurCumResistance) < 0 && liveData.gameFlags[MINOTAUR_CUM_ADDICTION_STATE] > 1;
     }
 }
+export { Creature };
 //# sourceMappingURL=creature.js.map
