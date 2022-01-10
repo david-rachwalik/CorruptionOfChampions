@@ -9,9 +9,26 @@ import { StatusEffects } from "./statusEffectLib";
 import { KeyItem } from "./keyItemClass";
 import { Ass } from "./assClass";
 import { UTIL } from "./engine/utils";
+import { StatusEffect } from "./statusEffectClass";
+import { Perk } from "./perkClass";
+import { Camp } from "./scenes/camp";
+import { Cock } from "./cockClass";
+import { Vagina } from "./vaginaClass";
+import { BreastRow } from "./breastRowClass";
+import { Appearance } from "./appearance";
+import { FLAG } from "./flags/dataFlags";
+var CharacterType;
+(function (CharacterType) {
+    CharacterType[CharacterType["Unassigned"] = 0] = "Unassigned";
+    CharacterType[CharacterType["Creature"] = 1] = "Creature";
+    CharacterType[CharacterType["Player"] = 2] = "Player";
+})(CharacterType || (CharacterType = {}));
 class Creature {
     constructor() {
+        this._clitLength = 0;
+        this._nippleLength = 0;
         //Name and references
+        this.type = CharacterType.Creature;
         this.a = "";
         this.name = "";
         this.refName = this.name;
@@ -37,7 +54,7 @@ class Creature {
         this.level = 1;
         this.XP = 0;
         this.gems = 0;
-        //Battle variables
+        //Battle letiables
         this.weapon = Items.NOTHING;
         this.shield = Items.NOTHING;
         this.armor = Items.NOTHING;
@@ -66,6 +83,7 @@ class Creature {
         this.furColor = "";
         //Head
         this.earType = 0;
+        this.earValue = 0;
         this.eyeType = 0;
         this.faceType = 0;
         this.tongueType = 0;
@@ -84,6 +102,7 @@ class Creature {
         this.tailVenom = 0;
         this.tailRecharge = 0;
         this.wingType = 0;
+        this.wingDesc = "";
         this.femininity = 50;
         this.tone = 0;
         this.thickness = 0;
@@ -106,17 +125,34 @@ class Creature {
         this.buttPregnancyIncubation = 0;
         this.buttPregnancyEventArr = [];
         this.buttPregnancyEventNum = 0;
+        this.fertility = 0;
         //Ass
         this.ass = new Ass();
+        this.buttRating = 0;
         //Breasts
         this.breastRows = [];
         this.lactationMultiplier = 0;
+        this._nippleLength = 0;
         this.keyItems = [];
         this.statusEffects = [];
         this.perks = [];
         //Victory/defeat
         this.victory = COMBAT.cleanupAfterCombat;
         this.defeat = COMBAT.cleanupAfterCombat;
+    }
+    get clitLength() {
+        // return this.vaginas[0].clitLength
+        return this._clitLength;
+    }
+    set clitLength(n) {
+        this._clitLength = n;
+    }
+    get nippleLength() {
+        // return this.breastRows[0].nippleLength
+        return this._nippleLength;
+    }
+    set nippleLength(n) {
+        this._nippleLength = n;
     }
     //------------
     // COMBAT
@@ -129,14 +165,27 @@ class Creature {
         COMBAT.combatRoundOver();
     }
     attack() {
-        var enemy;
-        if (this == liveData.player)
-            enemy = monster;
-        else
+        // let enemy
+        // if (this.type == liveData.player.type) enemy = liveData.monster
+        // else enemy = liveData.player
+        let enemy;
+        if (this.type == liveData.player.type) {
+            if (liveData.monster) {
+                enemy = liveData.monster;
+            }
+            else {
+                // TODO: below added to protect against null; should be improved
+                enemy = new Creature();
+                // break attack
+                return;
+            }
+        }
+        else {
             enemy = liveData.player;
+        }
         //Hit or miss?
-        var hitRoll = 70 + (this.spe - enemy.spe / 2);
-        var hitNeed = UTIL.rand(100);
+        let hitRoll = 70 + (this.spe - enemy.spe / 2);
+        let hitNeed = UTIL.rand(100);
         if (hitRoll < hitNeed) {
             //Miss
             if (hitRoll - hitNeed >= -5)
@@ -144,16 +193,16 @@ class Creature {
             else
                 outputText(UTIL.capitalize(this.a) + this.refName + " miss" + (this.plural ? "" : "es") + " " + enemy.a + enemy.refName + "! ");
             outputText("<br><br>");
-            // return
-            break attack;
+            // break attack
+            return;
         }
         //Damage
-        var damage = this.baseDamage();
+        let damage = this.baseDamage();
         damage *= 1 - (enemy.armor.defense + Math.random() * (enemy.tou * 0.25)) / 100;
         if (damage < 1)
             damage = 1;
         //Critical
-        var critical = UTIL.rand(100) < this.criticalChance();
+        let critical = UTIL.rand(100) < this.criticalChance();
         if (critical) {
             damage *= 1.75;
             if (damage < 5)
@@ -162,7 +211,7 @@ class Creature {
         //Round things off
         damage = Math.round(damage);
         //Display text and apply damage
-        if (this == liveData.player) {
+        if (this.type == liveData.player.type) {
             if (damage <= 5)
                 outputText("You struck a glancing blow against " + enemy.a + " " + enemy.refName + ". ");
             else if (damage <= 10)
@@ -215,14 +264,14 @@ class Creature {
         COMBAT.cleanupAfterCombat();
     }
     maxHP() {
-        var temp = 50;
+        let temp = 50;
         temp += this.tou * 2;
         temp += this.bonusHP;
         if (this.findPerk(PerkLib.Tank) >= 0)
             temp += 50;
         if (this.findPerk(PerkLib.Tank2) >= 0)
             temp += this.tou;
-        if (this == liveData.player) {
+        if (this.type == liveData.player.type) {
             temp += this.level * 15;
             if (temp < 50)
                 temp = 50;
@@ -235,11 +284,11 @@ class Creature {
         return temp;
     }
     maxLust() {
-        var temp = 100;
+        let temp = 100;
         return temp;
     }
     maxFatigue() {
-        var temp = 100;
+        let temp = 100;
         return temp;
     }
     HPRatio() {
@@ -247,7 +296,7 @@ class Creature {
     }
     //Combat
     baseDamage() {
-        var baseDmg = this.str + this.weapon.attack;
+        let baseDmg = this.str + this.weapon.attack;
         if (baseDmg < 10)
             baseDmg = 10; //Clamp minimum damage to 10 if under.
         if (baseDmg > 9999)
@@ -255,11 +304,11 @@ class Creature {
         return baseDmg;
     }
     criticalChance() {
-        var chance = 4;
+        let chance = 4;
         return chance;
     }
     spellMod() {
-        var multiplier = 1;
+        let multiplier = 1;
         //Permanent base increase
         if (this.findPerk(PerkLib.Spellpower) >= 0) {
             multiplier += 0.5;
@@ -278,8 +327,8 @@ class Creature {
         return UTIL.rand([5, 10, 20, 30, 40, 50, 55, 60, 65, 70, 75, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98][Math.round(this.level)] || 100);
     }
     getAwardableXP() {
-        var xpGained = this.baseXP() + this.bonusXP() + this.additionalXP;
-        var levelDiff = liveData.player.level - this.level; //The difference in level affects XP gained.
+        let xpGained = this.baseXP() + this.bonusXP() + this.additionalXP;
+        let levelDiff = liveData.player.level - this.level; //The difference in level affects XP gained.
         //Clamp value between 0 and 4.
         if (levelDiff < 2)
             levelDiff = 0;
@@ -294,12 +343,37 @@ class Creature {
         //Return the value.
         return Math.round(xpGained);
     }
+    // //Stats Change
+    // modStats_old(...args: any[]): void {
+    //     for (let i = 0; i < args.length; i += 2) {
+    //         //Get letiables
+    //         let attribute = args[i]
+    //         let mod = args[i + 1]
+    //         //Alternate
+    //         if (attribute == "int") attribute = "inte"
+    //         if (attribute == "sen") attribute = "sens"
+    //         if (attribute == "lus") attribute = "lust"
+    //         //Skip if resisted or noBimbo
+    //         if (attribute == "resisted" || attribute == "nobimbo") continue
+    //         //Apply modifiers
+    //         this[attribute] += mod
+    //         //Constrain values to min and max
+    //         if (this[attribute] > 100) this[attribute] = 100
+    //         if (this[attribute] < 0) this[attribute] = 0
+    //         if (this.type == liveData.player.type) {
+    //             if (mod > 0) GUI.showUpDown(attribute + "Arrow", "up")
+    //             else if (mod < 0) GUI.showUpDown(attribute + "Arrow", "down")
+    //             GUI.refreshStats()
+    //         }
+    //     }
+    // }
+    // dynStats_old(...args: any[]): void {
+    //     //For legacy compatibility only.
+    //     this.modStats(args)
+    // }
     //Stats Change
     modStats(...args) {
-        for (var i = 0; i < args.length; i += 2) {
-            //Get variables
-            var attribute = args[i];
-            var mod = args[i + 1];
+        for (let [attribute, mod] of args) {
             //Alternate
             if (attribute == "int")
                 attribute = "inte";
@@ -310,32 +384,30 @@ class Creature {
             //Skip if resisted or noBimbo
             if (attribute == "resisted" || attribute == "nobimbo")
                 continue;
-            //Apply modifiers
             this[attribute] += mod;
             //Constrain values to min and max
             if (this[attribute] > 100)
                 this[attribute] = 100;
             if (this[attribute] < 0)
                 this[attribute] = 0;
-            if (this == liveData.player) {
-                if (mod > 0)
+            if (this.type == liveData.player.type) {
+                if (mod > 0) {
                     GUI.showUpDown(attribute + "Arrow", "up");
-                else if (mod < 0)
+                }
+                else if (mod < 0) {
                     GUI.showUpDown(attribute + "Arrow", "down");
+                }
                 GUI.refreshStats();
             }
         }
     }
     dynStats(...args) {
         //For legacy compatibility only.
-        this.modStats(args);
+        this.modStats(...args);
     }
-    changeHP(amount, display, newpg) {
-        //Defaulting
-        if (display == undefined)
-            display = false;
-        if (newpg == undefined)
-            newpg = true;
+    // modStats(...args: [string, number][]): void {}
+    // dynStats(...args: [string, number][]): void {}
+    changeHP(amount, display = false, newpg = true) {
         //Main function
         this.HP += amount;
         if (this.HP > this.maxHP())
@@ -352,7 +424,7 @@ class Creature {
             else
                 outputText(" ");
         }
-        if (this == liveData.player) {
+        if (this.type == liveData.player.type) {
             if (amount < 0)
                 GUI.showUpDown("hpArrow", "down");
             else if (amount > 0)
@@ -379,7 +451,7 @@ class Creature {
             else
                 outputText(" ");
         }
-        if (this == liveData.player) {
+        if (this.type == liveData.player.type) {
             if (amount < 0)
                 GUI.showUpDown("lustArrow", "down");
             else if (amount > 0)
@@ -387,12 +459,7 @@ class Creature {
             GUI.refreshStats();
         }
     }
-    changeFatigue(amount, display, newpg) {
-        //Defaulting
-        if (display == undefined)
-            display = false;
-        if (newpg == undefined)
-            newpg = true;
+    changeFatigue(amount, display = false, newpg = true) {
         //Main function
         this.fatigue += amount;
         if (this.fatigue > this.maxFatigue())
@@ -409,7 +476,7 @@ class Creature {
             else
                 outputText(" ");
         }
-        if (this == liveData.player) {
+        if (this.type == liveData.player.type) {
             if (amount < 0)
                 GUI.showUpDown("fatigueArrow", "down");
             else if (amount > 0)
@@ -417,8 +484,8 @@ class Creature {
             GUI.refreshStats();
         }
     }
-    damageToughnessModifier(displayMode) {
-        var temp = 0;
+    damageToughnessModifier(displayMode = false) {
+        let temp = 0;
         if (this.tou < 25)
             temp = this.tou * 0.4;
         else if (this.tou < 50)
@@ -435,9 +502,9 @@ class Creature {
         else
             return UTIL.rand(temp);
     }
-    damagePercent(displayMode, applyModifiers) {
-        var mult = 100;
-        var armorMod = this.armor.defense;
+    damagePercent(displayMode = false, applyModifiers = false) {
+        let mult = 100;
+        let armorMod = this.armor.defense;
         //--BASE--
         //Toughness modifier.
         if (!displayMode) {
@@ -447,7 +514,7 @@ class Creature {
         }
         //Modify armor rating based on weapons.
         if (applyModifiers) {
-            if (liveData.player.weapon == Items.Weapons.JewelRapier || liveData.player.weapon == Items.Weapons.SPEAR || (liveData.player.weapon.name.indexOf("staff") != -1 && liveData.player.findPerk(PerkLib.StaffChanneling) >= 0))
+            if (liveData.player.weapon == Items.Weapons.JewelRapier || liveData.player.weapon == Items.Weapons.SPEAR || (liveData.player.weapon.longName.indexOf("staff") != -1 && liveData.player.findPerk(PerkLib.StaffChanneling) >= 0))
                 armorMod = 0;
             if (liveData.player.weapon == Items.Weapons.Katana)
                 armorMod -= 5;
@@ -461,7 +528,7 @@ class Creature {
         //Take damage you masochist!
         if (this.findPerk(PerkLib.Masochist) >= 0 && this.lib >= 60) {
             mult *= 0.8;
-            if (this == liveData.player && !displayMode)
+            if (this.type == liveData.player.type && !displayMode)
                 this.changeLust(2, false);
         }
         if (this.findPerk(PerkLib.ImmovableObject) >= 0 && this.tou >= 75) {
@@ -472,7 +539,7 @@ class Creature {
         if (this.statusEffectValue(StatusEffects.BlackCatBeer, 1) > 0)
             mult *= 0.75;
         // Uma's Massage bonuses
-        /*var statIndex = this.findStatusEffect(StatusEffects.UmasMassage);
+        /*let statIndex = this.findStatusEffect(StatusEffects.UmasMassage);
         if (statIndex >= 0) {
             if (this.findStatusEffect(statIndex).value1 == UmasShop.MASSAGE_RELAXATION) {
                 mult *= this.findStatusEffect(statIndex).value2;
@@ -537,8 +604,8 @@ class Creature {
     orgasm() {
         this.changeLust(-this.lust);
         this.hoursSinceCum = 0;
-        if (this == liveData.player) {
-            liveData.gameFlags[TIMES_ORGASMED]++;
+        if (this.type == liveData.player.type) {
+            liveData.gameFlags[FLAG.TIMES_ORGASMED]++;
             GUI.refreshStats();
         }
     }
@@ -556,26 +623,26 @@ class Creature {
             this.dropThresholds.push(chance);
         }
         else {
-            var currentThreshold = this.dropThresholds[this.dropThresholds.length - 1];
+            let currentThreshold = this.dropThresholds[this.dropThresholds.length - 1];
             this.dropThresholds[this.dropThresholds.length] = currentThreshold + chance;
         }
     }
     dropItem() {
-        var roll = UTIL.rand(100);
-        var dropIndex = -1;
-        for (var i in this.dropThresholds) {
+        let roll = UTIL.rand(100);
+        let dropIndex = -1;
+        for (let i of this.dropThresholds) {
             if (roll < this.dropThresholds[i]) {
                 dropIndex = i;
                 break;
             }
         }
         if (dropIndex == -1)
-            return undefined;
+            return null;
         return this.drops[dropIndex];
     }
     getTotalDropPercents() {
-        var sum = 0;
-        for (var i in this.dropThresholds) {
+        let sum = 0;
+        for (let i of this.dropThresholds) {
             sum += this.dropThresholds[i];
         }
         return sum;
@@ -585,12 +652,12 @@ class Creature {
     //------------
     //Perks
     createPerk(ptype, value1, value2, value3, value4) {
-        var newKeyItem = new Perk(ptype);
+        let newKeyItem = new Perk(ptype);
         //used to denote that the array has already had its new spot pushed on.
-        var arrayed = false;
+        let arrayed = false;
         //used to store where the array goes
-        var keySlot = 0;
-        var counter = 0;
+        let keySlot = 0;
+        let counter = 0;
         //Start the array if its the first bit
         if (this.perks.length == 0) {
             this.perks.push(newKeyItem);
@@ -650,7 +717,7 @@ class Creature {
         this.perks[keySlot].value4 = value4;
     }
     removePerk(ptype) {
-        var counter = this.perks.length;
+        let counter = this.perks.length;
         //Various Errors preventing action
         if (this.perks.length <= 0) {
             return false;
@@ -665,16 +732,16 @@ class Creature {
         return false;
     }
     findPerk(ptype) {
-        if (ptype == undefined)
-            return -1;
-        for (var counter = 0; counter < this.perks.length; counter++) {
-            if (this.perks[counter].ptype.id == ptype.id)
-                return counter;
-        }
-        return -1;
+        // if (ptype == undefined) return -1
+        // for (let counter = 0; counter < this.perks.length; counter++) {
+        //     if (this.perks[counter].ptype.id == ptype.id) return counter
+        // }
+        // return -1
+        return this.perks.findIndex((p) => p.ptype == ptype);
     }
-    perkValue(ptype, value) {
-        var counter = this.findPerk(ptype);
+    // TODO: verify logic: default added to value for calls with 1 param
+    perkValue(ptype, value = 0) {
+        let counter = this.findPerk(ptype);
         if (counter < 0) {
             return 0;
         }
@@ -690,57 +757,56 @@ class Creature {
             return 0;
     }
     addPerkValue(ptype, valueIdx, bonus) {
-        var counter = this.findPerk(ptype);
+        let counter = this.findPerk(ptype);
         if (counter < 0)
-            break addPerkValue;
+            return;
         if (valueIdx < 1 || valueIdx > 4)
-            break addPerkValue;
+            return;
         if (valueIdx == 1)
-            this.perks[i].value1 += bonus;
+            this.perks[counter].value1 += bonus;
         if (valueIdx == 2)
-            this.perks[i].value2 += bonus;
+            this.perks[counter].value2 += bonus;
         if (valueIdx == 3)
-            this.perks[i].value3 += bonus;
+            this.perks[counter].value3 += bonus;
         if (valueIdx == 4)
-            this.perks[i].value4 += bonus;
+            this.perks[counter].value4 += bonus;
     }
     setPerkValue(ptype, valueIdx, newNum) {
-        var counter = this.findPerk(ptype);
+        let counter = this.findPerk(ptype);
         //Various Errors preventing action
         if (counter < 0)
-            break setPerkValue;
+            return;
         if (valueIdx < 1 || valueIdx > 4)
-            break setPerkValue;
+            return;
         if (valueIdx == 1)
-            this.perks[i].value1 = newNum;
+            this.perks[counter].value1 = newNum;
         if (valueIdx == 2)
-            this.perks[i].value2 = newNum;
+            this.perks[counter].value2 = newNum;
         if (valueIdx == 3)
-            this.perks[i].value3 = newNum;
+            this.perks[counter].value3 = newNum;
         if (valueIdx == 4)
-            this.perks[i].value4 = newNum;
+            this.perks[counter].value4 = newNum;
     }
     //Status Effects
     createStatusEffect(stype, value1, value2, value3, value4) {
         this.statusEffects.push(new StatusEffect(stype, value1, value2, value3, value4));
     }
     removeStatusEffect(stype) {
-        var counter = this.findStatusEffect(stype);
+        let counter = this.findStatusEffect(stype);
         if (counter < 0)
-            break removeStatusEffect;
+            return;
         this.statusEffects.splice(counter, 1);
     }
     findStatusEffect(stype) {
-        if (stype == undefined)
-            return -1;
-        for (var counter = 0; counter < this.statusEffects.length; counter++) {
-            if (this.statusEffects[counter].stype == stype)
-                return counter;
-        }
-        return -1;
+        // if (stype == undefined) return -1
+        // for (let counter = 0; counter < this.statusEffects.length; counter++) {
+        //     if (this.statusEffects[counter].stype == stype) return counter
+        // }
+        // return -1
+        return this.statusEffects.findIndex((s) => s.stype == stype);
     }
     statusEffectValue(stype, value) {
-        var counter = this.findStatusEffect(stype);
+        let counter = this.findStatusEffect(stype);
         if (counter < 0) {
             return 0;
         }
@@ -756,47 +822,47 @@ class Creature {
             return 0;
     }
     addStatusValue(stype, valueIdx, bonus) {
-        var counter = this.findStatusEffect(stype);
+        let counter = this.findStatusEffect(stype);
         if (counter < 0)
-            break addStatusValue;
+            return;
         if (valueIdx < 1 || valueIdx > 4)
-            break addStatusValue;
+            return;
         if (valueIdx == 1)
-            this.statusEffects[stype].value1 += bonus;
+            this.statusEffects[counter].value1 += bonus;
         if (valueIdx == 2)
-            this.statusEffects[stype].value2 += bonus;
+            this.statusEffects[counter].value2 += bonus;
         if (valueIdx == 3)
-            this.statusEffects[stype].value3 += bonus;
+            this.statusEffects[counter].value3 += bonus;
         if (valueIdx == 4)
-            this.statusEffects[stype].value4 += bonus;
+            this.statusEffects[counter].value4 += bonus;
     }
     changeStatusValue(stype, valueIdx, newNum) {
-        var counter = this.findStatusEffect(stype);
+        let counter = this.findStatusEffect(stype);
         //Various Errors preventing action
         if (counter < 0)
-            break changeStatusValue;
+            return;
         if (valueIdx < 1 || valueIdx > 4)
-            break changeStatusValue;
+            return;
         if (valueIdx == 1)
-            this.statusEffects[stype].value1 = newNum;
+            this.statusEffects[counter].value1 = newNum;
         if (valueIdx == 2)
-            this.statusEffects[stype].value2 = newNum;
+            this.statusEffects[counter].value2 = newNum;
         if (valueIdx == 3)
-            this.statusEffects[stype].value3 = newNum;
+            this.statusEffects[counter].value3 = newNum;
         if (valueIdx == 4)
-            this.statusEffects[stype].value4 = newNum;
+            this.statusEffects[counter].value4 = newNum;
     }
     //-------
     // Key Items
     //-------
     //Create a new Key Item
-    createKeyItem(keyName, value1, value2, value3, value4) {
-        var newKeyItem = new KeyItem(keyName);
+    createKeyItem(ktype, value1, value2, value3, value4) {
+        let newKeyItem = new KeyItem(ktype);
         //used to denote that the array has already had its new spot pushed on.
-        var arrayed = false;
+        let arrayed = false;
         //used to store where the array goes
-        var keySlot = 0;
-        var counter = 0;
+        let keySlot = 0;
+        let counter = 0;
         //Start the array if its the first bit
         if (this.keyItems.length == 0) {
             //outputText("<br>New Key Item Started Array! " + newKeyItem.ktype.id);
@@ -853,7 +919,7 @@ class Creature {
             this.keyItems.push(newKeyItem);
             keySlot = this.keyItems.length - 1;
         }
-        this.keyItems[keySlot].keyName = keyName;
+        this.keyItems[keySlot].ktype = ktype;
         this.keyItems[keySlot].value1 = value1;
         this.keyItems[keySlot].value2 = value2;
         this.keyItems[keySlot].value3 = value3;
@@ -862,16 +928,16 @@ class Creature {
     }
     //Remove a Key Item
     removeKeyItem(ktype) {
-        var counter = this.hasKeyItem(ktype);
+        let counter = this.hasKeyItem(ktype);
         if (counter < 0)
-            break removeKeyItem;
+            return;
         this.statusEffects.splice(counter, 1);
     }
     //Check if a Key Item exists
     hasKeyItem(ktype) {
         if (ktype == undefined)
             return -1;
-        for (var counter = 0; counter < this.keyItems.length; counter++) {
+        for (let counter = 0; counter < this.keyItems.length; counter++) {
             if (this.keyItems[counter].ktype.id == ktype.id)
                 return counter;
         }
@@ -879,7 +945,7 @@ class Creature {
     }
     //Utility functions for key item array
     keyValue(ktype, value) {
-        var counter = this.hasKeyItem(ktype);
+        let counter = this.hasKeyItem(ktype);
         if (counter < 0) {
             return 0;
         }
@@ -895,35 +961,35 @@ class Creature {
             return 0;
     }
     addKeyValue(ptype, valueIdx, bonus) {
-        var counter = this.hasKeyItem(ptype);
+        let counter = this.hasKeyItem(ptype);
         if (counter < 0)
-            break addKeyValue;
+            return;
         if (valueIdx < 1 || valueIdx > 4)
-            break addKeyValue;
+            return;
         if (valueIdx == 1)
-            this.keyItems[i].value1 += bonus;
+            this.keyItems[counter].value1 += bonus;
         if (valueIdx == 2)
-            this.keyItems[i].value2 += bonus;
+            this.keyItems[counter].value2 += bonus;
         if (valueIdx == 3)
-            this.keyItems[i].value3 += bonus;
+            this.keyItems[counter].value3 += bonus;
         if (valueIdx == 4)
-            this.keyItems[i].value4 += bonus;
+            this.keyItems[counter].value4 += bonus;
     }
     setKeyValue(ptype, valueIdx, newNum) {
-        var counter = this.findPerk(ptype);
+        let counter = this.findPerk(ptype);
         //Various Errors preventing action
         if (counter < 0)
-            break setKeyValue;
+            return;
         if (valueIdx < 1 || valueIdx > 4)
-            break setKeyValue;
+            return;
         if (valueIdx == 1)
-            this.keyItems[i].value1 = newNum;
+            this.keyItems[counter].value1 = newNum;
         if (valueIdx == 2)
-            this.keyItems[i].value2 = newNum;
+            this.keyItems[counter].value2 = newNum;
         if (valueIdx == 3)
-            this.keyItems[i].value3 = newNum;
+            this.keyItems[counter].value3 = newNum;
         if (valueIdx == 4)
-            this.keyItems[i].value4 = newNum;
+            this.keyItems[counter].value4 = newNum;
     }
     //------------
     // SEXUAL UTIL
@@ -955,10 +1021,7 @@ class Creature {
         else
             return this.vaginas[0].vaginalWetness;
     }
-    vaginaType(newType) {
-        //Default
-        if (newType == undefined)
-            newType = -1;
+    vaginaType(newType = -1) {
         //Main
         if (!this.hasVagina())
             return -1;
@@ -967,10 +1030,7 @@ class Creature {
         }
         return this.vaginas[0].type;
     }
-    looseness(vag) {
-        //Default
-        if (vag == undefined)
-            vag = true;
+    looseness(vag = true) {
         //Main
         if (vag) {
             if (this.vaginas.length == 0)
@@ -986,7 +1046,7 @@ class Creature {
         //If the player has no vaginas
         if (this.vaginas.length == 0)
             return 0;
-        var bonus = 0;
+        let bonus = 0;
         //Centaurs = +50 capacity
         if (this.lowerBody == 4)
             bonus = 50;
@@ -1006,13 +1066,13 @@ class Creature {
             bonus += 25;
         if (this.findPerk(PerkLib.FerasBoonMilkingTwat) >= 0)
             bonus += 40;
-        var total = (bonus + this.statusEffectValue(StatusEffects.BonusVCapacity, 1) + 8 * this.vaginas[0].vaginalLooseness * this.vaginas[0].vaginalLooseness) * (1 + this.vaginas[0].vaginalWetness / 10);
+        let total = (bonus + this.statusEffectValue(StatusEffects.BonusVCapacity, 1) + 8 * this.vaginas[0].vaginalLooseness * this.vaginas[0].vaginalLooseness) * (1 + this.vaginas[0].vaginalWetness / 10);
         return total;
     }
     analCapacity() {
-        var bonus = 0;
+        let bonus = 0;
         //Centaurs = +30 capacity
-        if (this.lowerBody == LOWER_BODY_TYPE_CENTAUR)
+        if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CENTAUR)
             bonus = 30;
         if (this.findPerk(PerkLib.HistorySlut) >= 0)
             bonus += 20;
@@ -1022,11 +1082,11 @@ class Creature {
             bonus += 10;
         if (this.ass.analWetness > 0)
             bonus += 15;
-        var total = (bonus + this.statusEffectValue(StatusEffects.BonusACapacity, 1) + 6 * this.ass.analLooseness * this.ass.analLooseness) * (1 + this.ass.analWetness / 10);
+        let total = (bonus + this.statusEffectValue(StatusEffects.BonusACapacity, 1) + 6 * this.ass.analLooseness * this.ass.analLooseness) * (1 + this.ass.analWetness / 10);
         return total;
     }
     hasFuckableNipples() {
-        var counter = this.breastRows.length;
+        let counter = this.breastRows.length;
         while (counter > 0) {
             counter--;
             if (this.breastRows[counter].fuckable)
@@ -1042,7 +1102,7 @@ class Creature {
         return false;
     }
     hasNipples() {
-        var counter = this.breastRows.length;
+        let counter = this.breastRows.length;
         while (counter > 0) {
             counter--;
             if (this.breastRows[counter].nipplesPerBreast > 0)
@@ -1058,8 +1118,8 @@ class Creature {
     biggestLactation() {
         if (this.breastRows.length == 0)
             return 0;
-        var counter = this.breastRows.length;
-        var index = 0;
+        let counter = this.breastRows.length;
+        let index = 0;
         while (counter > 0) {
             counter--;
             if (this.breastRows[index].lactationMultiplier < this.breastRows[counter].lactationMultiplier)
@@ -1087,10 +1147,10 @@ class Creature {
     boostLactation(todo) {
         if (this.breastRows.length == 0)
             return 0;
-        var counter = this.breastRows.length;
-        var index = 0;
-        var changes = 0;
-        var temp2 = 0;
+        let counter = this.breastRows.length;
+        let index = 0;
+        let changes = 0;
+        let temp2 = 0;
         //Prevent lactation decrease if lactating.
         if (todo >= 0) {
             if (this.findStatusEffect(StatusEffects.LactationReduction) >= 0)
@@ -1159,8 +1219,8 @@ class Creature {
     averageLactation() {
         if (this.breastRows.length == 0)
             return 0;
-        var counter = this.breastRows.length;
-        var index = 0;
+        let counter = this.breastRows.length;
+        let index = 0;
         while (counter > 0) {
             counter--;
             index += this.breastRows[counter].lactationMultiplier;
@@ -1174,7 +1234,7 @@ class Creature {
         //(Small – 0.01 mLs – Size 1 + 1 Multi)
         //(Large – 0.8 - Size 10 + 4 Multi)
         //(HUGE – 2.4 - Size 12 + 5 Multi + 4 tits)
-        var total;
+        let total;
         if (this.findStatusEffect(StatusEffects.LactationEndurance) < 0)
             this.createStatusEffect(StatusEffects.LactationEndurance, 1, 0, 0, 0);
         total = this.biggestTitSize() * 10 * this.averageLactation() * this.statusEffectValue(StatusEffects.LactationEndurance, 1) * this.totalBreasts();
@@ -1192,18 +1252,19 @@ class Creature {
     cumQ() {
         if (!this.hasCock())
             return 0;
-        var quantity = 0;
+        let quantity = 0;
         //Base value is ballsize*ballQ*cumefficiency by a factor of 2.
         //Other things that affect it:
         //lust - 50% = normal output.  0 = half output. 100 = +50% output.
         //trace("CUM ESTIMATE: " + int(1.25*2*cumMultiplier*2*(lust + 50)/10 * (hoursSinceCum+10)/24)/10 + "(no balls), " + int(ballSize*balls*cumMultiplier*2*(lust + 50)/10 * (hoursSinceCum+10)/24)/10 + "(withballs)");
-        var lustCoefficient = (this.lust + 50) / 10;
+        let lustCoefficient = (this.lust + 50) / 10;
         //If realistic mode is enabled, limits cum to capacity.
-        if (hungerEnabled >= 1) {
+        // if (liveData.hungerEnabled >= 1) {
+        if (liveData.hungerEnabled) {
             lustCoefficient = (this.lust + 50) / 5;
             if (this.findPerk(PerkLib.PilgrimsBounty) >= 0)
                 lustCoefficient = 30;
-            var percent = 0;
+            let percent = 0;
             percent = lustCoefficient + (this.hoursSinceCum + 10);
             if (percent > 100)
                 percent = 100;
@@ -1236,7 +1297,7 @@ class Creature {
             quantity += 200;
         if (this.findPerk(PerkLib.FerasBoonSeeder) >= 0)
             quantity += 1000;
-        if (this.findPerk("Elven Bounty") >= 0)
+        if (this.findPerk(PerkLib.ElvenBounty) >= 0)
             quantity += 250;
         quantity += this.perkValue(PerkLib.ElvenBounty, 1);
         if (this.findPerk(PerkLib.BroBody) >= 0)
@@ -1259,7 +1320,7 @@ class Creature {
     cumCapacity() {
         if (!this.hasCock())
             return 0;
-        var cumCap = 0;
+        let cumCap = 0;
         //Alter capacity by balls.
         if (this.balls > 0)
             cumCap += Math.pow((4 / 3) * Math.PI * (this.ballSize / 2), 3) * this.balls;
@@ -1298,23 +1359,26 @@ class Creature {
             cumCap = 999999999;
         return cumCap;
     }
-    inHeat() {
-        get;
-        inHeat();
-        {
-            return this.findStatusEffect(StatusEffects.Heat) >= 1;
-        } // Setting to 0 was causing heat messages for the Imp scene.
+    // inHeat(): boolean {
+    //     get inHeat() {
+    //         return this.findStatusEffect(StatusEffects.Heat) >= 1
+    //     } // Setting to 0 was causing heat messages for the Imp scene.
+    // }
+    // Setting to 0 was causing heat messages for the Imp scene.
+    get inHeat() {
+        return this.findStatusEffect(StatusEffects.Heat) >= 1;
     }
-    inRut() {
-        get;
-        inRut();
-        {
-            return this.findStatusEffect(StatusEffects.Rut) >= 0;
-        }
+    // inRut(): boolean {
+    //     get inRut() {
+    //         return this.findStatusEffect(StatusEffects.Rut) >= 0
+    //     }
+    // }
+    get inRut() {
+        return this.findStatusEffect(StatusEffects.Rut) >= 0;
     }
     bonusFertility() {
-        var counter = 0;
-        if (this.inHeat())
+        let counter = 0;
+        if (this.inHeat)
             counter += this.statusEffectValue(StatusEffects.Heat, 1);
         if (this.findPerk(PerkLib.FertilityPlus) >= 0)
             counter += 15;
@@ -1339,26 +1403,26 @@ class Creature {
     countCocksOfType(type) {
         if (this.cocks.length == 0)
             return 0;
-        var counter = 0;
-        for (var x = 0; x < this.cocks.length; x++) {
+        let counter = 0;
+        for (let x = 0; x < this.cocks.length; x++) {
             if (this.cocks[x].cockType == type)
                 counter++;
         }
         return counter;
     }
     findFirstCockType(ctype) {
-        for (var index = 0; index < cocks.length; index++) {
-            if (cocks[index].cockType == ctype)
-                return index;
-        }
-        return -1;
+        // for (let index = 0; index < this.cocks.length; index++) {
+        //     if (this.cocks[index].cockType == ctype) return index
+        // }
+        // return -1
+        return this.cocks.findIndex((c) => c.cockType == ctype);
     }
     //Breasts Getter functions
     biggestTitSize() {
         if (this.breastRows.length == 0)
             return -1;
-        var counter = this.breastRows.length;
-        var index = 0;
+        let counter = this.breastRows.length;
+        let index = 0;
         while (counter > 0) {
             counter--;
             if (this.breastRows[index].breastRating < this.breastRows[counter].breastRating)
@@ -1368,8 +1432,8 @@ class Creature {
     }
     //Cock Getter functions
     cockThatFits(capacity) {
-        var firstCockFit = -1;
-        for (var i = 0; i < this.cocks.length; i++) {
+        let firstCockFit = -1;
+        for (let i = 0; i < this.cocks.length; i++) {
             if (this.cocks[i].cockArea() <= capacity) {
                 firstCockFit = i;
                 break;
@@ -1390,8 +1454,8 @@ class Creature {
     biggestCockArea() {
         if (this.cocks.length == 0)
             return 0;
-        var counter = this.cocks.length;
-        var index = 0;
+        let counter = this.cocks.length;
+        let index = 0;
         while (counter > 0) {
             counter--;
             if (this.cockArea(index) < this.cockArea(counter))
@@ -1403,9 +1467,9 @@ class Creature {
     biggestCockArea2() {
         if (this.cocks.length <= 1)
             return 0;
-        var counter = this.cocks.length;
-        var index = 0;
-        var index2 = -1;
+        let counter = this.cocks.length;
+        let index = 0;
+        let index2 = -1;
         //Find the biggest
         while (counter > 0) {
             counter--;
@@ -1435,8 +1499,8 @@ class Creature {
     longestCock() {
         if (this.cocks.length == 0)
             return 0;
-        var counter = this.cocks.length;
-        var index = 0;
+        let counter = this.cocks.length;
+        let index = 0;
         while (counter > 0) {
             counter--;
             if (this.cocks[index].cockLength < this.cocks[counter].cockLength)
@@ -1447,8 +1511,8 @@ class Creature {
     longestCockLength() {
         if (this.cocks.length == 0)
             return 0;
-        var counter = this.cocks.length;
-        var index = 0;
+        let counter = this.cocks.length;
+        let index = 0;
         while (counter > 0) {
             counter--;
             if (this.cocks[index].cockLength < this.cocks[counter].cockLength)
@@ -1460,12 +1524,12 @@ class Creature {
         //No two dicks?  FUCK OFF
         if (this.cockTotal() < 2)
             return false;
-        //Set up vars
+        //Set up lets
         //Get thinnest, work done already
-        var thinnest = this.thinnestCockIndex();
-        var thinnest2 = 0;
+        let thinnest = this.thinnestCockIndex();
+        let thinnest2 = 0;
         //For ze loop
-        var temp = 0;
+        let temp = 0;
         //Make sure they arent the same at initialization
         if (thinnest2 == thinnest)
             thinnest2 = 1;
@@ -1479,8 +1543,8 @@ class Creature {
         return this.cocks[thinnest].cockThickness + this.cocks[thinnest2].cockThickness < width;
     }
     totalCockThickness() {
-        var thick = 0;
-        var counter = this.cocks.length;
+        let thick = 0;
+        let counter = this.cocks.length;
         while (counter > 0) {
             counter--;
             thick += this.cocks[counter].cockThickness;
@@ -1490,8 +1554,8 @@ class Creature {
     thickestCock() {
         if (this.cocks.length == 0)
             return 0;
-        var counter = this.cocks.length;
-        var index = 0;
+        let counter = this.cocks.length;
+        let index = 0;
         while (counter > 0) {
             counter--;
             if (this.cocks[index].cockThickness < this.cocks[counter].cockThickness)
@@ -1502,8 +1566,8 @@ class Creature {
     thickestCockThickness() {
         if (this.cocks.length == 0)
             return 0;
-        var counter = this.cocks.length;
-        var index = 0;
+        let counter = this.cocks.length;
+        let index = 0;
         while (counter > 0) {
             counter--;
             if (this.cocks[index].cockThickness < this.cocks[counter].cockThickness)
@@ -1514,8 +1578,8 @@ class Creature {
     thinnestCockIndex() {
         if (this.cocks.length == 0)
             return 0;
-        var counter = this.cocks.length;
-        var index = 0;
+        let counter = this.cocks.length;
+        let index = 0;
         while (counter > 0) {
             counter--;
             if (this.cocks[index].cockThickness > this.cocks[counter].cockThickness)
@@ -1526,8 +1590,8 @@ class Creature {
     smallestCockIndex() {
         if (this.cocks.length == 0)
             return 0;
-        var counter = this.cocks.length;
-        var index = 0;
+        let counter = this.cocks.length;
+        let index = 0;
         while (counter > 0) {
             counter--;
             if (this.cockArea(index) > this.cockArea(counter)) {
@@ -1544,8 +1608,8 @@ class Creature {
     shortestCockIndex() {
         if (this.cocks.length == 0)
             return 0;
-        var counter = this.cocks.length;
-        var index = 0;
+        let counter = this.cocks.length;
+        let index = 0;
         while (counter > 0) {
             counter--;
             if (this.cocks[index].cockLength > this.cocks[counter].cockLength)
@@ -1556,8 +1620,8 @@ class Creature {
     shortestCockLength() {
         if (this.cocks.length == 0)
             return 0;
-        var counter = this.cocks.length;
-        var index = 0;
+        let counter = this.cocks.length;
+        let index = 0;
         while (counter > 0) {
             counter--;
             if (this.cocks[index].cockLength > this.cocks[counter].cockLength)
@@ -1565,62 +1629,51 @@ class Creature {
         }
         return this.cocks[index].cockLength;
     }
-    //Find the biggest cock that fits inside a given value
-    cockThatFits(i_fits, type) {
-        //Defaulting
-        if (i_fits == undefined)
-            i_fits = 0;
-        if (type == undefined)
-            type = "area";
-        //Main function
-        if (this.cocks.length <= 0)
-            return -1;
-        var cockIdxPtr = this.cocks.length;
-        //Current largest fitter
-        var cockIndex = -1;
-        while (cockIdxPtr > 0) {
-            cockIdxPtr--;
-            if (type == "area") {
-                if (this.cockArea(cockIdxPtr) <= i_fits) {
-                    //If one already fits
-                    if (cockIndex >= 0) {
-                        //See if the newcomer beats the saved small guy
-                        if (this.cockArea(cockIdxPtr) > this.cockArea(cockIndex))
-                            cockIndex = cockIdxPtr;
-                    }
-                    //Store the index of fitting dick
-                    else
-                        cockIndex = cockIdxPtr;
-                }
-            }
-            else if (type == "length") {
-                if (this.cocks[cockIdxPtr].cockLength <= i_fits) {
-                    //If one already fits
-                    if (cockIndex >= 0) {
-                        //See if the newcomer beats the saved small guy
-                        if (this.cocks[cockIdxPtr].cockLength > this.cocks[cockIndex].cockLength)
-                            cockIndex = cockIdxPtr;
-                    }
-                    //Store the index of fitting dick
-                    else
-                        cockIndex = cockIdxPtr;
-                }
-            }
-        }
-        return cockIndex;
-    }
+    // //Find the biggest cock that fits inside a given value
+    // cockThatFits(i_fits, type): number {
+    //     //Defaulting
+    //     if (i_fits == undefined) i_fits = 0
+    //     if (type == undefined) type = "area"
+    //     //Main function
+    //     if (this.cocks.length <= 0) return -1
+    //     let cockIdxPtr = this.cocks.length
+    //     //Current largest fitter
+    //     let cockIndex = -1
+    //     while (cockIdxPtr > 0) {
+    //         cockIdxPtr--
+    //         if (type == "area") {
+    //             if (this.cockArea(cockIdxPtr) <= i_fits) {
+    //                 //If one already fits
+    //                 if (cockIndex >= 0) {
+    //                     //See if the newcomer beats the saved small guy
+    //                     if (this.cockArea(cockIdxPtr) > this.cockArea(cockIndex)) cockIndex = cockIdxPtr
+    //                 }
+    //                 //Store the index of fitting dick
+    //                 else cockIndex = cockIdxPtr
+    //             }
+    //         } else if (type == "length") {
+    //             if (this.cocks[cockIdxPtr].cockLength <= i_fits) {
+    //                 //If one already fits
+    //                 if (cockIndex >= 0) {
+    //                     //See if the newcomer beats the saved small guy
+    //                     if (this.cocks[cockIdxPtr].cockLength > this.cocks[cockIndex].cockLength) cockIndex = cockIdxPtr
+    //                 }
+    //                 //Store the index of fitting dick
+    //                 else cockIndex = cockIdxPtr
+    //             }
+    //         }
+    //     }
+    //     return cockIndex
+    // }
     //Find the 2nd biggest cock that fits inside a given value
-    cockThatFits2(fits) {
-        //Defaulting
-        if (fits == undefined)
-            fits = 0;
+    cockThatFits2(fits = 0) {
         //Main function
         if (this.cockTotal() == 1)
             return -1;
-        var counter = this.cocks.length;
+        let counter = this.cocks.length;
         //Current largest fitter
-        var index = -1;
-        var index2 = -1;
+        let index = -1;
+        let index2 = -1;
         while (counter > 0) {
             counter--;
             //Does this one fit?
@@ -1659,8 +1712,8 @@ class Creature {
     biggestCockIndex() {
         if (this.cocks.length == 0)
             return 0;
-        var counter = this.cocks.length;
-        var index = 0;
+        let counter = this.cocks.length;
+        let index = 0;
         while (counter > 0) {
             counter--;
             if (this.cockArea(index) < this.cockArea(counter))
@@ -1672,9 +1725,9 @@ class Creature {
     biggestCockIndex2() {
         if (this.cocks.length <= 1)
             return 0;
-        var counter = this.cocks.length;
-        var index = 0;
-        var index2 = 0;
+        let counter = this.cocks.length;
+        let index = 0;
+        let index2 = 0;
         //Find the biggest
         while (counter > 0) {
             counter--;
@@ -1706,9 +1759,9 @@ class Creature {
     smallestCockIndex2() {
         if (this.cocks.length <= 1)
             return 0;
-        var counter = this.cocks.length;
-        var index = 0;
-        var index2 = 0;
+        let counter = this.cocks.length;
+        let index = 0;
+        let index2 = 0;
         //Find the smallest
         while (counter > 0) {
             counter--;
@@ -1741,10 +1794,10 @@ class Creature {
     biggestCockIndex3() {
         if (this.cocks.length <= 2)
             return 0;
-        var counter = this.cocks.length;
-        var index = 0;
-        var index2 = -1;
-        var index3 = -1;
+        let counter = this.cocks.length;
+        let index = 0;
+        let index2 = -1;
+        let index3 = -1;
         //Find the biggest
         while (counter > 0) {
             counter--;
@@ -1796,8 +1849,8 @@ class Creature {
         return this.breastRows.length;
     }
     totalBreasts() {
-        var counter = this.breastRows.length;
-        var total = 0;
+        let counter = this.breastRows.length;
+        let total = 0;
         while (counter > 0) {
             counter--;
             total += this.breastRows[counter].breasts;
@@ -1805,8 +1858,8 @@ class Creature {
         return total;
     }
     totalNipples() {
-        var counter = this.breastRows.length;
-        var total = 0;
+        let counter = this.breastRows.length;
+        let total = 0;
         while (counter > 0) {
             counter--;
             total += this.breastRows[counter].nipplesPerBreast * this.breastRows[counter].breasts;
@@ -1816,8 +1869,8 @@ class Creature {
     smallestTitSize() {
         if (this.breastRows.length == 0)
             return -1;
-        var counter = this.breastRows.length;
-        var index = 0;
+        let counter = this.breastRows.length;
+        let index = 0;
         while (counter > 0) {
             counter--;
             if (this.breastRows[index].breastRating > this.breastRows[counter].breastRating)
@@ -1828,8 +1881,8 @@ class Creature {
     smallestTitRow() {
         if (this.breastRows.length == 0)
             return -1;
-        var counter = this.breastRows.length;
-        var index = 0;
+        let counter = this.breastRows.length;
+        let index = 0;
         while (counter > 0) {
             counter--;
             if (this.breastRows[index].breastRating > this.breastRows[counter].breastRating)
@@ -1838,8 +1891,8 @@ class Creature {
         return index;
     }
     biggestTitRow() {
-        var counter = this.breastRows.length;
-        var index = 0;
+        let counter = this.breastRows.length;
+        let index = 0;
         while (counter > 0) {
             counter--;
             if (this.breastRows[index].breastRating < this.breastRows[counter].breastRating)
@@ -1848,8 +1901,8 @@ class Creature {
         return index;
     }
     averageBreastSize() {
-        var counter = this.breastRows.length;
-        var average = 0;
+        let counter = this.breastRows.length;
+        let average = 0;
         while (counter > 0) {
             counter--;
             average += this.breastRows[counter].breastRating;
@@ -1859,8 +1912,8 @@ class Creature {
         return average / this.breastRows.length;
     }
     averageCockThickness() {
-        var counter = this.cocks.length;
-        var average = 0;
+        let counter = this.cocks.length;
+        let average = 0;
         while (counter > 0) {
             counter--;
             average += this.cocks[counter].cockThickness;
@@ -1870,8 +1923,8 @@ class Creature {
         return average / this.cocks.length;
     }
     averageNippleLength() {
-        var counter = this.breastRows.length;
-        var average = 0;
+        let counter = this.breastRows.length;
+        let average = 0;
         while (counter > 0) {
             counter--;
             average += this.breastRows[counter].breastRating / 10 + 0.2;
@@ -1879,8 +1932,8 @@ class Creature {
         return average / this.breastRows.length;
     }
     averageVaginalLooseness() {
-        var counter = this.vaginas.length;
-        var average = 0;
+        let counter = this.vaginas.length;
+        let average = 0;
         //If the player has no vaginas
         if (this.vaginas.length == 0)
             return 2;
@@ -1894,8 +1947,8 @@ class Creature {
         //If the player has no vaginas
         if (this.vaginas.length == 0)
             return 2;
-        var counter = this.vaginas.length;
-        var average = 0;
+        let counter = this.vaginas.length;
+        let average = 0;
         while (counter > 0) {
             counter--;
             average += this.vaginas[counter].vaginalWetness;
@@ -1903,8 +1956,8 @@ class Creature {
         return average / this.vaginas.length;
     }
     averageCockLength() {
-        var counter = this.cocks.length;
-        var average = 0;
+        let counter = this.cocks.length;
+        let average = 0;
         while (counter > 0) {
             counter--;
             average += this.cocks[counter].cockLength;
@@ -1916,8 +1969,8 @@ class Creature {
     canTitFuck() {
         if (this.breastRows.length == 0)
             return false;
-        var counter = this.breastRows.length;
-        var index = 0;
+        let counter = this.breastRows.length;
+        let index = 0;
         while (counter > 0) {
             counter--;
             if (this.breastRows[index].breasts < this.breastRows[counter].breasts && this.breastRows[counter].breastRating > 3)
@@ -1930,8 +1983,8 @@ class Creature {
     mostBreastsPerRow() {
         if (this.breastRows.length == 0)
             return 2;
-        var counter = this.breastRows.length;
-        var index = 0;
+        let counter = this.breastRows.length;
+        let index = 0;
         while (counter > 0) {
             counter--;
             if (this.breastRows[index].breasts < this.breastRows[counter].breasts)
@@ -1940,9 +1993,9 @@ class Creature {
         return this.breastRows[index].breasts;
     }
     averageNipplesPerBreast() {
-        var counter = this.breastRows.length;
-        var breasts = 0;
-        var nipples = 0;
+        let counter = this.breastRows.length;
+        let breasts = 0;
+        let nipples = 0;
         while (counter > 0) {
             counter--;
             breasts += this.breastRows[counter].breasts;
@@ -1978,75 +2031,73 @@ class Creature {
         }
         switch (this.cocks[0].cockType //With multiple cocks only use the descriptions for specific cock types if all cocks are of a single type
         ) {
-            case CockTypesEnum.ANEMONE:
-            case CockTypesEnum.CAT:
-            case CockTypesEnum.DEMON:
-            case CockTypesEnum.DISPLACER:
-            case CockTypesEnum.DRAGON:
-            case CockTypesEnum.HORSE:
-            case CockTypesEnum.KANGAROO:
-            case CockTypesEnum.LIZARD:
-            case CockTypesEnum.PIG:
-            case CockTypesEnum.TENTACLE:
+            case ENUM.CockType.ANEMONE:
+            case ENUM.CockType.CAT:
+            case ENUM.CockType.DEMON:
+            case ENUM.CockType.DISPLACER:
+            case ENUM.CockType.DRAGON:
+            case ENUM.CockType.HORSE:
+            case ENUM.CockType.KANGAROO:
+            case ENUM.CockType.LIZARD:
+            case ENUM.CockType.PIG:
+            case ENUM.CockType.TENTACLE:
                 if (this.countCocksOfType(this.cocks[0].cockType) == this.cocks.length)
                     return Appearance.cockNoun(this.cocks[0].cockType) + "s";
                 break;
-            case CockTypesEnum.DOG:
-            case CockTypesEnum.FOX:
-                if (this.countCocksOfType(CockTypesEnum.DOG) == this.cocks.length)
-                    return Appearance.cockNoun(CockTypesEnum.DOG) + "s";
+            case ENUM.CockType.DOG:
+            case ENUM.CockType.FOX:
+                if (this.countCocksOfType(ENUM.CockType.DOG) == this.cocks.length)
+                    return Appearance.cockNoun(ENUM.CockType.DOG) + "s";
             default:
         }
-        return Appearance.cockNoun(CockTypesEnum.HUMAN) + "s";
+        return Appearance.cockNoun(ENUM.CockType.HUMAN) + "s";
     }
     hasSheath() {
         if (this.cocks.length == 0)
             return false;
-        for (var x = 0; x < this.cocks.length; x++) {
+        for (let x = 0; x < this.cocks.length; x++) {
             switch (this.cocks[x].cockType) {
-                case CockTypesEnum.CAT:
-                case CockTypesEnum.DISPLACER:
-                case CockTypesEnum.DOG:
-                case CockTypesEnum.FOX:
-                case CockTypesEnum.HORSE:
-                case CockTypesEnum.KANGAROO:
-                case CockTypesEnum.AVIAN:
-                case CockTypesEnum.ECHIDNA:
+                case ENUM.CockType.CAT:
+                case ENUM.CockType.DISPLACER:
+                case ENUM.CockType.DOG:
+                case ENUM.CockType.FOX:
+                case ENUM.CockType.HORSE:
+                case ENUM.CockType.KANGAROO:
+                case ENUM.CockType.AVIAN:
+                case ENUM.CockType.ECHIDNA:
                     return true; //If there's even one cock of any of these types then return true
                 default:
             }
         }
         return false;
     }
-    hasKnot(arg) {
-        if (arg == undefined)
-            arg = 0;
+    hasKnot(arg = 0) {
         if (arg > this.cockTotal() - 1 || arg < 0)
             return false;
-        return this.cocks[arg].hasKnot();
+        // return this.cocks[arg].hasKnot()
+        // Refactored above (which is likely always false) to best guess
+        return this.cocks[arg].knotMultiplier > 1;
     }
     //PLACEHOLDER
     dogCocks() {
         outputText("Placeholder for dogCocks in creature.js. Returning.");
-        doNext(Camp.returnToCampUseOneHour);
+        GUI.doNext(Camp.returnToCampUseOneHour);
     }
-    cockHead(cockNum) {
-        if (cockNum == undefined)
-            cockNum = 0;
+    cockHead(cockNum = 0) {
         if (cockNum < 0 || cockNum > this.cocks.length - 1) {
             outputText("Something went wrong in Creature.cockHead()!");
             return "";
         }
         switch (this.cocks[cockNum].cockType) {
-            case CockTypesEnum.CAT:
+            case ENUM.CockType.CAT:
                 if (UTIL.rand(2) == 0)
                     return "point";
                 return "narrow tip";
-            case CockTypesEnum.DEMON:
+            case ENUM.CockType.DEMON:
                 if (UTIL.rand(2) == 0)
                     return "tainted crown";
                 return "nub-ringed tip";
-            case CockTypesEnum.DISPLACER:
+            case ENUM.CockType.DISPLACER:
                 switch (UTIL.rand(5)) {
                     case 0:
                         return "star tip";
@@ -2059,36 +2110,36 @@ class Creature {
                     default:
                         return "bizarre head";
                 }
-            case CockTypesEnum.DOG:
-            case CockTypesEnum.FOX:
+            case ENUM.CockType.DOG:
+            case ENUM.CockType.FOX:
                 if (UTIL.rand(2) == 0)
                     return "pointed tip";
                 return "narrow tip";
-            case CockTypesEnum.HORSE:
+            case ENUM.CockType.HORSE:
                 if (UTIL.rand(2) == 0)
                     return "flare";
                 return "flat tip";
-            case CockTypesEnum.KANGAROO:
+            case ENUM.CockType.KANGAROO:
                 if (UTIL.rand(2) == 0)
                     return "tip";
                 return "point";
-            case CockTypesEnum.LIZARD:
+            case ENUM.CockType.LIZARD:
                 if (UTIL.rand(2) == 0)
                     return "crown";
                 return "head";
-            case CockTypesEnum.TENTACLE:
+            case ENUM.CockType.TENTACLE:
                 if (UTIL.rand(2) == 0)
                     return "mushroom-like tip";
                 return "wide plant-like crown";
-            case CockTypesEnum.PIG:
+            case ENUM.CockType.PIG:
                 if (UTIL.rand(2) == 0)
                     return "corkscrew tip";
                 return "corkscrew head";
-            case CockTypesEnum.RHINO:
+            case ENUM.CockType.RHINO:
                 if (UTIL.rand(2) == 0)
                     return "flared head";
                 return "rhinoceros dickhead";
-            case CockTypesEnum.ECHIDNA:
+            case ENUM.CockType.ECHIDNA:
                 if (UTIL.rand(2) == 0)
                     return "quad heads";
                 return "echidna quad heads";
@@ -2104,56 +2155,32 @@ class Creature {
     // ALTERATIONS
     //------------
     //Addition of parts
-    createCock(clength, cthickness, ctype) {
+    createCock(clength = 5.5, cthickness = 1, ctype = ENUM.CockType.HUMAN) {
         if (this.cocks.length >= 11)
-            break createCock; //This one goes to eleven.
-        //Defaulting parameters
-        if (clength == undefined)
-            clength = 5.5;
-        if (cthickness == undefined)
-            cthickness = 1;
-        if (ctype == undefined)
-            ctype = CockTypesEnum.HUMAN;
+            return; //This one goes to eleven.
         //New cock
-        var newCock = new Cock(clength, cthickness, ctype);
+        let newCock = new Cock(clength, cthickness, ctype);
         this.cocks.push(newCock);
         this.genderCheck();
     }
-    createVagina(virgin, vagwetness, vaglooseness) {
+    createVagina(virgin = true, vagwetness = 1, vaglooseness = 0) {
         if (this.vaginas.length >= 3)
-            break createVagina; //Limit of 3 vaginas
-        //Defaulting parameters
-        if (virgin == undefined)
-            virgin = true;
-        if (vagwetness == undefined)
-            vagwetness = 1;
-        if (vaglooseness == undefined)
-            vaglooseness = 0;
+            return; //Limit of 3 vaginas
         //New vagina
-        var newVagina = new Vagina(vagwetness, vaglooseness, virgin, 0);
+        let newVagina = new Vagina(vagwetness, vaglooseness, virgin, 0);
         this.vaginas.push(newVagina);
         this.genderCheck();
     }
-    createBreastRow(size, nipplesPerBreast) {
+    createBreastRow(size = 0, nipplesPerBreast = 1) {
         if (this.breastRows.length >= 10)
             return; //Limit of 10 breast rows
-        //Defaulting parameters
-        if (size == undefined)
-            size = 0;
-        if (nipplesPerBreast == undefined)
-            nipplesPerBreast = 1;
         //New breast row
-        var newBreastRow = new BreastRow(size, nipplesPerBreast);
+        let newBreastRow = new BreastRow(size, nipplesPerBreast);
         this.breastRows.push(newBreastRow);
         this.genderCheck();
     }
     //Removal of parts
-    removeCock(arraySpot, totalRemoved) {
-        //Defaulting
-        if (arraySpot == undefined)
-            arraySpot = 0;
-        if (totalRemoved == undefined)
-            totalRemoved = 1;
+    removeCock(arraySpot = 0, totalRemoved = 1) {
         //Various Errors preventing action
         if (arraySpot < 0 || totalRemoved <= 0) {
             //trace("ERROR: removeCock called but arraySpot is negative or totalRemoved is 0.");
@@ -2168,13 +2195,13 @@ class Creature {
             }
             else {
                 try {
-                    var cock = this.cocks[arraySpot];
+                    let cock = this.cocks[arraySpot];
                     if (cock.sock == "viridian") {
                         this.removePerk(PerkLib.LustyRegeneration);
                     }
                     else if (cock.sock == "cockring") {
-                        var numRings = 0;
-                        for (var i = 0; i < this.cocks.length; i++) {
+                        let numRings = 0;
+                        for (let i = 0; i < this.cocks.length; i++) {
                             if (this.cocks[i].sock == "cockring")
                                 numRings++;
                         }
@@ -2193,12 +2220,7 @@ class Creature {
         }
         this.genderCheck();
     }
-    removeVagina(arraySpot, totalRemoved) {
-        //Defaulting
-        if (arraySpot == undefined)
-            arraySpot = 0;
-        if (totalRemoved == undefined)
-            totalRemoved = 1;
+    removeVagina(arraySpot = 0, totalRemoved = 1) {
         //Various Errors preventing action
         if (arraySpot < -1 || totalRemoved <= 0) {
             //trace("ERROR: removeVagina called but arraySpot is negative or totalRemoved is 0.");
@@ -2218,12 +2240,7 @@ class Creature {
         }
         this.genderCheck();
     }
-    removeBreastRow(arraySpot, totalRemoved) {
-        //Defaulting
-        if (arraySpot == undefined)
-            arraySpot = 0;
-        if (totalRemoved == undefined)
-            totalRemoved = 1;
+    removeBreastRow(arraySpot = 0, totalRemoved = 1) {
         //Various Errors preventing action
         if (arraySpot < -1 || totalRemoved <= 0) {
             //trace("ERROR: removeBreastRow called but arraySpot is negative or totalRemoved is 0.");
@@ -2245,13 +2262,13 @@ class Creature {
             }
         }
     }
-    shrinkTits(ignore_hyper_happy) {
-        if (hyperHappy && !ignore_hyper_happy)
+    shrinkTits(ignore_hyper_happy = false) {
+        if (liveData.hyperHappy && !ignore_hyper_happy)
             return;
         if (this.breastRows.length == 1) {
             if (this.breastRows[0].breastRating > 0) {
                 //Shrink if bigger than N/A cups
-                var temp = 1;
+                let temp = 1;
                 this.breastRows[0].breastRating--;
                 //Shrink again 50% chance
                 if (this.breastRows[0].breastRating >= 1 && UTIL.rand(2) == 0 && this.findPerk(PerkLib.BigTits) < 0) {
@@ -2272,24 +2289,24 @@ class Creature {
             outputText("<br>");
             //temp2 = amount changed
             //temp3 = counter
-            var temp2 = 0;
-            var temp3 = breastRows.length;
+            let temp2 = 0;
+            let temp3 = this.breastRows.length;
             while (temp3 > 0) {
                 temp3--;
-                if (breastRows[temp3].breastRating > 0) {
-                    breastRows[temp3].breastRating--;
-                    if (breastRows[temp3].breastRating < 0)
-                        breastRows[temp3].breastRating = 0;
+                if (this.breastRows[temp3].breastRating > 0) {
+                    this.breastRows[temp3].breastRating--;
+                    if (this.breastRows[temp3].breastRating < 0)
+                        this.breastRows[temp3].breastRating = 0;
                     temp2++;
                     outputText("<br>");
-                    if (temp3 < breastRows.length - 1)
+                    if (temp3 < this.breastRows.length - 1)
                         outputText("...and y");
                     else
                         outputText("Y");
                     outputText("our " + liveData.player.breastDescript(temp3) + " shrink, dropping to " + this.breastCup(temp3) + "s.");
                 }
-                if (breastRows[temp3].breastRating < 0)
-                    breastRows[temp3].breastRating = 0;
+                if (this.breastRows[temp3].breastRating < 0)
+                    this.breastRows[temp3].breastRating = 0;
             }
             if (temp2 == 2)
                 outputText("<br>You feel so much lighter after the change.");
@@ -2305,13 +2322,13 @@ class Creature {
         //GrowthType 1 = smallest grows
         //GrowthType 2 = Top Row working downward
         //GrowthType 3 = Only top row
-        var temp2 = 0;
-        var temp3 = 0;
+        let temp2 = 0;
+        let temp3 = 0;
         //Chance for "big tits" perked characters to grow larger!
         if (this.findPerk(PerkLib.BigTits) >= 0 && UTIL.rand(3) == 0 && amount < 1)
             amount = 1;
         // Needs to be a number, since uint will round down to 0 prevent growth beyond a certain point
-        var temp = this.breastRows.length;
+        let temp = this.breastRows.length;
         if (growthType == 1) {
             //Select smallest breast, grow it, move on
             while (rowsGrown > 0) {
@@ -2322,14 +2339,14 @@ class Creature {
                 //Find smallest row
                 while (temp > 0) {
                     temp--;
-                    if (this.breastRows[temp].breastRating < breastRows[temp2].breastRating)
+                    if (this.breastRows[temp].breastRating < this.breastRows[temp2].breastRating)
                         temp2 = temp;
                 }
                 //Temp 3 tracks total amount grown
                 temp3 += amount;
                 //Reuse temp to store growth amount for diminishing returns.
                 temp = amount;
-                if (!hyperHappy) {
+                if (!liveData.hyperHappy) {
                     //Diminishing returns!
                     if (this.breastRows[temp2].breastRating > 3) {
                         if (this.findPerk(PerkLib.BigTits) < 0)
@@ -2362,7 +2379,7 @@ class Creature {
                 rowsGrown--;
             }
         }
-        if (!hyperHappy) {
+        if (!liveData.hyperHappy) {
             //Diminishing returns!
             if (this.breastRows[0].breastRating > 3) {
                 if (this.findPerk(PerkLib.BigTits) < 0)
@@ -2494,7 +2511,7 @@ class Creature {
             this.gender = 0;
     }
     changeCockType(type) {
-        var counter = this.cocks.length;
+        let counter = this.cocks.length;
         while (counter > 0) {
             counter--;
             if (this.cocks[counter].cockType != type) {
@@ -2505,22 +2522,17 @@ class Creature {
         return -1;
     }
     //Vaginal Stretching
-    cuntChange(cArea, display, spacingsF, spacingsB) {
-        //Default parameters
-        if (spacingsF == undefined)
-            spacingsF = true;
-        if (spacingsB == undefined)
-            spacingsB = true;
+    cuntChange(cArea, display, spacingsF = true, spacingsB = true) {
         //Main function
         if (this.vaginas.length == 0)
             return false;
-        var wasVirgin = this.vaginas[0].virgin;
-        var stretched = this.cuntChangeNoDisplay(cArea);
-        var devirgined = wasVirgin && !this.vaginas[0].virgin;
+        let wasVirgin = this.vaginas[0].virgin;
+        let stretched = this.cuntChangeNoDisplay(cArea);
+        let devirgined = wasVirgin && !this.vaginas[0].virgin;
         if (devirgined) {
             if (spacingsF)
                 outputText("  ");
-            outputText("<b>Your hymen is torn, robbing you of your virginity.</b>", false);
+            outputText("<b>Your hymen is torn, robbing you of your virginity.</b>");
             if (spacingsB)
                 outputText("  ");
         }
@@ -2544,11 +2556,11 @@ class Creature {
     cuntChangeNoDisplay(cArea) {
         if (this.vaginas.length == 0)
             return false;
-        var stretched = false;
-        if (this.findPerk(PerkLib.FerasBoonMilkingTwat) < 0 || vaginas[0].vaginalLooseness <= VAGINA_LOOSENESS_NORMAL) {
+        let stretched = false;
+        if (this.findPerk(PerkLib.FerasBoonMilkingTwat) < 0 || this.vaginas[0].vaginalLooseness <= ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_NORMAL) {
             //cArea > capacity = autostreeeeetch.
             if (cArea >= this.vaginalCapacity()) {
-                if (this.vaginas[0].vaginalLooseness >= VAGINA_LOOSENESS_CLOWN_CAR) {
+                if (this.vaginas[0].vaginalLooseness >= ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_CLOWN_CAR) {
                 }
                 else
                     this.vaginas[0].vaginalLooseness++;
@@ -2581,28 +2593,23 @@ class Creature {
         return stretched;
     }
     cuntChangeDisplay() {
-        if (this.vaginas[0].vaginalLooseness == VAGINA_LOOSENESS_CLOWN_CAR)
+        if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_CLOWN_CAR)
             outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " is stretched painfully wide, large enough to accomodate most beasts and demons.</b>");
-        if (this.vaginas[0].vaginalLooseness == VAGINA_LOOSENESS_GAPING_WIDE)
+        if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING_WIDE)
             outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " is stretched so wide that it gapes continually.</b>");
-        if (this.vaginas[0].vaginalLooseness == VAGINA_LOOSENESS_GAPING)
+        if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING)
             outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " painfully stretches, the lips now wide enough to gape slightly.</b>");
-        if (this.vaginas[0].vaginalLooseness == VAGINA_LOOSENESS_LOOSE)
-            outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " is now very loose.</b>", false);
-        if (this.vaginas[0].vaginalLooseness == VAGINA_LOOSENESS_NORMAL)
-            outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " is now a little loose.</b>", false);
-        if (this.vaginas[0].vaginalLooseness == VAGINA_LOOSENESS_TIGHT)
+        if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_LOOSE)
+            outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " is now very loose.</b>");
+        if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_NORMAL)
+            outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " is now a little loose.</b>");
+        if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_TIGHT)
             outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " is stretched out to a more normal size.</b>");
     }
     //Anal Stretching
-    buttChange(cArea, display, spacingsF, spacingsB) {
-        //Default parameters
-        if (spacingsF == undefined)
-            spacingsF = true;
-        if (spacingsB == undefined)
-            spacingsB = true;
+    buttChange(cArea, display, spacingsF = true, spacingsB = true) {
         //Main function
-        var stretched = this.buttChangeNoDisplay(cArea);
+        let stretched = this.buttChangeNoDisplay(cArea);
         //STRETCH SUCCESSFUL - begin flavor text if outputting it!
         if (stretched && display) {
             if (spacingsF)
@@ -2614,7 +2621,7 @@ class Creature {
         return stretched;
     }
     buttChangeNoDisplay(cArea) {
-        var stretched = false;
+        let stretched = false;
         //cArea > capacity = autostreeeeetch half the time.
         if (cArea >= this.analCapacity() && UTIL.rand(2) == 0) {
             if (this.ass.analLooseness >= 5) {
@@ -2657,7 +2664,7 @@ class Creature {
         if (this.ass.analLooseness == 5)
             outputText("<b>Your " + Appearance.assholeDescript(this) + " is stretched even wider, capable of taking even the largest of demons and beasts.</b>");
         if (this.ass.analLooseness == 4)
-            outputText("<b>Your " + Appearance.assholeDescript(this) + " becomes so stretched that it gapes continually.</b>", false);
+            outputText("<b>Your " + Appearance.assholeDescript(this) + " becomes so stretched that it gapes continually.</b>");
         if (this.ass.analLooseness == 3)
             outputText("<b>Your " + Appearance.assholeDescript(this) + " is now very loose.</b>");
         if (this.ass.analLooseness == 2)
@@ -2668,16 +2675,7 @@ class Creature {
     //------------
     // GENDER UTIL
     //------------
-    genderText(male, female, futa, eunuch) {
-        //Defaulting
-        if (male == undefined)
-            male = "man";
-        if (female == undefined)
-            female = "woman";
-        if (futa == undefined)
-            futa = "herm";
-        if (eunuch == undefined)
-            eunuch = "eunuch";
+    genderText(male = "man", female = "woman", futa = "herm", eunuch = "eunuch") {
         //Main function
         if (this.vaginas.length > 0) {
             if (this.cocks.length > 0)
@@ -2689,7 +2687,7 @@ class Creature {
         }
         return eunuch;
     }
-    manWoman(caps) {
+    manWoman(caps = false) {
         //Dicks?
         if (this.totalCocks() > 0) {
             if (this.hasVagina()) {
@@ -2761,7 +2759,7 @@ class Creature {
             }
         }
     }
-    maleFemaleHerm(caps) {
+    maleFemaleHerm(caps = false) {
         if (this.gender == 0) {
             if (caps)
                 return this.mf("Genderless", "Fem-genderless");
@@ -2797,33 +2795,33 @@ class Creature {
         return this.legCount == 2;
     }
     isNaga() {
-        return this.lowerBody == LOWER_BODY_TYPE_NAGA;
+        return this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_NAGA;
     }
     isTaur() {
         return this.legCount > 2 && !this.isDrider(); // driders have genitals on their human part, inlike usual taurs... this is actually bad way to check, but too many places to fix just now
     }
     isDrider() {
-        return this.lowerBody == LOWER_BODY_TYPE_DRIDER_LOWER_BODY;
+        return this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DRIDER_LOWER_BODY;
     }
     isGoo() {
-        return this.lowerBody == LOWER_BODY_TYPE_GOO;
+        return this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_GOO;
     }
     legs() {
         if (this.isDrider())
-            return num2Text(this.legCount) + " spider legs";
+            return UTIL.num2Text(this.legCount) + " spider legs";
         if (this.isTaur()) {
-            if (this.lowerBody == LOWER_BODY_TYPE_PONY && UTIL.rand(3) == 0)
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_PONY && UTIL.rand(3) == 0)
                 return "cute pony-legs";
-            return num2Text(this.legCount) + " legs";
+            return UTIL.num2Text(this.legCount) + " legs";
         }
         if (this.isNaga())
             return "snake-like coils";
         if (this.isGoo())
             return "mounds of goo";
         if (this.isBiped()) {
-            //Biped, has several variants.
+            //Biped, has several letiants.
             //Bunny legs
-            if (this.lowerBody == LOWER_BODY_TYPE_BUNNY) {
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_BUNNY) {
                 switch (UTIL.rand(5)) {
                     case 0:
                         return "fuzzy, bunny legs";
@@ -2836,7 +2834,7 @@ class Creature {
                 }
             }
             //Avian legs
-            if (this.lowerBody == LOWER_BODY_TYPE_HARPY) {
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HARPY) {
                 switch (UTIL.rand(4)) {
                     case 0:
                         return "bird-like legs";
@@ -2847,7 +2845,7 @@ class Creature {
                 }
             }
             //Fox legs
-            if (this.lowerBody == LOWER_BODY_TYPE_FOX) {
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_FOX) {
                 switch (UTIL.rand(4)) {
                     case 0:
                         return "fox-like legs";
@@ -2858,7 +2856,7 @@ class Creature {
                 }
             }
             //Raccoon legs
-            if (this.lowerBody == LOWER_BODY_TYPE_RACCOON) {
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_RACCOON) {
                 switch (UTIL.rand(4)) {
                     case 0:
                         return "raccoon-like legs";
@@ -2867,7 +2865,7 @@ class Creature {
                 }
             }
             //Cloven hooved
-            if (this.lowerBody == LOWER_BODY_TYPE_CLOVEN_HOOFED) {
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CLOVEN_HOOFED) {
                 switch (UTIL.rand(4)) {
                     case 0:
                         return "pig-like legs";
@@ -2883,9 +2881,9 @@ class Creature {
     }
     leg() {
         if (this.isDrider())
-            return num2Text(this.legCount) + " spider legs";
+            return UTIL.num2Text(this.legCount) + " spider legs";
         if (this.isTaur()) {
-            if (this.lowerBody == LOWER_BODY_TYPE_PONY && UTIL.rand(3) == 0)
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_PONY && UTIL.rand(3) == 0)
                 return "cute pony-leg";
             return "leg";
         }
@@ -2894,9 +2892,9 @@ class Creature {
         if (this.isGoo())
             return "mound of goo";
         if (this.isBiped()) {
-            //Biped, has several variants.
+            //Biped, has several letiants.
             //Bunny legs
-            if (this.lowerBody == LOWER_BODY_TYPE_BUNNY) {
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_BUNNY) {
                 switch (UTIL.rand(5)) {
                     case 0:
                         return "fuzzy, bunny leg";
@@ -2909,7 +2907,7 @@ class Creature {
                 }
             }
             //Avian legs
-            if (this.lowerBody == LOWER_BODY_TYPE_HARPY) {
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HARPY) {
                 switch (UTIL.rand(4)) {
                     case 0:
                         return "bird-like leg";
@@ -2920,7 +2918,7 @@ class Creature {
                 }
             }
             //Fox legs
-            if (this.lowerBody == LOWER_BODY_TYPE_FOX) {
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_FOX) {
                 switch (UTIL.rand(4)) {
                     case 0:
                         return "fox-like leg";
@@ -2931,7 +2929,7 @@ class Creature {
                 }
             }
             //Raccoon legs
-            if (this.lowerBody == LOWER_BODY_TYPE_RACCOON) {
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_RACCOON) {
                 switch (UTIL.rand(4)) {
                     case 0:
                         return "raccoon-like leg";
@@ -2940,7 +2938,7 @@ class Creature {
                 }
             }
             //Cloven hooved
-            if (this.lowerBody == LOWER_BODY_TYPE_CLOVEN_HOOFED) {
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CLOVEN_HOOFED) {
                 switch (UTIL.rand(4)) {
                     case 0:
                         return "pig-like leg";
@@ -2958,7 +2956,7 @@ class Creature {
         if (this.isDrider())
             return "spider feet";
         if (this.isTaur()) {
-            if (this.lowerBody == LOWER_BODY_TYPE_PONY && UTIL.rand(3) == 0)
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_PONY && UTIL.rand(3) == 0)
                 return "flat pony-feet";
             return "hooves";
         }
@@ -2967,20 +2965,23 @@ class Creature {
         if (this.isGoo())
             return "slimey cillia";
         if (this.isBiped()) {
-            if (this.lowerBody == LOWER_BODY_TYPE_HUMAN)
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN)
                 return "feet";
-            if (this.lowerBody == LOWER_BODY_TYPE_HOOFED)
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED)
                 return "hooves";
-            if (this.lowerBody == LOWER_BODY_TYPE_CLOVEN_HOOFED)
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CLOVEN_HOOFED)
                 return "cloven hooves";
-            if (this.lowerBody == LOWER_BODY_TYPE_DOG || this.lowerBody == LOWER_BODY_TYPE_CAT || this.lowerBody == LOWER_BODY_TYPE_FOX || this.lowerBody == LOWER_BODY_TYPE_RACCOON) {
-                if (this.lowerBody == LOWER_BODY_TYPE_FOX && UTIL.rand(3) > 0) {
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG ||
+                this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT ||
+                this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_FOX ||
+                this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_RACCOON) {
+                if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_FOX && UTIL.rand(3) > 0) {
                     if (UTIL.rand(2) == 0)
                         return "fox-like feet";
                     else
                         return "soft, padded paws";
                 }
-                if (this.lowerBody == LOWER_BODY_TYPE_RACCOON && UTIL.rand(3) > 0) {
+                if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_RACCOON && UTIL.rand(3) > 0) {
                     if (UTIL.rand(2) == 0)
                         return "raccoon-like feet";
                     else
@@ -2988,11 +2989,11 @@ class Creature {
                 }
                 return "paws";
             }
-            if (this.lowerBody == LOWER_BODY_TYPE_DEMONIC_HIGH_HEELS)
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DEMONIC_HIGH_HEELS)
                 return "demonic high-heels";
-            if (this.lowerBody == LOWER_BODY_TYPE_DEMONIC_CLAWS)
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DEMONIC_CLAWS)
                 return "demonic foot-claws";
-            if (this.lowerBody == LOWER_BODY_TYPE_BUNNY) {
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_BUNNY) {
                 switch (UTIL.rand(5)) {
                     case 0:
                         return "large bunny feet";
@@ -3004,7 +3005,7 @@ class Creature {
                         return "feet";
                 }
             }
-            if (this.lowerBody == LOWER_BODY_TYPE_HARPY) {
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HARPY) {
                 switch (UTIL.rand(3)) {
                     case 0:
                         return "taloned feet";
@@ -3012,7 +3013,7 @@ class Creature {
                         return "feet";
                 }
             }
-            if (this.lowerBody == LOWER_BODY_TYPE_KANGAROO)
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_KANGAROO)
                 return "foot-paws";
         }
         return "feet";
@@ -3021,7 +3022,7 @@ class Creature {
         if (this.isDrider())
             return "spider feet";
         if (this.isTaur()) {
-            if (this.lowerBody == LOWER_BODY_TYPE_PONY && UTIL.rand(3) == 0)
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_PONY && UTIL.rand(3) == 0)
                 return "flat pony-foot";
             return "hoof";
         }
@@ -3030,20 +3031,23 @@ class Creature {
         if (this.isGoo())
             return "slimey undercarriage";
         if (this.isBiped()) {
-            if (this.lowerBody == LOWER_BODY_TYPE_HUMAN)
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN)
                 return "foot";
-            if (this.lowerBody == LOWER_BODY_TYPE_HOOFED)
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED)
                 return "hoof";
-            if (this.lowerBody == LOWER_BODY_TYPE_CLOVEN_HOOFED)
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CLOVEN_HOOFED)
                 return "cloven hoof";
-            if (this.lowerBody == LOWER_BODY_TYPE_DOG || this.lowerBody == LOWER_BODY_TYPE_CAT || this.lowerBody == LOWER_BODY_TYPE_FOX || this.lowerBody == LOWER_BODY_TYPE_RACCOON) {
-                if (this.lowerBody == LOWER_BODY_TYPE_FOX && UTIL.rand(3) > 0) {
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG ||
+                this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT ||
+                this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_FOX ||
+                this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_RACCOON) {
+                if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_FOX && UTIL.rand(3) > 0) {
                     if (UTIL.rand(2) == 0)
                         return "fox-like foot";
                     else
                         return "soft, padded paw";
                 }
-                if (this.lowerBody == LOWER_BODY_TYPE_RACCOON && UTIL.rand(3) > 0) {
+                if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_RACCOON && UTIL.rand(3) > 0) {
                     if (UTIL.rand(2) == 0)
                         return "raccoon-like foot";
                     else
@@ -3051,7 +3055,7 @@ class Creature {
                 }
                 return "paw";
             }
-            if (this.lowerBody == LOWER_BODY_TYPE_BUNNY) {
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_BUNNY) {
                 switch (UTIL.rand(5)) {
                     case 0:
                         return "large bunny foot";
@@ -3063,7 +3067,7 @@ class Creature {
                         return "foot";
                 }
             }
-            if (this.lowerBody == LOWER_BODY_TYPE_HARPY) {
+            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HARPY) {
                 switch (UTIL.rand(3)) {
                     case 0:
                         return "taloned foot";
@@ -3075,7 +3079,7 @@ class Creature {
         return "foot";
     }
     skinFurScales() {
-        var skinzilla = "";
+        let skinzilla = "";
         //Adjectives first!
         if (this.skinAdj != "")
             skinzilla += this.skinAdj + ", ";
@@ -3089,7 +3093,7 @@ class Creature {
         return skinzilla;
     }
     faceDesc() {
-        var faceo = "";
+        let faceo = "";
         //0-10
         if (this.femininity < 10) {
             faceo = "a square chin";
@@ -3135,15 +3139,12 @@ class Creature {
         return faceo;
     }
     //Modify femininity!
-    modFem(goal, strength) {
-        //Default parameters
-        if (strength == undefined)
-            strength = 1;
+    modFem(goal, strength = 1) {
         //Main function
-        var output = "";
-        var old = this.faceDesc();
-        var oldN = this.femininity;
-        var Changed = false;
+        let output = "";
+        let old = this.faceDesc();
+        let oldN = this.femininity;
+        let Changed = false;
         //If already perfect!
         if (goal == this.femininity)
             return "";
@@ -3186,10 +3187,7 @@ class Creature {
         }
         return output;
     }
-    modThickness(goal, strength) {
-        //Default parameters
-        if (strength == undefined)
-            strength = 1;
+    modThickness(goal, strength = 1) {
         //Main function
         if (goal == this.thickness)
             return "";
@@ -3215,10 +3213,7 @@ class Creature {
             return "<br><br>Each movement feels a tiny bit easier than the last.  Did you just lose a little weight!? (+" + strength + " thin)";
         return "";
     }
-    modTone(goal, strength) {
-        //Default parameters
-        if (strength == undefined)
-            strength = 1;
+    modTone(goal, strength = 1) {
         //Main function
         if (goal == this.tone)
             return "";
@@ -3250,9 +3245,9 @@ class Creature {
     }
     //Run this every hour to 'fix' femininity.
     fixFemininity() {
-        var output = "";
+        let output = "";
         //Genderless/herms share the same bounds
-        if (this.gender == GENDER_NONE || this.gender == GENDER_HERM) {
+        if (this.gender == ENUM.GenderType.GENDER_NONE || this.gender == ENUM.GenderType.GENDER_HERM) {
             if (this.femininity < 20) {
                 output += "<br><b>Your incredibly masculine, chiseled features become a little bit softer from your body's changing hormones.";
                 output += "</b><br>";
@@ -3264,7 +3259,7 @@ class Creature {
             }
         }
         //GURLS!
-        else if (this.gender == GENDER_FEMALE) {
+        else if (this.gender == ENUM.GenderType.GENDER_FEMALE) {
             if (this.femininity < 30) {
                 output += "<br><b>Your incredibly masculine, chiseled features become a little bit softer from your body's changing hormones.";
                 output += "</b><br>";
@@ -3272,7 +3267,7 @@ class Creature {
             }
         }
         //BOIZ!
-        else if (this.gender == GENDER_MALE) {
+        else if (this.gender == ENUM.GenderType.GENDER_MALE) {
             if (this.femininity > 70) {
                 output += "<br><b>You find your overly feminine face loses a little bit of its former female beauty due to your body's changing hormones.</b><br>";
                 this.femininity = 70;
@@ -3291,14 +3286,9 @@ class Creature {
             return "ERROR: NO BEARD! <b>YOU ARE NOT A VIKING AND SHOULD TELL KITTEH IMMEDIATELY.</b>";
         }
     }
-    skin(noAdj, noTone) {
-        //Default parameters
-        if (noAdj == undefined)
-            noAdj = false;
-        if (noTone == undefined)
-            noTone = false;
+    skin(noAdj = false, noTone = false) {
         //Main function
-        var skinzilla = "";
+        let skinzilla = "";
         //Only show stuff other than skinDesc if justSkin is false
         if (!noAdj) {
             //Adjectives first!
@@ -3321,26 +3311,26 @@ class Creature {
         return skinzilla;
     }
     hasMuzzle() {
-        if (this.faceType == FACE_HORSE ||
-            this.faceType == FACE_DOG ||
-            this.faceType == FACE_CAT ||
-            this.faceType == FACE_LIZARD ||
-            this.faceType == FACE_KANGAROO ||
-            this.faceType == FACE_FOX ||
-            this.faceType == FACE_DRAGON ||
-            this.faceType == FACE_RHINO ||
-            this.faceType == FACE_ECHIDNA ||
-            this.faceType == FACE_DEER)
+        if (this.faceType == ENUM.FaceType.FACE_HORSE ||
+            this.faceType == ENUM.FaceType.FACE_DOG ||
+            this.faceType == ENUM.FaceType.FACE_CAT ||
+            this.faceType == ENUM.FaceType.FACE_LIZARD ||
+            this.faceType == ENUM.FaceType.FACE_KANGAROO ||
+            this.faceType == ENUM.FaceType.FACE_FOX ||
+            this.faceType == ENUM.FaceType.FACE_DRAGON ||
+            this.faceType == ENUM.FaceType.FACE_RHINO ||
+            this.faceType == ENUM.FaceType.FACE_ECHIDNA ||
+            this.faceType == ENUM.FaceType.FACE_DEER)
             return true;
         return false;
     }
     face() {
-        var stringo = "";
+        let stringo = "";
         //0 - human
         //5 - Human w/Naga fangz
         //8 - bunnah faceahhh bunbun
         //10 - spidah-face (humanish)
-        if (this.faceType == FACE_HUMAN)
+        if (this.faceType == ENUM.FaceType.FACE_HUMAN)
             return "face";
         //1 - horse
         //2 - dogface
@@ -3348,13 +3338,13 @@ class Creature {
         //7 - lizard face (durned argonians!)
         //9 - kangaface
         if (this.hasMuzzle()) {
-            if (UTIL.rand(3) == 0 && this.faceType == FACE_HORSE)
+            if (UTIL.rand(3) == 0 && this.faceType == ENUM.FaceType.FACE_HORSE)
                 stringo = "long ";
-            if (UTIL.rand(3) == 0 && this.faceType == FACE_CAT)
+            if (UTIL.rand(3) == 0 && this.faceType == ENUM.FaceType.FACE_CAT)
                 stringo = "feline ";
-            if (UTIL.rand(3) == 0 && this.faceType == FACE_RHINO)
+            if (UTIL.rand(3) == 0 && this.faceType == ENUM.FaceType.FACE_RHINO)
                 stringo = "rhino ";
-            if (UTIL.rand(3) == 0 && (this.faceType == FACE_LIZARD || this.faceType == FACE_DRAGON))
+            if (UTIL.rand(3) == 0 && (this.faceType == ENUM.FaceType.FACE_LIZARD || this.faceType == ENUM.FaceType.FACE_DRAGON))
                 stringo = "reptilian ";
             switch (UTIL.rand(3)) {
                 case 0:
@@ -3368,7 +3358,7 @@ class Creature {
             }
         }
         //3 - cowface
-        if (this.faceType == FACE_COW_MINOTAUR) {
+        if (this.faceType == ENUM.FaceType.FACE_COW_MINOTAUR) {
             if (UTIL.rand(4) == 0)
                 stringo = "bovine ";
             if (UTIL.rand(2) == 0)
@@ -3376,14 +3366,14 @@ class Creature {
             return stringo + "face";
         }
         //4 - sharkface-teeth
-        if (this.faceType == FACE_SHARK_TEETH) {
+        if (this.faceType == ENUM.FaceType.FACE_SHARK_TEETH) {
             if (Math.floor(Math.random() * 4) == 0)
                 stringo = "angular ";
             return stringo + "face";
         }
-        if (this.faceType == FACE_PIG || this.faceType == FACE_BOAR) {
+        if (this.faceType == ENUM.FaceType.FACE_PIG || this.faceType == ENUM.FaceType.FACE_BOAR) {
             if (Math.floor(Math.random() * 4) == 0)
-                stringo = (this.faceType == FACE_PIG ? "pig" : "boar") + "-like ";
+                stringo = (this.faceType == ENUM.FaceType.FACE_PIG ? "pig" : "boar") + "-like ";
             if (Math.floor(Math.random() * 4) == 0)
                 return stringo + "snout";
             return stringo + "face";
@@ -3419,7 +3409,7 @@ class Creature {
         return false;
     }
     hasLongTongue() {
-        if (this.tongueType == TONGUE_SNAKE || this.tongueType == TONGUE_DEMONIC || this.tongueType == TONGUE_DRACONIC)
+        if (this.tongueType == ENUM.TongueType.TONGUE_SNAKE || this.tongueType == ENUM.TongueType.TONGUE_DEMONIC || this.tongueType == ENUM.TongueType.TONGUE_DRACONIC)
             return true;
         return false;
     }
@@ -3427,8 +3417,15 @@ class Creature {
         //web also makes false!
         if (this.findStatusEffect(StatusEffects.Web) >= 0)
             return false;
-        return this.wingType == WING_TYPE_BEE_LIKE_LARGE || this.wingType == WING_TYPE_BAT_LIKE_LARGE || this.wingType == WING_TYPE_FEATHERED_LARGE || this.wingType == WING_TYPE_DRACONIC_LARGE || this.wingType == WING_TYPE_GIANT_DRAGONFLY;
+        return (this.wingType == ENUM.WingType.WING_TYPE_BEE_LIKE_LARGE ||
+            this.wingType == ENUM.WingType.WING_TYPE_BAT_LIKE_LARGE ||
+            this.wingType == ENUM.WingType.WING_TYPE_FEATHERED_LARGE ||
+            this.wingType == ENUM.WingType.WING_TYPE_DRACONIC_LARGE ||
+            this.wingType == ENUM.WingType.WING_TYPE_GIANT_DRAGONFLY);
     }
+    //---------
+    // PREGNANCY UTIL
+    //---------
     isPregnant() {
         return this.pregnancyType != 0;
     }
@@ -3455,9 +3452,7 @@ class Creature {
     ballsDescript() {
         return Appearance.ballsDescription(false, true, this, true);
     }
-    ballsDescriptLight(forcedSize) {
-        if (forcedSize == undefined)
-            forcedSize = true;
+    ballsDescriptLight(forcedSize = true) {
         return Appearance.ballsDescription(forcedSize, false, this);
     }
     sackDescript() {
@@ -3530,36 +3525,16 @@ class Creature {
     wingsDescript() {
         return Appearance.wingsDescript(this);
     }
-    //---------
-    // PREGNANCY UTIL
-    //---------
-    isPregnant() {
-        return this.pregnancyType != 0;
-    }
-    isButtPregnant() {
-        return this.buttPregnancyType != 0;
-    }
     //fertility must be >= random(0-beat)
     //If arg == 1 then override any contraceptives and guarantee fertilization
     //If arg == -1, no chance of fertilization.
-    knockUp(type, incubation, beat, arg, event) {
-        //Defaulting
-        if (type == undefined)
-            type = 0;
-        if (incubation == undefined)
-            incubation = 0;
-        if (beat == undefined)
-            beat = 100;
-        if (arg == undefined)
-            arg = 0;
-        if (event == undefined)
-            event = [];
+    knockUp(type, incubation = 0, beat = 100, arg = 0, event = []) {
         //Contraceptives cancel!
         if (this.findStatusEffect(StatusEffects.Contraceptives) >= 0 && arg < 1)
             return;
         // Originally commented out
         //if (this.findStatusEffect(StatusEffects.GooStuffed) >= 0) return; //No longer needed thanks to PREGNANCY_GOO_STUFFED being used as a blocking value
-        var bonus = 0;
+        let bonus = 0;
         //If arg = 1 (always pregnant), bonus = 9000
         if (arg >= 1)
             bonus = 9000;
@@ -3570,7 +3545,7 @@ class Creature {
             //trace("PC Knocked up with pregnancy type: " + type + " for " + incubation + " incubation.");
         }
         //Chance for eggs fertilization - ovi elixir and imps excluded!
-        if (type != PREGNANCY_IMP && type != PREGNANCY_OVIELIXIR_EGGS && type != PREGNANCY_ANEMONE) {
+        if (type != FLAG.PREGNANCY_IMP && type != FLAG.PREGNANCY_OVIELIXIR_EGGS && type != FLAG.PREGNANCY_ANEMONE) {
             if (this.findPerk(PerkLib.SpiderOvipositor) >= 0 || this.findPerk(PerkLib.BeeOvipositor) >= 0) {
                 if (this.totalFertility() + bonus > Math.floor(Math.random() * beat)) {
                     this.fertilizeEggs();
@@ -3578,20 +3553,11 @@ class Creature {
             }
         }
     }
-    buttKnockUp(type, incubation, beat, arg) {
-        //Defaulting
-        if (type == undefined)
-            type = 0;
-        if (incubation == undefined)
-            incubation = 0;
-        if (beat == undefined)
-            beat = 100;
-        if (arg == undefined)
-            arg = 0;
+    buttKnockUp(type = 0, incubation = 0, beat = 100, arg = 0) {
         //Contraceptives cancel!
         if (this.findStatusEffect(StatusEffects.Contraceptives) >= 0 && arg < 1)
             return;
-        var bonus = 0;
+        let bonus = 0;
         //If arg = 1 (always pregnant), bonus = 9000
         if (arg >= 1)
             bonus = 9000;
@@ -3604,14 +3570,7 @@ class Creature {
         }
     }
     //The more complex buttKnockUp function used by the player is defined in Character.as
-    buttKnockUpForce(type, incubation, event) {
-        //Defaulting
-        if (type == undefined)
-            type = 0;
-        if (incubation == undefined)
-            incubation = 0;
-        if (event == undefined)
-            event = [];
+    buttKnockUpForce(type = 0, incubation = 0, event = []) {
         //Functionality
         this.buttPregnancyType = type;
         this.buttPregnancyIncubation = type == 0 ? 0 : incubation * 60; //Won't allow incubation time without pregnancy type
@@ -3624,14 +3583,7 @@ class Creature {
             this.pregnancyEventNum = 0;
         }
     }
-    knockUpForce(type, incubation, event) {
-        //Defaulting
-        if (type == undefined)
-            type = 0;
-        if (incubation == undefined)
-            incubation = 0;
-        if (event == undefined)
-            event = [];
+    knockUpForce(type = 0, incubation = 0, event = []) {
         //Functionality
         this.pregnancyType = type;
         this.pregnancyIncubation = type == 0 ? 0 : incubation * 60; //Won't allow incubation time without pregnancy type
@@ -3648,7 +3600,7 @@ class Creature {
     // More for compatibility, though knockUpForce will take care of this too.
     eventFill(events) {
         this.pregnancyEventArr = [];
-        for (i in events)
+        for (let i of events)
             this.pregnancyEventArr.push(events[i] * 60);
     }
     pregnancyAdvance() {
@@ -3666,7 +3618,7 @@ class Creature {
             this.buttPregnancyIncubation = 0;
         // If there's something in the pregnancy event array, find out what event we're on.
         if (this.pregnancyEventArr.length > 1) {
-            for (j = 0; j < this.pregnancyEventArr.length; j++) {
+            for (let j = 0; j < this.pregnancyEventArr.length; j++) {
                 if (this.pregnancyIncubation < this.pregnancyEventArr[j]) {
                     //outputText("Setting new flag to " + (j + 1));
                     this.pregnancyEventNum = j + 1;
@@ -3674,7 +3626,7 @@ class Creature {
             }
         }
         if (this.buttPregnancyEventArr.length > 1) {
-            for (j = 0; j < this.buttPregnancyEventArr.length; j++) {
+            for (let j = 0; j < this.buttPregnancyEventArr.length; j++) {
                 if (this.buttPregnancyIncubation < this.buttPregnancyEventArr[j]) {
                     //outputText("Setting new flag to " + (j + 1));
                     this.buttPregnancyEventNum = j + 1;
@@ -3699,13 +3651,13 @@ class Creature {
     //---------------
     // Does the creature have a spider ovipositor?
     canOvipositSpider() {
-        if (this.eggs() >= 10 && this.findPerk(PerkLib.SpiderOvipositor) >= 0 && this.isDrider() && this.tailType == TAIL_TYPE_SPIDER_ADBOMEN)
+        if (this.eggs() >= 10 && this.findPerk(PerkLib.SpiderOvipositor) >= 0 && this.isDrider() && this.tailType == ENUM.TailType.TAIL_TYPE_SPIDER_ADBOMEN)
             return true;
         return false;
     }
     // Does the creature have an bee ovipositor?
     canOvipositBee() {
-        if (this.eggs() >= 10 && this.findPerk(PerkLib.BeeOvipositor) >= 0 && this.tailType == TAIL_TYPE_BEE_ABDOMEN)
+        if (this.eggs() >= 10 && this.findPerk(PerkLib.BeeOvipositor) >= 0 && this.tailType == ENUM.TailType.TAIL_TYPE_BEE_ABDOMEN)
             return true;
         return false;
     }
@@ -3725,9 +3677,7 @@ class Creature {
             return this.perkValue(PerkLib.BeeOvipositor, 1);
     }
     // Add eggs to the ovipositors
-    addEggs(arg) {
-        if (arg == undefined)
-            arg = 0;
+    addEggs(arg = 0) {
         if (this.findPerk(PerkLib.SpiderOvipositor) < 0 && this.findPerk(PerkLib.BeeOvipositor) < 0)
             return -1;
         else {
@@ -3749,9 +3699,7 @@ class Creature {
         }
     }
     // Sets a specific number of eggs to the ovipositors
-    setEggs(arg) {
-        if (arg == undefined)
-            arg = 0;
+    setEggs(arg = 0) {
         if (this.findPerk(PerkLib.SpiderOvipositor) < 0 && this.findPerk(PerkLib.BeeOvipositor) < 0)
             return -1;
         else {
@@ -3805,31 +3753,31 @@ class Creature {
     // MINO CUM ADDICTION
     //---------------
     minoCumAddiction(raw) {
-        //Fix if variables go out of range.
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] < 0)
-            liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] = 0;
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_STATE] < 0)
-            liveData.gameFlags[MINOTAUR_CUM_ADDICTION_STATE] = 0;
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] > 120)
-            liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] = 120;
-        liveData.gameFlags[EVER_DRANK_MINOCUM] = 1;
+        //Fix if letiables go out of range.
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] < 0)
+            liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] = 0;
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_STATE] < 0)
+            liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_STATE] = 0;
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] > 120)
+            liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] = 120;
+        liveData.gameFlags[FLAG.EVER_DRANK_MINOCUM] = 1;
         //Turn off withdrawal
-        //if (flags[kFLAGS.MINOTAUR_CUM_ADDICTION_STATE] > 1) flags[kFLAGS.MINOTAUR_CUM_ADDICTION_STATE] = 1;
+        //if (flags[kFLAGS.FLAG.MINOTAUR_CUM_ADDICTION_STATE] > 1) flags[kFLAGS.FLAG.MINOTAUR_CUM_ADDICTION_STATE] = 1;
         //Reset counter
-        liveData.gameFlags[TIME_SINCE_LAST_CONSUMED_MINOTAUR_CUM] = 0;
+        liveData.gameFlags[FLAG.TIME_SINCE_LAST_CONSUMED_MINOTAUR_CUM] = 0;
         //If highly addicted, rises slower
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] >= 60)
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] >= 60)
             raw /= 2;
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] >= 80)
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] >= 80)
             raw /= 2;
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] >= 90)
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] >= 90)
             raw /= 2;
         if (liveData.player.findPerk(PerkLib.MinotaurCumResistance) >= 0)
             raw *= 0;
         //If in withdrawl, readdiction is potent!
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_STATE] == 3)
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_STATE] == 3)
             raw += 10;
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_STATE] == 2)
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_STATE] == 2)
             raw += 5;
         raw = Math.round(raw * 100) / 100;
         //PUT SOME CAPS ON DAT' SHIT
@@ -3837,21 +3785,21 @@ class Creature {
             raw = 50;
         if (raw < -50)
             raw = -50;
-        liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] += raw;
+        liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] += raw;
         //Recheck to make sure shit didn't break
         if (this.findPerk(PerkLib.MinotaurCumResistance) >= 0)
-            liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] = 0; //Never get addicted!
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] > 120)
-            liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] = 120;
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] < 0)
-            liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] = 0;
+            liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] = 0; //Never get addicted!
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] > 120)
+            liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] = 120;
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] < 0)
+            liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] = 0;
     }
     minotaurAddicted() {
-        return this.findPerk(PerkLib.MinotaurCumResistance) < 0 && (this.findPerk(PerkLib.MinotaurCumAddict) >= 0 || liveData.gameFlags[MINOTAUR_CUM_ADDICTION_STATE] >= 1);
+        return this.findPerk(PerkLib.MinotaurCumResistance) < 0 && (this.findPerk(PerkLib.MinotaurCumAddict) >= 0 || liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_STATE] >= 1);
     }
     minotaurNeed() {
-        return this.findPerk(PerkLib.MinotaurCumResistance) < 0 && liveData.gameFlags[MINOTAUR_CUM_ADDICTION_STATE] > 1;
+        return this.findPerk(PerkLib.MinotaurCumResistance) < 0 && liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_STATE] > 1;
     }
 }
-export { Creature };
+export { CharacterType, Creature };
 //# sourceMappingURL=creature.js.map

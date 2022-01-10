@@ -1,5 +1,8 @@
 import { Player } from "./player";
 import { Time } from "./engine/time";
+import { Amily } from "./scenes/npcs/amily";
+import { FLAG } from "./flags/dataFlags";
+import { Tamani } from "./scenes/areas/forest/tamani";
 class Exploration {
     constructor() {
         this.explored = 0;
@@ -16,6 +19,7 @@ class GameContext {
         this.saveVersion = 1; //If this value is increased, the saves will be upgraded to accommodate the new changes.
         this.levelCap = 5; //Determines the maximum level a player can attain. This will be raised as dungeons are added.
         //Game settings
+        this.storage = new Storage();
         this.debug = false;
         this.silly = false;
         this.hyperHappy = false;
@@ -43,6 +47,10 @@ class GameContext {
         //let flags = [0] * 3000; //For legacy purposes only.
         // let gameFlags = []
         this.gameFlags = {};
+        this.amily = new Amily(); // Used for Pregnancy tracking
+        // Add a pregnancy event array NEW CODE
+        this.amily.eventFill(FLAG.INCUBATION_AMILY_EVENT);
+        this.tamanipreg = new Tamani(); //Constant instance of Tamani solely for pregnancy tracking. There may be a better way to do this.
         //Inventory
         this.currentItemSlot;
         this.callNext = () => { }; // empty lambda to immediately override

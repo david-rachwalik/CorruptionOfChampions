@@ -6,7 +6,9 @@ addToGameFlags(OASIS_DEMONS_ACCEPT);
 OasisScene.oasisEncounter = function () {
     // TODO spriteSelect(46);
     //Find oasis, sit there.
-    outputText("You wander in the desert for what seems like hours, sweating profusely in the sweltering heat. Eventually you come across a small watering hole surrounded by scrappy trees and shrubs. It would be foolish not to take this opportunity to drink, freshen up and paddle your " + player.legs() + " in the cooling water, so you settle into what little shade you can find for a quick break.<br><br>", true);
+    outputText("You wander in the desert for what seems like hours, sweating profusely in the sweltering heat. Eventually you come across a small watering hole surrounded by scrappy trees and shrubs. It would be foolish not to take this opportunity to drink, freshen up and paddle your " +
+        player.legs() +
+        " in the cooling water, so you settle into what little shade you can find for a quick break.<br><br>", true);
     //Demons approach!
     outputText("After a while sitting in the sparse shade provided by one of the bushes around the oasis you see figures shimmering into view across the desert sands.  As you watch the figures they grow more defined and more numerous until finally a group of vaguely humanoid shapes emerges from the heat haze.  The closer these figures become the more detail they take on, and as they near the edge of your small oasis you are able to make out most of their features.<br><br>", false);
     //Describe the demonic group in detail
@@ -86,7 +88,11 @@ OasisScene.oasisSexing = function () {
             outputText("each of ", false);
         outputText("your " + player.multiCockDescriptLight() + " and begin to slide up and down before another demon pushes them out of the way and you ", false);
         if (player.cocks[0].cockLength > 25)
-            outputText("feel your " + player.cockDescript(0) + " slide into a hell-girl's sloppy cunt. The demoness moans and pants in pleasure as your " + player.cockDescript(0) + " bottoms out in her gaping pussy and she begins to ride you like the motionless whore you momentarily are, her gigantic breasts threatening to concuss you as she slides the huge distance up and down your cock in her thirst to fill her cavelike cunt.  ", false);
+            outputText("feel your " +
+                player.cockDescript(0) +
+                " slide into a hell-girl's sloppy cunt. The demoness moans and pants in pleasure as your " +
+                player.cockDescript(0) +
+                " bottoms out in her gaping pussy and she begins to ride you like the motionless whore you momentarily are, her gigantic breasts threatening to concuss you as she slides the huge distance up and down your cock in her thirst to fill her cavelike cunt.  ", false);
         else {
             outputText("see a smaller and younger demon lowering her very tight pussy onto your " + player.cockDescript(0) + ". It's a tight fit, but her almost-virginal pussy is dripping wet. She bottoms her pussy out ", false);
             if (player.cocks[0].cockLength > 17)
@@ -102,7 +108,9 @@ OasisScene.oasisSexing = function () {
                 outputText("The realisation that her pussy is slowly stretching over your " + player.cockDescript(0) + " gives you a thrill that can only be described as positively evil.  ", false);
                 player.dynStats("cor", 1);
             }
-            outputText("Soon the slender cock-whore begins to cum and she starts on what is about to be the first of several shuddering orgasms. You smile evilly as she cums around your " + player.cockDescript(0) + " and when her eyes roll back to the front of her head you know that there is more to come.  ", false);
+            outputText("Soon the slender cock-whore begins to cum and she starts on what is about to be the first of several shuddering orgasms. You smile evilly as she cums around your " +
+                player.cockDescript(0) +
+                " and when her eyes roll back to the front of her head you know that there is more to come.  ", false);
         }
         //Orgasmzzzzzzz
         outputText("Soon you're shaking and pumping your seed deep into her pussy as she screams out one of her many orgasms and you cum deep inside her for the first time.  ", false);
@@ -128,16 +136,30 @@ OasisScene.oasisSexing = function () {
             outputText("The demons quickly find your " + player.vaginaDescript(0) + " and tussle eagerly for position at your entrance, first with hands and then with a wide range of demonic dicks.  ", false);
         //gaping cunners!
         if (player.vaginas[0].vaginalLooseness >= VAGINA_LOOSENESS_CLOWN_CAR)
-            outputText("However all of this fighting for place is in vain, as the leader with the huge cock has already marked you for his own. The broad demon shoves the smaller ones roughly to the side at the sight of your freakishly large pussy and carefully lowers his gigantic dick to the entrance of your gargantuan fuck hole. Without pause or ceremony the leader plunges his enormous phallus into you and although it takes all the muscles in his body he begins to drive it back and forth, filling every possible inch of your " + player.vaginaDescript(0) + ". You feel a curious pain that you've not felt in a long time and realize that your " + player.vaginaDescript(0) + " is stretching around his frankly frightening tool. As he withdraws the walls spring back with a curious elasticity, and it occurs to you that it may not actually be possible to stretch further with any permanence. Before long the huge demon begins to shudder and shake and he cums. His trio of heavy balls pump load after load into your waiting cunt until your belly bulges and spunk begins to spurt back out of your pussy from the sheer amount of cum being loaded into you.", false);
+            outputText("However all of this fighting for place is in vain, as the leader with the huge cock has already marked you for his own. The broad demon shoves the smaller ones roughly to the side at the sight of your freakishly large pussy and carefully lowers his gigantic dick to the entrance of your gargantuan fuck hole. Without pause or ceremony the leader plunges his enormous phallus into you and although it takes all the muscles in his body he begins to drive it back and forth, filling every possible inch of your " +
+                player.vaginaDescript(0) +
+                ". You feel a curious pain that you've not felt in a long time and realize that your " +
+                player.vaginaDescript(0) +
+                " is stretching around his frankly frightening tool. As he withdraws the walls spring back with a curious elasticity, and it occurs to you that it may not actually be possible to stretch further with any permanence. Before long the huge demon begins to shudder and shake and he cums. His trio of heavy balls pump load after load into your waiting cunt until your belly bulges and spunk begins to spurt back out of your pussy from the sheer amount of cum being loaded into you.", false);
         //Not gaping!
         else {
-            outputText("Eventually one of the demons wins out and sets the tip of his hefty dog-cock at the entrance to your pussy. He rams his member into your " + player.vaginaDescript(0) + " with one swift thrust and begins to pump himself in and out of your cunt. However, the other demons will not be denied. You feel a pressure at your lips and without warning a second slightly smaller dick shoves itself into your already-stuffed " + player.vaginaDescript(0) + ".  ", false);
+            outputText("Eventually one of the demons wins out and sets the tip of his hefty dog-cock at the entrance to your pussy. He rams his member into your " +
+                player.vaginaDescript(0) +
+                " with one swift thrust and begins to pump himself in and out of your cunt. However, the other demons will not be denied. You feel a pressure at your lips and without warning a second slightly smaller dick shoves itself into your already-stuffed " +
+                player.vaginaDescript(0) +
+                ".  ", false);
             //vaginal streeeetch
             player.cuntChange(40, true);
-            outputText("The two cocks pump you hard until you feel one of them shooting your " + player.vaginaDescript(0) + " full of hot demon cum. Eventually both the dicks release inside you and slip out one after the other, but each time another takes their place so that your pussy is never empty.", false);
+            outputText("The two cocks pump you hard until you feel one of them shooting your " +
+                player.vaginaDescript(0) +
+                " full of hot demon cum. Eventually both the dicks release inside you and slip out one after the other, but each time another takes their place so that your pussy is never empty.", false);
         }
         //Orgasmzzzzz
-        outputText("<br><br>The feeling of immense fullness gets better and better as the cum surging into your " + player.vaginaDescript(0) + " fills any conceivable crevice not taken up by cock. Far beyond your own control now you come a hair's breadth from passing out as you feel the muscles of your " + player.vaginaDescript(0) + " begin to clamp down again and again on the mass inside you.  Eventually the world begins to solidify again and it is with a sense of immense delight that upon your return from the borders of unconsciousness you find yourself still completely full of demonic dick, heralding many more orgasms of that quality to come.", false);
+        outputText("<br><br>The feeling of immense fullness gets better and better as the cum surging into your " +
+            player.vaginaDescript(0) +
+            " fills any conceivable crevice not taken up by cock. Far beyond your own control now you come a hair's breadth from passing out as you feel the muscles of your " +
+            player.vaginaDescript(0) +
+            " begin to clamp down again and again on the mass inside you.  Eventually the world begins to solidify again and it is with a sense of immense delight that upon your return from the borders of unconsciousness you find yourself still completely full of demonic dick, heralding many more orgasms of that quality to come.", false);
         //IZ OVER! NEWLINE BITCH
         outputText("<br><br>", false);
         //Preggers chance!
@@ -146,10 +168,16 @@ OasisScene.oasisSexing = function () {
     //Buttbutt buuuuuttt
     if (player.gender > 0)
         outputText("However, the demons are interested in every part of you, not just your crotch.  ");
-    outputText("Soon you feel hands and dicks grabbing and jabbing at your " + player.buttDescript() + ", edging inwards bit by bit and jostling for position as a slippery cock positions itself at the opening of your " + player.assholeDescript() + ". It pauses for a second and then dives straight into your waiting asshole.  ", false);
+    outputText("Soon you feel hands and dicks grabbing and jabbing at your " +
+        player.buttDescript() +
+        ", edging inwards bit by bit and jostling for position as a slippery cock positions itself at the opening of your " +
+        player.assholeDescript() +
+        ". It pauses for a second and then dives straight into your waiting asshole.  ", false);
     if (player.vaginas.length > 0)
         outputText("You feel the cocks in your ass and pussy rubbing into each other as your lower body becomes a temple of friction. The feeling of so much demon stuffing you as full as possible is almost unbearable, and you are inches away from blacking out as you come again.  ", false);
-    outputText("The cock fucks you hard and fast for a dozen strokes and then you feel it begin to pump its cum into your stuffed ass until it can't come any more. It slips out of your " + player.buttDescript() + " and is quickly replaced by another which comes and then is itself replaced in what becomes a seemingly endless cycle.  ", false);
+    outputText("The cock fucks you hard and fast for a dozen strokes and then you feel it begin to pump its cum into your stuffed ass until it can't come any more. It slips out of your " +
+        player.buttDescript() +
+        " and is quickly replaced by another which comes and then is itself replaced in what becomes a seemingly endless cycle.  ", false);
     player.buttChange(monster.cockArea(0), true);
     //More fucking!
     outputText("Around you you see the demons wrapped up in the frenzy of fucking that they've fallen into. No hole is unfilled and not a single cock isn't sunk into some being's flesh. The moans and screams are almost contagious and you feel them clouding your brain making you want more, harder.", false);
@@ -166,7 +194,9 @@ OasisScene.oasisSexing = function () {
     if (player.pregnancyIncubation == 0 && player.gender > 1) {
         //Newline for potential preggers?
         outputText("<br><br>", false);
-        outputText("You do your best to keep a vague mental catalogue of what has been in where, but eventually it becomes impossible to remember the type or number of demonic dicks that have filled you with their cum. The sand below your ass is wet with seed that has spilled out of your overflowing " + player.vaginaDescript(0) + " and there is every indication of more to come.<br><br>", false);
+        outputText("You do your best to keep a vague mental catalogue of what has been in where, but eventually it becomes impossible to remember the type or number of demonic dicks that have filled you with their cum. The sand below your ass is wet with seed that has spilled out of your overflowing " +
+            player.vaginaDescript(0) +
+            " and there is every indication of more to come.<br><br>", false);
     }
     //If you got here by winning combat!
     if ((monster.HP < 1 || monster.lust >= monster.eMaxLust()) && inCombat()) {
@@ -188,7 +218,7 @@ OasisScene.oasisSexing = function () {
         outputText("The demons fuck you like animals until you can't come any more. Every one of your orifices is filled and you pump out orgasm after orgasm until you black out from the abuse.", false);
         cleanupAfterCombat();
         player.orgasm();
-        player.dynStats("tou", .5, "cor", 3);
+        player.dynStats("tou", 0.5, "cor", 3);
         return;
     }
     //If you submitted willingly - chance of bad end
@@ -197,7 +227,7 @@ OasisScene.oasisSexing = function () {
         return;
     }
     outputText("You fuck for hours; 'feasting' with the demons. Pain, pleasure and exhaustion intermingle and no matter how hard you try to cling to consciousness you are in no state to concentrate. You dangle over the edge for what seems like eternity before another orgasm, stronger than any other, hits you like a solid wall and you black out. For a little while you drift in and out of conscious reality to find your body still the object of demonic attentions until eventually you wake to find that the seemingly endless string of orgasms has stopped. Looking around you see what demons remain awake engaged solely in fucking each other. Tender and sore from the abuse and still finding it hard to concentrate you gather your clothes and steal away, leaving them to the tail end of their orgy. In the aftermath you feel like you've just run an endurance race, but the rubbed raw sensitivity of your brutally fucked body tells another tale.", false);
-    player.dynStats("tou", .5, "sen", .5, "cor", 4);
+    player.dynStats("tou", 0.5, "sen", 0.5, "cor", 4);
     if (inCombat()) {
         cleanupAfterCombat();
         player.orgasm();
@@ -212,7 +242,7 @@ OasisScene.oasisBadEnd = function () {
     // TODO spriteSelect(46);
     //You get this ending if you are a fully corrupt female/herm/centaur with low intelligence and had over 5-10 'Feast' encounters with the Desert Tribe, once the leader starts laying a claim on you because of your large clit
     outputText("You fuck for hours, 'feasting' with the demons. Pain, pleasure and exhaustion intermingle; no matter how hard you try to cling to consciousness, you are in no state to concentrate enough to succeed. You dangle over the edge for what seems like eternity before an orgasm stronger than any other hits you like a solid wall. You black out...<br><br>", true);
-    //[If female/herm] 
+    //[If female/herm]
     outputText("After passing out from your latest orgy with the desert tribe, you wake up to find yourself still naked and laying on your back. ", false);
     //[If female/herm]
     if (!player.isTaur())
@@ -220,22 +250,36 @@ OasisScene.oasisBadEnd = function () {
     if (player.isTaur())
         outputText("Your four legs are locked up in shackles, though with a chain long enough to leave you room to move or walk without problems. ", false);
     outputText("Your arms are also tied up behind your back, resting uncomfortably in the hot desert sand. You can see the tribe is packing up to get ready to move on, and you struggle to sit up against your bindings.<br><br>", false);
-    outputText("\"<i>I see that you are awake, slave,</i>\" the leader says after watching you get up, walking closer to you with a wicked smirk on his lips. He stares down at you with a look of satisfaction on his face. \"<i>Thought you would wake up in time to sneak off on us again, did you? Well, that won't be happening anymore.</i>\"<br><br>", false);
+    outputText('"<i>I see that you are awake, slave,</i>" the leader says after watching you get up, walking closer to you with a wicked smirk on his lips. He stares down at you with a look of satisfaction on his face. "<i>Thought you would wake up in time to sneak off on us again, did you? Well, that won\'t be happening anymore.</i>"<br><br>', false);
     outputText("\"<i>What the hell are you talking about? I'm no one's slave!</i>\" you yell in indignation, only to cry out in pain as the tribe leader's hand comes down and smacks you across the face. Your head jerks back from the force of the blow, successfully silencing you.<br><br>", false);
-    outputText("\"<i>There will no longer be any of that back talk, slave. As for what I'm talking about... After all of our encounters with you, my tribesmen and I have made a decision.</i>\" The leader's smirk widens as he reaches down and grips your face tightly, forcing you to look up at him. His eyes look you over appraisingly as he pulls out a black collar with a long chain attached and fastens it to your neck. His other hand reaches down to one of your " + player.nippleDescript(0) + "s and grabs it roughly, giving it a hard squeeze and causing you to let out a small moan of pain and pleasure. He relinquishes his grip and walks around you, continually looking you over and scrutinizing your body from every angle. \"<i>We have decided that you would make an excellent addition to our group, and have laid claim to you as our sex slave... to be used in any way that we want.</i>\" He stops in front of you and continues, \"<i>We were lucky to catch you while you were still unconscious, before you could sneak off on us. I will personally enjoy using you for my own purposes. Maybe I'll even use you to carry my children once you're properly broken in.</i>\"<br><br>", false);
-    //[If herm] 
+    outputText("\"<i>There will no longer be any of that back talk, slave. As for what I'm talking about... After all of our encounters with you, my tribesmen and I have made a decision.</i>\" The leader's smirk widens as he reaches down and grips your face tightly, forcing you to look up at him. His eyes look you over appraisingly as he pulls out a black collar with a long chain attached and fastens it to your neck. His other hand reaches down to one of your " +
+        player.nippleDescript(0) +
+        's and grabs it roughly, giving it a hard squeeze and causing you to let out a small moan of pain and pleasure. He relinquishes his grip and walks around you, continually looking you over and scrutinizing your body from every angle. "<i>We have decided that you would make an excellent addition to our group, and have laid claim to you as our sex slave... to be used in any way that we want.</i>" He stops in front of you and continues, "<i>We were lucky to catch you while you were still unconscious, before you could sneak off on us. I will personally enjoy using you for my own purposes. Maybe I\'ll even use you to carry my children once you\'re properly broken in.</i>"<br><br>', false);
+    //[If herm]
     if (player.gender == 3) {
         if (player.isTaur())
-            outputText("\"<i>Everyone will have a great time playing with you,</i>\" the leader says, smirking wider still as he stares at your centaur body. He reaches out and gives your " + player.buttDescript() + " a hard smack, causing you to yelp and quickly stand to your feet. You stagger a bit as your legs strain against the shackles as you stand. Without warning, he sticks his fingers inside of your " + player.assholeDescript() + " and stretches it out as his free hand reaches between your legs to play with both your " + player.vaginaDescript(0) + " and " + player.cockDescript(0) + ". You gasp and moan in pleasure as your cock becomes erect in his hand. He laughs as he lets go and moves back in front of you. \"<i>Plus we could use you to carry our heavy loads like a pack animal. You have the perfect body for it.</i>\"<br><br>", false);
+            outputText('"<i>Everyone will have a great time playing with you,</i>" the leader says, smirking wider still as he stares at your centaur body. He reaches out and gives your ' +
+                player.buttDescript() +
+                " a hard smack, causing you to yelp and quickly stand to your feet. You stagger a bit as your legs strain against the shackles as you stand. Without warning, he sticks his fingers inside of your " +
+                player.assholeDescript() +
+                " and stretches it out as his free hand reaches between your legs to play with both your " +
+                player.vaginaDescript(0) +
+                " and " +
+                player.cockDescript(0) +
+                '. You gasp and moan in pleasure as your cock becomes erect in his hand. He laughs as he lets go and moves back in front of you. "<i>Plus we could use you to carry our heavy loads like a pack animal. You have the perfect body for it.</i>"<br><br>', false);
         else
-            outputText("His smirk widens even more as he stares down at your uncovered " + player.cockDescript(0) + " laying flaccidly between your legs against the hot desert sand. You gasp in surprise as he suddenly reaches down and takes a firm hold of your " + player.cockDescript(0) + ". He strokes it and gives it a rough squeeze, making you whimper sensually as it becomes fully erect in his hand. He laughs as he lets it go, \"<i>Our girls will definitely be having fun with you, slave.</i>\"<br><br>", false);
+            outputText("His smirk widens even more as he stares down at your uncovered " +
+                player.cockDescript(0) +
+                " laying flaccidly between your legs against the hot desert sand. You gasp in surprise as he suddenly reaches down and takes a firm hold of your " +
+                player.cockDescript(0) +
+                '. He strokes it and gives it a rough squeeze, making you whimper sensually as it becomes fully erect in his hand. He laughs as he lets it go, "<i>Our girls will definitely be having fun with you, slave.</i>"<br><br>', false);
     }
     outputText("You stare up at the leader with dread, realizing that there is nothing you could do for the moment. You cannot run away because you are chained up, and fighting isn't possible considering you don't see your weapons anywhere in sight. With all of the demons here, you wouldn't be able to get very far anyway. But even as you consider your method of escape, a small part of you feels excited about staying with the tribe, being used and abused by them for as long as possible.<br><br>", false);
     outputText("\"<i>Get up and start walking, we're leaving now. Don't look so unhappy about your situation, slave,</i>\" the leader says, deepening his smirk as he stares down at you. ", false);
-    //[If female/herm] 
+    //[If female/herm]
     if (player.gender >= 2)
         outputText("He reaches down to grab a hold of your hair and lifts you to your feet, causing you to yelp out in pain from the sharp pull.  ", false);
-    outputText("He gives the chain attached to your neck an extra sharp tug and forces you to start walking behind him. As the tribe starts to move on to their next destination with you in tow, the leader turns to you. \"<i>You might just find becoming a slave is better than you think. Why else would you keep returning to us and joining our Feast if you didn't crave more of what we had to offer?</i>\"<br><br>", false);
+    outputText('He gives the chain attached to your neck an extra sharp tug and forces you to start walking behind him. As the tribe starts to move on to their next destination with you in tow, the leader turns to you. "<i>You might just find becoming a slave is better than you think. Why else would you keep returning to us and joining our Feast if you didn\'t crave more of what we had to offer?</i>"<br><br>', false);
     outputText("Flushing red in embarrassment at his words, you reluctantly follow after the leader and the rest of the tribe in obedience. You mull over what the leader had just said in your mind, and can't help but wonder what your future would be like if you remained with them.", false);
     doNext(OasisScene.oasisBadEndEpilogue);
 };
@@ -271,7 +315,8 @@ function DemonPack() {
     this.himHer = "them";
     this.hisHer = "their";
     this.plural = true;
-    this.battleDesc = "The group is composed of roughly twenty tan-skinned demons, mostly humanoid in shape with many and varied corruptions across the mob. You see demonic high heels, twisting horns and swinging cocks of all shapes and sizes. There even seems to be a bull head in there somewhere. You also make out plenty of breasts ranging from tiny ones to a pair that requires a second person to carry them, and with those breasts a wide range of pussies, dripping and dry, sometimes nestled below some form of demonic dick.  The small tribe carries no weapons and what little clothing they wear is well-shredded, except for one hefty male wearing a cloak of what appears to be snakeskin across his broad shoulders.";
+    this.battleDesc =
+        "The group is composed of roughly twenty tan-skinned demons, mostly humanoid in shape with many and varied corruptions across the mob. You see demonic high heels, twisting horns and swinging cocks of all shapes and sizes. There even seems to be a bull head in there somewhere. You also make out plenty of breasts ranging from tiny ones to a pair that requires a second person to carry them, and with those breasts a wide range of pussies, dripping and dry, sometimes nestled below some form of demonic dick.  The small tribe carries no weapons and what little clothing they wear is well-shredded, except for one hefty male wearing a cloak of what appears to be snakeskin across his broad shoulders.";
     // TODO Silly Code to add later + (game.silly() ? "  You spot an odd patch that reads, \"<i>41st Engineer Company: Vaginal Clearance</i>\" on his shoulder." : "");";
     //Core stats
     this.str = 80;
@@ -345,7 +390,7 @@ function DemonPack() {
     //Sexual Characteristics
     //Cocks
     this.createCock(18, 2);
-    this.createCock(18, 2, CockTypesEnum.DEMON);
+    this.createCock(18, 2, ENUM.CockType.DEMON);
     this.balls = 2;
     this.ballSize = 1;
     this.cumMultiplier = 3;
@@ -367,7 +412,6 @@ function DemonPack() {
     this.victory = OasisScene.demonWin;
     this.defeat = OasisScene.demonLose;
 }
-;
 DemonPack.prototype = new Creature();
 DemonPack.prototype.constructor = DemonPack;
 DemonPack.prototype.doAI = function () {
@@ -379,7 +423,7 @@ DemonPack.prototype.doAI = function () {
 // PackAttack taken from Combat.as. Need to see if this is used elsewhere and see if it's worth it to generalize the function
 DemonPack.packAttack = function () {
     //Determine if dodged!
-    if (player.spe - monster.spe > 0 && (Math.random() * (((player.spe - monster.spe) / 4) + 80)) > 80) {
+    if (player.spe - monster.spe > 0 && Math.random() * ((player.spe - monster.spe) / 4 + 80) > 80) {
         outputText("You duck, weave, and dodge.  Despite their best efforts, the throng of demons only hit the air and each other.");
     }
     //Determine if evaded
@@ -395,7 +439,7 @@ DemonPack.packAttack = function () {
         outputText("With your incredible flexibility, you squeeze out of the way of " + monster.a + monster.name + "' attacks.");
     }
     else {
-        temp = ((monster.str + monster.weapon.attack) * (player.damagePercent() / 100)); //Determine damage - str modified by enemy toughness!
+        temp = (monster.str + monster.weapon.attack) * (player.damagePercent() / 100); //Determine damage - str modified by enemy toughness!
         if (temp <= 0) {
             temp = 0;
             if (!monster.plural)
@@ -432,7 +476,9 @@ DemonPack.lustAttack = function () {
         outputText("in response to all the friction.");
     }
     else {
-        outputText("As the " + monster.name + " mill around you, their bodies rub constantly over yours, and it becomes harder and harder to keep your thoughts on the fight or resist reaching out to touch a well lubricated cock or pussy as it slips past.  You keep subconsciously moving your ");
+        outputText("As the " +
+            monster.name +
+            " mill around you, their bodies rub constantly over yours, and it becomes harder and harder to keep your thoughts on the fight or resist reaching out to touch a well lubricated cock or pussy as it slips past.  You keep subconsciously moving your ");
         if (player.gender == 1)
             outputText(player.multiCockDescriptLight() + " towards the nearest inviting hole.");
         if (player.gender == 2)
@@ -447,7 +493,9 @@ DemonPack.lustAttack = function () {
 };
 OasisScene.demonWin = function () {
     if (monster.HP <= 0) {
-        outputText("You strike out and the last of the demons tumbles to the ground with a thud. You stand there for a second surrounded by dead or unconscious demons feeling like a god of battle. Then you realize that if a god of battle does exist he lives on a demonic plane like this, so to avoid insulting him you take your hands off your hips and your " + player.legs() + " off the head of the demon leader before you start to search the bodies.", true);
+        outputText("You strike out and the last of the demons tumbles to the ground with a thud. You stand there for a second surrounded by dead or unconscious demons feeling like a god of battle. Then you realize that if a god of battle does exist he lives on a demonic plane like this, so to avoid insulting him you take your hands off your hips and your " +
+            player.legs() +
+            " off the head of the demon leader before you start to search the bodies.", true);
         player.dynStats("lus", 1);
     }
     else {

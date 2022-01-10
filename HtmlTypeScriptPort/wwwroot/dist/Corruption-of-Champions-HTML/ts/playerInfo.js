@@ -1,5 +1,6 @@
 import { clearOutput, outputText } from "./engine/text";
 import * as GUI from "./engine/gui";
+import * as ENUM from "./appearanceEnums";
 import * as UTIL from "./engine/utils";
 import { liveData } from "./globalVariables";
 import { StatusEffects } from "./statusEffectLib";
@@ -1186,11 +1187,11 @@ function appearanceScreen() {
         else
             outputText(UTIL.num2Text(Math.round(10 * liveData.player.cocks[temp].cockThickness) / 10) + " inches wide.");
         //Horsecock flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.HORSE) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.HORSE) {
             outputText(" It's mottled black and brown in a very animalistic pattern. The 'head' of your shaft flares proudly, just like a horse's.");
         }
         //dog cock flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.DOG || liveData.player.cocks[temp].cockType == CockTypesEnum.FOX || liveData.player.cocks[temp].cockType == CockTypesEnum.FOX) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.DOG || liveData.player.cocks[temp].cockType == ENUM.CockType.FOX || liveData.player.cocks[temp].cockType == ENUM.CockType.FOX) {
             if (liveData.player.cocks[temp].knotMultiplier >= 1.8)
                 outputText(" The obscenely swollen lump of flesh near the base of your " + liveData.player.cockDescript(temp) + " looks almost too big for your cock.");
             else if (liveData.player.cocks[temp].knotMultiplier >= 1.4)
@@ -1201,51 +1202,51 @@ function appearanceScreen() {
             outputText(" The knot is " + Math.round(liveData.player.cocks[temp].cockThickness * liveData.player.cocks[temp].knotMultiplier * 10) / 10 + " inches wide when at full size.");
         }
         //Demon cock flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.DEMON) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.DEMON) {
             outputText(" The crown is ringed with a circle of rubbery protrusions that grow larger as you get more aroused. The entire thing is shiny and covered with tiny, sensitive nodules that leave no doubt about its demonic origins.");
         }
         //Tentacle cock flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.TENTACLE) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.TENTACLE) {
             outputText(" The entirety of its green surface is covered in perspiring beads of slick moisture. It frequently shifts and moves of its own volition, the slightly oversized and mushroom-like head shifting in coloration to purplish-red whenever you become aroused.");
         }
         //Cat cock flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.CAT) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.CAT) {
             outputText(" It ends in a single point, much like a spike, and is covered in small, fleshy barbs. The barbs are larger at the base and shrink in size as they get closer to the tip. Each of the spines is soft and flexible, and shouldn't be painful for any of your partners.");
         }
         //Snake cock flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.LIZARD) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.LIZARD) {
             outputText(" It's a deep, iridescent purple in color. Unlike a human penis, the shaft is not smooth, and is instead patterned with multiple bulbous bumps.");
         }
         //Anemone cock flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.ANEMONE) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.ANEMONE) {
             outputText(" The crown is surrounded by tiny tentacles with a venomous, aphrodisiac payload. At its base a number of similar, longer tentacles have formed, guaranteeing that pleasure will be forced upon your partners.");
         }
         //Kangawang flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.KANGAROO) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.KANGAROO) {
             outputText(" It usually lies coiled inside a sheath, but undulates gently and tapers to a point when erect, somewhat like a taproot.");
         }
         //Draconic Cawk Flava flav
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.DRAGON) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.DRAGON) {
             outputText(" With its tapered tip, there are few holes you wouldn't be able to get into. It has a strange, knot-like bulb at its base, but doesn't usually flare during arousal as a dog's knot would.");
         }
         //Bee flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.BEE) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.BEE) {
             outputText(" It's a long, smooth black shaft that's rigid to the touch. Its base is ringed with a layer of four inch long soft bee hair. The tip has a much finer layer of short yellow hairs. The tip is very sensitive, and it hurts constantly if you don’t have bee honey on it.");
         }
         //Pig flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.PIG) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.PIG) {
             outputText(" It's bright pinkish red, ending in a prominent corkscrew shape at the tip.");
         }
         //Avian flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.AVIAN) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.AVIAN) {
             outputText(" It's a red, tapered cock that ends in a tip. It rests nicely in a sheath.");
         }
         //Rhino flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.RHINO) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.RHINO) {
             outputText(" It's a smooth, tough pink colored and takes on a long and narrow shape with an oval shaped bulge along the center.");
         }
         //Echidna flavor
-        if (liveData.player.cocks[temp].cockType == CockTypesEnum.ECHIDNA) {
+        if (liveData.player.cocks[temp].cockType == ENUM.CockType.ECHIDNA) {
             outputText(" It is quite a sight to behold, coming well-equiped with four heads.");
         }
         //Worm flavor
@@ -1325,55 +1326,55 @@ function appearanceScreen() {
                 }
             }
             //horse cock flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.HORSE) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.HORSE) {
                 outputText(" It's mottled black and brown in a very animalistic pattern. The 'head' of your " + liveData.player.cockDescript(temp) + " flares proudly, just like a horse's.");
             }
             //dog cock flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.DOG || liveData.player.cocks[temp].cockType == CockTypesEnum.FOX) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.DOG || liveData.player.cocks[temp].cockType == ENUM.CockType.FOX) {
                 outputText(" It is shiny, pointed, and covered in veins, just like a large ");
-                if (liveData.player.cocks[temp].cockType == CockTypesEnum.DOG)
+                if (liveData.player.cocks[temp].cockType == ENUM.CockType.DOG)
                     outputText("dog's cock.");
                 else
                     outputText("fox's cock.");
             }
             //Demon cock flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.DEMON) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.DEMON) {
                 outputText(" The crown is ringed with a circle of rubbery protrusions that grow larger as you get more aroused. The entire thing is shiny and covered with tiny, sensitive nodules that leave no doubt about its demonic origins.");
             }
             //Tentacle cock flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.TENTACLE) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.TENTACLE) {
                 outputText(" The entirety of its green surface is covered in perspiring beads of slick moisture. It frequently shifts and moves of its own volition, the slightly oversized and mushroom-like head shifting in coloration to purplish-red whenever you become aroused.");
             }
             //Cat cock flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.CAT) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.CAT) {
                 outputText(" It ends in a single point, much like a spike, and is covered in small, fleshy barbs. The barbs are larger at the base and shrink in size as they get closer to the tip. Each of the spines is soft and flexible, and shouldn't be painful for any of your partners.");
             }
             //Snake cock flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.LIZARD) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.LIZARD) {
                 outputText(" It's a deep, iridescent purple in color. Unlike a human penis, the shaft is not smooth, and is instead patterned with multiple bulbous bumps.");
             }
             //Anemone cock flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.ANEMONE) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.ANEMONE) {
                 outputText(" The crown is surrounded by tiny tentacles with a venomous, aphrodisiac payload. At its base a number of similar, longer tentacles have formed, guaranteeing that pleasure will be forced upon your partners.");
             }
             //Kangwang flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.KANGAROO) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.KANGAROO) {
                 outputText(" It usually lies coiled inside a sheath, but undulates gently and tapers to a point when erect, somewhat like a taproot.");
             }
             //Draconic Cawk Flava flav
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.DRAGON) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.DRAGON) {
                 outputText(" With its tapered tip, there are few holes you wouldn't be able to get into. It has a strange, knot-like bulb at its base, but doesn't usually flare during arousal as a dog's knot would.");
             }
             //Bee flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.BEE) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.BEE) {
                 outputText(" It's a long, smooth black shaft that's rigid to the touch. Its base is ringed with a layer of four inch long soft bee hair. The tip has a much finer layer of short yellow hairs. The tip is very sensitive, and it hurts constantly if you don’t have bee honey on it.");
             }
             //Pig flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.PIG) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.PIG) {
                 outputText(" It's bright pinkish red, ending in a prominent corkscrew shape at the tip.");
             }
             //Avian flavor
-            if (liveData.player.cocks[temp].cockType == CockTypesEnum.AVIAN) {
+            if (liveData.player.cocks[temp].cockType == ENUM.CockType.AVIAN) {
                 outputText(" It's a red, tapered cock that ends in a tip. It rests nicely in a sheath.");
             }
             if (liveData.player.cocks[temp].knotMultiplier > 1) {

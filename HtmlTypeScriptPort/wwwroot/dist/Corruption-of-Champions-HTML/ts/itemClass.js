@@ -2,6 +2,10 @@ import { GUI } from "./engine/gui";
 import { clearOutput, outputText } from "./engine/text";
 import { UTIL } from "./engine/utils";
 import { liveData } from "./globalVariables";
+import { ItemArmor } from "./items/armor";
+import { ItemConsumables } from "./items/consumables";
+import { ItemMaterials } from "./items/materials";
+import { ItemWeapon } from "./items/weapons";
 import { Inventory } from "./scenes/inventory";
 export const ITEM_TYPE_WEAPON = "Weapon";
 export const ITEM_TYPE_ARMOUR = "Armour";
@@ -20,7 +24,7 @@ class Item {
         this.description = ""; //This will appear on tooltip.
         this.value = 6; //The value in gems. Defaults at 6.
         //Consumable values that can be set
-        this.consumeEffect = null;
+        this.consumeEffect = () => void {};
         //Equipment values that can be set
         this.equipmentName = "";
         this.attack = 0;
@@ -103,6 +107,10 @@ class ItemContainer {
         this.NOTHING.value = -1;
         this.NOTHING.defense = 0;
         this.NOTHING.attack = 0;
+        this.Materials = new ItemMaterials();
+        this.Armor = new ItemArmor();
+        this.Weapons = new ItemWeapon();
+        this.Consumables = new ItemConsumables();
     }
 }
 let Items = new ItemContainer();

@@ -5,6 +5,10 @@ import { Player } from "../player";
 import { ItemSlot } from "../itemSlotClass";
 import { StatusEffect } from "../statusEffectClass";
 import * as Main from "../main";
+import { Perk } from "../perkClass";
+import { KeyItem } from "../keyItemClass";
+import { UTIL } from "./utils";
+import { Camp } from "../scenes/camp";
 // This code handles saving and loading of games. (Save State)
 class GameData {
     constructor() {
@@ -26,9 +30,11 @@ class GameData {
         clearOutput();
         GUI.menu();
         for (let i = 0; i < this.totalSlots; i++) {
-            outputText("Slot " + (i + 1) + ": " + this.loadSaveDisplay("CoC_" + (i + 1)) + "<br>");
-            if (localStorage["CoC_" + (i + 1)] != undefined) {
-                GUI.addButton(i, "Slot " + (i + 1), this.loadGame, "CoC_" + (i + 1));
+            const saveSlot = "CoC_" + (i + 1);
+            outputText("Slot " + (i + 1) + ": " + this.loadSaveDisplay(saveSlot) + "<br>");
+            // if (localStorage[saveSlot] != undefined) {
+            if (liveData.storage.get(saveSlot)) {
+                GUI.addButton(i, "Slot " + (i + 1), this.loadGame, saveSlot);
             }
         }
         GUI.addButton(14, "Back", dataScreen);
@@ -39,9 +45,11 @@ class GameData {
         outputText("Once you delete a save file, it's gone forever. So please be sure if you REALLY want to do it.<br><br>");
         GUI.menu();
         for (let i = 0; i < this.totalSlots; i++) {
-            outputText("Slot " + (i + 1) + ": " + this.loadSaveDisplay("CoC_" + (i + 1)) + "<br>");
-            if (localStorage["CoC_" + (i + 1)] != undefined) {
-                GUI.addButton(i, "Slot " + (i + 1), this.deletePrompt, "CoC_" + (i + 1));
+            const saveSlot = "CoC_" + (i + 1);
+            outputText("Slot " + (i + 1) + ": " + this.loadSaveDisplay(saveSlot) + "<br>");
+            // if (localStorage[saveSlot] != undefined) {
+            if (liveData.storage.get(saveSlot)) {
+                GUI.addButton(i, "Slot " + (i + 1), this.deletePrompt, saveSlot);
             }
         }
         GUI.addButton(14, "Back", dataScreen);
@@ -194,7 +202,8 @@ class GameData {
             //}
             //Assign Save Version
             saveData.saveVersion = liveData.saveVersion;
-            localStorage[slot] = JSON.stringify(saveData);
+            // localStorage[slot] = JSON.stringify(saveData)
+            liveData.storage.set(slot, JSON.stringify(saveData));
             //Set to successful and return
             success = true;
         }
@@ -222,7 +231,8 @@ class GameData {
     loadGameObject(slot) {
         //Let's try to load!
         let success = false;
-        let saveData = JSON.parse(localStorage[slot]);
+        // let saveData = JSON.parse(localStorage[slot])
+        let saveData = JSON.parse(liveData.storage.get(slot));
         try {
             let player = new Player();
             //Iterate through player data
@@ -231,28 +241,28 @@ class GameData {
             }
             //Manually set equipment
             if (saveData.player.weapon != undefined)
-                liveData.player.weapon = lookupItem(saveData.player.weapon.id);
+                liveData.player.weapon = UTIL.lookupItem(saveData.player.weapon.id);
             if (saveData.player.armor != undefined)
-                liveData.player.armor = lookupItem(saveData.player.armor.id);
+                liveData.player.armor = UTIL.lookupItem(saveData.player.armor.id);
             //Set items
             liveData.player.itemSlots = [];
             for (let i = 0; i < 56; i++) {
                 liveData.player.itemSlots.push(new ItemSlot());
             }
             for (let i = 0; i < saveData.player.itemSlots.length; i++) {
-                liveData.player.itemSlots[i].setItemAndQty(lookupItem(saveData.player.itemSlots[i].id), saveData.player.itemSlots[i].quantity);
+                liveData.player.itemSlots[i].setItemAndQty(UTIL.lookupItem(saveData.player.itemSlots[i].id), saveData.player.itemSlots[i].quantity);
             }
             //Perks
             liveData.player.perks = [];
             for (let i = 0; i < saveData.player.perks.length; i++) {
-                if (lookupPerk(saveData.player.perks[i].id) == undefined)
+                if (UTIL.lookupPerk(saveData.player.perks[i].id) == undefined)
                     continue;
-                liveData.player.createPerk(lookupPerk(saveData.player.perks[i].id), saveData.player.perks[i].value1, saveData.player.perks[i].value2, saveData.player.perks[i].value3, saveData.player.perks[i].value4);
+                liveData.player.createPerk(UTIL.lookupPerk(saveData.player.perks[i].id), saveData.player.perks[i].value1, saveData.player.perks[i].value2, saveData.player.perks[i].value3, saveData.player.perks[i].value4);
             }
             //Status Effects
             liveData.player.statusEffects = [];
             for (let i = 0; i < saveData.player.statusEffects.length; i++) {
-                liveData.player.createStatusEffect(lookupStatusEffects(saveData.player.statusEffects[i].id), saveData.player.statusEffects[i].value1, saveData.player.statusEffects[i].value2, saveData.player.statusEffects[i].value3, saveData.player.statusEffects[i].value4);
+                liveData.player.createStatusEffect(UTIL.lookupStatusEffects(saveData.player.statusEffects[i].id), saveData.player.statusEffects[i].value1, saveData.player.statusEffects[i].value2, saveData.player.statusEffects[i].value3, saveData.player.statusEffects[i].value4);
             }
             //Key Items
             liveData.player.keyItems = [];
@@ -269,38 +279,38 @@ class GameData {
             liveData.player.pregnancyEventNum = saveData.player.pregnancyEventNum;
             //Amily Pregnancy Load
             if (saveData.amilypregnancyIncubation == undefined) {
-                amily.pregnancyIncubation = 0;
+                liveData.amily.pregnancyIncubation = 0;
             }
             else
-                amily.pregnancyIncubation = saveData.amilypregnancyIncubation;
+                liveData.amily.pregnancyIncubation = saveData.amilypregnancyIncubation;
             if (saveData.amilypregnancyType == undefined) {
-                amily.pregnancyType = 0;
+                liveData.amily.pregnancyType = 0;
             }
             else
-                amily.pregnancyType = saveData.amilypregnancyType;
+                liveData.amily.pregnancyType = saveData.amilypregnancyType;
             if (saveData.amilypregnancyEventArr == undefined) {
-                amily.pregnancyEventArr = [];
+                liveData.amily.pregnancyEventArr = [];
             }
             else
-                amily.pregnancyEventArr = saveData.amilypregnancyEventArr;
+                liveData.amily.pregnancyEventArr = saveData.amilypregnancyEventArr;
             if (saveData.amilybuttPregnancyIncubation == undefined) {
-                amily.buttPregnancyIncubation = 0;
+                liveData.amily.buttPregnancyIncubation = 0;
             }
             else
-                amily.buttPregnancyIncubation = saveData.amilybuttPregnancyIncubation;
+                liveData.amily.buttPregnancyIncubation = saveData.amilybuttPregnancyIncubation;
             if (saveData.amilybuttPregnancyType == undefined) {
-                amily.buttPregnancyType = 0;
+                liveData.amily.buttPregnancyType = 0;
             }
             else
-                amily.buttPregnancyType = saveData.amilybuttPregnancyType;
+                liveData.amily.buttPregnancyType = saveData.amilybuttPregnancyType;
             if (saveData.amilypregnancyEventNum == undefined) {
-                amily.pregnancyEventNum = 0;
+                liveData.amily.pregnancyEventNum = 0;
             }
             else
-                amily.pregnancyEventNum = saveData.amilypregnancyEventNum;
+                liveData.amily.pregnancyEventNum = saveData.amilypregnancyEventNum;
             //Spells
             if (saveData.player.spells != undefined) {
-                liveData.player.spells = [];
+                // liveData.player.spells = []
                 liveData.player.spells.chargeWeapon = saveData.player.spells.chargeWeapon;
                 liveData.player.spells.blind = saveData.player.spells.blind;
                 liveData.player.spells.whitefire = saveData.player.spells.whitefire;
@@ -352,10 +362,12 @@ class GameData {
         return success;
     }
     loadSaveDisplay(slot) {
-        if (localStorage[slot] == undefined) {
+        // if (localStorage[slot] == undefined) {
+        if (liveData.storage.get(slot) == undefined) {
             return "EMPTY<br>";
         }
-        let saveData = JSON.parse(localStorage[slot]);
+        // let saveData = JSON.parse(localStorage[slot])
+        let saveData = JSON.parse(liveData.storage.get(slot));
         let holding = "";
         holding += saveData.player.name + ", Level " + saveData.player.level + "<br>"; //Get player name and level
         holding += "&nbsp;Day: " + saveData.time.days + ", Gender: "; //Get day and gender
@@ -399,7 +411,8 @@ class GameData {
     deleteSave(slot) {
         clearOutput();
         outputText(slot + " has been deleted.");
-        delete localStorage[slot];
+        // delete localStorage[slot]
+        liveData.storage.clearItem(slot);
         GUI.doNext(this.deleteScreen);
     }
     //SETTINGS DATA SAVE/LOAD
@@ -413,7 +426,8 @@ class GameData {
             saveData.mainFont = liveData.mainFont;
             saveData.mainFontSizeIndex = liveData.mainFontSizeIndex;
             //Set save to successful
-            localStorage["CoC_Main"] = JSON.stringify(saveData);
+            // localStorage["CoC_Main"] = JSON.stringify(saveData)
+            liveData.storage.set("CoC_Main", JSON.stringify(saveData));
             success = true;
         }
         catch (error) {
@@ -426,13 +440,15 @@ class GameData {
     loadSettings() {
         let success = false;
         if (Main.GetIEVersion() == 0) {
-            if (localStorage["CoC_Main"] == undefined)
+            // if (localStorage["CoC_Main"] == undefined) return success
+            if (liveData.storage.get("CoC_Main") == undefined)
                 return success;
         }
         else {
             return false;
         }
-        let saveData = JSON.parse(localStorage["CoC_Main"]);
+        // let saveData = JSON.parse(localStorage["CoC_Main"])
+        let saveData = JSON.parse(liveData.storage.get("CoC_Main"));
         try {
             liveData.silly = saveData.silly;
             liveData.use12Hours = saveData.use12Hours;

@@ -70,9 +70,9 @@ function teaseMain(justText) {
     if (player.level < 30)
         damage += player.level;
     else if (player.level < 60)
-        damage += 30 + ((player.level - 30) / 2);
+        damage += 30 + (player.level - 30) / 2;
     else
-        damage += 45 + ((player.level - 60) / 5);
+        damage += 45 + (player.level - 60) / 5;
     damage += player.teaseLevel * 2;
     //==============================
     //TEASE SELECT CHOICES
@@ -116,7 +116,7 @@ function teaseMain(justText) {
     //33 Crotch Revealing Clothes (herm only?)
     //34 Maid Costume (female only):
     //35 Servant Boy Clothes (male only)
-    //36 Bondage Patient Clothes 
+    //36 Bondage Patient Clothes
     //37 Kitsune Tease
     //38 Kitsune Tease
     //39 Kitsune Tease
@@ -540,7 +540,7 @@ function teaseMain(justText) {
         choices[choices.length] = 35;
         choices[choices.length] = 35;
     }
-    //36 Bondage Patient Clothes 
+    //36 Bondage Patient Clothes
     if (player.armor.equipmentName == "bondage patient clothes") {
         choices[choices.length] = 36;
         choices[choices.length] = 36;
@@ -671,7 +671,9 @@ function teaseMain(justText) {
         //2 PUSSAH FLASHIN'
         case 2:
             if (player.isTaur()) {
-                outputText("You gallop toward your unsuspecting enemy, dodging their defenses and knocking them to the ground. Before they can recover, you slam your massive centaur ass down upon them, stopping just short of using crushing force to pin them underneath you. In this position, your opponent's face is buried right in your girthy horsecunt. You grind your cunt into " + monster.hisHer + " face for a moment before standing. When you do, you're gratified to see your enemy covered in your lubricant and smelling powerfully of horsecunt.");
+                outputText("You gallop toward your unsuspecting enemy, dodging their defenses and knocking them to the ground. Before they can recover, you slam your massive centaur ass down upon them, stopping just short of using crushing force to pin them underneath you. In this position, your opponent's face is buried right in your girthy horsecunt. You grind your cunt into " +
+                    monster.hisHer +
+                    " face for a moment before standing. When you do, you're gratified to see your enemy covered in your lubricant and smelling powerfully of horsecunt.");
                 chance += 2;
                 damage += 4;
             }
@@ -697,7 +699,7 @@ function teaseMain(justText) {
             break;
         //3 cock flash
         case 3:
-            if (player.isTaur() && player.countCocksOfType(CockTypesEnum.HORSE) > 0) {
+            if (player.isTaur() && player.countCocksOfType(ENUM.CockType.HORSE) > 0) {
                 outputText("You let out a bestial whinny and stomp your hooves at your enemy. They prepare for an attack, but instead you kick your front hooves off the ground, revealing the hefty horsecock hanging beneath your belly. You let it flop around, quickly getting rigid and to its full erect length. You buck your hips as if you were fucking a mare in heat, letting your opponent know just what's in store for them if they surrender to pleasure...");
                 if (player.findPerk(PerkLib.BulgeArmor) >= 0)
                     damage += 5;
@@ -744,7 +746,11 @@ function teaseMain(justText) {
         //5 breast jiggle
         case 5:
             outputText("You lean forward, letting the well-rounded curves of your " + player.allBreastsDescript() + " show to " + monster.a + monster.refName + ".");
-            outputText(" You cup them in your palms and lewdly bounce them, putting on a show and giggling the entire time. An inch at a time, your " + player.armor.equipmentName + " starts to come down, dropping tantalizingly slowly until your " + player.nippleDescript(0) + "s pop free.");
+            outputText(" You cup them in your palms and lewdly bounce them, putting on a show and giggling the entire time. An inch at a time, your " +
+                player.armor.equipmentName +
+                " starts to come down, dropping tantalizingly slowly until your " +
+                player.nippleDescript(0) +
+                "s pop free.");
             if (player.lust >= 50) {
                 if (player.hasFuckableNipples()) {
                     chance++;
@@ -761,17 +767,17 @@ function teaseMain(justText) {
         //6 pussy flash
         case 6:
             if (player.findPerk(PerkLib.BimboBrains) >= 0 || player.findPerk(PerkLib.FutaFaculties) >= 0) {
-                outputText("You coyly open your " + player.armor.equipmentName + " and giggle, \"<i>Is this, like, what you wanted to see?</i>\" ");
+                outputText("You coyly open your " + player.armor.equipmentName + ' and giggle, "<i>Is this, like, what you wanted to see?</i>" ');
             }
             else {
-                outputText("You coyly open your " + player.armor.equipmentName + " and purr, \"<i>Does the thought of a hot, ");
+                outputText("You coyly open your " + player.armor.equipmentName + ' and purr, "<i>Does the thought of a hot, ');
                 if (futa)
                     outputText("futanari ");
                 else if (player.findPerk(PerkLib.BimboBody) >= 0)
                     outputText("bimbo ");
                 else
                     outputText("sexy ");
-                outputText("body turn you on?</i>\" ");
+                outputText('body turn you on?</i>" ');
             }
             if (monster.plural)
                 outputText(capitalizeFirstLetter(monster.a) + monster.refName + "' gazes are riveted on your groin as you run your fingers up and down your folds seductively.");
@@ -793,8 +799,22 @@ function teaseMain(justText) {
             break;
         //7 special Adjatha-crafted bend over bimbo times
         case 7:
-            outputText("The glinting of light catches your eye and you whip around to inspect the glittering object, turning your back on " + monster.a + monster.refName + ". Locking your knees, you bend waaaaay over, " + player.chestDesc() + " swinging in the open air while your " + player.buttDescript() + " juts out at the " + monster.a + monster.refName + ". Your plump cheeks and " + player.hipDescript() + " form a jiggling heart-shape as you eagerly rub your thighs together.<br><br>");
-            outputText("The clear, warm fluid of your happy excitement trickles down from your loins, polishing your " + player.skin() + " to a glossy, inviting shine. Retrieving the useless, though shiny, bauble, you hold your pose for just a moment longer, a sly little smile playing across your lips as you wiggle your cheeks one more time before straightening up and turning back around.");
+            outputText("The glinting of light catches your eye and you whip around to inspect the glittering object, turning your back on " +
+                monster.a +
+                monster.refName +
+                ". Locking your knees, you bend waaaaay over, " +
+                player.chestDesc() +
+                " swinging in the open air while your " +
+                player.buttDescript() +
+                " juts out at the " +
+                monster.a +
+                monster.refName +
+                ". Your plump cheeks and " +
+                player.hipDescript() +
+                " form a jiggling heart-shape as you eagerly rub your thighs together.<br><br>");
+            outputText("The clear, warm fluid of your happy excitement trickles down from your loins, polishing your " +
+                player.skin() +
+                " to a glossy, inviting shine. Retrieving the useless, though shiny, bauble, you hold your pose for just a moment longer, a sly little smile playing across your lips as you wiggle your cheeks one more time before straightening up and turning back around.");
             vagina = true;
             chance++;
             damage += 2;
@@ -839,9 +859,15 @@ function teaseMain(justText) {
         //11 Show off dick
         case 11:
             if (silly() && rand(2) == 0)
-                outputText("You strike a herculean pose and flex, whispering, \"<i>Do you even lift?</i>\" to " + monster.a + monster.refName + ".");
+                outputText('You strike a herculean pose and flex, whispering, "<i>Do you even lift?</i>" to ' + monster.a + monster.refName + ".");
             else {
-                outputText("You open your " + player.armor.equipmentName + " just enough to let your " + player.cockDescript(0) + " and " + player.ballsDescriptLight() + " dangle free. A shiny rope of pre-cum dangles from your cock, showing that your reproductive system is every bit as fit as the rest of you. ");
+                outputText("You open your " +
+                    player.armor.equipmentName +
+                    " just enough to let your " +
+                    player.cockDescript(0) +
+                    " and " +
+                    player.ballsDescriptLight() +
+                    " dangle free. A shiny rope of pre-cum dangles from your cock, showing that your reproductive system is every bit as fit as the rest of you. ");
                 if (player.findPerk(PerkLib.BroBrains) >= 0)
                     outputText("Bitches love a cum-leaking cock.");
                 else
@@ -855,7 +881,16 @@ function teaseMain(justText) {
         //12 Cat flexibility.
         case 12:
             //CAT TEASE MOTHERFUCK (requires flexibility and legs [maybe can't do it with armor?])
-            outputText("Reaching down, you grab an ankle and pull it backwards, looping it up and over to touch the foot to your " + player.hairDescript() + ". You bring the leg out to the side, showing off your " + player.vaginaDescript(0) + " through your " + player.armor.equipmentName + ". The combination of the lack of discomfort on your face and the ease of which you're able to pose shows " + monster.a + monster.refName + " how good of a time they're in for with you.");
+            outputText("Reaching down, you grab an ankle and pull it backwards, looping it up and over to touch the foot to your " +
+                player.hairDescript() +
+                ". You bring the leg out to the side, showing off your " +
+                player.vaginaDescript(0) +
+                " through your " +
+                player.armor.equipmentName +
+                ". The combination of the lack of discomfort on your face and the ease of which you're able to pose shows " +
+                monster.a +
+                monster.refName +
+                " how good of a time they're in for with you.");
             vagina = true;
             if (player.thickness < 33)
                 chance++;
@@ -866,10 +901,13 @@ function teaseMain(justText) {
         //13 Pregnant
         case 13:
             //PREG
-            outputText("You lean back, feigning a swoon while pressing a hand on the small of your back. The pose juts your huge, pregnant belly forward and makes the shiny spherical stomach look even bigger. With a teasing groan, you rub the protruding tummy gently, biting your lip gently as you stare at " + monster.a + monster.refName + " through heavily lidded eyes. \"<i>All of this estrogen is making me frisky,</i>\" you moan, stroking hand gradually shifting to the southern hemisphere of your big baby-bump.");
+            outputText("You lean back, feigning a swoon while pressing a hand on the small of your back. The pose juts your huge, pregnant belly forward and makes the shiny spherical stomach look even bigger. With a teasing groan, you rub the protruding tummy gently, biting your lip gently as you stare at " +
+                monster.a +
+                monster.refName +
+                ' through heavily lidded eyes. "<i>All of this estrogen is making me frisky,</i>" you moan, stroking hand gradually shifting to the southern hemisphere of your big baby-bump.');
             //if lactating]
             if (player.biggestLactation() >= 1) {
-                outputText(" Your other hand moves to expose your " + player.chestDesc() + ", cupping and squeezing a stream of milk to leak down the front of your " + player.armor.equipmentName + ". \"<i>Help a mommy out.</i>\"<br><br>");
+                outputText(" Your other hand moves to expose your " + player.chestDesc() + ", cupping and squeezing a stream of milk to leak down the front of your " + player.armor.equipmentName + '. "<i>Help a mommy out.</i>"<br><br>');
                 chance += 2;
                 damage += 4;
             }
@@ -885,9 +923,15 @@ function teaseMain(justText) {
         //14 Brood Mother
         case 14:
             if (rand(2) == 0)
-                outputText("You tear open your " + player.armor.equipmentName + " and slip a few fingers into your well-used birth canal, giving your opponent a good look at what they're missing. \"<i>C'mon stud,</i>\" you say, voice dripping with lust and desire, \"<i>Come to mama " + player.name + " and fuck my pussy 'til your baby batter just POURS out. I want your children inside of me, I want your spawn crawling out of this cunt and begging for my milk. Come on, FUCK ME PREGNANT!</i>\"");
+                outputText("You tear open your " +
+                    player.armor.equipmentName +
+                    ' and slip a few fingers into your well-used birth canal, giving your opponent a good look at what they\'re missing. "<i>C\'mon stud,</i>" you say, voice dripping with lust and desire, "<i>Come to mama ' +
+                    player.name +
+                    " and fuck my pussy 'til your baby batter just POURS out. I want your children inside of me, I want your spawn crawling out of this cunt and begging for my milk. Come on, FUCK ME PREGNANT!</i>\"");
             else
-                outputText("You wiggle your " + player.hipDescript() + " at your enemy, giving them a long, tantalizing look at the hips that have passed so very many offspring. \"<i>Oh, like what you see, bad boy? Well why don't you just come on over and stuff that cock inside me? Give me your seed, and I'll give you suuuuch beautiful offspring. Oh? Does that turn you on? It does! Come on, just let loose and fuck me full of your babies!</i>\"");
+                outputText("You wiggle your " +
+                    player.hipDescript() +
+                    " at your enemy, giving them a long, tantalizing look at the hips that have passed so very many offspring. \"<i>Oh, like what you see, bad boy? Well why don't you just come on over and stuff that cock inside me? Give me your seed, and I'll give you suuuuch beautiful offspring. Oh? Does that turn you on? It does! Come on, just let loose and fuck me full of your babies!</i>\"");
             chance += 2;
             damage += 4;
             if (player.inHeat) {
@@ -900,33 +944,69 @@ function teaseMain(justText) {
         case 15:
             //Req's tits & Pussy
             if (player.biggestTitSize() > 1 && player.hasVagina() && rand(2) == 0) {
-                outputText("Closing your eyes, you lean forward and slip a hand under your " + player.armor.equipmentName + ". You let out the slightest of gasps as your fingers find your drooling honeypot, warm tips poking, one after another between your engorged lips. When you withdraw your hand, your fingers have been soaked in the dripping passion of your cunny, translucent beads rolling down to wet your palm. With your other hand, you pull down the top of your " + player.armor.equipmentName + " and bare your " + player.chestDesc() + " to " + monster.a + monster.refName + ".<br><br>");
-                outputText("Drawing your lust-slick hand to your " + player.nippleDescript(0) + "s, the yielding flesh of your cunt-like nipples parts before the teasing digits. Using your own girl cum as added lubrication, you pump your fingers in and out of your nipples, moaning as you add progressively more digits until only your thumb remains to stroke the inflamed flesh of your over-stimulated chest. Your throat releases the faintest squeak of your near-orgasmic delight and you pant, withdrawing your hands and readjusting your armor.<br><br>");
+                outputText("Closing your eyes, you lean forward and slip a hand under your " +
+                    player.armor.equipmentName +
+                    ". You let out the slightest of gasps as your fingers find your drooling honeypot, warm tips poking, one after another between your engorged lips. When you withdraw your hand, your fingers have been soaked in the dripping passion of your cunny, translucent beads rolling down to wet your palm. With your other hand, you pull down the top of your " +
+                    player.armor.equipmentName +
+                    " and bare your " +
+                    player.chestDesc() +
+                    " to " +
+                    monster.a +
+                    monster.refName +
+                    ".<br><br>");
+                outputText("Drawing your lust-slick hand to your " +
+                    player.nippleDescript(0) +
+                    "s, the yielding flesh of your cunt-like nipples parts before the teasing digits. Using your own girl cum as added lubrication, you pump your fingers in and out of your nipples, moaning as you add progressively more digits until only your thumb remains to stroke the inflamed flesh of your over-stimulated chest. Your throat releases the faintest squeak of your near-orgasmic delight and you pant, withdrawing your hands and readjusting your armor.<br><br>");
                 outputText("Despite how quiet you were, it's clear that every lewd, desperate noise you made was heard by " + monster.a + monster.refName + ".");
                 chance += 2;
                 damage += 4;
             }
             else if (player.biggestTitSize() > 1 && rand(2) == 0) {
-                outputText("You yank off the top of your " + player.armor.equipmentName + ", revealing your " + player.chestDesc() + " and the gaping nipplecunts on each. With a lusty smirk, you slip a pair of fingers into the nipples of your " + player.chestDesc() + ", pulling the nipplecunt lips wide, revealing the lengthy, tight passage within. You fingerfuck your nipplecunts, giving your enemy a good show before pulling your armor back on, leaving the tantalizing image of your gaping titpussies to linger in your foe's mind.");
+                outputText("You yank off the top of your " +
+                    player.armor.equipmentName +
+                    ", revealing your " +
+                    player.chestDesc() +
+                    " and the gaping nipplecunts on each. With a lusty smirk, you slip a pair of fingers into the nipples of your " +
+                    player.chestDesc() +
+                    ", pulling the nipplecunt lips wide, revealing the lengthy, tight passage within. You fingerfuck your nipplecunts, giving your enemy a good show before pulling your armor back on, leaving the tantalizing image of your gaping titpussies to linger in your foe's mind.");
                 chance += 1;
                 damage += 2;
             }
             else
-                outputText("You remove the front of your " + player.armor.equipmentName + " exposing your " + player.chestDesc() + ". Using both of your hands, you thrust two fingers into your nipple cunts, milky girl cum soaking your hands and fingers. \"<i>Wouldn't you like to try out these holes too?</i>\"");
+                outputText("You remove the front of your " +
+                    player.armor.equipmentName +
+                    " exposing your " +
+                    player.chestDesc() +
+                    '. Using both of your hands, you thrust two fingers into your nipple cunts, milky girl cum soaking your hands and fingers. "<i>Wouldn\'t you like to try out these holes too?</i>"');
             breasts = true;
             break;
         //16 Anal gape
         case 16:
-            outputText("You quickly strip out of your " + player.armor.equipmentName + " and turn around, giving your " + player.buttDescript() + " a hard slap and showing your enemy the real prize: your " + player.assholeDescript() + ". With a smirk, you easily plunge your hand inside, burying yourself up to the wrist inside your anus. You give yourself a quick fisting, watching the enemy over your shoulder while you moan lustily, sure to give them a good show. You withdraw your hand and give your ass another sexy spank before readying for combat again.");
+            outputText("You quickly strip out of your " +
+                player.armor.equipmentName +
+                " and turn around, giving your " +
+                player.buttDescript() +
+                " a hard slap and showing your enemy the real prize: your " +
+                player.assholeDescript() +
+                ". With a smirk, you easily plunge your hand inside, burying yourself up to the wrist inside your anus. You give yourself a quick fisting, watching the enemy over your shoulder while you moan lustily, sure to give them a good show. You withdraw your hand and give your ass another sexy spank before readying for combat again.");
             anus = true;
             ass = true;
             break;
         //17 Bee abdomen tease
         case 17:
-            outputText("You swing around, shedding the " + player.armor.equipmentName + " around your waist to expose your " + player.buttDescript() + " to " + monster.a + monster.refName + ". Taking up your oversized bee abdomen in both hands, you heft the thing and wave it about teasingly. Drops of venom drip to and fro, a few coming dangerously close to " + monster.himHer + ". \"<i>Maybe if you behave well enough, I'll even drop a few eggs into your belly,</i>\" you say softly, dropping the abdomen back to dangle above your butt and redressing.");
+            outputText("You swing around, shedding the " +
+                player.armor.equipmentName +
+                " around your waist to expose your " +
+                player.buttDescript() +
+                " to " +
+                monster.a +
+                monster.refName +
+                ". Taking up your oversized bee abdomen in both hands, you heft the thing and wave it about teasingly. Drops of venom drip to and fro, a few coming dangerously close to " +
+                monster.himHer +
+                '. "<i>Maybe if you behave well enough, I\'ll even drop a few eggs into your belly,</i>" you say softly, dropping the abdomen back to dangle above your butt and redressing.');
             ass = true;
-            chance += .5;
-            damage += .5;
+            chance += 0.5;
+            damage += 0.5;
             break;
         //18 DOG TEASE
         case 18:
@@ -935,7 +1015,7 @@ function teaseMain(justText) {
                 outputText("parted cunt-lips");
             else
                 outputText("puckered asshole, hanging, erect maleness,");
-            outputText(" and your hands on the ground in front of you. You pant heavily with your tongue out and promise, \"<i>I'll be a good little bitch for you</i>.\"");
+            outputText(' and your hands on the ground in front of you. You pant heavily with your tongue out and promise, "<i>I\'ll be a good little bitch for you</i>."');
             vagina = true;
             chance += 1;
             damage += 2;
@@ -959,42 +1039,97 @@ function teaseMain(justText) {
             break;
         //22 SPOIDAH SILK
         case 22:
-            outputText("Reaching back, you milk some wet silk from your spider-y abdomen and present it to " + monster.a + monster.refName + ", molding the sticky substance as " + monster.heShe + " looks on curiously. Within moments, you hold up a silken heart scuplture, and with a wink, you toss it at " + monster.himHer + ". It sticks to " + monster.hisHer + " body, the sensation causing " + monster.himHer + " to hastily slap the heart off. " + monster.mf("He", "She") + " returns " + monster.hisHer + " gaze to you to find you turned around, " + player.buttDescript() + " bared and abdomen bouncing lazily. \"<i>I wonder what would happen if I webbed up your hole after I dropped some eggs inside?</i>\" you hiss mischievously. " + monster.mf("He", "She") + " gulps.");
+            outputText("Reaching back, you milk some wet silk from your spider-y abdomen and present it to " +
+                monster.a +
+                monster.refName +
+                ", molding the sticky substance as " +
+                monster.heShe +
+                " looks on curiously. Within moments, you hold up a silken heart scuplture, and with a wink, you toss it at " +
+                monster.himHer +
+                ". It sticks to " +
+                monster.hisHer +
+                " body, the sensation causing " +
+                monster.himHer +
+                " to hastily slap the heart off. " +
+                monster.mf("He", "She") +
+                " returns " +
+                monster.hisHer +
+                " gaze to you to find you turned around, " +
+                player.buttDescript() +
+                ' bared and abdomen bouncing lazily. "<i>I wonder what would happen if I webbed up your hole after I dropped some eggs inside?</i>" you hiss mischievously. ' +
+                monster.mf("He", "She") +
+                " gulps.");
             ass = true;
             break;
         //23 RUT TEASE
         case 23:
-            if (player.countCocksOfType(CockTypesEnum.HORSE) > 0 && player.longestCock() >= 12) {
+            if (player.countCocksOfType(ENUM.CockType.HORSE) > 0 && player.longestCock() >= 12) {
                 outputText("You whip out your massive horsecock, and are immediately surrounded by a massive, heady musk. Your enemy swoons, nearly falling to her knees under your oderous assault. Grinning, you grab her shoulders and force her to her knees. Before she can defend herself, you slam your horsecock onto her head, running it up and down on her face, her nose acting like a sexy bump in an onahole. You fuck her face -- literally -- for a moment before throwing her back and sheathing your cock.");
             }
             else {
-                outputText("Panting with your unstoppable lust for the delicious, impregnable cunt before you, you yank off your " + player.armor.equipmentName + " with strength born of your inhuman rut, and quickly wave your fully erect cock at your enemy. She flashes with lust, quickly feeling the heady effect of your man-musk. You rush up, taking advantage of her aroused state and grab her shoulders. ");
+                outputText("Panting with your unstoppable lust for the delicious, impregnable cunt before you, you yank off your " +
+                    player.armor.equipmentName +
+                    " with strength born of your inhuman rut, and quickly wave your fully erect cock at your enemy. She flashes with lust, quickly feeling the heady effect of your man-musk. You rush up, taking advantage of her aroused state and grab her shoulders. ");
                 outputText("Before she can react, you push her down until she's level with your cock, and start to spin it in a circle, slapping her right in the face with your musky man-meat. Her eyes swim, trying to follow your meatspin as you swat her in the face with your cock! Satisfied, you release her and prepare to fight!<br>");
             }
             penis = true;
             break;
         //24 STAFF POLEDANCE
         case 24:
-            outputText("You run your tongue across your lips as you plant your staff into the ground. Before your enemy can react, you spin onto the long, wooden shaft, using it like an impromptu pole. You lean back against the planted staff, giving your enemy a good look at your body. You stretch backwards like a cat, nearly touching your fingertips to the ground beneath you, now holding onto the staff with only one leg. You pull yourself upright and give your " + player.buttDescript() + " a little slap and your " + player.chestDesc() + " a wiggle before pulling open your " + player.armor.equipmentName + " and sliding the pole between your tits. You drop down to a low crouch, only just covering your genitals with your hand as you shake your " + player.buttDescript() + " playfully. You give the enemy a little smirk as you slip your " + player.armor.equipmentName + " back on and pick up your staff.");
+            outputText("You run your tongue across your lips as you plant your staff into the ground. Before your enemy can react, you spin onto the long, wooden shaft, using it like an impromptu pole. You lean back against the planted staff, giving your enemy a good look at your body. You stretch backwards like a cat, nearly touching your fingertips to the ground beneath you, now holding onto the staff with only one leg. You pull yourself upright and give your " +
+                player.buttDescript() +
+                " a little slap and your " +
+                player.chestDesc() +
+                " a wiggle before pulling open your " +
+                player.armor.equipmentName +
+                " and sliding the pole between your tits. You drop down to a low crouch, only just covering your genitals with your hand as you shake your " +
+                player.buttDescript() +
+                " playfully. You give the enemy a little smirk as you slip your " +
+                player.armor.equipmentName +
+                " back on and pick up your staff.");
             ass = true;
             breasts = true;
             break;
         //TALL WOMAN TEASE
         case 25:
-            outputText("You move close to your enemy, handily stepping over " + monster.hisHer + " defensive strike before leaning right down in " + monster.hisHer + " face, giving " + monster.himHer + " a good long view at your cleavage. \"<i>Hey, there, little " + monster.mf("guy", "girl") + ",</i>\" you smile. Before " + monster.heShe + " can react, you grab " + monster.himHer + " and smoosh " + monster.hisHer + " face into your " + player.allChestDesc() + ", nearly choking " + monster.himHer + " in the canyon of your cleavage. " + monster.mf("He", "She") + " struggles for a moment. You give " + monster.himHer + " a little kiss on the head and step back, ready for combat.");
+            outputText("You move close to your enemy, handily stepping over " +
+                monster.hisHer +
+                " defensive strike before leaning right down in " +
+                monster.hisHer +
+                " face, giving " +
+                monster.himHer +
+                ' a good long view at your cleavage. "<i>Hey, there, little ' +
+                monster.mf("guy", "girl") +
+                ',</i>" you smile. Before ' +
+                monster.heShe +
+                " can react, you grab " +
+                monster.himHer +
+                " and smoosh " +
+                monster.hisHer +
+                " face into your " +
+                player.allChestDesc() +
+                ", nearly choking " +
+                monster.himHer +
+                " in the canyon of your cleavage. " +
+                monster.mf("He", "She") +
+                " struggles for a moment. You give " +
+                monster.himHer +
+                " a little kiss on the head and step back, ready for combat.");
             breasts = true;
             chance += 2;
             damage += 4;
             break;
         //Magic Tease
         case 26:
-            outputText("Seeing a lull in the battle, you plant your " + player.weapon.equipmentName + " on the ground and let your magic flow through you. You summon a trickle of magic into a thick, slowly growing black ball of lust. You wave the ball in front of you, making a little dance and striptease out of the affair as you slowly saturate the area with latent sexual magics.");
+            outputText("Seeing a lull in the battle, you plant your " +
+                player.weapon.equipmentName +
+                " on the ground and let your magic flow through you. You summon a trickle of magic into a thick, slowly growing black ball of lust. You wave the ball in front of you, making a little dance and striptease out of the affair as you slowly saturate the area with latent sexual magics.");
             chance++;
             damage += 2;
             break;
         //Feeder
         case 27:
-            outputText("You present your swollen breasts full of milk to " + monster.a + monster.refName + " and say \"<i>Wouldn't you just love to lie back in my arms and enjoy what I have to offer you?</i>\"");
+            outputText("You present your swollen breasts full of milk to " + monster.a + monster.refName + ' and say "<i>Wouldn\'t you just love to lie back in my arms and enjoy what I have to offer you?</i>"');
             breasts = true;
             chance++;
             damage++;
@@ -1018,7 +1153,7 @@ function teaseMain(justText) {
             break;
         //31 Centaur harness clothes
         case 31:
-            outputText("You rear back, and declare that, \"<i>This horse is ready to ride, all night long!</i>\"");
+            outputText('You rear back, and declare that, "<i>This horse is ready to ride, all night long!</i>"');
             chance += 2;
             damage += 4;
             break;
@@ -1051,7 +1186,7 @@ function teaseMain(justText) {
             break;
         //36 Bondage Patient Clothes (done):
         case 36:
-            outputText("You pull back one of the straps on your bondage cloths and let it snap back. \"<i>I need some medical care, feeling up for it?</i>\" you tease.");
+            outputText('You pull back one of the straps on your bondage cloths and let it snap back. "<i>I need some medical care, feeling up for it?</i>" you tease.');
             damage += 2;
             chance++;
             break;
@@ -1059,18 +1194,37 @@ function teaseMain(justText) {
             outputText("You shimmy and shake sensually. (An error occurred.)");
             break;
         case 37:
-            outputText("You purse your lips coyly, narrowing your eyes mischievously and beckoning to " + monster.a + monster.refName + " with a burning come-hither glare. Sauntering forward, you pop your hip to the side and strike a coquettish pose, running " + ((player.tailVenom > 1) ? "one of your tails" : "your tail") + " up and down " + monster.hisHer + " body sensually.");
+            outputText("You purse your lips coyly, narrowing your eyes mischievously and beckoning to " +
+                monster.a +
+                monster.refName +
+                " with a burning come-hither glare. Sauntering forward, you pop your hip to the side and strike a coquettish pose, running " +
+                (player.tailVenom > 1 ? "one of your tails" : "your tail") +
+                " up and down " +
+                monster.hisHer +
+                " body sensually.");
             chance += 6;
             damage += 3;
             break;
         case 38:
-            outputText("You wet your lips, narrowing your eyes into a smoldering, hungry gaze. Licking the tip of your index finger, you trail it slowly and sensually down the front of your " + player.armor.equipmentName + ", following the line of your " + player.chestDesc() + " teasingly. You hook your thumbs into your top and shimmy it downward at an agonizingly slow pace. The very instant that your [nipples] pop free, your tail crosses in front, obscuring " + monster.a + monster.refName + "'s view.");
+            outputText("You wet your lips, narrowing your eyes into a smoldering, hungry gaze. Licking the tip of your index finger, you trail it slowly and sensually down the front of your " +
+                player.armor.equipmentName +
+                ", following the line of your " +
+                player.chestDesc() +
+                " teasingly. You hook your thumbs into your top and shimmy it downward at an agonizingly slow pace. The very instant that your [nipples] pop free, your tail crosses in front, obscuring " +
+                monster.a +
+                monster.refName +
+                "'s view.");
             breasts = true;
             chance++;
             damage++;
             break;
         case 39:
-            outputText("Leaning forward, you bow down low, raising a hand up to your lips and blowing " + monster.a + monster.refName + " a kiss. You stand straight, wiggling your " + player.hipDescript() + " back and forth seductively while trailing your fingers down your front slowly, pouting demurely. The tip of ");
+            outputText("Leaning forward, you bow down low, raising a hand up to your lips and blowing " +
+                monster.a +
+                monster.refName +
+                " a kiss. You stand straight, wiggling your " +
+                player.hipDescript() +
+                " back and forth seductively while trailing your fingers down your front slowly, pouting demurely. The tip of ");
             if (player.tailVenom == 1)
                 outputText("your");
             else
@@ -1086,7 +1240,7 @@ function teaseMain(justText) {
                 outputText(" Your tail twists and whips about, sliding around your " + player.hipDescript() + " in a slow arc and framing your rear nicely as you slowly lift your " + player.armor.equipmentName + ".");
             else
                 outputText(" Your tails fan out, twisting and whipping sensually, sliding up and down your " + player.legs() + " and framing your rear nicely as you slowly lift your " + player.armor.equipmentName + ".");
-            outputText(" As your [butt] comes into view, you brush your tail" + ((player.tailVenom > 1) ? "s" : "") + " across it, partially obscuring the view in a tantalizingly teasing display.");
+            outputText(" As your [butt] comes into view, you brush your tail" + (player.tailVenom > 1 ? "s" : "") + " across it, partially obscuring the view in a tantalizingly teasing display.");
             ass = true;
             anus = true;
             chance++;
@@ -1100,7 +1254,7 @@ function teaseMain(justText) {
                 outputText(" and ");
             if (player.gender >= 2)
                 outputText("your " + player.vaginaDescript(0));
-            outputText(". Your bushy tail" + ((player.tailVenom > 1) ? "s" : "") + " cross" + ((player.tailVenom > 1) ? "" : "es") + " in front, wrapping around your genitals and obscuring the view teasingly.");
+            outputText(". Your bushy tail" + (player.tailVenom > 1 ? "s" : "") + " cross" + (player.tailVenom > 1 ? "" : "es") + " in front, wrapping around your genitals and obscuring the view teasingly.");
             vagina = true;
             penis = true;
             damage += 2;
@@ -1109,14 +1263,14 @@ function teaseMain(justText) {
         case 42:
             //Tease #1:
             if (rand(2) == 0) {
-                outputText("You lift your skirt and flash your king-sized stallionhood, already unsheathing itself and drooling pre, at your opponent. \"<i>Come on, then; I got plenty of girlcock for you if that's what you want!</i>\" you cry.");
+                outputText('You lift your skirt and flash your king-sized stallionhood, already unsheathing itself and drooling pre, at your opponent. "<i>Come on, then; I got plenty of girlcock for you if that\'s what you want!</i>" you cry.');
                 penis = true;
                 damage += 3;
                 chance--;
             }
             //Tease #2:
             else {
-                outputText("You turn partially around and then bend over, swaying your tail from side to side in your most flirtatious manner and wiggling your hips seductively, your skirt fluttering with the motions. \"<i>Come on then, what are you waiting for? This is a fine piece of ass here,</i>\" you grin, spanking yourself with an audible slap.");
+                outputText('You turn partially around and then bend over, swaying your tail from side to side in your most flirtatious manner and wiggling your hips seductively, your skirt fluttering with the motions. "<i>Come on then, what are you waiting for? This is a fine piece of ass here,</i>" you grin, spanking yourself with an audible slap.');
                 ass = true;
                 chance += 2;
                 damage += 3;
@@ -1131,7 +1285,7 @@ function teaseMain(justText) {
                 damage++;
             }
             else if (cows == 1) {
-                outputText("Moaning, you bend forward, your full breasts nearly touching the ground as you sway your [hips] from side to side. Looking up from under heavily-lidded eyes, you part your lips and lick them, letting out a low, lustful \"<i>Mooooo...</i>\"");
+                outputText('Moaning, you bend forward, your full breasts nearly touching the ground as you sway your [hips] from side to side. Looking up from under heavily-lidded eyes, you part your lips and lick them, letting out a low, lustful "<i>Mooooo...</i>"');
                 breasts = true;
                 chance += 2;
                 damage += 2;
@@ -1180,30 +1334,69 @@ function teaseMain(justText) {
             damage += 5;
             chance += 3;
             if (maiden == 0) {
-                outputText("Confidently sauntering forward, you thrust your chest out with your back arched in order to enhance your [chest]. You slowly begin to shake your torso back and forth, slapping your chain-clad breasts against each other again and again. One of your hands finds its way to one of the pillowy expanses and grabs hold, fingers sinking into the soft tit through the fine, mail covering. You stop your shaking to trace a finger down through the exposed center of your cleavage, asking, \"<i>Don't you just want to snuggle inside?</i>\"");
+                outputText('Confidently sauntering forward, you thrust your chest out with your back arched in order to enhance your [chest]. You slowly begin to shake your torso back and forth, slapping your chain-clad breasts against each other again and again. One of your hands finds its way to one of the pillowy expanses and grabs hold, fingers sinking into the soft tit through the fine, mail covering. You stop your shaking to trace a finger down through the exposed center of your cleavage, asking, "<i>Don\'t you just want to snuggle inside?</i>"');
                 breasts = true;
             }
             else if (maiden == 1) {
-                outputText("You skip up to " + monster.a + monster.refName + " and spin around to rub your barely-covered butt up against " + monster.himHer + ". Before " + monster.heShe + " can react, you're slowly bouncing your [butt] up and down against " + monster.hisHer + " groin. When " + monster.heShe + " reaches down, you grab " + monster.hisHer + " hand and press it up, under your skirt, right against the steamy seal on your sex. The simmering heat of your overwhelming lust burns hot enough for " + monster.himHer + " to feel even through the contoured leather, and you let " + monster.himHer + " trace the inside of your [leg] for a moment before moving away, laughing playfully.");
+                outputText("You skip up to " +
+                    monster.a +
+                    monster.refName +
+                    " and spin around to rub your barely-covered butt up against " +
+                    monster.himHer +
+                    ". Before " +
+                    monster.heShe +
+                    " can react, you're slowly bouncing your [butt] up and down against " +
+                    monster.hisHer +
+                    " groin. When " +
+                    monster.heShe +
+                    " reaches down, you grab " +
+                    monster.hisHer +
+                    " hand and press it up, under your skirt, right against the steamy seal on your sex. The simmering heat of your overwhelming lust burns hot enough for " +
+                    monster.himHer +
+                    " to feel even through the contoured leather, and you let " +
+                    monster.himHer +
+                    " trace the inside of your [leg] for a moment before moving away, laughing playfully.");
                 ass = true;
                 vagina = true;
             }
             else if (maiden == 2) {
-                outputText("You flip up the barely-modest chain you call a skirt and expose your g-string to " + monster.a + monster.refName + ". Slowly swaying your [hips], you press a finger down on the creased crotch plate and exaggerate a lascivious moan into a throaty purr of enticing, sexual bliss. Your eyes meet " + monster.hisHer + ", and you throatily whisper, \"<i>");
+                outputText("You flip up the barely-modest chain you call a skirt and expose your g-string to " +
+                    monster.a +
+                    monster.refName +
+                    ". Slowly swaying your [hips], you press a finger down on the creased crotch plate and exaggerate a lascivious moan into a throaty purr of enticing, sexual bliss. Your eyes meet " +
+                    monster.hisHer +
+                    ', and you throatily whisper, "<i>');
                 if (player.hasVirginVagina())
                     outputText("Think you can handle a virgin's infinite lust?");
                 else
                     outputText("Think you have what it takes to satisfy this perfect pussy?");
-                outputText("</i>\"");
+                outputText('</i>"');
                 vagina = true;
                 damage += 3;
             }
             else if (maiden == 3) {
-                outputText("You seductively wiggle your way up to " + monster.a + monster.refName + ", and before " + monster.heShe + " can react to your salacious advance, you snap a [leg] up in what would be a vicious kick, if you weren't simply raising it to rest your [foot] on " + monster.hisHer + " shoulder. With your thighs so perfectly spready, your skirt is lifted, and " + monster.a + monster.refName + " is given a perfect view of your thong-enhanced cameltoe and the moisture that beads at the edges of your not-so-modest covering.");
+                outputText("You seductively wiggle your way up to " +
+                    monster.a +
+                    monster.refName +
+                    ", and before " +
+                    monster.heShe +
+                    " can react to your salacious advance, you snap a [leg] up in what would be a vicious kick, if you weren't simply raising it to rest your [foot] on " +
+                    monster.hisHer +
+                    " shoulder. With your thighs so perfectly spready, your skirt is lifted, and " +
+                    monster.a +
+                    monster.refName +
+                    " is given a perfect view of your thong-enhanced cameltoe and the moisture that beads at the edges of your not-so-modest covering.");
                 vagina = true;
             }
             else {
-                outputText("Bending over, you lift your [butt] high in the air. Most of your barely-covered tush is exposed, but the hem of your chainmail skirt still protects some of your anal modesty. That doesn't last long. You start shaking your [butt] up, down, back, and forth to an unheard rhythm, flipping the pointless covering out of the way so that " + monster.a + monster.refName + " can gaze upon your curvy behind in it all its splendid detail. A part of you hopes that " + monster.heShe + " takes in the intricate filigree on the back of your thong, though to " + monster.himHer + " it looks like a bunch of glittering arrows on an alabaster background, all pointing squarely at your [asshole].");
+                outputText("Bending over, you lift your [butt] high in the air. Most of your barely-covered tush is exposed, but the hem of your chainmail skirt still protects some of your anal modesty. That doesn't last long. You start shaking your [butt] up, down, back, and forth to an unheard rhythm, flipping the pointless covering out of the way so that " +
+                    monster.a +
+                    monster.refName +
+                    " can gaze upon your curvy behind in it all its splendid detail. A part of you hopes that " +
+                    monster.heShe +
+                    " takes in the intricate filigree on the back of your thong, though to " +
+                    monster.himHer +
+                    " it looks like a bunch of glittering arrows on an alabaster background, all pointing squarely at your [asshole].");
                 ass = true;
                 chance += 2;
             }
@@ -1260,15 +1453,15 @@ function teaseMain(justText) {
         //TIT BONUSES
         if (breasts) {
             if (player.bRows() > 1) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.bRows() > 2) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.bRows() > 4) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.biggestLactation() >= 2) {
@@ -1280,23 +1473,23 @@ function teaseMain(justText) {
                 bonusDamage += 2;
             }
             if (player.biggestTitSize() >= 4) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.biggestTitSize() >= 7) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.biggestTitSize() >= 12) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.biggestTitSize() >= 25) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.biggestTitSize() >= 50) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.hasFuckableNipples()) {
@@ -1311,51 +1504,51 @@ function teaseMain(justText) {
         //PUSSY BONUSES
         if (vagina) {
             if (player.hasVagina() && player.wetness() >= 2) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.hasVagina() && player.wetness() >= 3) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.hasVagina() && player.wetness() >= 4) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.hasVagina() && player.wetness() >= 5) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.clitLength > 1.5) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage++;
             }
             if (player.clitLength > 3.5) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.clitLength > 7) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.clitLength > 12) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.vaginalCapacity() >= 30) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.vaginalCapacity() >= 70) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.vaginalCapacity() >= 120) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.vaginalCapacity() >= 200) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
         }
@@ -1366,35 +1559,35 @@ function teaseMain(justText) {
                 bonusDamage += 2;
             }
             if (player.biggestCockArea() >= 15) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.biggestCockArea() >= 30) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.biggestCockArea() >= 60) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.biggestCockArea() >= 120) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.cumQ() >= 50) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.cumQ() >= 150) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.cumQ() >= 300) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.cumQ() >= 1000) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (balls > 0) {
@@ -1403,15 +1596,15 @@ function teaseMain(justText) {
                     bonusDamage += 2;
                 }
                 if (player.ballSize > 3) {
-                    bonusChance += .5;
+                    bonusChance += 0.5;
                     bonusDamage += 1;
                 }
                 if (player.ballSize > 7) {
-                    bonusChance += .5;
+                    bonusChance += 0.5;
                     bonusDamage += 1;
                 }
                 if (player.ballSize > 12) {
-                    bonusChance += .5;
+                    bonusChance += 0.5;
                     bonusDamage += 1;
                 }
             }
@@ -1426,43 +1619,43 @@ function teaseMain(justText) {
         }
         if (ass) {
             if (player.buttRating >= 6) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.buttRating >= 10) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.buttRating >= 13) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.buttRating >= 16) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.buttRating >= 20) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.hipRating >= 6) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.hipRating >= 10) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.hipRating >= 13) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.hipRating >= 16) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.hipRating >= 20) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
         }
@@ -1476,23 +1669,23 @@ function teaseMain(justText) {
                 bonusDamage += 2;
             }
             if (player.analCapacity() >= 30) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.analCapacity() >= 70) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.analCapacity() >= 120) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.analCapacity() >= 200) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.ass.analLooseness == 4) {
-                bonusChance += .5;
+                bonusChance += 0.5;
                 bonusDamage += 1;
             }
             if (player.ass.analLooseness == 5) {
@@ -1509,8 +1702,8 @@ function teaseMain(justText) {
     //Land the hit!
     if (rand(100) <= chance + rand(bonusChance)) {
         //NERF TEASE DAMAGE
-        damage *= .7;
-        bonusDamage *= .7;
+        damage *= 0.7;
+        bonusDamage *= 0.7;
         if (player.findPerk(PerkLib.HistoryWhore) >= 0) {
             damage *= 1.15;
             bonusDamage *= 1.15;

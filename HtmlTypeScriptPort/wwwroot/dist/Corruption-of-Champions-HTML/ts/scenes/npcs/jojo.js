@@ -1180,9 +1180,9 @@ JojoScene.loseToJojo = function () {
             player.lib += 10;
         if (player.cockTotal() > 1)
             player.lib += 5;
-        if (player.countCocksOfType(CockTypesEnum.HORSE) > 0)
+        if (player.countCocksOfType(ENUM.CockType.HORSE) > 0)
             player.lib += 3;
-        if (player.countCocksOfType(CockTypesEnum.DOG) > 0)
+        if (player.countCocksOfType(ENUM.CockType.DOG) > 0)
             player.lib += 2;
         if (player.biggestLactation() >= 1)
             player.lib += 2;
@@ -1614,10 +1614,10 @@ JojoScene.jojosFourthRape = function () {
                 player.multiCockDescriptLight() +
                 ", smiling as he licks his lips in anticipation. You gasp at the feelings of his soft lips and wet tongue on your heads as he pleasures you, your knees going weak from his efforts. Jojo cups your balls and slips a fuzzy finger into your ass. He labors to take in two shafts, struggling to swallow them as deep as possible, panting wetly around you. You twitch with pleasure as he alternates pressure on your prostate with smooth strokes of his slick tongue. ");
         //Too thick for him
-        if (player.averageCockThickness() > 3 || (player.countCocksOfType(CockTypesEnum.DOG) > 0 && player.averageCockThickness() > 3))
+        if (player.averageCockThickness() > 3 || (player.countCocksOfType(ENUM.CockType.DOG) > 0 && player.averageCockThickness() > 3))
             outputText("Jojo is forced to back off of your " + player.cockDescript(0) + " from time to time to come up for air, barely opening his jaw wide enough to take your girth back inside his mouth. ");
         //Too long for him
-        if (player.averageCockLength() > 10 || (player.countCocksOfType(CockTypesEnum.HORSE) > 0 && player.averageCockLength() > 10))
+        if (player.averageCockLength() > 10 || (player.countCocksOfType(ENUM.CockType.HORSE) > 0 && player.averageCockLength() > 10))
             outputText("He struggles not to gag on your " + player.cockDescript(0) + "'s length, opening his throat as far as he can. ");
         outputText("You rock back and forth on his face as he expertly keeps you on the edge of orgasm. ");
         if (player.cumQ() > 25)
@@ -1757,29 +1757,29 @@ JojoScene.jojosFourthRape = function () {
                 if (player.cumQ() < 25)
                     outputText("Your body tenses and cums, spraying spurts of jizz over the mouse. ");
                 if (player.cumQ() >= 25 && player.cumQ() < 250) {
-                    if (player.countCocksOfType(CockTypesEnum.HORSE) == 1)
+                    if (player.countCocksOfType(ENUM.CockType.HORSE) == 1)
                         outputText(" Your " + player.cockDescript(0) + " flares wildly as musky horse-cum erupts from it, splattering over Jojo. ");
-                    if (player.countCocksOfType(CockTypesEnum.DOG) == 1)
+                    if (player.countCocksOfType(ENUM.CockType.DOG) == 1)
                         outputText("The terrible pressure in your " +
                             player.cockDescript(0) +
                             " finally relents, in the form of a fountain of doggie-cum, spraying out from your " +
                             player.cockDescript(0) +
                             " in a steady stream that seems to last and last. ");
-                    if (player.cocks[0].cockType == CockTypesEnum.HUMAN || player.cocks[0].cockType > 2)
+                    if (player.cocks[0].cockType == ENUM.CockType.HUMAN || player.cocks[0].cockType > 2)
                         outputText("Your body tenses and cums a thick eruption far beyond what a normal human could produce. Jojo is splattered with the stuff. ");
                 }
                 if (player.cumQ() >= 250) {
-                    if (player.countCocksOfType(CockTypesEnum.HORSE) == 1)
+                    if (player.countCocksOfType(ENUM.CockType.HORSE) == 1)
                         outputText("Your " +
                             player.cockDescript(0) +
                             " ripples and bulges with animalistic vigor, horse-cum splattering everywhere with each contraction. The musky animal-jizz never seems to stop pouring from your equine organ, soaking the mouse from the waist up. ");
-                    if (player.countCocksOfType(CockTypesEnum.DOG) == 1)
+                    if (player.countCocksOfType(ENUM.CockType.DOG) == 1)
                         outputText("Your " +
                             player.cockDescript(0) +
                             " suddenly releases the pressure, a constant stream of doggie-cum spouting from your " +
                             player.cockDescript(0) +
                             " like some kind of cum-hose. It seems to go on endlessly, covering the mouse from the waist up with thick ribbons of doggie-spooge as your knot slowly shrinks to normal. ");
-                    if (player.cocks[0].cockType == CockTypesEnum.HUMAN || player.cocks[0].cockType > 2)
+                    if (player.cocks[0].cockType == ENUM.CockType.HUMAN || player.cocks[0].cockType > 2)
                         outputText("Your body tenses and cums a thick eruption far beyond what a normal human could produce. Jojo is splattered with the stuff. ");
                 }
             }

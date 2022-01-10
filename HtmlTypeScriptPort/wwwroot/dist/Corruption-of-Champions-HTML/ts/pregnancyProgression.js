@@ -23,7 +23,7 @@ pregnancyProgression.updatePregnancy = function () {
             case 3:
                 outputText("<b>There is no question you're pregnant; your belly is already as big as that of any pregnant woman back home. ");
                 if (gameFlags[AMILY_FOLLOWER] == 1)
-                    outputText("  Amily smiles at you reassuringly. \"<i>We do have litters, dear, this is normal.</i>\"");
+                    outputText('  Amily smiles at you reassuringly. "<i>We do have litters, dear, this is normal.</i>"');
                 outputText("</b><br><br>");
                 if (statControl == 0) {
                     player.modStats("spe", -1);
@@ -63,11 +63,11 @@ pregnancyProgression.updatePregnancy = function () {
             // outputText("<b>Reached Tit Growth Amily Loop</b><br><br>");
             if (player.biggestTitSize() >= 3 && player.mostBreastsPerRow() > 1 && player.biggestLactation() >= 1 && player.biggestLactation() < 2) {
                 outputText("Your breasts feel swollen with all the extra milk they're accumulating.<br><br>");
-                player.boostLactation(.5);
+                player.boostLactation(0.5);
             }
             if (player.biggestTitSize() >= 3 && player.mostBreastsPerRow() > 1 && player.biggestLactation() > 0 && player.biggestLactation() < 1) {
                 outputText("Drops of breastmilk escape your nipples as your body prepares for the coming birth.<br><br>");
-                player.boostLactation(.5);
+                player.boostLactation(0.5);
             }
             if (player.biggestTitSize() >= 3 && player.mostBreastsPerRow() > 1 && player.biggestLactation() == 0) {
                 outputText("<b>You realize your breasts feel full, and occasionally lactate</b>.  It must be due to the pregnancy.<br><br>");
@@ -94,7 +94,7 @@ pregnancyProgression.updatePregnancy = function () {
         }
         //Give birth to pure Amily's kids
         if (player.pregnancyIncubation == 0 && player.pregnancyType == PREGNANCY_AMILY) {
-            player.boostLactation(.01);
+            player.boostLactation(0.01);
             outputText("<br>");
             if (player.vaginas.length == 0) {
                 outputText("You feel a terrible pressure in your groin... then an incredible pain accompanied by the rending of flesh.  <b>You look down and behold a new vagina</b>.  ");
@@ -106,7 +106,7 @@ pregnancyProgression.updatePregnancy = function () {
             if (player.vaginas[0].vaginalWetness == VAGINA_WETNESS_DRY)
                 player.vaginas[0].vaginalWetness++;
             player.orgasm();
-            player.modStats("str", -1, "tou", -2, "spe", 3, "lib", 1, "sen", .5);
+            player.modStats("str", -1, "tou", -2, "spe", 3, "lib", 1, "sen", 0.5);
             displayedUpdate = true;
             outputText("<br><br>");
             player.knockUpForce(0, 0); //Clear Pregnancy
@@ -254,14 +254,14 @@ pregnancyProgression.updatePregnancy = function () {
         outputText("<br><br>When you wake you find a large number of tiny imp tracks... and a spattering of cum on your clothes and body.  They must be born fully-formed.");
         if (player.averageLactation() > 0 && player.averageLactation() < 5) {
             outputText("  Your breasts won't seem to stop dribbling milk, lactating more heavily than before.");
-            player.boostLactation(.5);
+            player.boostLactation(0.5);
         }
         //Lactate if large && not lactating
         if (player.biggestTitSize() >= 3 && player.mostBreastsPerRow() > 1 && player.averageLactation() == 0) {
             outputText("  As you ponder the implications, <b>you realize your breasts have been slowly lactating</b>.  You wonder how much longer it will be before they stop.");
             player.boostLactation(1);
         }
-        player.boostLactation(.01);
+        player.boostLactation(0.01);
         //Enlarge if too small for lactation
         if (player.biggestTitSize() == 2 && player.mostBreastsPerRow() > 1) {
             outputText("  <b>Your breasts have grown to C-cups!</b>");
@@ -279,7 +279,7 @@ pregnancyProgression.updatePregnancy = function () {
         if (player.gender == 0)
             player.gender = 2;
         player.orgasm();
-        player.modStats("tou", -2, "spe", 2, "lib", 1, "sen", .5, "cor", 7);
+        player.modStats("tou", -2, "spe", 2, "lib", 1, "sen", 0.5, "cor", 7);
         if (player.buttRating < 10 && rand(2) == 0) {
             player.buttRating++;
             outputText("<br><br>You notice your " + player.buttDescript() + " feeling larger and plumper after the ordeal.");
@@ -305,25 +305,26 @@ pregnancyProgression.updatePregnancy = function () {
                 outputText("The aroma seems to permeate your very being, slowly congregating in your ", false);
             if (player.cockTotal() == 1) {
                 outputText(player.cockDescript(0), false);
-                if (player.countCocksOfType(CockTypesEnum.HORSE) == 1)
+                if (player.countCocksOfType(ENUM.CockType.HORSE) == 1)
                     outputText(", each inhalation making it bigger, harder, and firmer.  You suck in huge lungfuls of air, until your " + player.cockDescript(0) + " is twitching and dripping, the flare swollen and purple.  ", false);
                 if (player.dogCocks() == 1)
                     outputText(", each inhalation making it thicker, harder, and firmer.  You suck in huge lungfuls of air, desperate for more, until your " + player.cockDescript(0) + " is twitching and dripping, its knot swollen to the max.  ", false);
-                if (player.countCocksOfType(CockTypesEnum.HUMAN) == 1)
+                if (player.countCocksOfType(ENUM.CockType.HUMAN) == 1)
                     outputText(", each inhalation making it bigger, harder, and firmer.  You suck in huge lungfuls of air, until your " + player.cockDescript(0) + " is twitching and dripping, the head swollen and purple.  ", false);
                 //FAILSAFE FOR NEW COCKS
-                if (player.countCocksOfType(CockTypesEnum.HUMAN) == 0 && player.dogCocks() == 0 && player.countCocksOfType(CockTypesEnum.HORSE) == 0)
+                if (player.countCocksOfType(ENUM.CockType.HUMAN) == 0 && player.dogCocks() == 0 && player.countCocksOfType(ENUM.CockType.HORSE) == 0)
                     outputText(", each inhalation making it bigger, harder, and firmer.  You suck in huge lungfuls of air until your " + player.cockDescript(0) + " is twitching and dripping.  ", false);
             }
             if (player.cockTotal() > 1)
-                outputText("groin.  Your " + player.multiCockDescriptLight() + " fill and grow with every lungful of the stuff you breathe in.  You suck in great lungfuls of the tainted air, desperate for more, your cocks twitching and dripping with need.  ", false);
+                outputText("groin.  Your " +
+                    player.multiCockDescriptLight() +
+                    " fill and grow with every lungful of the stuff you breathe in.  You suck in great lungfuls of the tainted air, desperate for more, your cocks twitching and dripping with need.  ", false);
             outputText("You smile knowing you couldn't stop from masturbating if you wanted to.<br><br>", false);
             if (buttStatControl == 0) {
                 buttStatControl = 1;
-                player.dynStats("int", -.5);
+                player.dynStats("int", -0.5);
                 player.changeLust(500);
             }
-            ;
             displayedUpdate = true;
         }
     }
@@ -337,7 +338,9 @@ pregnancyProgression.updatePregnancy = function () {
         outputText("Your hand darts down to the amber, scooping up a handful of the sticky stuff.  You wonder what your hand is doing as it brings it up to your mouth, which instinctively opens.  You shudder in revulsion as you swallow the sweet-tasting stuff, your mind briefly wondering why it would do that.  The stuff seems to radiate warmth, quickly pushing those nagging thoughts away as you scoop up more.<br><br>", false);
         outputText("A sudden slip from below surprises you; a white sphere escapes from your anus along with another squirt of honey.  Your drugged brain tries to understand what's happening, but it gives up, your hands idly slathering honey over your loins.  The next orb pops out moments later, forcing a startled moan from your mouth.  That felt GOOD.  You begin masturbating to the thought of laying more eggs... yes, that's what those are.  You nearly cum as egg number three squeezes out.  ", false);
         if (player.averageLactation() >= 1 && player.biggestTitSize() > 2)
-            outputText("Seeking even greater sensation, your hands gather the honey and massage it into your " + player.breastDescript(0) + ", slowly working up to your nipples.  Milk immediately begins pouring out from the attention, flooding your chest with warmth.  ", false);
+            outputText("Seeking even greater sensation, your hands gather the honey and massage it into your " +
+                player.breastDescript(0) +
+                ", slowly working up to your nipples.  Milk immediately begins pouring out from the attention, flooding your chest with warmth.  ", false);
         outputText("Each egg seems to come out closer on the heels of the one before, and each time your conscious mind loses more of its ability to do anything but masturbate and wallow in honey.<br><br>", false);
         outputText("Some time later, your mind begins to return, brought to wakefulness by an incredibly loud buzzing...  You sit up and see a pile of dozens of eggs resting in a puddle of sticky honey.  Most are empty, but a few have hundreds of honey-bees emptying from them, joining the massive swarms above you.  ", false);
         if (player.cor < 35)
@@ -382,11 +385,12 @@ pregnancyProgression.updatePregnancy = function () {
         }
         outputText("There is a lurching in your belly that steals the breath from you. As seconds pass, the quivering kicks increase and you're forced to the ground as your womb feels like it's been set aflame by the heat pouring from your stowaway goo-girl. You pant and spread your labia with two fingers, the chill of your hands on your inflamed sex so sweet that you almost cum from the mere touch. Your cervix clenches involuntarily and you try to relax as much as possible, but the slime inside of you hardly needs the help. Squishing and slurping in gouts of syrupy fluid, she trickles from your uterus, sliding out of your tunnel in spurting gouts. You sigh and let her force her seething warmth from within you, the small puddle of ooze growing larger as it pools together. Finally, the small, red heart pops out of your tunnel and you allow yourself a big gulp of chill air to resuscitate your seared lungs.<br><br>", false);
         monster = new GooGirl(); //because if we don't, the gooColor4() goes crazy.
-        outputText("The small " + monster.gooColor4() + " sludge quivers, but seems unable to take a human shape. Extending pseudopods, it experimentally prods at your skin, trying to gets its bearings. You shiver as the goo slides over your flesh, poking you wetly from time to time. When it finds your breasts, the goo works up your mounds and slurps at your teats, milk filling the blob with a creamy tint that makes it larger and gives its membrane a firmer texture. It takes about ten minutes to flop its way across your entire body before sliding off of you and wriggling at your feet. It shifts again, but this time, manages to form a featureless head. Slowly, gradually, it adds more, morphing shoulders, arms, a waist, and even hips. Her body ripples and the blank slime morphs into a perfect miniature copy of you! It stares up at its mother with a happy expression before lurching away, toward the lake. Even though you were just her incubator and template, you can't help but feel a little pride at your goo child entering the wild world with a fearless sense of exploration.", false);
+        outputText("The small " +
+            monster.gooColor4() +
+            " sludge quivers, but seems unable to take a human shape. Extending pseudopods, it experimentally prods at your skin, trying to gets its bearings. You shiver as the goo slides over your flesh, poking you wetly from time to time. When it finds your breasts, the goo works up your mounds and slurps at your teats, milk filling the blob with a creamy tint that makes it larger and gives its membrane a firmer texture. It takes about ten minutes to flop its way across your entire body before sliding off of you and wriggling at your feet. It shifts again, but this time, manages to form a featureless head. Slowly, gradually, it adds more, morphing shoulders, arms, a waist, and even hips. Her body ripples and the blank slime morphs into a perfect miniature copy of you! It stares up at its mother with a happy expression before lurching away, toward the lake. Even though you were just her incubator and template, you can't help but feel a little pride at your goo child entering the wild world with a fearless sense of exploration.", false);
         player.changeLust(50);
         player.knockUpForce(0, 0);
     }
-    ;
     //---------------
     // SANDTRAP PREGNANCY
     //-------------

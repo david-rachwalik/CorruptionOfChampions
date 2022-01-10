@@ -18,7 +18,7 @@ CharCreation.initializeNewGame = function () {
 CharCreation.chooseName = function () {
     clearOutput();
     outputText("You grew up in the small village of Ingnam, a remote village with rich traditions, buried deep in the wilds.  Every year for as long as you can remember, your village has chosen a champion to send to the cursed Demon Realm.  Legend has it that in years Ingnam has failed to produce a champion, chaos has reigned over the countryside.  Children disappear, crops wilt, and disease spreads like wildfire.  This year, <b>you</b> have been selected to be the champion.<br><br>What is your name?<br>");
-    outputText("<input type=\"text\" name=\"inputname\" id=\"inputname\">");
+    outputText('<input type="text" name="inputname" id="inputname">');
     doNext(CharCreation.chooseGender);
 };
 CharCreation.chooseGender = function () {
@@ -53,7 +53,7 @@ CharCreation.setGender = function (gender) {
             player.balls = 2;
             player.ballSize = 1;
             player.clitLength = 0;
-            player.createCock(5.5, 1, CockTypesEnum.HUMAN);
+            player.createCock(5.5, 1, ENUM.CockType.HUMAN);
             player.cocks[0].knotMultiplier = 1;
             //Breasts
             player.createBreastRow();
@@ -88,8 +88,8 @@ CharCreation.setGender = function (gender) {
             player.tone = 45;
             //Genetalia
             player.createVagina();
-            player.clitLength = .5;
-            player.createCock(5.5, 1, CockTypesEnum.HUMAN);
+            player.clitLength = 0.5;
+            player.createCock(5.5, 1, ENUM.CockType.HUMAN);
             player.cocks[0].knotMultiplier = 1;
             //Breasts
             player.createBreastRow();
@@ -221,11 +221,11 @@ CharCreation.setBuild = function (build) {
 CharCreation.customizeCharacterMenu = function () {
     clearOutput();
     outputText("You can customize your character here. You will be able to alter your appearance through the usage of certain items.<br><br>");
-    outputText("Height: " + Math.floor(player.tallness / 12) + "'" + player.tallness % 12 + "\"<br>");
+    outputText("Height: " + Math.floor(player.tallness / 12) + "'" + (player.tallness % 12) + '"<br>');
     outputText("Skin tone: " + player.skinTone + "<br>");
     outputText("Hair color: " + player.hairColor + "<br>");
     if (player.hasCock())
-        outputText("Cock size: " + player.cocks[0].cockLength + "\" long, " + player.cocks[0].cockThickness + "\" thick<br>");
+        outputText("Cock size: " + player.cocks[0].cockLength + '" long, ' + player.cocks[0].cockThickness + '" thick<br>');
     outputText("Breast size: " + player.breastCup(0) + "<br>");
     menu();
     addButton(0, "Complexion", CharCreation.menuSkinComplexion);
@@ -314,7 +314,7 @@ Intro.arrivalPartThree = function () {
     hideUpDown();
     player.changeLust(-30, false);
     outputText("The imp shakes the empty vial to emphasize his point.  You reel in shock at this revelation - you've just entered the demon realm and you've already been drugged!  You tremble with the aching need in your groin, but resist, righteous anger lending you strength.<br><br>In desperation you leap towards the imp, watching with glee as his cocky smile changes to an expression of sheer terror.  The smaller creature is no match for your brute strength as you pummel him mercilessly.  You pick up the diminutive demon and punt him into the air, frowning grimly as he spreads his wings and begins speeding into the distance.<br><br>");
-    outputText("The imp says, \"<i>FOOL!  You could have had pleasure unending... but should we ever cross paths again you will regret humiliating me!  Remember the name Zetaz, as you'll soon face the wrath of my master!</i>\"<br><br>");
+    outputText('The imp says, "<i>FOOL!  You could have had pleasure unending... but should we ever cross paths again you will regret humiliating me!  Remember the name Zetaz, as you\'ll soon face the wrath of my master!</i>"<br><br>');
     outputText("Your pleasure at defeating the demon ebbs as you consider how you've already been defiled.  You swear to yourself you will find the demon responsible for doing this to you and the other Champions, and destroy him AND his pet imp.");
     doNext(Intro.arrivalPartFour);
 };

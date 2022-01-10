@@ -112,6 +112,8 @@ var ArmType;
     ArmType[ArmType["ARM_TYPE_HUMAN"] = 0] = "ARM_TYPE_HUMAN";
     ArmType[ArmType["ARM_TYPE_HARPY"] = 1] = "ARM_TYPE_HARPY";
     ArmType[ArmType["ARM_TYPE_SPIDER"] = 2] = "ARM_TYPE_SPIDER";
+    ArmType[ArmType["ARM_TYPE_SALAMANDER"] = 3] = "ARM_TYPE_SALAMANDER";
+    ArmType[ArmType["ARM_TYPE_PREDATOR"] = 4] = "ARM_TYPE_PREDATOR";
 })(ArmType || (ArmType = {}));
 var ClawType;
 (function (ClawType) {
@@ -204,7 +206,7 @@ var PiercingType;
     PiercingType[PiercingType["PIERCING_TYPE_HOOP"] = 4] = "PIERCING_TYPE_HOOP";
     PiercingType[PiercingType["PIERCING_TYPE_CHAIN"] = 5] = "PIERCING_TYPE_CHAIN";
 })(PiercingType || (PiercingType = {}));
-// renamed from CockTypesEnum
+// renamed from ENUM.CockType
 var CockType;
 (function (CockType) {
     CockType[CockType["UNDEFINED"] = -1] = "UNDEFINED";
@@ -493,5 +495,91 @@ var BreastSizeType;
     BreastSizeType[BreastSizeType["BREAST_CUP_HYPER_ZZZ"] = 197] = "BREAST_CUP_HYPER_ZZZ";
     BreastSizeType[BreastSizeType["BREAST_CUP_HYPER_ZZZ_LARGE"] = 198] = "BREAST_CUP_HYPER_ZZZ_LARGE"; //Beyond this size is Jacques00-cup
 })(BreastSizeType || (BreastSizeType = {}));
-export { GenderType, SkinType, HairType, BeardType, FaceType, TongueType, EyeType, EarType, HornType, AntennaeType, ArmType, ClawType, TailType, LowerBodyType, WingType, PiercingType, CockType, VaginaType, VaginalWetnessType, VaginalLoosenessType, AnalWetnessType, AnalLoosenessType, HipRatingType, ButtRatingType, BreastSizeType };
+/*
+    Pregnancy Enums
+ */
+//Pregancy types. Both butt and normal. Each type represents the father of this baby.
+var PregnancyType;
+(function (PregnancyType) {
+    PregnancyType[PregnancyType["PREGNANCY_MINOTAUR"] = 2] = "PREGNANCY_MINOTAUR";
+    PregnancyType[PregnancyType["PREGNANCY_MOUSE"] = 4] = "PREGNANCY_MOUSE";
+    PregnancyType[PregnancyType["PREGNANCY_HELL_HOUND"] = 6] = "PREGNANCY_HELL_HOUND";
+    PregnancyType[PregnancyType["PREGNANCY_CENTAUR"] = 7] = "PREGNANCY_CENTAUR";
+    PregnancyType[PregnancyType["PREGNANCY_MARBLE"] = 8] = "PREGNANCY_MARBLE";
+    PregnancyType[PregnancyType["PREGNANCY_BUNNY"] = 9] = "PREGNANCY_BUNNY";
+    PregnancyType[PregnancyType["PREGNANCY_AMILY"] = 11] = "PREGNANCY_AMILY";
+    PregnancyType[PregnancyType["PREGNANCY_IZMA"] = 12] = "PREGNANCY_IZMA";
+    PregnancyType[PregnancyType["PREGNANCY_SPIDER"] = 13] = "PREGNANCY_SPIDER";
+    PregnancyType[PregnancyType["PREGNANCY_BASILISK"] = 14] = "PREGNANCY_BASILISK";
+    PregnancyType[PregnancyType["PREGNANCY_GOO_GIRL"] = 16] = "PREGNANCY_GOO_GIRL";
+    PregnancyType[PregnancyType["PREGNANCY_EMBER"] = 17] = "PREGNANCY_EMBER";
+    PregnancyType[PregnancyType["PREGNANCY_BENOIT"] = 18] = "PREGNANCY_BENOIT";
+    PregnancyType[PregnancyType["PREGNANCY_SATYR"] = 19] = "PREGNANCY_SATYR";
+    PregnancyType[PregnancyType["PREGNANCY_COTTON"] = 20] = "PREGNANCY_COTTON";
+    PregnancyType[PregnancyType["PREGNANCY_URTA"] = 21] = "PREGNANCY_URTA";
+    PregnancyType[PregnancyType["PREGNANCY_SAND_WITCH"] = 22] = "PREGNANCY_SAND_WITCH";
+    PregnancyType[PregnancyType["PREGNANCY_FROG_GIRL"] = 23] = "PREGNANCY_FROG_GIRL";
+    PregnancyType[PregnancyType["PREGNANCY_FAERIE"] = 24] = "PREGNANCY_FAERIE";
+    PregnancyType[PregnancyType["PREGNANCY_PLAYER"] = 25] = "PREGNANCY_PLAYER";
+    PregnancyType[PregnancyType["PREGNANCY_SANDTRAP_FERTILE"] = 27] = "PREGNANCY_SANDTRAP_FERTILE";
+    PregnancyType[PregnancyType["PREGNANCY_SANDTRAP"] = 28] = "PREGNANCY_SANDTRAP";
+    PregnancyType[PregnancyType["PREGNANCY_JOJO"] = 29] = "PREGNANCY_JOJO";
+    PregnancyType[PregnancyType["PREGNANCY_KELT"] = 30] = "PREGNANCY_KELT";
+    PregnancyType[PregnancyType["PREGNANCY_TAOTH"] = 31] = "PREGNANCY_TAOTH";
+    PregnancyType[PregnancyType["PREGNANCY_GOO_STUFFED"] = 32] = "PREGNANCY_GOO_STUFFED";
+    PregnancyType[PregnancyType["PREGNANCY_WORM_STUFFED"] = 33] = "PREGNANCY_WORM_STUFFED";
+    PregnancyType[PregnancyType["PREGNANCY_MINERVA"] = 34] = "PREGNANCY_MINERVA";
+    PregnancyType[PregnancyType["PREGNANCY_BEHEMOTH"] = 35] = "PREGNANCY_BEHEMOTH";
+    PregnancyType[PregnancyType["PREGNANCY_PHOENIX"] = 36] = "PREGNANCY_PHOENIX";
+    PregnancyType[PregnancyType["PREGNANCY_ANDY"] = 37] = "PREGNANCY_ANDY"; //This is functionally the same as Satyr but less corrupt. 10% chance of fauns, if ever implemented.
+})(PregnancyType || (PregnancyType = {}));
+var PregType;
+(function (PregType) {
+    PregType[PregType["PREG_NOT_PREGANT"] = 0] = "PREG_NOT_PREGANT";
+    PregType[PregType["PREG_NO_SIGNS_UNKNOWN"] = 1] = "PREG_NO_SIGNS_UNKNOWN";
+    PregType[PregType["PREG_NO_SIGNS_KNOWN"] = 2] = "PREG_NO_SIGNS_KNOWN";
+    PregType[PregType["PREG_START_BULGE"] = 3] = "PREG_START_BULGE";
+    PregType[PregType["PREG_SWOLLEN"] = 4] = "PREG_SWOLLEN";
+    PregType[PregType["PREG_SIZEABLE"] = 5] = "PREG_SIZEABLE";
+    PregType[PregType["PREG_BLATANT"] = 6] = "PREG_BLATANT";
+    PregType[PregType["PREG_FULL_TERM"] = 7] = "PREG_FULL_TERM";
+    PregType[PregType["PREG_OVERDUE"] = 8] = "PREG_OVERDUE";
+    PregType[PregType["PREG_VERY_OVERDUE"] = 9] = "PREG_VERY_OVERDUE"; //NPC is very overdue. Probably triplets or more. Effectively looks 11 months pregnant
+    //Old Value, replaced in Saves.unFuckSave()        PREGNANCY_BUTT_BEE              =   2;
+    //Old Value, replaced in Saves.unFuckSave()        PREGNANCY_BUTT_DRIDER           =   3;
+    //Old Value, replaced in Saves.unFuckSave()        PREGNANCY_BUTT_SANDTRAP_FERTILE =   4;
+    //Old Value, replaced in Saves.unFuckSave()        PREGNANCY_BUTT_SANDTRAP         =   5; //Sandtrap did not have fertilized eggs
+})(PregType || (PregType = {}));
+var IncubationType;
+(function (IncubationType) {
+    IncubationType[IncubationType["INCUBATION_MINOTAUR"] = 432] = "INCUBATION_MINOTAUR";
+    IncubationType[IncubationType["INCUBATION_OVIELIXIR_EGGS"] = 50] = "INCUBATION_OVIELIXIR_EGGS";
+    IncubationType[IncubationType["INCUBATION_HELL_HOUND"] = 352] = "INCUBATION_HELL_HOUND";
+    IncubationType[IncubationType["INCUBATION_CENTAUR"] = 420] = "INCUBATION_CENTAUR";
+    IncubationType[IncubationType["INCUBATION_MARBLE"] = 368] = "INCUBATION_MARBLE";
+    IncubationType[IncubationType["INCUBATION_BUNNY_BABY"] = 200] = "INCUBATION_BUNNY_BABY";
+    IncubationType[IncubationType["INCUBATION_BUNNY_EGGS"] = 808] = "INCUBATION_BUNNY_EGGS";
+    IncubationType[IncubationType["INCUBATION_ANEMONE"] = 256] = "INCUBATION_ANEMONE";
+    IncubationType[IncubationType["INCUBATION_IZMA"] = 300] = "INCUBATION_IZMA";
+    IncubationType[IncubationType["INCUBATION_SPIDER"] = 400] = "INCUBATION_SPIDER";
+    IncubationType[IncubationType["INCUBATION_BASILISK"] = 250] = "INCUBATION_BASILISK";
+    IncubationType[IncubationType["INCUBATION_GOO_GIRL"] = 85] = "INCUBATION_GOO_GIRL";
+    IncubationType[IncubationType["INCUBATION_EMBER"] = 336] = "INCUBATION_EMBER";
+    IncubationType[IncubationType["INCUBATION_SATYR"] = 160] = "INCUBATION_SATYR";
+    IncubationType[IncubationType["INCUBATION_COTTON"] = 350] = "INCUBATION_COTTON";
+    IncubationType[IncubationType["INCUBATION_URTA"] = 515] = "INCUBATION_URTA";
+    IncubationType[IncubationType["INCUBATION_SAND_WITCH"] = 360] = "INCUBATION_SAND_WITCH";
+    IncubationType[IncubationType["INCUBATION_FROG_GIRL"] = 30] = "INCUBATION_FROG_GIRL";
+    IncubationType[IncubationType["INCUBATION_FAERIE"] = 200] = "INCUBATION_FAERIE";
+    IncubationType[IncubationType["INCUBATION_SANDTRAP"] = 42] = "INCUBATION_SANDTRAP";
+    IncubationType[IncubationType["INCUBATION_HARPY"] = 168] = "INCUBATION_HARPY";
+    IncubationType[IncubationType["INCUBATION_SHIELA"] = 72] = "INCUBATION_SHIELA";
+    IncubationType[IncubationType["INCUBATION_SALAMANDER"] = 336] = "INCUBATION_SALAMANDER";
+    IncubationType[IncubationType["INCUBATION_MINERVA"] = 216] = "INCUBATION_MINERVA";
+    IncubationType[IncubationType["INCUBATION_BEHEMOTH"] = 1440] = "INCUBATION_BEHEMOTH";
+    IncubationType[IncubationType["INCUBATION_PHOENIX"] = 168] = "INCUBATION_PHOENIX";
+    IncubationType[IncubationType["INCUBATION_KIHA"] = 384] = "INCUBATION_KIHA";
+    IncubationType[IncubationType["INCUBATION_ISABELLA"] = 2160] = "INCUBATION_ISABELLA"; //Longest pregnancy ever.
+})(IncubationType || (IncubationType = {}));
+export { GenderType, SkinType, HairType, BeardType, FaceType, TongueType, EyeType, EarType, HornType, AntennaeType, ArmType, ClawType, TailType, LowerBodyType, WingType, PiercingType, CockType, VaginaType, VaginalWetnessType, VaginalLoosenessType, AnalWetnessType, AnalLoosenessType, HipRatingType, ButtRatingType, BreastSizeType, PregnancyType, PregType, IncubationType };
 //# sourceMappingURL=appearanceEnums.js.map

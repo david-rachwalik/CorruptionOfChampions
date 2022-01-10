@@ -6,7 +6,7 @@ import { addToGameFlags } from "../../engine/saves";
 import { Items } from "../../itemClass";
 import { PerkLib } from "../../perkLib";
 import { Inventory } from "../inventory";
-import * as Camp from "../camp";
+import { Camp } from "../camp";
 addToGameFlags(RATHAZUL_MET, RATHAZUL_CAMP, RATHAZUL_PURCHASE_COUNTER, RATHAZUL_ARMOUR_COUNTER);
 class RathazulScene {
     static encounterRathazul() {
@@ -39,7 +39,7 @@ class RathazulScene {
             liveData.gameFlags[RATHAZUL_CAMP] = -1; //If declined, he won't offer to move into camp. Fortunately, that won't lock you out of spider silk armour.
             return;
         }
-        var offered = this.rathazulWorkOffer();
+        let offered = this.rathazulWorkOffer();
         if (!offered) {
             outputText('He sighs dejectedly, "<i>I am not sure what I can do for you, youngling. This world is fraught with unimaginable dangers, and you\'re just scratching the surface of them.</i>"<br><br>You nod and move on, leaving the depressed alchemist to his sadness.');
             GUI.doNext(Camp.returnToCampUseOneHour);
@@ -93,9 +93,9 @@ class RathazulScene {
             liveData.player.changeLust(-((liveData.player.lust - 50) / 5), false);
         //Introduction
         //outputText(images.showImage("rathazul-camp"));
-        outputText('Rathazul looks up from his equipment and gives you an uncertain smile.<br><br>"<i>Oh, don\'t mind me,</i>" he says, "<i>I\'m just running some tests here. Was there something you needed, ' + player.name + '?</i>"<br><br>');
+        outputText('Rathazul looks up from his equipment and gives you an uncertain smile.<br><br>"<i>Oh, don\'t mind me,</i>" he says, "<i>I\'m just running some tests here. Was there something you needed, ' + liveData.player.name + '?</i>"<br><br>');
         //liveData.player.createStatusAffect(StatusAffects.metRathazul,0,0,0,0);
-        var offered = this.rathazulWorkOffer();
+        let offered = this.rathazulWorkOffer();
         if (!offered) {
             outputText("He sighs dejectedly, \"<i>I don't think there is. Why don't you leave me be for a time, and I will see if I can find something to aid you.</i>\"");
             if (liveData.gameFlags[RATHAZUL_CAMP] > 0)
@@ -111,13 +111,13 @@ class RathazulScene {
             this.encounterRathazul();
     }
     static rathazulWorkOffer() {
-        var totalOffers = 0;
-        var showArmorMenu = false;
-        var purify = false;
-        var debimbo = false;
-        var reductos = false;
-        var lethiciteDefense = false;
-        var dyes = false;
+        let totalOffers = 0;
+        let showArmorMenu = false;
+        let purify = false;
+        let debimbo = false;
+        let reductos = false;
+        let lethiciteDefense = false;
+        let dyes = false;
         /*if (flags[RATHAZUL_SILK_ARMOR_COUNTDOWN] == 1 && flags[UNKNOWN_FLAG_NUMBER_00275] > 0) {
             this.collectRathazulArmor();
             return true;
@@ -172,7 +172,7 @@ class RathazulScene {
         if (liveData.player.hasKeyItem("Tentacled Bark Plates") >= 0 || liveData.player.hasKeyItem("Divine Bark Plates") >= 0)
             showArmorMenu = true;
         //Item purification offer
-        var pCounter = 0;
+        let pCounter = 0;
         if (liveData.player.hasItem(Items.Consumables.IncubiDraft)) {
             pCounter++;
         }
@@ -418,7 +418,7 @@ class RathazulScene {
         else
             outputText("undergarment");
         outputText(' is finished!</i>"<br><br>');
-        var itype;
+        let itype;
         switch (liveData.gameFlags[9999]) {
             case 1: //Armor
                 //outputText(images.showImage("rathazul-craft-silkarmor"));
@@ -486,7 +486,7 @@ class RathazulScene {
             liveData.player.destroyItems(Items.Materials.DragonScale, 2);
         }
         clearOutput();
-        var itype;
+        let itype;
         switch (type) {
             case 0: //Armor
                 //outputText(images.showImage("rathazul-craft-dragonscalearmor"));

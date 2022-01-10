@@ -89,28 +89,33 @@ class UTIL {
     static lookupStatusEffects(id) {
         return StatusEffectIDs[id];
     }
+    // //Function
+    // static createCallBackFunction(func: any, arg1: any = undefined, arg2: any = undefined, arg3: any = undefined): () => void {
+    //     if (arg1 != undefined) {
+    //         if (arg2 != undefined) {
+    //             if (arg3 != undefined) {
+    //                 return function () {
+    //                     func(arg1, arg2, arg3)
+    //                 }
+    //             }
+    //             return function () {
+    //                 func(arg1, arg2)
+    //             }
+    //         }
+    //         return function () {
+    //             func(arg1)
+    //         }
+    //     } else {
+    //         return function () {
+    //             func()
+    //         }
+    //     }
+    // }
     //Function
-    static createCallBackFunction(func, arg1 = undefined, arg2 = undefined, arg3 = undefined) {
-        if (arg1 != undefined) {
-            if (arg2 != undefined) {
-                if (arg3 != undefined) {
-                    return function () {
-                        func(arg1, arg2, arg3);
-                    };
-                }
-                return function () {
-                    func(arg1, arg2);
-                };
-            }
-            return function () {
-                func(arg1);
-            };
-        }
-        else {
-            return function () {
-                func();
-            };
-        }
+    static createCallBackFunction(func, ...args) {
+        return function () {
+            func(...args);
+        };
     }
 }
 UTIL.NUMBER_WORDS_NORMAL = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
