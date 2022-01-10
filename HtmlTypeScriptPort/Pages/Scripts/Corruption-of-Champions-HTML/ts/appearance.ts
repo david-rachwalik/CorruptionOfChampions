@@ -569,120 +569,6 @@ abstract class Appearance {
         return UTIL.randomChoice("inhumanly distended", "monstrously thick", "bloated")
     }
 
-    //Cock adjectives for single cock
-    static cockAdjectives(i_cockLength: number, i_cockThickness: number, i_cockType: ENUM.CockType, i_creature: ICreature): string {
-        let description = ""
-        let rando = 0
-        let descripts = 0
-        //length or thickness, usually length.
-        if (UTIL.rand(4) == 0) {
-            if (i_cockLength < 3) {
-                rando = UTIL.rand(3)
-                if (rando == 0) description = "little"
-                else if (rando == 1) description = "toy-sized"
-                else description = "tiny"
-            } else if (i_cockLength < 5) {
-                if (UTIL.rand(2) == 0) description = "short"
-                else description = "small"
-            } else if (i_cockLength < 7) {
-                if (UTIL.rand(2) == 0) description = "fair-sized"
-                else description = "nice"
-            } else if (i_cockLength < 9) {
-                rando = UTIL.rand(3)
-                if (rando == 0) description = "long"
-                else if (rando == 1) description = "lengthy"
-                else if (rando == 2) description = "sizable"
-            } else if (i_cockLength < 13) {
-                if (UTIL.rand(2) == 0) description = "huge"
-                else description = "foot-long"
-            } else if (i_cockLength < 18) {
-                if (UTIL.rand(2) == 0) description = "massive"
-                else description = "forearm-length"
-            } else if (i_cockLength < 30) {
-                if (UTIL.rand(2) == 0) description = "enormous"
-                else description = "monster-length"
-            } else {
-                rando = UTIL.rand(3)
-                if (rando == 0) description = "towering"
-                else if (rando == 1) description = "freakish"
-                else description = "massive"
-            }
-            descripts = 1
-        }
-        //thickness go!
-        else if (UTIL.rand(4) == 0 && descripts == 0) {
-            if (i_cockThickness <= 0.75) description += "narrow"
-            else if (i_cockThickness <= 1.1) description += "nice"
-            else if (i_cockThickness <= 1.4) {
-                if (UTIL.rand(2) == 0) description += "ample"
-                else description += "big"
-            } else if (i_cockThickness <= 2) {
-                if (UTIL.rand(2) == 0) description += "broad"
-                else description += "girthy"
-            } else if (i_cockThickness <= 3.5) {
-                if (UTIL.rand(2) == 0) description += "fat"
-                else description += "distended"
-            } else {
-                if (UTIL.rand(2) == 0) description += "inhumanly distended"
-                else description += "monstrously thick"
-            }
-            descripts = 1
-        }
-        //Length/Thickness done.  Moving on to special animal characters/lust stuff.
-        /*Animal Fillers - turned off due to duplication in noun segment
-        else if (type == 1 && descripts == 0 && UTIL.rand(2) == 0) {
-        if (UTIL.rand(2) == 0) descript += "flared ";
-        else descript += "musky ";
-        }
-        else if (type == 2 && descripts == 0 && UTIL.rand(2) == 0) {
-        descript += "musky ";
-        }*/
-        //FINAL FALLBACKS - lust descriptors
-        //Lust stuff
-        else if (i_creature.lust > 90) {
-            //lots of cum? drippy.
-            if (i_creature.cumQ() > 50 && i_creature.cumQ() < 200 && UTIL.rand(2) == 0) {
-                //for hroses and dogs
-                if (i_cockType.Group == "animal") description += "animal-pre leaking"
-                else description += "pre-slickened"
-                descripts = 1
-            }
-            //Tons of cum
-            if (i_creature.cumQ() >= 200 && UTIL.rand(2) == 0) {
-                //for horses and dogs
-                if (i_cockType.Group == "animal") description += "animal-spunk dripping"
-                else description += "cum-drooling"
-                descripts = 1
-            }
-            //Not descripted? Pulsing and twitching
-            if (descripts == 0) {
-                if (UTIL.rand(2) == 0) description += "throbbing"
-                else description += "pulsating"
-                descripts = 1
-            }
-        }
-        //A little less lusty, but still lusty.
-        else if (i_creature.lust > 75) {
-            if (descripts == 0 && i_creature.cumQ() > 50 && i_creature.cumQ() < 200 && UTIL.rand(2) == 0) {
-                description += "pre-leaking"
-                descripts = 1
-            }
-            if (descripts == 0 && i_creature.cumQ() >= 200 && UTIL.rand(2) == 0) {
-                description += "pre-cum dripping"
-                descripts = 1
-            }
-            if (descripts == 0) {
-                if (UTIL.rand(2) == 0) description += "rock-hard"
-                else description += "eager"
-                descripts = 1
-            }
-        }
-        //Not lusty at all, fallback adjective
-        else if (i_creature.lust > 50) description += "hard"
-        else description += "ready"
-        return description
-    }
-
     static cockMultiNoun(cockType: ENUM.CockType): string {
         /*
         if (cockType is int) {
@@ -998,7 +884,7 @@ abstract class Appearance {
      * @param    i_character
      * @return    A full description of a Character's butt.
      */
-    static buttDescription(i_character: IPlayer): string {
+    static buttDescription(i_character: ICreature): string {
         let description = ""
         let options
         if (i_character.buttRating <= 1) {
@@ -1865,11 +1751,6 @@ abstract class Appearance {
         return descript
     }
 
-    static assholeOrPussy(creature: ICreature): string {
-        if (creature.hasVagina()) return creature.vaginaDescript(0)
-        return creature.assholeDescript()
-    }
-
     static multiCockDescriptLight(creature: ICreature): string {
         if (creature.cocks.length < 1) {
             return "<B>Error: multiCockDescriptLight() called with no penises present.</B>"
@@ -1988,131 +1869,6 @@ abstract class Appearance {
             //If mixed
             if (!descripted) {
                 descript += this.cockAdjective(creature.cocks[0].cockType, creature.cocks[0].cockLength, creature.cocks[0].cockThickness) + ", "
-                descript += UTIL.randomChoice("mutated cocks", "mutated dicks", "mixed cocks", "mismatched dicks")
-            }
-        }
-        return descript
-    }
-
-    static multiCockDescript(creature: ICreature): string {
-        if (creature.cocks.length < 1) {
-            return "<B>Error: multiCockDescript() called with no penises present.</B>"
-        }
-        //Get cock counts
-        let descript = ""
-        let currCock = 0
-        let totCock = creature.cocks.length
-        let dogCocks = 0
-        let horseCocks = 0
-        let normalCocks = 0
-        let normalCockKey = 0
-        let dogCockKey = 0
-        let horseCockKey = 0
-        let averageLength = 0
-        let averageThickness = 0
-        let same = true
-        //For temp14 random values
-        let rando = 0
-        let descripted = false
-        //Count cocks & Prep average totals
-        while (currCock <= totCock - 1) {
-            //trace("Counting cocks!");
-            if (creature.cocks[currCock].cockType == ENUM.CockType.HUMAN) {
-                normalCocks++
-                normalCockKey = currCock
-            }
-            if (creature.cocks[currCock].cockType == ENUM.CockType.HORSE) {
-                horseCocks++
-                horseCockKey = currCock
-            }
-            if (creature.cocks[currCock].cockType == ENUM.CockType.DOG) {
-                dogCocks++
-                dogCockKey = currCock
-            }
-            averageLength += creature.cocks[currCock].cockLength
-            averageThickness += creature.cocks[currCock].cockThickness
-            //If cocks are matched make sure they still are
-            if (same && currCock > 0 && creature.cocks[currCock].cockType != creature.cocks[currCock - 1].cockType) same = false
-            currCock++
-        }
-        //Crunch averages
-        averageLength /= currCock
-        averageThickness /= currCock
-        //Quantity descriptors
-        if (currCock == 1) {
-            if (dogCocks == 1) return this.cockNoun(ENUM.CockType.DOG)
-            if (horseCocks == 1) return this.cockNoun(ENUM.CockType.HORSE)
-            if (normalCocks == 1) return this.cockDescript(creature, 0)
-            //Catch-all for when I add more cocks.  Let cock descript do the sorting.
-            if (creature.cocks.length == 1) return this.cockDescript(creature, 0)
-        }
-        if (currCock == 2) {
-            //For cocks that are the same
-            if (same) {
-                descript += UTIL.randomChoice("a pair of ", "two ", "a brace of ", "matching ", "twin ")
-                descript += this.cockAdjectives(averageLength, averageThickness, creature.cocks[0].cockType, creature)
-                if (normalCocks == 2) descript += " " + this.cockNoun(ENUM.CockType.HUMAN) + "s"
-                if (horseCocks == 2) descript += ", " + this.cockNoun(ENUM.CockType.HORSE) + "s"
-                if (dogCocks == 2) descript += ", " + this.cockNoun(ENUM.CockType.DOG) + "s"
-                //Tentacles
-                if (creature.cocks[0].cockType > 2) descript += ", " + this.cockNoun(creature.cocks[0].cockType) + "s"
-            }
-            //Nonidentical
-            else {
-                descript += UTIL.randomChoice("a pair of ", "two ", "a brace of ")
-                descript += this.cockAdjectives(averageLength, averageThickness, creature.cocks[0].cockType, creature) + ", "
-                descript += UTIL.randomChoice("mutated cocks", "mutated dicks", "mixed cocks", "mismatched dicks")
-            }
-        }
-        if (currCock == 3) {
-            //For samecocks
-            if (same) {
-                descript += UTIL.randomChoice("three ", "a group of ", "a <i>ménage à trois</i> of ", "a triad of ", "a triumvirate of ")
-                descript += this.cockAdjectives(averageLength, averageThickness, creature.cocks[currCock - 1].cockType, creature)
-                if (normalCocks == 3) descript += " " + this.cockNoun(ENUM.CockType.HUMAN) + "s"
-                if (horseCocks == 3) descript += ", " + this.cockNoun(ENUM.CockType.HORSE) + "s"
-                if (dogCocks == 3) descript += ", " + this.cockNoun(ENUM.CockType.DOG) + "s"
-                //Tentacles
-                if (creature.cocks[0].cockType > 2) descript += ", " + this.cockNoun(creature.cocks[0].cockType) + "s" // Not sure what's going on here, referencing index *may* be a bug.
-            } else {
-                descript += UTIL.randomChoice("three ", "a group of ")
-                descript += this.cockAdjectives(averageLength, averageThickness, creature.cocks[0].cockType, creature)
-                descript += UTIL.randomChoice(", mutated cocks", ", mutated dicks", ", mixed cocks", ", mismatched dicks")
-            }
-        }
-        //Large numbers of cocks!
-        if (currCock > 3) {
-            descript += UTIL.randomChoice("a bundle of ", "an obscene group of ", "a cluster of ", "a wriggling group of ")
-            //Cock adjectives and nouns
-            descripted = false
-            //If same types...
-            if (same) {
-                if (creature.cocks[0].cockType == ENUM.CockType.HUMAN) {
-                    descript += this.cockAdjectives(averageLength, averageThickness, ENUM.CockType.HUMAN, creature) + " "
-                    descript += this.cockNoun(ENUM.CockType.HUMAN) + "s"
-                    descripted = true
-                }
-                if (creature.cocks[0].cockType == ENUM.CockType.DOG) {
-                    descript += this.cockAdjectives(averageLength, averageThickness, ENUM.CockType.DOG, creature) + ", "
-                    descript += this.cockNoun(ENUM.CockType.DOG) + "s"
-                    descripted = true
-                }
-                if (creature.cocks[0].cockType == ENUM.CockType.HORSE) {
-                    descript += this.cockAdjectives(averageLength, averageThickness, ENUM.CockType.HORSE, creature) + ", "
-                    descript += this.cockNoun(ENUM.CockType.HORSE) + "s"
-                    descripted = true
-                }
-                //TODO More group cock type descriptions!
-                if (creature.cocks[0].cockType > 2) {
-                    descript += this.cockAdjectives(averageLength, averageThickness, ENUM.CockType.HUMAN, creature) + ", "
-                    descript += this.cockNoun(creature.cocks[0].cockType) + "s"
-                    descripted = true
-                }
-            }
-            //If mixed
-            if (!descripted) {
-                descript += this.cockAdjectives(averageLength, averageThickness, creature.cocks[0].cockType, creature) + ", "
-                rando = UTIL.rand(4)
                 descript += UTIL.randomChoice("mutated cocks", "mutated dicks", "mixed cocks", "mismatched dicks")
             }
         }

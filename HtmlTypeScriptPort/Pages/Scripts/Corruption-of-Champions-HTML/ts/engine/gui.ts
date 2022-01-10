@@ -1,5 +1,5 @@
 import { liveData, GameContext } from "../globalVariables"
-import { createCallBackFunction } from "./utils"
+import { UTIL } from "./utils"
 
 // This code holds the positioning of the GUI display. The look of the display is handled through the CSS file.
 // This holds some of the most important code for the engine of the game. It turns the buttons on and off, sets their labels and tool tips
@@ -264,7 +264,7 @@ abstract class GUI {
         if (!tooltipHeader) {
             tooltipHeader = txt
         }
-        let callback = createCallBackFunction(func, arg1, arg2, arg3)
+        let callback = UTIL.createCallBackFunction(func, arg1, arg2, arg3)
         const buttonEl = document.getElementById("button" + pos)
         if (buttonEl) {
             buttonEl.innerHTML = txt

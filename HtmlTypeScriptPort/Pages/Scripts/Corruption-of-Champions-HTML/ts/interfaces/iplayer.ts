@@ -2,6 +2,7 @@ import { ICreature } from "./icreature"
 import { Ass } from "../assClass"
 import { IItem, Item } from "../itemClass"
 import { ItemSlot } from "../itemSlotClass"
+import { Spell } from "../player"
 
 interface IPlayer extends ICreature {
     beardType: number
@@ -10,7 +11,7 @@ interface IPlayer extends ICreature {
     teaseXP: number
     itemSlots: ItemSlot[]
     //Spells
-    spells: []
+    spells: Spell
     //Stats points
     statPoints: number
     perkPoints: number

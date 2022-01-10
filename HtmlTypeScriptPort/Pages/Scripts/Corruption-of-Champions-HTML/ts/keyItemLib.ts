@@ -29,6 +29,7 @@ class KeyItemTypeContainer {
     //Others
     Bow: KeyItemType
     PotentMixture: KeyItemType
+    TamanisSatchel: KeyItemType
 
     constructor() {
         //Books
@@ -65,6 +66,7 @@ class KeyItemTypeContainer {
         //Others
         this.Bow = new KeyItemType("Bow")
         this.PotentMixture = new KeyItemType("Potent Mixture")
+        this.TamanisSatchel = new KeyItemType("Tamani's Satchel")
     }
 }
 

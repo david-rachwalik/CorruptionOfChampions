@@ -7,17 +7,36 @@ import { Ass, IAss } from "./assClass"
 import { IItem, Item, Items } from "./itemClass"
 import { ItemSlot } from "./itemSlotClass"
 import { liveData } from "./globalVariables"
-import { Creature } from "./creature"
-import { StatusEffects } from "./statusEffectLib"
+import { CharacterType, Creature } from "./creature"
+import { StatusEffects, VenomType } from "./statusEffectLib"
 import { PerkLib } from "./perkLib"
+import { Appearance } from "./appearance"
 
-export class Player extends Creature implements IPlayer {
+class Spell {
+    blind: boolean
+    chargeWeapon: boolean
+    whitefire: boolean
+    arouse: boolean
+    heal: boolean
+    might: boolean
+
+    constructor() {
+        this.blind = false
+        this.chargeWeapon = false
+        this.whitefire = false
+        this.arouse = false
+        this.heal = false
+        this.might = false
+    }
+}
+
+class Player extends Creature implements IPlayer {
     beardType: number
     teaseLevel: number
     teaseXP: number
     itemSlots: ItemSlot[]
     //Spells
-    spells: []
+    spells: Spell
     //Stats points
     statPoints: number
     perkPoints: number
@@ -35,6 +54,7 @@ export class Player extends Creature implements IPlayer {
     constructor() {
         super()
 
+        this.type = CharacterType.Player
         this.a = ""
         this.name = ""
         this.refName = "You"
@@ -100,13 +120,13 @@ export class Player extends Creature implements IPlayer {
         this.perks = []
 
         //Spells
-        this.spells = []
-        this.spells.blind = false
-        this.spells.chargeWeapon = false
-        this.spells.whitefire = false
-        this.spells.arouse = false
-        this.spells.heal = false
-        this.spells.might = false
+        this.spells = new Spell()
+        // this.spells.blind = false
+        // this.spells.chargeWeapon = false
+        // this.spells.whitefire = false
+        // this.spells.arouse = false
+        // this.spells.heal = false
+        // this.spells.might = false
 
         //Stats points
         this.statPoints = 0
@@ -629,7 +649,7 @@ export class Player extends Creature implements IPlayer {
         if (this.faceType == ENUM.FaceType.FACE_SHARK_TEETH) sharkCounter++
         if (this.wingType == ENUM.WingType.WING_TYPE_SHARK_FIN) sharkCounter++
         if (this.tailType == ENUM.TailType.TAIL_TYPE_SHARK) sharkCounter++
-        if (this.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN && (this.skinTone == "rough gray" || player.skinTone == "orange and black striped")) sharkCounter++
+        if (this.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN && (this.skinTone == "rough gray" || liveData.player.skinTone == "orange and black striped")) sharkCounter++
         return sharkCounter
     }
 
@@ -703,12 +723,12 @@ export class Player extends Creature implements IPlayer {
 
     echidnaScore() {
         var echidnaCounter = 0
-        if (this.earType == EARS_ECHIDNA) echidnaCounter++
-        if (this.tailType == TAIL_TYPE_ECHIDNA) echidnaCounter++
-        if (this.faceType == FACE_ECHIDNA) echidnaCounter++
-        if (this.tongueType == TONGUE_ECHIDNA) echidnaCounter++
-        if (this.lowerBody == LOWER_BODY_TYPE_ECHIDNA) echidnaCounter++
-        if (echidnaCounter >= 2 && this.skinType == SKIN_TYPE_FUR) echidnaCounter++
+        if (this.earType == ENUM.EarType.EARS_ECHIDNA) echidnaCounter++
+        if (this.tailType == ENUM.TailType.TAIL_TYPE_ECHIDNA) echidnaCounter++
+        if (this.faceType == ENUM.FaceType.FACE_ECHIDNA) echidnaCounter++
+        if (this.tongueType == ENUM.TongueType.TONGUE_ECHIDNA) echidnaCounter++
+        if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_ECHIDNA) echidnaCounter++
+        if (echidnaCounter >= 2 && this.skinType == ENUM.SkinType.SKIN_TYPE_FUR) echidnaCounter++
         if (echidnaCounter >= 2 && this.hasCock() && this.countCocksOfType(ENUM.CockType.ECHIDNA) > 0) echidnaCounter++
         return echidnaCounter
     }
@@ -828,32 +848,34 @@ export class Player extends Creature implements IPlayer {
     }
 
     lengthChange(amount: number, ncocks: number) {
-        if (amount < 0 && hyperHappy) {
+        if (amount < 0 && liveData.hyperHappy) {
             // Early return for hyper-happy cheat if the call was *supposed* to shrink a cock.
             return
         }
         //Display the degree of length change.
         if (amount <= 1 && amount > 0) {
-            if (this.cocks.length == 1) outputText("Your " + player.cockDescript(0) + " has grown slightly longer.")
+            if (this.cocks.length == 1) outputText("Your " + liveData.player.cockDescript(0) + " has grown slightly longer.")
             if (this.cocks.length > 1) {
-                if (ncocks == 1) outputText("One of your " + player.multiCockDescriptLight() + " grows slightly longer.")
-                if (ncocks > 1 && ncocks < this.cocks.length) outputText("Some of your " + player.multiCockDescriptLight() + " grow slightly longer.")
-                if (ncocks == this.cocks.length) outputText("Your " + player.multiCockDescriptLight() + " seem to fill up... growing a little bit larger.")
+                if (ncocks == 1) outputText("One of your " + liveData.player.multiCockDescriptLight() + " grows slightly longer.")
+                if (ncocks > 1 && ncocks < this.cocks.length) outputText("Some of your " + liveData.player.multiCockDescriptLight() + " grow slightly longer.")
+                if (ncocks == this.cocks.length) outputText("Your " + liveData.player.multiCockDescriptLight() + " seem to fill up... growing a little bit larger.")
             }
         }
         if (amount > 1 && amount < 3) {
-            if (this.cocks.length == 1) outputText("A very pleasurable feeling spreads from your groin as your " + player.cockDescript(0) + " grows permanently longer - at least an inch - and leaks pre-cum from the pleasure of the change.")
+            if (this.cocks.length == 1) outputText("A very pleasurable feeling spreads from your groin as your " + liveData.player.cockDescript(0) + " grows permanently longer - at least an inch - and leaks pre-cum from the pleasure of the change.")
             if (this.cocks.length > 1) {
                 if (ncocks == this.cocks.length)
-                    outputText("A very pleasurable feeling spreads from your groin as your " + player.multiCockDescriptLight() + " grow permanently longer - at least an inch - and leak plenty of pre-cum from the pleasure of the change.")
+                    outputText("A very pleasurable feeling spreads from your groin as your " + liveData.player.multiCockDescriptLight() + " grow permanently longer - at least an inch - and leak plenty of pre-cum from the pleasure of the change.")
                 if (ncocks == 1)
-                    outputText("A very pleasurable feeling spreads from your groin as one of your " + player.multiCockDescriptLight() + " grows permanently longer, by at least an inch, and leaks plenty of pre-cum from the pleasure of the change.")
+                    outputText(
+                        "A very pleasurable feeling spreads from your groin as one of your " + liveData.player.multiCockDescriptLight() + " grows permanently longer, by at least an inch, and leaks plenty of pre-cum from the pleasure of the change."
+                    )
                 if (ncocks > 1 && ncocks < this.cocks.length)
                     outputText(
                         "A very pleasurable feeling spreads from your groin as " +
-                            UTIL.num2Text(cocks) +
+                            UTIL.num2Text(ncocks) +
                             " of your " +
-                            player.multiCockDescriptLight() +
+                            liveData.player.multiCockDescriptLight() +
                             " grow permanently longer, by at least an inch, and leak plenty of pre-cum from the pleasure of the change."
                     )
             }
@@ -895,8 +917,7 @@ export class Player extends Creature implements IPlayer {
                             this.multiCockDescriptLight() +
                             " wasn't bad enough, every time you get hard, the tips of your " +
                             this.multiCockDescriptLight() +
-                            " wave before you, obscuring the lower portions of your vision.</b>",
-                        false
+                            " wave before you, obscuring the lower portions of your vision.</b>"
                     )
                 if (this.cor > 40 && this.cor <= 60) {
                     if (this.cocks.length > 1) outputText("  You wonder if there is a demon or beast out there that could take the full length of one of your " + this.multiCockDescriptLight() + "?")
@@ -947,7 +968,7 @@ export class Player extends Creature implements IPlayer {
         var text = ""
         //if (armor != ArmorLib.NOTHING) text += armorName;
         //Join text.
-        if (this.armor.equipmentName != "naked") textArray.push(this.armor.name)
+        if (this.armor.equipmentName != "naked") textArray.push(this.armor.equipmentName)
         //if (upperGarment != UndergarmentLib.NOTHING) textArray.push(upperGarmentName);
         //if (lowerGarment != UndergarmentLib.NOTHING) textArray.push(lowerGarmentName);
         if (textArray.length > 0) text = UTIL.formatStringArray(textArray)
@@ -957,34 +978,31 @@ export class Player extends Creature implements IPlayer {
         return text
     }
 
-    clothedOrNaked(clothedText: string, nakedText: string) {
-        if (nakedText == undefined) nakedText = ""
+    clothedOrNaked(clothedText: string, nakedText = "") {
         return this.armorDescript() != "nothing" ? clothedText : nakedText
     }
 
-    clothedOrNakedUpper(clothedText: string, nakedText: string) {
-        if (nakedText == undefined) nakedText = ""
+    clothedOrNakedUpper(clothedText: string, nakedText = "") {
         return this.armor.equipmentName != "nothing" && this.upperGarment.equipmentName == "nothing" ? clothedText : nakedText
     }
 
-    clothedOrNakedLower(clothedText: string, nakedText: string) {
-        if (nakedText == undefined) nakedText = ""
+    clothedOrNakedLower(clothedText: string, nakedText = "") {
         return this.armor.equipmentName != "nothing" && this.armor.equipmentName != "lethicite armor" && this.lowerGarment.equipmentName == "nothing" && !this.isTaur() ? clothedText : nakedText
     }
 
     //CLEAR STATUSES
     clearStatuses() {
         while (this.findStatusEffect(StatusEffects.Web) >= 0) {
-            this.modStats("spe", this.statusEffectValue(StatusEffects.Web, 1))
+            this.modStats(["spe", this.statusEffectValue(StatusEffects.Web, 1)])
             this.removeStatusEffect(StatusEffects.Web)
         }
         if (this.findStatusEffect(StatusEffects.Shielding) >= 0) this.removeStatusEffect(StatusEffects.Shielding)
         if (this.findStatusEffect(StatusEffects.HolliConstrict) >= 0) this.removeStatusEffect(StatusEffects.HolliConstrict)
         if (this.findStatusEffect(StatusEffects.LustStones) >= 0) this.removeStatusEffect(StatusEffects.LustStones)
-        if (monster.findStatusEffect(StatusEffects.Sandstorm) >= 0) monster.removeStatusEffect(StatusEffects.Sandstorm)
+        if (liveData.monster.findStatusEffect(StatusEffects.Sandstorm) >= 0) liveData.monster.removeStatusEffect(StatusEffects.Sandstorm)
         if (this.findStatusEffect(StatusEffects.Sealed) >= 0) this.removeStatusEffect(StatusEffects.Sealed)
         if (this.findStatusEffect(StatusEffects.Berzerking) >= 0) this.removeStatusEffect(StatusEffects.Berzerking)
-        if (monster.findStatusEffect(StatusEffects.TailWhip) >= 0) monster.removeStatusEffect(StatusEffects.TailWhip)
+        if (liveData.monster.findStatusEffect(StatusEffects.TailWhip) >= 0) liveData.monster.removeStatusEffect(StatusEffects.TailWhip)
         if (this.findStatusEffect(StatusEffects.UBERWEB) >= 0) this.removeStatusEffect(StatusEffects.UBERWEB)
         if (this.findStatusEffect(StatusEffects.DriderKiss) >= 0) this.removeStatusEffect(StatusEffects.DriderKiss)
         if (this.findStatusEffect(StatusEffects.WebSilence) >= 0) this.removeStatusEffect(StatusEffects.WebSilence)
@@ -992,25 +1010,25 @@ export class Player extends Creature implements IPlayer {
 
         if (this.findStatusEffect(StatusEffects.Whispered) >= 0) this.removeStatusEffect(StatusEffects.Whispered)
         if (this.findStatusEffect(StatusEffects.AkbalSpeed) >= 0) {
-            this.modStats("spe", -this.statusEffectValue(StatusEffects.AkbalSpeed, 1))
+            this.modStats(["spe", -this.statusEffectValue(StatusEffects.AkbalSpeed, 1)])
             this.removeStatusEffect(StatusEffects.AkbalSpeed)
         }
         if (this.findStatusEffect(StatusEffects.AmilyVenom) >= 0) {
-            this.modStats("str", this.statusEffectValue(StatusEffects.AmilyVenom, 1))
-            this.modStats("spe", this.statusEffectValue(StatusEffects.AmilyVenom, 2))
+            this.modStats(["str", this.statusEffectValue(StatusEffects.AmilyVenom, 1)])
+            this.modStats(["spe", this.statusEffectValue(StatusEffects.AmilyVenom, 2)])
             this.removeStatusEffect(StatusEffects.AmilyVenom)
         }
         while (this.findStatusEffect(StatusEffects.Blind) >= 0) this.removeStatusEffect(StatusEffects.Blind)
         if (this.findStatusEffect(StatusEffects.SheilaOil) >= 0) this.removeStatusEffect(StatusEffects.SheilaOil)
         if (this.findStatusEffect(StatusEffects.TwuWuv) >= 0) {
-            this.modStats("int", this.statusEffectValue(StatusEffects.TwuWuv, 1))
+            this.modStats(["int", this.statusEffectValue(StatusEffects.TwuWuv, 1)])
             this.removeStatusEffect(StatusEffects.TuvWuv)
         }
         if (this.findStatusEffect(StatusEffects.Bind) >= 0) this.removeStatusEffect(StatusEffects.Bind)
         if (this.findStatusEffect(StatusEffects.Venom) >= 0) {
-            if (this.statusEffectValue(StatusEffects.Venom, 1) == VENOM_TYPE_BEE) {
-                this.modStats("str", this.statusEffectValue(StatusEffects.Venom, 2))
-                this.modStats("spe", this.statusEffectValue(StatusEffects.Venom, 3))
+            if (this.statusEffectValue(StatusEffects.Venom, 1) == VenomType.VENOM_TYPE_BEE) {
+                this.modStats(["str", this.statusEffectValue(StatusEffects.Venom, 2)])
+                this.modStats(["spe", this.statusEffectValue(StatusEffects.Venom, 3)])
             }
             this.removeStatusEffect(StatusEffects.Venom)
         }
@@ -1028,14 +1046,14 @@ export class Player extends Creature implements IPlayer {
         if (this.findStatusEffect(StatusEffects.KissOfDeath) >= 0) this.removeStatusEffect(StatusEffects.KissOfDeath)
         if (this.findStatusEffect(StatusEffects.AcidSlap) >= 0) this.removeStatusEffect(StatusEffects.AcidSlap)
         if (this.findStatusEffect(StatusEffects.CalledShot) >= 0) {
-            this.modStats("spe", this.statusEffectValue(StatusEffects.CalledShot, 1))
+            this.modStats(["spe", this.statusEffectValue(StatusEffects.CalledShot, 1)])
             this.removeStatusEffect(StatusEffects.CalledShot)
         }
         if (this.findStatusEffect(StatusEffects.DemonSeed) >= 0) this.removeStatusEffect(StatusEffects.DemonSeed)
         if (this.findStatusEffect(StatusEffects.InfestAttempted) >= 0) this.removeStatusEffect(StatusEffects.InfestAttempted)
         if (this.findStatusEffect(StatusEffects.Might) >= 0) {
-            this.modStats("str", -this.statusEffectValue(StatusEffects.Might, 1))
-            this.modStats("tou", -this.statusEffectValue(StatusEffects.Might, 2))
+            this.modStats(["str", -this.statusEffectValue(StatusEffects.Might, 1)])
+            this.modStats(["tou", -this.statusEffectValue(StatusEffects.Might, 2)])
             this.removeStatusEffect(StatusEffects.Might)
         }
         if (this.findStatusEffect(StatusEffects.ChargeWeapon) >= 0) this.removeStatusEffect(StatusEffects.ChargeWeapon)
@@ -1043,35 +1061,35 @@ export class Player extends Creature implements IPlayer {
             this.removeStatusEffect(StatusEffects.Disarmed)
         }
         if (this.findStatusEffect(StatusEffects.AnemoneVenom) >= 0) {
-            this.modStats("str", this.statusEffectValue(StatusEffects.AnemoneVenom, 1))
-            this.modStats("spe", this.statusEffectValue(StatusEffects.AnemoneVenom, 2))
+            this.modStats(["str", this.statusEffectValue(StatusEffects.AnemoneVenom, 1)])
+            this.modStats(["spe", this.statusEffectValue(StatusEffects.AnemoneVenom, 2)])
             this.removeStatusEffect(StatusEffects.AnemoneVenom)
         }
         if (this.findStatusEffect(StatusEffects.GnollSpear) >= 0) {
-            this.modStats("spe", this.statusEffectValue(StatusEffects.AnemoneVenom, 1))
+            this.modStats(["spe", this.statusEffectValue(StatusEffects.AnemoneVenom, 1)])
             this.removeStatusEffect(StatusEffects.GnollSpear)
         }
         if (this.findStatusEffect(StatusEffects.BasiliskCompulsion) >= 0) this.removeStatusEffect(StatusEffects.BasiliskCompulsion)
         if (this.findStatusEffect(StatusEffects.BasiliskSlow) >= 0) {
-            this.modStats("spe", this.statusEffectValue(StatusEffects.AnemoneVenom, 1))
+            this.modStats(["spe", this.statusEffectValue(StatusEffects.AnemoneVenom, 1)])
             this.removeStatusEffect(StatusEffects.BasiliskSlow)
         }
         if (this.findStatusEffect(StatusEffects.GiantGrabbed) >= 0) this.removeStatusEffect(StatusEffects.GiantGrabbed)
         if (this.findStatusEffect(StatusEffects.GiantBoulder) >= 0) this.removeStatusEffect(StatusEffects.GiantBoulder)
         if (this.findStatusEffect(StatusEffects.GiantStrLoss) >= 0) {
-            this.modStats("str", this.statusEffectValue(StatusEffects.GiantStrLoss, 1))
+            this.modStats(["str", this.statusEffectValue(StatusEffects.GiantStrLoss, 1)])
             this.removeStatusEffect(StatusEffects.GiantStrLoss)
         }
         if (this.findStatusEffect(StatusEffects.LizanBlowpipe) >= 0) {
-            this.modStats("str", this.statusEffectValue(StatusEffects.LizanBlowpipe, 1))
-            this.modStats("tou", this.statusEffectValue(StatusEffects.LizanBlowpipe, 2))
-            this.modStats("spe", this.statusEffectValue(StatusEffects.LizanBlowpipe, 3))
-            this.modStats("sen", -this.statusEffectValue(StatusEffects.LizanBlowpipe, 4))
+            this.modStats(["str", this.statusEffectValue(StatusEffects.LizanBlowpipe, 1)])
+            this.modStats(["tou", this.statusEffectValue(StatusEffects.LizanBlowpipe, 2)])
+            this.modStats(["spe", this.statusEffectValue(StatusEffects.LizanBlowpipe, 3)])
+            this.modStats(["sen", -this.statusEffectValue(StatusEffects.LizanBlowpipe, 4)])
             this.removeStatusEffect(StatusEffects.LizanBlowpipe)
         }
         while (this.findStatusEffect(StatusEffects.IzmaBleed) >= 0) this.removeStatusEffect(StatusEffects.IzmaBleed)
         if (this.findStatusEffect(StatusEffects.GardenerSapSpeed) >= 0) {
-            this.modStats("spe", this.statusEffectValue(StatusEffects.GardenerSapSpeed, 1))
+            this.modStats(["spe", this.statusEffectValue(StatusEffects.GardenerSapSpeed, 1)])
             this.removeStatusEffect(StatusEffects.GardenerSapSpeed)
         }
         if (this.findStatusEffect(StatusEffects.KnockedBack) >= 0) this.removeStatusEffect(StatusEffects.KnockedBack)
@@ -1165,7 +1183,8 @@ export class Player extends Creature implements IPlayer {
         return 0 //Currently returns 0.
     }
 
-    countCockSocks(colour) {
+    // countCockSocks(colour) {
+    countCockSocks() {
         return 0 //Currently returns 0.
     }
 
@@ -1189,4 +1208,258 @@ export class Player extends Creature implements IPlayer {
     newGamePlusMod() {
         return 0
     }
+
+    /*
+        Moved from Appearance
+     */
+
+    multiCockDescript(): string {
+        if (this.cocks.length < 1) {
+            return "<B>Error: multiCockDescript() called with no penises present.</B>"
+        }
+        //Get cock counts
+        let descript = ""
+        let currCock = 0
+        let totCock = this.cocks.length
+        let dogCocks = 0
+        let horseCocks = 0
+        let normalCocks = 0
+        let normalCockKey = 0
+        let dogCockKey = 0
+        let horseCockKey = 0
+        let averageLength = 0
+        let averageThickness = 0
+        let same = true
+        //For temp14 random values
+        let rando = 0
+        let descripted = false
+        //Count cocks & Prep average totals
+        while (currCock <= totCock - 1) {
+            //trace("Counting cocks!");
+            if (this.cocks[currCock].cockType == ENUM.CockType.HUMAN) {
+                normalCocks++
+                normalCockKey = currCock
+            }
+            if (this.cocks[currCock].cockType == ENUM.CockType.HORSE) {
+                horseCocks++
+                horseCockKey = currCock
+            }
+            if (this.cocks[currCock].cockType == ENUM.CockType.DOG) {
+                dogCocks++
+                dogCockKey = currCock
+            }
+            averageLength += this.cocks[currCock].cockLength
+            averageThickness += this.cocks[currCock].cockThickness
+            //If cocks are matched make sure they still are
+            if (same && currCock > 0 && this.cocks[currCock].cockType != this.cocks[currCock - 1].cockType) same = false
+            currCock++
+        }
+        //Crunch averages
+        averageLength /= currCock
+        averageThickness /= currCock
+        //Quantity descriptors
+        if (currCock == 1) {
+            if (dogCocks == 1) return Appearance.cockNoun(ENUM.CockType.DOG)
+            if (horseCocks == 1) return Appearance.cockNoun(ENUM.CockType.HORSE)
+            if (normalCocks == 1) return this.cockDescript(0)
+            //Catch-all for when I add more cocks.  Let cock descript do the sorting.
+            if (this.cocks.length == 1) return this.cockDescript(0)
+        }
+        if (currCock == 2) {
+            //For cocks that are the same
+            if (same) {
+                descript += UTIL.randomChoice("a pair of ", "two ", "a brace of ", "matching ", "twin ")
+                descript += this.cockAdjectives(averageLength, averageThickness, this.cocks[0].cockType)
+                if (normalCocks == 2) descript += " " + Appearance.cockNoun(ENUM.CockType.HUMAN) + "s"
+                if (horseCocks == 2) descript += ", " + Appearance.cockNoun(ENUM.CockType.HORSE) + "s"
+                if (dogCocks == 2) descript += ", " + Appearance.cockNoun(ENUM.CockType.DOG) + "s"
+                //Tentacles
+                if (this.cocks[0].cockType > 2) descript += ", " + Appearance.cockNoun(this.cocks[0].cockType) + "s"
+            }
+            //Nonidentical
+            else {
+                descript += UTIL.randomChoice("a pair of ", "two ", "a brace of ")
+                descript += this.cockAdjectives(averageLength, averageThickness, this.cocks[0].cockType) + ", "
+                descript += UTIL.randomChoice("mutated cocks", "mutated dicks", "mixed cocks", "mismatched dicks")
+            }
+        }
+        if (currCock == 3) {
+            //For samecocks
+            if (same) {
+                descript += UTIL.randomChoice("three ", "a group of ", "a <i>ménage à trois</i> of ", "a triad of ", "a triumvirate of ")
+                descript += this.cockAdjectives(averageLength, averageThickness, this.cocks[currCock - 1].cockType)
+                if (normalCocks == 3) descript += " " + Appearance.cockNoun(ENUM.CockType.HUMAN) + "s"
+                if (horseCocks == 3) descript += ", " + Appearance.cockNoun(ENUM.CockType.HORSE) + "s"
+                if (dogCocks == 3) descript += ", " + Appearance.cockNoun(ENUM.CockType.DOG) + "s"
+                //Tentacles
+                if (this.cocks[0].cockType > 2) descript += ", " + Appearance.cockNoun(this.cocks[0].cockType) + "s" // Not sure what's going on here, referencing index *may* be a bug.
+            } else {
+                descript += UTIL.randomChoice("three ", "a group of ")
+                descript += this.cockAdjectives(averageLength, averageThickness, this.cocks[0].cockType)
+                descript += UTIL.randomChoice(", mutated cocks", ", mutated dicks", ", mixed cocks", ", mismatched dicks")
+            }
+        }
+        //Large numbers of cocks!
+        if (currCock > 3) {
+            descript += UTIL.randomChoice("a bundle of ", "an obscene group of ", "a cluster of ", "a wriggling group of ")
+            //Cock adjectives and nouns
+            descripted = false
+            //If same types...
+            if (same) {
+                if (this.cocks[0].cockType == ENUM.CockType.HUMAN) {
+                    descript += this.cockAdjectives(averageLength, averageThickness, ENUM.CockType.HUMAN) + " "
+                    descript += Appearance.cockNoun(ENUM.CockType.HUMAN) + "s"
+                    descripted = true
+                }
+                if (this.cocks[0].cockType == ENUM.CockType.DOG) {
+                    descript += this.cockAdjectives(averageLength, averageThickness, ENUM.CockType.DOG) + ", "
+                    descript += Appearance.cockNoun(ENUM.CockType.DOG) + "s"
+                    descripted = true
+                }
+                if (this.cocks[0].cockType == ENUM.CockType.HORSE) {
+                    descript += this.cockAdjectives(averageLength, averageThickness, ENUM.CockType.HORSE) + ", "
+                    descript += Appearance.cockNoun(ENUM.CockType.HORSE) + "s"
+                    descripted = true
+                }
+                //TODO More group cock type descriptions!
+                if (this.cocks[0].cockType > 2) {
+                    descript += this.cockAdjectives(averageLength, averageThickness, ENUM.CockType.HUMAN) + ", "
+                    descript += Appearance.cockNoun(this.cocks[0].cockType) + "s"
+                    descripted = true
+                }
+            }
+            //If mixed
+            if (!descripted) {
+                descript += this.cockAdjectives(averageLength, averageThickness, this.cocks[0].cockType) + ", "
+                rando = UTIL.rand(4)
+                descript += UTIL.randomChoice("mutated cocks", "mutated dicks", "mixed cocks", "mismatched dicks")
+            }
+        }
+        return descript
+    }
+
+    //Cock adjectives for single cock
+    cockAdjectives(i_cockLength: number, i_cockThickness: number, i_cockType: ENUM.CockType): string {
+        let description = ""
+        let rando = 0
+        let descripts = 0
+        //length or thickness, usually length.
+        if (UTIL.rand(4) == 0) {
+            if (i_cockLength < 3) {
+                rando = UTIL.rand(3)
+                if (rando == 0) description = "little"
+                else if (rando == 1) description = "toy-sized"
+                else description = "tiny"
+            } else if (i_cockLength < 5) {
+                if (UTIL.rand(2) == 0) description = "short"
+                else description = "small"
+            } else if (i_cockLength < 7) {
+                if (UTIL.rand(2) == 0) description = "fair-sized"
+                else description = "nice"
+            } else if (i_cockLength < 9) {
+                rando = UTIL.rand(3)
+                if (rando == 0) description = "long"
+                else if (rando == 1) description = "lengthy"
+                else if (rando == 2) description = "sizable"
+            } else if (i_cockLength < 13) {
+                if (UTIL.rand(2) == 0) description = "huge"
+                else description = "foot-long"
+            } else if (i_cockLength < 18) {
+                if (UTIL.rand(2) == 0) description = "massive"
+                else description = "forearm-length"
+            } else if (i_cockLength < 30) {
+                if (UTIL.rand(2) == 0) description = "enormous"
+                else description = "monster-length"
+            } else {
+                rando = UTIL.rand(3)
+                if (rando == 0) description = "towering"
+                else if (rando == 1) description = "freakish"
+                else description = "massive"
+            }
+            descripts = 1
+        }
+        //thickness go!
+        else if (UTIL.rand(4) == 0 && descripts == 0) {
+            if (i_cockThickness <= 0.75) description += "narrow"
+            else if (i_cockThickness <= 1.1) description += "nice"
+            else if (i_cockThickness <= 1.4) {
+                if (UTIL.rand(2) == 0) description += "ample"
+                else description += "big"
+            } else if (i_cockThickness <= 2) {
+                if (UTIL.rand(2) == 0) description += "broad"
+                else description += "girthy"
+            } else if (i_cockThickness <= 3.5) {
+                if (UTIL.rand(2) == 0) description += "fat"
+                else description += "distended"
+            } else {
+                if (UTIL.rand(2) == 0) description += "inhumanly distended"
+                else description += "monstrously thick"
+            }
+            descripts = 1
+        }
+        //Length/Thickness done.  Moving on to special animal characters/lust stuff.
+        /*Animal Fillers - turned off due to duplication in noun segment
+        else if (type == 1 && descripts == 0 && UTIL.rand(2) == 0) {
+        if (UTIL.rand(2) == 0) descript += "flared ";
+        else descript += "musky ";
+        }
+        else if (type == 2 && descripts == 0 && UTIL.rand(2) == 0) {
+        descript += "musky ";
+        }*/
+        //FINAL FALLBACKS - lust descriptors
+        //Lust stuff
+        else if (this.lust > 90) {
+            //lots of cum? drippy.
+            if (this.cumQ() > 50 && this.cumQ() < 200 && UTIL.rand(2) == 0) {
+                //for hroses and dogs
+                // TODO: fix below to original logic when able to reliably target horses and dogs
+                // if (i_cockType.Group == "animal") description += "animal-pre leaking"
+                // else description += "pre-slickened"
+                description += "pre-slickened"
+                descripts = 1
+            }
+            //Tons of cum
+            if (this.cumQ() >= 200 && UTIL.rand(2) == 0) {
+                //for horses and dogs
+                // TODO: fix below to original logic when able to reliably target horses and dogs
+                // if (i_cockType.Group == "animal") description += "animal-spunk dripping"
+                // else description += "cum-drooling"
+                description += "cum-drooling"
+                descripts = 1
+            }
+            //Not descripted? Pulsing and twitching
+            if (descripts == 0) {
+                if (UTIL.rand(2) == 0) description += "throbbing"
+                else description += "pulsating"
+                descripts = 1
+            }
+        }
+        //A little less lusty, but still lusty.
+        else if (this.lust > 75) {
+            if (descripts == 0 && this.cumQ() > 50 && this.cumQ() < 200 && UTIL.rand(2) == 0) {
+                description += "pre-leaking"
+                descripts = 1
+            }
+            if (descripts == 0 && this.cumQ() >= 200 && UTIL.rand(2) == 0) {
+                description += "pre-cum dripping"
+                descripts = 1
+            }
+            if (descripts == 0) {
+                if (UTIL.rand(2) == 0) description += "rock-hard"
+                else description += "eager"
+                descripts = 1
+            }
+        }
+        //Not lusty at all, fallback adjective
+        else if (this.lust > 50) description += "hard"
+        else description += "ready"
+        return description
+    }
+
+    assholeOrPussy(): string {
+        if (this.hasVagina()) return this.vaginaDescript(0)
+        return this.assholeDescript()
+    }
 }
+
+export { Spell, Player }

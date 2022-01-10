@@ -3,7 +3,9 @@ import { clearOutput, outputText } from "./engine/text"
 import { UTIL } from "./engine/utils"
 import { liveData } from "./globalVariables"
 import { ItemArmor } from "./items/armor"
+import { ItemConsumables } from "./items/consumables"
 import { ItemMaterials } from "./items/materials"
+import { ItemWeapon } from "./items/weapons"
 import { Inventory } from "./scenes/inventory"
 
 export const ITEM_TYPE_WEAPON = "Weapon"
@@ -23,7 +25,7 @@ interface IItem {
     description: string //This will appear on tooltip.
     value: number //The value in gems. Defaults at 6.
     //Consumable values that can be set
-    consumeEffect: any
+    consumeEffect: () => void
     //Equipment values that can be set
     equipmentName: string
     attack: number
@@ -47,7 +49,7 @@ class Item {
     description: string //This will appear on tooltip.
     value: number //The value in gems. Defaults at 6.
     //Consumable values that can be set
-    consumeEffect: any
+    consumeEffect: () => void
     //Equipment values that can be set
     equipmentName: string
     attack: number
@@ -67,7 +69,7 @@ class Item {
         this.value = 6 //The value in gems. Defaults at 6.
 
         //Consumable values that can be set
-        this.consumeEffect = null
+        this.consumeEffect = () => void {}
 
         //Equipment values that can be set
         this.equipmentName = ""
@@ -146,6 +148,8 @@ class ItemContainer {
     NOTHING: IItem
     Materials: ItemMaterials
     Armor: ItemArmor
+    Weapons: ItemWeapon
+    Consumables: ItemConsumables
 
     constructor() {
         this.NOTHING = new Item("Nothing", "NOTHING!", "nothing", ITEM_TYPE_MATERIAL)
@@ -155,8 +159,11 @@ class ItemContainer {
         this.NOTHING.value = -1
         this.NOTHING.defense = 0
         this.NOTHING.attack = 0
+
         this.Materials = new ItemMaterials()
         this.Armor = new ItemArmor()
+        this.Weapons = new ItemWeapon()
+        this.Consumables = new ItemConsumables()
     }
 }
 let Items = new ItemContainer()

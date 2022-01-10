@@ -110,7 +110,9 @@ enum AntennaeType {
 enum ArmType {
     ARM_TYPE_HUMAN = 0,
     ARM_TYPE_HARPY,
-    ARM_TYPE_SPIDER
+    ARM_TYPE_SPIDER,
+    ARM_TYPE_SALAMANDER,
+    ARM_TYPE_PREDATOR
 }
 
 enum ClawType {
@@ -493,6 +495,98 @@ enum BreastSizeType {
     BREAST_CUP_HYPER_ZZZ_LARGE //Beyond this size is Jacques00-cup
 }
 
+/*
+    Pregnancy Enums
+ */
+
+//Pregancy types. Both butt and normal. Each type represents the father of this baby.
+enum PregnancyType {
+    PREGNANCY_MINOTAUR = 2,
+    PREGNANCY_MOUSE = 4,
+    PREGNANCY_HELL_HOUND = 6,
+    PREGNANCY_CENTAUR = 7,
+    PREGNANCY_MARBLE = 8,
+    PREGNANCY_BUNNY = 9,
+
+    PREGNANCY_AMILY = 11,
+    PREGNANCY_IZMA = 12,
+    PREGNANCY_SPIDER = 13,
+    PREGNANCY_BASILISK = 14,
+
+    PREGNANCY_GOO_GIRL = 16,
+    PREGNANCY_EMBER = 17,
+    PREGNANCY_BENOIT = 18,
+    PREGNANCY_SATYR = 19,
+    PREGNANCY_COTTON = 20,
+    PREGNANCY_URTA = 21,
+    PREGNANCY_SAND_WITCH = 22,
+    PREGNANCY_FROG_GIRL = 23,
+    PREGNANCY_FAERIE = 24, //Indicates you are carrying either a phouka or faerie baby. Which one is determined by the PREGNANCY_CORRUPTION flag
+    PREGNANCY_PLAYER = 25, // Marks the player impregnated someone. Will be used when an NPC is able to have children from multiple different fathers.
+
+    PREGNANCY_SANDTRAP_FERTILE = 27,
+    PREGNANCY_SANDTRAP = 28,
+    PREGNANCY_JOJO = 29, //So we can track them separately from other mouse pregnancies
+    PREGNANCY_KELT = 30, //So we can track them separately from other centaur pregnancies
+    PREGNANCY_TAOTH = 31,
+    PREGNANCY_GOO_STUFFED = 32, //Used to fill the player's ass and/or vagina when Valeria has a goo girl take up residence. This prevents any other form of pregnancy from taking hold. Does not respond to ovielixirs.
+    PREGNANCY_WORM_STUFFED = 33, //Used to fill the player's vagina when the worms take up residence. This prevents any other form of pregnancy from taking hold. Does not respond to ovielixirs.
+    PREGNANCY_MINERVA = 34,
+    PREGNANCY_BEHEMOTH = 35,
+    PREGNANCY_PHOENIX = 36,
+    PREGNANCY_ANDY = 37 //This is functionally the same as Satyr but less corrupt. 10% chance of fauns, if ever implemented.
+}
+
+enum PregType {
+    PREG_NOT_PREGANT = 0, //The PREG_* consts are returned by the size function
+    PREG_NO_SIGNS_UNKNOWN, //NPC has conceived but doesn’t know she’s pregnant, no visible signs
+    PREG_NO_SIGNS_KNOWN, //NPC is in the first trimester, knows she’s pregnant
+    PREG_START_BULGE, //NPC is in the first trimester, belly is just starting to bulge
+    PREG_SWOLLEN, //NPC is in the second trimester, belly is small but definitely swollen
+    PREG_SIZEABLE, //NPC is in the second trimester, belly is now sizable
+    PREG_BLATANT, //NPC is in the third trimester, belly is blatantly bulging
+    PREG_FULL_TERM, //NPC is in the third trimester, belly is big as it will get for a normal pregnancy
+    PREG_OVERDUE, //NPC is overdue. Usually means a centaur baby, twins or some similar condition. Effectively looks 10 months pregnant
+    PREG_VERY_OVERDUE //NPC is very overdue. Probably triplets or more. Effectively looks 11 months pregnant
+    //Old Value, replaced in Saves.unFuckSave()        PREGNANCY_BUTT_BEE              =   2;
+    //Old Value, replaced in Saves.unFuckSave()        PREGNANCY_BUTT_DRIDER           =   3;
+    //Old Value, replaced in Saves.unFuckSave()        PREGNANCY_BUTT_SANDTRAP_FERTILE =   4;
+    //Old Value, replaced in Saves.unFuckSave()        PREGNANCY_BUTT_SANDTRAP         =   5; //Sandtrap did not have fertilized eggs
+}
+
+enum IncubationType {
+    INCUBATION_MINOTAUR = 432,
+
+    INCUBATION_OVIELIXIR_EGGS = 50,
+    INCUBATION_HELL_HOUND = 352,
+    INCUBATION_CENTAUR = 420,
+    INCUBATION_MARBLE = 368,
+    INCUBATION_BUNNY_BABY = 200,
+    INCUBATION_BUNNY_EGGS = 808, //High time indicates neon egg pregnancy
+    INCUBATION_ANEMONE = 256,
+    INCUBATION_IZMA = 300,
+    INCUBATION_SPIDER = 400,
+    INCUBATION_BASILISK = 250,
+
+    INCUBATION_GOO_GIRL = 85,
+    INCUBATION_EMBER = 336,
+    INCUBATION_SATYR = 160,
+    INCUBATION_COTTON = 350,
+    INCUBATION_URTA = 515,
+    INCUBATION_SAND_WITCH = 360,
+    INCUBATION_FROG_GIRL = 30,
+    INCUBATION_FAERIE = 200,
+    INCUBATION_SANDTRAP = 42,
+    INCUBATION_HARPY = 168,
+    INCUBATION_SHIELA = 72,
+    INCUBATION_SALAMANDER = 336,
+    INCUBATION_MINERVA = 216,
+    INCUBATION_BEHEMOTH = 1440, //Sorry Behemoth, but Isabella wins.
+    INCUBATION_PHOENIX = 168,
+    INCUBATION_KIHA = 384,
+    INCUBATION_ISABELLA = 2160 //Longest pregnancy ever.
+}
+
 export {
     GenderType,
     SkinType,
@@ -518,5 +612,8 @@ export {
     AnalLoosenessType,
     HipRatingType,
     ButtRatingType,
-    BreastSizeType
+    BreastSizeType,
+    PregnancyType,
+    PregType,
+    IncubationType
 }

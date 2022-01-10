@@ -5,6 +5,8 @@ import { Amily } from "./scenes/npcs/amily"
 import { IPlayer } from "./interfaces/iplayer"
 import { ICreature } from "./interfaces/icreature"
 import { IItemSlot } from "./itemSlotClass"
+import { FLAG } from "./flags/dataFlags"
+import { Tamani } from "./scenes/areas/forest/tamani"
 
 interface IExploration {
     explored: number
@@ -36,6 +38,7 @@ interface IGameContext {
     saveVersion: number
     levelCap: number
     //Game settings
+    storage: Storage
     debug: boolean
     silly: boolean
     hyperHappy: boolean
@@ -51,16 +54,17 @@ interface IGameContext {
     mainFontSizeArray: string[]
     mainFontSizeIndex: number
     //Core variables
-    player: IPlayer
+    player: Player
     playerMenu: any
     gameStarted: boolean
     shiftKeyDown: boolean
 
-    time: ITime
+    time: Time
     exploration: IExploration
     gameFlags: { [key: string]: number }
 
-    amily?: IAmily
+    amily: Amily
+    tamanipreg: Tamani
     monster?: ICreature
 }
 
@@ -70,6 +74,7 @@ class GameContext implements IGameContext {
     saveVersion: number
     levelCap: number
     //Game settings
+    storage: Storage
     debug: boolean
     silly: boolean
     hyperHappy: boolean
@@ -85,16 +90,17 @@ class GameContext implements IGameContext {
     mainFontSizeArray: string[]
     mainFontSizeIndex: number
     //Core variables
-    player: IPlayer
+    player: Player
     playerMenu: any
     gameStarted: boolean
     shiftKeyDown: boolean
 
-    time: ITime
+    time: Time
     exploration: IExploration
     gameFlags: { [key: string]: number }
 
-    amily?: IAmily
+    amily: Amily
+    tamanipreg: Tamani
     monster?: ICreature
 
     //Inventory
@@ -109,6 +115,7 @@ class GameContext implements IGameContext {
         this.levelCap = 5 //Determines the maximum level a player can attain. This will be raised as dungeons are added.
 
         //Game settings
+        this.storage = new Storage()
         this.debug = false
         this.silly = false
         this.hyperHappy = false
@@ -142,6 +149,11 @@ class GameContext implements IGameContext {
         //let flags = [0] * 3000; //For legacy purposes only.
         // let gameFlags = []
         this.gameFlags = {}
+
+        this.amily = new Amily() // Used for Pregnancy tracking
+        // Add a pregnancy event array NEW CODE
+        this.amily.eventFill(FLAG.INCUBATION_AMILY_EVENT)
+        this.tamanipreg = new Tamani() //Constant instance of Tamani solely for pregnancy tracking. There may be a better way to do this.
 
         //Inventory
         this.currentItemSlot

@@ -7,6 +7,8 @@ import { addToGameFlags } from "../engine/saves"
 import { StatusEffects } from "../statusEffectLib"
 import { Items } from "../itemClass"
 import { PerkLib } from "../perkLib"
+import { Inventory } from "./inventory"
+import { ICreature } from "../interfaces/icreature"
 
 let monster = null
 let currentTurn = 0
@@ -585,7 +587,7 @@ abstract class COMBAT {
         return liveData.playerMenu == this.battleMenu
     }
 
-    static startCombat(enemy, immediate) {
+    static startCombat(enemy: ICreature, immediate = false) {
         currentTurn = 0
         currentRound = 0
         playerMenu = this.battleMenu
@@ -671,7 +673,7 @@ abstract class COMBAT {
         liveData.player.changeXP(xpGain)
         liveData.player.changeGems(gemGain)
         let item = monster.dropItem()
-        if (item != undefined) {
+        if (item) {
             outputText("There is " + item.longName + " on your defeated opponent. ")
             Inventory.takeItem(item, nextFunc)
         } else doNext(nextFunc)

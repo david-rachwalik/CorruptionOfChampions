@@ -7,11 +7,11 @@ import { StatusEffect, StatusEffectType } from "../statusEffectClass"
 import { Cock } from "../cockClass"
 import { Vagina } from "../vaginaClass"
 import { BreastRow } from "../breastRowClass"
+import { CharacterType } from "../creature"
 
 interface ICreature {
-    _clitLength: number
-
     //Name and references
+    type: CharacterType
     a: string
     name: string
     refName: string
@@ -56,7 +56,7 @@ interface ICreature {
     temperment: number
 
     drops: IItem[]
-    dropThresholds: []
+    dropThresholds: number[]
 
     //Appearance
     gender: number //0 genderless, 1 male, 2 female, 3 hermaphrodite
@@ -74,6 +74,7 @@ interface ICreature {
 
     //Head
     earType: number
+    earValue: number
     eyeType: number
     faceType: number
     tongueType: number
@@ -94,6 +95,7 @@ interface ICreature {
     tailVenom: number
     tailRecharge: number
     wingType: number
+    wingDesc: string
 
     femininity: number
     tone: number
@@ -112,12 +114,13 @@ interface ICreature {
     // Pregnancy
     pregnancyType: number
     pregnancyIncubation: number
-    pregnancyEventArr: []
+    pregnancyEventArr: number[]
     pregnancyEventNum: number
     buttPregnancyType: number
     buttPregnancyIncubation: number
-    buttPregnancyEventArr: []
+    buttPregnancyEventArr: number[]
     buttPregnancyEventNum: number
+    fertility: number
     //Ass
     ass: Ass
     buttRating: number
@@ -163,7 +166,7 @@ interface ICreature {
     orgasm: () => void
     clearDrops: () => void
     addDrop: (item: IItem, chance: number) => void
-    dropItem: () => IItem
+    dropItem: () => IItem | null
     getTotalDropPercents: () => number
     createPerk: (ptype: PerkType, value1: number, value2: number, value3: number, value4: number) => void
     removePerk: (ptype: PerkType) => boolean
@@ -206,8 +209,8 @@ interface ICreature {
     isLactating: () => boolean
     cumQ: () => number
     cumCapacity: () => number
-    inHeat: () => boolean
-    inRut: () => boolean
+    inHeat: boolean
+    inRut: boolean
     bonusFertility: () => number
     totalFertility: () => number
     countCocksOfType: (type: number) => number
@@ -237,7 +240,7 @@ interface ICreature {
     biggestCockIndex2: () => number
     smallestCockIndex2: () => number
     biggestCockIndex3: () => number
-    breastCup: (rowNum: number) => number
+    breastCup: (rowNum: number) => string
     bRows: () => number
     totalBreasts: () => number
     totalNipples: () => number
@@ -334,11 +337,11 @@ interface ICreature {
     tailDescript: () => string
     oneTailDescript: () => string
     wingsDescript: () => string
-    knockUp: (type?: number, incubation?: number, beat?: number, arg?: number, event?: []) => void
+    knockUp: (type: number, incubation?: number, beat?: number, arg?: number, event?: []) => void
     buttKnockUp: (type?: number, incubation?: number, beat?: number, arg?: number) => void
     buttKnockUpForce: (type?: number, incubation?: number, event?: []) => void
     knockUpForce: (type?: number, incubation?: number, event?: []) => void
-    eventFill: (events: []) => void
+    eventFill: (events: number[]) => void
     pregnancyAdvance: () => void
     canOvipositSpider: () => boolean
     canOvipositBee: () => boolean

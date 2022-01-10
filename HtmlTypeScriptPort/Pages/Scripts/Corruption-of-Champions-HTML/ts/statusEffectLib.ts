@@ -58,6 +58,63 @@ class StatusEffectTypeContainer {
     ButtStretched: StatusEffectType
     LactationEndurance: StatusEffectType
     LactationReduction: StatusEffectType
+    BlackCatBeer: StatusEffectType
+    ImpUber: StatusEffectType
+    ImpSkip: StatusEffectType
+
+    // unverified
+    LactationReduc0: StatusEffectType
+    LactationReduc1: StatusEffectType
+    LactationReduc2: StatusEffectType
+    LactationReduc3: StatusEffectType
+    Rut: StatusEffectType
+    Web: StatusEffectType
+    BlackNipples: StatusEffectType
+    Shielding: StatusEffectType
+    HolliConstrict: StatusEffectType
+    LustStones: StatusEffectType
+    Sandstorm: StatusEffectType
+    Sealed: StatusEffectType
+    Berzerking: StatusEffectType
+    TailWhip: StatusEffectType
+    UBERWEB: StatusEffectType
+    DriderKiss: StatusEffectType
+    WebSilence: StatusEffectType
+    GooArmorSilence: StatusEffectType
+    Whispered: StatusEffectType
+    AkbalSpeed: StatusEffectType
+
+    AmilyVenom: StatusEffectType
+    SheilaOil: StatusEffectType
+    TwuWuv: StatusEffectType
+    TuvWuv: StatusEffectType
+    FirstAttack: StatusEffectType
+    IsabellaStunned: StatusEffectType
+    ThroatPunch: StatusEffectType
+    KissOfDeath: StatusEffectType
+    AcidSlap: StatusEffectType
+    CalledShot: StatusEffectType
+    DemonSeed: StatusEffectType
+    InfestAttempted: StatusEffectType
+    Disarmed: StatusEffectType
+    AnemoneVenom: StatusEffectType
+    GnollSpear: StatusEffectType
+    BasiliskCompulsion: StatusEffectType
+    BasiliskSlow: StatusEffectType
+    GiantGrabbed: StatusEffectType
+    GiantBoulder: StatusEffectType
+    GiantStrLoss: StatusEffectType
+    LizanBlowpipe: StatusEffectType
+    IzmaBleed: StatusEffectType
+    GardenerSapSpeed: StatusEffectType
+    KnockedBack: StatusEffectType
+    RemovedArmor: StatusEffectType
+    JCLustLevel: StatusEffectType
+    MirroredAttack: StatusEffectType
+    Tentagrappled: StatusEffectType
+    TentagrappleCooldown: StatusEffectType
+    ShowerDotEffect: StatusEffectType
+    VineHealUsed: StatusEffectType
 
     constructor() {
         //------------
@@ -107,11 +164,65 @@ class StatusEffectTypeContainer {
         this.Fertilized = new StatusEffectType("Fertilized") // Used in SandTrap battles.
 
         //----------
-        // TODO: verify: were called in Creature but not originally defined
+        // TODO: verify: called in Creature but not originally defined
         //---------
         this.ButtStretched = new StatusEffectType("ButtStretched")
         this.LactationEndurance = new StatusEffectType("LactationEndurance")
         this.LactationReduction = new StatusEffectType("LactationReduction")
+        this.BlackCatBeer = new StatusEffectType("BlackCatBeer")
+        this.ImpUber = new StatusEffectType("ImpUber")
+        this.ImpSkip = new StatusEffectType("ImpSkip")
+        this.LactationReduc0 = new StatusEffectType("LactationReduc0")
+        this.LactationReduc1 = new StatusEffectType("LactationReduc1")
+        this.LactationReduc2 = new StatusEffectType("LactationReduc2")
+        this.LactationReduc3 = new StatusEffectType("LactationReduc3")
+        this.Rut = new StatusEffectType("Rut")
+        this.Web = new StatusEffectType("Web")
+        this.BlackNipples = new StatusEffectType("BlackNipples")
+        this.Shielding = new StatusEffectType("Shielding")
+        this.HolliConstrict = new StatusEffectType("HolliConstrict")
+        this.LustStones = new StatusEffectType("LustStones")
+        this.Sandstorm = new StatusEffectType("Sandstorm")
+        this.Sealed = new StatusEffectType("Sealed")
+        this.Berzerking = new StatusEffectType("Berzerking")
+        this.TailWhip = new StatusEffectType("TailWhip")
+        this.UBERWEB = new StatusEffectType("UBERWEB")
+        this.DriderKiss = new StatusEffectType("DriderKiss")
+        this.WebSilence = new StatusEffectType("WebSilence")
+        this.GooArmorSilence = new StatusEffectType("GooArmorSilence")
+        this.Whispered = new StatusEffectType("Whispered")
+        this.AkbalSpeed = new StatusEffectType("AkbalSpeed")
+        this.AmilyVenom = new StatusEffectType("AmilyVenom")
+        this.SheilaOil = new StatusEffectType("SheilaOil")
+        this.TwuWuv = new StatusEffectType("TwuWuv")
+        this.TuvWuv = new StatusEffectType("TuvWuv")
+        this.FirstAttack = new StatusEffectType("FirstAttack")
+        this.IsabellaStunned = new StatusEffectType("IsabellaStunned")
+        this.ThroatPunch = new StatusEffectType("ThroatPunch")
+        this.KissOfDeath = new StatusEffectType("KissOfDeath")
+        this.AcidSlap = new StatusEffectType("AcidSlap")
+        this.CalledShot = new StatusEffectType("CalledShot")
+        this.DemonSeed = new StatusEffectType("DemonSeed")
+        this.InfestAttempted = new StatusEffectType("InfestAttempted")
+        this.Disarmed = new StatusEffectType("Disarmed")
+        this.AnemoneVenom = new StatusEffectType("AnemoneVenom")
+        this.GnollSpear = new StatusEffectType("GnollSpear")
+        this.BasiliskCompulsion = new StatusEffectType("BasiliskCompulsion")
+        this.BasiliskSlow = new StatusEffectType("BasiliskSlow")
+        this.GiantGrabbed = new StatusEffectType("GiantGrabbed")
+        this.GiantBoulder = new StatusEffectType("GiantBoulder")
+        this.GiantStrLoss = new StatusEffectType("GiantStrLoss")
+        this.LizanBlowpipe = new StatusEffectType("LizanBlowpipe")
+        this.IzmaBleed = new StatusEffectType("IzmaBleed")
+        this.GardenerSapSpeed = new StatusEffectType("GardenerSapSpeed")
+        this.KnockedBack = new StatusEffectType("KnockedBack")
+        this.RemovedArmor = new StatusEffectType("RemovedArmor")
+        this.JCLustLevel = new StatusEffectType("JCLustLevel")
+        this.MirroredAttack = new StatusEffectType("MirroredAttack")
+        this.Tentagrappled = new StatusEffectType("Tentagrappled")
+        this.TentagrappleCooldown = new StatusEffectType("TentagrappleCooldown")
+        this.ShowerDotEffect = new StatusEffectType("ShowerDotEffect")
+        this.VineHealUsed = new StatusEffectType("VineHealUsed")
     }
 }
 let StatusEffects = new StatusEffectTypeContainer()

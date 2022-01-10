@@ -17,12 +17,20 @@ import { Cock } from "./cockClass"
 import { Vagina } from "./vaginaClass"
 import { BreastRow } from "./breastRowClass"
 import { Appearance } from "./appearance"
+import { FLAG } from "./flags/dataFlags"
+
+enum CharacterType {
+    Unassigned,
+    Creature,
+    Player
+}
 
 class Creature implements ICreature {
     _clitLength: number
     _nippleLength: number
 
     //Name and references
+    type: CharacterType
     a: string
     name: string
     refName: string
@@ -67,7 +75,7 @@ class Creature implements ICreature {
     temperment: number
 
     drops: IItem[]
-    dropThresholds: []
+    dropThresholds: number[]
 
     //Appearance
     gender: number //0 genderless, 1 male, 2 female, 3 hermaphrodite
@@ -85,6 +93,7 @@ class Creature implements ICreature {
 
     //Head
     earType: number
+    earValue: number
     eyeType: number
     faceType: number
     tongueType: number
@@ -105,6 +114,7 @@ class Creature implements ICreature {
     tailVenom: number
     tailRecharge: number
     wingType: number
+    wingDesc: string
 
     femininity: number
     tone: number
@@ -123,12 +133,13 @@ class Creature implements ICreature {
     // Pregnancy
     pregnancyType: number
     pregnancyIncubation: number
-    pregnancyEventArr: []
+    pregnancyEventArr: number[]
     pregnancyEventNum: number
     buttPregnancyType: number
     buttPregnancyIncubation: number
-    buttPregnancyEventArr: []
+    buttPregnancyEventArr: number[]
     buttPregnancyEventNum: number
+    fertility: number
     //Ass
     ass: Ass
     buttRating: number
@@ -146,7 +157,9 @@ class Creature implements ICreature {
 
     constructor() {
         this._clitLength = 0
+        this._nippleLength = 0
         //Name and references
+        this.type = CharacterType.Creature
         this.a = ""
         this.name = ""
         this.refName = this.name
@@ -204,6 +217,7 @@ class Creature implements ICreature {
 
         //Head
         this.earType = 0
+        this.earValue = 0
         this.eyeType = 0
         this.faceType = 0
         this.tongueType = 0
@@ -222,6 +236,7 @@ class Creature implements ICreature {
         this.tailVenom = 0
         this.tailRecharge = 0
         this.wingType = 0
+        this.wingDesc = ""
 
         this.femininity = 50
         this.tone = 0
@@ -246,6 +261,7 @@ class Creature implements ICreature {
         this.buttPregnancyIncubation = 0
         this.buttPregnancyEventArr = []
         this.buttPregnancyEventNum = 0
+        this.fertility = 0
         //Ass
         this.ass = new Ass()
         this.buttRating = 0
@@ -267,7 +283,7 @@ class Creature implements ICreature {
         // return this.vaginas[0].clitLength
         return this._clitLength
     }
-    set clitLength(n: number): void {
+    set clitLength(n: number) {
         this._clitLength = n
     }
 
@@ -275,7 +291,7 @@ class Creature implements ICreature {
         // return this.breastRows[0].nippleLength
         return this._nippleLength
     }
-    set nippleLength(n: number): void {
+    set nippleLength(n: number) {
         this._nippleLength = n
     }
 
@@ -289,11 +305,26 @@ class Creature implements ICreature {
         }
         COMBAT.combatRoundOver()
     }
-    
+
     attack(): void {
-        let enemy
-        if (this == liveData.player) enemy = monster
-        else enemy = liveData.player
+        // let enemy
+        // if (this.type == liveData.player.type) enemy = liveData.monster
+        // else enemy = liveData.player
+
+        let enemy: ICreature
+        if (this.type == liveData.player.type) {
+            if (liveData.monster) {
+                enemy = liveData.monster
+            } else {
+                // TODO: below added to protect against null; should be improved
+                enemy = new Creature()
+                // break attack
+                return
+            }
+        } else {
+            enemy = liveData.player
+        }
+
         //Hit or miss?
         let hitRoll = 70 + (this.spe - enemy.spe / 2)
         let hitNeed = UTIL.rand(100)
@@ -302,8 +333,8 @@ class Creature implements ICreature {
             if (hitRoll - hitNeed >= -5) outputText(UTIL.capitalize(this.a) + this.refName + " narrowly miss" + (this.plural ? "" : "es") + " " + enemy.a + enemy.refName + "! ")
             else outputText(UTIL.capitalize(this.a) + this.refName + " miss" + (this.plural ? "" : "es") + " " + enemy.a + enemy.refName + "! ")
             outputText("<br><br>")
-            // return
-            break attack
+            // break attack
+            return
         }
         //Damage
         let damage = this.baseDamage()
@@ -318,7 +349,7 @@ class Creature implements ICreature {
         //Round things off
         damage = Math.round(damage)
         //Display text and apply damage
-        if (this == liveData.player) {
+        if (this.type == liveData.player.type) {
             if (damage <= 5) outputText("You struck a glancing blow against " + enemy.a + " " + enemy.refName + ". ")
             else if (damage <= 10) outputText("You wound " + enemy.a + " " + enemy.refName + "! ")
             else if (damage <= 20) outputText("You stagger " + enemy.a + " " + enemy.refName + " with the force of your attacks! ")
@@ -362,7 +393,7 @@ class Creature implements ICreature {
         temp += this.bonusHP
         if (this.findPerk(PerkLib.Tank) >= 0) temp += 50
         if (this.findPerk(PerkLib.Tank2) >= 0) temp += this.tou
-        if (this == liveData.player) {
+        if (this.type == liveData.player.type) {
             temp += this.level * 15
             if (temp < 50) temp = 50
             if (temp > 999) temp = 999
@@ -429,12 +460,38 @@ class Creature implements ICreature {
         return Math.round(xpGained)
     }
 
+    // //Stats Change
+    // modStats_old(...args: any[]): void {
+    //     for (let i = 0; i < args.length; i += 2) {
+    //         //Get letiables
+    //         let attribute = args[i]
+    //         let mod = args[i + 1]
+    //         //Alternate
+    //         if (attribute == "int") attribute = "inte"
+    //         if (attribute == "sen") attribute = "sens"
+    //         if (attribute == "lus") attribute = "lust"
+    //         //Skip if resisted or noBimbo
+    //         if (attribute == "resisted" || attribute == "nobimbo") continue
+    //         //Apply modifiers
+    //         this[attribute] += mod
+    //         //Constrain values to min and max
+    //         if (this[attribute] > 100) this[attribute] = 100
+    //         if (this[attribute] < 0) this[attribute] = 0
+    //         if (this.type == liveData.player.type) {
+    //             if (mod > 0) GUI.showUpDown(attribute + "Arrow", "up")
+    //             else if (mod < 0) GUI.showUpDown(attribute + "Arrow", "down")
+    //             GUI.refreshStats()
+    //         }
+    //     }
+    // }
+    // dynStats_old(...args: any[]): void {
+    //     //For legacy compatibility only.
+    //     this.modStats(args)
+    // }
+
     //Stats Change
-    modStats(...args: any[]): void {
-        for (let i = 0; i < args.length; i += 2) {
-            //Get letiables
-            let attribute = args[i]
-            let mod = args[i + 1]
+    modStats(...args: [string, number][]): void {
+        for (let [attribute, mod] of args) {
             //Alternate
             if (attribute == "int") attribute = "inte"
             if (attribute == "sen") attribute = "sens"
@@ -442,23 +499,29 @@ class Creature implements ICreature {
             //Skip if resisted or noBimbo
             if (attribute == "resisted" || attribute == "nobimbo") continue
             //Apply modifiers
-            this[attribute] += mod
+            ;(this as any)[attribute] += mod
             //Constrain values to min and max
-            if (this[attribute] > 100) this[attribute] = 100
-            if (this[attribute] < 0) this[attribute] = 0
-            if (this == liveData.player) {
-                if (mod > 0) GUI.showUpDown(attribute + "Arrow", "up")
-                else if (mod < 0) GUI.showUpDown(attribute + "Arrow", "down")
+            if ((this as any)[attribute] > 100) (this as any)[attribute] = 100
+            if ((this as any)[attribute] < 0) (this as any)[attribute] = 0
+            if ((this as any).type == liveData.player.type) {
+                if (mod > 0) {
+                    GUI.showUpDown(attribute + "Arrow", "up")
+                } else if (mod < 0) {
+                    GUI.showUpDown(attribute + "Arrow", "down")
+                }
                 GUI.refreshStats()
             }
         }
     }
-    dynStats(...args: any[]): void {
+    dynStats(...args: [string, number][]): void {
         //For legacy compatibility only.
-        this.modStats(args)
+        this.modStats(...args)
     }
 
-    changeHP(amount: number, display= false, newpg= true): void {
+    // modStats(...args: [string, number][]): void {}
+    // dynStats(...args: [string, number][]): void {}
+
+    changeHP(amount: number, display = false, newpg = true): void {
         //Main function
         this.HP += amount
         if (this.HP > this.maxHP()) this.HP = this.maxHP()
@@ -469,13 +532,13 @@ class Creature implements ICreature {
             if (newpg) outputText("<br><br>")
             else outputText(" ")
         }
-        if (this == liveData.player) {
+        if (this.type == liveData.player.type) {
             if (amount < 0) GUI.showUpDown("hpArrow", "down")
             else if (amount > 0) GUI.showUpDown("hpArrow", "up")
             GUI.refreshStats()
         }
     }
-    changeLust(amount: number, display= false, newpg= true, resisted= true): void {
+    changeLust(amount: number, display = false, newpg = true, resisted = true): void {
         //Main function
         if (resisted) amount *= this.lustVuln
         this.lust += amount
@@ -487,13 +550,13 @@ class Creature implements ICreature {
             if (newpg) outputText("<br><br>")
             else outputText(" ")
         }
-        if (this == liveData.player) {
+        if (this.type == liveData.player.type) {
             if (amount < 0) GUI.showUpDown("lustArrow", "down")
             else if (amount > 0) GUI.showUpDown("lustArrow", "up")
             GUI.refreshStats()
         }
     }
-    changeFatigue(amount: number, display=false, newpg=true): void {
+    changeFatigue(amount: number, display = false, newpg = true): void {
         //Main function
         this.fatigue += amount
         if (this.fatigue > this.maxFatigue()) this.fatigue = this.maxFatigue()
@@ -504,14 +567,14 @@ class Creature implements ICreature {
             if (newpg) outputText("<br><br>")
             else outputText(" ")
         }
-        if (this == liveData.player) {
+        if (this.type == liveData.player.type) {
             if (amount < 0) GUI.showUpDown("fatigueArrow", "down")
             else if (amount > 0) GUI.showUpDown("fatigueArrow", "up")
             GUI.refreshStats()
         }
     }
 
-    damageToughnessModifier(displayMode=false): number {
+    damageToughnessModifier(displayMode = false): number {
         let temp = 0
         if (this.tou < 25) temp = this.tou * 0.4
         else if (this.tou < 50) temp = 10 + (this.tou - 25) * 0.3
@@ -522,7 +585,7 @@ class Creature implements ICreature {
         if (displayMode) return temp
         else return UTIL.rand(temp)
     }
-    damagePercent(displayMode=false, applyModifiers=false): number {
+    damagePercent(displayMode = false, applyModifiers = false): number {
         let mult = 100
         let armorMod = this.armor.defense
         //--BASE--
@@ -533,7 +596,7 @@ class Creature implements ICreature {
         }
         //Modify armor rating based on weapons.
         if (applyModifiers) {
-            if (liveData.player.weapon == Items.Weapons.JewelRapier || liveData.player.weapon == Items.Weapons.SPEAR || (liveData.player.weapon.name.indexOf("staff") != -1 && liveData.player.findPerk(PerkLib.StaffChanneling) >= 0)) armorMod = 0
+            if (liveData.player.weapon == Items.Weapons.JewelRapier || liveData.player.weapon == Items.Weapons.SPEAR || (liveData.player.weapon.longName.indexOf("staff") != -1 && liveData.player.findPerk(PerkLib.StaffChanneling) >= 0)) armorMod = 0
             if (liveData.player.weapon == Items.Weapons.Katana) armorMod -= 5
             if (liveData.player.findPerk(PerkLib.LungingAttacks) >= 0) armorMod /= 2
             if (armorMod < 0) armorMod = 0
@@ -544,7 +607,7 @@ class Creature implements ICreature {
         //Take damage you masochist!
         if (this.findPerk(PerkLib.Masochist) >= 0 && this.lib >= 60) {
             mult *= 0.8
-            if (this == liveData.player && !displayMode) this.changeLust(2, false)
+            if (this.type == liveData.player.type && !displayMode) this.changeLust(2, false)
         }
         if (this.findPerk(PerkLib.ImmovableObject) >= 0 && this.tou >= 75) {
             mult *= 0.9
@@ -610,8 +673,8 @@ class Creature implements ICreature {
     orgasm(): void {
         this.changeLust(-this.lust)
         this.hoursSinceCum = 0
-        if (this == liveData.player) {
-            liveData.gameFlags[TIMES_ORGASMED]++
+        if (this.type == liveData.player.type) {
+            liveData.gameFlags[FLAG.TIMES_ORGASMED]++
             GUI.refreshStats()
         }
     }
@@ -633,21 +696,21 @@ class Creature implements ICreature {
             this.dropThresholds[this.dropThresholds.length] = currentThreshold + chance
         }
     }
-    dropItem(): IItem {
+    dropItem(): IItem | null {
         let roll = UTIL.rand(100)
         let dropIndex = -1
-        for (let i in this.dropThresholds) {
+        for (let i of this.dropThresholds) {
             if (roll < this.dropThresholds[i]) {
                 dropIndex = i
                 break
             }
         }
-        if (dropIndex == -1) return undefined
+        if (dropIndex == -1) return null
         return this.drops[dropIndex]
     }
     getTotalDropPercents(): number {
         let sum = 0
-        for (let i in this.dropThresholds) {
+        for (let i of this.dropThresholds) {
             sum += this.dropThresholds[i]
         }
         return sum
@@ -739,13 +802,15 @@ class Creature implements ICreature {
         return false
     }
     findPerk(ptype: PerkType): number {
-        if (ptype == undefined) return -1
-        for (let counter = 0; counter < this.perks.length; counter++) {
-            if (this.perks[counter].ptype.id == ptype.id) return counter
-        }
-        return -1
+        // if (ptype == undefined) return -1
+        // for (let counter = 0; counter < this.perks.length; counter++) {
+        //     if (this.perks[counter].ptype.id == ptype.id) return counter
+        // }
+        // return -1
+        return this.perks.findIndex((p) => p.ptype == ptype)
     }
-    perkValue(ptype: PerkType, value: number): number {
+    // TODO: verify logic: default added to value for calls with 1 param
+    perkValue(ptype: PerkType, value = 0): number {
         let counter = this.findPerk(ptype)
         if (counter < 0) {
             return 0
@@ -758,8 +823,8 @@ class Creature implements ICreature {
     }
     addPerkValue(ptype: PerkType, valueIdx: number, bonus: number): void {
         let counter = this.findPerk(ptype)
-        if (counter < 0) break addPerkValue
-        if (valueIdx < 1 || valueIdx > 4) break addPerkValue
+        if (counter < 0) return
+        if (valueIdx < 1 || valueIdx > 4) return
         if (valueIdx == 1) this.perks[counter].value1 += bonus
         if (valueIdx == 2) this.perks[counter].value2 += bonus
         if (valueIdx == 3) this.perks[counter].value3 += bonus
@@ -768,8 +833,8 @@ class Creature implements ICreature {
     setPerkValue(ptype: PerkType, valueIdx: number, newNum: number): void {
         let counter = this.findPerk(ptype)
         //Various Errors preventing action
-        if (counter < 0) break setPerkValue
-        if (valueIdx < 1 || valueIdx > 4) break setPerkValue
+        if (counter < 0) return
+        if (valueIdx < 1 || valueIdx > 4) return
         if (valueIdx == 1) this.perks[counter].value1 = newNum
         if (valueIdx == 2) this.perks[counter].value2 = newNum
         if (valueIdx == 3) this.perks[counter].value3 = newNum
@@ -781,15 +846,16 @@ class Creature implements ICreature {
     }
     removeStatusEffect(stype: StatusEffectType): void {
         let counter = this.findStatusEffect(stype)
-        if (counter < 0) break removeStatusEffect
+        if (counter < 0) return
         this.statusEffects.splice(counter, 1)
     }
     findStatusEffect(stype: StatusEffectType): number {
-        if (stype == undefined) return -1
-        for (let counter = 0; counter < this.statusEffects.length; counter++) {
-            if (this.statusEffects[counter].stype == stype) return counter
-        }
-        return -1
+        // if (stype == undefined) return -1
+        // for (let counter = 0; counter < this.statusEffects.length; counter++) {
+        //     if (this.statusEffects[counter].stype == stype) return counter
+        // }
+        // return -1
+        return this.statusEffects.findIndex((s) => s.stype == stype)
     }
     statusEffectValue(stype: StatusEffectType, value: number): number {
         let counter = this.findStatusEffect(stype)
@@ -804,8 +870,8 @@ class Creature implements ICreature {
     }
     addStatusValue(stype: StatusEffectType, valueIdx: number, bonus: number): void {
         let counter = this.findStatusEffect(stype)
-        if (counter < 0) break addStatusValue
-        if (valueIdx < 1 || valueIdx > 4) break addStatusValue
+        if (counter < 0) return
+        if (valueIdx < 1 || valueIdx > 4) return
         if (valueIdx == 1) this.statusEffects[counter].value1 += bonus
         if (valueIdx == 2) this.statusEffects[counter].value2 += bonus
         if (valueIdx == 3) this.statusEffects[counter].value3 += bonus
@@ -814,8 +880,8 @@ class Creature implements ICreature {
     changeStatusValue(stype: StatusEffectType, valueIdx: number, newNum: number): void {
         let counter = this.findStatusEffect(stype)
         //Various Errors preventing action
-        if (counter < 0) break changeStatusValue
-        if (valueIdx < 1 || valueIdx > 4) break changeStatusValue
+        if (counter < 0) return
+        if (valueIdx < 1 || valueIdx > 4) return
         if (valueIdx == 1) this.statusEffects[counter].value1 = newNum
         if (valueIdx == 2) this.statusEffects[counter].value2 = newNum
         if (valueIdx == 3) this.statusEffects[counter].value3 = newNum
@@ -902,7 +968,7 @@ class Creature implements ICreature {
     //Remove a Key Item
     removeKeyItem(ktype: KeyItemType): void {
         let counter = this.hasKeyItem(ktype)
-        if (counter < 0) break removeKeyItem
+        if (counter < 0) return
         this.statusEffects.splice(counter, 1)
     }
 
@@ -929,8 +995,8 @@ class Creature implements ICreature {
     }
     addKeyValue(ptype: PerkType, valueIdx: number, bonus: number): void {
         let counter = this.hasKeyItem(ptype)
-        if (counter < 0) break addKeyValue
-        if (valueIdx < 1 || valueIdx > 4) break addKeyValue
+        if (counter < 0) return
+        if (valueIdx < 1 || valueIdx > 4) return
         if (valueIdx == 1) this.keyItems[counter].value1 += bonus
         if (valueIdx == 2) this.keyItems[counter].value2 += bonus
         if (valueIdx == 3) this.keyItems[counter].value3 += bonus
@@ -939,8 +1005,8 @@ class Creature implements ICreature {
     setKeyValue(ptype: PerkType, valueIdx: number, newNum: number): void {
         let counter = this.findPerk(ptype)
         //Various Errors preventing action
-        if (counter < 0) break setKeyValue
-        if (valueIdx < 1 || valueIdx > 4) break setKeyValue
+        if (counter < 0) return
+        if (valueIdx < 1 || valueIdx > 4) return
         if (valueIdx == 1) this.keyItems[counter].value1 = newNum
         if (valueIdx == 2) this.keyItems[counter].value2 = newNum
         if (valueIdx == 3) this.keyItems[counter].value3 = newNum
@@ -976,7 +1042,7 @@ class Creature implements ICreature {
         else return this.vaginas[0].vaginalWetness
     }
 
-    vaginaType(newType= -1): number {
+    vaginaType(newType = -1): number {
         //Main
         if (!this.hasVagina()) return -1
         if (newType != -1) {
@@ -985,7 +1051,7 @@ class Creature implements ICreature {
         return this.vaginas[0].type
     }
 
-    looseness(vag= true): number {
+    looseness(vag = true): number {
         //Main
         if (vag) {
             if (this.vaginas.length == 0) return 0
@@ -1016,7 +1082,7 @@ class Creature implements ICreature {
     analCapacity(): number {
         let bonus = 0
         //Centaurs = +30 capacity
-        if (this.lowerBody == LOWER_BODY_TYPE_CENTAUR) bonus = 30
+        if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CENTAUR) bonus = 30
         if (this.findPerk(PerkLib.HistorySlut) >= 0) bonus += 20
         if (this.findPerk(PerkLib.Cornucopia) >= 0) bonus += 30
         if (this.findPerk(PerkLib.OneTrackMind) >= 0) bonus += 10
@@ -1191,7 +1257,7 @@ class Creature implements ICreature {
         if (this.findPerk(PerkLib.FerasBoonAlpha) >= 0) quantity += 200
         if (this.findPerk(PerkLib.MagicalVirility) >= 0) quantity += 200
         if (this.findPerk(PerkLib.FerasBoonSeeder) >= 0) quantity += 1000
-        if (this.findPerk("Elven Bounty") >= 0) quantity += 250
+        if (this.findPerk(PerkLib.ElvenBounty) >= 0) quantity += 250
         quantity += this.perkValue(PerkLib.ElvenBounty, 1)
         if (this.findPerk(PerkLib.BroBody) >= 0) quantity += 200
         if (this.findPerk(PerkLib.SatyrSexuality) >= 0) quantity += 50
@@ -1237,21 +1303,29 @@ class Creature implements ICreature {
         return cumCap
     }
 
-    inHeat(): boolean {
-        get inHeat() {
-            return this.findStatusEffect(StatusEffects.Heat) >= 1
-        } // Setting to 0 was causing heat messages for the Imp scene.
+    // inHeat(): boolean {
+    //     get inHeat() {
+    //         return this.findStatusEffect(StatusEffects.Heat) >= 1
+    //     } // Setting to 0 was causing heat messages for the Imp scene.
+    // }
+
+    // Setting to 0 was causing heat messages for the Imp scene.
+    get inHeat(): boolean {
+        return this.findStatusEffect(StatusEffects.Heat) >= 1
     }
 
-    inRut(): boolean {
-        get inRut() {
-            return this.findStatusEffect(StatusEffects.Rut) >= 0
-        }
+    // inRut(): boolean {
+    //     get inRut() {
+    //         return this.findStatusEffect(StatusEffects.Rut) >= 0
+    //     }
+    // }
+    get inRut(): boolean {
+        return this.findStatusEffect(StatusEffects.Rut) >= 0
     }
 
     bonusFertility(): number {
         let counter = 0
-        if (this.inHeat()) counter += this.statusEffectValue(StatusEffects.Heat, 1)
+        if (this.inHeat) counter += this.statusEffectValue(StatusEffects.Heat, 1)
         if (this.findPerk(PerkLib.FertilityPlus) >= 0) counter += 15
         if (this.findPerk(PerkLib.FertilityMinus) >= 0 && this.lib < 25) counter -= 15
         if (this.findPerk(PerkLib.MaraesGiftFertility) >= 0) counter += 50
@@ -1279,10 +1353,11 @@ class Creature implements ICreature {
     }
 
     findFirstCockType(ctype: number): number {
-        for (let index = 0; index < this.cocks.length; index++) {
-            if (this.cocks[index].cockType == ctype) return index
-        }
-        return -1
+        // for (let index = 0; index < this.cocks.length; index++) {
+        //     if (this.cocks[index].cockType == ctype) return index
+        // }
+        // return -1
+        return this.cocks.findIndex((c) => c.cockType == ctype)
     }
 
     //Breasts Getter functions
@@ -1685,7 +1760,7 @@ class Creature implements ICreature {
         return index3
     }
 
-    breastCup(rowNum: number): number {
+    breastCup(rowNum: number): string {
         return Appearance.breastCup(this.breastRows[rowNum].breastRating)
     }
 
@@ -1995,21 +2070,21 @@ class Creature implements ICreature {
     // ALTERATIONS
     //------------
     //Addition of parts
-    createCock(clength= 5.5, cthickness= 1, ctype= ENUM.CockType.HUMAN): void {
-        if (this.cocks.length >= 11) break createCock //This one goes to eleven.
+    createCock(clength = 5.5, cthickness = 1, ctype = ENUM.CockType.HUMAN): void {
+        if (this.cocks.length >= 11) return //This one goes to eleven.
         //New cock
         let newCock = new Cock(clength, cthickness, ctype)
         this.cocks.push(newCock)
         this.genderCheck()
     }
-    createVagina(virgin= true, vagwetness= 1, vaglooseness= 0): void {
-        if (this.vaginas.length >= 3) break createVagina //Limit of 3 vaginas
+    createVagina(virgin = true, vagwetness = 1, vaglooseness = 0): void {
+        if (this.vaginas.length >= 3) return //Limit of 3 vaginas
         //New vagina
         let newVagina = new Vagina(vagwetness, vaglooseness, virgin, 0)
         this.vaginas.push(newVagina)
         this.genderCheck()
     }
-    createBreastRow(size= 0, nipplesPerBreast= 1): void {
+    createBreastRow(size = 0, nipplesPerBreast = 1): void {
         if (this.breastRows.length >= 10) return //Limit of 10 breast rows
         //New breast row
         let newBreastRow = new BreastRow(size, nipplesPerBreast)
@@ -2017,7 +2092,7 @@ class Creature implements ICreature {
         this.genderCheck()
     }
     //Removal of parts
-    removeCock(arraySpot= 0, totalRemoved= 1): void {
+    removeCock(arraySpot = 0, totalRemoved = 1): void {
         //Various Errors preventing action
         if (arraySpot < 0 || totalRemoved <= 0) {
             //trace("ERROR: removeCock called but arraySpot is negative or totalRemoved is 0.");
@@ -2051,7 +2126,7 @@ class Creature implements ICreature {
         }
         this.genderCheck()
     }
-    removeVagina(arraySpot= 0, totalRemoved= 1): void {
+    removeVagina(arraySpot = 0, totalRemoved = 1): void {
         //Various Errors preventing action
         if (arraySpot < -1 || totalRemoved <= 0) {
             //trace("ERROR: removeVagina called but arraySpot is negative or totalRemoved is 0.");
@@ -2069,7 +2144,7 @@ class Creature implements ICreature {
         }
         this.genderCheck()
     }
-    removeBreastRow(arraySpot= 0, totalRemoved= 1): void {
+    removeBreastRow(arraySpot = 0, totalRemoved = 1): void {
         //Various Errors preventing action
         if (arraySpot < -1 || totalRemoved <= 0) {
             //trace("ERROR: removeBreastRow called but arraySpot is negative or totalRemoved is 0.");
@@ -2089,7 +2164,7 @@ class Creature implements ICreature {
         }
     }
 
-    shrinkTits(ignore_hyper_happy=false): void {
+    shrinkTits(ignore_hyper_happy = false): void {
         if (liveData.hyperHappy && !ignore_hyper_happy) return
         if (this.breastRows.length == 1) {
             if (this.breastRows[0].breastRating > 0) {
@@ -2307,7 +2382,7 @@ class Creature implements ICreature {
         return -1
     }
     //Vaginal Stretching
-    cuntChange(cArea: number, display: boolean, spacingsF= true, spacingsB= true) {
+    cuntChange(cArea: number, display: boolean, spacingsF = true, spacingsB = true) {
         //Main function
         if (this.vaginas.length == 0) return false
         let wasVirgin = this.vaginas[0].virgin
@@ -2375,7 +2450,7 @@ class Creature implements ICreature {
         if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_TIGHT) outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " is stretched out to a more normal size.</b>")
     }
     //Anal Stretching
-    buttChange(cArea: number, display: boolean, spacingsF= true, spacingsB= true): boolean {
+    buttChange(cArea: number, display: boolean, spacingsF = true, spacingsB = true): boolean {
         //Main function
         let stretched = this.buttChangeNoDisplay(cArea)
         //STRETCH SUCCESSFUL - begin flavor text if outputting it!
@@ -2432,7 +2507,7 @@ class Creature implements ICreature {
     //------------
     // GENDER UTIL
     //------------
-    genderText(male= "man", female= "woman", futa= "herm", eunuch= "eunuch"): string {
+    genderText(male = "man", female = "woman", futa = "herm", eunuch = "eunuch"): string {
         //Main function
         if (this.vaginas.length > 0) {
             if (this.cocks.length > 0) return futa
@@ -2443,7 +2518,7 @@ class Creature implements ICreature {
         return eunuch
     }
 
-    manWoman(caps=false): string {
+    manWoman(caps = false): string {
         //Dicks?
         if (this.totalCocks() > 0) {
             if (this.hasVagina()) {
@@ -2493,7 +2568,7 @@ class Creature implements ICreature {
         }
     }
 
-    maleFemaleHerm(caps=false): string {
+    maleFemaleHerm(caps = false): string {
         if (this.gender == 0) {
             if (caps) return this.mf("Genderless", "Fem-genderless")
             else return this.mf("genderless", "fem-genderless")
@@ -2681,7 +2756,12 @@ class Creature implements ICreature {
             if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN) return "feet"
             if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED) return "hooves"
             if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CLOVEN_HOOFED) return "cloven hooves"
-            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG || this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT || this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_FOX || this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_RACCOON) {
+            if (
+                this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG ||
+                this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT ||
+                this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_FOX ||
+                this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_RACCOON
+            ) {
                 if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_FOX && UTIL.rand(3) > 0) {
                     if (UTIL.rand(2) == 0) return "fox-like feet"
                     else return "soft, padded paws"
@@ -2731,7 +2811,12 @@ class Creature implements ICreature {
             if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN) return "foot"
             if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED) return "hoof"
             if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CLOVEN_HOOFED) return "cloven hoof"
-            if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG || this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT || this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_FOX || this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_RACCOON) {
+            if (
+                this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG ||
+                this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT ||
+                this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_FOX ||
+                this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_RACCOON
+            ) {
                 if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_FOX && UTIL.rand(3) > 0) {
                     if (UTIL.rand(2) == 0) return "fox-like foot"
                     else return "soft, padded paw"
@@ -2814,7 +2899,7 @@ class Creature implements ICreature {
     }
 
     //Modify femininity!
-    modFem(goal: number, strength= 1) {
+    modFem(goal: number, strength = 1) {
         //Main function
         let output = ""
         let old = this.faceDesc()
@@ -2854,7 +2939,7 @@ class Creature implements ICreature {
         return output
     }
 
-    modThickness(goal: number, strength= 1) {
+    modThickness(goal: number, strength = 1) {
         //Main function
         if (goal == this.thickness) return ""
         //Lose weight fatty!
@@ -2876,7 +2961,7 @@ class Creature implements ICreature {
         return ""
     }
 
-    modTone(goal: number, strength= 1) {
+    modTone(goal: number, strength = 1) {
         //Main function
         if (goal == this.tone) return ""
         //Lose muscle visibility!
@@ -3070,7 +3155,13 @@ class Creature implements ICreature {
     canFly() {
         //web also makes false!
         if (this.findStatusEffect(StatusEffects.Web) >= 0) return false
-        return this.wingType == ENUM.WingType.WING_TYPE_BEE_LIKE_LARGE || this.wingType == ENUM.WingType.WING_TYPE_BAT_LIKE_LARGE || this.wingType == ENUM.WingType.WING_TYPE_FEATHERED_LARGE || this.wingType == ENUM.WingType.WING_TYPE_DRACONIC_LARGE || this.wingType == ENUM.WingType.WING_TYPE_GIANT_DRAGONFLY
+        return (
+            this.wingType == ENUM.WingType.WING_TYPE_BEE_LIKE_LARGE ||
+            this.wingType == ENUM.WingType.WING_TYPE_BAT_LIKE_LARGE ||
+            this.wingType == ENUM.WingType.WING_TYPE_FEATHERED_LARGE ||
+            this.wingType == ENUM.WingType.WING_TYPE_DRACONIC_LARGE ||
+            this.wingType == ENUM.WingType.WING_TYPE_GIANT_DRAGONFLY
+        )
     }
 
     //---------
@@ -3087,97 +3178,97 @@ class Creature implements ICreature {
     // DESCRIPTORS
     //------------
     //Cawks!
-    cockDescript(x) {
+    cockDescript(x: number): string {
         return Appearance.cockDescript(this, x)
     }
-    cockDescriptShort(x) {
+    cockDescriptShort(x: number): string {
         return Appearance.cockDescript(this, x)
     }
-    multiCockDescriptLight() {
+    multiCockDescriptLight(): string {
         return Appearance.multiCockDescriptLight(this)
     }
     //BALLZ!
 
-    ballDescript() {
+    ballDescript(): string {
         return Appearance.ballsDescription(false, false, this)
     }
-    ballsDescript() {
+    ballsDescript(): string {
         return Appearance.ballsDescription(false, true, this, true)
     }
-    ballsDescriptLight(forcedSize= true): string {
+    ballsDescriptLight(forcedSize = true): string {
         return Appearance.ballsDescription(forcedSize, false, this)
     }
-    sackDescript() {
+    sackDescript(): string {
         return Appearance.sackDescript(this)
     }
     //Vagoos!
-    vaginaDescript(x = 0) {
+    vaginaDescript(x = 0): string {
         return Appearance.vaginaDescript(this, x)
     }
-    allVaginaDescript() {
+    allVaginaDescript(): string {
         if (liveData.player.vaginas.length == 1) return this.vaginaDescript(UTIL.rand(liveData.player.vaginas.length - 1))
         if (liveData.player.vaginas.length > 1) return this.vaginaDescript(UTIL.rand(liveData.player.vaginas.length - 1)) + "s"
         return "ERROR: allVaginaDescript called with no vaginas."
     }
-    clitDescript() {
+    clitDescript(): string {
         return Appearance.clitDescription(this)
     }
     //Boobies!
-    chestDesc() {
+    chestDesc(): string {
         if (this.biggestTitSize() < 1) return "chest"
         return Appearance.biggestBreastSizeDescript(this)
     }
-    allChestDesc() {
+    allChestDesc(): string {
         if (this.biggestTitSize() < 1) return "chest"
         return this.allBreastsDescript()
     }
-    breastDescript(x) {
+    breastDescript(x: number): string {
         return Appearance.breastDescript(x)
     }
-    nippleDescript(rowNum) {
+    nippleDescript(rowNum: number): string {
         return Appearance.nippleDescription(this, rowNum)
     }
     //Hair and beard ahoy!
-    hairDescript() {
+    hairDescript(): string {
         return Appearance.hairDescription(this)
     }
-    beardDescript() {
+    beardDescript(): string {
         return Appearance.beardDescription(this)
     }
-    hairOrFur() {
+    hairOrFur(): string {
         return Appearance.hairOrFur(this)
     }
     //Body descriptors!
-    hipDescript() {
+    hipDescript(): string {
         return Appearance.hipDescription(this)
     }
-    assDescript() {
+    assDescript(): string {
         return this.buttDescript()
     }
-    assholeDescript() {
+    assholeDescript(): string {
         return Appearance.assholeDescript(this)
     }
-    buttDescript() {
+    buttDescript(): string {
         return Appearance.buttDescription(this)
     }
     //Other parts!
-    tongueDescript() {
+    tongueDescript(): string {
         return Appearance.tongueDescription(this)
     }
-    tailDescript() {
+    tailDescript(): string {
         return Appearance.tailDescript(this)
     }
-    oneTailDescript() {
+    oneTailDescript(): string {
         return Appearance.oneTailDescript(this)
     }
-    wingsDescript() {
+    wingsDescript(): string {
         return Appearance.wingsDescript(this)
     }
 
     //fertility must be >= random(0-beat)
     //If arg == 1 then override any contraceptives and guarantee fertilization
     //If arg == -1, no chance of fertilization.
-    knockUp(type= 0, incubation= 0, beat= 100, arg= 0, event= []): void {
+    knockUp(type: number, incubation = 0, beat = 100, arg = 0, event = []): void {
         //Contraceptives cancel!
         if (this.findStatusEffect(StatusEffects.Contraceptives) >= 0 && arg < 1) return
         // Originally commented out
@@ -3193,7 +3284,7 @@ class Creature implements ICreature {
         }
 
         //Chance for eggs fertilization - ovi elixir and imps excluded!
-        if (type != PREGNANCY_IMP && type != PREGNANCY_OVIELIXIR_EGGS && type != PREGNANCY_ANEMONE) {
+        if (type != FLAG.PREGNANCY_IMP && type != FLAG.PREGNANCY_OVIELIXIR_EGGS && type != FLAG.PREGNANCY_ANEMONE) {
             if (this.findPerk(PerkLib.SpiderOvipositor) >= 0 || this.findPerk(PerkLib.BeeOvipositor) >= 0) {
                 if (this.totalFertility() + bonus > Math.floor(Math.random() * beat)) {
                     this.fertilizeEggs()
@@ -3202,7 +3293,7 @@ class Creature implements ICreature {
         }
     }
 
-    buttKnockUp(type= 0, incubation= 0, beat= 100, arg= 0): void {
+    buttKnockUp(type = 0, incubation = 0, beat = 100, arg = 0): void {
         //Contraceptives cancel!
         if (this.findStatusEffect(StatusEffects.Contraceptives) >= 0 && arg < 1) return
         let bonus = 0
@@ -3217,7 +3308,7 @@ class Creature implements ICreature {
     }
 
     //The more complex buttKnockUp function used by the player is defined in Character.as
-    buttKnockUpForce(type= 0, incubation= 0, event= []) {
+    buttKnockUpForce(type = 0, incubation = 0, event = []) {
         //Functionality
         this.buttPregnancyType = type
         this.buttPregnancyIncubation = type == 0 ? 0 : incubation * 60 //Won't allow incubation time without pregnancy type
@@ -3231,7 +3322,7 @@ class Creature implements ICreature {
         }
     }
 
-    knockUpForce(type= 0, incubation= 0, event= []) {
+    knockUpForce(type = 0, incubation = 0, event: number[] = []) {
         //Functionality
         this.pregnancyType = type
         this.pregnancyIncubation = type == 0 ? 0 : incubation * 60 //Won't allow incubation time without pregnancy type
@@ -3247,9 +3338,9 @@ class Creature implements ICreature {
     }
 
     // More for compatibility, though knockUpForce will take care of this too.
-    eventFill(events=[]) {
+    eventFill(events: number[]) {
         this.pregnancyEventArr = []
-        for (i in events) this.pregnancyEventArr.push(events[i] * 60)
+        for (let i of events) this.pregnancyEventArr.push(events[i] * 60)
     }
 
     pregnancyAdvance() {
@@ -3263,7 +3354,7 @@ class Creature implements ICreature {
         if (this.buttPregnancyIncubation < 0) this.buttPregnancyIncubation = 0
         // If there's something in the pregnancy event array, find out what event we're on.
         if (this.pregnancyEventArr.length > 1) {
-            for (j = 0; j < this.pregnancyEventArr.length; j++) {
+            for (let j = 0; j < this.pregnancyEventArr.length; j++) {
                 if (this.pregnancyIncubation < this.pregnancyEventArr[j]) {
                     //outputText("Setting new flag to " + (j + 1));
                     this.pregnancyEventNum = j + 1
@@ -3271,7 +3362,7 @@ class Creature implements ICreature {
             }
         }
         if (this.buttPregnancyEventArr.length > 1) {
-            for (j = 0; j < this.buttPregnancyEventArr.length; j++) {
+            for (let j = 0; j < this.buttPregnancyEventArr.length; j++) {
                 if (this.buttPregnancyIncubation < this.buttPregnancyEventArr[j]) {
                     //outputText("Setting new flag to " + (j + 1));
                     this.buttPregnancyEventNum = j + 1
@@ -3300,13 +3391,13 @@ class Creature implements ICreature {
 
     // Does the creature have a spider ovipositor?
     canOvipositSpider() {
-        if (this.eggs() >= 10 && this.findPerk(PerkLib.SpiderOvipositor) >= 0 && this.isDrider() && this.tailType == TAIL_TYPE_SPIDER_ADBOMEN) return true
+        if (this.eggs() >= 10 && this.findPerk(PerkLib.SpiderOvipositor) >= 0 && this.isDrider() && this.tailType == ENUM.TailType.TAIL_TYPE_SPIDER_ADBOMEN) return true
         return false
     }
 
     // Does the creature have an bee ovipositor?
     canOvipositBee() {
-        if (this.eggs() >= 10 && this.findPerk(PerkLib.BeeOvipositor) >= 0 && this.tailType == TAIL_TYPE_BEE_ABDOMEN) return true
+        if (this.eggs() >= 10 && this.findPerk(PerkLib.BeeOvipositor) >= 0 && this.tailType == ENUM.TailType.TAIL_TYPE_BEE_ABDOMEN) return true
         return false
     }
 
@@ -3324,8 +3415,7 @@ class Creature implements ICreature {
     }
 
     // Add eggs to the ovipositors
-    addEggs(arg) {
-        if (arg == undefined) arg = 0
+    addEggs(arg = 0) {
         if (this.findPerk(PerkLib.SpiderOvipositor) < 0 && this.findPerk(PerkLib.BeeOvipositor) < 0) return -1
         else {
             // Increase the number of Spider eggs by arg.
@@ -3344,8 +3434,7 @@ class Creature implements ICreature {
     }
 
     // Sets a specific number of eggs to the ovipositors
-    setEggs(arg) {
-        if (arg == undefined) arg = 0
+    setEggs(arg = 0) {
         if (this.findPerk(PerkLib.SpiderOvipositor) < 0 && this.findPerk(PerkLib.BeeOvipositor) < 0) return -1
         else {
             // Set the number of Spider eggs by arg.
@@ -3392,43 +3481,42 @@ class Creature implements ICreature {
     // MINO CUM ADDICTION
     //---------------
 
-    minoCumAddiction(raw) {
+    minoCumAddiction(raw: number) {
         //Fix if letiables go out of range.
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] < 0) liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] = 0
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_STATE] < 0) liveData.gameFlags[MINOTAUR_CUM_ADDICTION_STATE] = 0
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] > 120) liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] = 120
-        liveData.gameFlags[EVER_DRANK_MINOCUM] = 1
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] < 0) liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] = 0
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_STATE] < 0) liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_STATE] = 0
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] > 120) liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] = 120
+        liveData.gameFlags[FLAG.EVER_DRANK_MINOCUM] = 1
         //Turn off withdrawal
-        //if (flags[kFLAGS.MINOTAUR_CUM_ADDICTION_STATE] > 1) flags[kFLAGS.MINOTAUR_CUM_ADDICTION_STATE] = 1;
+        //if (flags[kFLAGS.FLAG.MINOTAUR_CUM_ADDICTION_STATE] > 1) flags[kFLAGS.FLAG.MINOTAUR_CUM_ADDICTION_STATE] = 1;
         //Reset counter
-        liveData.gameFlags[TIME_SINCE_LAST_CONSUMED_MINOTAUR_CUM] = 0
+        liveData.gameFlags[FLAG.TIME_SINCE_LAST_CONSUMED_MINOTAUR_CUM] = 0
         //If highly addicted, rises slower
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] >= 60) raw /= 2
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] >= 80) raw /= 2
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] >= 90) raw /= 2
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] >= 60) raw /= 2
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] >= 80) raw /= 2
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] >= 90) raw /= 2
         if (liveData.player.findPerk(PerkLib.MinotaurCumResistance) >= 0) raw *= 0
         //If in withdrawl, readdiction is potent!
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_STATE] == 3) raw += 10
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_STATE] == 2) raw += 5
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_STATE] == 3) raw += 10
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_STATE] == 2) raw += 5
         raw = Math.round(raw * 100) / 100
         //PUT SOME CAPS ON DAT' SHIT
         if (raw > 50) raw = 50
         if (raw < -50) raw = -50
-        liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] += raw
+        liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] += raw
         //Recheck to make sure shit didn't break
-        if (this.findPerk(PerkLib.MinotaurCumResistance) >= 0) liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] = 0 //Never get addicted!
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] > 120) liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] = 120
-        if (liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] < 0) liveData.gameFlags[MINOTAUR_CUM_ADDICTION_TRACKER] = 0
+        if (this.findPerk(PerkLib.MinotaurCumResistance) >= 0) liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] = 0 //Never get addicted!
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] > 120) liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] = 120
+        if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] < 0) liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] = 0
     }
 
     minotaurAddicted() {
-        return this.findPerk(PerkLib.MinotaurCumResistance) < 0 && (this.findPerk(PerkLib.MinotaurCumAddict) >= 0 || liveData.gameFlags[MINOTAUR_CUM_ADDICTION_STATE] >= 1)
+        return this.findPerk(PerkLib.MinotaurCumResistance) < 0 && (this.findPerk(PerkLib.MinotaurCumAddict) >= 0 || liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_STATE] >= 1)
     }
 
     minotaurNeed() {
-        return this.findPerk(PerkLib.MinotaurCumResistance) < 0 && liveData.gameFlags[MINOTAUR_CUM_ADDICTION_STATE] > 1
+        return this.findPerk(PerkLib.MinotaurCumResistance) < 0 && liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_STATE] > 1
     }
-
 }
 
-export {Creature}
+export { CharacterType, Creature }

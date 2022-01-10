@@ -97,26 +97,33 @@ abstract class UTIL {
         return StatusEffectIDs[id]
     }
 
+    // //Function
+    // static createCallBackFunction(func: any, arg1: any = undefined, arg2: any = undefined, arg3: any = undefined): () => void {
+    //     if (arg1 != undefined) {
+    //         if (arg2 != undefined) {
+    //             if (arg3 != undefined) {
+    //                 return function () {
+    //                     func(arg1, arg2, arg3)
+    //                 }
+    //             }
+    //             return function () {
+    //                 func(arg1, arg2)
+    //             }
+    //         }
+    //         return function () {
+    //             func(arg1)
+    //         }
+    //     } else {
+    //         return function () {
+    //             func()
+    //         }
+    //     }
+    // }
+
     //Function
-    static createCallBackFunction(func: any, arg1: any = undefined, arg2: any = undefined, arg3: any = undefined) {
-        if (arg1 != undefined) {
-            if (arg2 != undefined) {
-                if (arg3 != undefined) {
-                    return function () {
-                        func(arg1, arg2, arg3)
-                    }
-                }
-                return function () {
-                    func(arg1, arg2)
-                }
-            }
-            return function () {
-                func(arg1)
-            }
-        } else {
-            return function () {
-                func()
-            }
+    static createCallBackFunction(func: (...args: number[]) => void, ...args: number[]): (...args: number[]) => void {
+        return function () {
+            func(...args)
         }
     }
 }
