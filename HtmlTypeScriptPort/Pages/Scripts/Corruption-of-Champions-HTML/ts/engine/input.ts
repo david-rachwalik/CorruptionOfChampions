@@ -101,25 +101,29 @@ namespace Input {
     function pressButtonByKey(index: number): void {
         const button = document.getElementById("button" + index)
         if (button && GUI.isButtonVisible(index)) {
-            button.onclick()
+            // button.onclick()
+            button.click()
         }
     }
     function pressNextByKey(): void {
         const button = document.getElementById("button0")
         if (button && button.innerHTML == "Next") {
-            button.onclick()
+            // button.onclick()
+            button.click()
         }
     }
     function pressYesByKey(): void {
         const button = document.getElementById("button0")
         if (button && button.innerHTML == "Yes") {
-            button.onclick()
+            // button.onclick()
+            button.click()
         }
     }
     function pressNoByKey(): void {
         const button = document.getElementById("button1")
         if (button && button.innerHTML == "No") {
-            button.onclick()
+            // button.onclick()
+            button.click()
         }
     }
 }

@@ -1,11 +1,31 @@
-import { liveData, GameContext } from "../globalVariables"
+import { liveData } from "../globalVariables"
 import { UTIL } from "./utils"
 
 // This code holds the positioning of the GUI display. The look of the display is handled through the CSS file.
-// This holds some of the most important code for the engine of the game. It turns the buttons on and off, sets their labels and tool tips
+// This holds some of the most important code for the engine of the game. It turns the buttons on and off, sets their labels and tooltips
 // and tells the program which function to go to next.
 
 abstract class GUI {
+    /**
+     * This will clear the text on screen.
+     */
+    static clearOutput() {
+        const maintext = document.getElementById("maintext")
+        if (maintext) {
+            maintext.innerHTML = ""
+        }
+    }
+
+    /**
+     * This will output a text on screen.
+     */
+    static outputText(text: string) {
+        const maintext = document.getElementById("maintext")
+        if (maintext) {
+            maintext.innerHTML += text
+        }
+    }
+
     static getMousePosition(event: any): void {
         const tooltip = document.getElementById("tooltip")
         if (tooltip) {
@@ -260,10 +280,8 @@ abstract class GUI {
         }
     }
 
-    static addButton(pos: number, txt: string, func: (a: any, b?: any, c?: any) => void, arg1: any = undefined, arg2: any = undefined, arg3: any = undefined, tooltipText = "", tooltipHeader = ""): void {
-        if (!tooltipHeader) {
-            tooltipHeader = txt
-        }
+    static addButton(pos: number, txt: string, func: (a: any, b?: any, c?: any) => void = UTIL.nullFunc, arg1: any = undefined, arg2: any = undefined, arg3: any = undefined, tooltipText = "", tooltipHeader = ""): void {
+        if (!tooltipHeader) tooltipHeader = txt
         let callback = UTIL.createCallBackFunction(func, arg1, arg2, arg3)
         const buttonEl = document.getElementById("button" + pos)
         if (buttonEl) {
@@ -271,23 +289,21 @@ abstract class GUI {
             buttonEl.style.visibility = "visible"
             //buttonEl.style.opacity = "1";
             buttonEl.onclick = callback
-            // TODO: (DMR) uncomment below and see if there was ever a use for tooltipHeader & tooltipText
+            // TODO: (DMR) uncomment below and implement modern method for tooltipHeader & tooltipText
             // buttonEl.tooltipHeader = tooltipHeader
             // buttonEl.tooltipText = tooltipText
             // return buttonEl
         }
     }
     static addButtonDisabled(pos: number, txt: string, tooltipText = "", tooltipHeader = ""): void {
-        if (!tooltipHeader) {
-            tooltipHeader = txt
-        }
+        if (!tooltipHeader) tooltipHeader = txt
         const buttonEl = document.getElementById("button" + pos)
         if (buttonEl) {
             buttonEl.innerHTML = txt
             buttonEl.style.visibility = "visible"
             //buttonEl.style.opacity = "0.4";
             buttonEl.onclick = null
-            // TODO: (DMR) uncomment below and see if there was ever a use for tooltipHeader & tooltipText
+            // TODO: (DMR) uncomment below and implement modern method for tooltipHeader & tooltipText
             // buttonEl.tooltipHeader = tooltipHeader
             // buttonEl.tooltipText = tooltipText
         }
@@ -299,11 +315,11 @@ abstract class GUI {
         }
     }
 
-    static doNext(func: (a: string) => void): void {
+    static doNext(func: (a: any) => void): void {
         this.menu()
         this.addButton(0, "Next", func)
     }
-    static doYesNo(yesFunc: (a: string) => void, noFunc: (a: string) => void): void {
+    static doYesNo(yesFunc: (a: any) => void, noFunc: (a: any) => void): void {
         this.menu()
         this.addButton(0, "Yes", yesFunc)
         this.addButton(1, "No", noFunc)

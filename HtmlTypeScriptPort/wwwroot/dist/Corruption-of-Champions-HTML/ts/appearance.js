@@ -319,7 +319,7 @@ class Appearance {
             }
         }
         if (!haveDescription && UTIL.rand(2) == 0 && i_creature.nipplesPierced > 0 && i_rowNum == 0) {
-            if (i_creature.nipplesPierced == 5)
+            if (i_creature.nipplesPierced >= 5)
                 description += "chained ";
             else
                 description += "pierced ";
@@ -1624,7 +1624,7 @@ class Appearance {
                     descript += this.cockNoun(ENUM.CockType.HORSE) + "s";
                     descripted = true;
                 }
-                if (creature.cocks[0].cockType.Index > 2) {
+                if (creature.cocks[0].cockType > 2) {
                     descript += this.cockAdjective(creature.cocks[0].cockType, creature.cocks[0].cockLength, creature.cocks[0].cockThickness) + ", ";
                     descript += this.cockNoun(creature.cocks[0].cockType) + "s";
                     descripted = true;

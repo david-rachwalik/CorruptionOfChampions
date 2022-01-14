@@ -59,15 +59,14 @@ class Cock {
         return this.cockLength * this.cockThickness
     }
 
-    fixCock(cock: Cock) {
+    fixCock() {
         //Fix any undefined numbers.
-        if (cock.cockType == undefined) cock.cockType = 0
-        if (cock.cockLength == undefined) cock.cockLength = 5
-        if (cock.cockThickness == undefined) cock.cockThickness = 1
-        if (cock.knotMultiplier == undefined) cock.knotMultiplier = 1
-        if (cock.pierced == undefined) cock.pierced = false
-        if (cock.sock == undefined) cock.sock = ""
-        return cock
+        if (this.cockType == undefined) this.cockType = 0
+        if (this.cockLength == undefined) this.cockLength = 5
+        if (this.cockThickness == undefined) this.cockThickness = 1
+        if (this.knotMultiplier == undefined) this.knotMultiplier = 1
+        if (this.pierced == undefined) this.pierced = false
+        if (this.sock == undefined) this.sock = ""
     }
 }
 

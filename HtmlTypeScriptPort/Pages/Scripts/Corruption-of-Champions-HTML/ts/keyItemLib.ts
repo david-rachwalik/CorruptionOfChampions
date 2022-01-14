@@ -30,6 +30,9 @@ class KeyItemTypeContainer {
     Bow: KeyItemType
     PotentMixture: KeyItemType
     TamanisSatchel: KeyItemType
+    TravelersGuide: KeyItemType
+    DeluxeDildo: KeyItemType
+    ANOnahole: KeyItemType
 
     constructor() {
         //Books
@@ -67,6 +70,9 @@ class KeyItemTypeContainer {
         this.Bow = new KeyItemType("Bow")
         this.PotentMixture = new KeyItemType("Potent Mixture")
         this.TamanisSatchel = new KeyItemType("Tamani's Satchel")
+        this.TravelersGuide = new KeyItemType("Traveler's Guide")
+        this.DeluxeDildo = new KeyItemType("Deluxe Dildo")
+        this.ANOnahole = new KeyItemType("All-Natural Onahole")
     }
 }
 

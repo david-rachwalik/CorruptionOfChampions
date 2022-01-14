@@ -1,5 +1,4 @@
 import { ICreature } from "./interfaces/icreature"
-import { clearOutput, outputText } from "./engine/text"
 import { GUI } from "./engine/gui"
 import * as ENUM from "./appearanceEnums"
 import { liveData } from "./globalVariables"
@@ -115,6 +114,7 @@ class Creature implements ICreature {
     tailRecharge: number
     wingType: number
     wingDesc: string
+    venom: number
 
     femininity: number
     tone: number
@@ -237,6 +237,7 @@ class Creature implements ICreature {
         this.tailRecharge = 0
         this.wingType = 0
         this.wingDesc = ""
+        this.venom = 0
 
         this.femininity = 50
         this.tone = 0
@@ -330,9 +331,9 @@ class Creature implements ICreature {
         let hitNeed = UTIL.rand(100)
         if (hitRoll < hitNeed) {
             //Miss
-            if (hitRoll - hitNeed >= -5) outputText(UTIL.capitalize(this.a) + this.refName + " narrowly miss" + (this.plural ? "" : "es") + " " + enemy.a + enemy.refName + "! ")
-            else outputText(UTIL.capitalize(this.a) + this.refName + " miss" + (this.plural ? "" : "es") + " " + enemy.a + enemy.refName + "! ")
-            outputText("<br><br>")
+            if (hitRoll - hitNeed >= -5) GUI.outputText(UTIL.capitalize(this.a) + this.refName + " narrowly miss" + (this.plural ? "" : "es") + " " + enemy.a + enemy.refName + "! ")
+            else GUI.outputText(UTIL.capitalize(this.a) + this.refName + " miss" + (this.plural ? "" : "es") + " " + enemy.a + enemy.refName + "! ")
+            GUI.outputText("<br><br>")
             // break attack
             return
         }
@@ -350,41 +351,41 @@ class Creature implements ICreature {
         damage = Math.round(damage)
         //Display text and apply damage
         if (this.type == liveData.player.type) {
-            if (damage <= 5) outputText("You struck a glancing blow against " + enemy.a + " " + enemy.refName + ". ")
-            else if (damage <= 10) outputText("You wound " + enemy.a + " " + enemy.refName + "! ")
-            else if (damage <= 20) outputText("You stagger " + enemy.a + " " + enemy.refName + " with the force of your attacks! ")
-            else outputText("You mutilate " + enemy.a + " " + enemy.refName + " with a powerful " + this.weapon.verb + "! ")
+            if (damage <= 5) GUI.outputText("You struck a glancing blow against " + enemy.a + " " + enemy.refName + ". ")
+            else if (damage <= 10) GUI.outputText("You wound " + enemy.a + " " + enemy.refName + "! ")
+            else if (damage <= 20) GUI.outputText("You stagger " + enemy.a + " " + enemy.refName + " with the force of your attacks! ")
+            else GUI.outputText("You mutilate " + enemy.a + " " + enemy.refName + " with a powerful " + this.weapon.verb + "! ")
         } else {
             if (damage <= 0) {
                 //Due to toughness or amor...
-                if (this.plural) outputText("You deflect and block every " + this.weapon.verb + " " + this.a + this.refName + " throw at you. ")
-                else outputText("You deflect and block every " + this.weapon.verb + " " + this.a + this.refName + " throws at you. ")
+                if (this.plural) GUI.outputText("You deflect and block every " + this.weapon.verb + " " + this.a + this.refName + " throw at you. ")
+                else GUI.outputText("You deflect and block every " + this.weapon.verb + " " + this.a + this.refName + " throws at you. ")
             } else if (damage <= 5) {
-                outputText("You are struck a glancing blow by " + this.a + this.refName + "! ")
+                GUI.outputText("You are struck a glancing blow by " + this.a + this.refName + "! ")
             } else if (damage <= 10) {
-                outputText(UTIL.capitalizeFirstLetter(this.a) + this.refName + " wound")
-                if (!this.plural) outputText("s")
-                outputText(" you! ")
+                GUI.outputText(UTIL.capitalizeFirstLetter(this.a) + this.refName + " wound")
+                if (!this.plural) GUI.outputText("s")
+                GUI.outputText(" you! ")
             } else if (damage <= 20) {
-                outputText(UTIL.capitalizeFirstLetter(this.a) + this.refName + " stagger")
-                if (!this.plural) outputText("s")
-                outputText(" you with the force of " + this.hisHer + " " + this.weapon.verb + "! ")
+                GUI.outputText(UTIL.capitalizeFirstLetter(this.a) + this.refName + " stagger")
+                if (!this.plural) GUI.outputText("s")
+                GUI.outputText(" you with the force of " + this.hisHer + " " + this.weapon.verb + "! ")
             } else if (damage > 20) {
-                outputText(UTIL.capitalizeFirstLetter(this.a) + this.refName + " <b>mutilate")
-                if (!this.plural) outputText("s")
-                outputText("</b> you with " + this.hisHer + " powerful " + this.weapon.verb + "! ")
+                GUI.outputText(UTIL.capitalizeFirstLetter(this.a) + this.refName + " <b>mutilate")
+                if (!this.plural) GUI.outputText("s")
+                GUI.outputText("</b> you with " + this.hisHer + " powerful " + this.weapon.verb + "! ")
             }
         }
-        if (critical) outputText("<b>Critical hit!</b> ")
+        if (critical) GUI.outputText("<b>Critical hit!</b> ")
         enemy.changeHP(-damage, true)
     }
 
     victoryScene(): void {
-        clearOutput()
+        GUI.clearOutput()
         COMBAT.cleanupAfterCombat()
     }
     defeatScene(): void {
-        clearOutput()
+        GUI.clearOutput()
         COMBAT.cleanupAfterCombat()
     }
     maxHP(): number {
@@ -527,10 +528,10 @@ class Creature implements ICreature {
         if (this.HP > this.maxHP()) this.HP = this.maxHP()
         if (this.HP < 0) this.HP = 0
         if (display) {
-            if (amount < 0) outputText(UTIL.capitalize(this.a) + " " + this.refName + " take" + (this.isAre == "is" ? "s" : "") + ' <font color="#800000"><b>' + Math.abs(amount) + "</b></font> damage!")
-            else if (amount > 0) outputText(UTIL.capitalize(this.a) + " " + this.refName + " " + this.isAre + ' healed for <font color="#008000"><b>' + Math.abs(amount) + "</b></font> HP!")
-            if (newpg) outputText("<br><br>")
-            else outputText(" ")
+            if (amount < 0) GUI.outputText(UTIL.capitalize(this.a) + " " + this.refName + " take" + (this.isAre == "is" ? "s" : "") + ' <font color="#800000"><b>' + Math.abs(amount) + "</b></font> damage!")
+            else if (amount > 0) GUI.outputText(UTIL.capitalize(this.a) + " " + this.refName + " " + this.isAre + ' healed for <font color="#008000"><b>' + Math.abs(amount) + "</b></font> HP!")
+            if (newpg) GUI.outputText("<br><br>")
+            else GUI.outputText(" ")
         }
         if (this.type == liveData.player.type) {
             if (amount < 0) GUI.showUpDown("hpArrow", "down")
@@ -545,10 +546,10 @@ class Creature implements ICreature {
         if (this.lust > this.maxLust()) this.lust = this.maxLust()
         if (this.lust < 0) this.lust = 0
         if (display) {
-            if (amount < 0) outputText(UTIL.capitalize(this.a) + " " + this.refName + " " + this.isAre + ' calmed for a reduction of <font color="#A05050"><b>' + Math.abs(amount) + "</b></font> lust!")
-            else if (amount > 0) outputText(UTIL.capitalize(this.a) + " " + this.refName + " " + this.isAre + ' aroused for <font color="#A05050"><b>' + Math.abs(amount) + "</b></font> points of lust!")
-            if (newpg) outputText("<br><br>")
-            else outputText(" ")
+            if (amount < 0) GUI.outputText(UTIL.capitalize(this.a) + " " + this.refName + " " + this.isAre + ' calmed for a reduction of <font color="#A05050"><b>' + Math.abs(amount) + "</b></font> lust!")
+            else if (amount > 0) GUI.outputText(UTIL.capitalize(this.a) + " " + this.refName + " " + this.isAre + ' aroused for <font color="#A05050"><b>' + Math.abs(amount) + "</b></font> points of lust!")
+            if (newpg) GUI.outputText("<br><br>")
+            else GUI.outputText(" ")
         }
         if (this.type == liveData.player.type) {
             if (amount < 0) GUI.showUpDown("lustArrow", "down")
@@ -562,10 +563,10 @@ class Creature implements ICreature {
         if (this.fatigue > this.maxFatigue()) this.fatigue = this.maxFatigue()
         if (this.fatigue < 0) this.fatigue = 0
         if (display) {
-            if (amount < 0) outputText(UTIL.capitalize(this.a) + " " + this.refName + " " + this.isAre + ' rejuvenated for <font color="#000080"><b>' + Math.abs(amount) + "</b></font> points of fatigue!")
-            else if (amount > 0) outputText(UTIL.capitalize(this.a) + " " + this.refName + " " + this.isAre + ' fatigued for <font color="#000080"><b>' + Math.abs(amount) + "</b></font> points of fatigue!")
-            if (newpg) outputText("<br><br>")
-            else outputText(" ")
+            if (amount < 0) GUI.outputText(UTIL.capitalize(this.a) + " " + this.refName + " " + this.isAre + ' rejuvenated for <font color="#000080"><b>' + Math.abs(amount) + "</b></font> points of fatigue!")
+            else if (amount > 0) GUI.outputText(UTIL.capitalize(this.a) + " " + this.refName + " " + this.isAre + ' fatigued for <font color="#000080"><b>' + Math.abs(amount) + "</b></font> points of fatigue!")
+            if (newpg) GUI.outputText("<br><br>")
+            else GUI.outputText(" ")
         }
         if (this.type == liveData.player.type) {
             if (amount < 0) GUI.showUpDown("fatigueArrow", "down")
@@ -637,7 +638,7 @@ class Creature implements ICreature {
             //Imp mob uber interrupt!
             if (this.findStatusEffect(StatusEffects.ImpUber) >= 0) {
                 // TODO move to proper class
-                outputText(
+                GUI.outputText(
                     "<br>The imps in the back stumble over their spell, their loincloths tenting obviously as your display interrupts their casting. One of them spontaneously orgasms, having managed to have his spell backfire. He falls over, weakly twitching as a growing puddle of whiteness surrounds his defeated form."
                 )
                 //(-5% of max enemy HP)
@@ -652,21 +653,21 @@ class Creature implements ICreature {
 
     outputDefaultTeaseReaction(lustDelta: number): void {
         if (this.plural) {
-            if (lustDelta == 0) outputText("<br><br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " seem unimpressed.")
-            if (lustDelta > 0 && lustDelta < 4) outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " look intrigued by what " + this.heShe + " see.")
-            if (lustDelta >= 4 && lustDelta < 10) outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " definitely seem to be enjoying the show.")
-            if (lustDelta >= 10 && lustDelta < 15) outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " openly stroke " + this.himHer + "selves as " + this.heShe + " watch you.")
-            if (lustDelta >= 15 && lustDelta < 20) outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " flush hotly with desire, " + this.hisHer + " eyes filled with longing.")
-            if (lustDelta >= 20) outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " lick " + this.hisHer + " lips in anticipation, " + this.hisHer + " hands idly stroking " + this.hisHer + " bodies.")
+            if (lustDelta == 0) GUI.outputText("<br><br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " seem unimpressed.")
+            if (lustDelta > 0 && lustDelta < 4) GUI.outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " look intrigued by what " + this.heShe + " see.")
+            if (lustDelta >= 4 && lustDelta < 10) GUI.outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " definitely seem to be enjoying the show.")
+            if (lustDelta >= 10 && lustDelta < 15) GUI.outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " openly stroke " + this.himHer + "selves as " + this.heShe + " watch you.")
+            if (lustDelta >= 15 && lustDelta < 20) GUI.outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " flush hotly with desire, " + this.hisHer + " eyes filled with longing.")
+            if (lustDelta >= 20) GUI.outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " lick " + this.hisHer + " lips in anticipation, " + this.hisHer + " hands idly stroking " + this.hisHer + " bodies.")
         } else {
-            if (lustDelta == 0) outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " seems unimpressed.")
-            if (lustDelta > 0 && lustDelta < 4) outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " looks intrigued by what " + this.heShe + " sees.")
-            if (lustDelta >= 4 && lustDelta < 10) outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " definitely seems to be enjoying the show.")
-            if (lustDelta >= 10 && lustDelta < 15) outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " openly strokes " + this.himHer + "self as " + this.heShe + " watches you.")
-            if (lustDelta >= 15 && lustDelta < 20) outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " flushes hotly with desire, " + this.hisHer + " eyes filled with longing.")
-            if (lustDelta >= 20) outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " licks " + this.hisHer + " lips in anticipation, " + this.hisHer + " hands idly stroking " + this.hisHer + " own body.")
+            if (lustDelta == 0) GUI.outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " seems unimpressed.")
+            if (lustDelta > 0 && lustDelta < 4) GUI.outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " looks intrigued by what " + this.heShe + " sees.")
+            if (lustDelta >= 4 && lustDelta < 10) GUI.outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " definitely seems to be enjoying the show.")
+            if (lustDelta >= 10 && lustDelta < 15) GUI.outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " openly strokes " + this.himHer + "self as " + this.heShe + " watches you.")
+            if (lustDelta >= 15 && lustDelta < 20) GUI.outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " flushes hotly with desire, " + this.hisHer + " eyes filled with longing.")
+            if (lustDelta >= 20) GUI.outputText("<br>" + UTIL.capitalizeFirstLetter(this.a) + this.refName + " licks " + this.hisHer + " lips in anticipation, " + this.hisHer + " hands idly stroking " + this.hisHer + " own body.")
         }
-        outputText(" ")
+        GUI.outputText(" ")
     }
 
     //ORGASMS!!!!
@@ -902,28 +903,28 @@ class Creature implements ICreature {
         let counter = 0
         //Start the array if its the first bit
         if (this.keyItems.length == 0) {
-            //outputText("<br>New Key Item Started Array! " + newKeyItem.ktype.id);
+            //GUI.outputText("<br>New Key Item Started Array! " + newKeyItem.ktype.id);
             this.keyItems.push(newKeyItem)
             arrayed = true
             keySlot = 0
         }
         //If it belongs at the end, push it on
         if (this.keyItems[this.keyItems.length - 1].ktype.id < newKeyItem.ktype.id && !arrayed) {
-            //outputText("<br>New Key Item Belongs at the end!! " + newKeyItem.ktype.id);
+            //GUI.outputText("<br>New Key Item Belongs at the end!! " + newKeyItem.ktype.id);
             this.keyItems.push(newKeyItem)
             arrayed = true
             keySlot = this.keyItems.length - 1
         }
         //If it belongs in the beginning, splice it in
         if (this.keyItems[0].ktype.id > newKeyItem.ktype.id && !arrayed) {
-            //outputText("<br>New Key Item Belongs at the beginning! " + newKeyItem.ktype.id);
+            //GUI.outputText("<br>New Key Item Belongs at the beginning! " + newKeyItem.ktype.id);
             this.keyItems.splice(0, 0, newKeyItem)
             arrayed = true
             keySlot = 0
         }
         //Find the spot it needs to go in and splice it in.
         if (!arrayed) {
-            //outputText("<br>New Key Item using alphabetizer! " + newKeyItem.ktype.id);
+            //GUI.outputText("<br>New Key Item using alphabetizer! " + newKeyItem.ktype.id);
             counter = this.keyItems.length
             while (counter > 0 && !arrayed) {
                 counter--
@@ -952,7 +953,7 @@ class Creature implements ICreature {
         }
         //Fallback
         if (!arrayed) {
-            //outputText("New Key Item Belongs at the end!! " + newKeyItem.ktype.id);
+            //GUI.outputText("New Key Item Belongs at the end!! " + newKeyItem.ktype.id);
             this.keyItems.push(newKeyItem)
             keySlot = this.keyItems.length - 1
         }
@@ -962,7 +963,7 @@ class Creature implements ICreature {
         this.keyItems[keySlot].value2 = value2
         this.keyItems[keySlot].value3 = value3
         this.keyItems[keySlot].value4 = value4
-        //outputText("NEW KEYITEM FOR PLAYER in slot " + keySlot + ": " + this.keyItems[keySlot].ktype.id);
+        //GUI.outputText("NEW KEYITEM FOR PLAYER in slot " + keySlot + ": " + this.keyItems[keySlot].ktype.id);
     }
 
     //Remove a Key Item
@@ -2003,15 +2004,9 @@ class Creature implements ICreature {
         return this.cocks[arg].knotMultiplier > 1
     }
 
-    //PLACEHOLDER
-    dogCocks(): void {
-        outputText("Placeholder for dogCocks in creature.js. Returning.")
-        GUI.doNext(Camp.returnToCampUseOneHour)
-    }
-
     cockHead(cockNum = 0): string {
         if (cockNum < 0 || cockNum > this.cocks.length - 1) {
-            outputText("Something went wrong in Creature.cockHead()!")
+            GUI.outputText("Something went wrong in Creature.cockHead()!")
             return ""
         }
         switch (this.cocks[cockNum].cockType) {
@@ -2178,12 +2173,12 @@ class Creature implements ICreature {
                 }
                 if (this.breastRows[0].breastRating < 0) this.breastRows[0].breastRating = 0
                 //Talk about shrinkage
-                if (temp == 1) outputText("<br><br>You feel a weight lifted from you, and realize your breasts have shrunk!  With a quick measure, you determine they're now " + this.breastCup(0) + "s.")
-                if (temp == 2) outputText("<br><br>You feel significantly lighter.  Looking down, you realize your breasts are much smaller!  With a quick measure, you determine they're now " + this.breastCup(0) + "s.")
+                if (temp == 1) GUI.outputText("<br><br>You feel a weight lifted from you, and realize your breasts have shrunk!  With a quick measure, you determine they're now " + this.breastCup(0) + "s.")
+                if (temp == 2) GUI.outputText("<br><br>You feel significantly lighter.  Looking down, you realize your breasts are much smaller!  With a quick measure, you determine they're now " + this.breastCup(0) + "s.")
             }
         } else if (this.breastRows.length > 1) {
             //multiple
-            outputText("<br>")
+            GUI.outputText("<br>")
             //temp2 = amount changed
             //temp3 = counter
             let temp2 = 0
@@ -2194,16 +2189,16 @@ class Creature implements ICreature {
                     this.breastRows[temp3].breastRating--
                     if (this.breastRows[temp3].breastRating < 0) this.breastRows[temp3].breastRating = 0
                     temp2++
-                    outputText("<br>")
-                    if (temp3 < this.breastRows.length - 1) outputText("...and y")
-                    else outputText("Y")
-                    outputText("our " + liveData.player.breastDescript(temp3) + " shrink, dropping to " + this.breastCup(temp3) + "s.")
+                    GUI.outputText("<br>")
+                    if (temp3 < this.breastRows.length - 1) GUI.outputText("...and y")
+                    else GUI.outputText("Y")
+                    GUI.outputText("our " + liveData.player.breastDescript(temp3) + " shrink, dropping to " + this.breastCup(temp3) + "s.")
                 }
                 if (this.breastRows[temp3].breastRating < 0) this.breastRows[temp3].breastRating = 0
             }
-            if (temp2 == 2) outputText("<br>You feel so much lighter after the change.")
-            if (temp2 == 3) outputText("<br>Without the extra weight you feel particularly limber.")
-            if (temp2 >= 4) outputText("<br>It feels as if the weight of the world has been lifted from your shoulders, or in this case, your chest.")
+            if (temp2 == 2) GUI.outputText("<br>You feel so much lighter after the change.")
+            if (temp2 == 3) GUI.outputText("<br>Without the extra weight you feel particularly limber.")
+            if (temp2 >= 4) GUI.outputText("<br>It feels as if the weight of the world has been lifted from your shoulders, or in this case, your chest.")
         }
     }
 
@@ -2300,58 +2295,60 @@ class Creature implements ICreature {
         if (display) {
             if (growthType < 3) {
                 if (amount <= 2) {
-                    if (this.breastRows.length > 1) outputText("Your rows of " + this.breastDescript(0) + " jiggle with added weight, growing a bit larger.")
-                    if (this.breastRows.length == 1) outputText("Your " + this.breastDescript(0) + " jiggle with added weight as they expand, growing a bit larger.")
+                    if (this.breastRows.length > 1) GUI.outputText("Your rows of " + this.breastDescript(0) + " jiggle with added weight, growing a bit larger.")
+                    if (this.breastRows.length == 1) GUI.outputText("Your " + this.breastDescript(0) + " jiggle with added weight as they expand, growing a bit larger.")
                 } else if (amount <= 4) {
-                    if (this.breastRows.length > 1) outputText("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your rows of " + this.breastDescript(0) + " expand significantly.")
-                    if (this.breastRows.length == 1) outputText("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + this.breastDescript(0) + " expand significantly.")
+                    if (this.breastRows.length > 1) GUI.outputText("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your rows of " + this.breastDescript(0) + " expand significantly.")
+                    if (this.breastRows.length == 1) GUI.outputText("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + this.breastDescript(0) + " expand significantly.")
                 } else {
-                    if (this.breastRows.length > 1) outputText("You drop to your knees from a massive change in your body's center of gravity.  Your " + this.breastDescript(0) + " tingle strongly, growing disturbingly large.")
-                    if (this.breastRows.length == 1) outputText("You drop to your knees from a massive change in your center of gravity.  The tingling in your " + this.breastDescript(0) + " intensifies as they continue to grow at an obscene rate.")
+                    if (this.breastRows.length > 1) GUI.outputText("You drop to your knees from a massive change in your body's center of gravity.  Your " + this.breastDescript(0) + " tingle strongly, growing disturbingly large.")
+                    if (this.breastRows.length == 1)
+                        GUI.outputText("You drop to your knees from a massive change in your center of gravity.  The tingling in your " + this.breastDescript(0) + " intensifies as they continue to grow at an obscene rate.")
                 }
                 if (this.biggestTitSize() >= 8.5 && this.breastRows[0].nippleLength < 2) {
-                    outputText("  A tender ache starts at your " + this.nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.")
+                    GUI.outputText("  A tender ache starts at your " + this.nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.")
                     this.breastRows[0].nippleLength = 2
                 }
                 if (this.biggestTitSize() >= 7 && this.breastRows[0].nippleLength < 1) {
-                    outputText("  A tender ache starts at your " + this.nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.")
+                    GUI.outputText("  A tender ache starts at your " + this.nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.")
                     this.breastRows[0].nippleLength = 1
                 }
                 if (this.biggestTitSize() >= 5 && this.breastRows[0].nippleLength < 0.75) {
-                    outputText("  A tender ache starts at your " + this.nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.")
+                    GUI.outputText("  A tender ache starts at your " + this.nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.")
                     this.breastRows[0].nippleLength = 0.75
                 }
                 if (this.biggestTitSize() >= 3 && this.breastRows[0].nippleLength < 0.5) {
-                    outputText("  A tender ache starts at your " + this.nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.")
+                    GUI.outputText("  A tender ache starts at your " + this.nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.")
                     this.breastRows[0].nippleLength = 0.5
                 }
             } else {
                 if (amount <= 2) {
-                    if (this.breastRows.length > 1) outputText("Your top row of " + this.breastDescript(0) + " jiggles with added weight as it expands, growing a bit larger.")
-                    if (this.breastRows.length == 1) outputText("Your row of " + this.breastDescript(0) + " jiggles with added weight as it expands, growing a bit larger.")
+                    if (this.breastRows.length > 1) GUI.outputText("Your top row of " + this.breastDescript(0) + " jiggles with added weight as it expands, growing a bit larger.")
+                    if (this.breastRows.length == 1) GUI.outputText("Your row of " + this.breastDescript(0) + " jiggles with added weight as it expands, growing a bit larger.")
                 }
                 if (amount > 2 && amount <= 4) {
-                    if (this.breastRows.length > 1) outputText("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your top row of " + this.breastDescript(0) + " expand significantly.")
-                    if (this.breastRows.length == 1) outputText("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + this.breastDescript(0) + " expand significantly.")
+                    if (this.breastRows.length > 1) GUI.outputText("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your top row of " + this.breastDescript(0) + " expand significantly.")
+                    if (this.breastRows.length == 1) GUI.outputText("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + this.breastDescript(0) + " expand significantly.")
                 }
                 if (amount > 4) {
-                    if (this.breastRows.length > 1) outputText("You drop to your knees from a massive change in your body's center of gravity.  Your top row of " + this.breastDescript(0) + " tingle strongly, growing disturbingly large.")
-                    if (this.breastRows.length == 1) outputText("You drop to your knees from a massive change in your center of gravity.  The tinglng in your " + this.breastDescript(0) + " intensifies as they continue to grow at an obscene rate.")
+                    if (this.breastRows.length > 1) GUI.outputText("You drop to your knees from a massive change in your body's center of gravity.  Your top row of " + this.breastDescript(0) + " tingle strongly, growing disturbingly large.")
+                    if (this.breastRows.length == 1)
+                        GUI.outputText("You drop to your knees from a massive change in your center of gravity.  The tinglng in your " + this.breastDescript(0) + " intensifies as they continue to grow at an obscene rate.")
                 }
                 if (this.biggestTitSize() >= 8.5 && this.breastRows[0].nippleLength < 2) {
-                    outputText("  A tender ache starts at your " + this.nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.")
+                    GUI.outputText("  A tender ache starts at your " + this.nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.")
                     this.breastRows[0].nippleLength = 2
                 }
                 if (this.biggestTitSize() >= 7 && this.breastRows[0].nippleLength < 1) {
-                    outputText("  A tender ache starts at your " + this.nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.")
+                    GUI.outputText("  A tender ache starts at your " + this.nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.")
                     this.breastRows[0].nippleLength = 1
                 }
                 if (this.biggestTitSize() >= 5 && this.breastRows[0].nippleLength < 0.75) {
-                    outputText("  A tender ache starts at your " + this.nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.")
+                    GUI.outputText("  A tender ache starts at your " + this.nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.")
                     this.breastRows[0].nippleLength = 0.75
                 }
                 if (this.biggestTitSize() >= 3 && this.breastRows[0].nippleLength < 0.5) {
-                    outputText("  A tender ache starts at your " + this.nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.")
+                    GUI.outputText("  A tender ache starts at your " + this.nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.")
                     this.breastRows[0].nippleLength = 0.5
                 }
             }
@@ -2389,21 +2386,21 @@ class Creature implements ICreature {
         let stretched = this.cuntChangeNoDisplay(cArea)
         let devirgined = wasVirgin && !this.vaginas[0].virgin
         if (devirgined) {
-            if (spacingsF) outputText("  ")
-            outputText("<b>Your hymen is torn, robbing you of your virginity.</b>")
-            if (spacingsB) outputText("  ")
+            if (spacingsF) GUI.outputText("  ")
+            GUI.outputText("<b>Your hymen is torn, robbing you of your virginity.</b>")
+            if (spacingsB) GUI.outputText("  ")
         }
         //STRETCH SUCCESSFUL - begin flavor text if outputting it!
         if (stretched && display) {
             //Virgins get different formatting
             if (devirgined) {
                 //If no spaces after virgin loss
-                if (!spacingsB) outputText("  ")
+                if (!spacingsB) GUI.outputText("  ")
             }
             //Non virgins as usual
-            else if (spacingsF) outputText("  ")
+            else if (spacingsF) GUI.outputText("  ")
             this.cuntChangeDisplay()
-            if (spacingsB) outputText("  ")
+            if (spacingsB) GUI.outputText("  ")
         }
         return stretched
     }
@@ -2442,12 +2439,13 @@ class Creature implements ICreature {
         return stretched
     }
     cuntChangeDisplay() {
-        if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_CLOWN_CAR) outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " is stretched painfully wide, large enough to accomodate most beasts and demons.</b>")
-        if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING_WIDE) outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " is stretched so wide that it gapes continually.</b>")
-        if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING) outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " painfully stretches, the lips now wide enough to gape slightly.</b>")
-        if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_LOOSE) outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " is now very loose.</b>")
-        if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_NORMAL) outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " is now a little loose.</b>")
-        if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_TIGHT) outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " is stretched out to a more normal size.</b>")
+        if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_CLOWN_CAR)
+            GUI.outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " is stretched painfully wide, large enough to accomodate most beasts and demons.</b>")
+        if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING_WIDE) GUI.outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " is stretched so wide that it gapes continually.</b>")
+        if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING) GUI.outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " painfully stretches, the lips now wide enough to gape slightly.</b>")
+        if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_LOOSE) GUI.outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " is now very loose.</b>")
+        if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_NORMAL) GUI.outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " is now a little loose.</b>")
+        if (this.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_TIGHT) GUI.outputText("<b>Your " + Appearance.vaginaDescript(this, 0) + " is stretched out to a more normal size.</b>")
     }
     //Anal Stretching
     buttChange(cArea: number, display: boolean, spacingsF = true, spacingsB = true): boolean {
@@ -2455,9 +2453,9 @@ class Creature implements ICreature {
         let stretched = this.buttChangeNoDisplay(cArea)
         //STRETCH SUCCESSFUL - begin flavor text if outputting it!
         if (stretched && display) {
-            if (spacingsF) outputText(" ")
+            if (spacingsF) GUI.outputText(" ")
             this.buttChangeDisplay()
-            if (spacingsB) outputText(" ")
+            if (spacingsB) GUI.outputText(" ")
         }
         return stretched
     }
@@ -2497,11 +2495,11 @@ class Creature implements ICreature {
     }
     buttChangeDisplay(): void {
         //Allows the test for stretching and the text output to be separated
-        if (this.ass.analLooseness == 5) outputText("<b>Your " + Appearance.assholeDescript(this) + " is stretched even wider, capable of taking even the largest of demons and beasts.</b>")
-        if (this.ass.analLooseness == 4) outputText("<b>Your " + Appearance.assholeDescript(this) + " becomes so stretched that it gapes continually.</b>")
-        if (this.ass.analLooseness == 3) outputText("<b>Your " + Appearance.assholeDescript(this) + " is now very loose.</b>")
-        if (this.ass.analLooseness == 2) outputText("<b>Your " + Appearance.assholeDescript(this) + " is now a little loose.</b>")
-        if (this.ass.analLooseness == 1) outputText("<b>You have lost your anal virginity.</b>")
+        if (this.ass.analLooseness == 5) GUI.outputText("<b>Your " + Appearance.assholeDescript(this) + " is stretched even wider, capable of taking even the largest of demons and beasts.</b>")
+        if (this.ass.analLooseness == 4) GUI.outputText("<b>Your " + Appearance.assholeDescript(this) + " becomes so stretched that it gapes continually.</b>")
+        if (this.ass.analLooseness == 3) GUI.outputText("<b>Your " + Appearance.assholeDescript(this) + " is now very loose.</b>")
+        if (this.ass.analLooseness == 2) GUI.outputText("<b>Your " + Appearance.assholeDescript(this) + " is now a little loose.</b>")
+        if (this.ass.analLooseness == 1) GUI.outputText("<b>You have lost your anal virginity.</b>")
     }
 
     //------------
@@ -3283,16 +3281,18 @@ class Creature implements ICreature {
             //trace("PC Knocked up with pregnancy type: " + type + " for " + incubation + " incubation.");
         }
 
+        // TODO: re-enable below with number flags
         //Chance for eggs fertilization - ovi elixir and imps excluded!
-        if (type != FLAG.PREGNANCY_IMP && type != FLAG.PREGNANCY_OVIELIXIR_EGGS && type != FLAG.PREGNANCY_ANEMONE) {
-            if (this.findPerk(PerkLib.SpiderOvipositor) >= 0 || this.findPerk(PerkLib.BeeOvipositor) >= 0) {
-                if (this.totalFertility() + bonus > Math.floor(Math.random() * beat)) {
-                    this.fertilizeEggs()
-                }
-            }
-        }
+        // if (type != FLAG.PREGNANCY_IMP && type != FLAG.PREGNANCY_OVIELIXIR_EGGS && type != FLAG.PREGNANCY_ANEMONE) {
+        //     if (this.findPerk(PerkLib.SpiderOvipositor) >= 0 || this.findPerk(PerkLib.BeeOvipositor) >= 0) {
+        //         if (this.totalFertility() + bonus > Math.floor(Math.random() * beat)) {
+        //             this.fertilizeEggs()
+        //         }
+        //     }
+        // }
     }
 
+    // TODO: (DMR) commented out all calls attempting to pass string type
     buttKnockUp(type = 0, incubation = 0, beat = 100, arg = 0): void {
         //Contraceptives cancel!
         if (this.findStatusEffect(StatusEffects.Contraceptives) >= 0 && arg < 1) return
@@ -3356,7 +3356,7 @@ class Creature implements ICreature {
         if (this.pregnancyEventArr.length > 1) {
             for (let j = 0; j < this.pregnancyEventArr.length; j++) {
                 if (this.pregnancyIncubation < this.pregnancyEventArr[j]) {
-                    //outputText("Setting new flag to " + (j + 1));
+                    //GUI.outputText("Setting new flag to " + (j + 1));
                     this.pregnancyEventNum = j + 1
                 }
             }
@@ -3364,7 +3364,7 @@ class Creature implements ICreature {
         if (this.buttPregnancyEventArr.length > 1) {
             for (let j = 0; j < this.buttPregnancyEventArr.length; j++) {
                 if (this.buttPregnancyIncubation < this.buttPregnancyEventArr[j]) {
-                    //outputText("Setting new flag to " + (j + 1));
+                    //GUI.outputText("Setting new flag to " + (j + 1));
                     this.buttPregnancyEventNum = j + 1
                 }
             }
@@ -3516,6 +3516,109 @@ class Creature implements ICreature {
 
     minotaurNeed() {
         return this.findPerk(PerkLib.MinotaurCumResistance) < 0 && liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_STATE] > 1
+    }
+
+    //-----------
+    // GOO GIRL COLOR FUNCTIONS
+    // (11 functions relocated from gooGirl and merged)
+    //-----------
+
+    gooColor(colorType: number): string {
+        switch (colorType) {
+            case 1:
+                //blue, purple, or crystal
+                return this.skinTone
+            case 2:
+                //[azure/plum/crystalline]
+                if (this.skinTone == "blue") return "azure"
+                else if (this.skinTone == "purple") return "plum"
+                else return "crystalline"
+            case 3:
+                //[cerulean/violet/clear]
+                if (this.skinTone == "blue") return "cerulean"
+                else if (this.skinTone == "purple") return "violet"
+                else return "clear"
+            case 4:
+                //[teal/lavender/glassy]
+                if (this.skinTone == "blue") return "teal"
+                else if (this.skinTone == "purple") return "lavender"
+                else return "glassy"
+            case 5:
+                //[sapphire/amethyst/diamond]
+                if (this.skinTone == "blue") return "sapphire"
+                else if (this.skinTone == "purple") return "amethyst"
+                else return "diamond"
+            case 6:
+                //[lapis/periwinkle/pure]
+                if (this.skinTone == "blue") return "sapphire"
+                else if (this.skinTone == "purple") return "amethyst"
+                else return "diamond"
+            case 7:
+                //[blue berry/grape/crystal]
+                if (this.skinTone == "blue") return "blueberry"
+                else if (this.skinTone == "purple") return "grape"
+                else return "crystal"
+            case 8:
+                //[aquamarine/plum/transparent]
+                if (this.skinTone == "blue") return "aquamarine"
+                else if (this.skinTone == "purple") return "plum"
+                else return "transparent"
+            case 9:
+                //[an aquamarine/a lilac/a translucent]
+                if (this.skinTone == "blue") return "an aquamarine"
+                else if (this.skinTone == "purple") return "a plum"
+                else return "a translucent"
+            case 10:
+                //[blueberries/grapes/strawberries]
+                if (this.skinTone == "blue") return "blueberries"
+                else if (this.skinTone == "purple") return "grapes"
+                else return "strawberries"
+            case 11:
+                //[cerulean tint/violet tint/clear body]
+                if (this.skinTone == "blue") return "cerulean tint"
+                else if (this.skinTone == "purple") return "violet tint"
+                else return "clear body"
+            default:
+                return this.skinTone
+        }
+    }
+
+    normalCocks(): number {
+        let cockCount=0
+        for (const cock of this.cocks) {
+            if (cock.cockType == ENUM.CockType.HUMAN) {
+                cockCount++
+            }
+        }
+        return cockCount
+    }
+    
+    horseCocks(): number {
+        let cockCount=0
+        for (const cock of this.cocks) {
+            if (cock.cockType == ENUM.CockType.HORSE) {
+                cockCount++
+            }
+        }
+        return cockCount
+    }
+    
+    dogCocks(): number {
+        let cockCount=0
+        for (const cock of this.cocks) {
+            if (cock.cockType == ENUM.CockType.DOG) {
+                cockCount++
+            }
+        }
+        return cockCount
+    }
+    
+    get nipplesPierced(): number {
+        let piercingCount=0
+        for (const breastRow of this.breastRows) {
+            if (breastRow.pierced) piercingCount++
+        }
+        return piercingCount
     }
 }
 

@@ -117,6 +117,7 @@ class UTIL {
             func(...args);
         };
     }
+    static nullFunc() { }
 }
 UTIL.NUMBER_WORDS_NORMAL = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
 UTIL.NUMBER_WORDS_CAPITAL = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];

@@ -1,4 +1,4 @@
-import { outputText } from "../engine/text"
+import { GUI } from "../engine/gui"
 import { UTIL } from "../engine/utils"
 import { IItem, Item, ITEM_TYPE_CONSUMABLE } from "../itemClass"
 import { BodyLotion, HairDye, SkinOil } from "../itemConstructors"
@@ -97,7 +97,7 @@ class ItemConsumables {
         //------------
         this.BeeHoney = new Item("BeeHony", "Bee Honey", "a small vial filled with giant-bee honey", ITEM_TYPE_CONSUMABLE)
         this.BeeHoney.description = "This fine crystal vial is filled with a thick amber liquid that glitters dully in the light. You can smell a sweet scent, even though it is tightly corked."
-        this.BeeHoney.consumeEffect = TransformationEffects.beeTFs(0)
+        this.BeeHoney.consumeEffect = UTIL.createCallBackFunction(TransformationEffects.beeTFs, 0)
 
         this.CaninePepper = new Item("CanineP", "Canine Pp", "a canine pepper", ITEM_TYPE_CONSUMABLE)
         this.CaninePepper.description = "The pepper is shiny and red, bulbous at the base but long and narrow at the tip. It smells spicy."
@@ -138,7 +138,7 @@ class ItemConsumables {
 
         this.GoldenSeed = new Item("G.Seed", "Golden Seed", "a golden seed", ITEM_TYPE_CONSUMABLE)
         this.GoldenSeed.description = "This seed looks and smells absolutely delicious.  Though it has an unusual color, the harpies prize these nuts as delicious treats.  Eating one might induce some physical transformations."
-        this.GoldenSeed.consumeEffect = TransformationEffects.harpyTFs(0)
+        this.GoldenSeed.consumeEffect = UTIL.createCallBackFunction(TransformationEffects.harpyTFs, 0)
 
         this.Hummanus = new Item("Hummus ", "Hummanus", "a small jar of hummus", ITEM_TYPE_CONSUMABLE)
         this.Hummanus.description = 'This is a small jar with label that reads, "<i>Hummanus</i>". If the name clues you in, this might be how humanity is regained.'
@@ -150,7 +150,7 @@ class ItemConsumables {
 
         this.LaBova = new Item("LaBova", "La Bova", 'a bottle containing a misty fluid labeled "LaBova"', ITEM_TYPE_CONSUMABLE)
         this.LaBova.description = "A bottle containing a misty fluid with a grainy texture, it has a long neck and a ball-like base.  The label has a stylized picture of a well endowed cowgirl nursing two guys while they jerk themselves off."
-        this.LaBova.consumeEffect = TransformationEffects.cowTFs(true, false)
+        this.LaBova.consumeEffect = UTIL.createCallBackFunction(TransformationEffects.cowTFs, true, false)
 
         this.Lactaid = new Item("Lactaid", "Lactaid", 'a pink bottle labelled "Lactaid"', ITEM_TYPE_CONSUMABLE)
         this.Lactaid.description = "Judging by the name printed on this bottle, 'Lactaid' probably has an effect on the ability to lactate, and you doubt that effect is a reduction."
@@ -162,16 +162,16 @@ class ItemConsumables {
 
         this.MinotaurCum = new Item("M.Cum", "MinoCum", "a sealed bottle of minotaur cum", ITEM_TYPE_CONSUMABLE)
         this.MinotaurCum.description = "This bottle of minotaur cum looks thick and viscous.  You know it has narcotic properties, but aside from that its effects are relatively unknown."
-        this.MinotaurCum.consumeEffect = ConsumableEffects.minotaurCum(false)
+        this.MinotaurCum.consumeEffect = UTIL.createCallBackFunction(ConsumableEffects.minotaurCum, false)
         this.MinotaurCum.value = 60
 
         this.PigTruffle = new Item("PigTruf", "Pig Truffle", "a pigtail truffle", ITEM_TYPE_CONSUMABLE)
         this.PigTruffle.description = "It's clear where this fungus gets its name. A small, curly sprig resembling a pig's tail can be seen jutting out of it."
-        this.PigTruffle.consumeEffect = TransformationEffects.pigTFs
+        this.PigTruffle.consumeEffect = UTIL.createCallBackFunction(TransformationEffects.pigTFs)
 
         this.PureHoney = new Item("PurHon", "Pure Honey", "a crystal vial filled with glittering honey", ITEM_TYPE_CONSUMABLE)
         this.PureHoney.description = "This fine crystal vial is filled with a thick amber liquid that glitters in the light.  You can smell a sweet scent, even though it is tightly corked."
-        this.PureHoney.consumeEffect = TransformationEffects.beeTFs(1)
+        this.PureHoney.consumeEffect = UTIL.createCallBackFunction(TransformationEffects.beeTFs, 1)
         this.PureHoney.value = 40
 
         this.Reptilum = new Item("Reptilum", "Reptilum", "a vial of Reptilum", ITEM_TYPE_CONSUMABLE)
@@ -184,7 +184,7 @@ class ItemConsumables {
 
         this.SpecialHoney = new Item("SPHoney", "Special Honey", "a bottle of special bee honey", ITEM_TYPE_CONSUMABLE)
         this.SpecialHoney.description = "A clear crystal bottle of a dark brown fluid that you got from the bee handmaiden.  It gives off a strong sweet smell even though the bottle is still corked."
-        this.SpecialHoney.consumeEffect = TransformationEffects.beeTFs(2)
+        this.SpecialHoney.consumeEffect = UTIL.createCallBackFunction(TransformationEffects.beeTFs, 2)
         this.SpecialHoney.value = 20
 
         this.TrapOil = new Item("TrapOil", "TrapOil", "a vial of trap oil.", ITEM_TYPE_CONSUMABLE)
@@ -245,7 +245,7 @@ class ItemConsumables {
         this.Condom = new Item("Condom", "Condom", "a condom packet", ITEM_TYPE_CONSUMABLE)
         this.Condom.description = "This wrapper contains a latex condom that can be worn over penis. It's designed to prevent pregnancy most of the time. Can be used in certain sex scenes."
         this.Condom.consumeEffect = function (): void {
-            outputText("You look at the unopened packet of condom.  If applicable, you can use the condom to prevent pregnancy most of the time.")
+            GUI.outputText("You look at the unopened packet of condom.  If applicable, you can use the condom to prevent pregnancy most of the time.")
         }
         this.Condom.value = 6
 
@@ -255,7 +255,7 @@ class ItemConsumables {
 
         this.LustDraft = new Item("L.Draft", "Lust Draft", "a vial of roiling bubble-gum pink fluid", ITEM_TYPE_CONSUMABLE)
         this.LustDraft.description = 'This vial of bright pink fluid bubbles constantly inside the glass, as if eager to escape. It smells very sweet, and has "Lust" inscribed on the side of the vial.'
-        this.LustDraft.consumeEffect = ConsumableEffects.lustDraft
+        this.LustDraft.consumeEffect = UTIL.createCallBackFunction(ConsumableEffects.lustDraft)
         this.LustDraft.value = 20
 
         this.FuckDraft = new Item("F.Draft", "Fuck Draft", 'a vial of roiling red fluid labeled "Fuck Draft".', ITEM_TYPE_CONSUMABLE)

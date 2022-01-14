@@ -1,9 +1,7 @@
-import { clearOutput, outputText } from "./engine/text"
 import { GUI } from "./engine/gui"
 import { UTIL } from "./engine/utils"
 import * as ENUM from "./appearanceEnums"
 import { liveData } from "./globalVariables"
-import { addToGameFlags } from "./engine/saves"
 import { Items } from "./itemClass"
 import { PerkLib } from "./perkLib"
 import { Inventory } from "./scenes/inventory"
@@ -296,7 +294,7 @@ abstract class Appearance {
             }
         }
         if (!haveDescription && UTIL.rand(2) == 0 && i_creature.nipplesPierced > 0 && i_rowNum == 0) {
-            if (i_creature.nipplesPierced == 5) description += "chained "
+            if (i_creature.nipplesPierced >= 5) description += "chained "
             else description += "pierced "
             haveDescription = true
         }
@@ -1860,7 +1858,7 @@ abstract class Appearance {
                     descript += this.cockNoun(ENUM.CockType.HORSE) + "s"
                     descripted = true
                 }
-                if (creature.cocks[0].cockType.Index > 2) {
+                if (creature.cocks[0].cockType > 2) {
                     descript += this.cockAdjective(creature.cocks[0].cockType, creature.cocks[0].cockLength, creature.cocks[0].cockThickness) + ", "
                     descript += this.cockNoun(creature.cocks[0].cockType) + "s"
                     descripted = true

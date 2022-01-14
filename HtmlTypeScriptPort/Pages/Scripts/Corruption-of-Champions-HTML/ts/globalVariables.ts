@@ -7,6 +7,8 @@ import { ICreature } from "./interfaces/icreature"
 import { IItemSlot } from "./itemSlotClass"
 import { FLAG } from "./flags/dataFlags"
 import { Tamani } from "./scenes/areas/forest/tamani"
+import { PregnancyProgression } from "./pregnancyProgression"
+import { SandWitch } from "./scenes/areas/desert/sandWitch"
 
 interface IExploration {
     explored: number
@@ -62,10 +64,19 @@ interface IGameContext {
     time: Time
     exploration: IExploration
     gameFlags: { [key: string]: number }
+    pregnancyProgression: PregnancyProgression
 
     amily: Amily
     tamanipreg: Tamani
-    monster?: ICreature
+    sandWitch: SandWitch
+    beeGirlAttitude: number
+    bowSkill: number
+
+    // Combat
+    nullCreature: ICreature
+    monster: ICreature
+    currentTurn: number
+    currentRound: number
 }
 
 class GameContext implements IGameContext {
@@ -98,10 +109,19 @@ class GameContext implements IGameContext {
     time: Time
     exploration: IExploration
     gameFlags: { [key: string]: number }
+    pregnancyProgression: PregnancyProgression
 
     amily: Amily
     tamanipreg: Tamani
-    monster?: ICreature
+    sandWitch: SandWitch
+    beeGirlAttitude: number
+    bowSkill: number
+
+    // Combat
+    readonly nullCreature: ICreature
+    monster: ICreature
+    currentTurn: number
+    currentRound: number
 
     //Inventory
     currentItemSlot?: IItemSlot
@@ -149,11 +169,21 @@ class GameContext implements IGameContext {
         //let flags = [0] * 3000; //For legacy purposes only.
         // let gameFlags = []
         this.gameFlags = {}
+        this.pregnancyProgression = new PregnancyProgression()
 
         this.amily = new Amily() // Used for Pregnancy tracking
         // Add a pregnancy event array NEW CODE
         this.amily.eventFill(FLAG.INCUBATION_AMILY_EVENT)
         this.tamanipreg = new Tamani() //Constant instance of Tamani solely for pregnancy tracking. There may be a better way to do this.
+        this.sandWitch = new SandWitch()
+        this.beeGirlAttitude = 9
+        this.bowSkill = 0
+
+        // Combat
+        this.nullCreature = new Creature()
+        this.monster = this.nullCreature
+        this.currentTurn = 0
+        this.currentRound = 0
 
         //Inventory
         this.currentItemSlot

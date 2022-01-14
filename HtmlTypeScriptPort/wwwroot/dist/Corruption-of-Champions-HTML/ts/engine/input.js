@@ -99,25 +99,29 @@ var Input;
     function pressButtonByKey(index) {
         const button = document.getElementById("button" + index);
         if (button && GUI.isButtonVisible(index)) {
-            button.onclick();
+            // button.onclick()
+            button.click();
         }
     }
     function pressNextByKey() {
         const button = document.getElementById("button0");
         if (button && button.innerHTML == "Next") {
-            button.onclick();
+            // button.onclick()
+            button.click();
         }
     }
     function pressYesByKey() {
         const button = document.getElementById("button0");
         if (button && button.innerHTML == "Yes") {
-            button.onclick();
+            // button.onclick()
+            button.click();
         }
     }
     function pressNoByKey() {
         const button = document.getElementById("button1");
         if (button && button.innerHTML == "No") {
-            button.onclick();
+            // button.onclick()
+            button.click();
         }
     }
 })(Input || (Input = {}));

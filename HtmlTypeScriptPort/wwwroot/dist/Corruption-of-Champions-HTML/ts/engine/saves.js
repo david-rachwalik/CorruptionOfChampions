@@ -1,83 +1,80 @@
-import { clearOutput, outputText } from "../engine/text";
 import { GUI } from "./gui";
 import { liveData, GameContext } from "../globalVariables";
 import { Player } from "../player";
 import { ItemSlot } from "../itemSlotClass";
 import { StatusEffect } from "../statusEffectClass";
-import * as Main from "../main";
+import { MAIN } from "../main";
 import { Perk } from "../perkClass";
 import { KeyItem } from "../keyItemClass";
 import { UTIL } from "./utils";
 import { Camp } from "../scenes/camp";
 // This code handles saving and loading of games. (Save State)
-class GameData {
-    constructor() {
-        this.totalSlots = 14;
-    }
+class Data {
     //Save Menu
-    saveScreen() {
-        clearOutput();
-        outputText("Please make sure to use a modern browser capable of local storage to be able to save.<br><br>");
+    static saveScreen() {
+        GUI.clearOutput();
+        GUI.outputText("Please make sure to use a modern browser capable of local storage to be able to save.<br><br>");
         GUI.menu();
         for (let i = 0; i < this.totalSlots; i++) {
-            outputText("Slot " + (i + 1) + ": " + this.loadSaveDisplay("CoC_" + (i + 1)) + "<br>");
+            GUI.outputText("Slot " + (i + 1) + ": " + this.loadSaveDisplay("CoC_" + (i + 1)) + "<br>");
             GUI.addButton(i, "Slot " + (i + 1), this.saveGame, "CoC_" + (i + 1));
         }
-        GUI.addButton(14, "Back", dataScreen);
+        GUI.addButton(14, "Back", this.dataScreen);
     }
     //Load Menu
-    loadScreen() {
-        clearOutput();
+    static loadScreen() {
+        GUI.clearOutput();
         GUI.menu();
         for (let i = 0; i < this.totalSlots; i++) {
             const saveSlot = "CoC_" + (i + 1);
-            outputText("Slot " + (i + 1) + ": " + this.loadSaveDisplay(saveSlot) + "<br>");
+            GUI.outputText("Slot " + (i + 1) + ": " + this.loadSaveDisplay(saveSlot) + "<br>");
             // if (localStorage[saveSlot] != undefined) {
             if (liveData.storage.get(saveSlot)) {
                 GUI.addButton(i, "Slot " + (i + 1), this.loadGame, saveSlot);
             }
         }
-        GUI.addButton(14, "Back", dataScreen);
+        GUI.addButton(14, "Back", this.dataScreen);
     }
     //Delete Save Menu
-    deleteScreen() {
-        clearOutput();
-        outputText("Once you delete a save file, it's gone forever. So please be sure if you REALLY want to do it.<br><br>");
+    static deleteScreen() {
+        GUI.clearOutput();
+        GUI.outputText("Once you delete a save file, it's gone forever. So please be sure if you REALLY want to do it.<br><br>");
         GUI.menu();
         for (let i = 0; i < this.totalSlots; i++) {
             const saveSlot = "CoC_" + (i + 1);
-            outputText("Slot " + (i + 1) + ": " + this.loadSaveDisplay(saveSlot) + "<br>");
+            GUI.outputText("Slot " + (i + 1) + ": " + this.loadSaveDisplay(saveSlot) + "<br>");
             // if (localStorage[saveSlot] != undefined) {
             if (liveData.storage.get(saveSlot)) {
                 GUI.addButton(i, "Slot " + (i + 1), this.deletePrompt, saveSlot);
             }
         }
-        GUI.addButton(14, "Back", dataScreen);
+        GUI.addButton(14, "Back", this.dataScreen);
     }
     //Starts save process and shows whether it succeeded or not.
-    saveGame(slot) {
-        clearOutput();
+    static saveGame(slot) {
+        GUI.clearOutput();
         if (this.saveGameObject(slot)) {
-            outputText("Successfully saved!");
+            GUI.outputText("Successfully saved!");
         }
         else {
-            outputText("Failed to save!");
+            GUI.outputText("Failed to save!");
         }
         GUI.doNext(liveData.playerMenu);
     }
     // Starts the actual save process
-    saveGameObject(slot) {
+    static saveGameObject(slot) {
         //Let's try to save! Beginning with initial variables.
         let success = false;
         let saveData = new GameContext();
         try {
             //Player Data
             // saveData.player = {}
-            for (let i in liveData.player) {
-                if (liveData.player[i] != undefined && (typeof liveData.player[i] == "string" || typeof liveData.player[i] == "number" || typeof liveData.player[i] == "boolean")) {
-                    saveData.player[i] = liveData.player[i];
-                }
-            }
+            // for (let i in liveData.player) {
+            //     if (liveData.player[i] != undefined && (typeof liveData.player[i] == "string" || typeof liveData.player[i] == "number" || typeof liveData.player[i] == "boolean")) {
+            //         saveData.player[i] = liveData.player[i]
+            //     }
+            // }
+            saveData.player = liveData.player;
             //Cocks
             saveData.player.cocks = [];
             if (liveData.player.cocks.length > 0) {
@@ -115,45 +112,54 @@ class GameData {
             for (let i = 0; i < liveData.player.itemSlots.length; i++) {
                 saveData.player.itemSlots.push(new ItemSlot());
                 if (liveData.player.itemSlots[i].itype != undefined)
-                    saveData.player.itemSlots[i].id = liveData.player.itemSlots[i].itype.id;
+                    saveData.player.itemSlots[i].itype.id = liveData.player.itemSlots[i].itype.id;
                 else
-                    saveData.player.itemSlots[i].id = "Nothing";
+                    saveData.player.itemSlots[i].itype.id = "Nothing";
                 saveData.player.itemSlots[i].quantity = liveData.player.itemSlots[i].quantity;
             }
             //Perks
             saveData.player.perks = [];
             if (liveData.player.perks.length > 0) {
-                for (let i = 0; i < liveData.player.perks.length; i++) {
-                    saveData.player.perks.push(new Perk());
-                    saveData.player.perks[i].id = liveData.player.perks[i].ptype.id;
-                    saveData.player.perks[i].value1 = liveData.player.perks[i].value1;
-                    saveData.player.perks[i].value2 = liveData.player.perks[i].value2;
-                    saveData.player.perks[i].value3 = liveData.player.perks[i].value3;
-                    saveData.player.perks[i].value4 = liveData.player.perks[i].value4;
+                // for (let i = 0; i < liveData.player.perks.length; i++) {
+                //     saveData.player.perks.push(new Perk())
+                //     saveData.player.perks[i].ptype.id = liveData.player.perks[i].ptype.id
+                //     saveData.player.perks[i].value1 = liveData.player.perks[i].value1
+                //     saveData.player.perks[i].value2 = liveData.player.perks[i].value2
+                //     saveData.player.perks[i].value3 = liveData.player.perks[i].value3
+                //     saveData.player.perks[i].value4 = liveData.player.perks[i].value4
+                // }
+                for (const perk of liveData.player.perks) {
+                    saveData.player.perks.push(new Perk(perk.ptype, perk.value1, perk.value2, perk.value3, perk.value4));
                 }
             }
             //Status Effects
             saveData.player.statusEffects = [];
             if (liveData.player.statusEffects.length > 0) {
-                for (let i = 0; i < liveData.player.statusEffects.length; i++) {
-                    saveData.player.statusEffects.push(new StatusEffect());
-                    saveData.player.statusEffects[i].id = liveData.player.statusEffects[i].stype.id;
-                    saveData.player.statusEffects[i].value1 = liveData.player.statusEffects[i].value1;
-                    saveData.player.statusEffects[i].value2 = liveData.player.statusEffects[i].value2;
-                    saveData.player.statusEffects[i].value3 = liveData.player.statusEffects[i].value3;
-                    saveData.player.statusEffects[i].value4 = liveData.player.statusEffects[i].value4;
+                // for (let i = 0; i < liveData.player.statusEffects.length; i++) {
+                //     saveData.player.statusEffects.push(new StatusEffect())
+                //     saveData.player.statusEffects[i].stype.id = liveData.player.statusEffects[i].stype.id
+                //     saveData.player.statusEffects[i].value1 = liveData.player.statusEffects[i].value1
+                //     saveData.player.statusEffects[i].value2 = liveData.player.statusEffects[i].value2
+                //     saveData.player.statusEffects[i].value3 = liveData.player.statusEffects[i].value3
+                //     saveData.player.statusEffects[i].value4 = liveData.player.statusEffects[i].value4
+                // }
+                for (const statusEffect of liveData.player.statusEffects) {
+                    saveData.player.statusEffects.push(new StatusEffect(statusEffect.stype, statusEffect.value1, statusEffect.value2, statusEffect.value3, statusEffect.value4));
                 }
             }
             //Key Items
             saveData.player.keyItems = [];
             if (liveData.player.keyItems.length > 0) {
-                for (let i = 0; i < liveData.player.keyItems.length; i++) {
-                    saveData.player.keyItems.push(new KeyItem());
-                    saveData.player.keyItems[i].id = liveData.player.keyItems[i].ktype;
-                    saveData.player.keyItems[i].value1 = liveData.player.keyItems[i].value1;
-                    saveData.player.keyItems[i].value2 = liveData.player.keyItems[i].value2;
-                    saveData.player.keyItems[i].value3 = liveData.player.keyItems[i].value3;
-                    saveData.player.keyItems[i].value4 = liveData.player.keyItems[i].value4;
+                // for (let i = 0; i < liveData.player.keyItems.length; i++) {
+                //     saveData.player.keyItems.push(new KeyItem())
+                //     saveData.player.keyItems[i].ktype.id = liveData.player.keyItems[i].ktype.id
+                //     saveData.player.keyItems[i].value1 = liveData.player.keyItems[i].value1
+                //     saveData.player.keyItems[i].value2 = liveData.player.keyItems[i].value2
+                //     saveData.player.keyItems[i].value3 = liveData.player.keyItems[i].value3
+                //     saveData.player.keyItems[i].value4 = liveData.player.keyItems[i].value4
+                // }
+                for (const keyItem of liveData.player.keyItems) {
+                    saveData.player.keyItems.push(new KeyItem(keyItem.ktype, keyItem.value1, keyItem.value2, keyItem.value3, keyItem.value4));
                 }
             }
             //Player Pregnancy
@@ -164,12 +170,12 @@ class GameData {
             saveData.player.buttPregnancyType = liveData.player.buttPregnancyType;
             saveData.player.pregnancyEventNum = liveData.player.pregnancyEventNum;
             //Amily Pregnancy - This may need to go into an array for better saving?
-            saveData.amilypregnancyIncubation = amily.pregnancyIncubation;
-            saveData.amilypregnancyType = amily.pregnancyType;
-            saveData.amilypregnancyEventArr = amily.pregnancyEventArr;
-            saveData.amilybuttPregnancyIncubation = amily.buttPregnancyIncubation;
-            saveData.amilybuttPregnancyType = amily.buttPregnancyType;
-            saveData.amilypregnancyEventNum = amily.pregnancyEventNum;
+            // saveData.amilypregnancyIncubation = amily.pregnancyIncubation
+            // saveData.amilypregnancyType = amily.pregnancyType
+            // saveData.amilypregnancyEventArr = amily.pregnancyEventArr
+            // saveData.amilybuttPregnancyIncubation = amily.buttPregnancyIncubation
+            // saveData.amilybuttPregnancyType = amily.buttPregnancyType
+            // saveData.amilypregnancyEventNum = amily.pregnancyEventNum
             //Spells
             // saveData.player.spells = {}
             saveData.player.spells.chargeWeapon = liveData.player.spells.chargeWeapon;
@@ -191,14 +197,14 @@ class GameData {
             saveData.time.hours = liveData.time.hours;
             saveData.time.minutes = liveData.time.minutes;
             //Game Flags
-            // saveData.gameFlags = {}
+            // liveData.gameFlags = {}
             for (let i in liveData.gameFlags) {
-                saveData.gameFlags[i] = liveData.gameFlags[i];
+                liveData.gameFlags[i] = liveData.gameFlags[i];
             }
             //Amily Save Test
             //if (AmilyScene.pregnancy.pregnancyTypeFlag != 0) {
-            //    saveData.gameFlags[AMILY_PREGNANCY_TYPE] = AmilyScene.pregnancy.pregnancyTypeFlag;
-            //    saveData.gameFlags[AMILY_INCUBATION] = AmilyScene.pregnancy.pregnancyIncubationFlag;
+            //    liveData.gameFlags[AMILY_PREGNANCY_TYPE] = AmilyScene.pregnancy.pregnancyTypeFlag;
+            //    liveData.gameFlags[AMILY_INCUBATION] = AmilyScene.pregnancy.pregnancyIncubationFlag;
             //}
             //Assign Save Version
             saveData.saveVersion = liveData.saveVersion;
@@ -209,36 +215,36 @@ class GameData {
         }
         catch (error) {
             //Set to failed
-            outputText(error + "<br><br>");
+            GUI.outputText(error + "<br><br>");
             console.error(error);
             success = false;
         }
         return success;
     }
     //Attempt to load a game and show if it fails or not.
-    loadGame(slot) {
-        clearOutput();
+    static loadGame(slot) {
+        GUI.clearOutput();
         if (this.loadGameObject(slot)) {
-            outputText("Successfully loaded!");
+            GUI.outputText("Successfully loaded!");
             GUI.doNext(liveData.playerMenu);
         }
         else {
-            outputText("Failed to load!");
+            GUI.outputText("Failed to load!");
             GUI.doNext(this.loadScreen);
         }
     }
     // Loads a game
-    loadGameObject(slot) {
+    static loadGameObject(slot) {
         //Let's try to load!
         let success = false;
-        // let saveData = JSON.parse(localStorage[slot])
-        let saveData = JSON.parse(liveData.storage.get(slot));
+        let saveData = JSON.parse(localStorage[slot]);
         try {
             let player = new Player();
             //Iterate through player data
-            for (let i in saveData.player) {
-                liveData.player[i] = saveData.player[i];
-            }
+            // for (let i in saveData.player) {
+            //     liveData.player[i] = saveData.player[i]
+            // }
+            liveData.player = saveData.player;
             //Manually set equipment
             if (saveData.player.weapon != undefined)
                 liveData.player.weapon = UTIL.lookupItem(saveData.player.weapon.id);
@@ -334,12 +340,12 @@ class GameData {
                 liveData.time.hours = saveData.time.hours;
                 liveData.time.minutes = saveData.time.minutes;
             }
-            if (saveData.gameFlags != undefined) {
-                for (let i in saveData.gameFlags) {
-                    if (saveData.gameFlags[i] == undefined || saveData.gameFlags[i] == null)
+            if (liveData.gameFlags != undefined) {
+                for (let i in liveData.gameFlags) {
+                    if (liveData.gameFlags[i] == undefined || liveData.gameFlags[i] == null)
                         liveData.gameFlags[i] = 0;
                     else
-                        liveData.gameFlags[i] = saveData.gameFlags[i];
+                        liveData.gameFlags[i] = liveData.gameFlags[i];
                 }
             }
             /*
@@ -355,13 +361,13 @@ class GameData {
         }
         catch (error) {
             //If something's wrong, tell failure.
-            outputText(error + "<br><br>");
+            GUI.outputText(error + "<br><br>");
             console.error(error);
             success = false;
         }
         return success;
     }
-    loadSaveDisplay(slot) {
+    static loadSaveDisplay(slot) {
         // if (localStorage[slot] == undefined) {
         if (liveData.storage.get(slot) == undefined) {
             return "EMPTY<br>";
@@ -381,44 +387,42 @@ class GameData {
             holding += "H";
         return holding;
     }
-    fixSave() {
+    static fixSave() {
         let i;
         //Fix body parts
-        if (liveData.player.race != undefined)
-            delete liveData.player.race; //Reset variable
-        if (liveData.player.weapon.getTooltipDescription == undefined)
-            delete liveData.player.weapon.getTooltipDescription;
-        if (liveData.player.armor.getTooltipDescription == undefined)
-            delete liveData.player.armor.getTooltipDescription;
-        for (let i in liveData.player.cocks) {
-            fixCock(liveData.player.cocks[i]);
+        // if (liveData.player.race != undefined) delete liveData.player.race //Reset variable
+        // if (liveData.player.weapon.getTooltipDescription == undefined) delete liveData.player.weapon.getTooltipDescription
+        // if (liveData.player.armor.getTooltipDescription == undefined) delete liveData.player.armor.getTooltipDescription
+        for (const cock of liveData.player.cocks) {
+            cock.fixCock();
         }
-        for (let i in liveData.player.vaginas) {
-            fixVagina(liveData.player.vaginas[i]);
+        for (const vagina of liveData.player.vaginas) {
+            vagina.fixVagina();
         }
-        for (let i in liveData.player.breastRows) {
-            unfuckBreastRow(liveData.player.breastRows[i]);
+        for (const breastRow of liveData.player.breastRows) {
+            breastRow.unfuckBreastRow();
         }
     }
     //DELETE SAVE
-    deletePrompt(slot) {
-        clearOutput();
-        outputText("Are you sure you want to delete this save file? You won't be able to retrieve it!");
+    static deletePrompt(slot) {
+        GUI.clearOutput();
+        GUI.outputText("Are you sure you want to delete this save file? You won't be able to retrieve it!");
         GUI.menu();
         GUI.addButton(0, "Yes, I'm sure!", this.deleteSave, slot);
         GUI.addButton(1, "No, wait!", this.deleteScreen);
     }
-    deleteSave(slot) {
-        clearOutput();
-        outputText(slot + " has been deleted.");
+    static deleteSave(slot) {
+        GUI.clearOutput();
+        GUI.outputText(slot + " has been deleted.");
         // delete localStorage[slot]
         liveData.storage.clearItem(slot);
         GUI.doNext(this.deleteScreen);
     }
     //SETTINGS DATA SAVE/LOAD
-    saveSettings() {
+    static saveSettings() {
         let success = false;
-        let saveData = {};
+        // let saveData = {}
+        let saveData = new GameContext();
         try {
             saveData.silly = liveData.silly;
             saveData.use12Hours = liveData.use12Hours;
@@ -437,9 +441,9 @@ class GameData {
         }
         return success;
     }
-    loadSettings() {
+    static loadSettings() {
         let success = false;
-        if (Main.GetIEVersion() == 0) {
+        if (MAIN.GetIEVersion() == 0) {
             // if (localStorage["CoC_Main"] == undefined) return success
             if (liveData.storage.get("CoC_Main") == undefined)
                 return success;
@@ -454,7 +458,7 @@ class GameData {
             liveData.use12Hours = saveData.use12Hours;
             liveData.mainFont = saveData.mainFont;
             liveData.mainFontSizeIndex = saveData.mainFontSizeIndex;
-            Main.applyFontSettings();
+            MAIN.applyFontSettings();
             //Set load to successful
             success = true;
         }
@@ -464,24 +468,26 @@ class GameData {
         }
         return success;
     }
-}
-let Data = new GameData();
-//Main Data Menu
-function dataScreen() {
-    clearOutput();
-    outputText("Here, you can save or load data.");
-    GUI.menu();
-    if (liveData.gameStarted)
-        GUI.addButton(0, "Save", Data.saveScreen);
-    GUI.addButton(1, "Load", Data.loadScreen);
-    GUI.addButton(2, "Delete", Data.deleteScreen);
-    GUI.addButton(14, "Back", liveData.playerMenu);
-}
-//Add to Data Flags
-function addToGameFlags(...args) {
-    for (let i in args) {
-        liveData.gameFlags[args[i]] = 0;
+    //Main Data Menu
+    static dataScreen() {
+        GUI.clearOutput();
+        GUI.outputText("Here, you can save or load data.");
+        GUI.menu();
+        if (liveData.gameStarted)
+            GUI.addButton(0, "Save", Data.saveScreen);
+        GUI.addButton(1, "Load", Data.loadScreen);
+        GUI.addButton(2, "Delete", Data.deleteScreen);
+        GUI.addButton(14, "Back", liveData.playerMenu);
+    }
+    //Add to Data Flags
+    static addToGameFlags(...args) {
+        for (let i in args) {
+            liveData.gameFlags[args[i]] = 0;
+        }
     }
 }
-export { Data, dataScreen, addToGameFlags };
+Data.totalSlots = 14;
+// TODO: JSON to Object class conversion (to eventually replace loadGameObject)
+// https://github.com/typestack/class-transformer
+export { Data };
 //# sourceMappingURL=saves.js.map

@@ -1,4 +1,3 @@
-import { outputText } from "./engine/text";
 import * as ENUM from "./appearanceEnums";
 import { GUI } from "./engine/gui";
 import { UTIL } from "./engine/utils";
@@ -120,6 +119,10 @@ class Player extends Creature {
             return percent / 100;
         }
     }*/
+    // TODO: verify: best guess is shortName (equipmentName also possible)
+    get armorName() {
+        return this.armor.shortName;
+    }
     minLust() {
         return 0;
     }
@@ -1095,26 +1098,26 @@ class Player extends Creature {
         //Display the degree of length change.
         if (amount <= 1 && amount > 0) {
             if (this.cocks.length == 1)
-                outputText("Your " + liveData.player.cockDescript(0) + " has grown slightly longer.");
+                GUI.outputText("Your " + liveData.player.cockDescript(0) + " has grown slightly longer.");
             if (this.cocks.length > 1) {
                 if (ncocks == 1)
-                    outputText("One of your " + liveData.player.multiCockDescriptLight() + " grows slightly longer.");
+                    GUI.outputText("One of your " + liveData.player.multiCockDescriptLight() + " grows slightly longer.");
                 if (ncocks > 1 && ncocks < this.cocks.length)
-                    outputText("Some of your " + liveData.player.multiCockDescriptLight() + " grow slightly longer.");
+                    GUI.outputText("Some of your " + liveData.player.multiCockDescriptLight() + " grow slightly longer.");
                 if (ncocks == this.cocks.length)
-                    outputText("Your " + liveData.player.multiCockDescriptLight() + " seem to fill up... growing a little bit larger.");
+                    GUI.outputText("Your " + liveData.player.multiCockDescriptLight() + " seem to fill up... growing a little bit larger.");
             }
         }
         if (amount > 1 && amount < 3) {
             if (this.cocks.length == 1)
-                outputText("A very pleasurable feeling spreads from your groin as your " + liveData.player.cockDescript(0) + " grows permanently longer - at least an inch - and leaks pre-cum from the pleasure of the change.");
+                GUI.outputText("A very pleasurable feeling spreads from your groin as your " + liveData.player.cockDescript(0) + " grows permanently longer - at least an inch - and leaks pre-cum from the pleasure of the change.");
             if (this.cocks.length > 1) {
                 if (ncocks == this.cocks.length)
-                    outputText("A very pleasurable feeling spreads from your groin as your " + liveData.player.multiCockDescriptLight() + " grow permanently longer - at least an inch - and leak plenty of pre-cum from the pleasure of the change.");
+                    GUI.outputText("A very pleasurable feeling spreads from your groin as your " + liveData.player.multiCockDescriptLight() + " grow permanently longer - at least an inch - and leak plenty of pre-cum from the pleasure of the change.");
                 if (ncocks == 1)
-                    outputText("A very pleasurable feeling spreads from your groin as one of your " + liveData.player.multiCockDescriptLight() + " grows permanently longer, by at least an inch, and leaks plenty of pre-cum from the pleasure of the change.");
+                    GUI.outputText("A very pleasurable feeling spreads from your groin as one of your " + liveData.player.multiCockDescriptLight() + " grows permanently longer, by at least an inch, and leaks plenty of pre-cum from the pleasure of the change.");
                 if (ncocks > 1 && ncocks < this.cocks.length)
-                    outputText("A very pleasurable feeling spreads from your groin as " +
+                    GUI.outputText("A very pleasurable feeling spreads from your groin as " +
                         UTIL.num2Text(ncocks) +
                         " of your " +
                         liveData.player.multiCockDescriptLight() +
@@ -1123,110 +1126,110 @@ class Player extends Creature {
         }
         if (amount >= 3) {
             if (this.cocks.length == 1)
-                outputText("Your " + this.cockDescript(0) + " feels incredibly tight as a few more inches of length seem to pour out from your crotch.");
+                GUI.outputText("Your " + this.cockDescript(0) + " feels incredibly tight as a few more inches of length seem to pour out from your crotch.");
             if (this.cocks.length > 1) {
                 if (ncocks == 1)
-                    outputText("Your " + this.multiCockDescriptLight() + " feel incredibly tight as one of their number begins to grow inch after inch of length.");
+                    GUI.outputText("Your " + this.multiCockDescriptLight() + " feel incredibly tight as one of their number begins to grow inch after inch of length.");
                 if (ncocks > 1 && ncocks < this.cocks.length)
-                    outputText("Your " + this.multiCockDescriptLight() + " feel incredibly number as " + UTIL.num2Text(ncocks) + " of them begin to grow inch after inch of added length.");
+                    GUI.outputText("Your " + this.multiCockDescriptLight() + " feel incredibly number as " + UTIL.num2Text(ncocks) + " of them begin to grow inch after inch of added length.");
                 if (ncocks == this.cocks.length)
-                    outputText("Your " + this.multiCockDescriptLight() + " feel incredibly tight as inch after inch of length pour out from your groin.");
+                    GUI.outputText("Your " + this.multiCockDescriptLight() + " feel incredibly tight as inch after inch of length pour out from your groin.");
             }
         }
         //Display LengthChange
         if (amount > 0) {
             if (this.cocks[0].cockLength >= 8 && this.cocks[0].cockLength - amount < 8) {
                 if (this.cocks.length == 1)
-                    outputText("  <b>Most men would be overly proud to have a tool as long as yours.</b>");
+                    GUI.outputText("  <b>Most men would be overly proud to have a tool as long as yours.</b>");
                 if (this.cocks.length > 1)
-                    outputText("  <b>Most men would be overly proud to have one cock as long as yours, let alone " + this.multiCockDescript() + ".</b>");
+                    GUI.outputText("  <b>Most men would be overly proud to have one cock as long as yours, let alone " + this.multiCockDescript() + ".</b>");
             }
             if (this.cocks[0].cockLength >= 12 && this.cocks[0].cockLength - amount < 12) {
                 if (this.cocks.length == 1)
-                    outputText("  <b>Your " + this.cockDescript(0) + " is so long it nearly swings to your knee at its full length.</b>");
+                    GUI.outputText("  <b>Your " + this.cockDescript(0) + " is so long it nearly swings to your knee at its full length.</b>");
                 if (this.cocks.length > 1)
-                    outputText("  <b>Your " + this.multiCockDescriptLight() + " are so long they nearly reach your knees when at full length.</b>");
+                    GUI.outputText("  <b>Your " + this.multiCockDescriptLight() + " are so long they nearly reach your knees when at full length.</b>");
             }
             if (this.cocks[0].cockLength >= 16 && this.cocks[0].cockLength - amount < 16) {
                 if (this.cocks.length == 1)
-                    outputText("  <b>Your " + this.cockDescript(0) + " would look more at home on a large horse than you.</b>");
+                    GUI.outputText("  <b>Your " + this.cockDescript(0) + " would look more at home on a large horse than you.</b>");
                 if (this.cocks.length > 1)
-                    outputText("  <b>Your " + this.multiCockDescriptLight() + " would look more at home on a large horse than on your body.</b>");
+                    GUI.outputText("  <b>Your " + this.multiCockDescriptLight() + " would look more at home on a large horse than on your body.</b>");
                 if (this.biggestTitSize() >= ENUM.BreastSizeType.BREAST_CUP_C) {
                     if (this.cocks.length == 1)
-                        outputText("  You could easily stuff your " + this.cockDescript(0) + " between your breasts and give yourself the titty-fuck of a lifetime.");
+                        GUI.outputText("  You could easily stuff your " + this.cockDescript(0) + " between your breasts and give yourself the titty-fuck of a lifetime.");
                     if (this.cocks.length > 1)
-                        outputText("  They reach so far up your chest it would be easy to stuff a few cocks between your breasts and give yourself the titty-fuck of a lifetime.");
+                        GUI.outputText("  They reach so far up your chest it would be easy to stuff a few cocks between your breasts and give yourself the titty-fuck of a lifetime.");
                 }
                 else {
                     if (this.cocks.length == 1)
-                        outputText("  Your " + this.cockDescript(0) + " is so long it easily reaches your chest.  The possibility of autofellatio is now a foregone conclusion.");
+                        GUI.outputText("  Your " + this.cockDescript(0) + " is so long it easily reaches your chest.  The possibility of autofellatio is now a foregone conclusion.");
                     if (this.cocks.length > 1)
-                        outputText("  Your " + this.multiCockDescriptLight() + " are so long they easily reach your chest.  Autofellatio would be about as hard as looking down.");
+                        GUI.outputText("  Your " + this.multiCockDescriptLight() + " are so long they easily reach your chest.  Autofellatio would be about as hard as looking down.");
                 }
             }
             if (this.cocks[0].cockLength >= 20 && this.cocks[0].cockLength - amount < 20) {
                 if (this.cocks.length == 1)
-                    outputText("  <b>As if the pulsing heat of your " + this.cockDescript(0) + " wasn't enough, the tip of your " + this.cockDescript(0) + " keeps poking its way into your view every time you get hard.</b>");
+                    GUI.outputText("  <b>As if the pulsing heat of your " + this.cockDescript(0) + " wasn't enough, the tip of your " + this.cockDescript(0) + " keeps poking its way into your view every time you get hard.</b>");
                 if (this.cocks.length > 1)
-                    outputText("  <b>As if the pulsing heat of your " +
+                    GUI.outputText("  <b>As if the pulsing heat of your " +
                         this.multiCockDescriptLight() +
                         " wasn't bad enough, every time you get hard, the tips of your " +
                         this.multiCockDescriptLight() +
                         " wave before you, obscuring the lower portions of your vision.</b>");
                 if (this.cor > 40 && this.cor <= 60) {
                     if (this.cocks.length > 1)
-                        outputText("  You wonder if there is a demon or beast out there that could take the full length of one of your " + this.multiCockDescriptLight() + "?");
+                        GUI.outputText("  You wonder if there is a demon or beast out there that could take the full length of one of your " + this.multiCockDescriptLight() + "?");
                     if (this.cocks.length == 1)
-                        outputText("  You wonder if there is a demon or beast out there that could handle your full length.");
+                        GUI.outputText("  You wonder if there is a demon or beast out there that could handle your full length.");
                 }
                 if (this.cor > 60 && this.cor <= 80) {
                     if (this.cocks.length > 1)
-                        outputText("  You daydream about being attacked by a massive tentacle beast, its tentacles engulfing your " + this.multiCockDescriptLight() + " to their hilts, milking you dry.\n\nYou smile at the pleasant thought.");
+                        GUI.outputText("  You daydream about being attacked by a massive tentacle beast, its tentacles engulfing your " + this.multiCockDescriptLight() + " to their hilts, milking you dry.\n\nYou smile at the pleasant thought.");
                     if (this.cocks.length == 1)
-                        outputText("  You daydream about being attacked by a massive tentacle beast, its tentacles engulfing your " + this.cockDescript(0) + " to the hilt, milking it of all your cum.\n\nYou smile at the pleasant thought.");
+                        GUI.outputText("  You daydream about being attacked by a massive tentacle beast, its tentacles engulfing your " + this.cockDescript(0) + " to the hilt, milking it of all your cum.\n\nYou smile at the pleasant thought.");
                 }
                 if (this.cor > 80) {
                     if (this.cocks.length > 1)
-                        outputText("  You find yourself fantasizing about impaling nubile young champions on your " + this.multiCockDescriptLight() + " in a year's time.");
+                        GUI.outputText("  You find yourself fantasizing about impaling nubile young champions on your " + this.multiCockDescriptLight() + " in a year's time.");
                 }
             }
         }
         //Display the degree of length loss.
         if (amount < 0 && amount >= -1) {
             if (this.cocks.length == 1)
-                outputText("Your " + this.multiCockDescriptLight() + " has shrunk to a slightly shorter length.");
+                GUI.outputText("Your " + this.multiCockDescriptLight() + " has shrunk to a slightly shorter length.");
             if (this.cocks.length > 1) {
                 if (ncocks == this.cocks.length)
-                    outputText("Your " + this.multiCockDescriptLight() + " have shrunk to a slightly shorter length.");
+                    GUI.outputText("Your " + this.multiCockDescriptLight() + " have shrunk to a slightly shorter length.");
                 if (ncocks > 1 && ncocks < this.cocks.length)
-                    outputText("You feel " + UTIL.num2Text(ncocks) + " of your " + this.multiCockDescriptLight() + " have shrunk to a slightly shorter length.");
+                    GUI.outputText("You feel " + UTIL.num2Text(ncocks) + " of your " + this.multiCockDescriptLight() + " have shrunk to a slightly shorter length.");
                 if (ncocks == 1)
-                    outputText("You feel " + UTIL.num2Text(ncocks) + " of your " + this.multiCockDescriptLight() + " has shrunk to a slightly shorter length.");
+                    GUI.outputText("You feel " + UTIL.num2Text(ncocks) + " of your " + this.multiCockDescriptLight() + " has shrunk to a slightly shorter length.");
             }
         }
         if (amount < -1 && amount > -3) {
             if (this.cocks.length == 1)
-                outputText("Your " + this.multiCockDescriptLight() + " shrinks smaller, flesh vanishing into your groin.");
+                GUI.outputText("Your " + this.multiCockDescriptLight() + " shrinks smaller, flesh vanishing into your groin.");
             if (this.cocks.length > 1) {
                 if (ncocks == this.cocks.length)
-                    outputText("Your " + this.multiCockDescriptLight() + " shrink smaller, the flesh vanishing into your groin.");
+                    GUI.outputText("Your " + this.multiCockDescriptLight() + " shrink smaller, the flesh vanishing into your groin.");
                 if (ncocks == 1)
-                    outputText("You feel " + UTIL.num2Text(ncocks) + " of your " + this.multiCockDescriptLight() + " shrink smaller, the flesh vanishing into your groin.");
+                    GUI.outputText("You feel " + UTIL.num2Text(ncocks) + " of your " + this.multiCockDescriptLight() + " shrink smaller, the flesh vanishing into your groin.");
                 if (ncocks > 1 && ncocks < this.cocks.length)
-                    outputText("You feel " + UTIL.num2Text(ncocks) + " of your " + this.multiCockDescriptLight() + " shrink smaller, the flesh vanishing into your groin.");
+                    GUI.outputText("You feel " + UTIL.num2Text(ncocks) + " of your " + this.multiCockDescriptLight() + " shrink smaller, the flesh vanishing into your groin.");
             }
         }
         if (amount <= -3) {
             if (this.cocks.length == 1)
-                outputText("A large portion of your " + this.multiCockDescriptLight() + "'s length shrinks and vanishes.");
+                GUI.outputText("A large portion of your " + this.multiCockDescriptLight() + "'s length shrinks and vanishes.");
             if (this.cocks.length > 1) {
                 if (ncocks == this.cocks.length)
-                    outputText("A large portion of your " + this.multiCockDescriptLight() + " receeds towards your groin, receding rapidly in length.");
+                    GUI.outputText("A large portion of your " + this.multiCockDescriptLight() + " receeds towards your groin, receding rapidly in length.");
                 if (ncocks == 1)
-                    outputText("A single member of your " + this.multiCockDescriptLight() + " vanishes into your groin, receding rapidly in length.");
+                    GUI.outputText("A single member of your " + this.multiCockDescriptLight() + " vanishes into your groin, receding rapidly in length.");
                 if (ncocks > 1 && this.cocks.length > ncocks)
-                    outputText("Your " + this.multiCockDescriptLight() + " tingles as " + UTIL.num2Text(ncocks) + " of your members vanish into your groin, receding rapidly in length.");
+                    GUI.outputText("Your " + this.multiCockDescriptLight() + " tingles as " + UTIL.num2Text(ncocks) + " of your members vanish into your groin, receding rapidly in length.");
             }
         }
     }
@@ -1428,7 +1431,7 @@ class Player extends Creature {
             this.hunger = 100;
     }
     damageHunger(amount) {
-        outputText("You take <b><font color='#daa520'>" + amount + "</font></b> hunger damage.");
+        GUI.outputText("You take <b><font color='#daa520'>" + amount + "</font></b> hunger damage.");
         this.hunger -= amount;
         if (this.hunger < 0)
             this.hunger = 0;
@@ -1469,7 +1472,7 @@ class Player extends Creature {
         }
         return -1;
     }
-    destroyItems(itype, numOfItemToRemove) {
+    destroyItems(itype, numOfItemToRemove = 1) {
         for (var slotNum = 0; slotNum < this.itemSlots.length; slotNum += 1) {
             if (this.itemSlots[slotNum].itype == itype) {
                 while (this.itemSlots[slotNum].quantity > 0 && numOfItemToRemove > 0) {

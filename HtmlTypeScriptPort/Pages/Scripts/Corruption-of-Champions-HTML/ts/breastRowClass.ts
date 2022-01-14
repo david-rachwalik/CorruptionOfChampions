@@ -9,6 +9,7 @@ class BreastRow {
     fuckable: boolean
     nipplesPerBreast: number
     nippleLength: number
+    pierced: boolean
 
     constructor(breastSize: number, nipplesPerBreast: number) {
         //Base info
@@ -21,18 +22,18 @@ class BreastRow {
         this.fuckable = false
         this.nipplesPerBreast = nipplesPerBreast
         this.nippleLength = 0.25
+        this.pierced = false
     }
 
-    unfuckBreastRow(breastRow: BreastRow): BreastRow {
+    unfuckBreastRow(): void {
         //Fix any undefined numbers.
-        if (breastRow.breasts == undefined) breastRow.breasts = 2
-        if (breastRow.breastSize == undefined) breastRow.breastSize = 0
-        if (breastRow.lactationMultiplier == undefined) breastRow.lactationMultiplier = 0
-        if (breastRow.milkFullness == undefined) breastRow.milkFullness = 0
-        if (breastRow.fuckable == undefined) breastRow.fuckable = false
-        if (breastRow.nipplesPerBreast == undefined) breastRow.nipplesPerBreast = 1
-        if (breastRow.nippleLength == undefined) breastRow.nippleLength = 0.25
-        return breastRow
+        if (this.breasts == undefined) this.breasts = 2
+        if (this.breastSize == undefined) this.breastSize = 0
+        if (this.lactationMultiplier == undefined) this.lactationMultiplier = 0
+        if (this.milkFullness == undefined) this.milkFullness = 0
+        if (this.fuckable == undefined) this.fuckable = false
+        if (this.nipplesPerBreast == undefined) this.nipplesPerBreast = 1
+        if (this.nippleLength == undefined) this.nippleLength = 0.25
     }
 }
 

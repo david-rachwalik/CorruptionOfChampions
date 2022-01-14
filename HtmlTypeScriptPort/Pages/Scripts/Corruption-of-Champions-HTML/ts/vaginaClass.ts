@@ -19,14 +19,13 @@ class Vagina {
         this.labiaPierced = 0
     }
 
-    fixVagina(pussy: Vagina): Vagina {
+    fixVagina(): void {
         //Fix any undefined numbers.
-        if (pussy.type == undefined) pussy.type = 0
-        if (pussy.clitLength == undefined) pussy.clitLength = 0.25
-        if (pussy.vaginalWetness == undefined) pussy.vaginalWetness = 1
-        if (pussy.vaginalLooseness == undefined) pussy.vaginalLooseness = 0
-        if (pussy.virgin == undefined) pussy.virgin = false
-        return pussy
+        if (this.type == undefined) this.type = 0
+        if (this.clitLength == undefined) this.clitLength = 0.25
+        if (this.vaginalWetness == undefined) this.vaginalWetness = 1
+        if (this.vaginalLooseness == undefined) this.vaginalLooseness = 0
+        if (this.virgin == undefined) this.virgin = false
     }
 }
 

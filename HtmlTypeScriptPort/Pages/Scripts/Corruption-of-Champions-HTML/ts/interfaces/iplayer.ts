@@ -80,7 +80,7 @@ interface IPlayer extends ICreature {
     itemCount: (itype: IItem) => number
     roomInExistingStack: (itype: IItem) => number
     emptySlot: () => number
-    destroyItems: (itype: IItem, numOfItemToRemove: number) => boolean
+    destroyItems: (itype: IItem, numOfItemToRemove?: number) => boolean
     corruptionTolerance: () => number
     countCockSocks: () => number
     changeXP: (amount: number) => void

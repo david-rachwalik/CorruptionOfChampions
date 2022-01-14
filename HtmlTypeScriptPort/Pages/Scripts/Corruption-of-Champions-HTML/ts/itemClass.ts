@@ -1,5 +1,4 @@
 import { GUI } from "./engine/gui"
-import { clearOutput, outputText } from "./engine/text"
 import { UTIL } from "./engine/utils"
 import { liveData } from "./globalVariables"
 import { ItemArmor } from "./items/armor"
@@ -117,8 +116,8 @@ class Item {
     useText() {}
 
     equipItem() {
-        clearOutput()
-        outputText("You equip your " + this.equipmentName + ".")
+        GUI.clearOutput()
+        GUI.outputText("You equip your " + this.equipmentName + ".")
         var oldItem = null
         //Determine if it's weapon or armour.
         if (this.type == ITEM_TYPE_WEAPON) {
@@ -131,7 +130,7 @@ class Item {
         }
         //Check if you aren't previously using fists or naked.
         if (oldItem != null) {
-            outputText(" You still have your old " + oldItem.equipmentName + " left over. ")
+            GUI.outputText(" You still have your old " + oldItem.equipmentName + " left over. ")
             Inventory.takeItem(oldItem, Inventory.inventoryMenu)
         } else {
             GUI.doNext(Inventory.inventoryMenu)

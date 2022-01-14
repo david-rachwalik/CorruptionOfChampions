@@ -96,6 +96,7 @@ interface ICreature {
     tailRecharge: number
     wingType: number
     wingDesc: string
+    venom: number
 
     femininity: number
     tone: number
@@ -128,6 +129,7 @@ interface ICreature {
     breastRows: BreastRow[]
     lactationMultiplier: number
     nippleLength: number
+    nipplesPierced: number
 
     keyItems: KeyItem[]
     statusEffects: StatusEffect[]
@@ -287,11 +289,11 @@ interface ICreature {
     mfn: (male: string, female: string, neuter: string) => string
     mf: (male: string, female: string) => string
     maleFemaleHerm: (caps?: boolean) => string
-    isBiped: () => void
-    isNaga: () => void
-    isTaur: () => void
-    isDrider: () => void
-    isGoo: () => void
+    isBiped: () => boolean
+    isNaga: () => boolean
+    isTaur: () => boolean
+    isDrider: () => boolean
+    isGoo: () => boolean
     legs: () => string
     leg: () => string
     feet: () => string
@@ -319,7 +321,7 @@ interface ICreature {
     ballsDescript: () => string
     ballsDescriptLight: (forcedSize?: boolean) => string
     sackDescript: () => string
-    vaginaDescript: (x: number) => string
+    vaginaDescript: (x?: number) => string
     allVaginaDescript: () => string
     clitDescript: () => string
     chestDesc: () => string
@@ -355,6 +357,7 @@ interface ICreature {
     minoCumAddiction: (raw: number) => void
     minotaurAddicted: () => boolean
     minotaurNeed: () => boolean
+    gooColor(colorType: number): string
 }
 
 export { ICreature }

@@ -44,7 +44,7 @@ class Pregnancy {
         // Passing 0 and 0  to this function now clears out pregnancy.
         /*
         if (newPregType == 0 || newPregIncubation == 0) {
-            outputText("<br><br>DEBUGGER: Attempted to start a pregnancy without passing the right flags!");
+            GUI.outputText("<br><br>DEBUGGER: Attempted to start a pregnancy without passing the right flags!");
             return;
         }
         */
@@ -52,10 +52,10 @@ class Pregnancy {
         this.pregnancyIncubationFlag = newPregIncubation * 60; // Converts hours into minutes
         this.pregnancyEventCounter = 0; // Resets event counter.
         // Debugging text
-        //outputText("<br><br>You knocked someone up!");
-        //outputText("<br>Pregnancy flag is " + this.pregnancyTypeFlag);
-        //outputText("<br>Incubation flag is" + this.pregnancyIncubationFlag);
-        //outputText("<br>Pregnancy array is" + this.pregnancyEventArray);
+        //GUI.outputText("<br><br>You knocked someone up!");
+        //GUI.outputText("<br>Pregnancy flag is " + this.pregnancyTypeFlag);
+        //GUI.outputText("<br>Incubation flag is" + this.pregnancyIncubationFlag);
+        //GUI.outputText("<br>Pregnancy array is" + this.pregnancyEventArray);
         //if (newPregType != 0) newPregType = (kGAMECLASS.flags[_pregnancyTypeFlag] & PREG_NOTICE_MASK) + newPregType;
         //If a pregnancy 'continues' an existing pregnancy then do not change the value for last noticed stage
         //kGAMECLASS.flags[_pregnancyTypeFlag] = newPregType;

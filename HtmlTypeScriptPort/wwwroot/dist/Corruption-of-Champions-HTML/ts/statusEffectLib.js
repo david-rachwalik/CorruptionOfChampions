@@ -113,6 +113,8 @@ class StatusEffectTypeContainer {
         this.TentagrappleCooldown = new StatusEffectType("TentagrappleCooldown");
         this.ShowerDotEffect = new StatusEffectType("ShowerDotEffect");
         this.VineHealUsed = new StatusEffectType("VineHealUsed");
+        this.TentacleCoolDown = new StatusEffectType("TentacleCoolDown");
+        this.GooStuffed = new StatusEffectType("GooStuffed");
     }
 }
 let StatusEffects = new StatusEffectTypeContainer();

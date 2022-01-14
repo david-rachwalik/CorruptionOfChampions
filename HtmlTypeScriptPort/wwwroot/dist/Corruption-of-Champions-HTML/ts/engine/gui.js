@@ -1,9 +1,27 @@
 import { liveData } from "../globalVariables";
 import { UTIL } from "./utils";
 // This code holds the positioning of the GUI display. The look of the display is handled through the CSS file.
-// This holds some of the most important code for the engine of the game. It turns the buttons on and off, sets their labels and tool tips
+// This holds some of the most important code for the engine of the game. It turns the buttons on and off, sets their labels and tooltips
 // and tells the program which function to go to next.
 class GUI {
+    /**
+     * This will clear the text on screen.
+     */
+    static clearOutput() {
+        const maintext = document.getElementById("maintext");
+        if (maintext) {
+            maintext.innerHTML = "";
+        }
+    }
+    /**
+     * This will output a text on screen.
+     */
+    static outputText(text) {
+        const maintext = document.getElementById("maintext");
+        if (maintext) {
+            maintext.innerHTML += text;
+        }
+    }
     static getMousePosition(event) {
         const tooltip = document.getElementById("tooltip");
         if (tooltip) {
@@ -252,10 +270,9 @@ class GUI {
             }
         }
     }
-    static addButton(pos, txt, func, arg1 = undefined, arg2 = undefined, arg3 = undefined, tooltipText = "", tooltipHeader = "") {
-        if (!tooltipHeader) {
+    static addButton(pos, txt, func = UTIL.nullFunc, arg1 = undefined, arg2 = undefined, arg3 = undefined, tooltipText = "", tooltipHeader = "") {
+        if (!tooltipHeader)
             tooltipHeader = txt;
-        }
         let callback = UTIL.createCallBackFunction(func, arg1, arg2, arg3);
         const buttonEl = document.getElementById("button" + pos);
         if (buttonEl) {
@@ -263,23 +280,22 @@ class GUI {
             buttonEl.style.visibility = "visible";
             //buttonEl.style.opacity = "1";
             buttonEl.onclick = callback;
-            // TODO: (DMR) uncomment below and see if there was ever a use for tooltipHeader & tooltipText
+            // TODO: (DMR) uncomment below and implement modern method for tooltipHeader & tooltipText
             // buttonEl.tooltipHeader = tooltipHeader
             // buttonEl.tooltipText = tooltipText
             // return buttonEl
         }
     }
     static addButtonDisabled(pos, txt, tooltipText = "", tooltipHeader = "") {
-        if (!tooltipHeader) {
+        if (!tooltipHeader)
             tooltipHeader = txt;
-        }
         const buttonEl = document.getElementById("button" + pos);
         if (buttonEl) {
             buttonEl.innerHTML = txt;
             buttonEl.style.visibility = "visible";
             //buttonEl.style.opacity = "0.4";
             buttonEl.onclick = null;
-            // TODO: (DMR) uncomment below and see if there was ever a use for tooltipHeader & tooltipText
+            // TODO: (DMR) uncomment below and implement modern method for tooltipHeader & tooltipText
             // buttonEl.tooltipHeader = tooltipHeader
             // buttonEl.tooltipText = tooltipText
         }

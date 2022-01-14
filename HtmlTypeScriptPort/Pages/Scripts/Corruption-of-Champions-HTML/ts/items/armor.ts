@@ -1,10 +1,12 @@
-import { IItem, Item } from "../itemClass"
+import { IItem, Item, ITEM_TYPE_ARMOUR } from "../itemClass"
 
 class ItemArmor {
     ComfortableClothes: IItem
     GelArmor: IItem
     BeeArmor: IItem
     LustyMaidenArmor: IItem
+    GooArmor: IItem
+    LethiciteArmor: IItem
 
     constructor() {
         this.ComfortableClothes = new Item("C.Cloth", "C.Cloth", "a set of comfortable clothes", ITEM_TYPE_ARMOUR)
@@ -32,6 +34,12 @@ class ItemArmor {
         //this.LustyMaidenArmor.value
         //this.LustyMaidenArmor.defense
         //this.LustyMaidenArmor.sexiness
+
+        this.GooArmor = new Item("GooArmor", "Goo Armor", "to be added", ITEM_TYPE_ARMOUR)
+        this.GooArmor.description = "To Be Added."
+
+        this.LethiciteArmor = new Item("LethiciteArmor", "Lethicite Armor", "to be added", ITEM_TYPE_ARMOUR)
+        this.LethiciteArmor.description = "To Be Added."
     }
 }
 

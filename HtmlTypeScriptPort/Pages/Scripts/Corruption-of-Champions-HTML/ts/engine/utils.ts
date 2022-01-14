@@ -121,11 +121,13 @@ abstract class UTIL {
     // }
 
     //Function
-    static createCallBackFunction(func: (...args: number[]) => void, ...args: number[]): (...args: number[]) => void {
+    static createCallBackFunction(func: (...args: any[]) => void, ...args: any[]): () => void {
         return function () {
             func(...args)
         }
     }
+
+    static nullFunc(): void {}
 }
 
 export { UTIL }

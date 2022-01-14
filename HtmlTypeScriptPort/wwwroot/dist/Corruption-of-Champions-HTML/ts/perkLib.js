@@ -20,9 +20,9 @@ class PerkTypeContainer {
         // EVENTS
         //------------
         //Jojo
-        this.ControlledBreath = new PerkType("ControlledBreath", "Controlled Breath", "Jojo’s training allows you to recover more quickly. Increases rate of fatigue regeneration by 10%.");
-        this.CleansingPalm = new PerkType("CleansingPalm", "Cleansing Palm", "A ranged fighting technique of Jojo’s order, allows you to blast your enemies with waves of pure spiritual energy, weakening them and hurting the corrupt.");
-        this.Enlightenment = new PerkType("Enlightenment", "Enlightenment", "Jojo’s tutelage has given you a master’s focus and you can feel the universe in all its glory spread out before you. You’ve finally surpassed your teacher.");
+        this.ControlledBreath = new PerkType("ControlledBreath", "Controlled Breath", "Jojo's training allows you to recover more quickly. Increases rate of fatigue regeneration by 10%.");
+        this.CleansingPalm = new PerkType("CleansingPalm", "Cleansing Palm", "A ranged fighting technique of Jojo's order, allows you to blast your enemies with waves of pure spiritual energy, weakening them and hurting the corrupt.");
+        this.Enlightenment = new PerkType("Enlightenment", "Enlightenment", "Jojo's tutelage has given you a master's focus and you can feel the universe in all its glory spread out before you. You've finally surpassed your teacher.");
         //Marble
         this.MarblesMilk = new PerkType("MarblesMilk", "Marble's Milk", "Add Marble's Milk perk description in perkLib.js");
         //Ovipositing
@@ -39,6 +39,19 @@ class PerkTypeContainer {
         this.Dragonfire = new PerkType("Dragonfire", "Dragonfire", "TO BE ADDED");
         this.SlimeCore = new PerkType("SlimeCore", "Slime Core", "TO BE ADDED");
         //----------
+        // History Perks
+        //---------
+        this.HistoryAlchemist = new PerkType("H.Alchemist", "Alchemist History", "TO BE ADDED");
+        this.HistoryFighter = new PerkType("H.Fighter", "Fighter History", "TO BE ADDED");
+        this.HistoryHealer = new PerkType("H.Healer", "Healer History", "TO BE ADDED");
+        this.HistoryReligious = new PerkType("H.Religious", "Religious History", "TO BE ADDED");
+        this.HistoryScholar = new PerkType("H.Scholar", "Scholar History", "TO BE ADDED");
+        this.HistorySlut = new PerkType("H.Slut", "Slut History", "TO BE ADDED");
+        this.HistorySlacker = new PerkType("H.Slacker", "Slacker History", "TO BE ADDED");
+        this.HistorySmith = new PerkType("H.Smith", "Smith History", "TO BE ADDED");
+        this.HistoryWhore = new PerkType("H.Whore", "Whore History", "TO BE ADDED");
+        this.HistoryFortune = new PerkType("H.Fortune", "Fortune History", "TO BE ADDED");
+        //----------
         // UNKNOWN
         //---------
         this.Misdirection = new PerkType("Misdirection", "Misdirection", "TO BE ADDED");
@@ -47,7 +60,6 @@ class PerkTypeContainer {
         this.MinotaurCumResistance = new PerkType("MinoCumResist", "Minotaur Cum Resistance", "TO BE ADDED");
         this.MinotaurCumAddict = new PerkType("MinoCumAddict", "Minotaur Cum Addict", "TO BE ADDED");
         this.Masochist = new PerkType("Masochist", "Masochist", "TO BE ADDED");
-        this.HistoryAlchemist = new PerkType("H.Alchemist", "Alchemist History", "TO BE ADDED");
         this.TransformationResistance = new PerkType("T.Resist", "Transformation Resistance", "TO BE ADDED");
         this.Oviposition = new PerkType("Oviposit", "Oviposition", "TO BE ADDED");
         this.MessyOrgasms = new PerkType("MessyOrgasms", "Messy Orgasms", "TO BE ADDED");
@@ -75,7 +87,6 @@ class PerkTypeContainer {
         this.FerasBoonWideOpen = new PerkType("FerasBoonWideOpen", "Feras Boon Wide Open", "TO BE ADDED");
         this.FertilityMinus = new PerkType("FertilityMinus", "Fertility Minus", "TO BE ADDED");
         this.FertilityPlus = new PerkType("FertilityPlus", "Fertility Plus", "TO BE ADDED");
-        this.HistorySlut = new PerkType("HistorySlut", "History Slut", "TO BE ADDED");
         this.ImmovableObject = new PerkType("ImmovableObject", "Immovable Object", "TO BE ADDED");
         this.LungingAttacks = new PerkType("LungingAttacks", "Lunging Attacks", "TO BE ADDED");
         this.LustyRegeneration = new PerkType("LustyRegeneration", "Lusty Regeneration", "TO BE ADDED");
@@ -90,6 +101,21 @@ class PerkTypeContainer {
         this.PilgrimsBounty = new PerkType("PilgrimsBounty", "Pilgrims Bounty", "TO BE ADDED");
         this.SatyrSexuality = new PerkType("SatyrSexuality", "Satyr Sexuality", "TO BE ADDED");
         this.WetPussy = new PerkType("WetPussy", "Wet Pussy", "TO BE ADDED");
+        this.BloodMage = new PerkType("BloodMage", "Blood Mage", "TO BE ADDED");
+        this.SpeedyRecovery = new PerkType("SpeedyRecovery", "Speedy Recovery", "TO BE ADDED");
+        this.EnlightenedNinetails = new PerkType("Enlightened Ninetails", "EnlightenedNinetails", "TO BE ADDED");
+        this.CorruptedNinetails = new PerkType("CorruptedNinetails", "Corrupted Ninetails", "TO BE ADDED");
+        // TODO: verify: called in CombatTeases but not originally defined
+        this.Seduction = new PerkType("Seduction", "Seduction", "TO BE ADDED");
+        this.SluttySeduction = new PerkType("SluttySeduction", "Slutty Seduction", "TO BE ADDED");
+        this.BimboBody = new PerkType("BimboBody", "Bimbo Body", "TO BE ADDED");
+        this.FutaForm = new PerkType("FutaForm", "Futa Form", "TO BE ADDED");
+        this.SensualLover = new PerkType("SensualLover", "Sensual Lover", "TO BE ADDED");
+        this.BroodMother = new PerkType("BroodMother", "Brood Mother", "TO BE ADDED");
+        this.BulgeArmor = new PerkType("BulgeArmor", "Bulge Armor", "TO BE ADDED");
+        this.BroBrains = new PerkType("BroBrains", "Bro Brains", "TO BE ADDED");
+        this.BigClit = new PerkType("BigClit", "Big Clit", "TO BE ADDED");
+        this.Enlightened = new PerkType("Enlightened", "Enlightened", "TO BE ADDED");
     }
 }
 let PerkLib = new PerkTypeContainer();
