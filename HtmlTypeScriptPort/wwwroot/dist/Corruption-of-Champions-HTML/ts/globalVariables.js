@@ -4,7 +4,7 @@ import { Creature } from "./creature";
 import { Amily } from "./scenes/npcs/amily";
 import { FLAG } from "./flags/dataFlags";
 import { Tamani } from "./scenes/areas/forest/tamani";
-import { PregnancyProgression } from "./pregnancyProgression";
+// import { PregnancyProgression } from "./pregnancyProgression"
 import { SandWitch } from "./scenes/areas/desert/sandWitch";
 class Exploration {
     constructor() {
@@ -50,7 +50,7 @@ class GameContext {
         //let flags = [0] * 3000; //For legacy purposes only.
         // let gameFlags = []
         this.gameFlags = {};
-        this.pregnancyProgression = new PregnancyProgression();
+        // this.pregnancyProgression = new PregnancyProgression()
         this.amily = new Amily(); // Used for Pregnancy tracking
         // Add a pregnancy event array NEW CODE
         this.amily.eventFill(FLAG.INCUBATION_AMILY_EVENT);

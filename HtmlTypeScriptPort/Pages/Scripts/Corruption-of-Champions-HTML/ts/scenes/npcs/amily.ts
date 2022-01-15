@@ -4794,7 +4794,7 @@ abstract class AmilyScene {
             liveData.gameFlags[FLAG.AMILY_NOT_FURRY] == 0 &&
             liveData.gameFlags[FLAG.AMILY_OFFERED_DEFURRY] == 1 &&
             liveData.player.hasItem(Items.Consumables.GoldenSeed) &&
-            (liveData.player.hasItem(Items.Consumables.LBlackEgg) || liveData.player.hasItem(Items.Consumables.BlackEgg)) &&
+            (liveData.player.hasItem(Items.Consumables.LargeBlackEgg) || liveData.player.hasItem(Items.Consumables.BlackEgg)) &&
             (liveData.player.hasItem(Items.Consumables.SuccubiMilkPurified) || (this.amilyCorrupt() == true && liveData.player.hasItem(Items.Consumables.SuccubiMilk))) == true
         )
     }
@@ -4806,7 +4806,7 @@ abstract class AmilyScene {
 
         liveData.player.destroyItems(Items.Consumables.GoldenSeed, 1)
         if (liveData.player.hasItem(Items.Consumables.BlackEgg)) liveData.player.destroyItems(Items.Consumables.BlackEgg, 1)
-        else liveData.player.destroyItems(Items.Consumables.LBlackEgg, 1)
+        else liveData.player.destroyItems(Items.Consumables.LargeBlackEgg, 1)
         if (this.amilyCorrupt()) {
             if (liveData.player.hasItem(Items.Consumables.SuccubiMilk)) liveData.player.destroyItems(Items.Consumables.SuccubiMilk, 1)
             else liveData.player.destroyItems(Items.Consumables.SuccubiMilkPurified)

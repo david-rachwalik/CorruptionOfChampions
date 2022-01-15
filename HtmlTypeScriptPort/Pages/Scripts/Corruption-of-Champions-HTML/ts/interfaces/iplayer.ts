@@ -71,7 +71,7 @@ interface IPlayer extends ICreature {
     clearStatuses: () => void
     setFurColor: (colorArray: string[]) => void
     goIntoRut: () => boolean
-    goIntoHeat: () => boolean
+    goIntoHeat: (a: boolean) => boolean
     slimeFeed: () => void
     refillHunger: (amount: number) => void
     damageHunger: (amount: number) => void

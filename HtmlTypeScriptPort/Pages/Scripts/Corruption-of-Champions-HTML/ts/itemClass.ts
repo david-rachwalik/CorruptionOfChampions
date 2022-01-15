@@ -1,7 +1,7 @@
 import { GUI } from "./engine/gui"
 import { UTIL } from "./engine/utils"
 import { liveData } from "./globalVariables"
-import { ItemArmor } from "./items/armor"
+import { ItemArmor, ItemUndergarments } from "./items/armor"
 import { ItemConsumables } from "./items/consumables"
 import { ItemMaterials } from "./items/materials"
 import { ItemWeapon } from "./items/weapons"
@@ -149,6 +149,7 @@ class ItemContainer {
     Armor: ItemArmor
     Weapons: ItemWeapon
     Consumables: ItemConsumables
+    Undergarments: ItemUndergarments
 
     constructor() {
         this.NOTHING = new Item("Nothing", "NOTHING!", "nothing", ITEM_TYPE_MATERIAL)
@@ -163,6 +164,7 @@ class ItemContainer {
         this.Armor = new ItemArmor()
         this.Weapons = new ItemWeapon()
         this.Consumables = new ItemConsumables()
+        this.Undergarments = new ItemUndergarments()
     }
 }
 let Items = new ItemContainer()

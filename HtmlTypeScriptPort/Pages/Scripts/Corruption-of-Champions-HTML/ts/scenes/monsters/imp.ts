@@ -413,7 +413,7 @@ abstract class ImpScene {
             //Taking it internal is more corruptive!
             liveData.player.modStats(["cor", 1])
             //Preggers chance!
-            liveData.player.knockUp(FLAG.PREGNANCY_IMP, FLAG.INCUBATION_IMP)
+            // liveData.player.knockUp(FLAG.PREGNANCY_IMP, FLAG.INCUBATION_IMP)
             liveData.player.cuntChange(liveData.monster.cockArea(0), true, true, false)
         }
         liveData.player.orgasm()
@@ -683,7 +683,7 @@ abstract class ImpScene {
         //PREGGERS CHANCE HERE - unfinished
         //{{Player has a cunt}}
         liveData.player.slimeFeed() // Check this function
-        liveData.player.knockUp(FLAG.PREGNANCY_IMP, FLAG.INCUBATION_IMP)
+        // liveData.player.knockUp(FLAG.PREGNANCY_IMP, FLAG.INCUBATION_IMP)
         GUI.outputText(
             "As the imp lays beaten its hands stroke its " +
                 liveData.monster.cockDescriptShort(0) +
@@ -1281,7 +1281,7 @@ abstract class ImpScene {
             GUI.outputText(
                 "With a sigh, he pulls his dick free, and you flop down, cum leaking out onto the ground from your well-fucked hole. If you could, like, focus at all, you'd totally be worrying about being, like, pregnant or whatever. But you lose consciousness."
             )
-            liveData.player.knockUp(FLAG.PREGNANCY_IMP, FLAG.INCUBATION_IMP - 14) //Bigger imp means faster pregnancy
+            // liveData.player.knockUp(FLAG.PREGNANCY_IMP, FLAG.INCUBATION_IMP - 14) //Bigger imp means faster pregnancy
 
             liveData.player.orgasm()
             liveData.player.modStats(["lib", 1], ["sen", 1], ["cor", 1])
@@ -1361,7 +1361,7 @@ abstract class ImpScene {
                         else GUI.outputText("You hope you don't become pregnant, but promptly lose consciousness before you can contemplate the prospect any further.")
                     }
                 }
-                liveData.player.knockUp(FLAG.PREGNANCY_IMP, FLAG.INCUBATION_IMP - 14) //Bigger imp means faster pregnancy
+                // liveData.player.knockUp(FLAG.PREGNANCY_IMP, FLAG.INCUBATION_IMP - 14) //Bigger imp means faster pregnancy
                 liveData.player.modStats(["lib", 1], ["sen", 1], ["lus", 1], ["cor", 1])
             }
             //Male or genderless

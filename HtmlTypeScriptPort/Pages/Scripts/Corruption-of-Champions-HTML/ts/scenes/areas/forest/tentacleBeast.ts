@@ -488,7 +488,7 @@ abstract class TentacleBeastScene {
             return
         }
         //{ has cock, huge cum amount: (ends scene)
-        if (liveData.player.hasCock() && liveData.player.cumQ >= 1500) {
+        if (liveData.player.hasCock() && liveData.player.cumQ() >= 1500) {
             GUI.outputText("You continue to pump more and more baby batter into the monster until, much to your surprise, it overwhelms the beast and comes surging back out to coat your ")
             if (liveData.player.balls > 0) GUI.outputText(liveData.player.sackDescript() + " and ")
             GUI.outputText(

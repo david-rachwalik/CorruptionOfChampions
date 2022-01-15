@@ -115,6 +115,9 @@ class StatusEffectTypeContainer {
         this.VineHealUsed = new StatusEffectType("VineHealUsed");
         this.TentacleCoolDown = new StatusEffectType("TentacleCoolDown");
         this.GooStuffed = new StatusEffectType("GooStuffed");
+        this.NakedOn = new StatusEffectType("NakedOn");
+        this.Kelt = new StatusEffectType("Kelt");
+        this.KeltBJ = new StatusEffectType("KeltBJ");
     }
 }
 let StatusEffects = new StatusEffectTypeContainer();

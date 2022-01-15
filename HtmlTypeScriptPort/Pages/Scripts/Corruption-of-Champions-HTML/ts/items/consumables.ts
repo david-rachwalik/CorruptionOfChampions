@@ -21,7 +21,7 @@ class ItemConsumables {
     LaBova: IItem
     Lactaid: IItem
     MinotaurBlood: IItem
-    MinotaurCum: IItem
+    MinoCum: IItem
     PigTruffle: IItem
     PureHoney: IItem
     Reptilum: IItem
@@ -89,7 +89,7 @@ class ItemConsumables {
     // EGGS
     //-------------
     BlackEgg: IItem
-    LBlackEgg: IItem
+    LargeBlackEgg: IItem
 
     constructor() {
         //------------
@@ -160,10 +160,10 @@ class ItemConsumables {
         this.MinotaurBlood.description = "You've got a scratched up looking vial full of bright red minotaur blood.  Any time you move it around it seems to froth up, as if eager to escape."
         this.MinotaurBlood.consumeEffect = TransformationEffects.minotaurTFs
 
-        this.MinotaurCum = new Item("M.Cum", "MinoCum", "a sealed bottle of minotaur cum", ITEM_TYPE_CONSUMABLE)
-        this.MinotaurCum.description = "This bottle of minotaur cum looks thick and viscous.  You know it has narcotic properties, but aside from that its effects are relatively unknown."
-        this.MinotaurCum.consumeEffect = UTIL.createCallBackFunction(ConsumableEffects.minotaurCum, false)
-        this.MinotaurCum.value = 60
+        this.MinoCum = new Item("M.Cum", "MinoCum", "a sealed bottle of minotaur cum", ITEM_TYPE_CONSUMABLE)
+        this.MinoCum.description = "This bottle of minotaur cum looks thick and viscous.  You know it has narcotic properties, but aside from that its effects are relatively unknown."
+        this.MinoCum.consumeEffect = UTIL.createCallBackFunction(ConsumableEffects.minotaurCum, false)
+        this.MinoCum.value = 60
 
         this.PigTruffle = new Item("PigTruf", "Pig Truffle", "a pigtail truffle", ITEM_TYPE_CONSUMABLE)
         this.PigTruffle.description = "It's clear where this fungus gets its name. A small, curly sprig resembling a pig's tail can be seen jutting out of it."
@@ -327,7 +327,7 @@ class ItemConsumables {
         // Needed for Amily transformation code to work. Flesh out when we can obtain the items.
         this.BlackEgg = new Item("BlEgg", "Black Egg", "a black egg", ITEM_TYPE_CONSUMABLE)
 
-        this.LBlackEgg = new Item("LBlEgg", "L.Black Egg", "a large black egg", ITEM_TYPE_CONSUMABLE)
+        this.LargeBlackEgg = new Item("LBlEgg", "L.Black Egg", "a large black egg", ITEM_TYPE_CONSUMABLE)
     }
 }
 

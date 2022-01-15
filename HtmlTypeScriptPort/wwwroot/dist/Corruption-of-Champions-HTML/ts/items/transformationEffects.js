@@ -2151,7 +2151,11 @@ class TransformationEffects {
                             liveData.player.ballsDescriptLight() +
                             " have grown larger than a human's.");
                     if (liveData.player.ballSize > 2)
-                        GUI.outputText("<br><br>A sudden onset of heat envelops your groin, focusing on your " + liveData.player.sackDescript() + ". Walking becomes difficult as you discover your " + player.ballsDescriptLight() + " have enlarged again.");
+                        GUI.outputText("<br><br>A sudden onset of heat envelops your groin, focusing on your " +
+                            liveData.player.sackDescript() +
+                            ". Walking becomes difficult as you discover your " +
+                            liveData.player.ballsDescriptLight() +
+                            " have enlarged again.");
                     liveData.player.modStats(["lib", 1], ["lus", 3]);
                 }
                 changes++;
@@ -2870,7 +2874,7 @@ class TransformationEffects {
                     temp3 -= 0.5;
                 }
                 temp3 += liveData.player.increaseCock(0, (UTIL.rand(3) + 1) * -1);
-                liveData.player.cocks[0].lengthChange(temp3, 1);
+                liveData.player.lengthChange(temp3, 1);
             }
         }
         //------------
@@ -2907,7 +2911,9 @@ class TransformationEffects {
         }
         //REMOVAL STUFF
         //Removes wings and antennaes!
-        if (changes < changeLimit && UTIL.rand(4) == 0 && (liveData.player.wingType == ENUM.WingType.WING_TYPE_BEE_LIKE_SMALL || liveData.player.wingType == ENUM.WingType.WING_TYPE_BEE_LIKE_LARGE || player.wingType >= WING_TYPE_HARPY)) {
+        if (changes < changeLimit &&
+            UTIL.rand(4) == 0 &&
+            (liveData.player.wingType == ENUM.WingType.WING_TYPE_BEE_LIKE_SMALL || liveData.player.wingType == ENUM.WingType.WING_TYPE_BEE_LIKE_LARGE || liveData.player.wingType >= ENUM.WingType.WING_TYPE_HARPY)) {
             if (liveData.player.wingType == ENUM.WingType.WING_TYPE_SHARK_FIN)
                 GUI.outputText("<br><br>Your back tingles, feeling lighter. Something lands behind you with a 'thump', and when you turn to look, you see your fin has fallen off. This might be the best (and worst) booze you've ever had! <b>You no longer have a fin!</b>");
             else
@@ -3457,7 +3463,7 @@ class TransformationEffects {
                 liveData.player.skinTone = "red";
             else
                 liveData.player.skinTone = "orange";
-            GUI.outputText("begins to lose its color, fading until you're as white as an albino. Then, starting at the crown of your head, a reddish hue rolls down your body in a wave, turning you completely " + player.skinTone + ".");
+            GUI.outputText("begins to lose its color, fading until you're as white as an albino. Then, starting at the crown of your head, a reddish hue rolls down your body in a wave, turning you completely " + liveData.player.skinTone + ".");
             changes++;
         }
         liveData.gameFlags[FLAG.TIMES_TRANSFORMED] += changes;
@@ -4140,7 +4146,7 @@ class TransformationEffects {
     }
     static harpyTFs(type) {
         //I think these are old debugging variables
-        //let tfSource = "goldenSeed";
+        // let tfSource = "goldenSeed";
         //if (player.findPerk(PerkLib.HarpyWomb) >= 0) tfSource += "-HarpyWomb";
         //'type' refers to the variety of seed.
         //0 == standard.
@@ -4277,7 +4283,7 @@ class TransformationEffects {
                             GUI.outputText("dripping milk inside ");
                         else
                             GUI.outputText("rubbing inside ");
-                        GUI.outputText("your " + liveData.player.armor.equipmentName + " shocks you from the dream, leaving you with nothing but the moistness of your loins for company. Maybe next year you'll find the mate of your dreams?", false);
+                        GUI.outputText("your " + liveData.player.armor.equipmentName + " shocks you from the dream, leaving you with nothing but the moistness of your loins for company. Maybe next year you'll find the mate of your dreams?");
                     }
                     //(female 2)
                     else {
@@ -4716,7 +4722,7 @@ class TransformationEffects {
         }
         //Restore arms to become human arms again
         if (UTIL.rand(4) == 0)
-            this.restoreArms(tfSource);
+            this.restoreArms();
         //+hooves
         if (liveData.player.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED) {
             if (changes < changeLimit && UTIL.rand(3) == 0) {
@@ -4855,9 +4861,9 @@ class TransformationEffects {
                     temp += liveData.player.cocks[selectedCock].thickenCock(1);
                     //Comment on length changes
                     if (temp > 6)
-                        GUI.outputText("<br><br>Gasping in sudden pleasure, your " + liveData.player.cockDescript(selectedCock) + " surges free of its sheath, emerging with over half a foot of new dick-flesh.", false);
+                        GUI.outputText("<br><br>Gasping in sudden pleasure, your " + liveData.player.cockDescript(selectedCock) + " surges free of its sheath, emerging with over half a foot of new dick-flesh.");
                     if (temp <= 6 && temp >= 3)
-                        GUI.outputText("<br><br>You pant in delight as a few inches of " + liveData.player.cockDescript(selectedCock) + " pop free from your sheath, the thick new horse-flesh still slick and sensitive.", false);
+                        GUI.outputText("<br><br>You pant in delight as a few inches of " + liveData.player.cockDescript(selectedCock) + " pop free from your sheath, the thick new horse-flesh still slick and sensitive.");
                     if (temp < 3)
                         GUI.outputText("<br><br>Groaning softly, you feel a pleasurable change in your groin.  Looking down, you see [oneCock] grow slightly longer.");
                     //Add a blurb about thickness...
@@ -4916,7 +4922,7 @@ class TransformationEffects {
         }
         //Males go into rut
         if (UTIL.rand(4) == 0) {
-            liveData.player.goIntoRut(true);
+            liveData.player.goIntoRut();
         }
         //Anti-masturbation status
         if (UTIL.rand(4) == 0 && changes < changeLimit && liveData.player.findStatusEffect(StatusEffects.Dysfunction) < 0) {
@@ -5005,7 +5011,7 @@ class TransformationEffects {
                         if (UTIL.rand(2) == 0 && changes < changeLimit) {
                             GUI.outputText("  Your headache clears as lust washes through you unnaturally.  You feel as if you haven't cum in months.");
                             liveData.player.hoursSinceCum += 200;
-                            liveData.player.dynStats(20);
+                            // liveData.player.dynStats(20)
                         }
                         changes++;
                     }
@@ -5207,7 +5213,7 @@ class TransformationEffects {
         //Set up changes and changeLimit
         let changes = 0;
         let changeLimit = 1;
-        //let tfSource = "gooGasmic";
+        let tfSource = "gooGasmic";
         GUI.outputText("You take the wet cloth in hand and rub it over your body, smearing the strange slime over your " + liveData.player.skinDesc + " slowly.");
         //Stat changes
         //libido up to 80
@@ -5295,10 +5301,12 @@ class TransformationEffects {
                 GUI.outputText("<br><br>You sigh, suddenly feeling your fur become hot and wet.  You look down as your " +
                     liveData.player.armor.equipmentName +
                     " sinks partway into you.  With a start you realize your fur has melted away, melding into the slime-like coating that now serves as your skin.  You've become partly liquid and incredibly gooey!");
-            else if (liveData.player.hasScales())
-                GUI.outputText("<br><br>You sigh, feeling slippery wetness over your scales.  You reach to scratch it and come away with a slippery wet coating.  Your scales have transformed into a slimy goop!  Looking closer, you realize your entire body has become far more liquid in nature, and is semi-solid.  Your " +
-                    liveData.player.armor.equipmentName +
-                    " has even sunk partway into you.");
+            // else if (liveData.player.hasScales())
+            //     GUI.outputText(
+            //         "<br><br>You sigh, feeling slippery wetness over your scales.  You reach to scratch it and come away with a slippery wet coating.  Your scales have transformed into a slimy goop!  Looking closer, you realize your entire body has become far more liquid in nature, and is semi-solid.  Your " +
+            //             liveData.player.armor.equipmentName +
+            //             " has even sunk partway into you."
+            //     )
             liveData.player.skinType = ENUM.SkinType.SKIN_TYPE_GOO;
             liveData.player.skinDesc = "skin";
             liveData.player.skinAdj = "slimy";
@@ -5827,7 +5835,7 @@ class TransformationEffects {
         liveData.player.clawTone = clawTone;
         return oldClawTone;
     }
-    static restoreArms(tfSource) {
+    static restoreArms(tfSource = "") {
         //Set up changes and changeLimit
         let changes = 0;
         let changeLimit = 1;

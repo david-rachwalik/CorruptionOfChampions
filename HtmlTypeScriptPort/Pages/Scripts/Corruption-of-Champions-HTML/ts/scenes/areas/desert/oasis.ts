@@ -145,7 +145,7 @@ class DemonPack extends Creature {
         }
         //Determine if evaded
         else if (liveData.player.findPerk(PerkLib.Evade) >= 0 && UTIL.rand(100) < 10) {
-            GUI.outputText("Using your skills at evading attacks, you anticipate and sidestep " + liveData.monster.a + liveData.monster.short + "' attacks.")
+            GUI.outputText("Using your skills at evading attacks, you anticipate and sidestep " + liveData.monster.a + liveData.monster.name + "' attacks.")
         }
         //("Misdirection"
         else if (liveData.player.findPerk(PerkLib.Misdirection) >= 0 && UTIL.rand(100) < 15 && liveData.player.armor.equipmentName == "red, high-society bodysuit") {
@@ -163,7 +163,7 @@ class DemonPack extends Creature {
             } else {
                 if (temp <= 5) GUI.outputText("You are struck a glancing blow by " + liveData.monster.a + liveData.monster.name + "! ")
                 else if (temp <= 10) GUI.outputText(liveData.monster.a + liveData.monster.name + " wound you! ")
-                else if (temp <= 20) GUI.outputText(liveData.monster.a + liveData.monster.name + " stagger you with the force of " + liveData.monster.pronoun3 + " " + liveData.monster.weapon.verb + "s! ")
+                // else if (temp <= 20) GUI.outputText(liveData.monster.a + liveData.monster.name + " stagger you with the force of " + liveData.monster.pronoun3 + " " + liveData.monster.weapon.verb + "s! ")
                 else GUI.outputText(liveData.monster.a + liveData.monster.name + " <b>mutilates</b> you with powerful fists and " + liveData.monster.weapon.verb + "s! ")
                 liveData.player.changeHP(-temp, true)
             }
@@ -391,7 +391,7 @@ abstract class OasisScene {
             //IZ OVER! NEWLINE BITCH
             GUI.outputText("<br><br>")
             //Preggers chance!
-            liveData.player.knockUp(FLAG.PREGNANCY_IMP, FLAG.INCUBATION_IMP, 90) // TODO Check this. May be time to implement rest of pregnancy.
+            // liveData.player.knockUp(FLAG.PREGNANCY_IMP, FLAG.INCUBATION_IMP, 90) // TODO Check this. May be time to implement rest of pregnancy.
         }
         //Buttbutt buuuuuttt
         if (liveData.player.gender > 0) GUI.outputText("However, the demons are interested in every part of you, not just your crotch.  ")
@@ -438,15 +438,15 @@ abstract class OasisScene {
             )
         }
         //If you got here by winning combat!
-        if ((liveData.monster.HP < 1 || liveData.monster.lust >= liveData.monster.eMaxLust()) && COMBAT.inCombat()) {
-            GUI.outputText(
-                "You fuck and fuck until not a single demon is capable of servicing your needs. They lie moaning and panting at the edge of the oasis, unable to move. You survey the fallen fiends with just a touch of pride and a whole lot of satisfaction, your body feeling stronger for the endurance exercise."
-            )
-            COMBAT.cleanupAfterCombat()
-            liveData.player.orgasm()
-            liveData.player.dynStats(["cor", 1.5])
-            return
-        }
+        // if ((liveData.monster.HP < 1 || liveData.monster.lust >= liveData.monster.eMaxLust()) && COMBAT.inCombat()) {
+        //     GUI.outputText(
+        //         "You fuck and fuck until not a single demon is capable of servicing your needs. They lie moaning and panting at the edge of the oasis, unable to move. You survey the fallen fiends with just a touch of pride and a whole lot of satisfaction, your body feeling stronger for the endurance exercise."
+        //     )
+        //     COMBAT.cleanupAfterCombat()
+        //     liveData.player.orgasm()
+        //     liveData.player.dynStats(["cor", 1.5])
+        //     return
+        // }
         //If you got here by losing combat!
         else if ((liveData.player.HP < 1 || liveData.player.lust >= liveData.player.maxLust()) && COMBAT.inCombat()) {
             //►Oasis Demons Defeat PC as part of antm

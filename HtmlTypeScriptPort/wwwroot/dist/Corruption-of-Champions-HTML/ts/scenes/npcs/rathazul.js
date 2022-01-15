@@ -7,6 +7,7 @@ import { PerkLib } from "../../perkLib";
 import { Inventory } from "../inventory";
 import { Camp } from "../camp";
 import { FLAG } from "../../flags/dataFlags";
+import { KeyItems } from "../../keyItemLib";
 Data.addToGameFlags(FLAG.RATHAZUL_MET, FLAG.RATHAZUL_CAMP, FLAG.RATHAZUL_PURCHASE_COUNTER, FLAG.RATHAZUL_ARMOUR_COUNTER);
 class RathazulScene {
     static encounterRathazul() {
@@ -169,7 +170,7 @@ class RathazulScene {
             GUI.outputText("\"<i>Oooh, is that dragon scale? If you happen to have five of these, I can work them into armor,</i>\" Rathazul says.<br><br>");
         }*/
         //Marae bark armor
-        if (liveData.player.hasKeyItem("Tentacled Bark Plates") >= 0 || liveData.player.hasKeyItem("Divine Bark Plates") >= 0)
+        if (liveData.player.hasKeyItem(KeyItems.TentacledBarkPlates) >= 0 || liveData.player.hasKeyItem(KeyItems.DivineBarkPlates) >= 0)
             showArmorMenu = true;
         //Item purification offer
         let pCounter = 0;
@@ -243,11 +244,11 @@ class RathazulScene {
                 GUI.outputText("<br><br>");
             }
             //Purification potion for Minerva
-            if (flags[MINERVA_PURIFICATION_RATHAZUL_TALKED] == 2 && flags[MINERVA_PURIFICATION_PROGRESS] < 10 && player.hasKeyItem("Rathazul's Purity Potion") < 0) {
+            if (flags[MINERVA_PURIFICATION_RATHAZUL_TALKED] == 2 && flags[MINERVA_PURIFICATION_PROGRESS] < 10 && player.hasKeyItem(KeyItems.RathazulsPurityPotion) < 0) {
                 GUI.outputText("The rodent alchemist suddenly looks at you in a questioning manner. \"<i>Have you had any luck finding those items? I need pure honey and at least two samples of other purifiers; your friend’s spring may grow the items you need.</i>\"");
                 GUI.outputText("<br><br>");
             }*/
-            if (liveData.player.hasItem(Items.Consumables.Lactaid, 5) && liveData.player.hasItem(Items.Consumables.PureLaBova, 2)) {
+            if (liveData.player.hasItem(Items.Consumables.Lactaid, 5) && liveData.player.hasItem(Items.Consumables.LaBova, 2)) {
                 GUI.outputText('The rodent sniffs your possessions. "<i>You know, I could make something with five bottles of Lactaid and two bottles of purified LaBova. I\'ll also need 250 gems.</i>"');
                 GUI.outputText("<br><br>");
             }
@@ -276,7 +277,7 @@ class RathazulScene {
             if (reductos) GUI.addButton(9, "Reducto", reductos);
 
             if (lethiciteDefense != null) GUI.addButton(10, "Lethicite", lethiciteDefense, null, null, null, "Ask him if he can make use of that lethicite you've obtained from Marae.");
-            if (player.hasItem(Items.Consumables.PureHoney, 1) && player.hasItem(Items.Consumables.CalmMint, 1) && player.hasItem(Items.Consumables.PurePeach, 1) && player.hasKeyItem("Rathazul's Purity Potion") < 0 &&(flags[MINERVA_PURIFICATION_RATHAZUL_TALKED] == 2 && flags[MINERVA_PURIFICATION_PROGRESS] < 10)) {
+            if (player.hasItem(Items.Consumables.PureHoney, 1) && player.hasItem(Items.Consumables.CalmMint, 1) && player.hasItem(Items.Consumables.PurePeach, 1) && player.hasKeyItem(KeyItems.RathazulsPurityPotion) < 0 &&(flags[MINERVA_PURIFICATION_RATHAZUL_TALKED] == 2 && flags[MINERVA_PURIFICATION_PROGRESS] < 10)) {
                 GUI.addButton(11, "Pure Potion", rathazulMakesPurifyPotion, null, null, null, "Ask him to brew a purification potion for Minerva.");
             }*/
             if (liveData.gameFlags[FLAG.RATHAZUL_CAMP] > 0)
@@ -306,10 +307,10 @@ class RathazulScene {
         if (player.hasItem(Items.Materials.DragonScale, 2)) {
             GUI.addButton(3, "Dragonscale", this.craftDragonscaleArmor);
         }
-        if (player.hasKeyItem("Tentacled Bark Plates") >= 0) {
+        if (player.hasKeyItem(KeyItems.TentacledBarkPlates) >= 0) {
             GUI.addButton(5, "T.Bark Armor", this.craftMaraeArmor, false);
         }
-        if (player.hasKeyItem("Divine Bark Plates") >= 0) {
+        if (player.hasKeyItem(KeyItems.DivineBarkPlates) >= 0) {
             GUI.addButton(6, "D.Bark Armor", this.craftMaraeArmor, true);
         }*/
         GUI.addButton(14, "Back", this.returnToRathazulMenu);
@@ -527,7 +528,7 @@ class RathazulScene {
         Inventory.takeItem(itype, this.returnToRathazulMenu);
     }
     //Marae's Bark Armour
-    static craftMaraeArmor(divine) {
+    static craftMaraeArmor(divine = false) {
         GUI.clearOutput();
         if (!divine) {
             ////GUI.outputText(images.showImage("rathazul-craft-barkarmor-corrupt"));
@@ -542,7 +543,7 @@ class RathazulScene {
                 GUI.outputText("The silken material does little to hide the bulge of your groin, if anything it looks a little lewd. Rathazul mumbles and looks away, shaking his head.<br><br>");
             if (liveData.player.biggestTitSize() >= 8)
                 GUI.outputText("Your " + liveData.player.chestDesc() + " barely fit into the breastplate, leaving you displaying a large amount of jiggling cleavage.<br><br>");
-            liveData.player.removeKeyItem("Tentacled Bark Plates");
+            liveData.player.removeKeyItem(KeyItems.TentacledBarkPlates);
             Inventory.takeItem(Items.Armor.TentacledBarkArmor, this.returnToRathazulMenu);
         }
         else {
@@ -557,7 +558,7 @@ class RathazulScene {
                 GUI.outputText("The silken material does little to hide the bulge of your groin, if anything it looks a little lewd. Rathazul mumbles and looks away, shaking his head.<br><br>");
             if (liveData.player.biggestTitSize() >= 8)
                 GUI.outputText("Your " + liveData.player.chestDesc() + " barely fit into the breastplate, leaving you displaying a large amount of jiggling cleavage.<br><br>");
-            liveData.player.removeKeyItem("Divine Bark Plates");
+            liveData.player.removeKeyItem(KeyItems.DivineBarkPlates);
             Inventory.takeItem(Items.Armor.DivineBarkArmor, this.returnToRathazulMenu);
         }
     }
@@ -678,8 +679,8 @@ class RathazulScene {
         /*if (player.hasItem(Items.Consumables.LaBova)) {
             GUI.addButton(3, "LaBova", this.purifyItem, Items.Consumables.LaBova);
         }
-        if (player.hasItem(Items.Consumables.MinotaurCum)) {
-            GUI.addButton(4, "Minotaur Cum", this.purifyItem, Items.Consumables.MinotaurCum);
+        if (player.hasItem(Items.Consumables.MinoCum)) {
+            GUI.addButton(4, "Minotaur Cum", this.purifyItem, Items.Consumables.MinoCum);
         }*/
         GUI.addButton(14, "Back", this.rathazulWorkOffer);
     }
@@ -710,8 +711,8 @@ class RathazulScene {
                 liveData.player.destroyItems(Items.Consumables.LaBova, 1);
                 Inventory.takeItem(Items.Consumables.LaBovaPurified, this.returnToRathazulMenu);
                 break;
-            case Items.Consumables.MinotaurCum:
-                liveData.player.destroyItems(Items.Consumables.MinotaurCum, 1);
+            case Items.Consumables.MinoCum:
+                liveData.player.destroyItems(Items.Consumables.MinoCum, 1);
                 Inventory.takeItem(Items.Consumables.MinotaurCumPurified, this.returnToRathazulMenu);
                 break;*/
             default:
@@ -729,14 +730,14 @@ class RathazulScene {
     static rathazulMakesPurifyPotion() {
         GUI.clearOutput();
         liveData.player.destroyItems(Items.Consumables.PureHoney, 1);
-        liveData.player.destroyItems(Items.Consumables.CalmMint, 1);
-        liveData.player.destroyItems(Items.Consumables.PurePeach, 1);
+        // liveData.player.destroyItems(Items.Consumables.CalmMint, 1)
+        // liveData.player.destroyItems(Items.Consumables.PurePeach, 1)
         GUI.outputText("You hurry over to Rathazul, and tell him you have the items you think he needs. His eyes widen in shock as you show them to him, and he immediately snatches them from you without a word, hurrying over to his alchemical equipment. You watch, uncertain of what he’s doing, as he messes around with it, but within minutes he has produced a strange-looking potion that he brings back to you.");
         GUI.outputText('<br><br>"<i>Have her swallow this, and it should kill the parasite within her at the very least.</i>"');
         GUI.outputText("<br><br>You take it gratefully, but can't help asking what he means by 'should'.");
         GUI.outputText('<br><br>Rathazul shrugs helplessly. "<i>This formula is untested; its effects are unpredictable... But, surely it cannot make things worse?</i>"');
         GUI.outputText("<br><br>You concede he has a point and take the potion; all you need to do now is give it to Minerva and hope for the best.");
-        liveData.player.createKeyItem("Rathazul's Purity Potion", 0, 0, 0, 0);
+        liveData.player.createKeyItem(KeyItems.RathazulsPurityPotion, 0, 0, 0, 0);
         GUI.menu();
         GUI.addButton(0, "Next", this.returnToRathazulMenu);
     }
@@ -776,7 +777,7 @@ class RathazulScene {
         liveData.player.changeGems(-250);
         liveData.player.destroyItems(Items.Consumables.ScholarsTea, 5);
         liveData.gameFlags[FLAG.RATHAZUL_PURCHASE_COUNTER]++;
-        Inventory.takeItem(Items.Consumables.Debimbo, this.returnToRathazulMenu);
+        // Inventory.takeItem(Items.Consumables.Debimbo, this.returnToRathazulMenu)
     }
 }
 export { RathazulScene };

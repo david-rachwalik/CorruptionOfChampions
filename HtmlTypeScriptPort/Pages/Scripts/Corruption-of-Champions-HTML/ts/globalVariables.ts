@@ -7,7 +7,7 @@ import { ICreature } from "./interfaces/icreature"
 import { IItemSlot } from "./itemSlotClass"
 import { FLAG } from "./flags/dataFlags"
 import { Tamani } from "./scenes/areas/forest/tamani"
-import { PregnancyProgression } from "./pregnancyProgression"
+// import { PregnancyProgression } from "./pregnancyProgression"
 import { SandWitch } from "./scenes/areas/desert/sandWitch"
 
 interface IExploration {
@@ -64,7 +64,7 @@ interface IGameContext {
     time: Time
     exploration: IExploration
     gameFlags: { [key: string]: number }
-    pregnancyProgression: PregnancyProgression
+    // pregnancyProgression: PregnancyProgression
 
     amily: Amily
     tamanipreg: Tamani
@@ -109,7 +109,7 @@ class GameContext implements IGameContext {
     time: Time
     exploration: IExploration
     gameFlags: { [key: string]: number }
-    pregnancyProgression: PregnancyProgression
+    // pregnancyProgression: PregnancyProgression
 
     amily: Amily
     tamanipreg: Tamani
@@ -169,7 +169,7 @@ class GameContext implements IGameContext {
         //let flags = [0] * 3000; //For legacy purposes only.
         // let gameFlags = []
         this.gameFlags = {}
-        this.pregnancyProgression = new PregnancyProgression()
+        // this.pregnancyProgression = new PregnancyProgression()
 
         this.amily = new Amily() // Used for Pregnancy tracking
         // Add a pregnancy event array NEW CODE

@@ -13,6 +13,7 @@ import { Camp } from "../../camp"
 import { KeyItem, KeyItemType } from "../../../keyItemClass"
 import { KeyItems } from "../../../keyItemLib"
 import { PerkLib } from "../../../perkLib"
+import { Goblin } from "../../monsters/goblin"
 
 Data.addToGameFlags(
     FLAG.TAMANI_MET,
@@ -89,9 +90,9 @@ class Tamani extends Creature {
             case 0:
                 this.tamaniTeaseAttack() // If her hypnosis attack succeeds, this will divert to her special tease attack.
                 break
-            case 1:
-                Goblin.goblinDrugAttack() // Tamani is an extension of Goblin in the original code. Let's see if we can just refer to this attack and not cause a problem.
-                break
+            // case 1:
+            //     Goblin.goblinDrugAttack() // Tamani is an extension of Goblin in the original code. Let's see if we can just refer to this attack and not cause a problem.
+            //     break
             case 2:
                 this.tamaniHypnoTease() // She really likes the hypnosis thing.
                 break
@@ -104,7 +105,8 @@ class Tamani extends Creature {
     tamaniTeaseAttack() {
         if (liveData.gameFlags[FLAG.TAMANI_TIMES_HYPNOTIZED] > 0) {
             this.tamaniHypnoTease()
-        } else Goblin.goblinTeaseAttack()
+        }
+        // else Goblin.goblinTeaseAttack()
     }
 
     tamaniHypnoTease() {
@@ -535,7 +537,7 @@ abstract class TamaniScene {
         GUI.outputText("\n\nAt last, the bloated bitch slides into the gooey green puddle with a splash, freeing your ovipositor to retract.  She immediately begins snoring, clearly as satisfied as you.  What a strange creature.")
         liveData.gameFlags[FLAG.TIMES_OVIPOSITED_TAMANI]++
         //Don't encounter Tamani for 3 days if fertilized
-        if (liveData.player.fertilizedEggs() == 0) liveData.tamanipreg.knockUpForce(FLAG.PREGNANCY_DRIDER_EGGS, 72)
+        // if (liveData.player.fertilizedEggs() == 0) liveData.tamanipreg.knockUpForce(FLAG.PREGNANCY_DRIDER_EGGS, 72)
         liveData.player.dumpEggs()
         COMBAT.cleanupAfterCombat()
         liveData.player.orgasm()
@@ -1237,7 +1239,7 @@ abstract class TamaniScene {
             'The goblin leaves you with a warning, "<i>Be careful, it likes to leak aphrodisiacs like crazy.  Believe me, those are FUN to get addicted to.  Oh, and remember - Tamani owns all the cocks around here, so if you ever grow one, come pay your dues!</i>"<br><br>'
         )
         GUI.outputText("(<b>Deluxe Dildo acquired!</b>)")
-        liveData.player.createKeyItem("Deluxe Dildo", 0, 0, 0, 0)
+        // liveData.player.createKeyItem("Deluxe Dildo", 0, 0, 0, 0)
         GUI.doNext(Camp.returnToCampUseOneHour)
     }
 

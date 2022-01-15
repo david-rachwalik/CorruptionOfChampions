@@ -1,4 +1,4 @@
-import { KeyItemType } from "./keyItemClass"
+import { KeyItem, KeyItemType } from "./keyItemClass"
 
 class KeyItemTypeContainer {
     //Books
@@ -33,6 +33,10 @@ class KeyItemTypeContainer {
     TravelersGuide: KeyItemType
     DeluxeDildo: KeyItemType
     ANOnahole: KeyItemType
+    DivineBarkPlates: KeyItemType
+    TentacledBarkPlates: KeyItemType
+    RathazulsPurityPotion: KeyItemType
+    DangerousPlants: KeyItemType
 
     constructor() {
         //Books
@@ -73,6 +77,10 @@ class KeyItemTypeContainer {
         this.TravelersGuide = new KeyItemType("Traveler's Guide")
         this.DeluxeDildo = new KeyItemType("Deluxe Dildo")
         this.ANOnahole = new KeyItemType("All-Natural Onahole")
+        this.DivineBarkPlates = new KeyItemType("Divine Bark Plates")
+        this.TentacledBarkPlates = new KeyItemType("Tentacled Bark Plates")
+        this.RathazulsPurityPotion = new KeyItemType("Rathazul's Purity Potion")
+        this.DangerousPlants = new KeyItemType("Dangerous Plants")
     }
 }
 

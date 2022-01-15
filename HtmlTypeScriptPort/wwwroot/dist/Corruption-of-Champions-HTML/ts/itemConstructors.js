@@ -1,6 +1,6 @@
 import { Item, ITEM_TYPE_CONSUMABLE } from "./itemClass";
 import { UTIL } from "./engine/utils";
-import * as ConsumableEffects from "./items/consumableEffects";
+import { ConsumableEffects } from "./items/consumableEffects";
 function HairDye(dyeId, dyeColor) {
     var newItem = new Item(dyeId, dyeColor + " Dye", "a vial of " + dyeColor + " hair dye", ITEM_TYPE_CONSUMABLE);
     newItem.description = "This bottle of dye will allow you to change the color of your hair. Of course if you don't have hair, using this would be a waste.";

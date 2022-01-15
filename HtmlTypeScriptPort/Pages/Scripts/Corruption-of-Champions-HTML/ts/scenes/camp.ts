@@ -11,7 +11,7 @@ import { Data } from "../engine/saves"
 import { AreasGenericExploration } from "./exploration"
 import { Debug } from "../debug"
 import { Places } from "./places"
-import { JojoScene } from "./npcs/jojo"
+// import { JojoScene } from "./npcs/jojo"
 
 Data.addToGameFlags(FLAG.HAS_KEY_ITEM, FLAG.CAMP_WALL_PROGRESS)
 
@@ -37,7 +37,7 @@ abstract class Camp {
         // Display Special events
         CampEvents.checkEvents()
         // Display Pregnancy related events
-        liveData.pregnancyProgression.updatePregnancy() // Displays special messages before the main camp message prints.
+        // liveData.pregnancyProgression.updatePregnancy() // Displays special messages before the main camp message prints.
         /*if (isabellaFollower()) {
             GUI.outputText("Your campsite got a lot more comfortable once Isabella moved in.  Carpets cover up much of the barren ground, simple awnings tied to the rocks provide shade, and hand-made wooden furniture provides comfortable places to sit and sleep.  ", false);
         }
@@ -114,7 +114,7 @@ abstract class Camp {
         GUI.clearOutput()
         GUI.displaySprite()
         GUI.menu()
-        if (liveData.gameFlags[FLAG.JOJO_CAMP] == 1) GUI.addButton(0, "Jojo", JojoScene.jojoCamp, null, null, null, "Go find Jojo around the edges of your camp and meditate with him or talk about watch duty.")
+        // if (liveData.gameFlags[FLAG.JOJO_CAMP] == 1) GUI.addButton(0, "Jojo", JojoScene.jojoCamp, null, null, null, "Go find Jojo around the edges of your camp and meditate with him or talk about watch duty.")
         if (liveData.gameFlags[FLAG.RATHAZUL_CAMP] > 0) GUI.addButton(1, "Rathazul", RathazulScene.campRathazul, null, null, null, "Visit with Rathazul to see what alchemical supplies and services he has available at the moment.")
         GUI.addButton(14, "Back", this.doCamp)
     }
@@ -129,8 +129,8 @@ abstract class Camp {
         GUI.clearOutput()
         GUI.displaySprite()
         GUI.menu()
-        if (liveData.gameFlags[FLAG.JOJO_CAMP] == 2)
-            GUI.addButton(0, "Jojo", JojoScene.jojoCampCorrupt, null, null, null, "Call your corrupted pet into camp in order to relieve your desires in a variety of sexual positions? He's ever so willing after your last encounter with him.")
+        // if (liveData.gameFlags[FLAG.JOJO_CAMP] == 2)
+        //     GUI.addButton(0, "Jojo", JojoScene.jojoCampCorrupt, null, null, null, "Call your corrupted pet into camp in order to relieve your desires in a variety of sexual positions? He's ever so willing after your last encounter with him.")
         GUI.addButton(14, "Back", this.doCamp)
     }
 

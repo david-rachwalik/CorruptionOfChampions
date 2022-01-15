@@ -113,6 +113,7 @@ class PerkTypeContainer {
     BroBrains: PerkType
     BigClit: PerkType
     Enlightened: PerkType
+    MarbleResistant: PerkType
 
     constructor() {
         //------------
@@ -250,6 +251,7 @@ class PerkTypeContainer {
         this.BroBrains = new PerkType("BroBrains", "Bro Brains", "TO BE ADDED")
         this.BigClit = new PerkType("BigClit", "Big Clit", "TO BE ADDED")
         this.Enlightened = new PerkType("Enlightened", "Enlightened", "TO BE ADDED")
+        this.MarbleResistant = new PerkType("MarbleResistant", "Marble Resistant", "TO BE ADDED")
     }
 }
 

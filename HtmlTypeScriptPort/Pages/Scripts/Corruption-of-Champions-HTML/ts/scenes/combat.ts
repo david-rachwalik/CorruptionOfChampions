@@ -10,6 +10,7 @@ import { ICreature } from "../interfaces/icreature"
 import { Camp } from "./camp"
 import { FLAG } from "../flags/dataFlags"
 import { CombatTeases } from "./combatTeases"
+import { SandTrap } from "./areas/desert/sandTrap"
 
 abstract class COMBAT {
     //------------
@@ -384,7 +385,8 @@ abstract class COMBAT {
     static wait(): void {
         GUI.clearOutput()
         if (liveData.monster.refName == "sandtrap") {
-            SandTrap.sandTrapWait()
+            // TODO: fix call to commented line below
+            // SandTrap.sandTrapWait()
             return
         } else if (liveData.player.findStatusEffect(StatusEffects.Bind)) {
             switch (liveData.player.statusEffectValue(StatusEffects.Bind, 1)) {

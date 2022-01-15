@@ -34,6 +34,10 @@ class KeyItemTypeContainer {
         this.TravelersGuide = new KeyItemType("Traveler's Guide");
         this.DeluxeDildo = new KeyItemType("Deluxe Dildo");
         this.ANOnahole = new KeyItemType("All-Natural Onahole");
+        this.DivineBarkPlates = new KeyItemType("Divine Bark Plates");
+        this.TentacledBarkPlates = new KeyItemType("Tentacled Bark Plates");
+        this.RathazulsPurityPotion = new KeyItemType("Rathazul's Purity Potion");
+        this.DangerousPlants = new KeyItemType("Dangerous Plants");
     }
 }
 let KeyItems = new KeyItemTypeContainer();

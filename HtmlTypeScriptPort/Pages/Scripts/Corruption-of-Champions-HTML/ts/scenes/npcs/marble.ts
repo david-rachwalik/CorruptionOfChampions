@@ -9,8 +9,7 @@ import { PerkLib } from "../../perkLib"
 Data.addToGameFlags(FLAG.MARBLE_MET, FLAG.MARBLE_ADDICTION, FLAG.MARBLE_AFFECTION, FLAG.MARBLE_WARNING, FLAG.NO_MORE_MARBLE, FLAG.MARBLE_RAPE_ATTEMPTED, FLAG.MURBLE_FARM_TALK_LEVELS)
 
 abstract class MarbleScene {
-    static marbleStatusChange(affection, addiction, isAddicted) {
-        if (isAddicted == undefined) isAddicted = -1
+    static marbleStatusChange(affection: number, addiction: number, isAddicted = -1) {
         //Values only change if not brought to conclusion
         if (liveData.player.findPerk(PerkLib.MarblesMilk) < 0 && liveData.player.findPerk(PerkLib.MarbleResistant) < 0) {
             liveData.gameFlags[FLAG.MARBLE_AFFECTION] += affection

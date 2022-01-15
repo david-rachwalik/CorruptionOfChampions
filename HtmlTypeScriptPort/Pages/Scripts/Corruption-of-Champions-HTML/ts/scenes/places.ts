@@ -2,6 +2,7 @@ import { GUI } from "../engine/gui"
 import { FLAG } from "../flags/dataFlags"
 import { liveData } from "../globalVariables"
 import { Camp } from "./camp"
+import { PlacesFarm } from "./places/farm"
 import { TownRuins } from "./places/townruins"
 
 abstract class Places {

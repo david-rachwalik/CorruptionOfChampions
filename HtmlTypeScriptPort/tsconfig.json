@@ -101,8 +101,5 @@
     },
     "compileOnSave": true,
     "include": ["Pages/Scripts/**/*"],
-    "exclude": [
-        //"Pages/Scripts/Corruption-of-Champions-HTML",
-        "node_modules"
-    ]
+    "exclude": ["node_modules"]
 }

@@ -398,7 +398,8 @@ class COMBAT {
     static wait() {
         GUI.clearOutput();
         if (liveData.monster.refName == "sandtrap") {
-            SandTrap.sandTrapWait();
+            // TODO: fix call to commented line below
+            // SandTrap.sandTrapWait()
             return;
         }
         else if (liveData.player.findStatusEffect(StatusEffects.Bind)) {

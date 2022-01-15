@@ -1031,7 +1031,7 @@ abstract class SandTrapScene {
             }
             GUI.menu()
             GUI.addButton(0, "Save", this.saveTheSandTrap)
-            GUI.addButton(1, "Don't Save", this.dontSaveTheTrap)
+            // GUI.addButton(1, "Don't Save", this.dontSaveTheTrap)
         }
         // Later meetings
         else {

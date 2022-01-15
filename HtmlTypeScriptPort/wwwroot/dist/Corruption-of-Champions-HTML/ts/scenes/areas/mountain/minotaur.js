@@ -81,7 +81,7 @@ class Minotaur extends Creature {
         //Drops
         this.clearDrops(); //Need to be called before populating the item arrays.
         this.addDrop(Items.Consumables.MinotaurBlood, 50);
-        this.addDrop(Items.Consumables.MinotaurCum, 20);
+        this.addDrop(Items.Consumables.MinoCum, 20);
         if (this.ballSize > 4) {
             this.battleDesc += " Barely visible below the tattered shreds of loincloth are " + Appearance.ballsDescription(true, true, this) + ", swollen with the minotaur's long pent-up need.";
         }
@@ -393,7 +393,7 @@ class MinotaurScene {
             liveData.player.changeStatusValue(StatusEffects.Feeder, 2, 0);
         }
         //(Acquired minotaur cum!)
-        Inventory.takeItem(Items.Consumables.MinotaurCum, Camp.returnToCampUseOneHour);
+        Inventory.takeItem(Items.Consumables.MinoCum, Camp.returnToCampUseOneHour);
     }
     static watchAMinoCumSlut() {
         GUI.clearOutput();

@@ -653,7 +653,7 @@ class Player extends Creature implements IPlayer {
         if (this.faceType == ENUM.FaceType.FACE_SHARK_TEETH) sharkCounter++
         if (this.wingType == ENUM.WingType.WING_TYPE_SHARK_FIN) sharkCounter++
         if (this.tailType == ENUM.TailType.TAIL_TYPE_SHARK) sharkCounter++
-        if (this.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN && (this.skinTone == "rough gray" || liveData.player.skinTone == "orange and black striped")) sharkCounter++
+        if (this.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN && (this.skinTone == "rough gray" || this.skinTone == "orange and black striped")) sharkCounter++
         return sharkCounter
     }
 
@@ -858,29 +858,26 @@ class Player extends Creature implements IPlayer {
         }
         //Display the degree of length change.
         if (amount <= 1 && amount > 0) {
-            if (this.cocks.length == 1) GUI.outputText("Your " + liveData.player.cockDescript(0) + " has grown slightly longer.")
+            if (this.cocks.length == 1) GUI.outputText("Your " + this.cockDescript(0) + " has grown slightly longer.")
             if (this.cocks.length > 1) {
-                if (ncocks == 1) GUI.outputText("One of your " + liveData.player.multiCockDescriptLight() + " grows slightly longer.")
-                if (ncocks > 1 && ncocks < this.cocks.length) GUI.outputText("Some of your " + liveData.player.multiCockDescriptLight() + " grow slightly longer.")
-                if (ncocks == this.cocks.length) GUI.outputText("Your " + liveData.player.multiCockDescriptLight() + " seem to fill up... growing a little bit larger.")
+                if (ncocks == 1) GUI.outputText("One of your " + this.multiCockDescriptLight() + " grows slightly longer.")
+                if (ncocks > 1 && ncocks < this.cocks.length) GUI.outputText("Some of your " + this.multiCockDescriptLight() + " grow slightly longer.")
+                if (ncocks == this.cocks.length) GUI.outputText("Your " + this.multiCockDescriptLight() + " seem to fill up... growing a little bit larger.")
             }
         }
         if (amount > 1 && amount < 3) {
-            if (this.cocks.length == 1)
-                GUI.outputText("A very pleasurable feeling spreads from your groin as your " + liveData.player.cockDescript(0) + " grows permanently longer - at least an inch - and leaks pre-cum from the pleasure of the change.")
+            if (this.cocks.length == 1) GUI.outputText("A very pleasurable feeling spreads from your groin as your " + this.cockDescript(0) + " grows permanently longer - at least an inch - and leaks pre-cum from the pleasure of the change.")
             if (this.cocks.length > 1) {
                 if (ncocks == this.cocks.length)
-                    GUI.outputText("A very pleasurable feeling spreads from your groin as your " + liveData.player.multiCockDescriptLight() + " grow permanently longer - at least an inch - and leak plenty of pre-cum from the pleasure of the change.")
+                    GUI.outputText("A very pleasurable feeling spreads from your groin as your " + this.multiCockDescriptLight() + " grow permanently longer - at least an inch - and leak plenty of pre-cum from the pleasure of the change.")
                 if (ncocks == 1)
-                    GUI.outputText(
-                        "A very pleasurable feeling spreads from your groin as one of your " + liveData.player.multiCockDescriptLight() + " grows permanently longer, by at least an inch, and leaks plenty of pre-cum from the pleasure of the change."
-                    )
+                    GUI.outputText("A very pleasurable feeling spreads from your groin as one of your " + this.multiCockDescriptLight() + " grows permanently longer, by at least an inch, and leaks plenty of pre-cum from the pleasure of the change.")
                 if (ncocks > 1 && ncocks < this.cocks.length)
                     GUI.outputText(
                         "A very pleasurable feeling spreads from your groin as " +
                             UTIL.num2Text(ncocks) +
                             " of your " +
-                            liveData.player.multiCockDescriptLight() +
+                            this.multiCockDescriptLight() +
                             " grow permanently longer, by at least an inch, and leak plenty of pre-cum from the pleasure of the change."
                     )
             }
@@ -1119,7 +1116,7 @@ class Player extends Creature implements IPlayer {
         return false
     }
 
-    goIntoHeat() {
+    goIntoHeat(a: boolean) {
         return false
     }
 
@@ -1195,16 +1192,16 @@ class Player extends Creature implements IPlayer {
     }
 
     changeXP(amount: number) {
-        liveData.player.XP += amount
-        if (liveData.player.XP < 0) liveData.player.XP = 0 //Keep from going into negative.
-        if (liveData.player.XP > 9999) liveData.player.XP = 9999
+        this.XP += amount
+        if (this.XP < 0) this.XP = 0 //Keep from going into negative.
+        if (this.XP > 9999) this.XP = 9999
         GUI.refreshStats()
     }
 
     changeGems(amount: number) {
-        liveData.player.gems += amount
-        if (liveData.player.gems < 0) liveData.player.gems = 0 //Keep from going into negative.
-        if (liveData.player.gems > Number.MAX_VALUE) liveData.player.gems = Number.MAX_VALUE
+        this.gems += amount
+        if (this.gems < 0) this.gems = 0 //Keep from going into negative.
+        if (this.gems > Number.MAX_VALUE) this.gems = Number.MAX_VALUE
         GUI.refreshStats()
     }
 
@@ -1465,6 +1462,10 @@ class Player extends Creature implements IPlayer {
     assholeOrPussy(): string {
         if (this.hasVagina()) return this.vaginaDescript(0)
         return this.assholeDescript()
+    }
+
+    increaseCock(index: number, amount: number): number {
+        return this.cocks[index].increaseCock(amount)
     }
 }
 

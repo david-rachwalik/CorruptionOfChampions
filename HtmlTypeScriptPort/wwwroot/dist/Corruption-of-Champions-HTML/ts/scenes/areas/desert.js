@@ -3,6 +3,10 @@ import { GUI } from "../../engine/gui";
 import { UTIL } from "../../engine/utils";
 import { SandWitchScene } from "./desert/sandWitch";
 import { Camp } from "../camp";
+import { NagaScene } from "./desert/naga";
+import { WandererScene } from "./desert/marcusLucia";
+import { SandTrapScene } from "./desert/sandTrap";
+import { OasisScene } from "./desert/oasis";
 class AreasDesert {
     static explore() {
         GUI.clearOutput();
@@ -20,10 +24,8 @@ class AreasDesert {
             case 0: //Sand Witch
                 // Check for birthing scene. Sand Witch must be in second half of pregnancy and hit a 1/4 chance.
                 if (liveData.sandWitch.pregnancyEventNum == 2 && UTIL.rand(4) == 0) {
-                    if ((liveData.sandWitch.pregnancyType = "Drider_Eggs"))
-                        SandWitchScene.sammitchBirthsDriders();
-                    else
-                        SandWitchScene.witchBirfsSomeBees();
+                    // if ((liveData.sandWitch.pregnancyType = "Drider_Eggs")) SandWitchScene.sammitchBirthsDriders() else
+                    SandWitchScene.witchBirfsSomeBees();
                     break;
                 }
                 // Otherwise, do normal encounter

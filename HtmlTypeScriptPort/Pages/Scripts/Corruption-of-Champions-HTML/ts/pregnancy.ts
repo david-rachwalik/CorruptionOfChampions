@@ -109,14 +109,8 @@ class Pregnancy {
 	*/
 }
 
-abstract class PregnancyStore {
-    Pregnancy: Pregnancy
-
-    constructor() {
-        this.Pregnancy = new Pregnancy()
-    }
-
-    /*
+// abstract class PregnancyStore {
+/*
 	//this._pregnancyEventValue = [];
 		//this._buttPregnancyEventValue = [];
 		//_pregnancyEventValue = new Vector.< Vector.<int> >();
@@ -125,9 +119,9 @@ abstract class PregnancyStore {
 		//if (pregType < 0 || pregType > MAX_FLAG_VALUE || pregInc < 0 || pregInc > MAX_FLAG_VALUE || buttPregType < 0 || buttPregType > MAX_FLAG_VALUE || buttPregInc < 0 || buttPregInc > MAX_FLAG_VALUE || pregType == buttPregType || pregInc == buttPregInc) {
 		//trace("Error: PregnancyStore created with invalid values for its flags. PregnancyStore(" + pregType + ", " + pregInc + ", " + buttPregType + ", " + buttPregInc + ")");	}
 	*/
-    // Pregnancy methods
+// Pregnancy methods
 
-    /*
+/*
 		
 	// isPregnant rewrite. Checks to see if Amily is pregnant
 		
@@ -137,7 +131,7 @@ abstract class PregnancyStore {
 		//  return returnvar;
 	*/
 
-    /*
+/*
 
 			
 			public function get incubation():int { return (_pregnancyIncubationFlag == 0 ? 0 : kGAMECLASS.flags[_pregnancyIncubationFlag]); }
@@ -150,7 +144,7 @@ abstract class PregnancyStore {
 			public function get isButtPregnant():Boolean { return buttType != 0; } //At birth the incubation can be zero so a check vs. type is safer
 	*/
 
-    /*
+/*
 
 			//Same as addPregnancyEventSet, but for butts
 			public function addButtPregnancyEventSet(buttPregType:int, ... buttPregStage):void
@@ -193,11 +187,11 @@ abstract class PregnancyStore {
 				}
 			}
 	*/
-    /* Many NPCs go through several events during their pregnancies. This function returns the latest event the NPC qualifies for.
+/* Many NPCs go through several events during their pregnancies. This function returns the latest event the NPC qualifies for.
 			When the NPC is not pregnant this always returns 0, when pregnant it will return at least 1. The further along the NPC is the larger the value. Each NPC
 			is free to have as many event as desired. They must be added using the addPregnancyEventSet function and are unique to each pregnancy type. */
 
-    /*
+/*
 
 			public function get event():int
 			{
@@ -266,6 +260,6 @@ abstract class PregnancyStore {
 	}
 
 	*/
-}
+// }
 
-export { Pregnancy, PregnancyStore }
+export { Pregnancy }

@@ -5,6 +5,13 @@ import { Camp } from "./camp";
 import { UTIL } from "../engine/utils";
 import { COMBAT } from "./combat";
 import { FLAG } from "../flags/dataFlags";
+import { AreasMountain } from "./areas/mountain";
+import { AreasDesert } from "./areas/desert";
+import { AreasLake } from "./areas/lake";
+import { AreasForest } from "./areas/forest";
+import { GiacomoScene } from "./npcs/giacomo";
+import { Imp } from "./monsters/imp";
+import { Goblin } from "./monsters/goblin";
 class AreasGenericExploration {
     static exploreMenu() {
         GUI.hideMenus();
@@ -17,13 +24,13 @@ class AreasGenericExploration {
         GUI.menu();
         GUI.addButton(0, "Explore", this.tryDiscover);
         if (liveData.exploration.exploredForest > 0)
-            GUI.addButton(1, "Forest", Areas.Forest.explore, null, null, null, "Visit the lush forest. <br><br>Recommended level: 1" + (player.level < 5 ? "<br><br>Beware of Tentacle Beasts!" : ""));
+            GUI.addButton(1, "Forest", AreasForest.explore, null, null, null, "Visit the lush forest. <br><br>Recommended level: 1" + (liveData.player.level < 5 ? "<br><br>Beware of Tentacle Beasts!" : ""));
         if (liveData.exploration.exploredLake > 0)
-            GUI.addButton(2, "Lake", Areas.Lake.explore, null, null, null, "Visit the lake and explore the beach. <br><br>Recommended level: 2");
+            GUI.addButton(2, "Lake", AreasLake.explore, null, null, null, "Visit the lake and explore the beach. <br><br>Recommended level: 2");
         if (liveData.exploration.exploredDesert > 0)
-            GUI.addButton(3, "Desert", Areas.Desert.explore, null, null, null, "Visit the dry desert. <br><br>Recommended level: 3");
+            GUI.addButton(3, "Desert", AreasDesert.explore, null, null, null, "Visit the dry desert. <br><br>Recommended level: 3");
         if (liveData.exploration.exploredMountain > 0)
-            GUI.addButton(4, "Mountain", Areas.Mountain.explore, null, null, null, "Visit the mountain. <br><br>Recommended level: 5");
+            GUI.addButton(4, "Mountain", AreasMountain.explore, null, null, null, "Visit the mountain. <br><br>Recommended level: 5");
         GUI.addButton(14, "Back", Camp.doCamp);
     }
     static tryDiscover() {
@@ -105,7 +112,7 @@ class AreasGenericExploration {
             //A wild goblin appears!
             GUI.displaySprite("goblin");
             if (liveData.player.gender > 0)
-                GUI.outputText('A goblin saunters out of the bushes with a dangerous glint in her eyes.<br><br>She says, "<i>Time to get fucked, ' + player.mf("stud", "slut") + '.</i>"');
+                GUI.outputText('A goblin saunters out of the bushes with a dangerous glint in her eyes.<br><br>She says, "<i>Time to get fucked, ' + liveData.player.mf("stud", "slut") + '.</i>"');
             else
                 GUI.outputText('A goblin saunters out of the bushes with a dangerous glint in her eyes.<br><br>She says, "<i>Time to get fuc-oh shit, you don\'t even have anything to play with! This is for wasting my time!</i>"');
             if (liveData.gameFlags[FLAG.CODEX_ENTRY_GOBLINS] <= 0) {

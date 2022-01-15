@@ -4,6 +4,11 @@ import { UTIL } from "../../engine/utils";
 import { AreasGenericExploration } from "../exploration";
 import { Camp } from "../camp";
 import { FLAG } from "../../flags/dataFlags";
+import { TentacleBeastScene } from "./forest/tentacleBeast";
+import { TamaniScene } from "./forest/tamani";
+// import { JojoScene } from "../npcs/jojo"
+import { BeeGirlScene } from "./forest/beeGirl";
+import { KeyItems } from "../../keyItemLib";
 class AreasForest {
     static explore() {
         GUI.clearOutput();
@@ -25,7 +30,7 @@ class AreasForest {
                     liveData.gameFlags[FLAG.TAMANI_TIME_OUT] == 0 &&
                     liveData.player.gender > 0 &&
                     liveData.gameFlags[FLAG.TAMANI_BAD_ENDED] == 0 &&
-                    (liveData.player.totalCocks() > 0 || liveData.player.hasKeyItem("Deluxe Dildo") < 0)) {
+                    (liveData.player.totalCocks() > 0 || liveData.player.hasKeyItem(KeyItems.DeluxeDildo) < 0)) {
                     if (liveData.player.totalCocks() > 0 && liveData.gameFlags[FLAG.TAMANI_DAUGHTER_PREGGO_COUNTDOWN] == 0 && liveData.gameFlags[FLAG.TAMANI_NUMBER_OF_DAUGHTERS] >= 24) {
                         GUI.outputText("You've reached Tamani Daughter's Scene. Placeholder. Will come in a later version!");
                         //tamaniDaughtersScene.encounterTamanisDaughters();
@@ -36,13 +41,13 @@ class AreasForest {
                 }
                 AreasGenericExploration.genericGobImpEncounters();
                 break;
-            case 1: //Jojo
-                JojoScene.routeJojoEncounter();
-                break;
+            // case 1: //Jojo
+            //     JojoScene.routeJojoEncounter()
+            //     break
             case 2: //Tentacle Beasts (Not yet implemented)
                 // TODO Track down this legacy flag if (player.gender > 0) flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00247] = 0;
                 //Tentacle avoidance chance due to dangerous plants
-                if (liveData.player.hasKeyItem("Dangerous Plants") >= 0 && liveData.player.inte / 2 > UTIL.rand(50)) {
+                if (liveData.player.hasKeyItem(KeyItems.DangerousPlants) >= 0 && liveData.player.inte / 2 > UTIL.rand(50)) {
                     //trace("TENTACLE'S AVOIDED DUE TO BOOK!");
                     GUI.outputText("Using the knowledge contained in your 'Dangerous Plants' book, you determine a tentacle beast's lair is nearby, do you continue?  If not you could return to camp.\n\n");
                     GUI.menu();

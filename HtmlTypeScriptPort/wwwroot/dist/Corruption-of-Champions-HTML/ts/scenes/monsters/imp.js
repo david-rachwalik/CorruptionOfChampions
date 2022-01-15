@@ -387,7 +387,7 @@ class ImpScene {
             //Taking it internal is more corruptive!
             liveData.player.modStats(["cor", 1]);
             //Preggers chance!
-            liveData.player.knockUp(FLAG.PREGNANCY_IMP, FLAG.INCUBATION_IMP);
+            // liveData.player.knockUp(FLAG.PREGNANCY_IMP, FLAG.INCUBATION_IMP)
             liveData.player.cuntChange(liveData.monster.cockArea(0), true, true, false);
         }
         liveData.player.orgasm();
@@ -635,7 +635,7 @@ class ImpScene {
         //PREGGERS CHANCE HERE - unfinished
         //{{Player has a cunt}}
         liveData.player.slimeFeed(); // Check this function
-        liveData.player.knockUp(FLAG.PREGNANCY_IMP, FLAG.INCUBATION_IMP);
+        // liveData.player.knockUp(FLAG.PREGNANCY_IMP, FLAG.INCUBATION_IMP)
         GUI.outputText("As the imp lays beaten its hands stroke its " +
             liveData.monster.cockDescriptShort(0) +
             " as its eyes look over you in the hope that you might abuse it in some manner.  You lick your lips as you stare at the large member and you turn around to display your " +
@@ -1123,7 +1123,7 @@ class ImpScene {
             GUI.outputText("<br><br>");
             GUI.outputText("The rough fucking becomes more and more pleasurable as time goes on. You moan air-headedly with each thrust, hips squeezing around the demon-cock- loving the feeling of his fullness. Before long you can't help but cum all over him, your vagina locking around his cock like a vice, muscles rippling, milking him for his cum. The imp's prick explodes inside you, pumping huge loads of hot demon-seed inside you with each eruption. You swoon, feeling it fill your womb and distend your belly as the imp's orgasm fills you with insane amounts of cum.<br><br>");
             GUI.outputText("With a sigh, he pulls his dick free, and you flop down, cum leaking out onto the ground from your well-fucked hole. If you could, like, focus at all, you'd totally be worrying about being, like, pregnant or whatever. But you lose consciousness.");
-            liveData.player.knockUp(FLAG.PREGNANCY_IMP, FLAG.INCUBATION_IMP - 14); //Bigger imp means faster pregnancy
+            // liveData.player.knockUp(FLAG.PREGNANCY_IMP, FLAG.INCUBATION_IMP - 14) //Bigger imp means faster pregnancy
             liveData.player.orgasm();
             liveData.player.modStats(["lib", 1], ["sen", 1], ["cor", 1]);
             COMBAT.cleanupAfterCombat();
@@ -1194,7 +1194,7 @@ class ImpScene {
                             GUI.outputText("You hope you don't become pregnant, but promptly lose consciousness before you can contemplate the prospect any further.");
                     }
                 }
-                liveData.player.knockUp(FLAG.PREGNANCY_IMP, FLAG.INCUBATION_IMP - 14); //Bigger imp means faster pregnancy
+                // liveData.player.knockUp(FLAG.PREGNANCY_IMP, FLAG.INCUBATION_IMP - 14) //Bigger imp means faster pregnancy
                 liveData.player.modStats(["lib", 1], ["sen", 1], ["lus", 1], ["cor", 1]);
             }
             //Male or genderless

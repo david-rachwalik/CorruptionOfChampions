@@ -54,6 +54,7 @@ class Cock {
         //Apply hard cap
         if (this.cockLength > 240)
             this.cockLength = 240;
+        return this.cockLength;
     }
     cArea() {
         return this.cockLength * this.cockThickness;

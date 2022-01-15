@@ -5,6 +5,9 @@ class ItemMaterials {
     GreenGel: IItem
     BeeChitin: IItem
     ImpSkull: IItem
+    SpiderSilk: IItem
+    T_SSILK: IItem
+    DragonScale: IItem
 
     constructor() {
         this.GreenGel = new Item("GreenGl", "Green Gel", "a clump of green gel", ITEM_TYPE_MATERIAL)
@@ -23,10 +26,24 @@ class ItemMaterials {
 
         this.ImpSkull = new Item("ImpSkull", "Imp Skull", "To Be Added", ITEM_TYPE_MATERIAL)
         this.ImpSkull.description = "To be added"
-        this.ImpSkull.useText = function () {
-            GUI.outputText("To Be Added.")
-            return false
-        }
+        this.ImpSkull.useText = this.toBeAdded
+
+        this.SpiderSilk = new Item("SpiderSilk", "Spider Silk", "To Be Added", ITEM_TYPE_MATERIAL)
+        this.SpiderSilk.description = "To be added"
+        this.SpiderSilk.useText = this.toBeAdded
+
+        this.T_SSILK = new Item("T_SSILK", "T_SSILK", "To Be Added", ITEM_TYPE_MATERIAL)
+        this.T_SSILK.description = "To be added"
+        this.T_SSILK.useText = this.toBeAdded
+
+        this.DragonScale = new Item("DragonScale", "Dragon Scale", "To Be Added", ITEM_TYPE_MATERIAL)
+        this.DragonScale.description = "To be added"
+        this.DragonScale.useText = this.toBeAdded
+    }
+
+    toBeAdded() {
+        GUI.outputText("To Be Added.")
+        return false
     }
 }
 

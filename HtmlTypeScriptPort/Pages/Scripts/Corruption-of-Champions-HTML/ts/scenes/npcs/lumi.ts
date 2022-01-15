@@ -5,7 +5,7 @@ import { UTIL } from "../../engine/utils"
 import { GUI } from "../../engine/gui"
 import { Data } from "../../engine/saves"
 import { Camp } from "../camp"
-import { Items } from "../../itemClass"
+import { IItem, Items } from "../../itemClass"
 import { Inventory } from "../inventory"
 
 Data.addToGameFlags(FLAG.LUMI_MET)
@@ -101,7 +101,7 @@ abstract class LumiScene {
         GUI.doYesNo(UTIL.createCallBackFunction(LumiScene.lumiPurchase, Items.Consumables.OviElixir), LumiScene.lumiShop)
     }
 
-    static lumiPurchase(itype) {
+    static lumiPurchase(itype: IItem) {
         GUI.clearOutput()
         //After choosing, and PC has enough gems
         var cost = 0

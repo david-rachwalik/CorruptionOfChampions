@@ -313,7 +313,7 @@ class GooGirlScene {
             //}
             /* UNCOMMENT WHEN WE BEGIN LATEX GIRL SCENES
             if ((liveData.gameFlags[GOO_TFED_MEAN] == 0 && liveData.gameFlags[GOO_TFED_NICE] == 0) && liveData.gameFlags[FLAG.TIMES_FUCKED_NORMAL_GOOS] >= 2) {
-                if (player.cor < 50 && (player.hasItem(Items.Consumables.SuccubiMilk) || player.hasItem(Items.Consumables.SuccubiMilkPurified)) && (player.hasItem(Items.Consumables.BlackEgg) || player.hasItem(Items.Consumables.LBlackEgg))) {
+                if (player.cor < 50 && (player.hasItem(Items.Consumables.SuccubiMilk) || player.hasItem(Items.Consumables.SuccubiMilkPurified)) && (player.hasItem(Items.Consumables.BlackEgg) || player.hasItem(Items.Consumables.LargeBlackEgg))) {
                     GUI.addButton(8, "Make Slave", GooGirlScene.pureGooRecruitmentStart);
                     return;
                 }
@@ -328,7 +328,7 @@ class GooGirlScene {
                     else {
                         GUI.outputText("<br><br>As you survey your victory, you remember the idea you had before - maybe if you drugged one of these things with a black egg and some succubi milk, you could make it your pet?");
                     }
-                    if ((player.hasItem(Items.Consumables.SuccubiMilk) || player.hasItem(Items.Consumables.SuccubiMilkPurified)) && (player.hasItem(Items.Consumables.BlackEgg) || player.hasItem(Items.Consumables.LBlackEgg))) {
+                    if ((player.hasItem(Items.Consumables.SuccubiMilk) || player.hasItem(Items.Consumables.SuccubiMilkPurified)) && (player.hasItem(Items.Consumables.BlackEgg) || player.hasItem(Items.Consumables.LargeBlackEgg))) {
                         GUI.outputText("  Good thing you have those handy!");
                         GUI.addButton(8, "Make Slave", GooGirlScene.meanGooGirlRecruitment);
                     }

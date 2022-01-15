@@ -195,7 +195,7 @@ abstract class WhitneyScene {
                     "Whitney starts to giggle, but immediately stifles it, apologizing, \"<i>Ah'm sorry, I didn't mean nothing by it. I know a few folks who LOVE being a walking milk-fountain. If ya like, I could probably get you set up with your own milking equipment.  You'd be able to keep up with the... fluid accumulations that seem to be troubling you.  I'd even be able to toss you a few gems if you produce enough.</i>\"<br><br>"
                 )
                 GUI.outputText(
-                    "It almost sounds too good to be true.  The farmer-girl nods, reading your expression quite clearly, \"<i>Yes, there is a bit of a catch. I'll need 250 gems for the parts to get this all set up.  Equipment like this isn't cheap.  Whaddya say, hun?  I understand if you don't want to – you can always just wait for the milk to stop.</i>\"<br><br>"
+                    "It almost sounds too good to be true.  The farmer-girl nods, reading your expression quite clearly, \"<i>Yes, there is a bit of a catch. I'll need 250 gems for the parts to get this all set up.  Equipment like this isn't cheap.  Whaddya say, hun?  I understand if you don't want to - you can always just wait for the milk to stop.</i>\"<br><br>"
                 )
                 if (liveData.player.gems >= 250) {
                     GUI.outputText("Do you purchase a breast-milker from Whitney for 250 gems?")

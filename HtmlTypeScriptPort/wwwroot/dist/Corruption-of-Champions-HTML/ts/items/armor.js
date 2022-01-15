@@ -1,4 +1,4 @@
-import { Item, ITEM_TYPE_ARMOUR } from "../itemClass";
+import { Item, ITEM_TYPE_ARMOUR, ITEM_TYPE_UNDERGARMENT } from "../itemClass";
 class ItemArmor {
     constructor() {
         this.ComfortableClothes = new Item("C.Cloth", "C.Cloth", "a set of comfortable clothes", ITEM_TYPE_ARMOUR);
@@ -27,7 +27,41 @@ class ItemArmor {
         this.GooArmor.description = "To Be Added.";
         this.LethiciteArmor = new Item("LethiciteArmor", "Lethicite Armor", "to be added", ITEM_TYPE_ARMOUR);
         this.LethiciteArmor.description = "To Be Added.";
+        this.SpiderSilkArmor = new Item("SpiderSilkArmor", "Spider Silk Armor", "to be added", ITEM_TYPE_ARMOUR);
+        this.SpiderSilkArmor.description = "To Be Added.";
+        this.SpiderSilkRobes = new Item("SpiderSilkRobes", "Spider Silk Robes", "to be added", ITEM_TYPE_ARMOUR);
+        this.SpiderSilkRobes.description = "To Be Added.";
+        this.DragonscaleArmor = new Item("DragonscaleArmor", "Dragonscale Armor", "to be added", ITEM_TYPE_UNDERGARMENT);
+        this.DragonscaleArmor.description = "To Be Added.";
+        this.DragonscaleRobes = new Item("DragonscaleRobes", "Dragonscale Robes", "to be added", ITEM_TYPE_UNDERGARMENT);
+        this.DragonscaleRobes.description = "To Be Added.";
+        this.DSCLARM = new Item("DSCLARM", "DSCLARM", "to be added", ITEM_TYPE_UNDERGARMENT);
+        this.DSCLARM.description = "To Be Added.";
+        this.TentacledBarkArmor = new Item("TentacledBarkArmor", "Tentacled Bark Armor", "to be added", ITEM_TYPE_UNDERGARMENT);
+        this.TentacledBarkArmor.description = "To Be Added.";
+        this.DivineBarkArmor = new Item("DivineBarkArmor", "Divine Bark Armor", "to be added", ITEM_TYPE_UNDERGARMENT);
+        this.DivineBarkArmor.description = "To Be Added.";
+        this.DivineBarkPlates = new Item("DivineBarkPlates", "Divine Bark Plates", "to be added", ITEM_TYPE_UNDERGARMENT);
+        this.DivineBarkPlates.description = "To Be Added.";
     }
 }
-export { ItemArmor };
+class ItemUndergarments {
+    constructor() {
+        this.SpiderSilkBra = new Item("SpiderSilkBra", "Spider Silk Bra", "to be added", ITEM_TYPE_UNDERGARMENT);
+        this.SpiderSilkBra.description = "To Be Added.";
+        this.SpiderSilkPanties = new Item("SpiderSilkPanties", "Spider Silk Panties", "to be added", ITEM_TYPE_UNDERGARMENT);
+        this.SpiderSilkPanties.description = "To Be Added.";
+        this.SpiderSilkLoincloth = new Item("SpiderSilkLoincloth", "Spider Silk Loincloth", "to be added", ITEM_TYPE_UNDERGARMENT);
+        this.SpiderSilkLoincloth.description = "To Be Added.";
+        this.DragonscaleBra = new Item("DragonscaleBra", "Dragonscale Bra", "to be added", ITEM_TYPE_UNDERGARMENT);
+        this.DragonscaleBra.description = "To Be Added.";
+        this.DragonscaleThong = new Item("DragonscaleThong", "Dragonscale Thong", "to be added", ITEM_TYPE_UNDERGARMENT);
+        this.DragonscaleThong.description = "To Be Added.";
+        this.DragonscaleLoincloth = new Item("DragonscaleLoincloth", "Dragonscale Loincloth", "to be added", ITEM_TYPE_UNDERGARMENT);
+        this.DragonscaleLoincloth.description = "To Be Added.";
+        this.DragonscaleThone = new Item("DragonscaleThone", "Dragonscale Thone", "to be added", ITEM_TYPE_UNDERGARMENT);
+        this.DragonscaleThone.description = "To Be Added.";
+    }
+}
+export { ItemArmor, ItemUndergarments };
 //# sourceMappingURL=armor.js.map

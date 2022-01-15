@@ -5,6 +5,9 @@ import { UTIL } from "../../engine/utils"
 import { Camp } from "../camp"
 import { FLAG } from "../../flags/dataFlags"
 import { AreasGenericExploration } from "../exploration"
+import { MinotaurScene } from "./mountain/minotaur"
+import { HellhoundScene } from "./mountain/hellhound"
+import { WormsScene } from "./mountain/wormmass"
 
 abstract class AreasMountain {
     static explore() {

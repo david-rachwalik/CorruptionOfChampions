@@ -41,7 +41,7 @@ class Cock {
         if (this.cockThickness > 40) this.cockThickness = 40
         return this.cockThickness
     }
-    increaseCock(amount: number) {
+    increaseCock(amount: number): number {
         //Diminishing returns!
         if (!liveData.hyperHappy) {
             if (this.cockLength >= 30 && this.cockLength < 50) amount *= 0.8
@@ -54,6 +54,7 @@ class Cock {
         this.cockLength += amount
         //Apply hard cap
         if (this.cockLength > 240) this.cockLength = 240
+        return this.cockLength
     }
     cArea() {
         return this.cockLength * this.cockThickness
