@@ -1,11 +1,11 @@
-import { liveData } from "./globalVariables";
-import { GUI } from "./engine/gui";
-import { UTIL } from "./engine/utils";
-import * as ENUM from "./appearanceEnums";
-import { StatusEffects } from "./statusEffectLib";
-import { PerkLib } from "./perkLib";
-import { FLAG } from "./flags/dataFlags";
-import { PerkMenuBuilder } from "./perkBuildMenu";
+import { liveData } from "./globalVariables.js";
+import { GUI } from "./engine/gui.js";
+import { UTIL } from "./engine/utils.js";
+import * as ENUM from "./appearanceEnums.js";
+import { StatusEffects } from "./statusEffectLib.js";
+import { PerkLib } from "./perkLib.js";
+import { FLAG } from "./flags/dataFlags.js";
+import { PerkMenuBuilder } from "./perkBuildMenu.js";
 class PlayerInfo {
     //------------
     // LEVEL UP

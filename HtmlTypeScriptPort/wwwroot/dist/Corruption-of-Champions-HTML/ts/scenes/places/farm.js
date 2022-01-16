@@ -1,14 +1,14 @@
-import { liveData } from "../../globalVariables";
-import * as ENUM from "../../appearanceEnums";
-import { GUI } from "../../engine/gui";
-import { UTIL } from "../../engine/utils";
-import { Data } from "../../engine/saves";
-import { FLAG } from "../../flags/dataFlags";
-import { Items } from "../../itemClass";
-import { Camp } from "../camp";
-import { Inventory } from "../inventory";
-import { WhitneyScene } from "./farm/whitney";
-// import { KeltScene } from "./farm/kelt"
+import { liveData } from "../../globalVariables.js";
+import * as ENUM from "../../appearanceEnums.js";
+import { GUI } from "../../engine/gui.js";
+import { UTIL } from "../../engine/utils.js";
+import { Data } from "../../engine/saves.js";
+import { FLAG } from "../../flags/dataFlags.js";
+import { Items } from "../../itemClass.js";
+import { Camp } from "../camp.js";
+import { Inventory } from "../inventory.js";
+import { WhitneyScene } from "./farm/whitney.js";
+// import { KeltScene } from "./farm/kelt.js"
 Data.addToGameFlags(FLAG.FARM_DISABLED, FLAG.FARM_CORRUPTION_STARTED, FLAG.MET_WHITNEY, FLAG.WHITNEY_FLIPPED_OUT_OVER_KELLY);
 class PlacesFarm {
     static farmExploreEncounter() {

@@ -1,6 +1,6 @@
-import { liveData } from "../globalVariables";
-import { Item, Items, ITEM_TYPE_WEAPON } from "../itemClass";
-import { PerkLib } from "../perkLib";
+import { liveData } from "../globalVariables.js";
+import { Item, Items, ITEM_TYPE_WEAPON } from "../itemClass.js";
+import { PerkLib } from "../perkLib.js";
 class ItemWeapon {
     constructor() {
         this.BeautifulSword = new Item("B.Sword", "B. Sword", "a beautiful sword", ITEM_TYPE_WEAPON);

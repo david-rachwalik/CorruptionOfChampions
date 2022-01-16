@@ -1,14 +1,14 @@
-import { liveData } from "../../../globalVariables";
-import * as ENUM from "../../../appearanceEnums";
-import { Creature } from "../../../creature";
-import { UTIL } from "../../../engine/utils";
-import { Items } from "../../../itemClass";
-import { BindType, StatusEffects } from "../../../statusEffectLib";
-import { GUI } from "../../../engine/gui";
-import { PerkLib } from "../../../perkLib";
-import { Camp } from "../../camp";
-import { COMBAT } from "../../combat";
-import { FLAG } from "../../../flags/dataFlags";
+import { liveData } from "../../../globalVariables.js";
+import * as ENUM from "../../../appearanceEnums.js";
+import { Creature } from "../../../creature.js";
+import { UTIL } from "../../../engine/utils.js";
+import { Items } from "../../../itemClass.js";
+import { BindType, StatusEffects } from "../../../statusEffectLib.js";
+import { GUI } from "../../../engine/gui.js";
+import { PerkLib } from "../../../perkLib.js";
+import { Camp } from "../../camp.js";
+import { COMBAT } from "../../combat.js";
+import { FLAG } from "../../../flags/dataFlags.js";
 /**
  * Created by aimozg on 04.01.14.
  */

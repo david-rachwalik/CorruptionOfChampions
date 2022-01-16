@@ -1,13 +1,13 @@
-import { liveData } from "../../globalVariables";
-import { FLAG } from "../../flags/dataFlags";
-import { UTIL } from "../../engine/utils";
-import { GUI } from "../../engine/gui";
-import { StatusEffects } from "../../statusEffectLib";
-import { Data } from "../../engine/saves";
-import { Camp } from "../camp";
-import { Items } from "../../itemClass";
-import { Inventory } from "../inventory";
-import { KeyItems } from "../../keyItemLib";
+import { liveData } from "../../globalVariables.js";
+import { FLAG } from "../../flags/dataFlags.js";
+import { UTIL } from "../../engine/utils.js";
+import { GUI } from "../../engine/gui.js";
+import { StatusEffects } from "../../statusEffectLib.js";
+import { Data } from "../../engine/saves.js";
+import { Camp } from "../camp.js";
+import { Items } from "../../itemClass.js";
+import { Inventory } from "../inventory.js";
+import { KeyItems } from "../../keyItemLib.js";
 /* License schmicense ahead!
  LICENSE
 

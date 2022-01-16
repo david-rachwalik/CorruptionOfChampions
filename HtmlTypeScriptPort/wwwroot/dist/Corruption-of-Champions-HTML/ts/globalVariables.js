@@ -1,11 +1,11 @@
-import { Player } from "./player";
-import { Time } from "./engine/time";
-import { Creature } from "./creature";
-import { Amily } from "./scenes/npcs/amily";
-import { FLAG } from "./flags/dataFlags";
-import { Tamani } from "./scenes/areas/forest/tamani";
-// import { PregnancyProgression } from "./pregnancyProgression"
-import { SandWitch } from "./scenes/areas/desert/sandWitch";
+import { Player } from "./player.js";
+import { Time } from "./engine/time.js";
+import { Creature } from "./creature.js";
+import { Amily } from "./scenes/npcs/amily.js";
+import { FLAG } from "./flags/dataFlags.js";
+import { Tamani } from "./scenes/areas/forest/tamani.js";
+// import { PregnancyProgression } from "./pregnancyProgression.js"
+import { SandWitch } from "./scenes/areas/desert/sandWitch.js";
 class Exploration {
     constructor() {
         this.explored = 0;

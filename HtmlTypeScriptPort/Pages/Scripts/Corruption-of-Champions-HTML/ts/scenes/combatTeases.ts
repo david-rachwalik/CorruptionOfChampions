@@ -1,11 +1,11 @@
-import { GUI } from "../engine/gui"
-import * as ENUM from "../appearanceEnums"
-import { UTIL } from "../engine/utils"
-import { FLAG } from "../flags/dataFlags"
-import { liveData } from "../globalVariables"
-import { Items } from "../itemClass"
-import { PerkLib } from "../perkLib"
-import { COMBAT } from "./combat"
+import { GUI } from "../engine/gui.js"
+import * as ENUM from "../appearanceEnums.js"
+import { UTIL } from "../engine/utils.js"
+import { FLAG } from "../flags/dataFlags.js"
+import { liveData } from "../globalVariables.js"
+import { Items } from "../itemClass.js"
+import { PerkLib } from "../perkLib.js"
+import { COMBAT } from "./combat.js"
 
 abstract class CombatTeases {
     static teaseMain(justText = false) {

@@ -1,7 +1,7 @@
-import { liveData } from "../globalVariables";
-import { GUI } from "../engine/gui";
-import { FLAG } from "../flags/dataFlags";
-import { COMBAT } from "./combat";
+import { liveData } from "../globalVariables.js";
+import { GUI } from "../engine/gui.js";
+import { FLAG } from "../flags/dataFlags.js";
+import { COMBAT } from "./combat.js";
 class CampEvents {
     //----------
     // Created by Matraia on 7/20/16.

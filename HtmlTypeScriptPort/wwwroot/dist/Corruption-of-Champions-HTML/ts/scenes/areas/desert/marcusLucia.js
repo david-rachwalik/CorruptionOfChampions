@@ -1,11 +1,11 @@
-import { liveData } from "../../../globalVariables";
-import { GUI } from "../../../engine/gui";
-import { UTIL } from "../../../engine/utils";
-import { FLAG } from "../../../flags/dataFlags";
-import { Camp } from "../../camp";
-import { Items } from "../../../itemClass";
-import { Inventory } from "../../inventory";
-import { Data } from "../../../engine/saves";
+import { liveData } from "../../../globalVariables.js";
+import { GUI } from "../../../engine/gui.js";
+import { UTIL } from "../../../engine/utils.js";
+import { FLAG } from "../../../flags/dataFlags.js";
+import { Camp } from "../../camp.js";
+import { Items } from "../../../itemClass.js";
+import { Inventory } from "../../inventory.js";
+import { Data } from "../../../engine/saves.js";
 Data.addToGameFlags(FLAG.WANDERER_MET, FLAG.WANDERER_DEMON, FLAG.WANDERER_EPILOGUE);
 class WandererScene {
     static wandererRouter() {

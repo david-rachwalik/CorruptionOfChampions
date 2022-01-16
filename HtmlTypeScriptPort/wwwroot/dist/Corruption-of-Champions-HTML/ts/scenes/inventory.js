@@ -1,10 +1,10 @@
-import { GUI } from "../engine/gui";
-import { UTIL } from "../engine/utils";
-import { Items, ITEM_TYPE_ARMOUR, ITEM_TYPE_SHIELD, ITEM_TYPE_WEAPON } from "../itemClass";
-import { liveData } from "../globalVariables";
-import { COMBAT } from "./combat";
-import { Camp } from "./camp";
-import { FLAG } from "../flags/dataFlags";
+import { GUI } from "../engine/gui.js";
+import { UTIL } from "../engine/utils.js";
+import { Items, ITEM_TYPE_ARMOUR, ITEM_TYPE_SHIELD, ITEM_TYPE_WEAPON } from "../itemClass.js";
+import { liveData } from "../globalVariables.js";
+import { COMBAT } from "./combat.js";
+import { Camp } from "./camp.js";
+import { FLAG } from "../flags/dataFlags.js";
 class Inventory {
     // Call the inventory menu
     static inventoryMenu() {

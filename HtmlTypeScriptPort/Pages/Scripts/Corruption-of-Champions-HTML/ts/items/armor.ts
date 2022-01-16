@@ -1,4 +1,4 @@
-import { IItem, Item, ITEM_TYPE_ARMOUR, ITEM_TYPE_UNDERGARMENT } from "../itemClass"
+import { IItem, Item, ITEM_TYPE_ARMOUR, ITEM_TYPE_UNDERGARMENT } from "../itemClass.js"
 
 class ItemArmor {
     ComfortableClothes: IItem

@@ -1,14 +1,14 @@
-import { liveData } from "../../../globalVariables";
-import * as ENUM from "../../../appearanceEnums";
-import { GUI } from "../../../engine/gui";
-import { FLAG } from "../../../flags/dataFlags";
-import { Data } from "../../../engine/saves";
-import { Creature } from "../../../creature";
-import { COMBAT } from "../../combat";
-import { UTIL } from "../../../engine/utils";
-import { Items } from "../../../itemClass";
-import { PerkLib } from "../../../perkLib";
-import { Camp } from "../../camp";
+import { liveData } from "../../../globalVariables.js";
+import * as ENUM from "../../../appearanceEnums.js";
+import { GUI } from "../../../engine/gui.js";
+import { FLAG } from "../../../flags/dataFlags.js";
+import { Data } from "../../../engine/saves.js";
+import { Creature } from "../../../creature.js";
+import { COMBAT } from "../../combat.js";
+import { UTIL } from "../../../engine/utils.js";
+import { Items } from "../../../itemClass.js";
+import { PerkLib } from "../../../perkLib.js";
+import { Camp } from "../../camp.js";
 /**
  * Created by Sylvain on 4/2/2016.
  */

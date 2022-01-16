@@ -1,9 +1,9 @@
-import * as ENUM from "../../appearanceEnums"
-import { GUI } from "../../engine/gui"
-import { UTIL } from "../../engine/utils"
-import { liveData } from "../../globalVariables"
-import { Inventory } from "../../scenes/inventory"
-import { Items } from "../../itemClass"
+import * as ENUM from "../../appearanceEnums.js"
+import { GUI } from "../../engine/gui.js"
+import { UTIL } from "../../engine/utils.js"
+import { liveData } from "../../globalVariables.js"
+import { Inventory } from "../../scenes/inventory.js"
+import { Items } from "../../itemClass.js"
 
 abstract class ReductoMenu {
     /**

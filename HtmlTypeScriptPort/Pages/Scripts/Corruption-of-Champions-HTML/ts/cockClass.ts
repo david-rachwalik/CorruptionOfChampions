@@ -1,4 +1,4 @@
-import { liveData } from "./globalVariables"
+import { liveData } from "./globalVariables.js"
 
 class Cock {
     //Base info

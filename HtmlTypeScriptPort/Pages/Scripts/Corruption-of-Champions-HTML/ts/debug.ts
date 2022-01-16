@@ -1,12 +1,12 @@
-import { liveData } from "./globalVariables"
-import * as ENUM from "./appearanceEnums"
-import { GUI } from "./engine/gui"
-import { Camp } from "./scenes/camp"
-import { FLAG } from "./flags/dataFlags"
-import { COMBAT } from "./scenes/combat"
-import { TentacleBeast } from "./scenes/areas/forest/tentacleBeast"
-import { Inventory } from "./scenes/inventory"
-import { Items } from "./itemClass"
+import { liveData } from "./globalVariables.js"
+import * as ENUM from "./appearanceEnums.js"
+import { GUI } from "./engine/gui.js"
+import { Camp } from "./scenes/camp.js"
+import { FLAG } from "./flags/dataFlags.js"
+import { COMBAT } from "./scenes/combat.js"
+import { TentacleBeast } from "./scenes/areas/forest/tentacleBeast.js"
+import { Inventory } from "./scenes/inventory.js"
+import { Items } from "./itemClass.js"
 
 abstract class Debug {
     // DEBUGGING MENU

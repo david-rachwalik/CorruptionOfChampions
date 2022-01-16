@@ -1,11 +1,11 @@
-import { GUI } from "../../engine/gui"
-import { Data } from "../../engine/saves"
-import { UTIL } from "../../engine/utils"
-import { FLAG } from "../../flags/dataFlags"
-import { liveData } from "../../globalVariables"
-import { KeyItems } from "../../keyItemLib"
-import { Camp } from "../camp"
-import { AmilyScene } from "../npcs/amily"
+import { GUI } from "../../engine/gui.js"
+import { Data } from "../../engine/saves.js"
+import { UTIL } from "../../engine/utils.js"
+import { FLAG } from "../../flags/dataFlags.js"
+import { liveData } from "../../globalVariables.js"
+import { KeyItems } from "../../keyItemLib.js"
+import { Camp } from "../camp.js"
+import { AmilyScene } from "../npcs/amily.js"
 
 Data.addToGameFlags(FLAG.AMILY_VILLAGE_EXPLORED, FLAG.HAS_ARMOR_RACK, FLAG.HAS_EQUIPMENT_RACK, FLAG.HAS_WEAPON_RACK)
 

@@ -1,10 +1,10 @@
-import { liveData } from "../globalVariables"
-import * as ENUM from "../appearanceEnums"
-import { GUI } from "../engine/gui"
-import { Items } from "../itemClass"
-import { Player } from "../player"
-import { Camp } from "./camp"
-import { UTIL } from "../engine/utils"
+import { liveData } from "../globalVariables.js"
+import * as ENUM from "../appearanceEnums.js"
+import { GUI } from "../engine/gui.js"
+import { Items } from "../itemClass.js"
+import { Player } from "../player.js"
+import { Camp } from "./camp.js"
+import { UTIL } from "../engine/utils.js"
 
 abstract class CharCreation {
     //------------

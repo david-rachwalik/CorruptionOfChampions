@@ -1,7 +1,7 @@
-import { ItemLib } from "../itemClass";
-import { KeyItemIDs } from "../keyItemClass";
-import { PerkIDs } from "../perkClass";
-import { StatusEffectIDs } from "../statusEffectClass";
+import { ItemLib } from "../itemClass.js";
+import { KeyItemIDs } from "../keyItemClass.js";
+import { PerkIDs } from "../perkClass.js";
+import { StatusEffectIDs } from "../statusEffectClass.js";
 // Miscellenious functions
 class UTIL {
     //Format string

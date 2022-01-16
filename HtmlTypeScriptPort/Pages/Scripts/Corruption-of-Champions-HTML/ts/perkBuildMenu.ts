@@ -1,6 +1,6 @@
-import { liveData } from "./globalVariables"
-import { PerkType } from "./perkClass"
-import { PerkLib } from "./perkLib"
+import { liveData } from "./globalVariables.js"
+import { PerkType } from "./perkClass.js"
+import { PerkLib } from "./perkLib.js"
 
 abstract class PerkMenuBuilder {
     static buildPerkList(): PerkType[] {

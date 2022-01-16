@@ -1,14 +1,14 @@
-import { liveData } from "../../globalVariables";
-import * as ENUM from "../../appearanceEnums";
-import { FLAG } from "../../flags/dataFlags";
-import { UTIL } from "../../engine/utils";
-import { GUI } from "../../engine/gui";
-import { Creature } from "../../creature";
-import { COMBAT } from "../combat";
-import { Items } from "../../itemClass";
-import { StatusEffects } from "../../statusEffectLib";
-import { Inventory } from "../inventory";
-import { PerkLib } from "../../perkLib";
+import { liveData } from "../../globalVariables.js";
+import * as ENUM from "../../appearanceEnums.js";
+import { FLAG } from "../../flags/dataFlags.js";
+import { UTIL } from "../../engine/utils.js";
+import { GUI } from "../../engine/gui.js";
+import { Creature } from "../../creature.js";
+import { COMBAT } from "../combat.js";
+import { Items } from "../../itemClass.js";
+import { StatusEffects } from "../../statusEffectLib.js";
+import { Inventory } from "../inventory.js";
+import { PerkLib } from "../../perkLib.js";
 class Imp extends Creature {
     constructor() {
         super();

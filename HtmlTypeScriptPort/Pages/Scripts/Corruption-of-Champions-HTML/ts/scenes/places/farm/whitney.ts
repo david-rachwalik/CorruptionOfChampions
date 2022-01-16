@@ -1,9 +1,9 @@
-import { liveData } from "../../../globalVariables"
-import * as ENUM from "../../../appearanceEnums"
-import { GUI } from "../../../engine/gui"
-import { UTIL } from "../../../engine/utils"
-import { KeyItems } from "../../../keyItemLib"
-import { Camp } from "../../camp"
+import { liveData } from "../../../globalVariables.js"
+import * as ENUM from "../../../appearanceEnums.js"
+import { GUI } from "../../../engine/gui.js"
+import { UTIL } from "../../../engine/utils.js"
+import { KeyItems } from "../../../keyItemLib.js"
+import { Camp } from "../../camp.js"
 
 abstract class WhitneyScene {
     //[YES]

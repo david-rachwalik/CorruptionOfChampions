@@ -1,9 +1,9 @@
-import { GUI } from "../engine/gui";
-import { UTIL } from "../engine/utils";
-import { Item, ITEM_TYPE_CONSUMABLE } from "../itemClass";
-import { BodyLotion, HairDye, SkinOil } from "../itemConstructors";
-import { ConsumableEffects } from "./consumableEffects";
-import { TransformationEffects } from "./transformationEffects";
+import { GUI } from "../engine/gui.js";
+import { UTIL } from "../engine/utils.js";
+import { Item, ITEM_TYPE_CONSUMABLE } from "../itemClass.js";
+import { BodyLotion, HairDye, SkinOil } from "../itemConstructors.js";
+import { ConsumableEffects } from "./consumableEffects.js";
+import { TransformationEffects } from "./transformationEffects.js";
 class ItemConsumables {
     constructor() {
         //------------

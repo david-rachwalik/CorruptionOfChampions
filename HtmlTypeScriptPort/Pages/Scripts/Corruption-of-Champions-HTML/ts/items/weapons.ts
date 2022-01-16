@@ -1,6 +1,6 @@
-import { liveData } from "../globalVariables"
-import { IItem, Item, Items, ITEM_TYPE_WEAPON } from "../itemClass"
-import { PerkLib } from "../perkLib"
+import { liveData } from "../globalVariables.js"
+import { IItem, Item, Items, ITEM_TYPE_WEAPON } from "../itemClass.js"
+import { PerkLib } from "../perkLib.js"
 
 class ItemWeapon {
     BeautifulSword: IItem

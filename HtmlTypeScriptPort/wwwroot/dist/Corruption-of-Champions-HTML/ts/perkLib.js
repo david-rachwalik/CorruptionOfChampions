@@ -1,4 +1,4 @@
-import { PerkType } from "./perkClass";
+import { PerkType } from "./perkClass.js";
 class PerkTypeContainer {
     constructor() {
         //------------

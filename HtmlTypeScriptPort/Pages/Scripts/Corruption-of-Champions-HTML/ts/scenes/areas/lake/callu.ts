@@ -1,11 +1,11 @@
-import { liveData } from "../../../globalVariables"
-import * as ENUM from "../../../appearanceEnums"
-import { FLAG } from "../../../flags/dataFlags"
-import { GUI } from "../../../engine/gui"
-import { Camp } from "../../camp"
-import { Items } from "../../../itemClass"
-import { Inventory } from "../../inventory"
-import { Data } from "../../../engine/saves"
+import { liveData } from "../../../globalVariables.js"
+import * as ENUM from "../../../appearanceEnums.js"
+import { FLAG } from "../../../flags/dataFlags.js"
+import { GUI } from "../../../engine/gui.js"
+import { Camp } from "../../camp.js"
+import { Items } from "../../../itemClass.js"
+import { Inventory } from "../../inventory.js"
+import { Data } from "../../../engine/saves.js"
 
 Data.addToGameFlags(FLAG.MET_OTTERGIRL)
 

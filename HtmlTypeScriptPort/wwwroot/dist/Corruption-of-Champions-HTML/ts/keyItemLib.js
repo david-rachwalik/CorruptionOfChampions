@@ -1,4 +1,4 @@
-import { KeyItemType } from "./keyItemClass";
+import { KeyItemType } from "./keyItemClass.js";
 class KeyItemTypeContainer {
     constructor() {
         //Books

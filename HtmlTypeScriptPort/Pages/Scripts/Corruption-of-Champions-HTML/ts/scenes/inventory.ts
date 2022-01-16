@@ -1,11 +1,11 @@
-import { GUI } from "../engine/gui"
-import { UTIL } from "../engine/utils"
-import { IItem, Item, Items, ITEM_TYPE_ARMOUR, ITEM_TYPE_SHIELD, ITEM_TYPE_WEAPON } from "../itemClass"
-import { IItemSlot, ItemSlot } from "../itemSlotClass"
-import { liveData } from "../globalVariables"
-import { COMBAT } from "./combat"
-import { Camp } from "./camp"
-import { FLAG } from "../flags/dataFlags"
+import { GUI } from "../engine/gui.js"
+import { UTIL } from "../engine/utils.js"
+import { IItem, Item, Items, ITEM_TYPE_ARMOUR, ITEM_TYPE_SHIELD, ITEM_TYPE_WEAPON } from "../itemClass.js"
+import { IItemSlot, ItemSlot } from "../itemSlotClass.js"
+import { liveData } from "../globalVariables.js"
+import { COMBAT } from "./combat.js"
+import { Camp } from "./camp.js"
+import { FLAG } from "../flags/dataFlags.js"
 
 abstract class Inventory {
     static readonly inventorySlotName = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"]

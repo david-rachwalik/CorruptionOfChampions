@@ -1,4 +1,4 @@
-import { Items } from "./itemClass";
+import { Items } from "./itemClass.js";
 class ItemSlot {
     constructor() {
         this.quantity = 0;

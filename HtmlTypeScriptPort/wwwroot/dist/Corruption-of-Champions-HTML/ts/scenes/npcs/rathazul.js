@@ -1,13 +1,13 @@
-import { liveData } from "../../globalVariables";
-import * as ENUM from "../../appearanceEnums";
-import { GUI } from "../../engine/gui";
-import { Data } from "../../engine/saves";
-import { Items } from "../../itemClass";
-import { PerkLib } from "../../perkLib";
-import { Inventory } from "../inventory";
-import { Camp } from "../camp";
-import { FLAG } from "../../flags/dataFlags";
-import { KeyItems } from "../../keyItemLib";
+import { liveData } from "../../globalVariables.js";
+import * as ENUM from "../../appearanceEnums.js";
+import { GUI } from "../../engine/gui.js";
+import { Data } from "../../engine/saves.js";
+import { Items } from "../../itemClass.js";
+import { PerkLib } from "../../perkLib.js";
+import { Inventory } from "../inventory.js";
+import { Camp } from "../camp.js";
+import { FLAG } from "../../flags/dataFlags.js";
+import { KeyItems } from "../../keyItemLib.js";
 Data.addToGameFlags(FLAG.RATHAZUL_MET, FLAG.RATHAZUL_CAMP, FLAG.RATHAZUL_PURCHASE_COUNTER, FLAG.RATHAZUL_ARMOUR_COUNTER);
 class RathazulScene {
     static encounterRathazul() {

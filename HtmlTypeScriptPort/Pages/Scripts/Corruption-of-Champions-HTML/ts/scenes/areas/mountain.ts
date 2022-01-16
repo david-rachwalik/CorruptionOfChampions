@@ -1,13 +1,13 @@
-import { liveData } from "../../globalVariables"
-import * as ENUM from "../../appearanceEnums"
-import { GUI } from "../../engine/gui"
-import { UTIL } from "../../engine/utils"
-import { Camp } from "../camp"
-import { FLAG } from "../../flags/dataFlags"
-import { AreasGenericExploration } from "../exploration"
-import { MinotaurScene } from "./mountain/minotaur"
-import { HellhoundScene } from "./mountain/hellhound"
-import { WormsScene } from "./mountain/wormmass"
+import { liveData } from "../../globalVariables.js"
+import * as ENUM from "../../appearanceEnums.js"
+import { GUI } from "../../engine/gui.js"
+import { UTIL } from "../../engine/utils.js"
+import { Camp } from "../camp.js"
+import { FLAG } from "../../flags/dataFlags.js"
+import { AreasGenericExploration } from "../exploration.js"
+import { MinotaurScene } from "./mountain/minotaur.js"
+import { HellhoundScene } from "./mountain/hellhound.js"
+import { WormsScene } from "./mountain/wormmass.js"
 
 abstract class AreasMountain {
     static explore() {

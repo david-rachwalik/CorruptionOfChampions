@@ -1,14 +1,14 @@
-import { GUI } from "../engine/gui";
-import * as ENUM from "../appearanceEnums";
-import { UTIL } from "../engine/utils";
-import { liveData } from "../globalVariables";
-import { BindType, StatusEffects } from "../statusEffectLib";
-import { Items } from "../itemClass";
-import { PerkLib } from "../perkLib";
-import { Inventory } from "./inventory";
-import { Camp } from "./camp";
-import { FLAG } from "../flags/dataFlags";
-import { CombatTeases } from "./combatTeases";
+import { GUI } from "../engine/gui.js";
+import * as ENUM from "../appearanceEnums.js";
+import { UTIL } from "../engine/utils.js";
+import { liveData } from "../globalVariables.js";
+import { BindType, StatusEffects } from "../statusEffectLib.js";
+import { Items } from "../itemClass.js";
+import { PerkLib } from "../perkLib.js";
+import { Inventory } from "./inventory.js";
+import { Camp } from "./camp.js";
+import { FLAG } from "../flags/dataFlags.js";
+import { CombatTeases } from "./combatTeases.js";
 class COMBAT {
     //------------
     // ACTIONS

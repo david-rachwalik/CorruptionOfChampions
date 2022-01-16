@@ -1,4 +1,4 @@
-import { StatusEffect, StatusEffectIDs, StatusEffectType } from "./statusEffectClass"
+import { StatusEffect, StatusEffectIDs, StatusEffectType } from "./statusEffectClass.js"
 
 enum BindType {
     BIND_TYPE_GOO = 0,

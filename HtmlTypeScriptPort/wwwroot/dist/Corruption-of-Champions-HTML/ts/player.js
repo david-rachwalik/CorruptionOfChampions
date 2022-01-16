@@ -1,14 +1,14 @@
-import * as ENUM from "./appearanceEnums";
-import { GUI } from "./engine/gui";
-import { UTIL } from "./engine/utils";
-import { Ass } from "./assClass";
-import { Items } from "./itemClass";
-import { ItemSlot } from "./itemSlotClass";
-import { liveData } from "./globalVariables";
-import { CharacterType, Creature } from "./creature";
-import { StatusEffects, VenomType } from "./statusEffectLib";
-import { PerkLib } from "./perkLib";
-import { Appearance } from "./appearance";
+import * as ENUM from "./appearanceEnums.js";
+import { GUI } from "./engine/gui.js";
+import { UTIL } from "./engine/utils.js";
+import { Ass } from "./assClass.js";
+import { Items } from "./itemClass.js";
+import { ItemSlot } from "./itemSlotClass.js";
+import { liveData } from "./globalVariables.js";
+import { CharacterType, Creature } from "./creature.js";
+import { StatusEffects, VenomType } from "./statusEffectLib.js";
+import { PerkLib } from "./perkLib.js";
+import { Appearance } from "./appearance.js";
 class Spell {
     constructor() {
         this.blind = false;

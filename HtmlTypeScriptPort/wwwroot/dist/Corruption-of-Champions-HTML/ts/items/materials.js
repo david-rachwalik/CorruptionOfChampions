@@ -1,5 +1,5 @@
-import { GUI } from "../engine/gui";
-import { Item, ITEM_TYPE_MATERIAL } from "../itemClass";
+import { GUI } from "../engine/gui.js";
+import { Item, ITEM_TYPE_MATERIAL } from "../itemClass.js";
 class ItemMaterials {
     constructor() {
         this.GreenGel = new Item("GreenGl", "Green Gel", "a clump of green gel", ITEM_TYPE_MATERIAL);

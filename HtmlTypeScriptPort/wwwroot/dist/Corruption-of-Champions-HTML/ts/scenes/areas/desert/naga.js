@@ -1,16 +1,16 @@
-import { liveData } from "../../../globalVariables";
-import * as ENUM from "../../../appearanceEnums";
-import { GUI } from "../../../engine/gui";
-import { FLAG } from "../../../flags/dataFlags";
-import { Data } from "../../../engine/saves";
-import { Creature } from "../../../creature";
-import { Appearance } from "../../../appearance";
-import { BindType, StatusEffects, VenomType } from "../../../statusEffectLib";
-import { Items } from "../../../itemClass";
-import { UTIL } from "../../../engine/utils";
-import { PerkLib } from "../../../perkLib";
-import { COMBAT } from "../../combat";
-import { Camp } from "../../camp";
+import { liveData } from "../../../globalVariables.js";
+import * as ENUM from "../../../appearanceEnums.js";
+import { GUI } from "../../../engine/gui.js";
+import { FLAG } from "../../../flags/dataFlags.js";
+import { Data } from "../../../engine/saves.js";
+import { Creature } from "../../../creature.js";
+import { Appearance } from "../../../appearance.js";
+import { BindType, StatusEffects, VenomType } from "../../../statusEffectLib.js";
+import { Items } from "../../../itemClass.js";
+import { UTIL } from "../../../engine/utils.js";
+import { PerkLib } from "../../../perkLib.js";
+import { COMBAT } from "../../combat.js";
+import { Camp } from "../../camp.js";
 Data.addToGameFlags(FLAG.NAGA_LAST_ENCOUNTERED_AS_NAGA, FLAG.NAGA_FUCKED_AS_NAGA);
 class Naga extends Creature {
     constructor() {

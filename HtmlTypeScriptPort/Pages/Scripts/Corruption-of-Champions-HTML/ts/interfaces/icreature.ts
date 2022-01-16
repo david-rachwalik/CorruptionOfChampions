@@ -1,13 +1,13 @@
-import * as ENUM from "../appearanceEnums"
-import { Ass } from "../assClass"
-import { IItem } from "../itemClass"
-import { KeyItem, KeyItemType } from "../keyItemClass"
-import { Perk, PerkType } from "../perkClass"
-import { StatusEffect, StatusEffectType } from "../statusEffectClass"
-import { Cock } from "../cockClass"
-import { Vagina } from "../vaginaClass"
-import { BreastRow } from "../breastRowClass"
-import { CharacterType } from "../creature"
+import * as ENUM from "../appearanceEnums.js"
+import { Ass } from "../assClass.js"
+import { IItem } from "../itemClass.js"
+import { KeyItem, KeyItemType } from "../keyItemClass.js"
+import { Perk, PerkType } from "../perkClass.js"
+import { StatusEffect, StatusEffectType } from "../statusEffectClass.js"
+import { Cock } from "../cockClass.js"
+import { Vagina } from "../vaginaClass.js"
+import { BreastRow } from "../breastRowClass.js"
+import { CharacterType } from "../creature.js"
 
 interface ICreature {
     //Name and references

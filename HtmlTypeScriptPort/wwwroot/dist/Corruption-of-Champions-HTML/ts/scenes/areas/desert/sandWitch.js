@@ -1,16 +1,16 @@
-import { liveData } from "../../../globalVariables";
-import * as ENUM from "../../../appearanceEnums";
-import { GUI } from "../../../engine/gui";
-import { UTIL } from "../../../engine/utils";
-import { FLAG } from "../../../flags/dataFlags";
-import { Creature } from "../../../creature";
-import { Appearance } from "../../../appearance";
-import { Data } from "../../../engine/saves";
-import { Items } from "../../../itemClass";
-import { PerkLib } from "../../../perkLib";
-import { StatusEffects } from "../../../statusEffectLib";
-import { Camp } from "../../camp";
-import { COMBAT } from "../../combat";
+import { liveData } from "../../../globalVariables.js";
+import * as ENUM from "../../../appearanceEnums.js";
+import { GUI } from "../../../engine/gui.js";
+import { UTIL } from "../../../engine/utils.js";
+import { FLAG } from "../../../flags/dataFlags.js";
+import { Creature } from "../../../creature.js";
+import { Appearance } from "../../../appearance.js";
+import { Data } from "../../../engine/saves.js";
+import { Items } from "../../../itemClass.js";
+import { PerkLib } from "../../../perkLib.js";
+import { StatusEffects } from "../../../statusEffectLib.js";
+import { Camp } from "../../camp.js";
+import { COMBAT } from "../../combat.js";
 Data.addToGameFlags(FLAG.SAND_WITCH_RAPED);
 class SandWitch extends Creature {
     constructor() {

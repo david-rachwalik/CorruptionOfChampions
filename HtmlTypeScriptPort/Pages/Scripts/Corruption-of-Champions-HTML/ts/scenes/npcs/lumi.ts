@@ -1,12 +1,12 @@
-import { liveData } from "../../globalVariables"
-import * as ENUM from "../../appearanceEnums"
-import { FLAG } from "../../flags/dataFlags"
-import { UTIL } from "../../engine/utils"
-import { GUI } from "../../engine/gui"
-import { Data } from "../../engine/saves"
-import { Camp } from "../camp"
-import { IItem, Items } from "../../itemClass"
-import { Inventory } from "../inventory"
+import { liveData } from "../../globalVariables.js"
+import * as ENUM from "../../appearanceEnums.js"
+import { FLAG } from "../../flags/dataFlags.js"
+import { UTIL } from "../../engine/utils.js"
+import { GUI } from "../../engine/gui.js"
+import { Data } from "../../engine/saves.js"
+import { Camp } from "../camp.js"
+import { IItem, Items } from "../../itemClass.js"
+import { Inventory } from "../inventory.js"
 
 Data.addToGameFlags(FLAG.LUMI_MET)
 

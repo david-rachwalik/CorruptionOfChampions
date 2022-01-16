@@ -1,12 +1,12 @@
-import { liveData } from "../../../globalVariables";
-import { FLAG } from "../../../flags/dataFlags";
-import * as ENUM from "../../../appearanceEnums";
-import { GUI } from "../../../engine/gui";
-import { UTIL } from "../../../engine/utils";
-import { COMBAT } from "../../combat";
-import { Creature } from "../../../creature";
-import { Items } from "../../../itemClass";
-import { StatusEffects } from "../../../statusEffectLib";
+import { liveData } from "../../../globalVariables.js";
+import { FLAG } from "../../../flags/dataFlags.js";
+import * as ENUM from "../../../appearanceEnums.js";
+import { GUI } from "../../../engine/gui.js";
+import { UTIL } from "../../../engine/utils.js";
+import { COMBAT } from "../../combat.js";
+import { Creature } from "../../../creature.js";
+import { Items } from "../../../itemClass.js";
+import { StatusEffects } from "../../../statusEffectLib.js";
 class GreenSlime extends Creature {
     constructor() {
         super();

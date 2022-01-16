@@ -1,16 +1,16 @@
-import { liveData } from "../../../globalVariables";
-import * as ENUM from "../../../appearanceEnums";
-import { GUI } from "../../../engine/gui";
-import { Creature } from "../../../creature";
-import { Items } from "../../../itemClass";
-import { StatusEffects, VenomType } from "../../../statusEffectLib";
-import { UTIL } from "../../../engine/utils";
-import { Inventory } from "../../inventory";
-import { Camp } from "../../camp";
-import { Appearance } from "../../../appearance";
-import { COMBAT } from "../../combat";
-import { FLAG } from "../../../flags/dataFlags";
-import { KeyItems } from "../../../keyItemLib";
+import { liveData } from "../../../globalVariables.js";
+import * as ENUM from "../../../appearanceEnums.js";
+import { GUI } from "../../../engine/gui.js";
+import { Creature } from "../../../creature.js";
+import { Items } from "../../../itemClass.js";
+import { StatusEffects, VenomType } from "../../../statusEffectLib.js";
+import { UTIL } from "../../../engine/utils.js";
+import { Inventory } from "../../inventory.js";
+import { Camp } from "../../camp.js";
+import { Appearance } from "../../../appearance.js";
+import { COMBAT } from "../../combat.js";
+import { FLAG } from "../../../flags/dataFlags.js";
+import { KeyItems } from "../../../keyItemLib.js";
 class BeeGirl extends Creature {
     constructor() {
         super();

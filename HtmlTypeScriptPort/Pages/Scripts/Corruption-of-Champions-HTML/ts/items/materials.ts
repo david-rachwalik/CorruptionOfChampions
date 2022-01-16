@@ -1,5 +1,5 @@
-import { GUI } from "../engine/gui"
-import { IItem, Item, ITEM_TYPE_MATERIAL } from "../itemClass"
+import { GUI } from "../engine/gui.js"
+import { IItem, Item, ITEM_TYPE_MATERIAL } from "../itemClass.js"
 
 class ItemMaterials {
     GreenGel: IItem

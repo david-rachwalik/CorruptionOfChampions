@@ -1,10 +1,10 @@
-import { liveData } from "../../globalVariables"
-import * as ENUM from "../../appearanceEnums"
-import { FLAG } from "../../flags/dataFlags"
-import { UTIL } from "../../engine/utils"
-import { GUI } from "../../engine/gui"
-import { Data } from "../../engine/saves"
-import { PerkLib } from "../../perkLib"
+import { liveData } from "../../globalVariables.js"
+import * as ENUM from "../../appearanceEnums.js"
+import { FLAG } from "../../flags/dataFlags.js"
+import { UTIL } from "../../engine/utils.js"
+import { GUI } from "../../engine/gui.js"
+import { Data } from "../../engine/saves.js"
+import { PerkLib } from "../../perkLib.js"
 
 Data.addToGameFlags(FLAG.MARBLE_MET, FLAG.MARBLE_ADDICTION, FLAG.MARBLE_AFFECTION, FLAG.MARBLE_WARNING, FLAG.NO_MORE_MARBLE, FLAG.MARBLE_RAPE_ATTEMPTED, FLAG.MURBLE_FARM_TALK_LEVELS)
 

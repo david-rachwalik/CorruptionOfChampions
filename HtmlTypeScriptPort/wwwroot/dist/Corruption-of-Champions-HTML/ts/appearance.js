@@ -1,7 +1,7 @@
-import { UTIL } from "./engine/utils";
-import * as ENUM from "./appearanceEnums";
-import { liveData } from "./globalVariables";
-import { StatusEffects } from "./statusEffectLib";
+import { UTIL } from "./engine/utils.js";
+import * as ENUM from "./appearanceEnums.js";
+import { liveData } from "./globalVariables.js";
+import { StatusEffects } from "./statusEffectLib.js";
 class Appearance {
     // Eventually, this should contain the entire char appearance.
     // At the moment, it's pretty piecemeal.

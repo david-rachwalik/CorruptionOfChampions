@@ -1,12 +1,12 @@
-import { liveData } from "../globalVariables";
-import * as ENUM from "../appearanceEnums";
-import { GUI } from "../engine/gui";
-import { UTIL } from "../engine/utils";
-import { PerkLib } from "../perkLib";
-import { FLAG } from "../flags/dataFlags";
-import { Appearance } from "../appearance";
-import { StatusEffects } from "../statusEffectLib";
-import { COMBAT } from "../scenes/combat";
+import { liveData } from "../globalVariables.js";
+import * as ENUM from "../appearanceEnums.js";
+import { GUI } from "../engine/gui.js";
+import { UTIL } from "../engine/utils.js";
+import { PerkLib } from "../perkLib.js";
+import { FLAG } from "../flags/dataFlags.js";
+import { Appearance } from "../appearance.js";
+import { StatusEffects } from "../statusEffectLib.js";
+import { COMBAT } from "../scenes/combat.js";
 class TransformationEffects {
     static beeTFs(type) {
         let pure = type == 1;

@@ -1,17 +1,17 @@
-import { liveData } from "../../globalVariables";
-import { GUI } from "../../engine/gui";
-import { UTIL } from "../../engine/utils";
-import { PlacesFarm } from "../places/farm";
-import { FLAG } from "../../flags/dataFlags";
-import { Data } from "../../engine/saves";
-import { AreasGenericExploration } from "../exploration";
-import { Camp } from "../camp";
-import { Items } from "../../itemClass";
-import { Inventory } from "../inventory";
-import { GooGirlScene } from "./lake/gooGirl";
-import { GreenSlimeScene } from "./lake/greenSlime";
-import { RathazulScene } from "../npcs/rathazul";
-import { TownRuins } from "../places/townruins";
+import { liveData } from "../../globalVariables.js";
+import { GUI } from "../../engine/gui.js";
+import { UTIL } from "../../engine/utils.js";
+import { PlacesFarm } from "../places/farm.js";
+import { FLAG } from "../../flags/dataFlags.js";
+import { Data } from "../../engine/saves.js";
+import { AreasGenericExploration } from "../exploration.js";
+import { Camp } from "../camp.js";
+import { Items } from "../../itemClass.js";
+import { Inventory } from "../inventory.js";
+import { GooGirlScene } from "./lake/gooGirl.js";
+import { GreenSlimeScene } from "./lake/greenSlime.js";
+import { RathazulScene } from "../npcs/rathazul.js";
+import { TownRuins } from "../places/townruins.js";
 Data.addToGameFlags(FLAG.AMILY_VILLAGE_ACCESSIBLE);
 class AreasLake {
     static explore() {

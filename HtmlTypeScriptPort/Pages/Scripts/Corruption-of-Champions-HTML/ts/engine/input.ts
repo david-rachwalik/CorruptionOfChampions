@@ -8,8 +8,8 @@
 // Y and N will handle a yes or No
 // Also will register a shift depress.
 
-import { liveData } from "../globalVariables"
-import { GUI } from "./gui"
+import { liveData } from "../globalVariables.js"
+import { GUI } from "./gui.js"
 
 // https://developer.mozilla.org/en-US/docs/Web/Events
 // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent

@@ -1,7 +1,7 @@
-import { liveData } from "../../globalVariables";
-import { FLAG } from "../../flags/dataFlags";
-import { Data } from "../../engine/saves";
-import { PerkLib } from "../../perkLib";
+import { liveData } from "../../globalVariables.js";
+import { FLAG } from "../../flags/dataFlags.js";
+import { Data } from "../../engine/saves.js";
+import { PerkLib } from "../../perkLib.js";
 Data.addToGameFlags(FLAG.MARBLE_MET, FLAG.MARBLE_ADDICTION, FLAG.MARBLE_AFFECTION, FLAG.MARBLE_WARNING, FLAG.NO_MORE_MARBLE, FLAG.MARBLE_RAPE_ATTEMPTED, FLAG.MURBLE_FARM_TALK_LEVELS);
 class MarbleScene {
     static marbleStatusChange(affection, addiction, isAddicted = -1) {

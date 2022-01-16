@@ -1,9 +1,9 @@
-import { GUI } from "../engine/gui";
-import { FLAG } from "../flags/dataFlags";
-import { liveData } from "../globalVariables";
-import { Camp } from "./camp";
-import { PlacesFarm } from "./places/farm";
-import { TownRuins } from "./places/townruins";
+import { GUI } from "../engine/gui.js";
+import { FLAG } from "../flags/dataFlags.js";
+import { liveData } from "../globalVariables.js";
+import { Camp } from "./camp.js";
+import { PlacesFarm } from "./places/farm.js";
+import { TownRuins } from "./places/townruins.js";
 class Places {
     static placesMenu() {
         GUI.hideMenus();

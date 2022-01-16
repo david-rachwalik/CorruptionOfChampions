@@ -1,17 +1,17 @@
-import { Creature } from "../../../creature";
-import * as ENUM from "../../../appearanceEnums";
-import { Data } from "../../../engine/saves";
-import { FLAG } from "../../../flags/dataFlags";
-import { StatusEffects } from "../../../statusEffectLib";
-import { Appearance } from "../../../appearance";
-import { Items } from "../../../itemClass";
-import { UTIL } from "../../../engine/utils";
-import { COMBAT } from "../../combat";
-import { liveData } from "../../../globalVariables";
-import { GUI } from "../../../engine/gui";
-import { Camp } from "../../camp";
-import { KeyItems } from "../../../keyItemLib";
-import { PerkLib } from "../../../perkLib";
+import { Creature } from "../../../creature.js";
+import * as ENUM from "../../../appearanceEnums.js";
+import { Data } from "../../../engine/saves.js";
+import { FLAG } from "../../../flags/dataFlags.js";
+import { StatusEffects } from "../../../statusEffectLib.js";
+import { Appearance } from "../../../appearance.js";
+import { Items } from "../../../itemClass.js";
+import { UTIL } from "../../../engine/utils.js";
+import { COMBAT } from "../../combat.js";
+import { liveData } from "../../../globalVariables.js";
+import { GUI } from "../../../engine/gui.js";
+import { Camp } from "../../camp.js";
+import { KeyItems } from "../../../keyItemLib.js";
+import { PerkLib } from "../../../perkLib.js";
 Data.addToGameFlags(FLAG.TAMANI_MET, FLAG.TAMANI_TIME_OUT, FLAG.TAMANI_BAD_ENDED, FLAG.TAMANI_DAUGHTER_PREGGO_COUNTDOWN, FLAG.TAMANI_NUMBER_OF_DAUGHTERS, FLAG.TAMANI_TIMES_HYPNOTIZED, FLAG.TAMANI_DEFEAT_COUNTER, FLAG.TAMANI_TIMES_IMPREGNATED, FLAG.TAMANI_PREGNANCY_COUNT, FLAG.TIMES_OVIPOSITED_TAMANI);
 //Tamani Description
 class Tamani extends Creature {

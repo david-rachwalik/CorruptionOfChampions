@@ -1,12 +1,12 @@
-import { liveData } from "../../globalVariables"
-import { GUI } from "../../engine/gui"
-import { UTIL } from "../../engine/utils"
-import { SandWitchScene } from "./desert/sandWitch"
-import { Camp } from "../camp"
-import { NagaScene } from "./desert/naga"
-import { WandererScene } from "./desert/marcusLucia"
-import { SandTrapScene } from "./desert/sandTrap"
-import { OasisScene } from "./desert/oasis"
+import { liveData } from "../../globalVariables.js"
+import { GUI } from "../../engine/gui.js"
+import { UTIL } from "../../engine/utils.js"
+import { SandWitchScene } from "./desert/sandWitch.js"
+import { Camp } from "../camp.js"
+import { NagaScene } from "./desert/naga.js"
+import { WandererScene } from "./desert/marcusLucia.js"
+import { SandTrapScene } from "./desert/sandTrap.js"
+import { OasisScene } from "./desert/oasis.js"
 
 abstract class AreasDesert {
     static explore() {

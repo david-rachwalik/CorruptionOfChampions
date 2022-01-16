@@ -1,13 +1,13 @@
-import { GUI } from "./gui";
-import { liveData, GameContext } from "../globalVariables";
-import { Player } from "../player";
-import { ItemSlot } from "../itemSlotClass";
-import { StatusEffect } from "../statusEffectClass";
-import { MAIN } from "../main";
-import { Perk } from "../perkClass";
-import { KeyItem } from "../keyItemClass";
-import { UTIL } from "./utils";
-import { Camp } from "../scenes/camp";
+import { GUI } from "./gui.js";
+import { liveData, GameContext } from "../globalVariables.js";
+import { Player } from "../player.js";
+import { ItemSlot } from "../itemSlotClass.js";
+import { StatusEffect } from "../statusEffectClass.js";
+import { MAIN } from "../main.js";
+import { Perk } from "../perkClass.js";
+import { KeyItem } from "../keyItemClass.js";
+import { UTIL } from "./utils.js";
+import { Camp } from "../scenes/camp.js";
 // This code handles saving and loading of games. (Save State)
 class Data {
     //Save Menu

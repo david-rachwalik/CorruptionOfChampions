@@ -1,4 +1,4 @@
-import { StatusEffectType } from "./statusEffectClass";
+import { StatusEffectType } from "./statusEffectClass.js";
 var BindType;
 (function (BindType) {
     BindType[BindType["BIND_TYPE_GOO"] = 0] = "BIND_TYPE_GOO";

@@ -1,6 +1,6 @@
-import { Item, ITEM_TYPE_CONSUMABLE } from "./itemClass"
-import { UTIL } from "./engine/utils"
-import { ConsumableEffects } from "./items/consumableEffects"
+import { Item, ITEM_TYPE_CONSUMABLE } from "./itemClass.js"
+import { UTIL } from "./engine/utils.js"
+import { ConsumableEffects } from "./items/consumableEffects.js"
 
 function HairDye(dyeId: string, dyeColor: string) {
     var newItem = new Item(dyeId, dyeColor + " Dye", "a vial of " + dyeColor + " hair dye", ITEM_TYPE_CONSUMABLE)

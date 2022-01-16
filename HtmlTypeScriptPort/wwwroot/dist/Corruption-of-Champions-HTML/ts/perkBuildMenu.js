@@ -1,5 +1,5 @@
-import { liveData } from "./globalVariables";
-import { PerkLib } from "./perkLib";
+import { liveData } from "./globalVariables.js";
+import { PerkLib } from "./perkLib.js";
 class PerkMenuBuilder {
     static buildPerkList() {
         let perksAvailable = [];

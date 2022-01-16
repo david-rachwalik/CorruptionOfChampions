@@ -1,4 +1,4 @@
-import { Item, ITEM_TYPE_ARMOUR, ITEM_TYPE_UNDERGARMENT } from "../itemClass";
+import { Item, ITEM_TYPE_ARMOUR, ITEM_TYPE_UNDERGARMENT } from "../itemClass.js";
 class ItemArmor {
     constructor() {
         this.ComfortableClothes = new Item("C.Cloth", "C.Cloth", "a set of comfortable clothes", ITEM_TYPE_ARMOUR);

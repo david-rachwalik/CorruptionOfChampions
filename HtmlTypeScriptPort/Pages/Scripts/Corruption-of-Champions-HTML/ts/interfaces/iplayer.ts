@@ -1,8 +1,8 @@
-import { ICreature } from "./icreature"
-import { Ass } from "../assClass"
-import { IItem, Item } from "../itemClass"
-import { ItemSlot } from "../itemSlotClass"
-import { Spell } from "../player"
+import { ICreature } from "./icreature.js"
+import { Ass } from "../assClass.js"
+import { IItem, Item } from "../itemClass.js"
+import { ItemSlot } from "../itemSlotClass.js"
+import { Spell } from "../player.js"
 
 interface IPlayer extends ICreature {
     beardType: number

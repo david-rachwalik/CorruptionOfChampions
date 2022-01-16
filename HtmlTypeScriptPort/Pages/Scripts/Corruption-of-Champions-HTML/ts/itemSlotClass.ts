@@ -1,4 +1,4 @@
-import { IItem, Item, Items } from "./itemClass"
+import { IItem, Item, Items } from "./itemClass.js"
 
 interface IItemSlot {
     quantity: number

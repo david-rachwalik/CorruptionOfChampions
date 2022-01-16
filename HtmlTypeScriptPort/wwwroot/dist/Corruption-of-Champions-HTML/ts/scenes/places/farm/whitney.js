@@ -1,8 +1,8 @@
-import { liveData } from "../../../globalVariables";
-import { GUI } from "../../../engine/gui";
-import { UTIL } from "../../../engine/utils";
-import { KeyItems } from "../../../keyItemLib";
-import { Camp } from "../../camp";
+import { liveData } from "../../../globalVariables.js";
+import { GUI } from "../../../engine/gui.js";
+import { UTIL } from "../../../engine/utils.js";
+import { KeyItems } from "../../../keyItemLib.js";
+import { Camp } from "../../camp.js";
 class WhitneyScene {
     //[YES]
     static whitneyMilkerHookup(breast = true) {
