@@ -1,27 +1,24 @@
-﻿import * as _ from 'lodash';
-import * as bootstrap from 'bootstrap';
+﻿import * as _ from "lodash";
+import * as bootstrap from "bootstrap";
 
-
-let message: string = 'Hello, world!';
+let message: string = "Hello, world!";
 console.log(message);
-
 
 interface Character {
     name_first: string;
     name_last: string;
-    [key: string]: any
+    [key: string]: any;
 }
 
 const character1: Character = {
     name_first: "Kimihito",
     name_last: "Kurusu"
-}
+};
 
 const character2: Character = {
     name_first: "Suu",
     name_last: ""
-}
-
+};
 
 function welcomeCharacter(character: Character): string {
     return `Hey, ${character.name_first} ${character.name_last}`;
@@ -29,6 +26,8 @@ function welcomeCharacter(character: Character): string {
 let welcomeMessage = welcomeCharacter(character2);
 console.log(welcomeMessage);
 
+console.log("test hello");
+console.log("test hello");
 
 // -------- Enable BootStrap Tooltips (old method) --------
 // $(function() {
@@ -36,9 +35,8 @@ console.log(welcomeMessage);
 //     $('[data-bs-toggle="tooltip"]').tooltip();
 // });
 
-
 // -------- Enable BootStrap Tooltips --------
-let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
 let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
+    return new bootstrap.Tooltip(tooltipTriggerEl);
 });

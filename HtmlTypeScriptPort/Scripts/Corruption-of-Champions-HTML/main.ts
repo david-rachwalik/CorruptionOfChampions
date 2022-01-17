@@ -4,46 +4,46 @@ import { Camp } from "./scenes/camp.js"
 import { CharCreation } from "./scenes/intro.js"
 import { Data } from "./engine/saves.js"
 
-function mainMenu(): void {
-    // Check to see if the user has a bad browser
-    if (typeof Storage !== "undefined") {
-        // All good to go!
-    } else if (MAIN.GetIEVersion() < 11) {
-        MAIN.errorOldInternetExplorerEwwww()
-        return
-    } else if (MAIN.GetIEVersion() >= 11) {
-        //Don't run the game if on Edge or IE11 due to issues.
-        MAIN.errorEdgeNeverWorks()
-        return
-    } else {
-        MAIN.errorOldBrowser()
-        return
-    }
-    Data.loadSettings()
-    GUI.clearOutput()
-    // Load the start screen
-    GUI.outputText('<img src="assets/interface/CoCLogo.png" height="300" width="400"><br>')
-    GUI.outputText("Corruption of Champions: HTML Edition (" + liveData.gameVersion + ")<br><br>")
-    GUI.outputText("Original CoC by Fenoxo. Rewritten by Kitteh6660.")
-    GUI.menu()
-    GUI.hideStats()
-    GUI.hideUpDown()
-    GUI.hideMenus()
-    GUI.setMenuButton("buttonMain", "New Game", CharCreation.initializeNewGame)
-    GUI.showMenuButton("buttonMain")
-    GUI.showMenuButton("buttonData")
-    liveData.playerMenu = mainMenu
-    if (liveData.gameStarted) GUI.addButton(0, "Resume", Camp.doCamp)
-    else GUI.addButtonDisabled(0, "Resume", "Please load a game or start a new game first.")
-    GUI.addButton(1, "Settings", MAIN.settingsScreenMain)
-    GUI.addButton(2, "Credits", MAIN.creditsScreen)
-}
-//---------
-// GetIEVersion(), errorOldBrowser(), and errorOldInternetExplorereEwwww()
-// Used for browser compatibility checks
-//---------
-
 abstract class MAIN {
+    static mainMenu(): void {
+        // Check to see if the user has a bad browser
+        if (typeof Storage !== "undefined") {
+            // All good to go!
+        } else if (MAIN.GetIEVersion() < 11) {
+            MAIN.errorOldInternetExplorerEwwww()
+            return
+        } else if (MAIN.GetIEVersion() >= 11) {
+            //Don't run the game if on Edge or IE11 due to issues.
+            MAIN.errorEdgeNeverWorks()
+            return
+        } else {
+            MAIN.errorOldBrowser()
+            return
+        }
+        Data.loadSettings()
+        GUI.clearOutput()
+        // Load the start screen
+        GUI.outputText('<img src="assets/interface/CoCLogo.png" height="300" width="400"><br>')
+        GUI.outputText("Corruption of Champions: HTML Edition (" + liveData.gameVersion + ")<br><br>")
+        GUI.outputText("Original CoC by Fenoxo. Rewritten by Kitteh6660.")
+        GUI.menu()
+        GUI.hideStats()
+        GUI.hideUpDown()
+        GUI.hideMenus()
+        GUI.setMenuButton("buttonMain", "New Game", CharCreation.initializeNewGame)
+        GUI.showMenuButton("buttonMain")
+        GUI.showMenuButton("buttonData")
+        liveData.playerMenu = this.mainMenu
+        if (liveData.gameStarted) GUI.addButton(0, "Resume", Camp.doCamp)
+        else GUI.addButtonDisabled(0, "Resume", "Please load a game or start a new game first.")
+        GUI.addButton(1, "Settings", MAIN.settingsScreenMain)
+        GUI.addButton(2, "Credits", MAIN.creditsScreen)
+    }
+    //---------
+    // GetIEVersion(), errorOldBrowser(), and errorOldInternetExplorereEwwww()
+    // Used for browser compatibility checks
+    //---------
+
     static GetIEVersion() {
         var sAgent = window.navigator.userAgent
         var Idx = sAgent.indexOf("MSIE")
@@ -340,5 +340,8 @@ abstract class MAIN {
         GUI.doNext(this.mainMenu)
     }
 }
+
+//Start the game!
+MAIN.mainMenu()
 
 export { MAIN }

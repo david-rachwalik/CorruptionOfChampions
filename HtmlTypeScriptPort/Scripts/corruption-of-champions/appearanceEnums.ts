@@ -1,0 +1,619 @@
+enum GenderType {
+    GENDER_NONE = 0,
+    GENDER_MALE,
+    GENDER_FEMALE,
+    GENDER_HERM
+}
+
+enum SkinType {
+    SKIN_TYPE_PLAIN = 0,
+    SKIN_TYPE_FUR,
+    SKIN_TYPE_SCALES,
+    SKIN_TYPE_GOO,
+    SKIN_TYPE_UNDEFINED
+}
+
+enum HairType {
+    HAIR_NORMAL = 0,
+    HAIR_FEATHER,
+    HAIR_GHOST,
+    HAIR_GOO,
+    HAIR_ANEMONE,
+    HAIR_QUILL
+}
+
+enum BeardType {
+    BEARD_NORMAL = 0,
+    BEARD_GOATEE
+}
+
+enum FaceType {
+    FACE_HUMAN = 0,
+    FACE_HORSE,
+    FACE_DOG,
+    FACE_COW_MINOTAUR,
+    FACE_SHARK_TEETH,
+    FACE_SNAKE_FANGS,
+    FACE_CAT,
+    FACE_LIZARD,
+    FACE_BUNNY,
+    FACE_KANGAROO,
+    FACE_SPIDER_FANGS,
+    FACE_FOX,
+    FACE_DRAGON,
+    FACE_RACCOON_MASK,
+    FACE_RACCOON,
+    FACE_BUCKTEETH,
+    FACE_MOUSE,
+    FACE_FERRET_MASK,
+    FACE_FERRET,
+    FACE_PIG,
+    FACE_BOAR,
+    FACE_RHINO,
+    FACE_ECHIDNA,
+    FACE_DEER
+}
+
+enum TongueType {
+    TONGUE_HUMAN = 0,
+    TONGUE_SNAKE,
+    TONGUE_DEMONIC,
+    TONGUE_DRACONIC,
+    TONGUE_ECHIDNA
+}
+
+enum EyeType {
+    EYES_HUMAN = 0,
+    EYES_FOUR_SPIDER_EYES,
+    EYES_BLACK_EYES_SAND_TRAP
+}
+
+enum EarType {
+    EARS_HUMAN = 0,
+    EARS_HORSE,
+    EARS_DOG,
+    EARS_COW,
+    EARS_ELFIN,
+    EARS_CAT,
+    EARS_LIZARD,
+    EARS_BUNNY,
+    EARS_KANGAROO,
+    EARS_FOX,
+    EARS_DRAGON,
+    EARS_RACCOON,
+    EARS_MOUSE,
+    EARS_FERRET,
+    EARS_PIG,
+    EARS_RHINO,
+    EARS_ECHIDNA,
+    EARS_DEER
+}
+
+enum HornType {
+    HORNS_NONE = 0,
+    HORNS_DEMON,
+    HORNS_COW_MINOTAUR,
+    HORNS_DRACONIC_X2,
+    HORNS_DRACONIC_X4_12_INCH_LONG,
+    HORNS_ANTLERS,
+    HORNS_GOAT,
+    HORNS_UNICORN,
+    HORNS_RHINO
+}
+
+enum AntennaeType {
+    ANTENNAE_NONE = 0,
+    ANTENNAE_FAIRY,
+    ANTENNAE_BEE
+}
+
+enum ArmType {
+    ARM_TYPE_HUMAN = 0,
+    ARM_TYPE_HARPY,
+    ARM_TYPE_SPIDER,
+    ARM_TYPE_SALAMANDER,
+    ARM_TYPE_PREDATOR
+}
+
+enum ClawType {
+    CLAW_TYPE_NORMAL = 0,
+    CLAW_TYPE_LIZARD,
+    CLAW_TYPE_DRAGON,
+    CLAW_TYPE_SALAMANDER,
+    CLAW_TYPE_CAT, // NYI! Placeholder for now!! (See http://tiny.cc/coc-revamp-claws)
+    CLAW_TYPE_DOG, // NYI! Placeholder for now!! (See http://tiny.cc/coc-revamp-claws)
+    CLAW_TYPE_RAPTOR, // NYI! Placeholder for now!! (See http://tiny.cc/coc-revamp-claws) Giev teh Rapturs :-)
+    CLAW_TYPE_MANTIS // NYI! Placeholder for Xianxia mod (See http://tiny.cc/coc-xianxia-mod)
+}
+
+enum TailType {
+    TAIL_TYPE_NONE = 0,
+    TAIL_TYPE_HORSE,
+    TAIL_TYPE_DOG,
+    TAIL_TYPE_DEMONIC,
+    TAIL_TYPE_COW,
+    TAIL_TYPE_SPIDER_ADBOMEN,
+    TAIL_TYPE_BEE_ABDOMEN,
+    TAIL_TYPE_SHARK,
+    TAIL_TYPE_CAT,
+    TAIL_TYPE_LIZARD,
+    TAIL_TYPE_RABBIT,
+    TAIL_TYPE_HARPY,
+    TAIL_TYPE_KANGAROO,
+    TAIL_TYPE_FOX,
+    TAIL_TYPE_DRACONIC,
+    TAIL_TYPE_RACCOON,
+    TAIL_TYPE_MOUSE,
+    TAIL_TYPE_FERRET,
+    TAIL_TYPE_BEHEMOTH,
+    TAIL_TYPE_PIG,
+    TAIL_TYPE_SCORPION,
+    TAIL_TYPE_GOAT,
+    TAIL_TYPE_RHINO,
+    TAIL_TYPE_ECHIDNA,
+    TAIL_TYPE_DEER
+}
+
+enum LowerBodyType {
+    LOWER_BODY_TYPE_HUMAN = 0,
+    LOWER_BODY_TYPE_HOOFED,
+    LOWER_BODY_TYPE_DOG,
+    LOWER_BODY_TYPE_NAGA,
+    LOWER_BODY_TYPE_CENTAUR,
+    LOWER_BODY_TYPE_DEMONIC_HIGH_HEELS,
+    LOWER_BODY_TYPE_DEMONIC_CLAWS,
+    LOWER_BODY_TYPE_BEE,
+    LOWER_BODY_TYPE_GOO,
+    LOWER_BODY_TYPE_CAT,
+    LOWER_BODY_TYPE_LIZARD,
+    LOWER_BODY_TYPE_PONY,
+    LOWER_BODY_TYPE_BUNNY,
+    LOWER_BODY_TYPE_HARPY,
+    LOWER_BODY_TYPE_KANGAROO,
+    LOWER_BODY_TYPE_CHITINOUS_SPIDER_LEGS,
+    LOWER_BODY_TYPE_DRIDER_LOWER_BODY,
+    LOWER_BODY_TYPE_FOX,
+    LOWER_BODY_TYPE_DRAGON,
+    LOWER_BODY_TYPE_RACCOON,
+    LOWER_BODY_TYPE_FERRET,
+    LOWER_BODY_TYPE_CLOVEN_HOOFED,
+    LOWER_BODY_TYPE_RHINO,
+    LOWER_BODY_TYPE_ECHIDNA,
+    LOWER_BODY_TYPE_DEERTAUR
+}
+
+enum WingType {
+    WING_TYPE_NONE = 0,
+    WING_TYPE_BEE_LIKE_SMALL,
+    WING_TYPE_BEE_LIKE_LARGE,
+    WING_TYPE_HARPY = 4,
+    WING_TYPE_IMP,
+    WING_TYPE_BAT_LIKE_TINY,
+    WING_TYPE_BAT_LIKE_LARGE,
+    WING_TYPE_SHARK_FIN,
+    WING_TYPE_FEATHERED_LARGE,
+    WING_TYPE_DRACONIC_SMALL,
+    WING_TYPE_DRACONIC_LARGE,
+    WING_TYPE_GIANT_DRAGONFLY
+}
+
+enum PiercingType {
+    PIERCING_TYPE_NONE = 0,
+    PIERCING_TYPE_STUD,
+    PIERCING_TYPE_RING,
+    PIERCING_TYPE_LADDER,
+    PIERCING_TYPE_HOOP,
+    PIERCING_TYPE_CHAIN
+}
+
+// renamed from ENUM.CockType
+enum CockType {
+    UNDEFINED = -1,
+    HUMAN,
+    HORSE,
+    DOG,
+    DEMON,
+    TENTACLE,
+    CAT,
+    LIZARD,
+    ANEMONE,
+    KANGAROO,
+    DRAGON,
+    DISPLACER,
+    FOX,
+    BEE,
+    PIG,
+    AVIAN,
+    RHINO,
+    ECHIDNA
+}
+
+// renamed from VaginaTypesEnum
+enum VaginaType {
+    HUMAN = 0,
+    EQUINE,
+    BLACK_SAND_TRAP = 5
+}
+
+enum VaginalWetnessType {
+    VAGINA_WETNESS_DRY = 0,
+    VAGINA_WETNESS_NORMAL,
+    VAGINA_WETNESS_WET,
+    VAGINA_WETNESS_SLICK,
+    VAGINA_WETNESS_DROOLING,
+    VAGINA_WETNESS_SLAVERING
+}
+
+enum VaginalLoosenessType {
+    VAGINA_LOOSENESS_TIGHT = 0,
+    VAGINA_LOOSENESS_NORMAL,
+    VAGINA_LOOSENESS_LOOSE,
+    VAGINA_LOOSENESS_GAPING,
+    VAGINA_LOOSENESS_GAPING_WIDE,
+    VAGINA_LOOSENESS_CLOWN_CAR
+}
+
+enum AnalWetnessType {
+    ANAL_WETNESS_DRY = 0,
+    ANAL_WETNESS_NORMAL,
+    ANAL_WETNESS_MOIST,
+    ANAL_WETNESS_SLIMY,
+    ANAL_WETNESS_DROOLING,
+    ANAL_WETNESS_SLIME_DROOLING
+}
+
+enum AnalLoosenessType {
+    ANAL_LOOSENESS_VIRGIN = 0,
+    ANAL_LOOSENESS_TIGHT,
+    ANAL_LOOSENESS_NORMAL,
+    ANAL_LOOSENESS_LOOSE,
+    ANAL_LOOSENESS_STRETCHED,
+    ANAL_LOOSENESS_GAPING
+}
+
+enum HipRatingType {
+    HIP_RATING_BOYISH = 0,
+    HIP_RATING_SLENDER = 2,
+    HIP_RATING_AVERAGE = 4,
+    HIP_RATING_AMPLE = 6,
+    HIP_RATING_CURVY = 10,
+    HIP_RATING_FERTILE = 15,
+    HIP_RATING_INHUMANLY_WIDE = 20
+}
+
+enum ButtRatingType {
+    BUTT_RATING_BUTTLESS = 0,
+    BUTT_RATING_TIGHT = 2,
+    BUTT_RATING_AVERAGE = 4,
+    BUTT_RATING_NOTICEABLE = 6,
+    BUTT_RATING_LARGE = 8,
+    BUTT_RATING_JIGGLY = 10,
+    BUTT_RATING_EXPANSIVE = 13,
+    BUTT_RATING_HUGE = 16,
+    BUTT_RATING_INCONCEIVABLE = 20
+}
+
+enum BreastSizeType {
+    BREAST_CUP_FLAT = 0,
+    BREAST_CUP_A,
+    BREAST_CUP_B,
+    BREAST_CUP_C,
+    BREAST_CUP_D,
+    BREAST_CUP_DD,
+    BREAST_CUP_DD_BIG,
+    BREAST_CUP_E,
+    BREAST_CUP_E_BIG,
+    BREAST_CUP_EE,
+    BREAST_CUP_EE_BIG,
+    BREAST_CUP_F,
+    BREAST_CUP_F_BIG,
+    BREAST_CUP_FF,
+    BREAST_CUP_FF_BIG,
+    BREAST_CUP_G,
+    BREAST_CUP_G_BIG,
+    BREAST_CUP_GG,
+    BREAST_CUP_GG_BIG,
+    BREAST_CUP_H,
+    BREAST_CUP_H_BIG,
+    BREAST_CUP_HH,
+    BREAST_CUP_HH_BIG,
+    BREAST_CUP_HHH,
+    BREAST_CUP_I,
+    BREAST_CUP_I_BIG,
+    BREAST_CUP_II,
+    BREAST_CUP_II_BIG,
+    BREAST_CUP_J,
+    BREAST_CUP_J_BIG,
+    BREAST_CUP_JJ,
+    BREAST_CUP_JJ_BIG,
+    BREAST_CUP_K,
+    BREAST_CUP_K_BIG,
+    BREAST_CUP_KK,
+    BREAST_CUP_KK_BIG,
+    BREAST_CUP_L,
+    BREAST_CUP_L_BIG,
+    BREAST_CUP_LL,
+    BREAST_CUP_LL_BIG,
+    BREAST_CUP_M,
+    BREAST_CUP_M_BIG,
+    BREAST_CUP_MM,
+    BREAST_CUP_MM_BIG,
+    BREAST_CUP_MMM,
+    BREAST_CUP_MMM_LARGE,
+    BREAST_CUP_N,
+    BREAST_CUP_N_LARGE,
+    BREAST_CUP_NN,
+    BREAST_CUP_NN_LARGE,
+    BREAST_CUP_O,
+    BREAST_CUP_O_LARGE,
+    BREAST_CUP_OO,
+    BREAST_CUP_OO_LARGE,
+    BREAST_CUP_P,
+    BREAST_CUP_P_LARGE,
+    BREAST_CUP_PP,
+    BREAST_CUP_PP_LARGE,
+    BREAST_CUP_Q,
+    BREAST_CUP_Q_LARGE,
+    BREAST_CUP_QQ,
+    BREAST_CUP_QQ_LARGE,
+    BREAST_CUP_R,
+    BREAST_CUP_R_LARGE,
+    BREAST_CUP_RR,
+    BREAST_CUP_RR_LARGE,
+    BREAST_CUP_S,
+    BREAST_CUP_S_LARGE,
+    BREAST_CUP_SS,
+    BREAST_CUP_SS_LARGE,
+    BREAST_CUP_T,
+    BREAST_CUP_T_LARGE,
+    BREAST_CUP_TT,
+    BREAST_CUP_TT_LARGE,
+    BREAST_CUP_U,
+    BREAST_CUP_U_LARGE,
+    BREAST_CUP_UU,
+    BREAST_CUP_UU_LARGE,
+    BREAST_CUP_V,
+    BREAST_CUP_V_LARGE,
+    BREAST_CUP_VV,
+    BREAST_CUP_VV_LARGE,
+    BREAST_CUP_W,
+    BREAST_CUP_W_LARGE,
+    BREAST_CUP_WW,
+    BREAST_CUP_WW_LARGE,
+    BREAST_CUP_X,
+    BREAST_CUP_X_LARGE,
+    BREAST_CUP_XX,
+    BREAST_CUP_XX_LARGE,
+    BREAST_CUP_Y,
+    BREAST_CUP_Y_LARGE,
+    BREAST_CUP_YY,
+    BREAST_CUP_YY_LARGE,
+    BREAST_CUP_Z,
+    BREAST_CUP_Z_LARGE,
+    BREAST_CUP_ZZ,
+    BREAST_CUP_ZZ_LARGE,
+    BREAST_CUP_ZZZ,
+    BREAST_CUP_ZZZ_LARGE,
+    BREAST_CUP_HYPER_A, // Hyper threshold
+    BREAST_CUP_HYPER_B,
+    BREAST_CUP_HYPER_C,
+    BREAST_CUP_HYPER_D,
+    BREAST_CUP_HYPER_DD,
+    BREAST_CUP_HYPER_DD_BIG,
+    BREAST_CUP_HYPER_E,
+    BREAST_CUP_HYPER_E_BIG,
+    BREAST_CUP_HYPER_EE,
+    BREAST_CUP_HYPER_EE_BIG,
+    BREAST_CUP_HYPER_F,
+    BREAST_CUP_HYPER_F_BIG,
+    BREAST_CUP_HYPER_FF,
+    BREAST_CUP_HYPER_FF_BIG,
+    BREAST_CUP_HYPER_G,
+    BREAST_CUP_HYPER_G_BIG,
+    BREAST_CUP_HYPER_GG,
+    BREAST_CUP_HYPER_GG_BIG,
+    BREAST_CUP_HYPER_H,
+    BREAST_CUP_HYPER_H_BIG,
+    BREAST_CUP_HYPER_HH,
+    BREAST_CUP_HYPER_HH_BIG,
+    BREAST_CUP_HYPER_HHH,
+    BREAST_CUP_HYPER_I,
+    BREAST_CUP_HYPER_I_BIG,
+    BREAST_CUP_HYPER_II,
+    BREAST_CUP_HYPER_II_BIG,
+    BREAST_CUP_HYPER_J,
+    BREAST_CUP_HYPER_J_BIG,
+    BREAST_CUP_HYPER_JJ,
+    BREAST_CUP_HYPER_JJ_BIG,
+    BREAST_CUP_HYPER_K,
+    BREAST_CUP_HYPER_K_BIG,
+    BREAST_CUP_HYPER_KK,
+    BREAST_CUP_HYPER_KK_BIG,
+    BREAST_CUP_HYPER_L,
+    BREAST_CUP_HYPER_L_BIG,
+    BREAST_CUP_HYPER_LL,
+    BREAST_CUP_HYPER_LL_BIG,
+    BREAST_CUP_HYPER_M,
+    BREAST_CUP_HYPER_M_BIG,
+    BREAST_CUP_HYPER_MM,
+    BREAST_CUP_HYPER_MM_BIG,
+    BREAST_CUP_HYPER_MMM,
+    BREAST_CUP_HYPER_MMM_LARGE,
+    BREAST_CUP_HYPER_N,
+    BREAST_CUP_HYPER_N_LARGE,
+    BREAST_CUP_HYPER_NN,
+    BREAST_CUP_HYPER_NN_LARGE,
+    BREAST_CUP_HYPER_O,
+    BREAST_CUP_HYPER_O_LARGE,
+    BREAST_CUP_HYPER_OO,
+    BREAST_CUP_HYPER_OO_LARGE,
+    BREAST_CUP_HYPER_P,
+    BREAST_CUP_HYPER_P_LARGE,
+    BREAST_CUP_HYPER_PP,
+    BREAST_CUP_HYPER_PP_LARGE,
+    BREAST_CUP_HYPER_Q,
+    BREAST_CUP_HYPER_Q_LARGE,
+    BREAST_CUP_HYPER_QQ,
+    BREAST_CUP_HYPER_QQ_LARGE,
+    BREAST_CUP_HYPER_R,
+    BREAST_CUP_HYPER_R_LARGE,
+    BREAST_CUP_HYPER_RR,
+    BREAST_CUP_HYPER_RR_LARGE,
+    BREAST_CUP_HYPER_S,
+    BREAST_CUP_HYPER_S_LARGE,
+    BREAST_CUP_HYPER_SS,
+    BREAST_CUP_HYPER_SS_LARGE,
+    BREAST_CUP_HYPER_T,
+    BREAST_CUP_HYPER_T_LARGE,
+    BREAST_CUP_HYPER_TT,
+    BREAST_CUP_HYPER_TT_LARGE,
+    BREAST_CUP_HYPER_U,
+    BREAST_CUP_HYPER_U_LARGE,
+    BREAST_CUP_HYPER_UU,
+    BREAST_CUP_HYPER_UU_LARGE,
+    BREAST_CUP_HYPER_V,
+    BREAST_CUP_HYPER_V_LARGE,
+    BREAST_CUP_HYPER_VV,
+    BREAST_CUP_HYPER_VV_LARGE,
+    BREAST_CUP_HYPER_W,
+    BREAST_CUP_HYPER_W_LARGE,
+    BREAST_CUP_HYPER_WW,
+    BREAST_CUP_HYPER_WW_LARGE,
+    BREAST_CUP_HYPER_X,
+    BREAST_CUP_HYPER_X_LARGE,
+    BREAST_CUP_HYPER_XX,
+    BREAST_CUP_HYPER_XX_LARGE,
+    BREAST_CUP_HYPER_Y,
+    BREAST_CUP_HYPER_Y_LARGE,
+    BREAST_CUP_HYPER_YY,
+    BREAST_CUP_HYPER_YY_LARGE,
+    BREAST_CUP_HYPER_Z,
+    BREAST_CUP_HYPER_Z_LARGE,
+    BREAST_CUP_HYPER_ZZ,
+    BREAST_CUP_HYPER_ZZ_LARGE,
+    BREAST_CUP_HYPER_ZZZ,
+    BREAST_CUP_HYPER_ZZZ_LARGE //Beyond this size is Jacques00-cup
+}
+
+/*
+    Pregnancy Enums
+ */
+
+//Pregancy types. Both butt and normal. Each type represents the father of this baby.
+enum PregnancyType {
+    PREGNANCY_MINOTAUR = 2,
+    PREGNANCY_MOUSE = 4,
+    PREGNANCY_HELL_HOUND = 6,
+    PREGNANCY_CENTAUR = 7,
+    PREGNANCY_MARBLE = 8,
+    PREGNANCY_BUNNY = 9,
+
+    PREGNANCY_AMILY = 11,
+    PREGNANCY_IZMA = 12,
+    PREGNANCY_SPIDER = 13,
+    PREGNANCY_BASILISK = 14,
+
+    PREGNANCY_GOO_GIRL = 16,
+    PREGNANCY_EMBER = 17,
+    PREGNANCY_BENOIT = 18,
+    PREGNANCY_SATYR = 19,
+    PREGNANCY_COTTON = 20,
+    PREGNANCY_URTA = 21,
+    PREGNANCY_SAND_WITCH = 22,
+    PREGNANCY_FROG_GIRL = 23,
+    PREGNANCY_FAERIE = 24, //Indicates you are carrying either a phouka or faerie baby. Which one is determined by the PREGNANCY_CORRUPTION flag
+    PREGNANCY_PLAYER = 25, // Marks the player impregnated someone. Will be used when an NPC is able to have children from multiple different fathers.
+
+    PREGNANCY_SANDTRAP_FERTILE = 27,
+    PREGNANCY_SANDTRAP = 28,
+    PREGNANCY_JOJO = 29, //So we can track them separately from other mouse pregnancies
+    PREGNANCY_KELT = 30, //So we can track them separately from other centaur pregnancies
+    PREGNANCY_TAOTH = 31,
+    PREGNANCY_GOO_STUFFED = 32, //Used to fill the player's ass and/or vagina when Valeria has a goo girl take up residence. This prevents any other form of pregnancy from taking hold. Does not respond to ovielixirs.
+    PREGNANCY_WORM_STUFFED = 33, //Used to fill the player's vagina when the worms take up residence. This prevents any other form of pregnancy from taking hold. Does not respond to ovielixirs.
+    PREGNANCY_MINERVA = 34,
+    PREGNANCY_BEHEMOTH = 35,
+    PREGNANCY_PHOENIX = 36,
+    PREGNANCY_ANDY = 37 //This is functionally the same as Satyr but less corrupt. 10% chance of fauns, if ever implemented.
+}
+
+enum PregType {
+    PREG_NOT_PREGANT = 0, //The PREG_* consts are returned by the size function
+    PREG_NO_SIGNS_UNKNOWN, //NPC has conceived but doesn’t know she’s pregnant, no visible signs
+    PREG_NO_SIGNS_KNOWN, //NPC is in the first trimester, knows she’s pregnant
+    PREG_START_BULGE, //NPC is in the first trimester, belly is just starting to bulge
+    PREG_SWOLLEN, //NPC is in the second trimester, belly is small but definitely swollen
+    PREG_SIZEABLE, //NPC is in the second trimester, belly is now sizable
+    PREG_BLATANT, //NPC is in the third trimester, belly is blatantly bulging
+    PREG_FULL_TERM, //NPC is in the third trimester, belly is big as it will get for a normal pregnancy
+    PREG_OVERDUE, //NPC is overdue. Usually means a centaur baby, twins or some similar condition. Effectively looks 10 months pregnant
+    PREG_VERY_OVERDUE //NPC is very overdue. Probably triplets or more. Effectively looks 11 months pregnant
+    //Old Value, replaced in Saves.unFuckSave()        PREGNANCY_BUTT_BEE              =   2;
+    //Old Value, replaced in Saves.unFuckSave()        PREGNANCY_BUTT_DRIDER           =   3;
+    //Old Value, replaced in Saves.unFuckSave()        PREGNANCY_BUTT_SANDTRAP_FERTILE =   4;
+    //Old Value, replaced in Saves.unFuckSave()        PREGNANCY_BUTT_SANDTRAP         =   5; //Sandtrap did not have fertilized eggs
+}
+
+enum IncubationType {
+    INCUBATION_MINOTAUR = 432,
+
+    INCUBATION_OVIELIXIR_EGGS = 50,
+    INCUBATION_HELL_HOUND = 352,
+    INCUBATION_CENTAUR = 420,
+    INCUBATION_MARBLE = 368,
+    INCUBATION_BUNNY_BABY = 200,
+    INCUBATION_BUNNY_EGGS = 808, //High time indicates neon egg pregnancy
+    INCUBATION_ANEMONE = 256,
+    INCUBATION_IZMA = 300,
+    INCUBATION_SPIDER = 400,
+    INCUBATION_BASILISK = 250,
+
+    INCUBATION_GOO_GIRL = 85,
+    INCUBATION_EMBER = 336,
+    INCUBATION_SATYR = 160,
+    INCUBATION_COTTON = 350,
+    INCUBATION_URTA = 515,
+    INCUBATION_SAND_WITCH = 360,
+    INCUBATION_FROG_GIRL = 30,
+    INCUBATION_FAERIE = 200,
+    INCUBATION_SANDTRAP = 42,
+    INCUBATION_HARPY = 168,
+    INCUBATION_SHIELA = 72,
+    INCUBATION_SALAMANDER = 336,
+    INCUBATION_MINERVA = 216,
+    INCUBATION_BEHEMOTH = 1440, //Sorry Behemoth, but Isabella wins.
+    INCUBATION_PHOENIX = 168,
+    INCUBATION_KIHA = 384,
+    INCUBATION_ISABELLA = 2160 //Longest pregnancy ever.
+}
+
+export {
+    GenderType,
+    SkinType,
+    HairType,
+    BeardType,
+    FaceType,
+    TongueType,
+    EyeType,
+    EarType,
+    HornType,
+    AntennaeType,
+    ArmType,
+    ClawType,
+    TailType,
+    LowerBodyType,
+    WingType,
+    PiercingType,
+    CockType,
+    VaginaType,
+    VaginalWetnessType,
+    VaginalLoosenessType,
+    AnalWetnessType,
+    AnalLoosenessType,
+    HipRatingType,
+    ButtRatingType,
+    BreastSizeType,
+    PregnancyType,
+    PregType,
+    IncubationType
+}
