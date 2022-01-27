@@ -14,7 +14,7 @@ export const context = __dirname;
 export const entry = {
   main: './src/index.tsx',
   app: './src/app.ts',
-  // app: './src/corruption-of-champions/main.ts',
+  coc: './src/corruption-of-champions/main.ts',
 };
 export const output = {
   path: path.resolve(__dirname, 'wwwroot/dist'),
