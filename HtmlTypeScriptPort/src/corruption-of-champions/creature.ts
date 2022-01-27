@@ -3,8 +3,7 @@ import {
   ENUM,
   GUI,
   COMBAT,
-  ICreature,
-  IItem,
+  Item,
   Items,
   FLAG,
   Appearance,
@@ -29,7 +28,7 @@ enum CharacterType {
   Player,
 }
 
-class Creature implements ICreature {
+class Creature {
   _clitLength: number;
   _nippleLength: number;
 
@@ -65,20 +64,20 @@ class Creature implements ICreature {
   gems: number;
 
   //Battle letiables
-  weapon: IItem;
-  shield: IItem;
-  armor: IItem;
-  upperGarment: IItem;
-  lowerGarment: IItem;
-  accessory1: IItem;
-  accessory2: IItem;
+  weapon: Item;
+  shield: Item;
+  armor: Item;
+  upperGarment: Item;
+  lowerGarment: Item;
+  accessory1: Item;
+  accessory2: Item;
 
   bonusHP: number;
   additionalXP: number;
   lustVuln: number;
   temperment: number;
 
-  drops: IItem[];
+  drops: Item[];
   dropThresholds: number[];
 
   //Appearance
@@ -317,7 +316,7 @@ class Creature implements ICreature {
     // if (this.type == liveData.player.type) enemy = liveData.monster
     // else enemy = liveData.player
 
-    let enemy: ICreature;
+    let enemy: Creature;
     if (this.type == liveData.player.type) {
       if (liveData.monster) {
         enemy = liveData.monster;
@@ -790,7 +789,7 @@ class Creature implements ICreature {
     this.dropThresholds = [];
   }
 
-  addDrop(item: IItem, chance: number): void {
+  addDrop(item: Item, chance: number): void {
     //Chance is in percentage.
     this.drops.push(item);
     if (this.dropThresholds.length == 0) {
@@ -800,7 +799,7 @@ class Creature implements ICreature {
       this.dropThresholds[this.dropThresholds.length] = currentThreshold + chance;
     }
   }
-  dropItem(): IItem | null {
+  dropItem(): Item | null {
     const roll = UTIL.rand(100);
     let dropIndex = -1;
     for (const i of this.dropThresholds) {

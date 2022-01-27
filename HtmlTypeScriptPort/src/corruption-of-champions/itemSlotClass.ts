@@ -1,22 +1,15 @@
-import { IItem, Items } from 'coc';
-
-interface IItemSlot {
-  quantity: number;
-  itype: IItem;
-
-  setItemAndQty: (item: IItem, arg1: number) => void;
-}
+import { Item, Items } from 'coc';
 
 class ItemSlot {
   quantity: number;
-  itype: IItem;
+  itype: Item;
 
   constructor() {
     this.quantity = 0;
     this.itype = Items.NOTHING;
   }
 
-  setItemAndQty(itype: IItem, quant: number) {
+  setItemAndQty(itype: Item, quant: number) {
     if (itype == null) itype = Items.NOTHING;
     if (quant == 0 && itype == Items.NOTHING) {
       this.emptySlot();
@@ -44,4 +37,4 @@ class ItemSlot {
   }
 }
 
-export { IItemSlot, ItemSlot };
+export { ItemSlot };

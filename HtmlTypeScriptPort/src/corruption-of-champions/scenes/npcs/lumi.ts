@@ -1,4 +1,4 @@
-import { liveData, FLAG, UTIL, GUI, Data, Camp, IItem, Items, Inventory } from 'coc';
+import { liveData, FLAG, UTIL, GUI, Data, Camp, Item, Items, Inventory } from 'coc';
 
 Data.addToGameFlags(FLAG.LUMI_MET);
 
@@ -98,7 +98,7 @@ export function lumiPitchOviElixer() {
   GUI.doYesNo(UTIL.createCallBackFunction(lumiPurchase, Items.Consumables.OviElixir), lumiShop);
 }
 
-export function lumiPurchase(itype: IItem) {
+export function lumiPurchase(itype: Item) {
   GUI.clearOutput();
   //After choosing, and PC has enough gems
   let cost = 0;

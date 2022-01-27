@@ -7,30 +7,6 @@ export const ITEM_TYPE_CONSUMABLE = 'Consumable';
 export const ITEM_TYPE_MATERIAL = 'Material';
 export const ITEM_TYPE_SHIELD = 'Shield';
 
-interface IItem {
-  //Required values, will be declared by parameters
-  id: string;
-  shortName: string;
-  longName: string;
-  type: string;
-  //Optional
-  description: string; //This will appear on tooltip.
-  value: number; //The value in gems. Defaults at 6.
-  //Consumable values that can be set
-  consumeEffect: () => void;
-  //Equipment values that can be set
-  equipmentName: string;
-  attack: number;
-  defense: number;
-  sexiness: number;
-  verb: string;
-
-  canUse: () => boolean;
-  useItem: () => boolean;
-  useText: () => void;
-  getTooltipDescription: () => string;
-}
-
 class Item {
   //Required values, will be declared by parameters
   id: string;
@@ -113,7 +89,7 @@ class Item {
   equipItem() {
     GUI.clearOutput();
     GUI.outputText('You equip your ' + this.equipmentName + '.');
-    let oldItem: IItem | null = null;
+    let oldItem: Item | null = null;
     //Determine if it's weapon or armour.
     if (this.type == ITEM_TYPE_WEAPON) {
       if (liveData.player.weapon.id != Items.NOTHING.id) oldItem = UTIL.lookupItem(liveData.player.weapon.id);
@@ -139,7 +115,7 @@ class Item {
 const ItemLib: { [key: string]: Item } = {}; //Hold item IDs for purpose of looking up or for save data.
 
 class ItemContainer {
-  NOTHING: IItem;
+  NOTHING: Item;
   Materials: ItemMaterials;
   Armor: ItemArmor;
   Weapons: ItemWeapon;
@@ -164,4 +140,4 @@ class ItemContainer {
 }
 const Items = new ItemContainer();
 
-export { IItem, Item, ItemLib, Items };
+export { Item, ItemLib, Items };

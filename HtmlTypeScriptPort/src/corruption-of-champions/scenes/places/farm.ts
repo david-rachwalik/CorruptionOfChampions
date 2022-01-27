@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, UTIL, Data, FLAG, IItem, Items, Camp, Inventory, WhitneyScene } from 'coc';
+import { liveData, ENUM, GUI, UTIL, Data, FLAG, Item, Items, Camp, Inventory, WhitneyScene } from 'coc';
 
 Data.addToGameFlags(FLAG.FARM_DISABLED, FLAG.FARM_CORRUPTION_STARTED, FLAG.MET_WHITNEY, FLAG.WHITNEY_FLIPPED_OUT_OVER_KELLY);
 
@@ -320,7 +320,7 @@ export function workFarm() {
     );
     //(75% chance normal pepper, 25% chance \"<i>rare</i>\" pepper)
     const pepper = UTIL.rand(4);
-    let itype: IItem = Items.Consumables.CaninePepper;
+    let itype: Item = Items.Consumables.CaninePepper;
     // if (pepper <= 2) {
     //   itype = Items.Consumables.CaninePepper;
     // } else {

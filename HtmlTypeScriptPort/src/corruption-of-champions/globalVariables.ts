@@ -1,4 +1,4 @@
-import { UTIL, FLAG, ICreature, Creature, Player, Time, IItemSlot, AmilyScene, TamaniScene, SandWitchScene } from 'coc';
+import { UTIL, FLAG, Creature, Player, Time, ItemSlot, AmilyScene, TamaniScene, SandWitchScene } from 'coc';
 
 interface IExploration {
   explored: number;
@@ -63,8 +63,8 @@ interface IGameContext {
   bowSkill: number;
 
   // Combat
-  nullCreature: ICreature;
-  monster: ICreature;
+  nullCreature: Creature;
+  monster: Creature;
   currentTurn: number;
   currentRound: number;
 }
@@ -109,13 +109,13 @@ class GameContext implements IGameContext {
   bowSkill: number;
 
   // Combat
-  readonly nullCreature: ICreature;
-  monster: ICreature;
+  readonly nullCreature: Creature;
+  monster: Creature;
   currentTurn: number;
   currentRound: number;
 
   //Inventory
-  currentItemSlot?: IItemSlot;
+  currentItemSlot?: ItemSlot;
   callNext: () => void;
   callOnAbandon: () => void;
 

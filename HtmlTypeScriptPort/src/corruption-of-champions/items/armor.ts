@@ -1,21 +1,21 @@
-import { IItem, Item } from 'coc';
+import { Item } from 'coc';
 import { ITEM_TYPE_ARMOUR, ITEM_TYPE_UNDERGARMENT } from 'coc/itemClass';
 
 class ItemArmor {
-  ComfortableClothes: IItem;
-  GelArmor: IItem;
-  BeeArmor: IItem;
-  LustyMaidenArmor: IItem;
-  GooArmor: IItem;
-  LethiciteArmor: IItem;
-  SpiderSilkArmor: IItem;
-  SpiderSilkRobes: IItem;
-  DragonscaleArmor: IItem;
-  DragonscaleRobes: IItem;
-  DSCLARM: IItem;
-  TentacledBarkArmor: IItem;
-  DivineBarkArmor: IItem;
-  DivineBarkPlates: IItem;
+  ComfortableClothes: Item;
+  GelArmor: Item;
+  BeeArmor: Item;
+  LustyMaidenArmor: Item;
+  GooArmor: Item;
+  LethiciteArmor: Item;
+  SpiderSilkArmor: Item;
+  SpiderSilkRobes: Item;
+  DragonscaleArmor: Item;
+  DragonscaleRobes: Item;
+  DSCLARM: Item;
+  TentacledBarkArmor: Item;
+  DivineBarkArmor: Item;
+  DivineBarkPlates: Item;
 
   constructor() {
     this.ComfortableClothes = new Item('C.Cloth', 'C.Cloth', 'a set of comfortable clothes', ITEM_TYPE_ARMOUR);
@@ -78,13 +78,13 @@ class ItemArmor {
 }
 
 class ItemUndergarments {
-  SpiderSilkBra: IItem;
-  SpiderSilkPanties: IItem;
-  SpiderSilkLoincloth: IItem;
-  DragonscaleBra: IItem;
-  DragonscaleThong: IItem;
-  DragonscaleLoincloth: IItem;
-  DragonscaleThone: IItem;
+  SpiderSilkBra: Item;
+  SpiderSilkPanties: Item;
+  SpiderSilkLoincloth: Item;
+  DragonscaleBra: Item;
+  DragonscaleThong: Item;
+  DragonscaleLoincloth: Item;
+  DragonscaleThone: Item;
 
   constructor() {
     this.SpiderSilkBra = new Item('SpiderSilkBra', 'Spider Silk Bra', 'to be added', ITEM_TYPE_UNDERGARMENT);

@@ -1,4 +1,4 @@
-import { liveData, ENUM, UTIL, GUI, IPlayer, Ass, IItem, Items, ItemSlot, CharacterType, Creature, StatusEffects, VenomType, PerkLib, Appearance } from 'coc';
+import { liveData, ENUM, UTIL, GUI, Ass, Item, Items, ItemSlot, CharacterType, Creature, StatusEffects, VenomType, PerkLib, Appearance } from 'coc';
 
 class Spell {
   blind: boolean;
@@ -18,7 +18,7 @@ class Spell {
   }
 }
 
-class Player extends Creature implements IPlayer {
+class Player extends Creature {
   beardType: number;
   teaseLevel: number;
   teaseXP: number;
@@ -1221,12 +1221,12 @@ class Player extends Creature implements IPlayer {
     return slots;
   }
 
-  hasItem(itype: IItem, minQuantity = -1) {
+  hasItem(itype: Item, minQuantity = -1) {
     if (minQuantity == -1) minQuantity = 1;
     return this.itemCount(itype) >= minQuantity;
   }
 
-  itemCount(itype: IItem) {
+  itemCount(itype: Item) {
     let count = 0;
     for (let i = 0; i < this.itemSlots.length; i++) {
       if (this.itemSlots[i].itype == itype) count += this.itemSlots[i].quantity;
@@ -1234,7 +1234,7 @@ class Player extends Creature implements IPlayer {
     return count;
   }
 
-  roomInExistingStack(itype: IItem) {
+  roomInExistingStack(itype: Item) {
     for (let i = 0; i < 10; i++) {
       if (this.itemSlots[i].itype == itype && this.itemSlots[i].quantity != 0 && this.itemSlots[i].quantity < 5) return i;
     }
@@ -1248,7 +1248,7 @@ class Player extends Creature implements IPlayer {
     return -1;
   }
 
-  destroyItems(itype: IItem, numOfItemToRemove = 1) {
+  destroyItems(itype: Item, numOfItemToRemove = 1) {
     for (let slotNum = 0; slotNum < this.itemSlots.length; slotNum += 1) {
       if (this.itemSlots[slotNum].itype == itype) {
         while (this.itemSlots[slotNum].quantity > 0 && numOfItemToRemove > 0) {

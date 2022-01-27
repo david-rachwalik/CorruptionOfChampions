@@ -1,91 +1,91 @@
-import { GUI, UTIL, IItem, Item, BodyLotion, HairDye, SkinOil, ConsumableEffects, TransformationEffects } from 'coc';
+import { GUI, UTIL, Item, BodyLotion, HairDye, SkinOil, ConsumableEffects, TransformationEffects } from 'coc';
 import { ITEM_TYPE_CONSUMABLE } from 'coc/itemClass';
 
 class ItemConsumables {
-  BeeHoney: IItem;
-  CaninePepper: IItem;
-  CaninePepperLarge: IItem;
-  CaninePepperDouble: IItem;
-  CaninePepperBlack: IItem;
-  CaninePepperKnotty: IItem;
-  CaninePepperBulby: IItem;
-  Equinum: IItem;
-  GoblinAle: IItem;
-  GoldenSeed: IItem;
-  Hummanus: IItem;
-  ImpFood: IItem;
-  LaBova: IItem;
-  Lactaid: IItem;
-  MinotaurBlood: IItem;
-  MinoCum: IItem;
-  PigTruffle: IItem;
-  PureHoney: IItem;
-  Reptilum: IItem;
-  SnakeOil: IItem;
-  SpecialHoney: IItem;
-  TrapOil: IItem;
-  WetCloth: IItem;
-  WhiskerFruit: IItem;
+  BeeHoney: Item;
+  CaninePepper: Item;
+  CaninePepperLarge: Item;
+  CaninePepperDouble: Item;
+  CaninePepperBlack: Item;
+  CaninePepperKnotty: Item;
+  CaninePepperBulby: Item;
+  Equinum: Item;
+  GoblinAle: Item;
+  GoldenSeed: Item;
+  Hummanus: Item;
+  ImpFood: Item;
+  LaBova: Item;
+  Lactaid: Item;
+  MinotaurBlood: Item;
+  MinoCum: Item;
+  PigTruffle: Item;
+  PureHoney: Item;
+  Reptilum: Item;
+  SnakeOil: Item;
+  SpecialHoney: Item;
+  TrapOil: Item;
+  WetCloth: Item;
+  WhiskerFruit: Item;
 
   //------------
   // DEMONIC
   //------------
-  IncubiDraft: IItem;
-  IncubiDraftPurified: IItem;
-  SuccubiMilk: IItem;
-  SuccubiMilkPurified: IItem;
-  SuccubiDelight: IItem;
+  IncubiDraft: Item;
+  IncubiDraftPurified: Item;
+  SuccubiMilk: Item;
+  SuccubiMilkPurified: Item;
+  SuccubiDelight: Item;
 
   //------------
   // NON-TFs
   //------------
-  BlackBook: IItem;
-  Condom: IItem;
-  FishFillet: IItem;
-  LustDraft: IItem;
-  FuckDraft: IItem;
-  OviElixir: IItem;
-  Reducto: IItem;
-  ScholarsTea: IItem;
-  TatteredScroll: IItem;
-  VitalityTincture: IItem;
-  WhiteBook: IItem;
+  BlackBook: Item;
+  Condom: Item;
+  FishFillet: Item;
+  LustDraft: Item;
+  FuckDraft: Item;
+  OviElixir: Item;
+  Reducto: Item;
+  ScholarsTea: Item;
+  TatteredScroll: Item;
+  VitalityTincture: Item;
+  WhiteBook: Item;
 
   //------------
   // DYES/OILS/LOTIONS
   //------------
-  HairDyeAuburn: IItem;
-  HairDyeBlack: IItem;
-  HairDyeBlond: IItem;
-  HairDyeBlue: IItem;
-  HairDyeBrown: IItem;
-  HairDyeGray: IItem;
-  HairDyeGreen: IItem;
-  HairDyeOrange: IItem;
-  HairDyePink: IItem;
-  HairDyePurple: IItem;
-  HairDyeRainbow: IItem;
-  HairDyeRed: IItem;
-  HairDyeWhite: IItem;
+  HairDyeAuburn: Item;
+  HairDyeBlack: Item;
+  HairDyeBlond: Item;
+  HairDyeBlue: Item;
+  HairDyeBrown: Item;
+  HairDyeGray: Item;
+  HairDyeGreen: Item;
+  HairDyeOrange: Item;
+  HairDyePink: Item;
+  HairDyePurple: Item;
+  HairDyeRainbow: Item;
+  HairDyeRed: Item;
+  HairDyeWhite: Item;
 
-  SkinOilDark: IItem;
-  SkinOilEbony: IItem;
-  SkinOilFair: IItem;
-  SkinOilLight: IItem;
-  SkinOilMahogany: IItem;
-  SkinOilOlive: IItem;
-  SkinOilRusset: IItem;
+  SkinOilDark: Item;
+  SkinOilEbony: Item;
+  SkinOilFair: Item;
+  SkinOilLight: Item;
+  SkinOilMahogany: Item;
+  SkinOilOlive: Item;
+  SkinOilRusset: Item;
 
-  BodyLotionClear: IItem;
-  BodyLotionRough: IItem;
-  BodyLotionSexy: IItem;
-  BodyLotionSmooth: IItem;
+  BodyLotionClear: Item;
+  BodyLotionRough: Item;
+  BodyLotionSexy: Item;
+  BodyLotionSmooth: Item;
 
   //-------------
   // EGGS
   //-------------
-  BlackEgg: IItem;
-  LargeBlackEgg: IItem;
+  BlackEgg: Item;
+  LargeBlackEgg: Item;
 
   constructor() {
     //------------

@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, UTIL, BindType, StatusEffects, Items, PerkLib, Inventory, ICreature, Camp, FLAG, CombatTeases } from 'coc';
+import { liveData, ENUM, GUI, UTIL, BindType, StatusEffects, Items, PerkLib, Inventory, Creature, Camp, FLAG, CombatTeases } from 'coc';
 
 //------------
 // ACTIONS
@@ -684,7 +684,7 @@ export function inCombat(): boolean {
   return liveData.playerMenu == battleMenu;
 }
 
-export function startCombat(enemy: ICreature, immediate = false): void {
+export function startCombat(enemy: Creature, immediate = false): void {
   liveData.currentTurn = 0;
   liveData.currentRound = 0;
   liveData.playerMenu = battleMenu;

@@ -1,13 +1,13 @@
-import { GUI, IItem, Item } from 'coc';
+import { GUI, Item } from 'coc';
 import { ITEM_TYPE_MATERIAL } from 'coc/itemClass';
 
 class ItemMaterials {
-  GreenGel: IItem;
-  BeeChitin: IItem;
-  ImpSkull: IItem;
-  SpiderSilk: IItem;
-  T_SSILK: IItem;
-  DragonScale: IItem;
+  GreenGel: Item;
+  BeeChitin: Item;
+  ImpSkull: Item;
+  SpiderSilk: Item;
+  T_SSILK: Item;
+  DragonScale: Item;
 
   constructor() {
     this.GreenGel = new Item('GreenGl', 'Green Gel', 'a clump of green gel', ITEM_TYPE_MATERIAL);

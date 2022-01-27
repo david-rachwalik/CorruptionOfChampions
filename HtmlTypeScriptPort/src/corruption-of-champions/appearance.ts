@@ -1,4 +1,4 @@
-import { liveData, ENUM, UTIL, ICreature, Creature, StatusEffects } from 'coc';
+import { liveData, ENUM, UTIL, Creature, StatusEffects } from 'coc';
 
 // Eventually, this should contain the entire char appearance.
 // At the moment, it's pretty piecemeal.
@@ -12,7 +12,7 @@ import { liveData, ENUM, UTIL, ICreature, Creature, StatusEffects } from 'coc';
 //     return result
 // }
 
-export function hairOrFur(i_creature: ICreature): string {
+export function hairOrFur(i_creature: Creature): string {
   if (i_creature.skinType == 1) {
     return 'fur';
   } else {
@@ -20,7 +20,7 @@ export function hairOrFur(i_creature: ICreature): string {
   }
 }
 
-export function hairDescription(i_creature: ICreature): string {
+export function hairDescription(i_creature: Creature): string {
   let description = '';
   let options;
   //
@@ -95,7 +95,7 @@ export function hairDescription(i_creature: ICreature): string {
   return description;
 }
 
-export function beardDescription(i_creature: ICreature): string {
+export function beardDescription(i_creature: Creature): string {
   let description = '';
   let options;
   //
@@ -146,7 +146,7 @@ export function beardDescription(i_creature: ICreature): string {
  * @param    i_character Either Player or NonPlayer
  * @return    A beautiful description of a tongue.
  */
-export function tongueDescription(i_character: ICreature): string {
+export function tongueDescription(i_character: Creature): string {
   if (i_character.tongueType == 1) return 'serpentine tongue';
   else if (i_character.tongueType == 2) return 'demonic tongue';
   else if (i_character.tongueType == 3) return 'draconic tongue';
@@ -188,7 +188,7 @@ export function breastDescript(size: number, lactation = 0): string {
   return descript + 'breasts';
 }
 
-export function nippleDescription(i_creature: ICreature, i_rowNum: number): string {
+export function nippleDescription(i_creature: Creature, i_rowNum: number): string {
   //DEBUG SHIT!
   if (i_rowNum > i_creature.breastRows.length - 1) {
     console.error('<B>Error: Invalid breastRows (' + i_rowNum + ') passed to nippleDescription()</b>');
@@ -326,7 +326,7 @@ export function nippleDescription(i_creature: ICreature, i_rowNum: number): stri
   return description;
 }
 
-export function hipDescription(i_character: ICreature): string {
+export function hipDescription(i_character: Creature): string {
   let description = '';
   let options;
   if (i_character.hipRating <= 1) {
@@ -388,7 +388,7 @@ export function hipDescription(i_character: ICreature): string {
   return description;
 }
 
-export function cockDescript(creature: ICreature, cockIndex = 0): string {
+export function cockDescript(creature: Creature, cockIndex = 0): string {
   if (creature.cocks.length == 0) return '<b>ERROR: CockDescript Called But No Cock Present</b>';
   let cockType = ENUM.CockType.HUMAN;
   if (cockIndex != 99) {
@@ -822,7 +822,7 @@ export function cockMultiNoun(cockType: ENUM.CockType): string {
  * @param    i_withArticle    Show description with article in front
  * @return    Full description of balls
  */
-export function ballsDescription(i_forcedSize: boolean, i_plural: boolean, i_creature: ICreature, i_withArticle = false): string {
+export function ballsDescription(i_forcedSize: boolean, i_plural: boolean, i_creature: Creature, i_withArticle = false): string {
   //Main function
   if (i_creature.balls == 0) return 'prostate';
 
@@ -920,7 +920,7 @@ export function ballsDescription(i_forcedSize: boolean, i_plural: boolean, i_cre
 }
 
 //Returns random description of scrotum
-export function sackDescript(i_creature: ICreature): string {
+export function sackDescript(i_creature: Creature): string {
   if (i_creature.balls == 0) return 'prostate';
 
   const options = ['scrotum', 'sack', 'nutsack', 'ballsack', 'beanbag', 'pouch'];
@@ -931,7 +931,7 @@ export function sackDescript(i_creature: ICreature): string {
   return description;
 }
 
-export function vaginaDescript(i_creature: ICreature, i_vaginaIndex = 0, forceDesc = false): string {
+export function vaginaDescript(i_creature: Creature, i_vaginaIndex = 0, forceDesc = false): string {
   //Main function
   if (i_vaginaIndex > i_creature.vaginas.length - 1) {
     //CoC_Settings.error("<B>Error: Invalid vagina number (" + i_vaginaIndex + ") passed to vaginaDescript()</b>");
@@ -1006,7 +1006,7 @@ export function vaginaDescript(i_creature: ICreature, i_vaginaIndex = 0, forceDe
   return description;
 }
 
-export function clitDescription(i_creature: ICreature): string {
+export function clitDescription(i_creature: Creature): string {
   let description = '';
   let options;
   let haveDescription = false;
@@ -1084,7 +1084,7 @@ export function clitDescription(i_creature: ICreature): string {
  * @param    i_character
  * @return    A full description of a Character's butt.
  */
-export function buttDescription(i_character: ICreature): string {
+export function buttDescription(i_character: Creature): string {
   let description = '';
   let options;
   if (i_character.buttRating <= 1) {
@@ -1332,7 +1332,7 @@ export function buttDescription(i_character: ICreature): string {
  * @param  i_creature
  * @return Short description of a butt.
  */
-export function buttDescriptionShort(i_creature: ICreature): string {
+export function buttDescriptionShort(i_creature: Creature): string {
   let description = '';
   let options;
   if (i_creature.buttRating <= 1) {
@@ -1380,7 +1380,7 @@ export function buttDescriptionShort(i_creature: ICreature): string {
   return description;
 }
 
-export function assholeDescript(i_creature: ICreature, forceDesc = false): string {
+export function assholeDescript(i_creature: Creature, forceDesc = false): string {
   //Main function
   let description = '';
 
@@ -1425,7 +1425,7 @@ export function assholeDescript(i_creature: ICreature, forceDesc = false): strin
   return description;
 }
 
-export function wingsDescript(i_creature: ICreature): string {
+export function wingsDescript(i_creature: Creature): string {
   return DEFAULT_WING_NAMES[i_creature.wingType] + ' wings';
 }
 
@@ -1890,7 +1890,7 @@ export function allBreastsDescript(creature: Creature): string {
   return storage;
 }
 
-export function tailDescript(i_creature: ICreature): string {
+export function tailDescript(i_creature: Creature): string {
   if (i_creature.tailType == ENUM.TailType.TAIL_TYPE_NONE) {
     console.warn('WARNING: Creature has no tails to describe.');
     return '<b>!Creature has no tails to describe!</b>';
@@ -1917,7 +1917,7 @@ export function tailDescript(i_creature: ICreature): string {
   return descript;
 }
 
-export function oneTailDescript(i_creature: ICreature): string {
+export function oneTailDescript(i_creature: Creature): string {
   if (i_creature.tailType == ENUM.TailType.TAIL_TYPE_NONE) {
     console.warn('WARNING: Creature has no tails to describe.');
     return '<b>!Creature has no tails to describe!</b>';
@@ -2021,7 +2021,7 @@ export function breastSize(val: number): string {
   return descript;
 }
 
-export function multiCockDescriptLight(creature: ICreature): string {
+export function multiCockDescriptLight(creature: Creature): string {
   if (creature.cocks.length < 1) {
     return '<B>Error: multiCockDescriptLight() called with no penises present.</B>';
   }

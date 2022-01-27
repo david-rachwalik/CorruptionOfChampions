@@ -1,4 +1,4 @@
-import { liveData, GUI, UTIL, Camp, FLAG, IItem, Items, IItemSlot, COMBAT } from 'coc';
+import { liveData, GUI, UTIL, Camp, FLAG, Item, Items, ItemSlot, COMBAT } from 'coc';
 import { ITEM_TYPE_ARMOUR, ITEM_TYPE_SHIELD, ITEM_TYPE_WEAPON } from 'coc/itemClass';
 
 export const inventorySlotName = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth'];
@@ -102,7 +102,7 @@ export function unequipArmor() {
 }
 
 // Puts item into inventory
-export function takeItem(itype: IItem, nextAction?: () => void, overrideAbandon?: () => void, source?: IItemSlot) {
+export function takeItem(itype: Item, nextAction?: () => void, overrideAbandon?: () => void, source?: ItemSlot) {
   if (overrideAbandon == undefined) {
     overrideAbandon = nextAction;
   }
@@ -171,7 +171,7 @@ export function inventoryCombatHandler() {
 }
 
 // Prompts to destroys an item
-export function deleteItemPrompt(item: IItem, slotNum: number) {
+export function deleteItemPrompt(item: Item, slotNum: number) {
   GUI.clearOutput();
   GUI.outputText(
     'Are you sure you want to destroy ' +
@@ -189,7 +189,7 @@ export function deleteItemPrompt(item: IItem, slotNum: number) {
 }
 
 // Deletes an item
-export function deleteItem(item: IItem, slotNum: number) {
+export function deleteItem(item: Item, slotNum: number) {
   GUI.clearOutput();
   GUI.outputText(
     liveData.player.itemSlots[slotNum].quantity +
@@ -204,7 +204,7 @@ export function deleteItem(item: IItem, slotNum: number) {
 }
 
 // Use an item
-export function useItem(item: IItem, fromSlot: IItemSlot) {
+export function useItem(item: Item, fromSlot: ItemSlot) {
   item.useText();
   /*if (item) {
 			liveData.player.armor.removeText();
@@ -252,7 +252,7 @@ export function useItem(item: IItem, fromSlot: IItemSlot) {
 }
 
 // Try to take an item when the slot is full
-export function takeItemFull(itype: IItem, showUseNow: boolean, source: IItemSlot) {
+export function takeItemFull(itype: Item, showUseNow: boolean, source: ItemSlot) {
   GUI.outputText(
     'There is no room for ' + itype.longName + ' in your inventory.  You may replace the contents of a pouch with ' + itype.longName + ' or abandon it.',
   );
@@ -270,7 +270,7 @@ export function takeItemFull(itype: IItem, showUseNow: boolean, source: IItemSlo
 }
 
 // Returns an item to the inventory if necessary
-export function returnItemToInventory(item: IItem, showNext: boolean) {
+export function returnItemToInventory(item: Item, showNext: boolean) {
   //Used only by items that have a sub menu if the player cancels
   //Return item to inventory
   if (liveData.currentItemSlot == null) {
@@ -294,7 +294,7 @@ export function returnItemToInventory(item: IItem, showNext: boolean) {
 }
 
 // Using items before they go into the inventory, like after combat.
-export function useItemNow(item: IItem, source: IItemSlot) {
+export function useItemNow(item: Item, source: ItemSlot) {
   GUI.clearOutput();
   if (item.canUse()) {
     //If an item cannot be used then canUse should provide a description of why the item cannot be used
@@ -305,7 +305,7 @@ export function useItemNow(item: IItem, source: IItemSlot) {
 }
 
 // Replacing one item with another
-export function replaceItem(itype: IItem, slotNum: number) {
+export function replaceItem(itype: Item, slotNum: number) {
   GUI.clearOutput();
   if (liveData.player.itemSlots[slotNum].itype == itype)
     //If it is the same as what's in the slot...just throw away the new item

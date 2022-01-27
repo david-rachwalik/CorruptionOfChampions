@@ -1,12 +1,4 @@
-interface IAss {
-  //Base info
-  analWetness: number;
-  analLooseness: number;
-  //Virginity info
-  virgin: boolean;
-}
-
-class Ass implements IAss {
+class Ass {
   //Base info
   analWetness: number;
   analLooseness: number;
@@ -22,4 +14,4 @@ class Ass implements IAss {
   }
 }
 
-export { IAss, Ass };
+export { Ass };

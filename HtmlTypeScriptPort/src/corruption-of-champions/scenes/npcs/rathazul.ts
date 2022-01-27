@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, Data, IItem, Items, PerkLib, Inventory, Camp, FLAG, KeyItems } from 'coc';
+import { liveData, ENUM, GUI, Data, Item, Items, PerkLib, Inventory, Camp, FLAG, KeyItems } from 'coc';
 
 Data.addToGameFlags(FLAG.RATHAZUL_MET, FLAG.RATHAZUL_CAMP, FLAG.RATHAZUL_PURCHASE_COUNTER, FLAG.RATHAZUL_ARMOUR_COUNTER);
 
@@ -706,7 +706,7 @@ export function buyDyes() {
   }
   GUI.addButton(14, 'Nevermind', buyDyeNevermind);
 }
-export function buyDye(dye: IItem) {
+export function buyDye(dye: Item) {
   GUI.clearOutput();
   //GUI.outputText(images.showImage("rathazul-buy-dye"));
   liveData.gameFlags[FLAG.RATHAZUL_PURCHASE_COUNTER]++;
@@ -736,7 +736,7 @@ export function buyOils() {
   GUI.addButton(6, 'Russet', buyOil, Items.Consumables.SkinOilRusset);
   GUI.addButton(14, 'Nevermind', buyOilNevermind);
 }
-export function buyOil(oil: IItem) {
+export function buyOil(oil: Item) {
   GUI.clearOutput();
   //GUI.outputText(images.showImage("rathazul-buy-oil"));
   liveData.gameFlags[FLAG.RATHAZUL_PURCHASE_COUNTER]++;
@@ -763,7 +763,7 @@ export function buyLotions() {
   GUI.addButton(3, 'Smooth', buyLotion, Items.Consumables.BodyLotionSmooth);
   GUI.addButton(14, 'Nevermind', buyLotionNevermind);
 }
-export function buyLotion(lotion: IItem) {
+export function buyLotion(lotion: Item) {
   GUI.clearOutput();
   //GUI.outputText(images.showImage("rathazul-buy-lotion"));
   liveData.gameFlags[FLAG.RATHAZUL_PURCHASE_COUNTER]++;
@@ -804,7 +804,7 @@ export function purifySomething() {
 }
 
 //PURIFICATION
-export function purifyItem(item: IItem) {
+export function purifyItem(item: Item) {
   GUI.clearOutput();
   if (liveData.player.gems < 20) {
     GUI.outputText('Rathazul says, "<i>You do not have enough gems for that service.</i>"');

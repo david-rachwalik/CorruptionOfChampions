@@ -1,14 +1,14 @@
-import { liveData, IItem, Item, Items, PerkLib } from 'coc';
+import { liveData, Item, Items, PerkLib } from 'coc';
 import { ITEM_TYPE_WEAPON } from 'coc/itemClass';
 
 class ItemWeapon {
-  BeautifulSword: IItem;
-  Pipe: IItem;
-  WizardStaff: IItem;
+  BeautifulSword: Item;
+  Pipe: Item;
+  WizardStaff: Item;
 
-  JewelRapier: IItem;
-  Katana: IItem;
-  SPEAR: IItem;
+  JewelRapier: Item;
+  Katana: Item;
+  SPEAR: Item;
 
   constructor() {
     this.BeautifulSword = new Item('B.Sword', 'B. Sword', 'a beautiful sword', ITEM_TYPE_WEAPON);
