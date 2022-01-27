@@ -4,6 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import postcssPresetEnv from 'postcss-preset-env';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,7 +13,8 @@ const __dirname = path.dirname(__filename);
 export const context = __dirname;
 export const entry = {
   main: './src/index.tsx',
-  // app: "./Scripts/corruption-of-champions/main.ts"
+  app: './src/app.ts',
+  // app: './src/corruption-of-champions/main.ts',
 };
 export const output = {
   path: path.resolve(__dirname, 'wwwroot/dist'),
@@ -23,11 +25,15 @@ export const output = {
 };
 export const resolve = {
   extensions: ['.tsx', '.ts', '.jsx', '.js'],
+  // https://blog.johnnyreilly.com/2018/08/21/typescript-webpack-alias-goodbye-relative-paths
+  plugins: [new TsconfigPathsPlugin()]
 };
 export const plugins = [
   new MiniCssExtractPlugin(),
+  // https://www.npmjs.com/package/html-webpack-plugin
   new HtmlWebpackPlugin({
     template: './src/index.html',
+    filename: '../index.html',
   }),
   // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin/blob/main/examples/babel-loader/webpack.config.js
   new ForkTsCheckerWebpackPlugin({
@@ -39,7 +45,7 @@ export const plugins = [
       mode: 'write-references',
     },
     eslint: {
-      files: './src/**/*.{ts,tsx,js,jsx}',
+      files: './src/**/*.{tsx,ts,jsx,js}',
     },
   }),
 ];
