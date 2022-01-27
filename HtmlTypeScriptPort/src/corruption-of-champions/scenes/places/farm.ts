@@ -320,10 +320,11 @@ export function workFarm() {
     );
     //(75% chance normal pepper, 25% chance \"<i>rare</i>\" pepper)
     const pepper = UTIL.rand(4);
-    let itype: IItem;
-    if (pepper <= 2) {
-      itype = Items.Consumables.CaninePepper;
-    } else {
+    let itype: IItem = Items.Consumables.CaninePepper;
+    // if (pepper <= 2) {
+    //   itype = Items.Consumables.CaninePepper;
+    // } else {
+    if (pepper > 2) {
       switch (UTIL.rand(5)) {
         case 0:
           itype = Items.Consumables.CaninePepperLarge;
@@ -342,6 +343,6 @@ export function workFarm() {
           break;
       }
     }
-    Inventory.takeItem(itype!, Camp.returnToCampUseTwoHours);
+    Inventory.takeItem(itype, Camp.returnToCampUseTwoHours);
   }
 }
