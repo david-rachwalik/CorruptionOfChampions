@@ -1,26 +1,26 @@
 // Creating a constructor for pregnancies. Declaring default variables to prevent JS from turning these into the Number type.
 class Pregnancy {
-    pregnancyTypeFlag: number
-    pregnancyIncubationFlag: number
-    buttPregnancyTypeFlag: number
-    buttPregnancyIncubationFlag: number
-    pregnancyEventArray: number[]
-    buttPregnancyEventArray: number[]
-    incrementer: number
-    pregnancyEventCounter: number
+  pregnancyTypeFlag: number;
+  pregnancyIncubationFlag: number;
+  buttPregnancyTypeFlag: number;
+  buttPregnancyIncubationFlag: number;
+  pregnancyEventArray: number[];
+  buttPregnancyEventArray: number[];
+  incrementer: number;
+  pregnancyEventCounter: number;
 
-    constructor(pregType = 0, pregInc = 0, buttPregType = 0, buttPregInc = 0) {
-        this.pregnancyTypeFlag = pregType // This marks who did the impregnation for standard births
-        this.pregnancyIncubationFlag = pregInc // This is the base counter for how long the impregnation last for standard births
-        this.buttPregnancyTypeFlag = buttPregType // As above, but for anal pregnancy
-        this.buttPregnancyIncubationFlag = buttPregInc // As above, but for anal pregnancy
-        this.pregnancyEventArray = [] // Holds pregnancy event countdown numbers
-        this.buttPregnancyEventArray = [] // Hold butt pregnancy event countdown numbers
-        this.incrementer = 0 // Used to time the pregnancies.
-        this.pregnancyEventCounter = 0 // Used for pregnancy event switch blocks. 0 should make it fall through to the default.
-    }
+  constructor(pregType = 0, pregInc = 0, buttPregType = 0, buttPregInc = 0) {
+    this.pregnancyTypeFlag = pregType; // This marks who did the impregnation for standard births
+    this.pregnancyIncubationFlag = pregInc; // This is the base counter for how long the impregnation last for standard births
+    this.buttPregnancyTypeFlag = buttPregType; // As above, but for anal pregnancy
+    this.buttPregnancyIncubationFlag = buttPregInc; // As above, but for anal pregnancy
+    this.pregnancyEventArray = []; // Holds pregnancy event countdown numbers
+    this.buttPregnancyEventArray = []; // Hold butt pregnancy event countdown numbers
+    this.incrementer = 0; // Used to time the pregnancies.
+    this.pregnancyEventCounter = 0; // Used for pregnancy event switch blocks. 0 should make it fall through to the default.
+  }
 
-    /***************
+  /***************
 	*
 
 	How pregnancy seems to work:
@@ -29,56 +29,56 @@ class Pregnancy {
 
 	*/
 
-    // Method for determining whether or not there is a pregnancy
-    isPregnant(): boolean {
-        if (this.pregnancyTypeFlag != 0) return true
-        else return false
-    }
+  // Method for determining whether or not there is a pregnancy
+  isPregnant(): boolean {
+    if (this.pregnancyTypeFlag != 0) return true;
+    else return false;
+  }
 
-    // Method for filling pregnancyEventArrays. Original code specifies by hours. This will convert into minutes automatically
-    eventFill(hourArray: number[]): void {
-        // Convert all elements in hourArray into minutes using fancy Haskell-like JS
-        this.pregnancyEventArray = hourArray.map(function (item) {
-            return item * 60
-        })
-    }
+  // Method for filling pregnancyEventArrays. Original code specifies by hours. This will convert into minutes automatically
+  eventFill(hourArray: number[]): void {
+    // Convert all elements in hourArray into minutes using fancy Haskell-like JS
+    this.pregnancyEventArray = hourArray.map(function (item) {
+      return item * 60;
+    });
+  }
 
-    knockUp(newPregType: number, newPregIncubation: number): void {
-        if (this.pregnancyTypeFlag == 0) {
-            this.pregnancyTypeFlag = newPregType
-            this.pregnancyIncubationFlag = newPregIncubation * 60
-            this.pregnancyEventCounter = 0
-        }
+  knockUp(newPregType: number, newPregIncubation: number): void {
+    if (this.pregnancyTypeFlag == 0) {
+      this.pregnancyTypeFlag = newPregType;
+      this.pregnancyIncubationFlag = newPregIncubation * 60;
+      this.pregnancyEventCounter = 0;
     }
+  }
 
-    // Forces pregnancy regardless of existing pregnancy.
-    knockUpForce(newPregType: number, newPregIncubation: number): void {
-        // Passing 0 and 0  to this function now clears out pregnancy.
-        /*
+  // Forces pregnancy regardless of existing pregnancy.
+  knockUpForce(newPregType: number, newPregIncubation: number): void {
+    // Passing 0 and 0  to this function now clears out pregnancy.
+    /*
 		if (newPregType == 0 || newPregIncubation == 0) {
 			GUI.outputText("<br><br>DEBUGGER: Attempted to start a pregnancy without passing the right flags!");
 			return;
 		}
 		*/
 
-        this.pregnancyTypeFlag = newPregType
-        this.pregnancyIncubationFlag = newPregIncubation * 60 // Converts hours into minutes
-        this.pregnancyEventCounter = 0 // Resets event counter.
-        // Debugging text
-        //GUI.outputText("<br><br>You knocked someone up!");
-        //GUI.outputText("<br>Pregnancy flag is " + this.pregnancyTypeFlag);
-        //GUI.outputText("<br>Incubation flag is" + this.pregnancyIncubationFlag);
-        //GUI.outputText("<br>Pregnancy array is" + this.pregnancyEventArray);
-        //if (newPregType != 0) newPregType = (kGAMECLASS.flags[_pregnancyTypeFlag] & PREG_NOTICE_MASK) + newPregType;
-        //If a pregnancy 'continues' an existing pregnancy then do not change the value for last noticed stage
-        //kGAMECLASS.flags[_pregnancyTypeFlag] = newPregType;
-        //kGAMECLASS.flags[_pregnancyIncubationFlag] = (newPregType == 0 ? 0 : newPregIncubation);
-        //Won't allow incubation time without pregnancy type
-        //	return;
-    }
+    this.pregnancyTypeFlag = newPregType;
+    this.pregnancyIncubationFlag = newPregIncubation * 60; // Converts hours into minutes
+    this.pregnancyEventCounter = 0; // Resets event counter.
+    // Debugging text
+    //GUI.outputText("<br><br>You knocked someone up!");
+    //GUI.outputText("<br>Pregnancy flag is " + this.pregnancyTypeFlag);
+    //GUI.outputText("<br>Incubation flag is" + this.pregnancyIncubationFlag);
+    //GUI.outputText("<br>Pregnancy array is" + this.pregnancyEventArray);
+    //if (newPregType != 0) newPregType = (kGAMECLASS.flags[_pregnancyTypeFlag] & PREG_NOTICE_MASK) + newPregType;
+    //If a pregnancy 'continues' an existing pregnancy then do not change the value for last noticed stage
+    //kGAMECLASS.flags[_pregnancyTypeFlag] = newPregType;
+    //kGAMECLASS.flags[_pregnancyIncubationFlag] = (newPregType == 0 ? 0 : newPregIncubation);
+    //Won't allow incubation time without pregnancy type
+    //	return;
+  }
 
-    // Time advacement function. Currently only works with normal pregnancy. OLD CODE
-    /*
+  // Time advacement function. Currently only works with normal pregnancy. OLD CODE
+  /*
 	advanceTime(timeInc) {
 		if (this.pregnancyIncubationFlag >= 1) {
 			// Decrement the incubation flag
@@ -101,7 +101,7 @@ class Pregnancy {
 	};
 	*/
 
-    /*
+  /*
 	type(type) {
 			if (this.pregnancyTypeFlag == 0) {return 0;}
 			else { return this.pregnancyTypeFlag }
@@ -262,4 +262,4 @@ class Pregnancy {
 	*/
 // }
 
-export { Pregnancy }
+export { Pregnancy };

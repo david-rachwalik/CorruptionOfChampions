@@ -1,14 +1,4 @@
-import { liveData } from "../../../globalVariables.js"
-import * as ENUM from "../../../appearanceEnums.js"
-import { GUI } from "../../../engine/gui.js"
-import { UTIL } from "../../../engine/utils.js"
-import { Data } from "../../../engine/saves.js"
-import { FLAG } from "../../../flags/dataFlags.js"
-import { Creature } from "../../../creature.js"
-import { Items } from "../../../itemClass.js"
-import { COMBAT } from "../../combat.js"
-import { PerkLib } from "../../../perkLib.js"
-import { Camp } from "../../camp.js"
+import { liveData, ENUM, GUI, UTIL, Data, FLAG, Creature, Items, COMBAT, PerkLib, Camp } from 'coc';
 
 /**
  * Ported by matraia on 10/7/16.
@@ -40,177 +30,180 @@ import { Camp } from "../../camp.js"
 
  For further information and license requests, Dxasmodeus may be contacted through private message at the Futanari Palace. http://www.futanaripalace.com/forum.php. */
 
-Data.addToGameFlags(FLAG.WORM_INFEST_ATTEMPTED, FLAG.MET_WORMS, FLAG.INFESTED, FLAG.EVER_INFESTED)
+Data.addToGameFlags(FLAG.WORM_INFEST_ATTEMPTED, FLAG.MET_WORMS, FLAG.INFESTED, FLAG.EVER_INFESTED);
 
-class WormMass extends Creature {
-    constructor() {
-        super()
+export class WormMass extends Creature {
+  constructor() {
+    super();
 
-        //Name and references
-        this.a = "the "
-        this.name = "worms"
-        this.refName = this.name
-        this.isAre = "are"
-        this.heShe = "they"
-        this.himHer = "them"
-        this.hisHer = "their"
-        this.plural = true
-        this.battleDesc =
-            "Before you stands the horrid mass of worms. It has shifted itself and now takes the shape of a humanoid composed completely of the worms in the colony. Its vaguely human shape lumbers towards you in a clearly aggressive manner."
-        //Core stats
-        this.str = 35
-        this.tou = 5
-        this.spe = 10
-        this.inte = 1
-        this.lib = 90
-        this.sens = 60
-        this.cor = 90
-        //Combat stats
-        this.HP = 40 // Special maxHP function
-        this.lust = 30
-        this.fatigue = 0
-        //Advancement
-        this.level = 3
-        this.XP = 0
-        this.gems = 0
-        //Battle variables
-        this.weapon = Items.NOTHING
-        this.weapon.equipmentName = "worm"
-        this.weapon.verb = "slap"
-        this.armor.equipmentName = "skin"
-        this.bonusHP = 0
-        this.additionalXP = 0
-        this.lustVuln = 0
-        //this.temperment = TEMPERMENT_LOVE_GRAPPLES; TODO Add Temperment System
+    //Name and references
+    this.a = 'the ';
+    this.name = 'worms';
+    this.refName = this.name;
+    this.isAre = 'are';
+    this.heShe = 'they';
+    this.himHer = 'them';
+    this.hisHer = 'their';
+    this.plural = true;
+    this.battleDesc =
+      'Before you stands the horrid mass of worms. It has shifted itself and now takes the shape of a humanoid composed completely of the worms in the colony. Its vaguely human shape lumbers towards you in a clearly aggressive manner.';
+    //Core stats
+    this.str = 35;
+    this.tou = 5;
+    this.spe = 10;
+    this.inte = 1;
+    this.lib = 90;
+    this.sens = 60;
+    this.cor = 90;
+    //Combat stats
+    this.HP = 40; // Special maxHP function
+    this.lust = 30;
+    this.fatigue = 0;
+    //Advancement
+    this.level = 3;
+    this.XP = 0;
+    this.gems = 0;
+    //Battle variables
+    this.weapon = Items.NOTHING;
+    this.weapon.equipmentName = 'worm';
+    this.weapon.verb = 'slap';
+    this.armor.equipmentName = 'skin';
+    this.bonusHP = 0;
+    this.additionalXP = 0;
+    this.lustVuln = 0;
+    //this.temperment = TEMPERMENT_LOVE_GRAPPLES; TODO Add Temperment System
 
-        this.drops = [] // No drops
-        this.dropThresholds = []
+    this.drops = []; // No drops
+    this.dropThresholds = [];
 
-        //Appearance
-        this.gender = 0 //0 genderless, 1 male, 2 female, 3 hermaphrodite
-        this.tallness = 36 //Height in inches
-        this.skinTone = "white"
-        this.skinType = 0
-        this.skinAdj = ""
-        this.skinDesc = "skin"
-        this.hairType = 0
-        this.hairColor = ""
-        this.hairLength = 0
-        this.beardStyle = 0
-        this.beardLength = 0
-        this.furColor = ""
+    //Appearance
+    this.gender = 0; //0 genderless, 1 male, 2 female, 3 hermaphrodite
+    this.tallness = 36; //Height in inches
+    this.skinTone = 'white';
+    this.skinType = 0;
+    this.skinAdj = '';
+    this.skinDesc = 'skin';
+    this.hairType = 0;
+    this.hairColor = '';
+    this.hairLength = 0;
+    this.beardStyle = 0;
+    this.beardLength = 0;
+    this.furColor = '';
 
-        //Head
-        this.earType = 0
-        this.eyeType = 0
-        this.faceType = 0
-        this.tongueType = 0
+    //Head
+    this.earType = 0;
+    this.eyeType = 0;
+    this.faceType = 0;
+    this.tongueType = 0;
 
-        this.femininity = 50
-        this.tone = 0
-        this.thickness = 0
-        this.hipRating = ENUM.HipRatingType.HIP_RATING_SLENDER
-        this.buttRating = ENUM.ButtRatingType.BUTT_RATING_BUTTLESS
+    this.femininity = 50;
+    this.tone = 0;
+    this.thickness = 0;
+    this.hipRating = ENUM.HipRatingType.HIP_RATING_SLENDER;
+    this.buttRating = ENUM.ButtRatingType.BUTT_RATING_BUTTLESS;
 
-        //Sexual Characteristics
-        //Cocks
+    //Sexual Characteristics
+    //Cocks
 
-        //Ass
-        // this.ass = new Ass()
-        this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_VIRGIN
-        this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_DRY
-        //Breasts
-        this.createBreastRow(0, 0)
+    //Ass
+    // this.ass = new Ass()
+    this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_VIRGIN;
+    this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_DRY;
+    //Breasts
+    this.createBreastRow(0, 0);
 
-        //Drops
-        this.clearDrops() //Need to be called before populating the item arrays.
+    //Drops
+    this.clearDrops(); //Need to be called before populating the item arrays.
 
-        //Victory/defeat
-        this.victory = COMBAT.cleanupAfterCombat
-        this.defeat = WormsScene.lose
+    //Victory/defeat
+    this.victory = COMBAT.cleanupAfterCombat;
+    this.defeat = lose;
+  }
+
+  override doAI() {
+    switch (UTIL.rand(2)) {
+      case 0:
+        this.wormAttack(); // Special worm attack
+        break;
+      case 1:
+        this.wormEntice();
+        break;
+      default:
+        this.wormAttack(); // Shouldn't reach here, but leaving it in as a failsafe.
     }
+    COMBAT.combatRoundOver();
+  }
 
-    override doAI() {
-        switch (UTIL.rand(2)) {
-            case 0:
-                this.wormAttack() // Special worm attack
-                break
-            case 1:
-                this.wormEntice()
-                break
-            default:
-                this.wormAttack() // Shouldn't reach here, but leaving it in as a failsafe.
-        }
-        COMBAT.combatRoundOver()
-    }
+  override maxHP() {
+    return 40 + liveData.player.newGamePlusMod() * 20;
+  }
 
-    override maxHP() {
-        return 40 + liveData.player.newGamePlusMod() * 20
+  //Worms Attack
+  wormAttack() {
+    //Dodged!
+    if (liveData.player.spe - liveData.monster.spe > 0 && Math.random() * ((liveData.player.spe - liveData.monster.spe) / 4 + 80) > 80) {
+      GUI.outputText('The worm colony flails at you with its simulated arms, but its lack of coordination allows you to easily dodge its attack.<br>');
+      return;
     }
+    //Evade
+    if (liveData.player.findPerk(PerkLib.Evade) >= 0 && UTIL.rand(100) < 10) {
+      GUI.outputText('Using your skills at evading attacks, you anticipate and sidestep ' + this.a + this.name + "' attacks.<br>");
+      return;
+    }
+    let temp = liveData.monster.str + liveData.monster.weapon.attack - Math.random() * (liveData.player.tou + liveData.player.armor.defense);
+    if (temp <= 0) temp = 1;
+    temp = Math.round(temp);
+    if (temp > 0) liveData.player.changeHP(-temp, true);
+    GUI.outputText('The worm colony strikes at you with its makeshift limbs. It strikes you for ');
+    GUI.outputText(String(temp));
+    GUI.outputText(' damage and the limb splatters, dispersing the worms comprising the false arm.');
+    GUI.outputText('<br>');
+    return;
+  }
 
-    //Worms Attack
-    wormAttack() {
-        //Dodged!
-        if (liveData.player.spe - liveData.monster.spe > 0 && Math.random() * ((liveData.player.spe - liveData.monster.spe) / 4 + 80) > 80) {
-            GUI.outputText("The worm colony flails at you with its simulated arms, but its lack of coordination allows you to easily dodge its attack.<br>")
-            return
-        }
-        //Evade
-        if (liveData.player.findPerk(PerkLib.Evade) >= 0 && UTIL.rand(100) < 10) {
-            GUI.outputText("Using your skills at evading attacks, you anticipate and sidestep " + this.a + this.name + "' attacks.<br>")
-            return
-        }
-        var temp = liveData.monster.str + liveData.monster.weapon.attack - Math.random() * (liveData.player.tou + liveData.player.armor.defense)
-        if (temp <= 0) temp = 1
-        temp = Math.round(temp)
-        if (temp > 0) liveData.player.changeHP(-temp, true)
-        GUI.outputText("The worm colony strikes at you with its makeshift limbs. It strikes you for ")
-        GUI.outputText(String(temp))
-        GUI.outputText(" damage and the limb splatters, dispersing the worms comprising the false arm.")
-        GUI.outputText("<br>")
-        return
+  //Worms Entice
+  wormEntice() {
+    //FAIL
+    if (UTIL.rand(2) == 0) {
+      if (liveData.player.lust < 50)
+        GUI.outputText(
+          'The worm colony stands before you and begins secreting a significant amount of slime. You are perplexed as to why the worms have done this. You shrug your shoulders and remain on guard.<br>',
+        );
+      else
+        GUI.outputText(
+          'The worm colony shambles over to you and attempts to grapple you. Quickly sidestepping the clumsy movements of the creature, you avoid what could have been a horrible fate as the mass falls over and splatters in its failed attempt to engulf you.<br>',
+        );
+      return;
     }
-
-    //Worms Entice
-    wormEntice() {
-        //FAIL
-        if (UTIL.rand(2) == 0) {
-            if (liveData.player.lust < 50) GUI.outputText("The worm colony stands before you and begins secreting a significant amount of slime. You are perplexed as to why the worms have done this. You shrug your shoulders and remain on guard.<br>")
-            else
-                GUI.outputText(
-                    "The worm colony shambles over to you and attempts to grapple you. Quickly sidestepping the clumsy movements of the creature, you avoid what could have been a horrible fate as the mass falls over and splatters in its failed attempt to engulf you.<br>"
-                )
-            return
-        }
-        //SUCCESS
-        if (liveData.player.lust < 50) {
-            GUI.outputText(
-                "The worm colony stands before you and begins secreting a significant amount of slime. Inexplicably, you find that your " +
-                    liveData.player.cockDescript(0) +
-                    " is already erect and is throbbing. The erection is quite meddlesome and you find yourself distracted by the unwanted arousal.<br>"
-            )
-            liveData.player.changeLust(10 + liveData.player.lib / 20 + liveData.player.cor / 20)
-        } else {
-            GUI.outputText(
-                "The worm colony shambles over to you and attempts to grapple you. Attempting to dodge, you fail to get away fast enough and fall to the ground engulfed by the mass. You are completely covered in the slimy worms!!! Incapable of avoiding any of their movements, you feel their slime coat every inch of your body and you feel the struggle and strain of each individual worm as they crawl all over you. You immediately begin flailing wildly as you cannot even breathe!"
-            )
-            //Chance of insta-loss if infested twice
-            if (liveData.gameFlags[FLAG.WORM_INFEST_ATTEMPTED] >= 1) {
-                GUI.outputText(
-                    "  Struggle as you might, the creatures overwhelm your body and prevent you from any conceivable opportunity to get them off you, Your head quickly becomes visible, allowing you to breathe as you stare helplessly at the cocoon of worms trapping you.<br><br>"
-                )
-                WormsScene.infest1()
-                return
-            }
-            //Escaped!
-            else {
-                GUI.outputText(
-                    "<br><br>You struggle wildly as you fight the worm colony for both air and to get the things off you. The sticky slime secreted by the individual worms greatly increases your task. After freeing one of your arms, you uncover your face, allowing you to breathe, and begin sweeping the beasts from your body. Stunned by your renewed vigor, the mass loses its cohesion, allowing your to quickly clear the worms from your body. The disbanded colony retreats a distance from you and begins reforming itself as you purge your body of the annelids."
-                )
-                liveData.gameFlags[FLAG.WORM_INFEST_ATTEMPTED]++
-            }
-        }
+    //SUCCESS
+    if (liveData.player.lust < 50) {
+      GUI.outputText(
+        'The worm colony stands before you and begins secreting a significant amount of slime. Inexplicably, you find that your ' +
+          liveData.player.cockDescript(0) +
+          ' is already erect and is throbbing. The erection is quite meddlesome and you find yourself distracted by the unwanted arousal.<br>',
+      );
+      liveData.player.changeLust(10 + liveData.player.lib / 20 + liveData.player.cor / 20);
+    } else {
+      GUI.outputText(
+        'The worm colony shambles over to you and attempts to grapple you. Attempting to dodge, you fail to get away fast enough and fall to the ground engulfed by the mass. You are completely covered in the slimy worms!!! Incapable of avoiding any of their movements, you feel their slime coat every inch of your body and you feel the struggle and strain of each individual worm as they crawl all over you. You immediately begin flailing wildly as you cannot even breathe!',
+      );
+      //Chance of insta-loss if infested twice
+      if (liveData.gameFlags[FLAG.WORM_INFEST_ATTEMPTED] >= 1) {
+        GUI.outputText(
+          '  Struggle as you might, the creatures overwhelm your body and prevent you from any conceivable opportunity to get them off you, Your head quickly becomes visible, allowing you to breathe as you stare helplessly at the cocoon of worms trapping you.<br><br>',
+        );
+        infest1();
+        return;
+      }
+      //Escaped!
+      else {
+        GUI.outputText(
+          '<br><br>You struggle wildly as you fight the worm colony for both air and to get the things off you. The sticky slime secreted by the individual worms greatly increases your task. After freeing one of your arms, you uncover your face, allowing you to breathe, and begin sweeping the beasts from your body. Stunned by your renewed vigor, the mass loses its cohesion, allowing your to quickly clear the worms from your body. The disbanded colony retreats a distance from you and begins reforming itself as you purge your body of the annelids.',
+        );
+        liveData.gameFlags[FLAG.WORM_INFEST_ATTEMPTED]++;
+      }
     }
+  }
 }
 
 //---------
@@ -221,149 +214,157 @@ class WormMass extends Creature {
 
 //Worm Loss start, you poor mortal...
 
-abstract class WormsScene {
-    static lose() {
-        GUI.outputText("<br>Overcome by your " + (liveData.player.HP <= 0 ? "wounds" : "lust") + ", you sink to your knees as the colony of worms swarms all over your body...<br><br>")
-        WormsScene.infest1()
-    }
+export function lose() {
+  GUI.outputText(
+    '<br>Overcome by your ' +
+      (liveData.player.HP <= 0 ? 'wounds' : 'lust') +
+      ', you sink to your knees as the colony of worms swarms all over your body...<br><br>',
+  );
+  infest1();
+}
 
-    //Infestation begins...
-    static infest1() {
-        //TODO Sprite spriteSelect(76);
-        GUI.outputText(
-            "Trapped within the mass of worms, you are utterly helpless. The constant moving all over your body provides naught but unwanted stimulation. Your cock, not knowing any better, springs to attention, creating a peak in the mass. The worms immediately recognize what has happened to you. One particularly fat worm finds itself perched on top of your dick's throbbing glans. You feel it prodding about your urethral opening and come to a horrible realization that your precious penis is completely vulnerable to thousands of creatures capable of invading your body!!! Before you can react or curse your fate, the fat worm quickly forces open your urethra and begins to push its way inside your dick!\n\n"
-        )
-        GUI.outputText(
-            "Crying out in shock, you feel the fat worm push its way, inch by inch, into your urethra. Your nerves light up like a Christmas tree as each individual cell tells you of the creature's presence and movement deeper into your body. The fat beast easily finds its way into your prostate and settles within the organ. As it settles, it begins flailing inside your sex. The sensations shift from shock to grotesque pleasure as your body only senses the stimulation conductive to orgasmic response. Your groin cramps and bloats quickly by the torrent of semen building within you and the invader's presence. Obviously sensitive to your fluids, you feel the worm thrash around some more, causing your body to respond by making more semen. The flopping creature quickly erodes any orgasmic discipline you are capable of and with a great shrill cry, you force lances of cum into the air, launching goo and worms alike in a sick display of forced pleasure. After you empty your body of spunk, the remaining worms become hyperaggressive.\n\n"
-        )
-        GUI.outputText(
-            "Excited by the feel of your fluids on them, many smaller worms push their way into your penis. Your cock distends as the worms fight to get inside you and to the source of the milk that has so excited them. Your prostate quickly fills up with the squirming creatures. The discomfort in your bloated bludgeon and the ceaseless stimulation of your organs causes your body to produce more cum. However, you find yourself unable to climax as the invaders rest inside your body submerged in your salty lust. The rest of the colony disperses, having accomplished its true goal of infesting your body.\n\n"
-        )
-        //Big corruption boost for low-corrupt players
-        if (liveData.player.cor < 25) {
-            liveData.player.cor = 25
-        } else {
-            liveData.player.dynStats(["cor", 1])
-        }
-        //Congrats, you got worms
-        liveData.gameFlags[FLAG.INFESTED] = 1
-        if (liveData.gameFlags[FLAG.EVER_INFESTED] == 0) liveData.gameFlags[FLAG.EVER_INFESTED] = 1
-        COMBAT.cleanupAfterCombat()
-    }
+//Infestation begins...
+export function infest1() {
+  //TODO Sprite spriteSelect(76);
+  GUI.outputText(
+    "Trapped within the mass of worms, you are utterly helpless. The constant moving all over your body provides naught but unwanted stimulation. Your cock, not knowing any better, springs to attention, creating a peak in the mass. The worms immediately recognize what has happened to you. One particularly fat worm finds itself perched on top of your dick's throbbing glans. You feel it prodding about your urethral opening and come to a horrible realization that your precious penis is completely vulnerable to thousands of creatures capable of invading your body!!! Before you can react or curse your fate, the fat worm quickly forces open your urethra and begins to push its way inside your dick!\n\n",
+  );
+  GUI.outputText(
+    "Crying out in shock, you feel the fat worm push its way, inch by inch, into your urethra. Your nerves light up like a Christmas tree as each individual cell tells you of the creature's presence and movement deeper into your body. The fat beast easily finds its way into your prostate and settles within the organ. As it settles, it begins flailing inside your sex. The sensations shift from shock to grotesque pleasure as your body only senses the stimulation conductive to orgasmic response. Your groin cramps and bloats quickly by the torrent of semen building within you and the invader's presence. Obviously sensitive to your fluids, you feel the worm thrash around some more, causing your body to respond by making more semen. The flopping creature quickly erodes any orgasmic discipline you are capable of and with a great shrill cry, you force lances of cum into the air, launching goo and worms alike in a sick display of forced pleasure. After you empty your body of spunk, the remaining worms become hyperaggressive.\n\n",
+  );
+  GUI.outputText(
+    'Excited by the feel of your fluids on them, many smaller worms push their way into your penis. Your cock distends as the worms fight to get inside you and to the source of the milk that has so excited them. Your prostate quickly fills up with the squirming creatures. The discomfort in your bloated bludgeon and the ceaseless stimulation of your organs causes your body to produce more cum. However, you find yourself unable to climax as the invaders rest inside your body submerged in your salty lust. The rest of the colony disperses, having accomplished its true goal of infesting your body.\n\n',
+  );
+  //Big corruption boost for low-corrupt players
+  if (liveData.player.cor < 25) {
+    liveData.player.cor = 25;
+  } else {
+    liveData.player.dynStats(['cor', 1]);
+  }
+  //Congrats, you got worms
+  liveData.gameFlags[FLAG.INFESTED] = 1;
+  if (liveData.gameFlags[FLAG.EVER_INFESTED] == 0) liveData.gameFlags[FLAG.EVER_INFESTED] = 1;
+  COMBAT.cleanupAfterCombat();
+}
 
-    //---------
-    // Worm Encounters
-    //---------
+//---------
+// Worm Encounters
+//---------
 
-    //Worm Sign Toggle for this Fetish
-    static wormToggle() {
-        //TODO Sprite spriteSelect(76);
-        GUI.clearOutput()
-        GUI.outputText(
-            "While wandering, you come across a crudely illustrated sign.  It depicts an imp in obvious discomfort, covered in white little worms.  It looks as if one of them is even crawling into the imp's penis!\n\nHow do you feel about that?"
-        )
-        liveData.gameFlags[FLAG.MET_WORMS]++ // Show that we met the worms.
-        GUI.addButton(0, "Aroused", WormsScene.wormsOn)
-        GUI.addButton(1, "Grossed Out", WormsScene.wormsOff)
-        GUI.addButton(2, "Who Cares?", WormsScene.wormsPartiallyOn)
-    }
+//Worm Sign Toggle for this Fetish
+export function wormToggle() {
+  //TODO Sprite spriteSelect(76);
+  GUI.clearOutput();
+  GUI.outputText(
+    "While wandering, you come across a crudely illustrated sign.  It depicts an imp in obvious discomfort, covered in white little worms.  It looks as if one of them is even crawling into the imp's penis!\n\nHow do you feel about that?",
+  );
+  liveData.gameFlags[FLAG.MET_WORMS]++; // Show that we met the worms.
+  GUI.addButton(0, 'Aroused', wormsOn);
+  GUI.addButton(1, 'Grossed Out', wormsOff);
+  GUI.addButton(2, 'Who Cares?', wormsPartiallyOn);
+}
 
-    //Bring on the worms!
-    static wormsOn() {
-        GUI.clearOutput()
-        GUI.outputText("You actually think it's kind of a hot idea, and wonder if such creatures actually exist in this land as you make your way back to camp.")
-        GUI.outputText("\n\n<b>If you ever change your mind, you can toggle from Fetishes menu in game settings.</b>")
-        liveData.gameFlags[FLAG.WORMS_FETISH] = 2
-        GUI.doNext(Camp.returnToCampUseOneHour)
-    }
+//Bring on the worms!
+export function wormsOn() {
+  GUI.clearOutput();
+  GUI.outputText("You actually think it's kind of a hot idea, and wonder if such creatures actually exist in this land as you make your way back to camp.");
+  GUI.outputText('\n\n<b>If you ever change your mind, you can toggle from Fetishes menu in game settings.</b>');
+  liveData.gameFlags[FLAG.WORMS_FETISH] = 2;
+  GUI.doNext(Camp.returnToCampUseOneHour);
+}
 
-    //A few aren't bad...
-    static wormsPartiallyOn() {
-        GUI.clearOutput()
-        GUI.outputText("You shrug and keep walking, not sure how you feel about the strange sign.")
-        GUI.outputText("\n\n<b>If you ever change your mind, you can toggle from Fetishes menu in game settings.</b>")
-        liveData.gameFlags[FLAG.WORMS_FETISH] = 1
-        GUI.doNext(Camp.returnToCampUseOneHour)
-    }
+//A few aren't bad...
+export function wormsPartiallyOn() {
+  GUI.clearOutput();
+  GUI.outputText('You shrug and keep walking, not sure how you feel about the strange sign.');
+  GUI.outputText('\n\n<b>If you ever change your mind, you can toggle from Fetishes menu in game settings.</b>');
+  liveData.gameFlags[FLAG.WORMS_FETISH] = 1;
+  GUI.doNext(Camp.returnToCampUseOneHour);
+}
 
-    //Get those worms out of my game!
-    static wormsOff() {
-        GUI.clearOutput()
-        GUI.outputText("You shudder in revulsion and figure the sign to be the result of someone's perverted fantasy.")
-        GUI.outputText("\n\n<b>If you ever change your mind, you can toggle from Fetishes menu in game settings.</b>")
-        liveData.gameFlags[FLAG.WORMS_FETISH] = 1
-        GUI.doNext(Camp.returnToCampUseOneHour)
-    }
+//Get those worms out of my game!
+export function wormsOff() {
+  GUI.clearOutput();
+  GUI.outputText("You shudder in revulsion and figure the sign to be the result of someone's perverted fantasy.");
+  GUI.outputText('\n\n<b>If you ever change your mind, you can toggle from Fetishes menu in game settings.</b>');
+  liveData.gameFlags[FLAG.WORMS_FETISH] = 1;
+  GUI.doNext(Camp.returnToCampUseOneHour);
+}
 
-    // Basic Worm Encounter
-    static wormEncounter() {
-        //TODO SPRITE spriteSelect(76);
-        GUI.clearOutput()
-        if ((liveData.gameFlags[FLAG.MET_WORMS] = 0)) {
-            //First encounter
-            GUI.outputText(
-                "As you are exploring, a rather pungent, peaty smell assails your nostrils. You hear a strange rustling and an off-kilter squishing noise in the distance. As you explore the area you come upon a most grotesque sight. Before you is a cohesive mass of writhing, wriggling worms! While normally solitary creatures, these appear to have coalesced into a monstrous living colony!\n\n"
-            )
-            GUI.outputText(
-                "You have never before seen such a bizarre freak of nature. You see the mass of annelids creep about across your path. It stops and spreads slightly in your direction before halting. The stench of the mass is indescribable and a thick, viscous slime covers each of the countless worms forming the collective.\n\n"
-            )
-            GUI.outputText(
-                "You stop dead in your tracks, wondering what this swarm will do. After a few tense moments, the mass crawls away in a direction opposite of both you and your current path. You breathe a sigh of relief as you are confident that no good could have come from confronting such a zoological travesty."
-            )
-            liveData.player.changeLust(-10)
-            liveData.gameFlags[FLAG.MET_WORMS]++
-            GUI.doNext(Camp.returnToCampUseOneHour)
-        } else if (liveData.player.hasCock()) {
-            GUI.outputText(
-                "Minding your own business, you make your way through the mountain and you find yourself stopped by another mass of the sickly worms. The collective stops, apparently sensing your presence and briefly ebbs in your direction. After a few tense moments, the mass begins moving again... straight towards you at an alarming rate!\n\n"
-            )
-            GUI.outputText("What do you do?")
-            GUI.addButton(0, "Confront", WormsScene.wormsConfront)
-            GUI.addButton(1, "Do Nothing", WormsScene.wormsDoNothing)
-            GUI.addButton(2, "Run", WormsScene.wormsRun)
-        } else {
-            GUI.outputText(
-                "Making your way, you stumble on another gross mass of worms. The countless struggling creatures bar the path before you. Again, you freeze in place as the horror gropes about on the ground. It appears to have no real interest in your presence and it makes its way in a direction other than yours, much to your relief."
-            )
-            GUI.doNext(Camp.returnToCampUseOneHour)
-        }
-    }
+// Basic Worm Encounter
+export function wormEncounter() {
+  //TODO SPRITE spriteSelect(76);
+  GUI.clearOutput();
+  // if ((liveData.gameFlags[FLAG.MET_WORMS] = 0)) {
+  //   //First encounter
+  //   GUI.outputText(
+  //     'As you are exploring, a rather pungent, peaty smell assails your nostrils. You hear a strange rustling and an off-kilter squishing noise in the distance. As you explore the area you come upon a most grotesque sight. Before you is a cohesive mass of writhing, wriggling worms! While normally solitary creatures, these appear to have coalesced into a monstrous living colony!\n\n',
+  //   );
+  //   GUI.outputText(
+  //     'You have never before seen such a bizarre freak of nature. You see the mass of annelids creep about across your path. It stops and spreads slightly in your direction before halting. The stench of the mass is indescribable and a thick, viscous slime covers each of the countless worms forming the collective.\n\n',
+  //   );
+  //   GUI.outputText(
+  //     'You stop dead in your tracks, wondering what this swarm will do. After a few tense moments, the mass crawls away in a direction opposite of both you and your current path. You breathe a sigh of relief as you are confident that no good could have come from confronting such a zoological travesty.',
+  //   );
+  //   liveData.player.changeLust(-10);
+  //   liveData.gameFlags[FLAG.MET_WORMS]++;
+  //   GUI.doNext(Camp.returnToCampUseOneHour);
+  // } else if (liveData.player.hasCock()) {
+  if (liveData.player.hasCock()) {
+    GUI.outputText(
+      'Minding your own business, you make your way through the mountain and you find yourself stopped by another mass of the sickly worms. The collective stops, apparently sensing your presence and briefly ebbs in your direction. After a few tense moments, the mass begins moving again... straight towards you at an alarming rate!\n\n',
+    );
+    GUI.outputText('What do you do?');
+    GUI.addButton(0, 'Confront', wormsConfront);
+    GUI.addButton(1, 'Do Nothing', wormsDoNothing);
+    GUI.addButton(2, 'Run', wormsRun);
+  } else {
+    GUI.outputText(
+      'Making your way, you stumble on another gross mass of worms. The countless struggling creatures bar the path before you. Again, you freeze in place as the horror gropes about on the ground. It appears to have no real interest in your presence and it makes its way in a direction other than yours, much to your relief.',
+    );
+    GUI.doNext(Camp.returnToCampUseOneHour);
+  }
+}
 
-    //Fight the worms
-    static wormsConfront() {
-        //TODO Sprite spriteSelect(76);
-        GUI.clearOutput()
-        GUI.outputText("You turn to confront the worms and combat begins!")
-        COMBAT.startCombat(new WormMass())
-    }
+//Fight the worms
+export function wormsConfront() {
+  //TODO Sprite spriteSelect(76);
+  GUI.clearOutput();
+  GUI.outputText('You turn to confront the worms and combat begins!');
+  COMBAT.startCombat(new WormMass());
+}
 
-    //Do nothing - Worms fight you anyway
-    static wormsDoNothing() {
-        //TODO Sprite spriteSelect(76);
-        GUI.clearOutput()
-        GUI.outputText("You do nothing, allowing the worms to enter combat range!")
-        COMBAT.startCombat(new WormMass())
-    }
+//Do nothing - Worms fight you anyway
+export function wormsDoNothing() {
+  //TODO Sprite spriteSelect(76);
+  GUI.clearOutput();
+  GUI.outputText('You do nothing, allowing the worms to enter combat range!');
+  COMBAT.startCombat(new WormMass());
+}
 
-    //Try to flee the worms before fighting starts. Chance to succeed.
-    static wormsRun() {
-        GUI.clearOutput()
-        if (liveData.player.spe > UTIL.rand(35)) {
-            GUI.outputText(
-                "Your instincts overwhelm you and you immediately turn around and run like hell in the opposite direction. You look behind you as your heart feels as if it is about to burst only to discover that the creature did not follow you. You take a moment to catch your breath and consider yourself fortunate."
-            )
-            GUI.doNext(Camp.returnToCampUseOneHour)
-        } else {
-            GUI.outputText("You turn to run, but before your " + liveData.player.feet() + " can get you away, the worms are upon you!  You turn to face them, lest they launch onto your unprotected back.")
-            COMBAT.startCombat(new WormMass())
-        }
-    }
+//Try to flee the worms before fighting starts. Chance to succeed.
+export function wormsRun() {
+  GUI.clearOutput();
+  if (liveData.player.spe > UTIL.rand(35)) {
+    GUI.outputText(
+      'Your instincts overwhelm you and you immediately turn around and run like hell in the opposite direction. You look behind you as your heart feels as if it is about to burst only to discover that the creature did not follow you. You take a moment to catch your breath and consider yourself fortunate.',
+    );
+    GUI.doNext(Camp.returnToCampUseOneHour);
+  } else {
+    GUI.outputText(
+      'You turn to run, but before your ' +
+        liveData.player.feet() +
+        ' can get you away, the worms are upon you!  You turn to face them, lest they launch onto your unprotected back.',
+    );
+    COMBAT.startCombat(new WormMass());
+  }
+}
 
-    //-------
-    // Additional Worm Functions
-    //-------
+//-------
+// Additional Worm Functions
+//-------
 
-    /*
+/*
     //spontaneous orgasm - chance to avoid being raped by monsters who would care.
     public function infestOrgasm():void {
     spriteSelect(76);
@@ -521,6 +522,5 @@ abstract class WormsScene {
 
     }
     */
-}
 
-export { WormMass, WormsScene }
+// export { WormMass, WormsScene }

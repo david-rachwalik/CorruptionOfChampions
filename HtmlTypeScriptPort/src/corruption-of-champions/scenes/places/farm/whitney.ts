@@ -1,44 +1,40 @@
-import { liveData } from "../../../globalVariables.js"
-import * as ENUM from "../../../appearanceEnums.js"
-import { GUI } from "../../../engine/gui.js"
-import { UTIL } from "../../../engine/utils.js"
-import { KeyItems } from "../../../keyItemLib.js"
-import { Camp } from "../../camp.js"
+import { liveData, GUI, UTIL, KeyItems, Camp } from 'coc';
 
-abstract class WhitneyScene {
-    //[YES]
-    static whitneyMilkerHookup(breast = true) {
-        GUI.displaySprite("whitney")
-        GUI.outputText(
-            'Whitney takes the gear back to her farm after promising to have it working within the hour. She did leave you with a cryptic warning to "<i>leave the milkings to the beasts, lest you become one</i>.</i>"<br><br>You shrug and head back to check up on camp.'
-        )
-        if (breast) {
-            liveData.player.createKeyItem(KeyItems.BreastMilkerInstalled, 0, 0, 0, 0)
-            liveData.player.removeKeyItem(KeyItems.BreastMilker)
-        } else {
-            liveData.player.createKeyItem(KeyItems.CockMilkerInstalled, 0, 0, 0, 0)
-            liveData.player.removeKeyItem(KeyItems.CockMilker)
-        }
-        GUI.doNext(Camp.returnToCampUseOneHour)
-    }
-    //[NO]
-    static whitneyMilkerRefusal() {
-        GUI.displaySprite("whitney")
-        GUI.clearOutput()
-        GUI.outputText("Whitney shrugs and the two of you resume your conversation. But like all good things, it has to come to an end. The two of you go your separate ways.")
-        GUI.doNext(Camp.returnToCampUseOneHour)
-    }
-    //TALK
-    static talkWhitney() {
-        GUI.displaySprite("whitney")
-        //[FIND WHITNEY TXT]
-        GUI.clearOutput()
-        //Centaur Hookups!
-        if (liveData.player.hasKeyItem(KeyItems.ToyFakeMare) < 0 && liveData.player.isTaur()) {
-            this.centaurToysHoooooo()
-            return
-        }
-        /*// Requires: PC has met both Marble and Kelt
+//[YES]
+export function whitneyMilkerHookup(breast = true) {
+  GUI.displaySprite('whitney');
+  GUI.outputText(
+    'Whitney takes the gear back to her farm after promising to have it working within the hour. She did leave you with a cryptic warning to "<i>leave the milkings to the beasts, lest you become one</i>.</i>"<br><br>You shrug and head back to check up on camp.',
+  );
+  if (breast) {
+    liveData.player.createKeyItem(KeyItems.BreastMilkerInstalled, 0, 0, 0, 0);
+    liveData.player.removeKeyItem(KeyItems.BreastMilker);
+  } else {
+    liveData.player.createKeyItem(KeyItems.CockMilkerInstalled, 0, 0, 0, 0);
+    liveData.player.removeKeyItem(KeyItems.CockMilker);
+  }
+  GUI.doNext(Camp.returnToCampUseOneHour);
+}
+//[NO]
+export function whitneyMilkerRefusal() {
+  GUI.displaySprite('whitney');
+  GUI.clearOutput();
+  GUI.outputText(
+    'Whitney shrugs and the two of you resume your conversation. But like all good things, it has to come to an end. The two of you go your separate ways.',
+  );
+  GUI.doNext(Camp.returnToCampUseOneHour);
+}
+//TALK
+export function talkWhitney() {
+  GUI.displaySprite('whitney');
+  //[FIND WHITNEY TXT]
+  GUI.clearOutput();
+  //Centaur Hookups!
+  if (liveData.player.hasKeyItem(KeyItems.ToyFakeMare) < 0 && liveData.player.isTaur()) {
+    centaurToysHoooooo();
+    return;
+  }
+  /*// Requires: PC has met both Marble and Kelt
         if (liveData.gameFlags[MURBLE_FARM_TALK_LEVELS] > 0 && player.findStatusEffect(StatusEffects.Kelt) >= 0 && liveData.gameFlags[WHITNEY_TALK_MURBLE_AND_KELT] == 0)
         {
             liveData.gameFlags[WHITNEY_TALK_MURBLE_AND_KELT] = 1;
@@ -151,134 +147,152 @@ abstract class WhitneyScene {
             return;
         }*/
 
-        let temp = UTIL.rand(6)
-        if (temp == 0) GUI.outputText("It doesn't take long to find the independent farmer-girl.<br><br>")
-        if (temp == 1) GUI.outputText("She's patrolling the edges of her farm with a wicked-looking scythe in hand. She nods to you as you approach and fall in beside her.<br><br>")
-        if (temp == 2)
-            GUI.outputText(
-                "She's bent over in the pepper fields, pulling weeds left and right. She stands up straight to wipe sweat from her fur and muzzle, and she gives you a friendly wave, encouraging you to come over and talk while she works.<br><br>"
-            )
-        if (temp == 3)
-            GUI.outputText(
-                "She's behind the barn, working a forge and repairing a few damaged farming tools. Though her attention is focused on the metal on the anvil and the hammer in her hand, Whitney immediately turns and greets you, in between the blows of her hammer.<br><br>"
-            )
-        if (temp == 4)
-            GUI.outputText(
-                "She's rounding up a small herd of normal-looking cows. Amazingly she has chosen to do so on foot, but is quick enough to keep up and corral her beasts. Thankfully she's in the process of closing the gate to their pen when you finally catch up to her. Whitney gives you a friendly smile as you come up to her and the two of you begin chatting immediately.<br><br>"
-            )
-        if (temp == 5)
-            GUI.outputText(
-                "She's leaning back against a thick tree with a wide-brimmed hat drooped low over her eyes.  You call out to her, thinking the dog-woman has fallen asleep, but her head snaps up and her alert eyes lock on to you immediately. Maybe she wasn't dozing. She calls out, \"<i>Come on over and 'ave a sit, I'm starved fer company!</i>\" You settle in for a chat.<br><br>"
-            )
-        //[HAVE MILKER THAT ISN'T PLUGGED IN]
-        if (UTIL.rand(4) == 0 && liveData.player.hasKeyItem(KeyItems.BreastMilkerInstalled) < 0) {
-            if (liveData.player.hasKeyItem(KeyItems.BreastMilker) >= 0) {
-                GUI.outputText('Before you can say much of anything, Whitney exclaims, "<i>My stars! Is that one of them demon\'s milking machines?</i>"<br><br>')
-                GUI.outputText(
-                    "You nod and tell her how you liberated it from the demonic factory and explain that even though it should be fully functional, it'll need to connect to some other machinery to work, and it's way more than any one person could handle.<br><br>"
-                )
-                GUI.outputText(
-                    '"<i>Well of course, it needs hooked into a pump system, collection reservoir, and a power source. It just happens I\'ve got all that equipment set up for my cows in the barn, and I reckon it\'d be easier to plug into than a girl sniffing minotaur musk,</i>" Whitney explains, "<i>If you like I could get it all set up for ya, hell, I might even toss you a few gems if you can produce enough milk.</i>"<br><br>'
-                )
-                //(, hell, if you manage to gather large enough quantities with it, I might be able to find a way to inseminate my cattle with it and be able to pay you for it.  Don't you worry none, I know ways to make this kind of thing work).</i>\"
-                GUI.outputText("Do you give the breast milker to Whitney for her to hook up?")
-                GUI.doYesNo(this.whitneyMilkerHookup, this.whitneyMilkerRefusal)
-                return
-            } else if (liveData.player.biggestLactation() >= 2) {
-                GUI.outputText("Whitney gives you a bemused look when you settle down for a chat.<br><br>")
-                GUI.outputText('"<i>Ya might wanna get that looked at darlin\',</i>" she says, gesturing at milky wetness dripping from the front of your ' + liveData.player.armorDescript("teats") + ".<br><br>")
-                if (liveData.player.cor < 33) GUI.outputText("You blush with shame")
-                else if (liveData.player.cor <= 66) GUI.outputText("You flush with a touch of exhibitionism")
-                else GUI.outputText("You flush hotly and arch your back, openly displaying your milk to the dog-girl")
-                GUI.outputText(" as her words sink in.  Runners of milk leak down your " + liveData.player.allBreastsDescript() + ", released by the stress of being so exposed.  In no time flat you're soaked in milk.<br><br>")
-                GUI.outputText(
-                    "Whitney starts to giggle, but immediately stifles it, apologizing, \"<i>Ah'm sorry, I didn't mean nothing by it. I know a few folks who LOVE being a walking milk-fountain. If ya like, I could probably get you set up with your own milking equipment.  You'd be able to keep up with the... fluid accumulations that seem to be troubling you.  I'd even be able to toss you a few gems if you produce enough.</i>\"<br><br>"
-                )
-                GUI.outputText(
-                    "It almost sounds too good to be true.  The farmer-girl nods, reading your expression quite clearly, \"<i>Yes, there is a bit of a catch. I'll need 250 gems for the parts to get this all set up.  Equipment like this isn't cheap.  Whaddya say, hun?  I understand if you don't want to - you can always just wait for the milk to stop.</i>\"<br><br>"
-                )
-                if (liveData.player.gems >= 250) {
-                    GUI.outputText("Do you purchase a breast-milker from Whitney for 250 gems?")
-                    GUI.doYesNo(this.breastMilkerPurchase, this.breastMilkerNoPurchase)
-                } else {
-                    GUI.outputText("You don't have enough money for the milker. You apologize and head back to camp, maybe you can get one later.")
-                    GUI.doNext(Camp.returnToCampUseOneHour)
-                }
-                return
-            }
-        }
-        //[HAVE COCK MILKER THAT ISN'T PLUGGED IN]
-        if (UTIL.rand(4) == 0 && liveData.player.hasKeyItem(KeyItems.CockMilkerInstalled) < 0 && liveData.player.hasKeyItem(KeyItems.CockMilker) >= 0) {
-            GUI.outputText('Before you can say much of anything, Whitney exclaims, "<i>My stars! Is that one of them demon\'s milking machines?</i>"<br><br>')
-            GUI.outputText("You nod and tell her how you got it and explain that even though it should be fully functional, it'll need to connect to some other machinery to work, and it's way more than any one person could handle.<br><br>")
-            GUI.outputText(
-                '"<i>Well of course, it needs hooked into a pump system, collection reservoir, and a power source. It just happens I\'ve got all that equipment set up for my cows in the barn, and I reckon it\'d be easier to plug into than a girl sniffing minotaur musk.</i>" Whitney explains, "<i>If you like I could get it all set up for ya, hell, if you manage to gather large enough quantities with it, I might be able to find a way to inseminate my cattle with it and pay ya for it. Don\'t you worry none, I know ways to make this kind of thing work.</i>"<br><br>'
-            )
-            GUI.outputText("Do you give the cock milker to Whitney for her to hook up?")
-            GUI.doYesNo(UTIL.createCallBackFunction(this.whitneyMilkerHookup, false), this.whitneyMilkerRefusal)
-            return
-        }
-        //[GENERIC TALK]
-        GUI.outputText("You tell her of your recent trials and tribulations ")
-        if (liveData.player.cor > 50) GUI.outputText("or at least the parts you think she would want to hear ")
-        GUI.outputText("and she listens attentively, chiming in with witty quips and comfort when appropriate. When you finish she tells you ")
-        /*if (!liveData.gameFlags[FACTORY_SHUTDOWN] == 2)*/ GUI.outputText("how well the farm has been going")
-        //else GUI.outputText("how poorly the farm has been going since the lake became tainted.  She has to work three times as hard to keep her livestock and crops from succumbing to the taint, and the demons and monsters of the forest are many times more bold");
-        GUI.outputText(". It feels good to get a chance to talk with another sane individual, but before long Whitney has to return to work, and you should check back on your camp.")
-        //+3 int if less than 15, +2 int if less 20, +1 int if less than 30, +.5 int if less than 40.
-        if (liveData.player.inte < 15) liveData.player.modStats(["int", 1])
-        if (liveData.player.inte < 20) liveData.player.modStats(["int", 1])
-        if (liveData.player.inte < 30) liveData.player.modStats(["int", 0.5])
-        if (liveData.player.inte < 40) liveData.player.modStats(["int", 0.5])
-        liveData.player.changeLust(-5, false)
-        GUI.doNext(Camp.returnToCampUseOneHour)
-        //+3 int if less than 15, +2 int if less 20, +1 int if less than 30, +.5 int if less than 40.
+  const temp = UTIL.rand(6);
+  if (temp == 0) GUI.outputText("It doesn't take long to find the independent farmer-girl.<br><br>");
+  if (temp == 1)
+    GUI.outputText(
+      "She's patrolling the edges of her farm with a wicked-looking scythe in hand. She nods to you as you approach and fall in beside her.<br><br>",
+    );
+  if (temp == 2)
+    GUI.outputText(
+      "She's bent over in the pepper fields, pulling weeds left and right. She stands up straight to wipe sweat from her fur and muzzle, and she gives you a friendly wave, encouraging you to come over and talk while she works.<br><br>",
+    );
+  if (temp == 3)
+    GUI.outputText(
+      "She's behind the barn, working a forge and repairing a few damaged farming tools. Though her attention is focused on the metal on the anvil and the hammer in her hand, Whitney immediately turns and greets you, in between the blows of her hammer.<br><br>",
+    );
+  if (temp == 4)
+    GUI.outputText(
+      "She's rounding up a small herd of normal-looking cows. Amazingly she has chosen to do so on foot, but is quick enough to keep up and corral her beasts. Thankfully she's in the process of closing the gate to their pen when you finally catch up to her. Whitney gives you a friendly smile as you come up to her and the two of you begin chatting immediately.<br><br>",
+    );
+  if (temp == 5)
+    GUI.outputText(
+      "She's leaning back against a thick tree with a wide-brimmed hat drooped low over her eyes.  You call out to her, thinking the dog-woman has fallen asleep, but her head snaps up and her alert eyes lock on to you immediately. Maybe she wasn't dozing. She calls out, \"<i>Come on over and 'ave a sit, I'm starved fer company!</i>\" You settle in for a chat.<br><br>",
+    );
+  //[HAVE MILKER THAT ISN'T PLUGGED IN]
+  if (UTIL.rand(4) == 0 && liveData.player.hasKeyItem(KeyItems.BreastMilkerInstalled) < 0) {
+    if (liveData.player.hasKeyItem(KeyItems.BreastMilker) >= 0) {
+      GUI.outputText('Before you can say much of anything, Whitney exclaims, "<i>My stars! Is that one of them demon\'s milking machines?</i>"<br><br>');
+      GUI.outputText(
+        "You nod and tell her how you liberated it from the demonic factory and explain that even though it should be fully functional, it'll need to connect to some other machinery to work, and it's way more than any one person could handle.<br><br>",
+      );
+      GUI.outputText(
+        '"<i>Well of course, it needs hooked into a pump system, collection reservoir, and a power source. It just happens I\'ve got all that equipment set up for my cows in the barn, and I reckon it\'d be easier to plug into than a girl sniffing minotaur musk,</i>" Whitney explains, "<i>If you like I could get it all set up for ya, hell, I might even toss you a few gems if you can produce enough milk.</i>"<br><br>',
+      );
+      //(, hell, if you manage to gather large enough quantities with it, I might be able to find a way to inseminate my cattle with it and be able to pay you for it.  Don't you worry none, I know ways to make this kind of thing work).</i>\"
+      GUI.outputText('Do you give the breast milker to Whitney for her to hook up?');
+      GUI.doYesNo(whitneyMilkerHookup, whitneyMilkerRefusal);
+      return;
+    } else if (liveData.player.biggestLactation() >= 2) {
+      GUI.outputText('Whitney gives you a bemused look when you settle down for a chat.<br><br>');
+      GUI.outputText(
+        '"<i>Ya might wanna get that looked at darlin\',</i>" she says, gesturing at milky wetness dripping from the front of your ' +
+          liveData.player.armorDescript('teats') +
+          '.<br><br>',
+      );
+      if (liveData.player.cor < 33) GUI.outputText('You blush with shame');
+      else if (liveData.player.cor <= 66) GUI.outputText('You flush with a touch of exhibitionism');
+      else GUI.outputText('You flush hotly and arch your back, openly displaying your milk to the dog-girl');
+      GUI.outputText(
+        ' as her words sink in.  Runners of milk leak down your ' +
+          liveData.player.allBreastsDescript() +
+          ", released by the stress of being so exposed.  In no time flat you're soaked in milk.<br><br>",
+      );
+      GUI.outputText(
+        "Whitney starts to giggle, but immediately stifles it, apologizing, \"<i>Ah'm sorry, I didn't mean nothing by it. I know a few folks who LOVE being a walking milk-fountain. If ya like, I could probably get you set up with your own milking equipment.  You'd be able to keep up with the... fluid accumulations that seem to be troubling you.  I'd even be able to toss you a few gems if you produce enough.</i>\"<br><br>",
+      );
+      GUI.outputText(
+        "It almost sounds too good to be true.  The farmer-girl nods, reading your expression quite clearly, \"<i>Yes, there is a bit of a catch. I'll need 250 gems for the parts to get this all set up.  Equipment like this isn't cheap.  Whaddya say, hun?  I understand if you don't want to - you can always just wait for the milk to stop.</i>\"<br><br>",
+      );
+      if (liveData.player.gems >= 250) {
+        GUI.outputText('Do you purchase a breast-milker from Whitney for 250 gems?');
+        GUI.doYesNo(breastMilkerPurchase, breastMilkerNoPurchase);
+      } else {
+        GUI.outputText("You don't have enough money for the milker. You apologize and head back to camp, maybe you can get one later.");
+        GUI.doNext(Camp.returnToCampUseOneHour);
+      }
+      return;
     }
-
-    static breastMilkerPurchase() {
-        GUI.outputText(
-            'Whitney takes the gems and leaves with the promise of having your gear set up within the hour. She calls back over her shoulder with a cryptic warning, "<i>Watch how much time you spend getting milked like an animal, lest you wind up like one.</i>"'
-        )
-        liveData.player.createKeyItem(KeyItems.BreastMilker, 0, 0, 0, 0)
-        liveData.player.changeGems(-250)
-        GUI.doNext(Camp.returnToCampUseOneHour)
-    }
-
-    static breastMilkerNoPurchase() {
-        GUI.outputText("Whitney shrugs and the two of you chat about other things, just passing the time and enjoying a relatively normal chat.")
-        //+3 int if less than 15, +2 int if less 20, +1 int if less than 30, +.5 int if less than 40.
-        if (liveData.player.inte < 15) liveData.player.modStats(["int", 1])
-        if (liveData.player.inte < 20) liveData.player.modStats(["int", 1])
-        if (liveData.player.inte < 30) liveData.player.modStats(["int", 0.5])
-        if (liveData.player.inte < 40) liveData.player.modStats(["int", 0.5])
-        GUI.doNext(Camp.returnToCampUseOneHour)
-    }
-
-    static centaurToysHoooooo() {
-        GUI.clearOutput()
-        //[Places] - [Farm] - [Talk] If PC = Centaur
-        GUI.outputText("You find the dog-morph Whitney standing in the entrance to her barn, scratching her head with consternation. You approach her and ask what's up.<br><br>")
-        GUI.outputText('"<i>Oh, hey there, ' + liveData.player.name + ',</i>" Whitney says, leaning heavily on her pitchfork. "<i>Not much, just trying to figure out... Hey, now!</i>" she says, eying up your powerful centaur frame. ')
-        if (liveData.player.cor < 50) GUI.outputText("You shift awkwardly and ask her what's wrong.")
-        else GUI.outputText("You strut a bit, showing yourself off in a subtly lewd manner. When you're finished, you ask the dog-girl if she likes what she saw.")
-        GUI.outputText("<br><br>")
-        GUI.outputText(
-            'She clears her throat awkwardly. "<i>Uh, well... A pair of centaurs that lived here the last couple of years ran off, looks like. Gone to get married or something, by the sound of things. So, hey, wanna help me solve a little problem I\'m having?</i>"<br><br>'
-        )
-        GUI.outputText("You shrug. Sure.<br><br>")
-        GUI.outputText(
-            '"<i>See, the two of them left some rather personal belongings behind,</i>" Whitney says, swinging the barn door open. Inside, lying in the middle of a stall are what looks like a tall, slender totem with a giant rubber horsecock sticking out of it and a fake mare standing on reinforced wooden legs with a glistening, horsey onahole between its thighs. Oh, my. "<i>So, ' +
-                liveData.player.name +
-                ", since you look to have the right build for 'em... they're yours.</i>\"<br><br>"
-        )
-        GUI.outputText(
-            "You tell her sure, and spend the next few minutes loading them onto the back of your horse-body. Even if you don't end up using them yourself, you've got plenty of room in camp for them, unlike Whitney. Loaded up with centaur-friendly sex toys, you make your way back to camp.<br><br>"
-        )
-        GUI.outputText("(<b>Key Items Gained: Fake Mare and Centaur Pole</b>)")
-        liveData.player.createKeyItem(KeyItems.ToyFakeMare, 0, 0, 0, 0)
-        liveData.player.createKeyItem(KeyItems.ToyCentaurPole, 0, 0, 0, 0)
-        GUI.doNext(Camp.returnToCampUseOneHour)
-    }
+  }
+  //[HAVE COCK MILKER THAT ISN'T PLUGGED IN]
+  if (UTIL.rand(4) == 0 && liveData.player.hasKeyItem(KeyItems.CockMilkerInstalled) < 0 && liveData.player.hasKeyItem(KeyItems.CockMilker) >= 0) {
+    GUI.outputText('Before you can say much of anything, Whitney exclaims, "<i>My stars! Is that one of them demon\'s milking machines?</i>"<br><br>');
+    GUI.outputText(
+      "You nod and tell her how you got it and explain that even though it should be fully functional, it'll need to connect to some other machinery to work, and it's way more than any one person could handle.<br><br>",
+    );
+    GUI.outputText(
+      '"<i>Well of course, it needs hooked into a pump system, collection reservoir, and a power source. It just happens I\'ve got all that equipment set up for my cows in the barn, and I reckon it\'d be easier to plug into than a girl sniffing minotaur musk.</i>" Whitney explains, "<i>If you like I could get it all set up for ya, hell, if you manage to gather large enough quantities with it, I might be able to find a way to inseminate my cattle with it and pay ya for it. Don\'t you worry none, I know ways to make this kind of thing work.</i>"<br><br>',
+    );
+    GUI.outputText('Do you give the cock milker to Whitney for her to hook up?');
+    GUI.doYesNo(UTIL.createCallBackFunction(whitneyMilkerHookup, false), whitneyMilkerRefusal);
+    return;
+  }
+  //[GENERIC TALK]
+  GUI.outputText('You tell her of your recent trials and tribulations ');
+  if (liveData.player.cor > 50) GUI.outputText('or at least the parts you think she would want to hear ');
+  GUI.outputText('and she listens attentively, chiming in with witty quips and comfort when appropriate. When you finish she tells you ');
+  /*if (!liveData.gameFlags[FACTORY_SHUTDOWN] == 2)*/ GUI.outputText('how well the farm has been going');
+  //else GUI.outputText("how poorly the farm has been going since the lake became tainted.  She has to work three times as hard to keep her livestock and crops from succumbing to the taint, and the demons and monsters of the forest are many times more bold");
+  GUI.outputText(
+    '. It feels good to get a chance to talk with another sane individual, but before long Whitney has to return to work, and you should check back on your camp.',
+  );
+  //+3 int if less than 15, +2 int if less 20, +1 int if less than 30, +.5 int if less than 40.
+  if (liveData.player.inte < 15) liveData.player.modStats(['int', 1]);
+  if (liveData.player.inte < 20) liveData.player.modStats(['int', 1]);
+  if (liveData.player.inte < 30) liveData.player.modStats(['int', 0.5]);
+  if (liveData.player.inte < 40) liveData.player.modStats(['int', 0.5]);
+  liveData.player.changeLust(-5, false);
+  GUI.doNext(Camp.returnToCampUseOneHour);
+  //+3 int if less than 15, +2 int if less 20, +1 int if less than 30, +.5 int if less than 40.
 }
 
-export { WhitneyScene }
+export function breastMilkerPurchase() {
+  GUI.outputText(
+    'Whitney takes the gems and leaves with the promise of having your gear set up within the hour. She calls back over her shoulder with a cryptic warning, "<i>Watch how much time you spend getting milked like an animal, lest you wind up like one.</i>"',
+  );
+  liveData.player.createKeyItem(KeyItems.BreastMilker, 0, 0, 0, 0);
+  liveData.player.changeGems(-250);
+  GUI.doNext(Camp.returnToCampUseOneHour);
+}
+
+export function breastMilkerNoPurchase() {
+  GUI.outputText('Whitney shrugs and the two of you chat about other things, just passing the time and enjoying a relatively normal chat.');
+  //+3 int if less than 15, +2 int if less 20, +1 int if less than 30, +.5 int if less than 40.
+  if (liveData.player.inte < 15) liveData.player.modStats(['int', 1]);
+  if (liveData.player.inte < 20) liveData.player.modStats(['int', 1]);
+  if (liveData.player.inte < 30) liveData.player.modStats(['int', 0.5]);
+  if (liveData.player.inte < 40) liveData.player.modStats(['int', 0.5]);
+  GUI.doNext(Camp.returnToCampUseOneHour);
+}
+
+export function centaurToysHoooooo() {
+  GUI.clearOutput();
+  //[Places] - [Farm] - [Talk] If PC = Centaur
+  GUI.outputText(
+    "You find the dog-morph Whitney standing in the entrance to her barn, scratching her head with consternation. You approach her and ask what's up.<br><br>",
+  );
+  GUI.outputText(
+    '"<i>Oh, hey there, ' +
+      liveData.player.name +
+      ',</i>" Whitney says, leaning heavily on her pitchfork. "<i>Not much, just trying to figure out... Hey, now!</i>" she says, eying up your powerful centaur frame. ',
+  );
+  if (liveData.player.cor < 50) GUI.outputText("You shift awkwardly and ask her what's wrong.");
+  else GUI.outputText("You strut a bit, showing yourself off in a subtly lewd manner. When you're finished, you ask the dog-girl if she likes what she saw.");
+  GUI.outputText('<br><br>');
+  GUI.outputText(
+    'She clears her throat awkwardly. "<i>Uh, well... A pair of centaurs that lived here the last couple of years ran off, looks like. Gone to get married or something, by the sound of things. So, hey, wanna help me solve a little problem I\'m having?</i>"<br><br>',
+  );
+  GUI.outputText('You shrug. Sure.<br><br>');
+  GUI.outputText(
+    '"<i>See, the two of them left some rather personal belongings behind,</i>" Whitney says, swinging the barn door open. Inside, lying in the middle of a stall are what looks like a tall, slender totem with a giant rubber horsecock sticking out of it and a fake mare standing on reinforced wooden legs with a glistening, horsey onahole between its thighs. Oh, my. "<i>So, ' +
+      liveData.player.name +
+      ", since you look to have the right build for 'em... they're yours.</i>\"<br><br>",
+  );
+  GUI.outputText(
+    "You tell her sure, and spend the next few minutes loading them onto the back of your horse-body. Even if you don't end up using them yourself, you've got plenty of room in camp for them, unlike Whitney. Loaded up with centaur-friendly sex toys, you make your way back to camp.<br><br>",
+  );
+  GUI.outputText('(<b>Key Items Gained: Fake Mare and Centaur Pole</b>)');
+  liveData.player.createKeyItem(KeyItems.ToyFakeMare, 0, 0, 0, 0);
+  liveData.player.createKeyItem(KeyItems.ToyCentaurPole, 0, 0, 0, 0);
+  GUI.doNext(Camp.returnToCampUseOneHour);
+}
