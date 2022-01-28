@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, FLAG, Camp, COMBAT, TentacleBeastScene, Inventory, Items } from 'coc';
+import { liveData, ENUM, GUI, FLAG, Camp, COMBAT, TentacleBeastScene, Inventory } from 'coc';
 
 // DEBUGGING MENU
 
@@ -108,7 +108,7 @@ export function changeStats() {
 export function pregTest() {
   GUI.clearOutput();
   GUI.outputText('Knocking up Tamani<br>');
-  liveData.tamanipreg.knockUpForce(ENUM.PregnancyType.PREGNANCY_PLAYER, 216, FLAG.INCUBATION_TAMANI_EVENT);
+  liveData.tamanipreg.knockUpForce(ENUM.PregnancyType.PLAYER, 216, FLAG.INCUBATION_TAMANI_EVENT);
   liveData.tamanipreg.eventFill(FLAG.INCUBATION_TAMANI_EVENT);
   GUI.outputText('Pregnancy Type Flag is: ' + liveData.tamanipreg.pregnancyType + '<br>');
   GUI.outputText('Pregnancy Incubation Flag is: ' + liveData.tamanipreg.pregnancyIncubation + '<br>');
@@ -121,8 +121,8 @@ export function pregTest() {
 export function rackTest() {
   GUI.clearOutput;
   GUI.outputText('Putting Weapon and Armor into Inventory for testing racks<br><br>');
-  Inventory.takeItem(Items.Weapons.Pipe);
-  Inventory.takeItem(Items.Armor.BeeArmor);
+  Inventory.takeItem(liveData.Items.Weapons.Pipe);
+  Inventory.takeItem(liveData.Items.Armor.BeeArmor);
 }
 
 // export { Debug }

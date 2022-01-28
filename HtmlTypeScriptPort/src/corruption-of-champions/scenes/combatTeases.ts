@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, UTIL, FLAG, Items, PerkLib, COMBAT } from 'coc';
+import { liveData, ENUM, GUI, UTIL, FLAG, COMBAT } from 'coc';
 
 export function teaseMain(justText = false) {
   COMBAT.fatigueRecovery();
@@ -28,37 +28,37 @@ export function teaseMain(justText = false) {
   //chance += player.upperGarment.sexiness;
   //chance += player.lowerGarment.sexiness;
   //10% for seduction perk
-  if (liveData.player.findPerk(PerkLib.Seduction) >= 0) chance += 10;
+  if (liveData.player.findPerk(liveData.PerkLib.Seduction) >= 0) chance += 10;
   //10% for sexy armor types
-  if (liveData.player.findPerk(PerkLib.SluttySeduction) >= 0) chance += 10;
+  if (liveData.player.findPerk(liveData.PerkLib.SluttySeduction) >= 0) chance += 10;
   //10% for bimbo shits
-  if (liveData.player.findPerk(PerkLib.BimboBody) >= 0) {
+  if (liveData.player.findPerk(liveData.PerkLib.BimboBody) >= 0) {
     chance += 10;
     bimbo = true;
   }
-  if (liveData.player.findPerk(PerkLib.BroBody) >= 0) {
+  if (liveData.player.findPerk(liveData.PerkLib.BroBody) >= 0) {
     chance += 10;
     bro = true;
   }
-  if (liveData.player.findPerk(PerkLib.FutaForm) >= 0) {
+  if (liveData.player.findPerk(liveData.PerkLib.FutaForm) >= 0) {
     chance += 10;
     futa = true;
   }
   //2 & 2 for seductive valentines!
-  if (liveData.player.findPerk(PerkLib.SensualLover) >= 0) {
+  if (liveData.player.findPerk(liveData.PerkLib.SensualLover) >= 0) {
     chance += 2;
   }
-  //if (player.findPerk(PerkLib.ChiReflowLust) >= 0) chance += UmasShop.NEEDLEWORK_LUST_TEASE_MULTI;
+  //if (player.findPerk(liveData.PerkLib.ChiReflowLust) >= 0) chance += UmasShop.NEEDLEWORK_LUST_TEASE_MULTI;
   //==============================
   //Determine basic damage.
   //==============================
   damage = 6 + UTIL.rand(3);
-  if (liveData.player.findPerk(PerkLib.SensualLover) >= 0) {
+  if (liveData.player.findPerk(liveData.PerkLib.SensualLover) >= 0) {
     damage += 2;
   }
-  if (liveData.player.findPerk(PerkLib.Seduction) >= 0) damage += 5;
+  if (liveData.player.findPerk(liveData.PerkLib.Seduction) >= 0) damage += 5;
   //+ slutty armor bonus
-  if (liveData.player.findPerk(PerkLib.SluttySeduction) >= 0) damage += liveData.player.perkValue(PerkLib.SluttySeduction, 1);
+  if (liveData.player.findPerk(liveData.PerkLib.SluttySeduction) >= 0) damage += liveData.player.perkValue(liveData.PerkLib.SluttySeduction, 1);
   //10% for bimbo shits
   if (bimbo || bro || futa) {
     damage += 5;
@@ -245,7 +245,7 @@ export function teaseMain(justText = false) {
   }
   //==EXTRAS========
   //12 Cat flexibility.
-  if (liveData.player.findPerk(PerkLib.Flexibility) >= 0 && liveData.player.isBiped() && liveData.player.hasVagina()) {
+  if (liveData.player.findPerk(liveData.PerkLib.Flexibility) >= 0 && liveData.player.isBiped() && liveData.player.hasVagina()) {
     choices[choices.length] = 12;
     choices[choices.length] = 12;
     if (liveData.player.wetness() >= 3) choices[choices.length] = 12;
@@ -269,7 +269,7 @@ export function teaseMain(justText = false) {
   if (
     liveData.monster.hasCock() &&
     liveData.player.hasVagina() &&
-    liveData.player.findPerk(PerkLib.BroodMother) >= 0 &&
+    liveData.player.findPerk(liveData.PerkLib.BroodMother) >= 0 &&
     (liveData.player.pregnancyIncubation <= 0 || liveData.player.pregnancyIncubation > 216)
   ) {
     choices[choices.length] = 14;
@@ -301,7 +301,7 @@ export function teaseMain(justText = false) {
     if (liveData.player.ass.analLooseness >= 5) choices[choices.length] = 16;
   }
   //17 Bee abdomen tease
-  if (liveData.player.tailType == ENUM.TailType.TAIL_TYPE_BEE_ABDOMEN) {
+  if (liveData.player.tailType == ENUM.TailType.BEE_ABDOMEN) {
     choices[choices.length] = 17;
     choices[choices.length] = 17;
   }
@@ -329,7 +329,7 @@ export function teaseMain(justText = false) {
     choices[choices.length] = 21;
   }
   //22 SPOIDAH SILK
-  if (liveData.player.tailType == ENUM.TailType.TAIL_TYPE_SPIDER_ADBOMEN) {
+  if (liveData.player.tailType == ENUM.TailType.SPIDER_ADBOMEN) {
     choices[choices.length] = 22;
     choices[choices.length] = 22;
     choices[choices.length] = 22;
@@ -370,7 +370,7 @@ export function teaseMain(justText = false) {
     choices[choices.length] = 26;
   }
   //27 FEEDER
-  if (liveData.player.findPerk(PerkLib.Feeder) >= 0 && liveData.player.biggestTitSize() >= 4) {
+  if (liveData.player.findPerk(liveData.PerkLib.Feeder) >= 0 && liveData.player.biggestTitSize() >= 4) {
     choices[choices.length] = 27;
     choices[choices.length] = 27;
     choices[choices.length] = 27;
@@ -448,7 +448,7 @@ export function teaseMain(justText = false) {
   //38 Kitsune Tease
   //39 Kitsune Tease
   //40 Kitsune Tease
-  if (liveData.player.kitsuneScore() >= 2 && liveData.player.tailType == ENUM.TailType.TAIL_TYPE_FOX) {
+  if (liveData.player.kitsuneScore() >= 2 && liveData.player.tailType == ENUM.TailType.FOX) {
     choices[choices.length] = 37;
     choices[choices.length] = 37;
     choices[choices.length] = 37;
@@ -467,7 +467,7 @@ export function teaseMain(justText = false) {
     choices[choices.length] = 40;
   }
   //41 Kitsune Gendered Tease
-  if (liveData.player.kitsuneScore() >= 2 && liveData.player.tailType == ENUM.TailType.TAIL_TYPE_FOX) {
+  if (liveData.player.kitsuneScore() >= 2 && liveData.player.tailType == ENUM.TailType.FOX) {
     choices[choices.length] = 41;
     choices[choices.length] = 41;
     choices[choices.length] = 41;
@@ -491,7 +491,7 @@ export function teaseMain(justText = false) {
     liveData.player.lactationQ() >= 500 &&
     liveData.player.biggestTitSize() >= 6 &&
     liveData.player.cowScore() >= 3 &&
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_COW
+    liveData.player.tailType == ENUM.TailType.COW
   ) {
     choices[choices.length] = 43;
     choices[choices.length] = 43;
@@ -523,7 +523,8 @@ export function teaseMain(justText = false) {
   }
   //45 - Lethicite armor
   if (
-    liveData.player.armor == Items.Armor.LethiciteArmor /* && player.upperGarment == UndergarmentLib.NOTHING && player.lowerGarment == UndergarmentLib.NOTHING*/
+    liveData.player.armor ==
+    liveData.Items.Armor.LethiciteArmor /* && player.upperGarment == UndergarmentLib.NOTHING && player.lowerGarment == UndergarmentLib.NOTHING*/
   ) {
     choices[choices.length] = 45;
     choices[choices.length] = 45;
@@ -542,7 +543,7 @@ export function teaseMain(justText = false) {
       liveData.player.lactationQ() >= 500 &&
       liveData.player.biggestTitSize() >= 6 &&
       liveData.player.cowScore() >= 3 &&
-      liveData.player.tailType == ENUM.TailType.TAIL_TYPE_COW
+      liveData.player.tailType == ENUM.TailType.COW
     )
       select = 43;
   }
@@ -602,7 +603,7 @@ export function teaseMain(justText = false) {
           if (liveData.player.cocks.length == 1) GUI.outputText(liveData.player.cockDescript(0));
           if (liveData.player.cocks.length > 1) GUI.outputText(liveData.player.multiCockDescriptLight());
           GUI.outputText(' and ');
-          if (liveData.player.findPerk(PerkLib.BulgeArmor) >= 0) {
+          if (liveData.player.findPerk(liveData.PerkLib.BulgeArmor) >= 0) {
             damage += 5;
           }
           penis = true;
@@ -618,14 +619,14 @@ export function teaseMain(justText = false) {
         GUI.outputText(
           "You let out a bestial whinny and stomp your hooves at your enemy. They prepare for an attack, but instead you kick your front hooves off the ground, revealing the hefty horsecock hanging beneath your belly. You let it flop around, quickly getting rigid and to its full erect length. You buck your hips as if you were fucking a mare in heat, letting your opponent know just what's in store for them if they surrender to pleasure...",
         );
-        if (liveData.player.findPerk(PerkLib.BulgeArmor) >= 0) damage += 5;
+        if (liveData.player.findPerk(liveData.PerkLib.BulgeArmor) >= 0) damage += 5;
       } else {
         GUI.outputText('You open your ' + liveData.player.armor.equipmentName + ', revealing your ');
         if (liveData.player.cocks.length == 1) GUI.outputText(liveData.player.cockDescript(0));
         if (liveData.player.cocks.length > 1) GUI.outputText(liveData.player.multiCockDescriptLight());
         if (liveData.player.hasVagina()) GUI.outputText(' and ');
         //Bulgy bonus!
-        if (liveData.player.findPerk(PerkLib.BulgeArmor) >= 0) {
+        if (liveData.player.findPerk(liveData.PerkLib.BulgeArmor) >= 0) {
           damage += 5;
           chance++;
         }
@@ -701,12 +702,12 @@ export function teaseMain(justText = false) {
       break;
     //6 pussy flash
     case 6:
-      if (liveData.player.findPerk(PerkLib.BimboBrains) >= 0 || liveData.player.findPerk(PerkLib.FutaFaculties) >= 0) {
+      if (liveData.player.findPerk(liveData.PerkLib.BimboBrains) >= 0 || liveData.player.findPerk(liveData.PerkLib.FutaFaculties) >= 0) {
         GUI.outputText('You coyly open your ' + liveData.player.armor.equipmentName + ' and giggle, "<i>Is this, like, what you wanted to see?</i>" ');
       } else {
         GUI.outputText('You coyly open your ' + liveData.player.armor.equipmentName + ' and purr, "<i>Does the thought of a hot, ');
         if (futa) GUI.outputText('futanari ');
-        else if (liveData.player.findPerk(PerkLib.BimboBody) >= 0) GUI.outputText('bimbo ');
+        else if (liveData.player.findPerk(liveData.PerkLib.BimboBody) >= 0) GUI.outputText('bimbo ');
         else GUI.outputText('sexy ');
         GUI.outputText('body turn you on?</i>" ');
       }
@@ -729,7 +730,7 @@ export function teaseMain(justText = false) {
         GUI.outputText(' Meanwhile, ' + liveData.player.sMultiCockDesc() + ' bobs back and forth with your gyrating hips, adding to the display.');
       //BONUSES!
       if (liveData.player.hasCock()) {
-        if (liveData.player.findPerk(PerkLib.BulgeArmor) >= 0) damage += 5;
+        if (liveData.player.findPerk(liveData.PerkLib.BulgeArmor) >= 0) damage += 5;
         penis = true;
       }
       vagina = true;
@@ -764,7 +765,8 @@ export function teaseMain(justText = false) {
     //8 Pec Dance
     case 8:
       GUI.outputText('You place your hands on your hips and flex repeatedly, skillfully making your pecs alternatively bounce in a muscular dance. ');
-      if (liveData.player.findPerk(PerkLib.BroBrains) >= 0) GUI.outputText('Damn, ' + liveData.monster.a + liveData.monster.refName + ' has got to love this!');
+      if (liveData.player.findPerk(liveData.PerkLib.BroBrains) >= 0)
+        GUI.outputText('Damn, ' + liveData.monster.a + liveData.monster.refName + ' has got to love this!');
       else
         GUI.outputText(
           UTIL.capitalizeFirstLetter(liveData.monster.a) + liveData.monster.refName + ' will probably enjoy the show, but you feel a bit silly doing this.',
@@ -776,7 +778,7 @@ export function teaseMain(justText = false) {
     //9 Heroic Pose
     case 9:
       GUI.outputText('You lift your arms and flex your incredibly muscular arms while flashing your most disarming smile. ');
-      if (liveData.player.findPerk(PerkLib.BroBrains) >= 0)
+      if (liveData.player.findPerk(liveData.PerkLib.BroBrains) >= 0)
         GUI.outputText(UTIL.capitalizeFirstLetter(liveData.monster.a) + liveData.monster.refName + " can't resist such a heroic pose!");
       else GUI.outputText('At least the physical changes to your body are proving useful!');
       chance += (liveData.player.tone - 75) / 5;
@@ -793,12 +795,12 @@ export function teaseMain(justText = false) {
           liveData.player.cockDescript(0) +
           ' presses hard into your gear. ',
       );
-      if (liveData.player.findPerk(PerkLib.BroBrains) >= 0) GUI.outputText('No way could ' + liveData.monster.heShe + ' resist your huge cock!');
+      if (liveData.player.findPerk(liveData.PerkLib.BroBrains) >= 0) GUI.outputText('No way could ' + liveData.monster.heShe + ' resist your huge cock!');
       else GUI.outputText("This is so crude, but at the same time, you know it'll likely be effective.");
       GUI.outputText(' You go on like that, humping the air for your foe');
       GUI.outputText("'s");
       GUI.outputText(' benefit, trying to entice them with your man-meat.');
-      if (liveData.player.findPerk(PerkLib.BulgeArmor) >= 0) damage += 5;
+      if (liveData.player.findPerk(liveData.PerkLib.BulgeArmor) >= 0) damage += 5;
       penis = true;
       break;
     //11 Show off dick
@@ -817,10 +819,10 @@ export function teaseMain(justText = false) {
             liveData.player.ballsDescriptLight() +
             ' dangle free. A shiny rope of pre-cum dangles from your cock, showing that your reproductive system is every bit as fit as the rest of you. ',
         );
-        if (liveData.player.findPerk(PerkLib.BroBrains) >= 0) GUI.outputText('Bitches love a cum-leaking cock.');
+        if (liveData.player.findPerk(liveData.PerkLib.BroBrains) >= 0) GUI.outputText('Bitches love a cum-leaking cock.');
         else GUI.outputText("You've got to admit, you look pretty good down there.");
       }
-      if (liveData.player.findPerk(PerkLib.BulgeArmor) >= 0) damage += 5;
+      if (liveData.player.findPerk(liveData.PerkLib.BulgeArmor) >= 0) damage += 5;
       penis = true;
       break;
     //==EXTRAS========
@@ -1788,16 +1790,16 @@ export function teaseMain(justText = false) {
     //NERF TEASE DAMAGE
     damage *= 0.7;
     bonusDamage *= 0.7;
-    if (liveData.player.findPerk(PerkLib.HistoryWhore) >= 0) {
+    if (liveData.player.findPerk(liveData.PerkLib.HistoryWhore) >= 0) {
       damage *= 1.15;
       bonusDamage *= 1.15;
     }
-    //if (player.findPerk(PerkLib.ChiReflowLust) >= 0) damage *= UmasShop.NEEDLEWORK_LUST_TEASE_DAMAGE_MULTI;
+    //if (player.findPerk(liveData.PerkLib.ChiReflowLust) >= 0) damage *= UmasShop.NEEDLEWORK_LUST_TEASE_DAMAGE_MULTI;
     if (liveData.monster.plural) damage *= 1.3;
     damage = (damage + UTIL.rand(bonusDamage)) * liveData.monster.lustVuln;
 
     //if (monster.name == "Jean Claude") monster.handleTease(damage, true);
-    //else if (monster is Doppleganger && monster.findStatusEffect(StatusEffects.Stunned) < 0) (monster as Doppleganger).mirrorTease(damage, true);
+    //else if (monster is Doppleganger && monster.findStatusEffect(liveData.StatusEffects.Stunned) < 0) (monster as Doppleganger).mirrorTease(damage, true);
     /*else */ if (!justText) liveData.monster.teased(damage);
 
     if (liveData.gameFlags[FLAG.PC_FETISH] >= 1 /* && !urtaQuest.isUrta()*/) {

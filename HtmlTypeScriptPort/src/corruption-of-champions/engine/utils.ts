@@ -1,5 +1,3 @@
-import { ItemLib, KeyItemIDs, PerkIDs, StatusEffectIDs } from 'coc';
-
 // Miscellenious functions
 
 export const NUMBER_WORDS_NORMAL = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
@@ -78,21 +76,21 @@ export function randomChoice(...args: any[]) {
 }
 
 //Lookup
-export function lookupItem(id: string) {
-  return ItemLib[id];
-}
+// export function lookupItem(id: string) {
+//   return ItemLib[id];
+// }
 
-export function lookupKeyItem(id: string) {
-  return KeyItemIDs[id];
-}
+// export function lookupKeyItem(id: string) {
+//   return KeyItemIDs[id];
+// }
 
-export function lookupPerk(id: string) {
-  return PerkIDs[id];
-}
+// export function lookupPerk(id: string) {
+//   return PerkIDs[id];
+// }
 
-export function lookupStatusEffects(id: string) {
-  return StatusEffectIDs[id];
-}
+// export function lookupStatusEffects(id: string) {
+//   return StatusEffectIDs[id];
+// }
 
 // //Function
 // export function createCallBackFunction(func: any, arg1: any = undefined, arg2: any = undefined, arg3: any = undefined): () => void {

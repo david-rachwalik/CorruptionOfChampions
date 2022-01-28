@@ -14,20 +14,14 @@ class StatusEffect {
   }
 }
 
-// function StatusEffectType(id: string) {
-//     this.id = id
-//     StatusEffectIDs[this.id] = this
-// }
-
 class StatusEffectType {
   id: string;
 
   constructor(id: string) {
     this.id = id;
-    StatusEffectIDs[this.id] = this;
+    // TODO: verify below is still called somewhere (e.g. liveData)
+    // StatusEffectIDs[this.id] = this;
   }
 }
 
-const StatusEffectIDs: { [key: string]: StatusEffectType } = {}; //Hold status effect IDs for purpose of looking up.
-
-export { StatusEffect, StatusEffectType, StatusEffectIDs };
+export { StatusEffect, StatusEffectType };

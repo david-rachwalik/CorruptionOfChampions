@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, FLAG, Data, Creature, COMBAT, UTIL, Items, PerkLib, Camp } from 'coc';
+import { liveData, ENUM, GUI, FLAG, Data, Creature, COMBAT, UTIL, Camp } from 'coc';
 
 /**
  * Created by Sylvain on 4/2/2016.
@@ -85,18 +85,18 @@ export class TentacleBeast extends Creature {
     this.XP = 0;
     this.gems = UTIL.rand(15) + 5;
     //Battle variables
-    this.weapon = Items.NOTHING;
+    this.weapon = liveData.Items.NOTHING;
     this.weapon.equipmentName = 'whip-tendril';
     this.weapon.verb = 'thorny tendril';
     this.weapon.attack = 1;
-    this.shield = Items.NOTHING;
-    this.armor = Items.NOTHING;
+    this.shield = liveData.Items.NOTHING;
+    this.armor = liveData.Items.NOTHING;
     this.armor.equipmentName = 'rubbery skin';
     this.armor.defense = 1;
-    this.upperGarment = Items.NOTHING;
-    this.lowerGarment = Items.NOTHING;
-    this.accessory1 = Items.NOTHING;
-    this.accessory2 = Items.NOTHING;
+    this.upperGarment = liveData.Items.NOTHING;
+    this.lowerGarment = liveData.Items.NOTHING;
+    this.accessory1 = liveData.Items.NOTHING;
+    this.accessory2 = liveData.Items.NOTHING;
     this.bonusHP = 250;
     this.additionalXP = 0;
     this.lustVuln = 0.8;
@@ -109,7 +109,7 @@ export class TentacleBeast extends Creature {
     this.gender = 0; //0 genderless, 1 male, 2 female, 3 hermaphrodite
     this.tallness = UTIL.rand(9) + 70; //Height in inches
     this.skinTone = 'green';
-    this.skinType = ENUM.SkinType.SKIN_TYPE_PLAIN;
+    this.skinType = ENUM.SkinType.Plain;
     this.skinAdj = '';
     this.skinDesc = 'bark';
     this.hairType = 0;
@@ -133,7 +133,7 @@ export class TentacleBeast extends Creature {
     this.hornType = 0;
     this.horns = 0;
     this.gills = false;
-    this.tailType = ENUM.TailType.TAIL_TYPE_DEMONIC;
+    this.tailType = ENUM.TailType.DEMONIC;
     this.tailVenom = 0;
     this.tailRecharge = 0;
     this.wingType = 0;
@@ -141,8 +141,8 @@ export class TentacleBeast extends Creature {
     this.femininity = 50;
     this.tone = 0;
     this.thickness = 0;
-    this.hipRating = ENUM.HipRatingType.HIP_RATING_BOYISH;
-    this.buttRating = ENUM.ButtRatingType.BUTT_RATING_BUTTLESS;
+    this.hipRating = ENUM.HipRatingType.BOYISH;
+    this.buttRating = ENUM.ButtRatingType.BUTTLESS;
 
     //Sexual Characteristics
     //Cocks
@@ -154,11 +154,11 @@ export class TentacleBeast extends Creature {
     this.ballSize = 0;
     this.cumMultiplier = 3;
     //Vaginas
-    this.createVagina(false, ENUM.VaginalWetnessType.VAGINA_WETNESS_NORMAL, ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_NORMAL);
+    this.createVagina(false, ENUM.VaginalWetnessType.NORMAL, ENUM.VaginalLoosenessType.NORMAL);
     //Ass
     // this.ass = new Ass()
-    this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_TIGHT;
-    this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_SLIME_DROOLING;
+    this.ass.analLooseness = ENUM.AnalLoosenessType.TIGHT;
+    this.ass.analWetness = ENUM.AnalWetnessType.SLIME_DROOLING;
     //Breasts
     this.createBreastRow(0, 0);
 
@@ -200,7 +200,10 @@ export class TentacleBeast extends Creature {
     //Not Trapped yet
     if (liveData.gameFlags[FLAG.TENTACLE_BIND] == 0) {
       //Success
-      if (Math.random() * (liveData.player.spe / 2) > 15 || (liveData.player.findPerk(PerkLib.Evade) >= 0 && Math.random() * (liveData.player.spe / 2) > 15)) {
+      if (
+        Math.random() * (liveData.player.spe / 2) > 15 ||
+        (liveData.player.findPerk(liveData.PerkLib.Evade) >= 0 && Math.random() * (liveData.player.spe / 2) > 15)
+      ) {
         GUI.outputText(
           'In an impressive display of gymnastics, you dodge, duck, dip, dive, and roll away from the shower of grab-happy arms trying to hold you. Your instincts tell you that this was a GOOD thing.<br>',
         );
@@ -256,8 +259,8 @@ export function tentacleBeastWin() {
   }
   // TODO Phylla Scene
   /*
-        if (findStatusEffect(StatusEffects.PhyllaFight) >= 0) {
-        removeStatusEffect(StatusEffects.PhyllaFight);
+        if (findStatusEffect(liveData.StatusEffects.PhyllaFight) >= 0) {
+        removeStatusEffect(liveData.StatusEffects.PhyllaFight);
         game.desert.antsScene.phyllaTentacleDefeat();
         }
         else { */
@@ -336,8 +339,8 @@ export function tentacleBeastLoss() {
     GUI.outputText('Overcome by your wounds, you turn to make a last desperate attempt to run...<br><br>');
     //TODO Phylla Scenes
     /*
-            if (findStatusEffect(StatusEffects.PhyllaFight) >= 0) {
-            removeStatusEffect(StatusEffects.PhyllaFight);
+            if (findStatusEffect(liveData.StatusEffects.PhyllaFight) >= 0) {
+            removeStatusEffect(liveData.StatusEffects.PhyllaFight);
             GUI.outputText("...and make it into the nearby tunnel.  ");
             game.desert.antsScene.phyllaTentaclePCLoss();
             } else
@@ -346,8 +349,8 @@ export function tentacleBeastLoss() {
   } else {
     GUI.outputText('You give up on fighting, too aroused to resist any longer.  Shrugging, you walk into the writhing mass...<br><br>');
     //TODO Phylla Scenes
-    /* if (findStatusEffect(StatusEffects.PhyllaFight) >= 0) {
-            removeStatusEffect(StatusEffects.PhyllaFight);
+    /* if (findStatusEffect(liveData.StatusEffects.PhyllaFight) >= 0) {
+            removeStatusEffect(liveData.StatusEffects.PhyllaFight);
             GUI.outputText("...but an insistent voice rouses you from your stupor.  You manage to run into a nearby tunnel.  ");
             game.desert.antsScene.phyllaTentaclePCLoss();
             } else */
@@ -921,7 +924,7 @@ export function tentacleRapeContinuationForFemales() {
       'Satisfied, the creature drops you smartly, withdraws its limbs from you, and lumbers away.  Covered completely in cum, you see that your clitoris has swollen up to ',
     );
     //Big clit girls get huge clits
-    if ((liveData.player.findPerk(PerkLib.BigClit) >= 0 && liveData.player.clitLength > 2) || liveData.player.clitLength > 3)
+    if ((liveData.player.findPerk(liveData.PerkLib.BigClit) >= 0 && liveData.player.clitLength > 2) || liveData.player.clitLength > 3)
       GUI.outputText('almost ' + UTIL.num2Text(Math.floor(liveData.player.clitLength * 1.75)) + ' inches in length. ');
     //normal girls get big clits
     else GUI.outputText('almost four inches in length.  Bruised and sore, you pass into unconsciousness ');
@@ -937,7 +940,7 @@ export function tentacleRapeContinuationForFemales() {
   //Very corrupt
   else GUI.outputText('too intoxicated with lust to continue the pleasure. ');
   //If has big-clit grow to max of 6"
-  if (liveData.player.clitLength < 7 && liveData.player.clitLength >= 3.5 && liveData.player.findPerk(PerkLib.BigClit) >= 0) {
+  if (liveData.player.clitLength < 7 && liveData.player.clitLength >= 3.5 && liveData.player.findPerk(liveData.PerkLib.BigClit) >= 0) {
     liveData.player.clitLength += 0.1 + liveData.player.cor / 100;
     GUI.outputText(
       'Your massive clitty eventually diminishes, retaining a fair portion of its former glory.  It is now ' +
@@ -955,8 +958,8 @@ export function tentacleRapeContinuationForFemales() {
   }
   //Mention that clit doesn't grow if your big enough.
   else GUI.outputText('In time it returns to its normal size, losing all the extra volume.');
-  if (liveData.player.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_TIGHT)
-    liveData.player.vaginas[0].vaginalLooseness = ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_NORMAL;
+  if (liveData.player.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.TIGHT)
+    liveData.player.vaginas[0].vaginalLooseness = ENUM.VaginalLoosenessType.NORMAL;
   liveData.player.slimeFeed();
   if (COMBAT.inCombat()) {
     COMBAT.cleanupAfterCombat();

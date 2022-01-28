@@ -24,7 +24,7 @@
 
 //         //GUI.outputText("Reached Pregnancy Loop.<br><br>");
 //         // Player is pregnant with mice messages and transformations.
-//         if (liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_AMILY) {
+//         if (liveData.player.pregnancyType == ENUM.PregnancyType.AMILY) {
 //             switch (liveData.player.pregnancyEventNum) {
 //                 case 1:
 //                     GUI.outputText(
@@ -102,15 +102,15 @@
 //             // Player giving birth to Amily's babies
 //             //Amily failsafes to convert pure Amily babies to mouse babies under certain circumstances.
 
-//             // if (liveData.player.pregnancyIncubation == 0 && liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_AMILY) {
+//             // if (liveData.player.pregnancyIncubation == 0 && liveData.player.pregnancyType == ENUM.PregnancyType.AMILY) {
 //             //     this.statControl = 0 // Reset stat controller
-//             //     if (liveData.gameFlags[FLAG.AMILY_FOLLOWER] == 2 || liveData.gameFlags[FLAG.AMILY_CORRUPTION_PATH] > 0) liveData.player.knockUpForce(ENUM.PregnancyType.PREGNANCY_MOUSE, liveData.player.pregnancyIncubationFlag)
-//             //     if (liveData.gameFlags[FLAG.AMILY_VISITING_URTA] == 1 || liveData.gameFlags[FLAG.AMILY_VISITING_URTA] == 2) liveData.player.knockUpForce(ENUM.PregnancyType.PREGNANCY_MOUSE, liveData.player.pregnancyIncubationFlag)
+//             //     if (liveData.gameFlags[FLAG.AMILY_FOLLOWER] == 2 || liveData.gameFlags[FLAG.AMILY_CORRUPTION_PATH] > 0) liveData.player.knockUpForce(ENUM.PregnancyType.MOUSE, liveData.player.pregnancyIncubationFlag)
+//             //     if (liveData.gameFlags[FLAG.AMILY_VISITING_URTA] == 1 || liveData.gameFlags[FLAG.AMILY_VISITING_URTA] == 2) liveData.player.knockUpForce(ENUM.PregnancyType.MOUSE, liveData.player.pregnancyIncubationFlag)
 //             //     //if (prison.inPrison) player.knockUpForce(PregnancyStore.PREGNANCY_MOUSE, player.pregnancyIncubation);
 //             // }
 
 //             //Give birth to pure Amily's kids
-//             if (liveData.player.pregnancyIncubation == 0 && liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_AMILY) {
+//             if (liveData.player.pregnancyIncubation == 0 && liveData.player.pregnancyType == ENUM.PregnancyType.AMILY) {
 //                 liveData.player.boostLactation(0.01)
 //                 GUI.outputText("<br>")
 //                 if (liveData.player.vaginas.length == 0) {
@@ -121,7 +121,7 @@
 
 //                 AmilyScene.pcBirthsAmilysKidsQuestVersion()
 //                 liveData.player.cuntChange(60, true, true, false)
-//                 if (liveData.player.vaginas[0].vaginalWetness == ENUM.VaginalWetnessType.VAGINA_WETNESS_DRY) liveData.player.vaginas[0].vaginalWetness++
+//                 if (liveData.player.vaginas[0].vaginalWetness == ENUM.VaginalWetnessType.DRY) liveData.player.vaginas[0].vaginalWetness++
 //                 liveData.player.orgasm()
 //                 liveData.player.modStats(["str", -1], ["tou", -2], ["spe", 3], ["lib", 1], ["sen", 0.5])
 //                 displayedUpdate = true
@@ -244,8 +244,8 @@
 //             this.statControl = 0
 //             GUI.outputText("<br>")
 //             //Add imp birth status - used to control frequency of night imp gangbag
-//             //if (player.findStatusEffect(StatusEffects.BirthedImps) >= 0) player.addStatusValue(StatusEffects.BirthedImps,1,1);
-//             //else player.createStatusEffect(StatusEffects.BirthedImps,1,0,0,0);
+//             //if (player.findStatusEffect(liveData.StatusEffects.BirthedImps) >= 0) player.addStatusValue(liveData.StatusEffects.BirthedImps,1,1);
+//             //else player.createStatusEffect(liveData.StatusEffects.BirthedImps,1,0,0,0);
 //             if (liveData.player.vaginas.length == 0) {
 //                 GUI.outputText("You feel a terrible pressure in your groin... then an incredible pain accompanied by the rending of flesh.  You look down and behold a vagina.  ")
 //                 liveData.player.createVagina()
@@ -257,9 +257,9 @@
 //                 "The pain begins to subside as your delivery continues... replaced with a building sensation of pleasure.  Arousal spikes through you as the contractions intensify, and as you feel something pass you have a tiny orgasm.<br><br>Yet you feel more within you, and the contractions spike again, pushing you to orgasm as you pass something else.  It repeats, over and over, nearly a dozen times you birth and orgasm.  After an eternity of procreation and pleasure, you sense your ordeal is over and collapse, unconscious."
 //             )
 
-//             if (liveData.player.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_TIGHT) liveData.player.vaginas[0].vaginalLooseness++
+//             if (liveData.player.vaginas[0].vaginalLooseness == ENUM.VaginalLoosenessType.TIGHT) liveData.player.vaginas[0].vaginalLooseness++
 //             //50% chance
-//             if (liveData.player.vaginas[0].vaginalLooseness < ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING_WIDE && UTIL.rand(2) == 0) {
+//             if (liveData.player.vaginas[0].vaginalLooseness < ENUM.VaginalLoosenessType.GAPING_WIDE && UTIL.rand(2) == 0) {
 //                 liveData.player.vaginas[0].vaginalLooseness++
 //                 GUI.outputText("<br><br><b>Your cunt is painfully stretched from the ordeal, permanently enlarged.</b>")
 //             }
@@ -286,7 +286,7 @@
 //                 GUI.outputText("  <b>Your breasts have grown to B-cups!</b>")
 //                 liveData.player.growTits(1, 1, false, 3)
 //             }
-//             if (liveData.player.vaginas[0].vaginalWetness == ENUM.VaginalWetnessType.VAGINA_WETNESS_DRY) liveData.player.vaginas[0].vaginalWetness++
+//             if (liveData.player.vaginas[0].vaginalWetness == ENUM.VaginalWetnessType.DRY) liveData.player.vaginas[0].vaginalWetness++
 //             if (liveData.player.gender == 1) liveData.player.gender = 3
 //             if (liveData.player.gender == 0) liveData.player.gender = 2
 //             liveData.player.orgasm()
@@ -392,7 +392,7 @@
 //         //---------------
 //         // GOO PREGNANCY
 //         // --------------
-//         if (liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_GOO_GIRL && liveData.player.pregnancyIncubation == 0) {
+//         if (liveData.player.pregnancyType == ENUM.PregnancyType.GOO_GIRL && liveData.player.pregnancyIncubation == 0) {
 //             liveData.gameFlags[FLAG.GOOGIRL_BIRTHS]++
 //             GUI.outputText("<br>")
 //             if (liveData.player.vaginas.length == 0) {
@@ -417,7 +417,7 @@
 //         // SANDTRAP PREGNANCY
 //         //-------------
 
-//         if (liveData.player.buttPregnancyIncubation <= 1 && liveData.player.buttPregnancyType == ENUM.PregnancyType.PREGNANCY_SANDTRAP_FERTILE) {
+//         if (liveData.player.buttPregnancyIncubation <= 1 && liveData.player.buttPregnancyType == ENUM.PregnancyType.SANDTRAP_FERTILE) {
 //             SandTrapScene.birfSandTarps()
 //             liveData.player.buttKnockUpForce() //Clear Butt Pregnancy
 //             if (liveData.player.buttRating < 17) {

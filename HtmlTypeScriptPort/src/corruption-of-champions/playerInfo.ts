@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, UTIL, StatusEffects, PerkLib, FLAG, PerkMenuBuilder } from 'coc';
+import { liveData, ENUM, GUI, UTIL, FLAG, PerkMenuBuilder } from 'coc';
 
 //------------
 // LEVEL UP
@@ -209,12 +209,12 @@ export function statsScreen() {
   if (
     liveData.gameFlags[FLAG.EVER_DRANK_MINOCUM] > 0 ||
     liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] > 0 ||
-    liveData.player.findPerk(PerkLib.MinotaurCumAddict) >= 0 ||
-    liveData.player.findPerk(PerkLib.MinotaurCumResistance) >= 0
+    liveData.player.findPerk(liveData.PerkLib.MinotaurCumAddict) >= 0 ||
+    liveData.player.findPerk(liveData.PerkLib.MinotaurCumResistance) >= 0
   ) {
-    if (liveData.player.findPerk(PerkLib.MinotaurCumAddict) < 0)
+    if (liveData.player.findPerk(liveData.PerkLib.MinotaurCumAddict) < 0)
       addictStats += '<b>Minotaur Cum:</b> ' + Math.round(liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] * 10) / 10 + '%<br>';
-    else if (liveData.player.findPerk(PerkLib.MinotaurCumResistance) >= 0) addictStats += '<b>Minotaur Cum:</b> 0% (Immune)<br>';
+    else if (liveData.player.findPerk(liveData.PerkLib.MinotaurCumResistance) >= 0) addictStats += '<b>Minotaur Cum:</b> 0% (Immune)<br>';
     else addictStats += '<b>Minotaur Cum:</b> 100+%<br>';
   }
 
@@ -270,28 +270,28 @@ export function appearanceScreen() {
   //HEAD DESCRIPTION
   //Face
   switch (liveData.player.faceType) {
-    case ENUM.FaceType.FACE_HUMAN:
-    case ENUM.FaceType.FACE_SHARK_TEETH:
-    case ENUM.FaceType.FACE_BUNNY:
-    case ENUM.FaceType.FACE_SPIDER_FANGS:
-    case ENUM.FaceType.FACE_FERRET_MASK:
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN || liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_GOO)
+    case ENUM.FaceType.Human:
+    case ENUM.FaceType.SharkTeeth:
+    case ENUM.FaceType.Bunny:
+    case ENUM.FaceType.SpiderFangs:
+    case ENUM.FaceType.FerretMask:
+      if (liveData.player.skinType == ENUM.SkinType.Plain || liveData.player.skinType == ENUM.SkinType.Goo)
         GUI.outputText(' Your face is human in shape and structure, with ' + liveData.player.skin() + '.');
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR)
+      if (liveData.player.skinType == ENUM.SkinType.Fur)
         GUI.outputText(' Under your ' + liveData.player.skinFurScales() + ' you have a human-shaped head with ' + liveData.player.skin(true, false) + '.');
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES)
+      if (liveData.player.skinType == ENUM.SkinType.Scales)
         GUI.outputText(' Your face is fairly human in shape, but is covered in ' + liveData.player.skin() + '.');
-      if (liveData.player.faceType == ENUM.FaceType.FACE_SHARK_TEETH)
+      if (liveData.player.faceType == ENUM.FaceType.SharkTeeth)
         GUI.outputText(' A set of razor-sharp, retractable shark-teeth fill your mouth and gives your visage a slightly angular appearance.');
-      else if (liveData.player.faceType == ENUM.FaceType.FACE_BUNNY)
+      else if (liveData.player.faceType == ENUM.FaceType.Bunny)
         GUI.outputText(' The constant twitches of your nose and the length of your incisors gives your visage a hint of bunny-like cuteness.');
-      else if (liveData.player.faceType == ENUM.FaceType.FACE_SPIDER_FANGS)
+      else if (liveData.player.faceType == ENUM.FaceType.SpiderFangs)
         GUI.outputText(' A set of retractable, needle-like fangs sit in place of your canines and are ready to dispense their venom.');
-      else if (liveData.player.faceType == ENUM.FaceType.FACE_FERRET_MASK)
+      else if (liveData.player.faceType == ENUM.FaceType.FerretMask)
         GUI.outputText(' The [skinFurScales] around your eyes is significantly darker than the rest of your face, giving you a cute little ferret mask.');
       break;
-    case ENUM.FaceType.FACE_FERRET:
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN)
+    case ENUM.FaceType.Ferret:
+      if (liveData.player.skinType == ENUM.SkinType.Plain)
         GUI.outputText(
           ' Your face is an adorable cross between human and ferret features, complete with a wet nose and whiskers. The only oddity is your lack of fur, leaving only [skin] visible on your ferret-like face.',
         );
@@ -302,65 +302,63 @@ export function appearanceScreen() {
             ' fur with [skin] underneath, an adorable cross between human and ferret features. It is complete with a wet nose and whiskers.',
         );
       break;
-    case ENUM.FaceType.FACE_RACCOON_MASK:
-      if (liveData.player.skinType != ENUM.SkinType.SKIN_TYPE_FUR && liveData.player.skinType != ENUM.SkinType.SKIN_TYPE_SCALES) {
+    case ENUM.FaceType.RaccoonMask:
+      if (liveData.player.skinType != ENUM.SkinType.Fur && liveData.player.skinType != ENUM.SkinType.Scales) {
         GUI.outputText(' Your face is human in shape and structure, with ' + liveData.player.skin());
         if (
           (liveData.player.skinTone == 'ebony' || liveData.player.skinTone == 'black') &&
-          (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN || liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_GOO)
+          (liveData.player.skinType == ENUM.SkinType.Plain || liveData.player.skinType == ENUM.SkinType.Goo)
         )
           GUI.outputText(", though with your dusky hue, the black raccoon mask you sport isn't properly visible.");
         else GUI.outputText(', though it is decorated with a sly-looking raccoon mask over your eyes.');
       } else {
         if (
           (liveData.player.furColor == 'black' || liveData.player.furColor == 'midnight') &&
-          (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR || liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES)
+          (liveData.player.skinType == ENUM.SkinType.Fur || liveData.player.skinType == ENUM.SkinType.Scales)
         )
           GUI.outputText(' Under your ' + liveData.player.skinFurScales() + ' hides a black raccoon mask, barely visible due to your inky hue, and');
         else GUI.outputText(' Your ' + liveData.player.skinFurScales() + ' are decorated with a sly-looking raccoon mask, and under them');
         GUI.outputText(' you have a human-shaped head with ' + liveData.player.skin(true, false) + '.');
       }
       break;
-    case ENUM.FaceType.FACE_RACCOON:
+    case ENUM.FaceType.Raccoon:
       GUI.outputText(
         ' You have a triangular raccoon face, replete with sensitive whiskers and a little black nose; a mask shades the space around your eyes, set apart from your ' +
           liveData.player.skinFurScales() +
           ' by a band of white.',
       );
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN) GUI.outputText(' It looks a bit strange with only the skin and no fur.');
-      else if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES)
+      if (liveData.player.skinType == ENUM.SkinType.Plain) GUI.outputText(' It looks a bit strange with only the skin and no fur.');
+      else if (liveData.player.skinType == ENUM.SkinType.Scales)
         GUI.outputText(' The presence of said scales gives your visage an eerie look, more reptile than mammal.');
       break;
-    case ENUM.FaceType.FACE_FOX:
+    case ENUM.FaceType.Fox:
       GUI.outputText(' You have a tapered, shrewd-looking vulpine face with a speckling of downward-curved whiskers just behind the nose.');
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN)
+      if (liveData.player.skinType == ENUM.SkinType.Plain)
         GUI.outputText(" Oddly enough, there's no fur on your animalistic muzzle, just " + liveData.player.skinFurScales() + '.');
-      else if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR)
-        GUI.outputText(' A coat of ' + liveData.player.skinFurScales() + ' decorates your muzzle.');
-      else if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES)
+      else if (liveData.player.skinType == ENUM.SkinType.Fur) GUI.outputText(' A coat of ' + liveData.player.skinFurScales() + ' decorates your muzzle.');
+      else if (liveData.player.skinType == ENUM.SkinType.Scales)
         GUI.outputText(' Strangely, ' + liveData.player.skinFurScales() + ' adorn every inch of your animalistic visage.');
       break;
-    case ENUM.FaceType.FACE_BUCKTEETH:
+    case ENUM.FaceType.Buckteeth:
       GUI.outputText(' Your face is generally human in shape and structure, with ' + liveData.player.skin());
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR || liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES)
+      if (liveData.player.skinType == ENUM.SkinType.Fur || liveData.player.skinType == ENUM.SkinType.Scales)
         GUI.outputText(' under your ' + liveData.player.skinFurScales());
       GUI.outputText(' and mousey buckteeth.');
       break;
-    case ENUM.FaceType.FACE_MOUSE:
+    case ENUM.FaceType.Mouse:
       GUI.outputText(" You have a snubby, tapered mouse's face, with whiskers, a little pink nose, and ");
-      if (liveData.player.skinType != ENUM.SkinType.SKIN_TYPE_FUR && liveData.player.skinType != ENUM.SkinType.SKIN_TYPE_SCALES)
-        GUI.outputText(liveData.player.skin());
+      if (liveData.player.skinType != ENUM.SkinType.Fur && liveData.player.skinType != ENUM.SkinType.Scales) GUI.outputText(liveData.player.skin());
       else GUI.outputText(liveData.player.skin() + ' under your ' + liveData.player.skinFurScales());
       GUI.outputText('. Two large incisors complete it.');
       break;
-    case ENUM.FaceType.FACE_SNAKE_FANGS:
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN || liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_GOO)
+    case ENUM.FaceType.SnakeFangs:
+      if (liveData.player.skinType == ENUM.SkinType.Plain || liveData.player.skinType == ENUM.SkinType.Goo)
         GUI.outputText(
           ' You have a fairly normal face, with ' +
             liveData.player.skin() +
             '. The only oddity is your pair of dripping fangs which often hang over your lower lip.',
         );
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR)
+      if (liveData.player.skinType == ENUM.SkinType.Fur)
         GUI.outputText(
           ' Under your ' +
             liveData.player.skinFurScales() +
@@ -368,17 +366,17 @@ export function appearanceScreen() {
             liveData.player.skin(true, false) +
             '. In addition, a pair of fangs hang over your lower lip, dripping with venom.',
         );
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES)
+      if (liveData.player.skinType == ENUM.SkinType.Scales)
         GUI.outputText(
           ' Your face is fairly human in shape, but is covered in ' +
             liveData.player.skinFurScales() +
             '. In addition, a pair of fangs hang over your lower lip, dripping with venom.',
         );
       break;
-    case ENUM.FaceType.FACE_HORSE:
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN || liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_GOO)
+    case ENUM.FaceType.Horse:
+      if (liveData.player.skinType == ENUM.SkinType.Plain || liveData.player.skinType == ENUM.SkinType.Goo)
         GUI.outputText(' Your face is equine in shape and structure. The odd visage is hairless and covered with ' + liveData.player.skinFurScales() + '.');
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR)
+      if (liveData.player.skinType == ENUM.SkinType.Fur)
         GUI.outputText(
           ' Your face is almost entirely equine in appearance, even having ' +
             liveData.player.skinFurScales() +
@@ -386,15 +384,15 @@ export function appearanceScreen() {
             liveData.player.skin(true, false) +
             '.',
         );
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES)
+      if (liveData.player.skinType == ENUM.SkinType.Scales)
         GUI.outputText(' You have the face and head structure of a horse, overlaid with glittering ' + liveData.player.skinFurScales() + '.');
       break;
-    case ENUM.FaceType.FACE_DOG:
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN || liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_GOO)
+    case ENUM.FaceType.Dog:
+      if (liveData.player.skinType == ENUM.SkinType.Plain || liveData.player.skinType == ENUM.SkinType.Goo)
         GUI.outputText(
           ' You have a dog-like face, complete with a wet nose. The odd visage is hairless and covered with ' + liveData.player.skinFurScales() + '.',
         );
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR)
+      if (liveData.player.skinType == ENUM.SkinType.Fur)
         GUI.outputText(
           " You have a dog's face, complete with wet nose and panting tongue. You've got " +
             liveData.player.skinFurScales() +
@@ -402,17 +400,17 @@ export function appearanceScreen() {
             liveData.player.skin(true, false) +
             ' underneath your furry visage.',
         );
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES)
+      if (liveData.player.skinType == ENUM.SkinType.Scales)
         GUI.outputText(' You have the facial structure of a dog, wet nose and all, but overlaid with glittering ' + liveData.player.skinFurScales() + '.');
       break;
-    case ENUM.FaceType.FACE_CAT:
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN || liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_GOO)
+    case ENUM.FaceType.Cat:
+      if (liveData.player.skinType == ENUM.SkinType.Plain || liveData.player.skinType == ENUM.SkinType.Goo)
         GUI.outputText(
           ' You have a cat-like face, complete with a cute, moist nose and whiskers. The ' +
             liveData.player.skin() +
             ' that is revealed by your lack of fur looks quite unusual on so feline a face.',
         );
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR)
+      if (liveData.player.skinType == ENUM.SkinType.Fur)
         GUI.outputText(
           ' You have a cat-like face, complete with moist nose and whiskers. Your ' +
             liveData.player.skinDesc +
@@ -422,96 +420,96 @@ export function appearanceScreen() {
             liveData.player.skin(true, false) +
             ' underneath.',
         );
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES)
+      if (liveData.player.skinType == ENUM.SkinType.Scales)
         GUI.outputText(
           ' Your facial structure blends humanoid features with those of a cat. A moist nose and whiskers are included, but overlaid with glittering ' +
             liveData.player.skinFurScales() +
             '.',
         );
-      if (liveData.player.eyeType != ENUM.EyeType.EYES_BLACK_EYES_SAND_TRAP)
+      if (liveData.player.eyeType != ENUM.EyeType.BlackEyesSandTrap)
         GUI.outputText(' Of course, no feline face would be complete without vertically slit eyes.');
       break;
-    case ENUM.FaceType.FACE_COW_MINOTAUR:
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN || liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_GOO)
+    case ENUM.FaceType.Minotaur:
+      if (liveData.player.skinType == ENUM.SkinType.Plain || liveData.player.skinType == ENUM.SkinType.Goo)
         GUI.outputText(
           ' You have a face resembling that of a minotaur, with cow-like features, particularly a squared off wet nose. Despite your lack of fur elsewhere, your visage does have a short layer of ' +
             liveData.player.furColor +
             ' fuzz.',
         );
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR)
+      if (liveData.player.skinType == ENUM.SkinType.Fur)
         GUI.outputText(
           ' You have a face resembling that of a minotaur, with cow-like features, particularly a squared off wet nose. Your ' +
             liveData.player.skinFurScales() +
             ' thickens noticably on your head, looking shaggy and more than a little monstrous once laid over your visage.',
         );
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES)
+      if (liveData.player.skinType == ENUM.SkinType.Scales)
         GUI.outputText(
           " Your face resembles a minotaur's, though strangely it is covered in shimmering scales, right up to the flat cow-like nose that protrudes from your face.",
         );
       break;
-    case ENUM.FaceType.FACE_LIZARD:
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN || liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_GOO)
+    case ENUM.FaceType.Lizard:
+      if (liveData.player.skinType == ENUM.SkinType.Plain || liveData.player.skinType == ENUM.SkinType.Goo)
         GUI.outputText(
           ' You have a face resembling that of a lizard, and with your toothy maw, you have quite a fearsome visage. The reptilian visage does look a little odd with just ' +
             liveData.player.skin() +
             '.',
         );
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR)
+      if (liveData.player.skinType == ENUM.SkinType.Fur)
         GUI.outputText(
           ' You have a face resembling that of a lizard. Between the toothy maw, pointed snout, and the layer of ' +
             liveData.player.skinFurScales() +
             ' covering your face, you have quite the fearsome visage.',
         );
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES)
+      if (liveData.player.skinType == ENUM.SkinType.Scales)
         GUI.outputText(
           ' Your face is that of a lizard, complete with a toothy maw and pointed snout. Reflective ' +
             liveData.player.skinFurScales() +
             ' complete the look, making you look quite fearsome.',
         );
       break;
-    case ENUM.FaceType.FACE_DRAGON:
+    case ENUM.FaceType.Dragon:
       GUI.outputText(
         " Your face is a narrow, reptilian muzzle. It looks like a predatory lizard's, at first glance, but with an unusual array of spikes along the under-jaw. It gives you a regal but fierce visage. Opening your mouth reveals several rows of dagger-like sharp teeth. The fearsome visage is decorated by " +
           liveData.player.skinFurScales() +
           '.',
       );
       break;
-    case ENUM.FaceType.FACE_KANGAROO:
+    case ENUM.FaceType.Kangaroo:
       GUI.outputText(' Your face is ');
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN) GUI.outputText('bald');
+      if (liveData.player.skinType == ENUM.SkinType.Plain) GUI.outputText('bald');
       else GUI.outputText('covered with ' + liveData.player.skinFurScales());
       GUI.outputText(' and shaped like that of a kangaroo, somewhat rabbit-like except for the extreme length of your odd visage.');
       break;
-    case ENUM.FaceType.FACE_PIG:
+    case ENUM.FaceType.Pig:
       GUI.outputText(' Your face is like that of a pig, with ' + liveData.player.skinTone + ' skin, complete with a snout that is always wiggling.');
       break;
-    case ENUM.FaceType.FACE_BOAR:
+    case ENUM.FaceType.Boar:
       GUI.outputText(' Your face is like that of a boar, ');
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR)
+      if (liveData.player.skinType == ENUM.SkinType.Fur)
         GUI.outputText('with ' + liveData.player.skinTone + ' skin underneath your ' + liveData.player.furColor + ' fur');
       GUI.outputText(', complete with tusks and a snout that is always wiggling.');
       break;
-    case ENUM.FaceType.FACE_RHINO:
+    case ENUM.FaceType.Rhino:
       GUI.outputText(' Your face is like that of a rhino');
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN)
+      if (liveData.player.skinType == ENUM.SkinType.Plain)
         GUI.outputText(', with ' + liveData.player.skin() + ', complete with a long muzzle and a horn on your nose.');
       else GUI.outputText(' with a long muzzle and a horn on your nose. Oddly, your face is also covered in ' + liveData.player.skinFurScales() + '.');
       break;
-    case ENUM.FaceType.FACE_ECHIDNA:
+    case ENUM.FaceType.Echidna:
       GUI.outputText(' Your odd visage consists of a long, thin echidna snout.');
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN)
+      if (liveData.player.skinType == ENUM.SkinType.Plain)
         GUI.outputText(' The ' + liveData.player.skin() + ' that is revealed by your lack of fur looks quite unusual.');
-      else if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR) GUI.outputText(" It's covered in " + liveData.player.skinFurScales() + '.');
-      else if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES)
+      else if (liveData.player.skinType == ENUM.SkinType.Fur) GUI.outputText(" It's covered in " + liveData.player.skinFurScales() + '.');
+      else if (liveData.player.skinType == ENUM.SkinType.Scales)
         GUI.outputText(" It's covered in " + liveData.player.skinFurScales() + ', making your face even more unusual.');
       break;
-    case ENUM.FaceType.FACE_DEER:
+    case ENUM.FaceType.Deer:
       GUI.outputText(' Your face is like that of a deer, with a nose at the end of your muzzle.');
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN)
+      if (liveData.player.skinType == ENUM.SkinType.Plain)
         GUI.outputText(' The ' + liveData.player.skin() + ' that is revealed by your lack of fur looks quite unusual.');
-      else if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR)
+      else if (liveData.player.skinType == ENUM.SkinType.Fur)
         GUI.outputText(" It's covered in " + liveData.player.skinFurScales() + ' that covers your ' + liveData.player.skinTone + ' skin underneath.');
-      else if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES)
+      else if (liveData.player.skinType == ENUM.SkinType.Scales)
         GUI.outputText(" It's covered in " + liveData.player.skinFurScales() + ', making your face looks more unusual.');
       break;
     default:
@@ -520,104 +518,103 @@ export function appearanceScreen() {
   //M/F stuff!
   GUI.outputText(' It has ' + liveData.player.faceDesc() + '.');
   //Eyes
-  if (liveData.player.eyeType == ENUM.EyeType.EYES_FOUR_SPIDER_EYES)
+  if (liveData.player.eyeType == ENUM.EyeType.FourSpiderEyes)
     GUI.outputText(' In addition to your primary two eyes, you have a second, smaller pair on your forehead.');
-  else if (liveData.player.eyeType == ENUM.EyeType.EYES_BLACK_EYES_SAND_TRAP) GUI.outputText(' Your eyes are solid spheres of inky, alien darkness.');
+  else if (liveData.player.eyeType == ENUM.EyeType.BlackEyesSandTrap) GUI.outputText(' Your eyes are solid spheres of inky, alien darkness.');
 
   //Hair
   //if bald
   if (liveData.player.hairLength == 0) {
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR) GUI.outputText(' You have no hair, only a thin layer of fur atop of your head. ');
+    if (liveData.player.skinType == ENUM.SkinType.Fur) GUI.outputText(' You have no hair, only a thin layer of fur atop of your head. ');
     else
       GUI.outputText(' You are totally bald, showing only shiny ' + liveData.player.skinTone + ' ' + liveData.player.skinDesc + ' where your hair should be.');
-    if (liveData.player.earType == ENUM.EarType.EARS_HORSE) GUI.outputText(' A pair of horse-like ears rise up from the top of your head.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_FERRET) GUI.outputText(' A pair of small, rounded ferret ears sit on top of your head.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_DOG) GUI.outputText(' A pair of dog ears protrude from your skull, flopping down adorably.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_COW) GUI.outputText(' A pair of round, floppy cow ears protrude from the sides of your skull.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_ELFIN) GUI.outputText(' A pair of large pointy ears stick out from your skull.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_CAT) GUI.outputText(' A pair of cute, fuzzy cat ears have sprouted from the top of your head.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_PIG) GUI.outputText(' A pair of pointy, floppy pig ears have sprouted from the top of your head.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_LIZARD)
+    if (liveData.player.earType == ENUM.EarType.Horse) GUI.outputText(' A pair of horse-like ears rise up from the top of your head.');
+    else if (liveData.player.earType == ENUM.EarType.Ferret) GUI.outputText(' A pair of small, rounded ferret ears sit on top of your head.');
+    else if (liveData.player.earType == ENUM.EarType.Dog) GUI.outputText(' A pair of dog ears protrude from your skull, flopping down adorably.');
+    else if (liveData.player.earType == ENUM.EarType.Cow) GUI.outputText(' A pair of round, floppy cow ears protrude from the sides of your skull.');
+    else if (liveData.player.earType == ENUM.EarType.Elfin) GUI.outputText(' A pair of large pointy ears stick out from your skull.');
+    else if (liveData.player.earType == ENUM.EarType.Cat) GUI.outputText(' A pair of cute, fuzzy cat ears have sprouted from the top of your head.');
+    else if (liveData.player.earType == ENUM.EarType.Pig) GUI.outputText(' A pair of pointy, floppy pig ears have sprouted from the top of your head.');
+    else if (liveData.player.earType == ENUM.EarType.Lizard)
       GUI.outputText(' A pair of rounded protrusions with small holes on the sides of your head serve as your ears.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_BUNNY)
+    else if (liveData.player.earType == ENUM.EarType.Bunny)
       GUI.outputText(' A pair of floppy rabbit ears stick up from the top of your head, flopping around as you walk.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_FOX) GUI.outputText(' A pair of large, adept fox ears sit high on your head, always listening.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_DRAGON)
+    else if (liveData.player.earType == ENUM.EarType.Fox) GUI.outputText(' A pair of large, adept fox ears sit high on your head, always listening.');
+    else if (liveData.player.earType == ENUM.EarType.Dragon)
       GUI.outputText(' A pair of rounded protrusions with small holes on the sides of your head serve as your ears. Bony fins sprout behind them.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_RACCOON) GUI.outputText(' A pair of vaguely egg-shaped, furry raccoon ears adorns your head.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_MOUSE) GUI.outputText(' A pair of large, dish-shaped mouse ears tops your head.');
+    else if (liveData.player.earType == ENUM.EarType.Raccoon) GUI.outputText(' A pair of vaguely egg-shaped, furry raccoon ears adorns your head.');
+    else if (liveData.player.earType == ENUM.EarType.Mouse) GUI.outputText(' A pair of large, dish-shaped mouse ears tops your head.');
     //<mod>
-    else if (liveData.player.earType == ENUM.EarType.EARS_RHINO) GUI.outputText(' A pair of open tubular rhino ears protrude from your head.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_ECHIDNA) GUI.outputText(' A pair of small rounded openings appear on your head that are your ears.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_DEER) GUI.outputText(' A pair of deer-like ears rise up from the top of your head.');
+    else if (liveData.player.earType == ENUM.EarType.Rhino) GUI.outputText(' A pair of open tubular rhino ears protrude from your head.');
+    else if (liveData.player.earType == ENUM.EarType.Echidna) GUI.outputText(' A pair of small rounded openings appear on your head that are your ears.');
+    else if (liveData.player.earType == ENUM.EarType.Deer) GUI.outputText(' A pair of deer-like ears rise up from the top of your head.');
     //</mod>
-    if (liveData.player.antennae == ENUM.AntennaeType.ANTENNAE_BEE)
-      GUI.outputText(' Floppy antennae also appear on your skull, bouncing and swaying in the breeze.');
+    if (liveData.player.antennae == ENUM.AntennaeType.BEE) GUI.outputText(' Floppy antennae also appear on your skull, bouncing and swaying in the breeze.');
   }
   //not bald
   else {
-    if (liveData.player.earType == ENUM.EarType.EARS_HUMAN)
+    if (liveData.player.earType == ENUM.EarType.Human)
       GUI.outputText(' Your ' + liveData.player.hairDescript() + ' looks good on you, accentuating your features well.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_FERRET)
+    else if (liveData.player.earType == ENUM.EarType.Ferret)
       GUI.outputText(' A pair of small, rounded ferret ears burst through the top of your ' + liveData.player.hairDescript() + '.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_HORSE)
+    else if (liveData.player.earType == ENUM.EarType.Horse)
       GUI.outputText(' The ' + liveData.player.hairDescript() + ' on your head parts around a pair of very horse-like ears that grow up from your head.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_DOG)
+    else if (liveData.player.earType == ENUM.EarType.Dog)
       GUI.outputText(' The ' + liveData.player.hairDescript() + ' on your head is overlapped by a pair of pointed dog ears.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_COW)
+    else if (liveData.player.earType == ENUM.EarType.Cow)
       GUI.outputText(' The ' + liveData.player.hairDescript() + ' on your head is parted by a pair of rounded cow ears that stick out sideways.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_ELFIN)
+    else if (liveData.player.earType == ENUM.EarType.Elfin)
       GUI.outputText(' The ' + liveData.player.hairDescript() + ' on your head is parted by a pair of cute pointed ears, bigger than your old human ones.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_CAT)
+    else if (liveData.player.earType == ENUM.EarType.Cat)
       GUI.outputText(
         ' The ' +
           liveData.player.hairDescript() +
           ' on your head is parted by a pair of cute, fuzzy cat ears, sprouting from atop your head and pivoting towards any sudden noises.',
       );
-    else if (liveData.player.earType == ENUM.EarType.EARS_LIZARD)
+    else if (liveData.player.earType == ENUM.EarType.Lizard)
       GUI.outputText(
         ' The ' + liveData.player.hairDescript() + ' atop your head makes it nigh-impossible to notice the two small rounded openings that are your ears.',
       );
-    else if (liveData.player.earType == ENUM.EarType.EARS_BUNNY)
+    else if (liveData.player.earType == ENUM.EarType.Bunny)
       GUI.outputText(' A pair of floppy rabbit ears stick up out of your ' + liveData.player.hairDescript() + ', bouncing around as you walk.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_KANGAROO)
+    else if (liveData.player.earType == ENUM.EarType.Kangaroo)
       GUI.outputText(
         ' The ' + liveData.player.hairDescript() + ' atop your head is parted by a pair of long, furred kangaroo ears that stick out at an angle.',
       );
-    else if (liveData.player.earType == ENUM.EarType.EARS_FOX)
+    else if (liveData.player.earType == ENUM.EarType.Fox)
       GUI.outputText(
         ' The ' + liveData.player.hairDescript() + ' atop your head is parted by a pair of large, adept fox ears that always seem to be listening.',
       );
-    else if (liveData.player.earType == ENUM.EarType.EARS_DRAGON)
+    else if (liveData.player.earType == ENUM.EarType.Dragon)
       GUI.outputText(
         ' The ' +
           liveData.player.hairDescript() +
           ' atop your head is parted by a pair of rounded protrusions with small holes on the sides of your head serve as your ears. Bony fins sprout behind them.',
       );
-    else if (liveData.player.earType == ENUM.EarType.EARS_RACCOON)
+    else if (liveData.player.earType == ENUM.EarType.Raccoon)
       GUI.outputText(' The ' + liveData.player.hairDescript() + ' on your head parts around a pair of egg-shaped, furry raccoon ears.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_MOUSE)
+    else if (liveData.player.earType == ENUM.EarType.Mouse)
       GUI.outputText(
         ' The ' +
           liveData.player.hairDescript() +
           ' atop your head is funneled between and around a pair of large, dish-shaped mouse ears that stick up prominently.',
       );
     //<mod> Mod-added ears
-    else if (liveData.player.earType == ENUM.EarType.EARS_PIG)
+    else if (liveData.player.earType == ENUM.EarType.Pig)
       GUI.outputText(
         ' The ' +
           liveData.player.hairDescript() +
           " on your head is parted by a pair of pointy, floppy pig ears. They often flick about when you're not thinking about it.",
       );
-    else if (liveData.player.earType == ENUM.EarType.EARS_RHINO)
+    else if (liveData.player.earType == ENUM.EarType.Rhino)
       GUI.outputText(' The ' + liveData.player.hairDescript() + ' on your head is parted by a pair of tubular rhino ears.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_ECHIDNA)
+    else if (liveData.player.earType == ENUM.EarType.Echidna)
       GUI.outputText(' Your ' + liveData.player.hairDescript() + ' makes it near-impossible to see the small, rounded openings that are your ears.');
-    else if (liveData.player.earType == ENUM.EarType.EARS_DEER)
+    else if (liveData.player.earType == ENUM.EarType.Deer)
       GUI.outputText(' The ' + liveData.player.hairDescript() + ' on your head parts around a pair of deer-like ears that grow up from your head.');
     //</mod>
-    if (liveData.player.antennae == ENUM.AntennaeType.ANTENNAE_BEE) {
-      if (liveData.player.earType == ENUM.EarType.EARS_BUNNY)
+    if (liveData.player.antennae == ENUM.AntennaeType.BEE) {
+      if (liveData.player.earType == ENUM.EarType.Bunny)
         GUI.outputText(' Limp antennae also grow from just behind your hairline, waving and swaying in the breeze with your ears.');
       else GUI.outputText(' Floppy antennae also grow from just behind your hairline, bouncing and swaying in the breeze.');
     }
@@ -626,7 +623,7 @@ export function appearanceScreen() {
   //Beards!
   if (liveData.player.beardLength > 0) {
     GUI.outputText(' You have a ' + liveData.player.beardDescript() + ' ');
-    if (liveData.player.beardStyle != ENUM.BeardType.BEARD_GOATEE) {
+    if (liveData.player.beardStyle != ENUM.BeardType.Goatee) {
       GUI.outputText('covering your ');
       if (UTIL.rand(2) == 0) GUI.outputText('jaw');
       else GUI.outputText('chin and cheeks');
@@ -637,20 +634,20 @@ export function appearanceScreen() {
   }
 
   //Tongue
-  if (liveData.player.tongueType == ENUM.TongueType.TONGUE_SNAKE) GUI.outputText(' A snake-like tongue occasionally flits between your lips, tasting the air.');
-  else if (liveData.player.tongueType == ENUM.TongueType.TONGUE_DEMONIC)
+  if (liveData.player.tongueType == ENUM.TongueType.Snake) GUI.outputText(' A snake-like tongue occasionally flits between your lips, tasting the air.');
+  else if (liveData.player.tongueType == ENUM.TongueType.Demonic)
     GUI.outputText(
       ' A slowly undulating tongue occasionally slips from between your lips. It hangs nearly two feet long when you let the whole thing slide out, though you can retract it to appear normal.',
     );
-  else if (liveData.player.tongueType == ENUM.TongueType.TONGUE_DRACONIC)
+  else if (liveData.player.tongueType == ENUM.TongueType.Draconic)
     GUI.outputText(
       ' Your mouth contains a thick, fleshy tongue that, if you so desire, can telescope to a distance of about four feet. It has sufficient manual dexterity that you can use it almost like a third arm.',
     );
-  else if (liveData.player.tongueType == ENUM.TongueType.TONGUE_ECHIDNA)
+  else if (liveData.player.tongueType == ENUM.TongueType.Echidna)
     GUI.outputText(' A thin echidna tongue, at least a foot long, occasionally flits out from between your lips.');
   //Horns
   switch (liveData.player.hornType) {
-    case ENUM.HornType.HORNS_DEMON:
+    case ENUM.HornType.DEMON:
       if (liveData.player.horns == 2)
         GUI.outputText(
           ' A small pair of pointed horns has broken through the ' +
@@ -678,7 +675,7 @@ export function appearanceScreen() {
             ' horns.',
         );
       break;
-    case ENUM.HornType.HORNS_COW_MINOTAUR:
+    case ENUM.HornType.COW_MINOTAUR:
       if (liveData.player.horns < 3)
         GUI.outputText(' Two tiny horn-like nubs protrude from your forehead, resembling the horns of the young livestock kept by your village.');
       if (liveData.player.horns >= 3 && liveData.player.horns < 6)
@@ -694,7 +691,7 @@ export function appearanceScreen() {
           ' Two huge horns erupt from your forehead, curving outward at first, then forwards. The weight of them is heavy, and they end in dangerous looking points.',
         );
       break;
-    case ENUM.HornType.HORNS_DRACONIC_X2:
+    case ENUM.HornType.DRACONIC_X2:
       if (liveData.useMetrics)
         GUI.outputText(
           ' A pair of ' +
@@ -708,25 +705,25 @@ export function appearanceScreen() {
             ' inch horns grow from the sides of your head, sweeping backwards and adding to your imposing visage.',
         );
       break;
-    case ENUM.HornType.HORNS_DRACONIC_X4_12_INCH_LONG:
+    case ENUM.HornType.DRACONIC_X4_12_INCH_LONG:
       GUI.outputText(
         " Two pairs of horns, roughly a foot long, sprout from the sides of your head. They sweep back and give you a fearsome look, almost like the dragons from your village's legends.",
       );
       break;
-    case ENUM.HornType.HORNS_ANTLERS:
+    case ENUM.HornType.ANTLERS:
       GUI.outputText(
         ' Two antlers, forking into ' +
           UTIL.num2Text(liveData.player.horns) +
           ' points, have sprouted from the top of your head, forming a spiky, regal crown of bone.',
       );
       break;
-    case ENUM.HornType.HORNS_GOAT:
+    case ENUM.HornType.GOAT:
       if (liveData.player.horns == 1) GUI.outputText(' A pair of stubby goat horns sprout from the sides of your head.');
       else GUI.outputText(' A pair of tall-standing goat horns sprout from the sides of your head. They are curved and patterned with ridges.');
       break;
-    case ENUM.HornType.HORNS_RHINO:
+    case ENUM.HornType.RHINO:
       if (liveData.player.horns >= 2) {
-        if (liveData.player.faceType == ENUM.FaceType.FACE_RHINO) GUI.outputText(' A second horn sprouts from your forehead just above the horn on your nose.');
+        if (liveData.player.faceType == ENUM.FaceType.Rhino) GUI.outputText(' A second horn sprouts from your forehead just above the horn on your nose.');
         else GUI.outputText(" A single horn sprouts from your forehead. It is conical and resembles a rhino's horn.");
         GUI.outputText('You estimate it to be about seven inches long.');
       } else {
@@ -740,43 +737,43 @@ export function appearanceScreen() {
   GUI.outputText('<br><br>You have a humanoid shape with the usual torso, arms, hands, and fingers.');
   //WINGS!
   switch (liveData.player.wingType) {
-    case ENUM.WingType.WING_TYPE_BEE_LIKE_SMALL:
+    case ENUM.WingType.BEE_LIKE_SMALL:
       GUI.outputText(' A pair of tiny-yet-beautiful bee-wings sprout from your back, too small to allow you to fly.');
       break;
-    case ENUM.WingType.WING_TYPE_BEE_LIKE_LARGE:
+    case ENUM.WingType.BEE_LIKE_LARGE:
       GUI.outputText(
         ' A pair of large bee-wings sprout from your back, reflecting the light through their clear membranes beautifully. They flap quickly, allowing you to easily hover in place or fly.',
       );
       break;
-    case ENUM.WingType.WING_TYPE_BAT_LIKE_TINY:
+    case ENUM.WingType.BAT_LIKE_TINY:
       GUI.outputText(' A pair of tiny bat-like demon-wings sprout from your back, flapping cutely, but otherwise being of little use.');
       break;
-    case ENUM.WingType.WING_TYPE_BAT_LIKE_LARGE:
+    case ENUM.WingType.BAT_LIKE_LARGE:
       GUI.outputText(
         ' A pair of large bat-like demon-wings fold behind your shoulders. With a muscle-twitch, you can extend them, and use them to soar gracefully through the air.',
       );
       break;
-    case ENUM.WingType.WING_TYPE_SHARK_FIN:
+    case ENUM.WingType.SHARK_FIN:
       GUI.outputText(' A large shark-like fin has sprouted between your shoulder blades. With it you have far more control over swimming underwater.');
       break;
-    case ENUM.WingType.WING_TYPE_FEATHERED_LARGE:
+    case ENUM.WingType.FEATHERED_LARGE:
       GUI.outputText(
         ' A pair of large, feathery wings sprout from your back. Though you usually keep the ' +
           liveData.player.furColor +
           '-colored wings folded close, they can unfurl to allow you to soar as gracefully as a harpy.',
       );
       break;
-    case ENUM.WingType.WING_TYPE_DRACONIC_SMALL:
+    case ENUM.WingType.DRACONIC_SMALL:
       GUI.outputText(
         " Small, vestigial wings sprout from your shoulders. They might look like bat's wings, but the membranes are covered in fine, delicate scales.",
       );
       break;
-    case ENUM.WingType.WING_TYPE_DRACONIC_LARGE:
+    case ENUM.WingType.DRACONIC_LARGE:
       GUI.outputText(
         " Magnificent wings sprout from your shoulders. When unfurled they stretch further than your arm span, and a single beat of them is all you need to set out toward the sky. They look a bit like bat's wings, but the membranes are covered in fine, delicate scales and a wicked talon juts from the end of each bone.",
       );
       break;
-    case ENUM.WingType.WING_TYPE_GIANT_DRAGONFLY:
+    case ENUM.WingType.GIANT_DRAGONFLY:
       GUI.outputText(
         ' Giant dragonfly wings hang from your shoulders. At a whim, you could twist them into a whirring rhythm fast enough to lift you off the ground and allow you to fly.',
       );
@@ -785,22 +782,22 @@ export function appearanceScreen() {
     //No wings here!
   }
   //Wing arms
-  if (liveData.player.armType == ENUM.ArmType.ARM_TYPE_HARPY)
+  if (liveData.player.armType == ENUM.ArmType.HARPY)
     GUI.outputText(' Feathers hang off your arms from shoulder to wrist, giving them a slightly wing-like look.');
-  else if (liveData.player.armType == ENUM.ArmType.ARM_TYPE_SPIDER)
+  else if (liveData.player.armType == ENUM.ArmType.SPIDER)
     GUI.outputText(' Shining black exoskeleton covers your arms from the biceps down, resembling a pair of long black gloves from a distance.');
   //Done with head bits. Move on to body stuff
   //Horse lowerbody, other lowerbody texts appear lower
   if (liveData.player.isTaur()) {
-    if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED)
+    if (liveData.player.lowerBody == ENUM.LowerBodyType.HOOFED)
       GUI.outputText(' From the waist down you have the body of a horse, with all ' + UTIL.num2Text(liveData.player.legCount) + ' legs capped by hooves.');
-    else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_PONY)
+    else if (liveData.player.lowerBody == ENUM.LowerBodyType.PONY)
       GUI.outputText(
         " From the waist down you have an incredibly cute and cartoonish parody of a horse's body, with all " +
           UTIL.num2Text(liveData.player.legCount) +
           ' legs ending in flat, rounded feet.',
       );
-    else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DRIDER_LOWER_BODY)
+    else if (liveData.player.lowerBody == ENUM.LowerBodyType.DRIDER_LOWER_BODY)
       GUI.outputText(
         ' Where your legs would normally start you have grown the body of a spider, with ' +
           UTIL.num2Text(liveData.player.legCount) +
@@ -907,13 +904,13 @@ export function appearanceScreen() {
   }
   //TAILS
   switch (liveData.player.tailType) {
-    case ENUM.TailType.TAIL_TYPE_HORSE:
+    case ENUM.TailType.HORSE:
       GUI.outputText(' A long ' + liveData.player.furColor + ' horsetail hangs from your ' + liveData.player.buttDescript() + ', smooth and shiny.');
       break;
-    case ENUM.TailType.TAIL_TYPE_FERRET:
+    case ENUM.TailType.FERRET:
       GUI.outputText(' A long ferret tail sprouts from above your [butt]. It is thin, tapered, and covered in shaggy ' + liveData.player.furColor + ' fur.');
       break;
-    case ENUM.TailType.TAIL_TYPE_DOG:
+    case ENUM.TailType.DOG:
       GUI.outputText(
         ' A fuzzy ' +
           liveData.player.furColor +
@@ -922,7 +919,7 @@ export function appearanceScreen() {
           ', wagging to and fro whenever you are happy.',
       );
       break;
-    case ENUM.TailType.TAIL_TYPE_DEMONIC:
+    case ENUM.TailType.DEMONIC:
       GUI.outputText(
         ' A narrow tail ending in a spaded tip curls down from your ' +
           liveData.player.buttDescript() +
@@ -931,10 +928,10 @@ export function appearanceScreen() {
           ' sensually at every opportunity.',
       );
       break;
-    case ENUM.TailType.TAIL_TYPE_COW:
+    case ENUM.TailType.COW:
       GUI.outputText(' A long cowtail with a puffy tip swishes back and forth as if swatting at flies.');
       break;
-    case ENUM.TailType.TAIL_TYPE_SPIDER_ADBOMEN:
+    case ENUM.TailType.SPIDER_ADBOMEN:
       GUI.outputText(
         " A large, spherical spider-abdomen has grown out from your backside, covered in shiny black chitin. Though it's heavy and bobs with every motion, it doesn't seem to slow you down.",
       );
@@ -942,7 +939,7 @@ export function appearanceScreen() {
       if (liveData.player.tailVenom >= 80 && liveData.player.tailVenom < 100) GUI.outputText(' Your arachnid rear bulges and feels very full of webbing.');
       if (liveData.player.tailVenom == 100) GUI.outputText(" Your swollen spider-butt is distended with the sheer amount of webbing it's holding.");
       break;
-    case ENUM.TailType.TAIL_TYPE_BEE_ABDOMEN:
+    case ENUM.TailType.BEE_ABDOMEN:
       GUI.outputText(
         ' A large insectile bee-abdomen dangles from just above your backside, bobbing with its own weight as you shift. It is covered in hard chitin with black and yellow stripes, and tipped with a dagger-like stinger.',
       );
@@ -950,10 +947,10 @@ export function appearanceScreen() {
       if (liveData.player.tailVenom >= 80 && liveData.player.tailVenom < 100) GUI.outputText(' Poisonous bee venom coats your stinger completely.');
       if (liveData.player.tailVenom == 100) GUI.outputText(' Venom drips from your poisoned stinger regularly.');
       break;
-    case ENUM.TailType.TAIL_TYPE_SHARK:
+    case ENUM.TailType.SHARK:
       GUI.outputText(' A long shark-tail trails down from your backside, swaying to and fro while giving you a dangerous air.');
       break;
-    case ENUM.TailType.TAIL_TYPE_CAT:
+    case ENUM.TailType.CAT:
       GUI.outputText(
         ' A soft ' +
           liveData.player.furColor +
@@ -962,32 +959,32 @@ export function appearanceScreen() {
           ', curling and twisting with every step to maintain perfect balance.',
       );
       break;
-    case ENUM.TailType.TAIL_TYPE_LIZARD:
+    case ENUM.TailType.LIZARD:
       GUI.outputText(
         ' A tapered tail hangs down from just above your ' +
           liveData.player.assDescript() +
           '. It sways back and forth, assisting you with keeping your balance.',
       );
       break;
-    case ENUM.TailType.TAIL_TYPE_RABBIT:
+    case ENUM.TailType.RABBIT:
       GUI.outputText(
         ' A short, soft bunny tail sprouts just above your ' + liveData.player.assDescript() + ", twitching constantly whenever you don't think about it.",
       );
       break;
-    case ENUM.TailType.TAIL_TYPE_HARPY:
+    case ENUM.TailType.HARPY:
       GUI.outputText(
         ' A tail of feathers fans out from just above your ' +
           liveData.player.assDescript() +
           ', twitching instinctively to help guide you if you were to take flight.',
       );
       break;
-    case ENUM.TailType.TAIL_TYPE_KANGAROO:
+    case ENUM.TailType.KANGAROO:
       GUI.outputText(' A conical, ');
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_GOO) GUI.outputText('gooey, ' + liveData.player.skinTone);
+      if (liveData.player.skinType == ENUM.SkinType.Goo) GUI.outputText('gooey, ' + liveData.player.skinTone);
       else GUI.outputText('furry, ' + liveData.player.furColor);
       GUI.outputText(', tail extends from your ' + liveData.player.assDescript() + ', bouncing up and down as you move and helping to counterbalance you.');
       break;
-    case ENUM.TailType.TAIL_TYPE_FOX:
+    case ENUM.TailType.FOX:
       if (liveData.player.tailVenom <= 1)
         GUI.outputText(
           ' A swishing ' +
@@ -1007,36 +1004,36 @@ export function appearanceScreen() {
             ', curling around your body - the soft fur feels lovely.',
         );
       break;
-    case ENUM.TailType.TAIL_TYPE_DRACONIC:
+    case ENUM.TailType.DRACONIC:
       GUI.outputText(
         ' A thin, scaly, prehensile reptilian tail, almost as long as you are tall, swings behind you like a living bullwhip. Its tip menaces with spikes of bone, meant to deliver painful blows.',
       );
       break;
-    case ENUM.TailType.TAIL_TYPE_RACCOON:
+    case ENUM.TailType.RACCOON:
       GUI.outputText(' A black-and-' + liveData.player.furColor + '-ringed raccoon tail waves behind you.');
       break;
-    case ENUM.TailType.TAIL_TYPE_MOUSE:
+    case ENUM.TailType.MOUSE:
       GUI.outputText(' A naked, ' + liveData.player.skinTone + ' mouse tail pokes from your butt, dragging on the ground and twitching occasionally.');
       break;
-    case ENUM.TailType.TAIL_TYPE_BEHEMOTH:
+    case ENUM.TailType.BEHEMOTH:
       GUI.outputText(" A long seemingly-tapering tail pokes from your butt, ending in spikes just like behemoth's.");
       break;
-    case ENUM.TailType.TAIL_TYPE_PIG:
+    case ENUM.TailType.PIG:
       GUI.outputText(' A short, curly pig tail sprouts from just above your butt.');
       break;
-    case ENUM.TailType.TAIL_TYPE_SCORPION:
+    case ENUM.TailType.SCORPION:
       GUI.outputText(' A chitinous scorpion tail sprouts from just above your butt, ready to dispense venom.');
       break;
-    case ENUM.TailType.TAIL_TYPE_GOAT:
+    case ENUM.TailType.GOAT:
       GUI.outputText(' A very short, stubby goat tail sprouts from just above your butt.');
       break;
-    case ENUM.TailType.TAIL_TYPE_RHINO:
+    case ENUM.TailType.RHINO:
       GUI.outputText(' A ropey rhino tail sprouts from just above your butt, swishing from time to time.');
       break;
-    case ENUM.TailType.TAIL_TYPE_ECHIDNA:
+    case ENUM.TailType.ECHIDNA:
       GUI.outputText(' A stumpy echidna tail forms just about your [ass].');
       break;
-    case ENUM.TailType.TAIL_TYPE_DEER:
+    case ENUM.TailType.DEER:
       GUI.outputText(' A very short, stubby deer tail sprouts from just above your butt.');
       break;
     default:
@@ -1044,48 +1041,48 @@ export function appearanceScreen() {
   }
 
   //LOWERBODY SPECIAL
-  if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN)
+  if (liveData.player.lowerBody == ENUM.LowerBodyType.HUMAN)
     GUI.outputText(' ' + UTIL.Num2Text(liveData.player.legCount) + ' normal human legs grow down from your waist, ending in normal human feet.');
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_FERRET)
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.FERRET)
     GUI.outputText(
       ' ' +
         UTIL.Num2Text(liveData.player.legCount) +
         ' furry, digitigrade legs form below your [hips]. The fur is thinner on the feet, and your toes are tipped with claws.',
     );
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED)
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.HOOFED)
     GUI.outputText(' Your ' + UTIL.num2Text(liveData.player.legCount) + ' legs are muscled and jointed oddly, covered in fur, and end in a bestial hooves.');
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG)
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.DOG)
     GUI.outputText(' ' + UTIL.Num2Text(liveData.player.legCount) + ' digitigrade legs grow downwards from your waist, ending in dog-like hind-paws.');
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_NAGA)
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.NAGA)
     GUI.outputText(' Below your waist your flesh is fused together into a very long snake-like tail.');
   //Horse body is placed higher for readability purposes
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DEMONIC_HIGH_HEELS)
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.DEMONIC_HIGH_HEELS)
     GUI.outputText(
       ' Your ' +
         UTIL.num2Text(liveData.player.legCount) +
         ' perfect lissome legs end in mostly human feet, apart from the horn protruding straight down from the heel that forces you to walk with a sexy, swaying gait.',
     );
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DEMONIC_CLAWS)
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.DEMONIC_CLAWS)
     GUI.outputText(
       ' Your ' +
         UTIL.num2Text(liveData.player.legCount) +
         ' lithe legs are capped with flexible clawed feet. Sharp black nails grow where once you had toe-nails, giving you fantastic grip.',
     );
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_BEE)
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.BEE)
     GUI.outputText(
       ' Your ' +
         UTIL.num2Text(liveData.player.legCount) +
         " legs are covered in a shimmering insectile carapace up to mid-thigh, looking more like a set of 'fuck-me-boots' than exoskeleton. A bit of downy yellow and black fur fuzzes your upper thighs, just like a bee.",
     );
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_GOO)
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.GOO)
     GUI.outputText(
       " In place of legs you have a shifting amorphous blob. Thankfully it's quite easy to propel yourself around on. The lowest portions of your " +
         liveData.player.armor.equipmentName +
         ' float around inside you, bringing you no discomfort.',
     );
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT)
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.CAT)
     GUI.outputText(' ' + UTIL.Num2Text(liveData.player.legCount) + ' digitigrade legs grow downwards from your waist, ending in soft, padded cat-paws.');
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_LIZARD)
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LIZARD)
     GUI.outputText(
       ' ' +
         UTIL.Num2Text(liveData.player.legCount) +
@@ -1093,13 +1090,13 @@ export function appearanceScreen() {
         liveData.player.hipDescript() +
         ', ending in clawed feet. There are three long toes on the front, and a small hind-claw on the back.',
     );
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_BUNNY)
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.BUNNY)
     GUI.outputText(
       ' Your ' +
         UTIL.num2Text(liveData.player.legCount) +
         ' legs thicken below the waist as they turn into soft-furred rabbit-like legs. You even have large bunny feet that make hopping around a little easier than walking.',
     );
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HARPY)
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.HARPY)
     GUI.outputText(
       ' Your ' +
         UTIL.num2Text(liveData.player.legCount) +
@@ -1107,25 +1104,25 @@ export function appearanceScreen() {
         liveData.player.furColor +
         ' plumage. Thankfully the thick, powerful thighs are perfect for launching you into the air, and your feet remain mostly human, even if they are two-toed and tipped with talons.',
     );
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_KANGAROO)
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.KANGAROO)
     GUI.outputText(
       ' Your ' +
         UTIL.num2Text(liveData.player.legCount) +
         ' furry legs have short thighs and long calves, with even longer feet ending in prominently-nailed toes.',
     );
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CHITINOUS_SPIDER_LEGS)
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.CHITINOUS_SPIDER_LEGS)
     GUI.outputText(
       ' Your ' +
         UTIL.num2Text(liveData.player.legCount) +
         " legs are covered in a reflective black, insectile carapace up to your mid-thigh, looking more like a set of 'fuck-me-boots' than exoskeleton.",
     );
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_FOX)
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.FOX)
     GUI.outputText(
       ' Your ' +
         UTIL.num2Text(liveData.player.legCount) +
         ' legs are crooked into high knees with hocks and long feet, like those of a fox; cute bulbous toes decorate the ends.',
     );
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DRAGON)
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.DRAGON)
     GUI.outputText(
       ' ' +
         UTIL.Num2Text(liveData.player.legCount) +
@@ -1133,34 +1130,34 @@ export function appearanceScreen() {
         liveData.player.hipDescript() +
         ', sheathed in scales and ending in clawed feet. There are three long toes on the front, and a small hind-claw on the back.',
     );
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_RACCOON)
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.RACCOON)
     GUI.outputText(
       ' Your ' +
         UTIL.num2Text(liveData.player.legCount) +
         ' legs, though covered in fur, are humanlike. Long feet on the ends bear equally long toes, and the pads on the bottoms are quite sensitive to the touch.',
     );
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CLOVEN_HOOFED)
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.CLOVEN_HOOFED)
     GUI.outputText(' ' + UTIL.Num2Text(liveData.player.legCount) + ' digitigrade legs form below your [hips], ending in cloven hooves.');
-  if (liveData.player.findPerk(PerkLib.Incorporeality) >= 0)
+  if (liveData.player.findPerk(liveData.PerkLib.Incorporeality) >= 0)
     GUI.outputText(' Of course, your ' + liveData.player.legs() + ' are partially transparent due to their ghostly nature.'); // isn't goo transparent anyway?
 
   GUI.outputText('<br>');
-  if (liveData.player.findStatusEffect(StatusEffects.GooStuffed) >= 0) {
+  if (liveData.player.findStatusEffect(liveData.StatusEffects.GooStuffed) >= 0) {
     GUI.outputText(
       "<br><b>Your gravid-looking belly is absolutely stuffed full of goo. There's no way you can get pregnant like this, but at the same time, you look like some fat-bellied breeder.</b><br>",
     );
   }
   //Pregnancy Shiiiiiitz
   if (
-    liveData.player.buttPregnancyType == ENUM.PregnancyType.PREGNANCY_FROG_GIRL ||
-    liveData.player.buttPregnancyType == ENUM.PregnancyType.PREGNANCY_SATYR ||
+    liveData.player.buttPregnancyType == ENUM.PregnancyType.FROG_GIRL ||
+    liveData.player.buttPregnancyType == ENUM.PregnancyType.SATYR ||
     liveData.player.isPregnant()
   ) {
     // TODO: (DMR) fix below after PREGNANCY_OVIELIXIR_EGGS is a proper number flag
     // if (liveData.player.pregnancyType == FLAG.PREGNANCY_OVIELIXIR_EGGS) {
     //     GUI.outputText("<b>")
     //     //Compute size
-    //     temp = liveData.player.statusAffectv3(StatusEffects.Eggs) + liveData.player.statusAffectv2(StatusEffects.Eggs) * 10
+    //     temp = liveData.player.statusAffectv3(liveData.StatusEffects.Eggs) + liveData.player.statusAffectv2(liveData.StatusEffects.Eggs) * 10
     //     if (liveData.player.pregnancyIncubation <= 50 && liveData.player.pregnancyIncubation > 20) {
     //         GUI.outputText("Your swollen pregnant belly is as large as a ")
     //         if (temp < 10) GUI.outputText("basketball.")
@@ -1177,10 +1174,7 @@ export function appearanceScreen() {
     //     temp = 0
     // }
     //Satur preggos - only shows if bigger than regular pregnancy or not pregnancy
-    if (
-      liveData.player.buttPregnancyType == ENUM.PregnancyType.PREGNANCY_SATYR &&
-      liveData.player.buttPregnancyIncubation > liveData.player.pregnancyIncubation
-    ) {
+    if (liveData.player.buttPregnancyType == ENUM.PregnancyType.SATYR && liveData.player.buttPregnancyIncubation > liveData.player.pregnancyIncubation) {
       if (liveData.player.buttPregnancyIncubation < 125 && liveData.player.buttPregnancyIncubation >= 75) {
         GUI.outputText("<b>You've got the begginings of a small pot-belly.</b>");
       } else if (liveData.player.buttPregnancyIncubation >= 50) {
@@ -1190,25 +1184,25 @@ export function appearanceScreen() {
       } else {
         //Surely Benoit and Cotton deserve their place in this list
         if (
-          liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_IZMA ||
-          liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_MOUSE ||
-          liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_AMILY ||
-          (liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_JOJO &&
+          liveData.player.pregnancyType == ENUM.PregnancyType.IZMA ||
+          liveData.player.pregnancyType == ENUM.PregnancyType.MOUSE ||
+          liveData.player.pregnancyType == ENUM.PregnancyType.AMILY ||
+          (liveData.player.pregnancyType == ENUM.PregnancyType.JOJO &&
             (liveData.gameFlags[FLAG.JOJO_CORRUPTION_STAGE] <= 0 || liveData.gameFlags[FLAG.JOJO_BIMBO_STATE] >= 3)) ||
-          liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_EMBER ||
-          liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_BENOIT ||
-          liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_COTTON ||
-          liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_URTA ||
-          liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_BEHEMOTH
+          liveData.player.pregnancyType == ENUM.PregnancyType.EMBER ||
+          liveData.player.pregnancyType == ENUM.PregnancyType.BENOIT ||
+          liveData.player.pregnancyType == ENUM.PregnancyType.COTTON ||
+          liveData.player.pregnancyType == ENUM.PregnancyType.URTA ||
+          liveData.player.pregnancyType == ENUM.PregnancyType.BEHEMOTH
         )
           GUI.outputText("<br><b>Your belly protrudes unnaturally far forward, bulging with the spawn of one of this land's natives.</b>");
-        else if (liveData.player.pregnancyType != ENUM.PregnancyType.PREGNANCY_MARBLE)
+        else if (liveData.player.pregnancyType != ENUM.PregnancyType.MARBLE)
           GUI.outputText('<br><b>Your belly protrudes unnaturally far forward, bulging with the unclean spawn of some monster or beast.</b>');
         else GUI.outputText("<br><b>Your belly protrudes unnaturally far forward, bulging outwards with Marble's precious child.</b>");
       }
     }
     //URTA PREG
-    else if (liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_URTA) {
+    else if (liveData.player.pregnancyType == ENUM.PregnancyType.URTA) {
       if (liveData.player.pregnancyIncubation <= 432 && liveData.player.pregnancyIncubation > 360) {
         GUI.outputText('<b>Your belly is larger than it used to be.</b><br>');
       }
@@ -1234,7 +1228,7 @@ export function appearanceScreen() {
       if (liveData.player.pregnancyIncubation <= 48) {
         GUI.outputText("<br><b>Your belly protrudes unnaturally far forward, bulging with the spawn of one of this land's natives.</b>");
       }
-    } else if (liveData.player.buttPregnancyType == ENUM.PregnancyType.PREGNANCY_FROG_GIRL) {
+    } else if (liveData.player.buttPregnancyType == ENUM.PregnancyType.FROG_GIRL) {
       if (liveData.player.buttPregnancyIncubation >= 8)
         GUI.outputText(
           '<b>Your stomach is so full of frog eggs that you look about to birth at any moment, your belly wobbling and shaking with every step you take, packed with frog ovum.</b>',
@@ -1243,7 +1237,7 @@ export function appearanceScreen() {
         GUI.outputText(
           "<b>You're stuffed so full with eggs that your belly looks obscenely distended, huge and weighted with the gargantuan eggs crowding your gut. They make your gait a waddle and your gravid tummy wobble obscenely.</b>",
         );
-    } else if (liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_FAERIE) {
+    } else if (liveData.player.pregnancyType == ENUM.PregnancyType.FAERIE) {
       //Belly size remains constant throughout the pregnancy
       GUI.outputText('<b>Your belly remains swollen like a watermelon. ');
       if (liveData.player.pregnancyIncubation <= 100)
@@ -1272,19 +1266,19 @@ export function appearanceScreen() {
       if (liveData.player.pregnancyIncubation <= 48) {
         //Surely Benoit and Cotton deserve their place in this list
         if (
-          liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_IZMA ||
-          liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_MOUSE ||
-          liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_AMILY ||
-          (liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_JOJO && liveData.gameFlags[FLAG.JOJO_CORRUPTION_STAGE] <= 0) ||
-          liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_EMBER ||
-          liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_BENOIT ||
-          liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_COTTON ||
-          liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_URTA ||
-          liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_MINERVA ||
-          liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_BEHEMOTH
+          liveData.player.pregnancyType == ENUM.PregnancyType.IZMA ||
+          liveData.player.pregnancyType == ENUM.PregnancyType.MOUSE ||
+          liveData.player.pregnancyType == ENUM.PregnancyType.AMILY ||
+          (liveData.player.pregnancyType == ENUM.PregnancyType.JOJO && liveData.gameFlags[FLAG.JOJO_CORRUPTION_STAGE] <= 0) ||
+          liveData.player.pregnancyType == ENUM.PregnancyType.EMBER ||
+          liveData.player.pregnancyType == ENUM.PregnancyType.BENOIT ||
+          liveData.player.pregnancyType == ENUM.PregnancyType.COTTON ||
+          liveData.player.pregnancyType == ENUM.PregnancyType.URTA ||
+          liveData.player.pregnancyType == ENUM.PregnancyType.MINERVA ||
+          liveData.player.pregnancyType == ENUM.PregnancyType.BEHEMOTH
         )
           GUI.outputText("<br><b>Your belly protrudes unnaturally far forward, bulging with the spawn of one of this land's natives.</b>");
-        else if (liveData.player.pregnancyType != ENUM.PregnancyType.PREGNANCY_MARBLE)
+        else if (liveData.player.pregnancyType != ENUM.PregnancyType.MARBLE)
           GUI.outputText('<br><b>Your belly protrudes unnaturally far forward, bulging with the unclean spawn of some monster or beast.</b>');
         else GUI.outputText("<br><b>Your belly protrudes unnaturally far forward, bulging outwards with Marble's precious child.</b>");
       }
@@ -1347,7 +1341,7 @@ export function appearanceScreen() {
     GUI.outputText('<br>');
   }
   //Crotchial stuff - mention snake
-  if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_NAGA && liveData.player.gender > 0) {
+  if (liveData.player.lowerBody == ENUM.LowerBodyType.NAGA && liveData.player.gender > 0) {
     GUI.outputText('<br>Your sex');
     if (liveData.player.gender == 3 || liveData.player.totalCocks() > 1) GUI.outputText('es are ');
     else GUI.outputText(' is ');
@@ -1474,7 +1468,7 @@ export function appearanceScreen() {
       GUI.outputText(' It is quite a sight to behold, coming well-equiped with four heads.');
     }
     //Worm flavor
-    if (liveData.player.findStatusEffect(StatusEffects.Infested) >= 0)
+    if (liveData.player.findStatusEffect(liveData.StatusEffects.Infested) >= 0)
       GUI.outputText(
         ' Every now and again a slimy worm coated in spunk slips partway out of your ' +
           liveData.player.cockDescript(0) +
@@ -1648,7 +1642,7 @@ export function appearanceScreen() {
       if (rando > 3) rando = 0;
     }
     //Worm flavor
-    if (liveData.player.findStatusEffect(StatusEffects.Infested) >= 0)
+    if (liveData.player.findStatusEffect(liveData.StatusEffects.Infested) >= 0)
       GUI.outputText(
         'Every now and again slimy worms coated in spunk slip partway out of your ' +
           liveData.player.multiCockDescriptLight() +
@@ -1658,17 +1652,17 @@ export function appearanceScreen() {
   }
   //Of Balls and Sacks!
   if (liveData.player.balls > 0) {
-    if (liveData.player.findStatusEffect(StatusEffects.Uniball) >= 0) {
-      if (liveData.player.skinType != ENUM.SkinType.SKIN_TYPE_GOO)
+    if (liveData.player.findStatusEffect(liveData.StatusEffects.Uniball) >= 0) {
+      if (liveData.player.skinType != ENUM.SkinType.Goo)
         GUI.outputText('Your [sack] clings tightly to your groin, holding ' + liveData.player.ballsDescript() + ' snugly against you.');
-      else if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_GOO)
+      else if (liveData.player.skinType == ENUM.SkinType.Goo)
         GUI.outputText('Your [sack] clings tightly to your groin, dripping and holding ' + liveData.player.ballsDescript() + ' snugly against you.');
     } else if (liveData.player.cockTotal() == 0) {
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN)
+      if (liveData.player.skinType == ENUM.SkinType.Plain)
         GUI.outputText(
           'A ' + liveData.player.sackDescript() + ' with ' + liveData.player.ballsDescript() + ' swings heavily under where a penis would normally grow.',
         );
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR)
+      if (liveData.player.skinType == ENUM.SkinType.Fur)
         GUI.outputText(
           'A fuzzy ' +
             liveData.player.sackDescript() +
@@ -1676,12 +1670,12 @@ export function appearanceScreen() {
             liveData.player.ballsDescript() +
             ' swings low under where a penis would normally grow.',
         );
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES)
+      if (liveData.player.skinType == ENUM.SkinType.Scales)
         GUI.outputText('A scaley ' + liveData.player.sackDescript() + ' hugs your ' + liveData.player.ballsDescript() + ' tightly against your body.');
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_GOO)
+      if (liveData.player.skinType == ENUM.SkinType.Goo)
         GUI.outputText('An oozing, semi-solid sack with ' + liveData.player.ballsDescript() + ' swings heavily under where a penis would normally grow.');
     } else {
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN)
+      if (liveData.player.skinType == ENUM.SkinType.Plain)
         GUI.outputText(
           'A ' +
             liveData.player.sackDescript() +
@@ -1691,7 +1685,7 @@ export function appearanceScreen() {
             liveData.player.multiCockDescriptLight() +
             '.',
         );
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR)
+      if (liveData.player.skinType == ENUM.SkinType.Fur)
         GUI.outputText(
           'A fuzzy ' +
             liveData.player.sackDescript() +
@@ -1701,9 +1695,9 @@ export function appearanceScreen() {
             liveData.player.multiCockDescriptLight() +
             '.',
         );
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES)
+      if (liveData.player.skinType == ENUM.SkinType.Scales)
         GUI.outputText('A scaley ' + liveData.player.sackDescript() + ' hugs your ' + liveData.player.ballsDescript() + ' tightly against your body.');
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_GOO)
+      if (liveData.player.skinType == ENUM.SkinType.Goo)
         GUI.outputText(
           'An oozing, semi-solid sack with ' +
             liveData.player.ballsDescript() +
@@ -1764,81 +1758,77 @@ export function appearanceScreen() {
       //not particularly horny
       //Wetness
       if (
-        liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.VAGINA_WETNESS_WET &&
-        liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING
+        liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.WET &&
+        liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.DROOLING
       )
         GUI.outputText('Moisture gleams in ');
-      if (liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING) {
+      if (liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.DROOLING) {
         GUI.outputText('Occasional beads of ');
         GUI.outputText('lubricant drip from ');
       }
       //Different description based on vag looseness
-      if (liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.VAGINA_WETNESS_WET) {
-        if (liveData.player.vaginas[0].vaginalLooseness < ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_LOOSE)
-          GUI.outputText('your ' + liveData.player.vaginaDescript(0) + '. ');
+      if (liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.WET) {
+        if (liveData.player.vaginas[0].vaginalLooseness < ENUM.VaginalLoosenessType.LOOSE) GUI.outputText('your ' + liveData.player.vaginaDescript(0) + '. ');
         if (
-          liveData.player.vaginas[0].vaginalLooseness >= ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_LOOSE &&
-          liveData.player.vaginas[0].vaginalLooseness < ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING_WIDE
+          liveData.player.vaginas[0].vaginalLooseness >= ENUM.VaginalLoosenessType.LOOSE &&
+          liveData.player.vaginas[0].vaginalLooseness < ENUM.VaginalLoosenessType.GAPING_WIDE
         )
           GUI.outputText('your ' + liveData.player.vaginaDescript(0) + ', its lips slightly parted. ');
-        if (liveData.player.vaginas[0].vaginalLooseness >= ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING_WIDE)
+        if (liveData.player.vaginas[0].vaginalLooseness >= ENUM.VaginalLoosenessType.GAPING_WIDE)
           GUI.outputText('the massive hole that is your ' + liveData.player.vaginaDescript(0) + '. ');
       }
     }
     if ((liveData.player.lib >= 50 || liveData.player.lust >= 50) && liveData.player.lib < 80 && liveData.player.lust < 80) {
       //kinda horny
       //Wetness
-      if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_WET) GUI.outputText('Moisture gleams in ');
+      if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.WET) GUI.outputText('Moisture gleams in ');
       if (
-        liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.VAGINA_WETNESS_WET &&
-        liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING
+        liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.WET &&
+        liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.DROOLING
       ) {
         GUI.outputText('Occasional beads of ');
         GUI.outputText('lubricant drip from ');
       }
-      if (liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING) {
+      if (liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.DROOLING) {
         GUI.outputText('Thin streams of ');
         GUI.outputText('lubricant occasionally dribble from ');
       }
       //Different description based on vag looseness
-      if (liveData.player.vaginas[0].vaginalLooseness < ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_LOOSE)
-        GUI.outputText('your ' + liveData.player.vaginaDescript(0) + '. ');
+      if (liveData.player.vaginas[0].vaginalLooseness < ENUM.VaginalLoosenessType.LOOSE) GUI.outputText('your ' + liveData.player.vaginaDescript(0) + '. ');
       if (
-        liveData.player.vaginas[0].vaginalLooseness >= ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_LOOSE &&
-        liveData.player.vaginas[0].vaginalLooseness < ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING_WIDE
+        liveData.player.vaginas[0].vaginalLooseness >= ENUM.VaginalLoosenessType.LOOSE &&
+        liveData.player.vaginas[0].vaginalLooseness < ENUM.VaginalLoosenessType.GAPING_WIDE
       )
         GUI.outputText('your ' + liveData.player.vaginaDescript(0) + ', its lips slightly parted. ');
-      if (liveData.player.vaginas[0].vaginalLooseness >= ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING_WIDE)
+      if (liveData.player.vaginas[0].vaginalLooseness >= ENUM.VaginalLoosenessType.GAPING_WIDE)
         GUI.outputText('the massive hole that is your ' + liveData.player.vaginaDescript(0) + '. ');
     }
     if (liveData.player.lib > 80 || liveData.player.lust > 80) {
       //WTF horny!
       //Wetness
-      if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_WET) {
+      if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.WET) {
         GUI.outputText('Occasional beads of ');
         GUI.outputText('lubricant drip from ');
       }
       if (
-        liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.VAGINA_WETNESS_WET &&
-        liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING
+        liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.WET &&
+        liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.DROOLING
       ) {
         GUI.outputText('Thin streams of ');
         GUI.outputText('lubricant occasionally dribble from ');
       }
-      if (liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING) {
+      if (liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.DROOLING) {
         GUI.outputText('Thick streams of ');
         GUI.outputText('lubricant drool constantly from ');
       }
       //Different description based on vag looseness
-      if (liveData.player.vaginas[0].vaginalLooseness < ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_LOOSE)
-        GUI.outputText('your ' + liveData.player.vaginaDescript(0) + '. ');
+      if (liveData.player.vaginas[0].vaginalLooseness < ENUM.VaginalLoosenessType.LOOSE) GUI.outputText('your ' + liveData.player.vaginaDescript(0) + '. ');
       if (
-        liveData.player.vaginas[0].vaginalLooseness >= ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_LOOSE &&
-        liveData.player.vaginas[0].vaginalLooseness < ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING_WIDE
+        liveData.player.vaginas[0].vaginalLooseness >= ENUM.VaginalLoosenessType.LOOSE &&
+        liveData.player.vaginas[0].vaginalLooseness < ENUM.VaginalLoosenessType.GAPING_WIDE
       )
         GUI.outputText('your ' + liveData.player.vaginaDescript(0) + ', its lips slightly parted. ');
-      if (liveData.player.vaginas[0].vaginalLooseness >= ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING_WIDE)
-        GUI.outputText('the massive hole that is your cunt. ');
+      if (liveData.player.vaginas[0].vaginalLooseness >= ENUM.VaginalLoosenessType.GAPING_WIDE) GUI.outputText('the massive hole that is your cunt. ');
     }
     //Line Drop for next descript!
     GUI.outputText('<br>');

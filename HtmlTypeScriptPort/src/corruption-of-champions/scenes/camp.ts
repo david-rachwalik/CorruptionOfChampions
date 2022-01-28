@@ -61,7 +61,7 @@ export function doCamp() {
   //DEBUGGING CODE FOR AMILY MEETINGS
   //player.gender = 3;
   //player.modStats("cor", 50);
-  //Inventory.takeItem(Items.Consumables.IncubiDraftPurified);
+  //Inventory.takeItem(liveData.Items.Consumables.IncubiDraftPurified);
   // liveData.gameFlags[AMILY_HERM_QUEST] = 2;
   //liveData.gameFlags[AMILY_AFFECTION] = 50;
   //player.HP = 100;

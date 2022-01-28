@@ -31,10 +31,9 @@ class PerkType {
     this.desc = desc;
     this.longDesc = longDesc;
     this.keepOnAscension = keepOnAscension;
-    PerkIDs[this.id] = this;
+    // TODO: verify when game is stable (moved to liveData)
+    // PerkIDs[this.id] = this;
   }
 }
 
-const PerkIDs: { [key: string]: PerkType } = {}; //Hold perk IDs for purpose of looking up.
-
-export { Perk, PerkType, PerkIDs };
+export { Perk, PerkType };

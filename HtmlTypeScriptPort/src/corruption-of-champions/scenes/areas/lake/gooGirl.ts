@@ -1,4 +1,4 @@
-import { liveData, ENUM, UTIL, Creature, Items, BindType, StatusEffects, GUI, PerkLib, Camp, COMBAT, FLAG } from 'coc';
+import { liveData, ENUM, UTIL, Creature, BindType, GUI, Camp, COMBAT, FLAG } from 'coc';
 
 /**
  * Created by aimozg on 04.01.14.
@@ -47,26 +47,26 @@ export class GooGirl extends Creature {
 
     //Appearance
     this.tallness = UTIL.rand(8) + 80;
-    this.hipRating = ENUM.HipRatingType.HIP_RATING_AMPLE;
-    this.buttRating = ENUM.ButtRatingType.BUTT_RATING_LARGE;
-    this.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_GOO;
+    this.hipRating = ENUM.HipRatingType.AMPLE;
+    this.buttRating = ENUM.ButtRatingType.LARGE;
+    this.lowerBody = ENUM.LowerBodyType.GOO;
     this.skinTone = 'blue';
     this.skinAdj = 'goopey';
     this.hairColor = this.skinTone;
     this.hairLength = 12 + UTIL.rand(10);
     //Sexual characteristics
-    this.createVagina(false, ENUM.VaginalWetnessType.VAGINA_WETNESS_SLAVERING, ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_NORMAL);
-    this.createStatusEffect(StatusEffects.BonusVCapacity, 9001, 0, 0, 0);
+    this.createVagina(false, ENUM.VaginalWetnessType.SLAVERING, ENUM.VaginalLoosenessType.NORMAL);
+    this.createStatusEffect(liveData.StatusEffects.BonusVCapacity, 9001, 0, 0, 0);
     this.createBreastRow(liveData.player.biggestTitSize() > 3 ? liveData.player.biggestTitSize() : 3);
     this.createBreastRow(0);
-    this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_STRETCHED;
-    this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_SLIME_DROOLING;
+    this.ass.analLooseness = ENUM.AnalLoosenessType.STRETCHED;
+    this.ass.analWetness = ENUM.AnalWetnessType.SLIME_DROOLING;
 
     //Drops
     this.clearDrops(); //Need to be called before populating the item arrays.
-    this.addDrop(Items.Weapons.Pipe, 10);
-    this.addDrop(Items.Consumables.WetCloth, 45);
-    this.addDrop(Items.Materials.GreenGel, 45);
+    this.addDrop(liveData.Items.Weapons.Pipe, 10);
+    this.addDrop(liveData.Items.Consumables.WetCloth, 45);
+    this.addDrop(liveData.Items.Materials.GreenGel, 45);
 
     //Victory/defeat
     this.victory = gooGirlWin;
@@ -80,7 +80,7 @@ export class GooGirl extends Creature {
     let chooser;
     const firstRoll = UTIL.rand(5);
     const secondRoll = UTIL.rand(3);
-    if ((liveData.monster.findStatusEffect(StatusEffects.Acid) >= 0 && UTIL.rand(3) == 0) || UTIL.rand(3) == 0) chooser = 0;
+    if ((liveData.monster.findStatusEffect(liveData.StatusEffects.Acid) >= 0 && UTIL.rand(3) == 0) || UTIL.rand(3) == 0) chooser = 0;
     //Extra chance if acidic.
     else if (firstRoll == 0) chooser = 1;
     else if (secondRoll == 0) chooser = 2;
@@ -91,7 +91,7 @@ export class GooGirl extends Creature {
         this.gooGalAttack();
         break;
       case 1:
-        if (this.fatigue <= this.maxFatigue() - 25 && liveData.player.findStatusEffect(StatusEffects.Bind) < 0) this.gooEngulph();
+        if (this.fatigue <= this.maxFatigue() - 25 && liveData.player.findStatusEffect(liveData.StatusEffects.Bind) < 0) this.gooEngulph();
         else this.gooGalAttack();
         break;
       case 2:
@@ -108,42 +108,46 @@ export class GooGirl extends Creature {
 
   gooGalAttack() {
     let damage = 0;
-    if (liveData.monster.findStatusEffect(StatusEffects.Acid) >= 0) GUI.outputText('Her body quivering from your flames, the goo-girl ');
+    if (liveData.monster.findStatusEffect(liveData.StatusEffects.Acid) >= 0) GUI.outputText('Her body quivering from your flames, the goo-girl ');
     else
       GUI.outputText(
         'The goo-girl holds her hands up and they morph into a replica of your ' + liveData.player.weapon.equipmentName + '. Happily, she swings at you',
       );
     //Determine if dodged!
     if (liveData.player.spe - liveData.monster.spe > 0 && UTIL.rand((liveData.player.spe - liveData.monster.spe) / 4 + 80) > 80) {
-      if (liveData.monster.findStatusEffect(StatusEffects.Acid) >= 0) GUI.outputText('tries to slap you, but you dodge her attack.');
+      if (liveData.monster.findStatusEffect(liveData.StatusEffects.Acid) >= 0) GUI.outputText('tries to slap you, but you dodge her attack.');
       else GUI.outputText(', missing as you dodge aside.');
       return;
     }
     //Determine if evaded
-    if (liveData.player.findPerk(PerkLib.Evade) >= 0 && UTIL.rand(100) < 10) {
-      if (liveData.monster.findStatusEffect(StatusEffects.Acid) >= 0) GUI.outputText('tries to slap you, but you evade her attack.');
+    if (liveData.player.findPerk(liveData.PerkLib.Evade) >= 0 && UTIL.rand(100) < 10) {
+      if (liveData.monster.findStatusEffect(liveData.StatusEffects.Acid) >= 0) GUI.outputText('tries to slap you, but you evade her attack.');
       else GUI.outputText(', but you evade the clumsy attack.');
       return;
     }
     //Misdirection
-    if (liveData.player.findPerk(PerkLib.Misdirection) >= 0 && UTIL.rand(100) < 10 && liveData.player.armor.equipmentName == 'red, high-society bodysuit') {
-      if (liveData.monster.findStatusEffect(StatusEffects.Acid) >= 0) GUI.outputText('tries to slap you. You misdirect her, avoiding the hit.');
+    if (
+      liveData.player.findPerk(liveData.PerkLib.Misdirection) >= 0 &&
+      UTIL.rand(100) < 10 &&
+      liveData.player.armor.equipmentName == 'red, high-society bodysuit'
+    ) {
+      if (liveData.monster.findStatusEffect(liveData.StatusEffects.Acid) >= 0) GUI.outputText('tries to slap you. You misdirect her, avoiding the hit.');
       else GUI.outputText(', missing as you misdirect her attentions.');
       return;
     }
     //Determine if cat'ed
-    if (liveData.player.findPerk(PerkLib.Flexibility) >= 0 && UTIL.rand(100) < 6) {
-      if (liveData.monster.findStatusEffect(StatusEffects.Acid) >= 0) GUI.outputText('tries to slap you, but misses due to your cat-like evasion.');
+    if (liveData.player.findPerk(liveData.PerkLib.Flexibility) >= 0 && UTIL.rand(100) < 6) {
+      if (liveData.monster.findStatusEffect(liveData.StatusEffects.Acid) >= 0) GUI.outputText('tries to slap you, but misses due to your cat-like evasion.');
       else GUI.outputText(', missing due to your cat-like evasion.');
       return;
     }
     //Determine damage - str modified by enemy toughness!
-    if (liveData.monster.findStatusEffect(StatusEffects.Acid) >= 0)
+    if (liveData.monster.findStatusEffect(liveData.StatusEffects.Acid) >= 0)
       damage = liveData.monster.str + liveData.monster.weapon.attack - UTIL.rand(liveData.player.tou) - liveData.player.armor.defense;
 
     if (damage <= 0) {
       damage = 0;
-      if (liveData.monster.findStatusEffect(StatusEffects.Acid) >= 0) {
+      if (liveData.monster.findStatusEffect(liveData.StatusEffects.Acid) >= 0) {
         if (UTIL.rand(liveData.player.armor.defense + liveData.player.tou) < liveData.player.armor.defense)
           GUI.outputText('tries to slap you, but the acid-bearing slap spatters weakly off your ' + liveData.player.armor.equipmentName + '. ');
         else GUI.outputText('tries to slap you with an acid-loaded hand, but it splatters off you ineffectually. ');
@@ -156,11 +160,11 @@ export class GooGirl extends Creature {
     }
     //everyone else
     else {
-      if (liveData.monster.findStatusEffect(StatusEffects.Acid) >= 0) {
+      if (liveData.monster.findStatusEffect(liveData.StatusEffects.Acid) >= 0) {
         GUI.outputText(
           'delivers a painful slap across your cheek.  You gasp when the light stinging becomes a searing burn that seems to get worse as time goes on! ',
         );
-        if (liveData.player.findStatusEffect(StatusEffects.Acid) < 0) liveData.player.createStatusEffect(StatusEffects.Acid, 0, 0, 0, 0);
+        if (liveData.player.findStatusEffect(liveData.StatusEffects.Acid) < 0) liveData.player.createStatusEffect(liveData.StatusEffects.Acid, 0, 0, 0, 0);
       } else
         GUI.outputText(
           ', painfully smacking her gooey limbs against your head. You shake your ' +
@@ -221,7 +225,8 @@ export class GooGirl extends Creature {
         liveData.monster.skinTone +
         " slime slide up your nostrils and through your lips, filling your lungs with the girl's muck. You begin suffocating!",
     );
-    if (liveData.player.findStatusEffect(StatusEffects.Bind) < 0) liveData.player.createStatusEffect(StatusEffects.Bind, BindType.BIND_TYPE_GOO, 0, 0, 0);
+    if (liveData.player.findStatusEffect(liveData.StatusEffects.Bind) < 0)
+      liveData.player.createStatusEffect(liveData.StatusEffects.Bind, BindType.BIND_TYPE_GOO, 0, 0, 0);
     liveData.monster.fatigue += 25;
     //COMBAT.combatRoundOver();
   }
@@ -342,7 +347,7 @@ export function beatUpGoo() {
         GUI.addButton(1, 'Exhib.Fuck', exhibitionismGooGirlVictoryRape);
       }
     }
-    if (liveData.player.findPerk(PerkLib.Feeder) >= 0) GUI.addButton(3, 'Breastfeed', victoryRapeAGooGalAsFeeder);
+    if (liveData.player.findPerk(liveData.PerkLib.Feeder) >= 0) GUI.addButton(3, 'Breastfeed', victoryRapeAGooGalAsFeeder);
     if (liveData.player.canOvipositBee()) GUI.addButton(4, 'Lay Eggs', layBeeEggsInGoo);
 
     // Stuff for Valeria, which probably won't get coded in a looong time! Button 7
@@ -356,7 +361,7 @@ export function beatUpGoo() {
 
     /* UNCOMMENT WHEN WE BEGIN LATEX GIRL SCENES
             if ((liveData.gameFlags[GOO_TFED_MEAN] == 0 && liveData.gameFlags[GOO_TFED_NICE] == 0) && liveData.gameFlags[FLAG.TIMES_FUCKED_NORMAL_GOOS] >= 2) {
-                if (player.cor < 50 && (player.hasItem(Items.Consumables.SuccubiMilk) || player.hasItem(Items.Consumables.SuccubiMilkPurified)) && (player.hasItem(Items.Consumables.BlackEgg) || player.hasItem(Items.Consumables.LargeBlackEgg))) {
+                if (player.cor < 50 && (player.hasItem(liveData.Items.Consumables.SuccubiMilk) || player.hasItem(liveData.Items.Consumables.SuccubiMilkPurified)) && (player.hasItem(liveData.Items.Consumables.BlackEgg) || player.hasItem(liveData.Items.Consumables.LargeBlackEgg))) {
                     GUI.addButton(8, "Make Slave", pureGooRecruitmentStart);
                     return;
                 }
@@ -371,7 +376,7 @@ export function beatUpGoo() {
                     else {
                         GUI.outputText("<br><br>As you survey your victory, you remember the idea you had before - maybe if you drugged one of these things with a black egg and some succubi milk, you could make it your pet?");
                     }
-                    if ((player.hasItem(Items.Consumables.SuccubiMilk) || player.hasItem(Items.Consumables.SuccubiMilkPurified)) && (player.hasItem(Items.Consumables.BlackEgg) || player.hasItem(Items.Consumables.LargeBlackEgg))) {
+                    if ((player.hasItem(liveData.Items.Consumables.SuccubiMilk) || player.hasItem(liveData.Items.Consumables.SuccubiMilkPurified)) && (player.hasItem(liveData.Items.Consumables.BlackEgg) || player.hasItem(liveData.Items.Consumables.LargeBlackEgg))) {
                         GUI.outputText("  Good thing you have those handy!");
                         GUI.addButton(8, "Make Slave", meanGooGirlRecruitment);
                     }
@@ -626,8 +631,8 @@ export function victoryRapeAGooGalAsFeeder() {
   coreDropChance();
 
   //You've now been milked, reset the timer for that
-  liveData.player.addStatusValue(StatusEffects.Feeder, 1, 1);
-  liveData.player.changeStatusValue(StatusEffects.Feeder, 2, 0);
+  liveData.player.addStatusValue(liveData.StatusEffects.Feeder, 1, 1);
+  liveData.player.changeStatusValue(liveData.StatusEffects.Feeder, 2, 0);
   COMBAT.cleanupAfterCombat();
   liveData.player.orgasm();
 }
@@ -771,7 +776,7 @@ export function coreDropChance() {
   if (
     UTIL.rand(4) == 0 &&
     liveData.gameFlags[FLAG.SLIME_CRAVING] > 0 &&
-    liveData.player.findPerk(PerkLib.SlimeCore) < 0 &&
+    liveData.player.findPerk(liveData.PerkLib.SlimeCore) < 0 &&
     liveData.player.isGoo() &&
     liveData.player.gooScore() >= 4
   ) {
@@ -786,7 +791,7 @@ export function coreDropChance() {
     );
     //(Reduces Fluid Addiction to a 24 hour intake requirement).
     GUI.outputText('(<b>Gained New Perk: Slime Core - Moisture craving builds at a greatly reduced rate.</b>)');
-    liveData.player.createPerk(PerkLib.SlimeCore, 0, 0, 0, 0);
+    liveData.player.createPerk(liveData.PerkLib.SlimeCore, 0, 0, 0, 0);
   }
 }
 
@@ -1174,7 +1179,7 @@ export function femaleLoseToGooGal() {
     if (liveData.player.pregnancyIncubation >= 1)
       GUI.outputText("  Everything she pumped into you runs back out after.  For some reason or another, it didn't take.");
     else {
-      liveData.player.knockUp(ENUM.PregnancyType.PREGNANCY_GOO_GIRL, ENUM.IncubationType.INCUBATION_GOO_GIRL, 1, 1);
+      liveData.player.knockUp(ENUM.PregnancyType.GOO_GIRL, ENUM.IncubationType.GOO_GIRL, 1, 1);
     }
   }
   liveData.player.dynStats(['sen', 4]);

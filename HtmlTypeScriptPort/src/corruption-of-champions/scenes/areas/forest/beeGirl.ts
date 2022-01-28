@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, Creature, Items, StatusEffects, VenomType, UTIL, Inventory, Camp, Appearance, COMBAT, FLAG, KeyItems } from 'coc';
+import { liveData, ENUM, GUI, Creature, VenomType, UTIL, Inventory, Camp, Appearance, COMBAT, FLAG } from 'coc';
 
 export class BeeGirl extends Creature {
   constructor() {
@@ -40,28 +40,28 @@ export class BeeGirl extends Creature {
     this.tailVenom = 100;
     //Appearance
     this.tallness = UTIL.rand(14) + 59;
-    this.hipRating = ENUM.HipRatingType.HIP_RATING_CURVY + 3;
-    this.buttRating = ENUM.ButtRatingType.BUTT_RATING_EXPANSIVE;
-    this.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_BEE;
+    this.hipRating = ENUM.HipRatingType.CURVY + 3;
+    this.buttRating = ENUM.ButtRatingType.EXPANSIVE;
+    this.lowerBody = ENUM.LowerBodyType.BEE;
     this.skinTone = 'yellow';
     this.hairColor = UTIL.randomChoice('black', 'black and yellow');
     this.hairLength = 6;
-    this.antennae = ENUM.AntennaeType.ANTENNAE_BEE;
-    this.wingType = ENUM.WingType.WING_TYPE_BEE_LIKE_SMALL;
-    this.tailType = ENUM.TailType.TAIL_TYPE_BEE_ABDOMEN;
+    this.antennae = ENUM.AntennaeType.BEE;
+    this.wingType = ENUM.WingType.BEE_LIKE_SMALL;
+    this.tailType = ENUM.TailType.BEE_ABDOMEN;
 
     //Sexual characteristics
-    this.createVagina(false, ENUM.VaginalWetnessType.VAGINA_WETNESS_SLAVERING, ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING);
+    this.createVagina(false, ENUM.VaginalWetnessType.SLAVERING, ENUM.VaginalLoosenessType.GAPING);
     this.createBreastRow(Appearance.breastCupInverse('DD'));
-    this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_STRETCHED;
-    this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_NORMAL;
+    this.ass.analLooseness = ENUM.AnalLoosenessType.STRETCHED;
+    this.ass.analWetness = ENUM.AnalWetnessType.NORMAL;
 
     //Drops
     this.clearDrops(); //Need to be called before populating the item arrays.
-    this.addDrop(Items.Consumables.OviElixir, 5);
-    this.addDrop(Items.Consumables.WhiteBook, 5);
-    this.addDrop(Items.Consumables.BeeHoney, 50);
-    this.addDrop(Items.Materials.BeeChitin, 30);
+    this.addDrop(liveData.Items.Consumables.OviElixir, 5);
+    this.addDrop(liveData.Items.Consumables.WhiteBook, 5);
+    this.addDrop(liveData.Items.Consumables.BeeHoney, 50);
+    this.addDrop(liveData.Items.Materials.BeeChitin, 30);
 
     //Victory/defeat
     this.victory = beeGirlWin;
@@ -83,7 +83,7 @@ export class BeeGirl extends Creature {
   }
 
   stingAttack() {
-    if (liveData.monster.findStatusEffect(StatusEffects.Blind) >= 0) {
+    if (liveData.monster.findStatusEffect(liveData.StatusEffects.Blind) >= 0) {
       GUI.outputText(UTIL.capitalize(liveData.monster.a) + liveData.monster.refName + ' completely misses you with a blind sting!!');
       COMBAT.combatRoundOver();
       return;
@@ -125,7 +125,8 @@ export class BeeGirl extends Creature {
         if (liveData.player.sens > 50)
           GUI.outputText(' The sensitive nubs of your nipples rub tightly under your ' + liveData.player.armor.equipmentName + '.');
       } else GUI.outputText(' You shake your head and clear the thoughts from your head, focusing on the task at hand.');
-      if (liveData.player.findStatusEffect(StatusEffects.Venom) < 0) liveData.player.createStatusEffect(StatusEffects.Venom, VenomType.VENOM_TYPE_BEE, 0, 1, 0);
+      if (liveData.player.findStatusEffect(liveData.StatusEffects.Venom) < 0)
+        liveData.player.createStatusEffect(liveData.StatusEffects.Venom, VenomType.VENOM_TYPE_BEE, 0, 1, 0);
     }
     //Paralise the other 50%!
     else {
@@ -135,14 +136,14 @@ export class BeeGirl extends Creature {
           liveData.monster.refName +
           ' manages to sting you! You stagger back a step and nearly trip, finding it hard to move yourself.',
       );
-      const paralyzeIndex = liveData.player.findStatusEffect(StatusEffects.Venom);
+      const paralyzeIndex = liveData.player.findStatusEffect(liveData.StatusEffects.Venom);
       if (paralyzeIndex >= 0) {
-        liveData.player.addStatusValue(StatusEffects.Venom, 2, 2.9); //Loss to strength
-        liveData.player.addStatusValue(StatusEffects.Venom, 3, 2.9); //Loss to speed
+        liveData.player.addStatusValue(liveData.StatusEffects.Venom, 2, 2.9); //Loss to strength
+        liveData.player.addStatusValue(liveData.StatusEffects.Venom, 3, 2.9); //Loss to speed
         liveData.player.modStats(['str', -3], ['spe', -3]);
         GUI.outputText(" It's getting much harder to move, you're not sure how many more stings like that you can take!");
       } else {
-        liveData.player.createStatusEffect(StatusEffects.Venom, VenomType.VENOM_TYPE_BEE, 2, 2, 0);
+        liveData.player.createStatusEffect(liveData.StatusEffects.Venom, VenomType.VENOM_TYPE_BEE, 2, 2, 0);
         liveData.player.modStats(['str', -2], ['spe', -2]);
         GUI.outputText(" You've fallen prey to paralyzation venom! Better end this quick!");
       }
@@ -168,7 +169,7 @@ export function beeEncounter() {
   }
   //Chance to avoid the bee or not if smart enough...
   // if (liveData.player.hasKeyItem("Traveler's Guide") >= 0 && liveData.player.inte / 2 > UTIL.rand(40)) {
-  if (liveData.player.hasKeyItem(KeyItems.TravelersGuide) >= 0 && liveData.player.inte / 2 > UTIL.rand(40)) {
+  if (liveData.player.hasKeyItem(liveData.KeyItems.TravelersGuide) >= 0 && liveData.player.inte / 2 > UTIL.rand(40)) {
     GUI.outputText(
       "<br><br>You suddenly remember a passage from the Traveler's Guide about monstrous bees that lay eggs in unmentionable places. Of course, a brave champion would face any danger.<br><br><b>Do you proceed?</b>",
     );
@@ -190,7 +191,7 @@ export function beeEncounterSelect(clearScreen = false) {
             return;
         } */
 
-  if (liveData.player.findStatusEffect(StatusEffects.Infested) >= 0 || liveData.player.findStatusEffect(StatusEffects.WormPlugged) >= 0) {
+  if (liveData.player.findStatusEffect(liveData.StatusEffects.Infested) >= 0 || liveData.player.findStatusEffect(liveData.StatusEffects.WormPlugged) >= 0) {
     //Worms now mess with things too!
     beeEncounterWithWorms();
     return;
@@ -267,7 +268,7 @@ export function beeEncounterWithWorms() {
   );
   GUI.outputText(
     'The bee maiden puts her hands on your shoulders.  She draws you gently into a kiss, but as her sweet saliva prepares you for what is to come you feel one of your annelid passengers slither down ' +
-      (liveData.player.findStatusEffect(StatusEffects.WormPlugged) >= 0
+      (liveData.player.findStatusEffect(liveData.StatusEffects.WormPlugged) >= 0
         ? 'from your cervix and poke out of your cunt'
         : 'your urethra and wrap itself around the tip of your cock') +
       '.  The bee girl pulls back from the kiss, looks down and jumps back, the color draining from her face.<br><br>',
@@ -394,7 +395,7 @@ export function beeSexForCocks(clearScreen: boolean) {
     );
     liveData.player.orgasm();
     liveData.player.dynStats(['lib', 3], ['cor', -2]);
-    Inventory.takeItem(Items.Consumables.SpecialHoney, Camp.returnToCampUseFourHours);
+    Inventory.takeItem(liveData.Items.Consumables.SpecialHoney, Camp.returnToCampUseFourHours);
   }
 }
 
@@ -458,7 +459,7 @@ export function beeSexForCocksPart2(giantCockIndex: number): void {
   );
   liveData.player.orgasm();
   liveData.player.dynStats(['lib', 2], ['sen', 2], ['cor', -3]);
-  Inventory.takeItem(Items.Consumables.SpecialHoney, Camp.returnToCampUseFourHours);
+  Inventory.takeItem(liveData.Items.Consumables.SpecialHoney, Camp.returnToCampUseFourHours);
 }
 
 export function beeDroneBadEnd() {
@@ -475,15 +476,15 @@ export function beeDroneBadEnd() {
   GUI.outputText(
     "Her offer intrigues you incredibly, and you can't imagine turning her down, not now.  Once, you might have been able to turn away from it, but now that you've got this bee prick and have felt the release that bee's honey gives you, there's just no way.  You nod eagerly to the bee girl and <br><br>",
   );
-  if (liveData.player.wingType == ENUM.WingType.WING_TYPE_BEE_LIKE_LARGE) {
+  if (liveData.player.wingType == ENUM.WingType.BEE_LIKE_LARGE) {
     GUI.outputText('spread your wings.  She takes your hand and before rising up into the air and leading you home.<br><br>');
   } else {
     GUI.outputText('accept the bottle of special honey that she hands you which you down in an instant.  ');
-    if (liveData.player.wingType == ENUM.WingType.WING_TYPE_NONE) {
+    if (liveData.player.wingType == ENUM.WingType.NONE) {
       GUI.outputText(
         'At once your back starts to tingle, and a pair of bee wings erupt behind you, they quickly grow large and with a few experimental flaps you find that they can carry your weight.',
       );
-    } else if (liveData.player.wingType == ENUM.WingType.WING_TYPE_BEE_LIKE_SMALL) {
+    } else if (liveData.player.wingType == ENUM.WingType.BEE_LIKE_SMALL) {
       GUI.outputText(
         'Your wings tingle before suddenly growing much larger.  You test them for a moment finding that they are now big enough to allow you to fly!',
       );
@@ -615,8 +616,8 @@ export function beeMaidenPlay() {
         liveData.player.vaginaDescript(0) +
         ' and ',
     );
-    if (liveData.player.wetness() <= ENUM.VaginalWetnessType.VAGINA_WETNESS_NORMAL) GUI.outputText('barely');
-    else if (liveData.player.wetness() <= ENUM.VaginalWetnessType.VAGINA_WETNESS_SLICK) GUI.outputText('easily');
+    if (liveData.player.wetness() <= ENUM.VaginalWetnessType.NORMAL) GUI.outputText('barely');
+    else if (liveData.player.wetness() <= ENUM.VaginalWetnessType.SLICK) GUI.outputText('easily');
     else GUI.outputText('liberally');
     GUI.outputText(' cover them with your own fluids.<br><br>');
     GUI.outputText(
@@ -679,7 +680,7 @@ export function beeMaidenConversation() {
       GUI.outputText(
         "After giving you a chance to recover from the ordeal, your chitinous partner turns to you.  <i>“That wazzz fun, wazzzn't it?  We zzzhoud do thizzz again zzzome time, maybe get to know each other too?”</i> she says before handing you a small bottle filled with honey.  <i>“Zzzome of mine for you, take it.”</i>  With that, she spreads her wings and flies off giving you one last wave.<br><br>",
       );
-      Inventory.takeItem(Items.Consumables.PureHoney, Camp.returnToCampUseOneHour);
+      Inventory.takeItem(liveData.Items.Consumables.PureHoney, Camp.returnToCampUseOneHour);
       break;
     case 1:
       // conversation = 2
@@ -689,7 +690,7 @@ export function beeMaidenConversation() {
           liveData.player.armorName +
           " back on before going too far.  You turn back just in time to see an imp jump into the bee's arms.<br><br>",
       );
-      Inventory.takeItem(Items.Consumables.PureHoney, Camp.returnToCampUseOneHour);
+      Inventory.takeItem(liveData.Items.Consumables.PureHoney, Camp.returnToCampUseOneHour);
       break;
     case 2:
       // conversation = 3
@@ -709,7 +710,7 @@ export function beeMaidenConversation() {
           "She looks back up at you with an excited look on her face and hands you another bottle of her honey before saying, <i>“Don't worry zzzizzzter, I'll try to think of zzzomthing!”</i>   With that she spreads her wings and flies off.  You're surprised to see she left so suddenly like that.  Her abdomen is still full of eggs and she left her bag behind (you take a look inside it, but all you find is a bottle of her honey)...  She'll probably be back for that before too long.  You shrug your shoulders, get dressed, gather up your things, and head back towards camp.<br><br>",
         );
       }
-      Inventory.takeItem(Items.Consumables.PureHoney, Camp.returnToCampUseOneHour);
+      Inventory.takeItem(liveData.Items.Consumables.PureHoney, Camp.returnToCampUseOneHour);
       break;
     case 3:
       // conversation = 4
@@ -1106,7 +1107,7 @@ export function beeEncounterAfraidFirstTimeSex() {
       "You rub your abdomen, feeling her ovipositor deep inside you.  You smile, it's time to pick up the pace and lift up your body, then drop it back down, impaling yourself on the intruder.  You love every second of it, but the sensations aren't as overwhelming as the handmaiden seems to be finding them.  All she can do at this point is hold onto you as tightly as she can, unable to to do anything else at this point as she pants, moans, and screams from the sensation overload from her ovipositor.  Suddenly there is a sharp stinging feeling in your " +
         liveData.player.nippleDescript(0) +
         ' as the bee girl bites down in orgasm, causing you to be pushed over the edge as well.  ' +
-        (liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.VAGINA_WETNESS_WET
+        (liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.WET
           ? 'This leads to you liberally drenching your lower body and hers with'
           : 'This brings out a small spray of') +
         ' girl fluids from your ' +
@@ -1189,7 +1190,7 @@ export function beeEncounterAfraidRepeatSex() {
     GUI.outputText(
       'Inserting the organ into your body is a slow but sure process.  The lubrication makes it much easier to get the organ inside you, but you can definitely feel it stretching your rear entrance out.  ',
     );
-    if (liveData.player.ass.analLooseness == ENUM.AnalLoosenessType.ANAL_LOOSENESS_VIRGIN)
+    if (liveData.player.ass.analLooseness == ENUM.AnalLoosenessType.VIRGIN)
       GUI.outputText("<b>Well, at least you're losing your anal virginity willingly.  That's something to be said in this world.</b>");
     else GUI.outputText('<b>Your ' + liveData.player.assholeDescript() + ' has become looser thanks to the knotted appendage penetrating you.</b>');
     liveData.player.buttChange(25, true);
@@ -1249,18 +1250,18 @@ export function beeEncounterAfraidRepeatSex() {
   liveData.player.slimeFeed();
   switch (UTIL.rand(10)) {
     case 0:
-      Inventory.takeItem(Items.Consumables.WhiteBook, Camp.returnToCampUseOneHour);
+      Inventory.takeItem(liveData.Items.Consumables.WhiteBook, Camp.returnToCampUseOneHour);
       break;
     case 1:
     case 2:
-      Inventory.takeItem(Items.Consumables.OviElixir, Camp.returnToCampUseOneHour);
+      Inventory.takeItem(liveData.Items.Consumables.OviElixir, Camp.returnToCampUseOneHour);
       break;
     case 3:
     case 4:
-      Inventory.takeItem(Items.Materials.BeeChitin, Camp.returnToCampUseOneHour);
+      Inventory.takeItem(liveData.Items.Materials.BeeChitin, Camp.returnToCampUseOneHour);
       break;
     default:
-      Inventory.takeItem(Items.Consumables.PureHoney, Camp.returnToCampUseOneHour);
+      Inventory.takeItem(liveData.Items.Consumables.PureHoney, Camp.returnToCampUseOneHour);
   }
 }
 
@@ -1325,7 +1326,7 @@ export function freeHoneyEvent() {
   GUI.outputText(
     'She waves and stretches, picking up her pack and buzzing her wings as she takes off.  She blows a kiss over her shoulder and flies away, leaving you to return to your camp...',
   );
-  Inventory.takeItem(Items.Consumables.PureHoney, Camp.returnToCampUseOneHour);
+  Inventory.takeItem(liveData.Items.Consumables.PureHoney, Camp.returnToCampUseOneHour);
 }
 
 // Just talk with a bee, leads to Afraid/Disgusted/Duty attitude options
@@ -1832,13 +1833,13 @@ export function beeEncounterClassicSex(postCombat = true) {
     }
     //Coochie talk!
     else {
-      if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_WET) GUI.outputText('centering around your now puffy vulva.  ');
+      if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.WET) GUI.outputText('centering around your now puffy vulva.  ');
       if (
-        liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.VAGINA_WETNESS_WET &&
-        liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING
+        liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.WET &&
+        liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.DROOLING
       )
         GUI.outputText('growing more potent around your ' + liveData.player.vaginaDescript(0) + ' as it begins to leak with the honey of your desire.  ');
-      if (liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING)
+      if (liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.DROOLING)
         GUI.outputText(
           'inflaming your ' + liveData.player.vaginaDescript(0) + ' with need, and allowing a river of your wetness to gush from between your puffy vulva.  ',
         );
@@ -1924,14 +1925,14 @@ export function beeGirlWin() {
     GUI.menu();
     GUI.addButton(0, 'Rape', rapeTheBeeGirl, null, null, null, 'TO BE ADDED');
     // if (liveData.player.hasKeyItem("Deluxe Dildo")) {
-    if (liveData.player.hasKeyItem(KeyItems.DeluxeDildo)) {
+    if (liveData.player.hasKeyItem(liveData.KeyItems.DeluxeDildo)) {
       GUI.addButton(1, 'Dildo Rape', beeGirlsGetsDildoed, null, null, null, 'TO BE ADDED');
     }
-    if (liveData.player.findStatusEffect(StatusEffects.Feeder) >= 0) {
+    if (liveData.player.findStatusEffect(liveData.StatusEffects.Feeder) >= 0) {
       GUI.addButton(2, 'Bee Feed', milkAndHoneyAreKindaFunny, null, null, null, 'TO BE ADDED');
     }
     GUI.addButton(3, 'Leave', leaveAfterDefeating, null, null, null, 'TO BE ADDED');
-  } else if (liveData.player.findStatusEffect(StatusEffects.Feeder) >= 0 && liveData.gameFlags[FLAG.SFW_MODE] <= 0) {
+  } else if (liveData.player.findStatusEffect(liveData.StatusEffects.Feeder) >= 0 && liveData.gameFlags[FLAG.SFW_MODE] <= 0) {
     //Genderless can still breastfeed
     if (liveData.monster.HP <= 0) {
       GUI.outputText(
@@ -1978,10 +1979,7 @@ export function rapeTheBeeGirl() {
   //OPTIONS HERE!
 
   GUI.menu();
-  if (
-    liveData.player.canOvipositSpider() &&
-    (liveData.player.faceType == ENUM.FaceType.FACE_SNAKE_FANGS || liveData.player.faceType == ENUM.FaceType.FACE_SPIDER_FANGS)
-  ) {
+  if (liveData.player.canOvipositSpider() && (liveData.player.faceType == ENUM.FaceType.SnakeFangs || liveData.player.faceType == ENUM.FaceType.SpiderFangs)) {
     GUI.addButton(8, 'Lay Eggs', layEggsInABeeSpiderLike);
     GUI.outputText('(You could dose her with venom and lay YOUR eggs in her.)<br>');
   }
@@ -2001,17 +1999,14 @@ export function rapeTheBeeGirl() {
     GUI.outputText("(You could try to please both your 'male' and 'female' halves on the bee.)<br>");
     GUI.addButton(3, 'Herm Fuck', futaRapesBeeGirl);
   }
-  if (liveData.player.isNaga() && liveData.player.faceType == ENUM.FaceType.FACE_SNAKE_FANGS) {
+  if (liveData.player.isNaga() && liveData.player.faceType == ENUM.FaceType.SnakeFangs) {
     GUI.outputText("(You could focus on your snakelike, 'naga' attributes.)<br>");
     GUI.addButton(4, 'Naga Fuck', corruptNagaBitchesRapeABee);
   }
   if (
     liveData.player.cor >= 75 &&
     liveData.player.str >= 60 &&
-    (liveData.player.tongueType == ENUM.TongueType.TONGUE_SNAKE ||
-      liveData.player.hasCock() ||
-      liveData.player.hasVagina() ||
-      liveData.player.biggestTitSize() >= 4)
+    (liveData.player.tongueType == ENUM.TongueType.Snake || liveData.player.hasCock() || liveData.player.hasVagina() || liveData.player.biggestTitSize() >= 4)
   ) {
     GUI.outputText('(You could play with her a bit and try to make her lay eggs into herself.)<br>');
     GUI.addButton(5, 'Gentleman', beeGirlRapeForTheDistinguishedGentleman);
@@ -2589,18 +2584,18 @@ export function rapeABeeGirlWithYourVagina() {
     }
     //new PG
     else GUI.outputText('<br><br>');
-    if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_SLICK)
+    if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.SLICK)
       GUI.outputText(
         "Thankfully her tongue keeps up its assault, curling 'round your clit and probing your depths in equal measure, keeping you slick and writhing in pleasure.  ",
       );
     if (
-      liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.VAGINA_WETNESS_SLICK &&
-      liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_SLAVERING
+      liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.SLICK &&
+      liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.SLAVERING
     )
       GUI.outputText(
         'Your hips wiggle and writhe on the length of her tongue as it dives into your slippery depths and curls tightly around your clit, jacking it up and down like a cock.  Your girl-cum soaks her chin, drooling happily as she pleasures you.  ',
       );
-    if (liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.VAGINA_WETNESS_SLAVERING)
+    if (liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.SLAVERING)
       GUI.outputText(
         'Your hips quiver and grind against her face as her unusually long tongue simultaneously probes your depths and works your clit, wrapping around it and jerking it like a cock.   You squirt and drool constantly from her skilled assault, soaking her face and hair with your girl-cum.  ',
       );
@@ -2651,14 +2646,14 @@ export function futaRapesBeeGirl() {
         '.  ',
     );
   GUI.outputText('You step forwards, straddling her and rubbing your outer lips in preparation.  ');
-  if (liveData.player.vaginas[0].vaginalWetness <= ENUM.VaginalWetnessType.VAGINA_WETNESS_NORMAL)
+  if (liveData.player.vaginas[0].vaginalWetness <= ENUM.VaginalWetnessType.NORMAL)
     GUI.outputText('Your ' + liveData.player.vaginaDescript(0) + ' becomes puffy and moist with excitement, ready for what you have planned.');
   if (
-    liveData.player.vaginas[0].vaginalWetness > ENUM.VaginalWetnessType.VAGINA_WETNESS_NORMAL &&
-    liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING
+    liveData.player.vaginas[0].vaginalWetness > ENUM.VaginalWetnessType.NORMAL &&
+    liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.DROOLING
   )
     GUI.outputText('Your ' + liveData.player.vaginaDescript(0) + ' squicks wetly from your gentle ministrations as your vulva become sensitive and engorged.');
-  if (liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING)
+  if (liveData.player.vaginas[0].vaginalWetness >= ENUM.VaginalWetnessType.DROOLING)
     GUI.outputText(
       'Your ' +
         liveData.player.vaginaDescript(0) +
@@ -2835,7 +2830,7 @@ export function beeGirlRapeForTheDistinguishedGentleman() {
 
   //[random effects: roll for one
   const choices: number[] = [];
-  if (liveData.player.tongueType == ENUM.TongueType.TONGUE_SNAKE) choices[choices.length] = 0;
+  if (liveData.player.tongueType == ENUM.TongueType.Snake) choices[choices.length] = 0;
   if (liveData.player.hasCock()) choices[choices.length] = 1;
   if (liveData.player.hasVagina()) choices[choices.length] = 2;
   if (liveData.player.biggestTitSize() >= 4) choices[choices.length] = 3;
@@ -3205,9 +3200,9 @@ export function nagaRapesPt2TheExtremeContinuationOfAwesome() {
   }
   //[Player is female]
   else if (liveData.player.gender == 2 || (liveData.player.gender == 3 && UTIL.rand(2) == 0)) {
-    if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_WET) GUI.outputText('Damp');
-    else if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING) GUI.outputText('Wet');
-    else if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_SLAVERING) GUI.outputText('Dripping');
+    if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.WET) GUI.outputText('Damp');
+    else if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.DROOLING) GUI.outputText('Wet');
+    else if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.SLAVERING) GUI.outputText('Dripping');
     else GUI.outputText('Soaking');
     GUI.outputText(
       ' with lubrication, you demand to be satisfied. With one hand you point to your ' +
@@ -3238,9 +3233,9 @@ export function nagaRapesPt2TheExtremeContinuationOfAwesome() {
     );
 
     GUI.outputText('A feeling like the urge to pee overwhelms you, and lost inside to your pleasure, you give in.  ');
-    if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_SLICK) GUI.outputText('A few drops ');
-    else if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING) GUI.outputText('A gush ');
-    else if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_SLAVERING) GUI.outputText('Wave after wave ');
+    if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.SLICK) GUI.outputText('A few drops ');
+    else if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.DROOLING) GUI.outputText('A gush ');
+    else if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.SLAVERING) GUI.outputText('Wave after wave ');
     else GUI.outputText('Buckets ');
     GUI.outputText(
       'of female ejaculate sluice down her cheeks and she coos happily. She retracts her tongue and presses her face into your tender flesh, pantomiming affection but still looking up at you blankly.<br><br>',
@@ -3416,8 +3411,8 @@ export function milkAndHoneyAreKindaFunny() {
   liveData.player.dynStats(['lib', 0.2]);
   liveData.player.changeLust(-50);
   //You've now been milked, reset the timer for that
-  liveData.player.addStatusValue(StatusEffects.Feeder, 1, 1);
-  liveData.player.changeStatusValue(StatusEffects.Feeder, 2, 0);
+  liveData.player.addStatusValue(liveData.StatusEffects.Feeder, 1, 1);
+  liveData.player.changeStatusValue(liveData.StatusEffects.Feeder, 2, 0);
   COMBAT.cleanupAfterCombat();
 }
 
@@ -3428,7 +3423,7 @@ export function layEggsInABeeSpiderLike() {
   GUI.outputText(
     "You stand over the defeated bee, sizing up your latest catch.  She watches you fearfully as your gaze slides down her prone form, taking in every inch of her body.  Your eyes stop over her abdomen as you notice the girl's dripping, barely concealed ovipositor.  A wide",
   );
-  if (liveData.player.faceType == ENUM.FaceType.FACE_SNAKE_FANGS || liveData.player.faceType == ENUM.FaceType.FACE_SPIDER_FANGS) GUI.outputText(', fanged');
+  if (liveData.player.faceType == ENUM.FaceType.SnakeFangs || liveData.player.faceType == ENUM.FaceType.SpiderFangs) GUI.outputText(', fanged');
   GUI.outputText(
     'smile breaks across your face, and your captive quivers in response.  Her eyes flick from your mouth to your spider half, and she shivers again.',
   );
@@ -3960,7 +3955,8 @@ export function beeRapesYou() {
   else {
     //Male + venomz
     if (
-      (liveData.player.findStatusEffect(StatusEffects.ParalyzeVenom) >= 0 || liveData.player.findStatusEffect(StatusEffects.LustVenom) >= 0) &&
+      (liveData.player.findStatusEffect(liveData.StatusEffects.ParalyzeVenom) >= 0 ||
+        liveData.player.findStatusEffect(liveData.StatusEffects.LustVenom) >= 0) &&
       !sexed &&
       liveData.player.cockTotal() == 1
     ) {

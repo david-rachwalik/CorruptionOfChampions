@@ -287,6 +287,4 @@ class PerkTypeContainer {
   }
 }
 
-const PerkLib = new PerkTypeContainer();
-
-export { PerkLib };
+export { PerkTypeContainer };

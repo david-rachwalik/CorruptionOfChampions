@@ -1,4 +1,4 @@
-import { liveData, ENUM, UTIL, Creature, StatusEffects } from 'coc';
+import { liveData, ENUM, UTIL, Creature } from 'coc';
 
 // Eventually, this should contain the entire char appearance.
 // At the moment, it's pretty piecemeal.
@@ -70,11 +70,11 @@ export function hairDescription(i_creature: Creature): string {
   //
   //If furry and longish hair sometimes call it a mane (50%)
   if (i_creature.skinType == 1 && i_creature.hairLength > 3 && UTIL.rand(2) == 0) {
-    if (i_creature.hairType == ENUM.HairType.HAIR_FEATHER) description += 'feather-';
-    else if (i_creature.hairType == ENUM.HairType.HAIR_GHOST) description += 'transparent ';
-    else if (i_creature.hairType == ENUM.HairType.HAIR_GOO) description += 'goo-';
-    else if (i_creature.hairType == ENUM.HairType.HAIR_ANEMONE) description += 'tentacle-';
-    else if (i_creature.hairType == ENUM.HairType.HAIR_QUILL) description += 'quill-';
+    if (i_creature.hairType == ENUM.HairType.Feather) description += 'feather-';
+    else if (i_creature.hairType == ENUM.HairType.Ghost) description += 'transparent ';
+    else if (i_creature.hairType == ENUM.HairType.Goo) description += 'goo-';
+    else if (i_creature.hairType == ENUM.HairType.Anemone) description += 'tentacle-';
+    else if (i_creature.hairType == ENUM.HairType.Quill) description += 'quill-';
     description += 'mane';
     return description;
   }
@@ -85,11 +85,11 @@ export function hairDescription(i_creature: Creature): string {
         return descript;
         }*/
   //If nothing else used, use hair!
-  if (i_creature.hairType == ENUM.HairType.HAIR_FEATHER) description += 'feather-';
-  else if (i_creature.hairType == ENUM.HairType.HAIR_GHOST) description += 'transparent ';
-  else if (i_creature.hairType == ENUM.HairType.HAIR_GOO) description += 'goo-';
-  else if (i_creature.hairType == ENUM.HairType.HAIR_ANEMONE) description += 'tentacle-';
-  else if (i_creature.hairType == ENUM.HairType.HAIR_QUILL) description += 'quill-';
+  if (i_creature.hairType == ENUM.HairType.Feather) description += 'feather-';
+  else if (i_creature.hairType == ENUM.HairType.Ghost) description += 'transparent ';
+  else if (i_creature.hairType == ENUM.HairType.Goo) description += 'goo-';
+  else if (i_creature.hairType == ENUM.HairType.Anemone) description += 'tentacle-';
+  else if (i_creature.hairType == ENUM.HairType.Quill) description += 'quill-';
   description += 'hair';
 
   return description;
@@ -292,7 +292,7 @@ export function nippleDescription(i_creature: Creature, i_rowNum: number): strin
     options = ['slime-slick ', 'goopy ', 'slippery '];
     description += UTIL.randomChoice(options);
   }
-  if (!haveDescription && i_creature.findStatusEffect(StatusEffects.BlackNipples) >= 0) {
+  if (!haveDescription && i_creature.findStatusEffect(liveData.StatusEffects.BlackNipples) >= 0) {
     options = ['black ', 'ebony ', 'sable '];
     description += UTIL.randomChoice(options);
   }
@@ -398,7 +398,7 @@ export function cockDescript(creature: Creature, cockIndex = 0): string {
   }
   const isPierced = creature.cocks.length == 1 && creature.cocks[cockIndex].pierced; //Only describe as pierced or sock covered if the creature has just one cock
   const hasSock = creature.cocks.length == 1 && creature.cocks[cockIndex].sock != '';
-  const isGooey = creature.skinType == ENUM.SkinType.SKIN_TYPE_GOO;
+  const isGooey = creature.skinType == ENUM.SkinType.Goo;
   return cockDescription(
     cockType,
     creature.cocks[cockIndex].cockLength,
@@ -831,7 +831,7 @@ export function ballsDescription(i_forcedSize: boolean, i_plural: boolean, i_cre
   let description = '';
   let options;
 
-  if (i_plural && i_creature.findStatusEffect(StatusEffects.Uniball) < 0) {
+  if (i_plural && i_creature.findStatusEffect(liveData.StatusEffects.Uniball) < 0) {
     if (i_creature.balls == 1) {
       if (i_withArticle) {
         options = ['a single', 'a solitary', 'a lone', 'an individual'];
@@ -879,7 +879,7 @@ export function ballsDescription(i_forcedSize: boolean, i_plural: boolean, i_cre
     else if (i_creature.ballSize > 1) description += 'large';
   }
   //UNIBALL
-  if (i_creature.findStatusEffect(StatusEffects.Uniball) >= 0) {
+  if (i_creature.findStatusEffect(liveData.StatusEffects.Uniball) >= 0) {
     if (description) description += ' ';
     options = ['tightly-compressed', 'snug', 'cute', 'pleasantly squeezed', 'compressed-together'];
     description += UTIL.randomChoice(options);
@@ -911,7 +911,7 @@ export function ballsDescription(i_forcedSize: boolean, i_plural: boolean, i_cre
   description += UTIL.randomChoice(options);
   if (i_plural) description += 's';
 
-  if (i_creature.findStatusEffect(StatusEffects.Uniball) >= 0 && UTIL.rand(2) == 0) {
+  if (i_creature.findStatusEffect(liveData.StatusEffects.Uniball) >= 0 && UTIL.rand(2) == 0) {
     if (UTIL.rand(3) == 0) description += ' merged into a cute, spherical package';
     else if (UTIL.rand(2) == 0) description += ' combined into a round, girlish shape';
     else description += ' squeezed together into a perky, rounded form';
@@ -1391,12 +1391,12 @@ export function assholeDescript(i_creature: Creature, forceDesc = false): string
 
   // 66% Wetness Descript
   const ANAL_WETNESS_DESCRIPTORS: string[] = [];
-  ANAL_WETNESS_DESCRIPTORS[ENUM.AnalWetnessType.ANAL_WETNESS_DRY] = '';
-  ANAL_WETNESS_DESCRIPTORS[ENUM.AnalWetnessType.ANAL_WETNESS_NORMAL] = '';
-  ANAL_WETNESS_DESCRIPTORS[ENUM.AnalWetnessType.ANAL_WETNESS_MOIST] = 'moist ';
-  ANAL_WETNESS_DESCRIPTORS[ENUM.AnalWetnessType.ANAL_WETNESS_SLIMY] = 'slimy ';
-  ANAL_WETNESS_DESCRIPTORS[ENUM.AnalWetnessType.ANAL_WETNESS_DROOLING] = 'drooling ';
-  ANAL_WETNESS_DESCRIPTORS[ENUM.AnalWetnessType.ANAL_WETNESS_SLIME_DROOLING] = 'slime-drooling ';
+  ANAL_WETNESS_DESCRIPTORS[ENUM.AnalWetnessType.DRY] = '';
+  ANAL_WETNESS_DESCRIPTORS[ENUM.AnalWetnessType.NORMAL] = '';
+  ANAL_WETNESS_DESCRIPTORS[ENUM.AnalWetnessType.MOIST] = 'moist ';
+  ANAL_WETNESS_DESCRIPTORS[ENUM.AnalWetnessType.SLIMY] = 'slimy ';
+  ANAL_WETNESS_DESCRIPTORS[ENUM.AnalWetnessType.DROOLING] = 'drooling ';
+  ANAL_WETNESS_DESCRIPTORS[ENUM.AnalWetnessType.SLIME_DROOLING] = 'slime-drooling ';
 
   if (forceDesc || UTIL.rand(3) <= 1) {
     description += ANAL_WETNESS_DESCRIPTORS[i_creature.ass.analWetness];
@@ -1404,12 +1404,12 @@ export function assholeDescript(i_creature: Creature, forceDesc = false): string
 
   // let ANAL_TIGHTNESS_DESCRIPTORS: { [key: number]: string } = {}
   const ANAL_TIGHTNESS_DESCRIPTORS: string[] = [];
-  ANAL_TIGHTNESS_DESCRIPTORS[ENUM.AnalLoosenessType.ANAL_LOOSENESS_VIRGIN] = 'virgin ';
-  ANAL_TIGHTNESS_DESCRIPTORS[ENUM.AnalLoosenessType.ANAL_LOOSENESS_TIGHT] = 'tight ';
-  ANAL_TIGHTNESS_DESCRIPTORS[ENUM.AnalLoosenessType.ANAL_LOOSENESS_NORMAL] = 'loose ';
-  ANAL_TIGHTNESS_DESCRIPTORS[ENUM.AnalLoosenessType.ANAL_LOOSENESS_LOOSE] = 'roomy ';
-  ANAL_TIGHTNESS_DESCRIPTORS[ENUM.AnalLoosenessType.ANAL_LOOSENESS_STRETCHED] = 'stretched ';
-  ANAL_TIGHTNESS_DESCRIPTORS[ENUM.AnalLoosenessType.ANAL_LOOSENESS_GAPING] = 'gaping ';
+  ANAL_TIGHTNESS_DESCRIPTORS[ENUM.AnalLoosenessType.VIRGIN] = 'virgin ';
+  ANAL_TIGHTNESS_DESCRIPTORS[ENUM.AnalLoosenessType.TIGHT] = 'tight ';
+  ANAL_TIGHTNESS_DESCRIPTORS[ENUM.AnalLoosenessType.NORMAL] = 'loose ';
+  ANAL_TIGHTNESS_DESCRIPTORS[ENUM.AnalLoosenessType.LOOSE] = 'roomy ';
+  ANAL_TIGHTNESS_DESCRIPTORS[ENUM.AnalLoosenessType.STRETCHED] = 'stretched ';
+  ANAL_TIGHTNESS_DESCRIPTORS[ENUM.AnalLoosenessType.GAPING] = 'gaping ';
 
   //25% tightness description
   if (forceDesc || UTIL.rand(4) == 0 || (i_creature.ass.analLooseness <= 1 && UTIL.rand(4) <= 2)) {
@@ -1426,6 +1426,20 @@ export function assholeDescript(i_creature: Creature, forceDesc = false): string
 }
 
 export function wingsDescript(i_creature: Creature): string {
+  const DEFAULT_WING_NAMES: [number, string][] = [
+    [ENUM.WingType.NONE, 'non-existant'],
+    [ENUM.WingType.BEE_LIKE_SMALL, 'small bee-like'],
+    [ENUM.WingType.BEE_LIKE_LARGE, 'large bee-like'],
+    [ENUM.WingType.HARPY, 'harpy'],
+    [ENUM.WingType.IMP, 'imp'],
+    [ENUM.WingType.BAT_LIKE_TINY, 'tiny bat-like'],
+    [ENUM.WingType.BAT_LIKE_LARGE, 'large bat-like'],
+    [ENUM.WingType.SHARK_FIN, 'shark fin'],
+    [ENUM.WingType.FEATHERED_LARGE, 'large feathered'],
+    [ENUM.WingType.DRACONIC_SMALL, 'small draconic'],
+    [ENUM.WingType.DRACONIC_LARGE, 'large draconic'],
+    [ENUM.WingType.GIANT_DRAGONFLY, 'giant dragonfly'],
+  ];
   return DEFAULT_WING_NAMES[i_creature.wingType] + ' wings';
 }
 
@@ -1554,261 +1568,221 @@ export function breastCupInverse(name: string, defaultValue = 0): number {
   return defaultValue;
 }
 
-export const DEFAULT_GENDER_NAMES: [number, string][] = [
-  [ENUM.GenderType.GENDER_NONE, 'genderless'],
-  [ENUM.GenderType.GENDER_MALE, 'male'],
-  [ENUM.GenderType.GENDER_FEMALE, 'female'],
-  [ENUM.GenderType.GENDER_HERM, 'hermaphrodite'],
-];
-export const DEFAULT_SKIN_NAMES: [number, string][] = [
-  [ENUM.SkinType.SKIN_TYPE_PLAIN, 'skin'],
-  [ENUM.SkinType.SKIN_TYPE_FUR, 'fur'],
-  [ENUM.SkinType.SKIN_TYPE_SCALES, 'scales'],
-  [ENUM.SkinType.SKIN_TYPE_GOO, 'goo'],
-  [ENUM.SkinType.SKIN_TYPE_UNDEFINED, 'undefined flesh'],
-];
-export const DEFAULT_SKIN_DESCS: [number, string][] = [
-  [ENUM.SkinType.SKIN_TYPE_PLAIN, 'skin'],
-  [ENUM.SkinType.SKIN_TYPE_FUR, 'fur'],
-  [ENUM.SkinType.SKIN_TYPE_SCALES, 'scales'],
-  [ENUM.SkinType.SKIN_TYPE_GOO, 'skin'],
-  [ENUM.SkinType.SKIN_TYPE_UNDEFINED, 'skin'],
-];
-export const DEFAULT_HAIR_NAMES: [number, string][] = [
-  [ENUM.HairType.HAIR_NORMAL, 'normal'],
-  [ENUM.HairType.HAIR_FEATHER, 'feather'],
-  [ENUM.HairType.HAIR_GHOST, 'transparent'],
-  [ENUM.HairType.HAIR_GOO, 'goopy'],
-  [ENUM.HairType.HAIR_ANEMONE, 'tentacle'],
-  [ENUM.HairType.HAIR_QUILL, 'quill'],
-];
-export const DEFAULT_BEARD_NAMES: [number, string][] = [
-  [ENUM.BeardType.BEARD_NORMAL, 'normal'],
-  [ENUM.BeardType.BEARD_GOATEE, 'goatee'],
-];
-export const DEFAULT_FACE_NAMES: [number, string][] = [
-  [ENUM.FaceType.FACE_HUMAN, 'human'],
-  [ENUM.FaceType.FACE_HORSE, 'horse'],
-  [ENUM.FaceType.FACE_DOG, 'dog'],
-  [ENUM.FaceType.FACE_COW_MINOTAUR, 'cow'],
-  [ENUM.FaceType.FACE_SHARK_TEETH, 'shark'],
-  [ENUM.FaceType.FACE_SNAKE_FANGS, 'snake'],
-  [ENUM.FaceType.FACE_CAT, 'cat'],
-  [ENUM.FaceType.FACE_LIZARD, 'lizard'],
-  [ENUM.FaceType.FACE_BUNNY, 'bunny'],
-  [ENUM.FaceType.FACE_KANGAROO, 'kangaroo'],
-  [ENUM.FaceType.FACE_SPIDER_FANGS, 'spider'],
-  [ENUM.FaceType.FACE_FOX, 'fox'],
-  [ENUM.FaceType.FACE_DRAGON, 'dragon'],
-  [ENUM.FaceType.FACE_RACCOON_MASK, 'raccoon mask'],
-  [ENUM.FaceType.FACE_RACCOON, 'racoon'],
-  [ENUM.FaceType.FACE_BUCKTEETH, 'buckteeth'],
-  [ENUM.FaceType.FACE_MOUSE, 'mouse'],
-  [ENUM.FaceType.FACE_FERRET_MASK, 'ferret mask'],
-  [ENUM.FaceType.FACE_FERRET, 'ferret'],
-  [ENUM.FaceType.FACE_PIG, 'pig'],
-  [ENUM.FaceType.FACE_BOAR, 'boar'],
-  [ENUM.FaceType.FACE_RHINO, 'rhino'],
-  [ENUM.FaceType.FACE_ECHIDNA, 'echidna'],
-  [ENUM.FaceType.FACE_DEER, 'deer'],
-];
-export const DEFAULT_TONGUE_NAMES: [number, string][] = [
-  [ENUM.TongueType.TONGUE_HUMAN, 'human'],
-  [ENUM.TongueType.TONGUE_SNAKE, 'snake'],
-  [ENUM.TongueType.TONGUE_DEMONIC, 'demonic'],
-  [ENUM.TongueType.TONGUE_DRACONIC, 'draconic'],
-  [ENUM.TongueType.TONGUE_ECHIDNA, 'echidna'],
-];
-export const DEFAULT_EYES_NAMES: [number, string][] = [
-  [ENUM.EyeType.EYES_HUMAN, 'human'],
-  [ENUM.EyeType.EYES_FOUR_SPIDER_EYES, '4 spider'],
-  [ENUM.EyeType.EYES_BLACK_EYES_SAND_TRAP, 'sandtrap black'],
-];
-export const DEFAULT_EARS_NAMES: [number, string][] = [
-  [ENUM.EarType.EARS_HUMAN, 'human'],
-  [ENUM.EarType.EARS_HORSE, 'horse'],
-  [ENUM.EarType.EARS_DOG, 'dog'],
-  [ENUM.EarType.EARS_COW, 'cow'],
-  [ENUM.EarType.EARS_ELFIN, 'elfin'],
-  [ENUM.EarType.EARS_CAT, 'cat'],
-  [ENUM.EarType.EARS_LIZARD, 'lizard'],
-  [ENUM.EarType.EARS_BUNNY, 'bunny'],
-  [ENUM.EarType.EARS_KANGAROO, 'kangaroo'],
-  [ENUM.EarType.EARS_FOX, 'fox'],
-  [ENUM.EarType.EARS_DRAGON, 'dragon'],
-  [ENUM.EarType.EARS_RACCOON, 'raccoon'],
-  [ENUM.EarType.EARS_MOUSE, 'mouse'],
-  [ENUM.EarType.EARS_FERRET, 'ferret'],
-  [ENUM.EarType.EARS_PIG, 'pig'],
-  [ENUM.EarType.EARS_RHINO, 'rhino'],
-  [ENUM.EarType.EARS_ECHIDNA, 'echidna'],
-  [ENUM.EarType.EARS_DEER, 'deer'],
-];
-export const DEFAULT_HORNS_NAMES: [number, string][] = [
-  [ENUM.HornType.HORNS_NONE, 'non-existant'],
-  [ENUM.HornType.HORNS_DEMON, 'demon'],
-  [ENUM.HornType.HORNS_COW_MINOTAUR, 'cow'],
-  [ENUM.HornType.HORNS_DRACONIC_X2, '2 draconic'],
-  [ENUM.HornType.HORNS_DRACONIC_X4_12_INCH_LONG, 'four 12" long draconic'],
-  [ENUM.HornType.HORNS_ANTLERS, 'deer'],
-  [ENUM.HornType.HORNS_GOAT, 'goat'],
-  [ENUM.HornType.HORNS_RHINO, 'rhino'],
-];
-export const DEFAULT_ANTENNAE_NAMES: [number, string][] = [
-  [ENUM.AntennaeType.ANTENNAE_NONE, 'non-existant'],
-  [ENUM.AntennaeType.ANTENNAE_BEE, 'bee'],
-];
-export const DEFAULT_ARM_NAMES: [number, string][] = [
-  [ENUM.ArmType.ARM_TYPE_HUMAN, 'human'],
-  [ENUM.ArmType.ARM_TYPE_HARPY, 'harpy'],
-  [ENUM.ArmType.ARM_TYPE_SPIDER, 'spider'],
-];
-export const DEFAULT_TAIL_NAMES: [number, string][] = [
-  [ENUM.TailType.TAIL_TYPE_NONE, 'non-existant'],
-  [ENUM.TailType.TAIL_TYPE_HORSE, 'horse'],
-  [ENUM.TailType.TAIL_TYPE_DOG, 'dog'],
-  [ENUM.TailType.TAIL_TYPE_DEMONIC, 'demonic'],
-  [ENUM.TailType.TAIL_TYPE_COW, 'cow'],
-  [ENUM.TailType.TAIL_TYPE_SPIDER_ADBOMEN, 'spider abdomen'],
-  [ENUM.TailType.TAIL_TYPE_BEE_ABDOMEN, 'bee abdomen'],
-  [ENUM.TailType.TAIL_TYPE_SHARK, 'shark'],
-  [ENUM.TailType.TAIL_TYPE_CAT, 'cat'],
-  [ENUM.TailType.TAIL_TYPE_LIZARD, 'lizard'],
-  [ENUM.TailType.TAIL_TYPE_RABBIT, 'rabbit'],
-  [ENUM.TailType.TAIL_TYPE_HARPY, 'harpy'],
-  [ENUM.TailType.TAIL_TYPE_KANGAROO, 'kangaroo'],
-  [ENUM.TailType.TAIL_TYPE_FOX, 'fox'],
-  [ENUM.TailType.TAIL_TYPE_DRACONIC, 'draconic'],
-  [ENUM.TailType.TAIL_TYPE_RACCOON, 'raccoon'],
-  [ENUM.TailType.TAIL_TYPE_MOUSE, 'mouse'],
-  [ENUM.TailType.TAIL_TYPE_BEHEMOTH, 'behemoth'],
-  [ENUM.TailType.TAIL_TYPE_PIG, 'pig'],
-  [ENUM.TailType.TAIL_TYPE_SCORPION, 'scorpion'],
-  [ENUM.TailType.TAIL_TYPE_GOAT, 'goat'],
-  [ENUM.TailType.TAIL_TYPE_RHINO, 'rhino'],
-  [ENUM.TailType.TAIL_TYPE_ECHIDNA, 'echidna'],
-  [ENUM.TailType.TAIL_TYPE_DEER, 'deer'],
-];
-export const DEFAULT_WING_NAMES: [number, string][] = [
-  [ENUM.WingType.WING_TYPE_NONE, 'non-existant'],
-  [ENUM.WingType.WING_TYPE_BEE_LIKE_SMALL, 'small bee-like'],
-  [ENUM.WingType.WING_TYPE_BEE_LIKE_LARGE, 'large bee-like'],
-  [ENUM.WingType.WING_TYPE_HARPY, 'harpy'],
-  [ENUM.WingType.WING_TYPE_IMP, 'imp'],
-  [ENUM.WingType.WING_TYPE_BAT_LIKE_TINY, 'tiny bat-like'],
-  [ENUM.WingType.WING_TYPE_BAT_LIKE_LARGE, 'large bat-like'],
-  [ENUM.WingType.WING_TYPE_SHARK_FIN, 'shark fin'],
-  [ENUM.WingType.WING_TYPE_FEATHERED_LARGE, 'large feathered'],
-  [ENUM.WingType.WING_TYPE_DRACONIC_SMALL, 'small draconic'],
-  [ENUM.WingType.WING_TYPE_DRACONIC_LARGE, 'large draconic'],
-  [ENUM.WingType.WING_TYPE_GIANT_DRAGONFLY, 'giant dragonfly'],
-];
-export const DEFAULT_WING_DESCS: [number, string][] = [
-  [ENUM.WingType.WING_TYPE_NONE, 'non-existant'],
-  [ENUM.WingType.WING_TYPE_BEE_LIKE_SMALL, 'small bee-like'],
-  [ENUM.WingType.WING_TYPE_BEE_LIKE_LARGE, 'large bee-like'],
-  [ENUM.WingType.WING_TYPE_HARPY, 'large feathery'],
-  [ENUM.WingType.WING_TYPE_IMP, 'small'],
-  [ENUM.WingType.WING_TYPE_BAT_LIKE_TINY, 'tiny, bat-like'],
-  [ENUM.WingType.WING_TYPE_BAT_LIKE_LARGE, 'large, bat-like'],
-  [ENUM.WingType.WING_TYPE_SHARK_FIN, ''],
-  [ENUM.WingType.WING_TYPE_FEATHERED_LARGE, 'large, feathered'],
-  [ENUM.WingType.WING_TYPE_DRACONIC_SMALL, 'small, draconic'],
-  [ENUM.WingType.WING_TYPE_DRACONIC_LARGE, 'large, draconic'],
-  [ENUM.WingType.WING_TYPE_GIANT_DRAGONFLY, 'giant dragonfly'],
-];
-export const DEFAULT_LOWER_BODY_NAMES: [number, string][] = [
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN, 'human'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED, 'hoofed'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG, 'dog'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_NAGA, 'naga'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_CENTAUR, 'centaur'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_DEMONIC_HIGH_HEELS, 'demonic high-heels'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_DEMONIC_CLAWS, 'demonic claws'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_BEE, 'bee'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_GOO, 'goo'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT, 'cat'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_LIZARD, 'lizard'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_PONY, 'pony'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_BUNNY, 'bunny'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_HARPY, 'harpy'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_KANGAROO, 'kangaroo'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_CHITINOUS_SPIDER_LEGS, 'chitinous spider legs'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_DRIDER_LOWER_BODY, 'drider'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_FOX, 'fox'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_DRAGON, 'dragon'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_RACCOON, 'raccoon'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_FERRET, 'ferret'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_CLOVEN_HOOFED, 'cloven-hoofed'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_ECHIDNA, 'echidna'],
-  [ENUM.LowerBodyType.LOWER_BODY_TYPE_ECHIDNA, 'deertaur'],
-];
-export const DEFAULT_PIERCING_NAMES: [number, string][] = [
-  [ENUM.PiercingType.PIERCING_TYPE_NONE, 'none'],
-  [ENUM.PiercingType.PIERCING_TYPE_STUD, 'stud'],
-  [ENUM.PiercingType.PIERCING_TYPE_RING, 'ring'],
-  [ENUM.PiercingType.PIERCING_TYPE_LADDER, 'ladder'],
-  [ENUM.PiercingType.PIERCING_TYPE_HOOP, 'hoop'],
-  [ENUM.PiercingType.PIERCING_TYPE_CHAIN, 'chain'],
-];
+// export const DEFAULT_GENDER_NAMES: [number, string][] = [
+//   [ENUM.GenderType.NONE, 'genderless'],
+//   [ENUM.GenderType.Male, 'male'],
+//   [ENUM.GenderType.Female, 'female'],
+//   [ENUM.GenderType.Herm, 'hermaphrodite'],
+// ];
+// export const DEFAULT_SKIN_NAMES: [number, string][] = [
+//   [ENUM.SkinType.Plain, 'skin'],
+//   [ENUM.SkinType.Fur, 'fur'],
+//   [ENUM.SkinType.Scales, 'scales'],
+//   [ENUM.SkinType.Goo, 'goo'],
+//   [ENUM.SkinType.Undefined, 'undefined flesh'],
+// ];
+// export const DEFAULT_SKIN_DESCS: [number, string][] = [
+//   [ENUM.SkinType.Plain, 'skin'],
+//   [ENUM.SkinType.Fur, 'fur'],
+//   [ENUM.SkinType.Scales, 'scales'],
+//   [ENUM.SkinType.Goo, 'skin'],
+//   [ENUM.SkinType.Undefined, 'skin'],
+// ];
+// export const DEFAULT_HAIR_NAMES: [number, string][] = [
+//   [ENUM.HairType.Normal, 'normal'],
+//   [ENUM.HairType.Feather, 'feather'],
+//   [ENUM.HairType.Ghost, 'transparent'],
+//   [ENUM.HairType.Goo, 'goopy'],
+//   [ENUM.HairType.Anemone, 'tentacle'],
+//   [ENUM.HairType.Quill, 'quill'],
+// ];
+// export const DEFAULT_BEARD_NAMES: [number, string][] = [
+//   [ENUM.BeardType.Normal, 'normal'],
+//   [ENUM.BeardType.Goatee, 'goatee'],
+// ];
+// export const DEFAULT_FACE_NAMES: [number, string][] = [
+//   [ENUM.FaceType.Human, 'human'],
+//   [ENUM.FaceType.Horse, 'horse'],
+//   [ENUM.FaceType.Dog, 'dog'],
+//   [ENUM.FaceType.Minotaur, 'cow'],
+//   [ENUM.FaceType.SharkTeeth, 'shark'],
+//   [ENUM.FaceType.SnakeFangs, 'snake'],
+//   [ENUM.FaceType.Cat, 'cat'],
+//   [ENUM.FaceType.Lizard, 'lizard'],
+//   [ENUM.FaceType.Bunny, 'bunny'],
+//   [ENUM.FaceType.Kangaroo, 'kangaroo'],
+//   [ENUM.FaceType.SpiderFangs, 'spider'],
+//   [ENUM.FaceType.Fox, 'fox'],
+//   [ENUM.FaceType.Dragon, 'dragon'],
+//   [ENUM.FaceType.RaccoonMask, 'raccoon mask'],
+//   [ENUM.FaceType.Raccoon, 'racoon'],
+//   [ENUM.FaceType.Buckteeth, 'buckteeth'],
+//   [ENUM.FaceType.Mouse, 'mouse'],
+//   [ENUM.FaceType.FerretMask, 'ferret mask'],
+//   [ENUM.FaceType.Ferret, 'ferret'],
+//   [ENUM.FaceType.Pig, 'pig'],
+//   [ENUM.FaceType.Boar, 'boar'],
+//   [ENUM.FaceType.Rhino, 'rhino'],
+//   [ENUM.FaceType.Echidna, 'echidna'],
+//   [ENUM.FaceType.Deer, 'deer'],
+// ];
+// export const DEFAULT_TONGUE_NAMES: [number, string][] = [
+//   [ENUM.TongueType.Human, 'human'],
+//   [ENUM.TongueType.Snake, 'snake'],
+//   [ENUM.TongueType.Demonic, 'demonic'],
+//   [ENUM.TongueType.Draconic, 'draconic'],
+//   [ENUM.TongueType.Echidna, 'echidna'],
+// ];
+// export const DEFAULT_EYES_NAMES: [number, string][] = [
+//   [ENUM.EyeType.Human, 'human'],
+//   [ENUM.EyeType.FourSpiderEyes, '4 spider'],
+//   [ENUM.EyeType.BlackEyesSandTrap, 'sandtrap black'],
+// ];
+// export const DEFAULT_EARS_NAMES: [number, string][] = [
+//   [ENUM.EarType.Human, 'human'],
+//   [ENUM.EarType.Horse, 'horse'],
+//   [ENUM.EarType.Dog, 'dog'],
+//   [ENUM.EarType.Cow, 'cow'],
+//   [ENUM.EarType.Elfin, 'elfin'],
+//   [ENUM.EarType.Cat, 'cat'],
+//   [ENUM.EarType.Lizard, 'lizard'],
+//   [ENUM.EarType.Bunny, 'bunny'],
+//   [ENUM.EarType.Kangaroo, 'kangaroo'],
+//   [ENUM.EarType.Fox, 'fox'],
+//   [ENUM.EarType.Dragon, 'dragon'],
+//   [ENUM.EarType.Raccoon, 'raccoon'],
+//   [ENUM.EarType.Mouse, 'mouse'],
+//   [ENUM.EarType.Ferret, 'ferret'],
+//   [ENUM.EarType.Pig, 'pig'],
+//   [ENUM.EarType.Rhino, 'rhino'],
+//   [ENUM.EarType.Echidna, 'echidna'],
+//   [ENUM.EarType.Deer, 'deer'],
+// ];
+// export const DEFAULT_HORNS_NAMES: [number, string][] = [
+//   [ENUM.HornType.NONE, 'non-existant'],
+//   [ENUM.HornType.DEMON, 'demon'],
+//   [ENUM.HornType.COW_MINOTAUR, 'cow'],
+//   [ENUM.HornType.DRACONIC_X2, '2 draconic'],
+//   [ENUM.HornType.DRACONIC_X4_12_INCH_LONG, 'four 12" long draconic'],
+//   [ENUM.HornType.ANTLERS, 'deer'],
+//   [ENUM.HornType.GOAT, 'goat'],
+//   [ENUM.HornType.RHINO, 'rhino'],
+// ];
+// export const DEFAULT_ANTENNAE_NAMES: [number, string][] = [
+//   [ENUM.AntennaeType.NONE, 'non-existant'],
+//   [ENUM.AntennaeType.BEE, 'bee'],
+// ];
+// export const DEFAULT_ARM_NAMES: [number, string][] = [
+//   [ENUM.ArmType.HUMAN, 'human'],
+//   [ENUM.ArmType.HARPY, 'harpy'],
+//   [ENUM.ArmType.SPIDER, 'spider'],
+// ];
+// export const DEFAULT_WING_DESCS: [number, string][] = [
+//   [ENUM.WingType.NONE, 'non-existant'],
+//   [ENUM.WingType.BEE_LIKE_SMALL, 'small bee-like'],
+//   [ENUM.WingType.BEE_LIKE_LARGE, 'large bee-like'],
+//   [ENUM.WingType.HARPY, 'large feathery'],
+//   [ENUM.WingType.IMP, 'small'],
+//   [ENUM.WingType.BAT_LIKE_TINY, 'tiny, bat-like'],
+//   [ENUM.WingType.BAT_LIKE_LARGE, 'large, bat-like'],
+//   [ENUM.WingType.SHARK_FIN, ''],
+//   [ENUM.WingType.FEATHERED_LARGE, 'large, feathered'],
+//   [ENUM.WingType.DRACONIC_SMALL, 'small, draconic'],
+//   [ENUM.WingType.DRACONIC_LARGE, 'large, draconic'],
+//   [ENUM.WingType.GIANT_DRAGONFLY, 'giant dragonfly'],
+// ];
+// export const DEFAULT_LOWER_BODY_NAMES: [number, string][] = [
+//   [ENUM.LowerBodyType.HUMAN, 'human'],
+//   [ENUM.LowerBodyType.HOOFED, 'hoofed'],
+//   [ENUM.LowerBodyType.DOG, 'dog'],
+//   [ENUM.LowerBodyType.NAGA, 'naga'],
+//   [ENUM.LowerBodyType.CENTAUR, 'centaur'],
+//   [ENUM.LowerBodyType.DEMONIC_HIGH_HEELS, 'demonic high-heels'],
+//   [ENUM.LowerBodyType.DEMONIC_CLAWS, 'demonic claws'],
+//   [ENUM.LowerBodyType.BEE, 'bee'],
+//   [ENUM.LowerBodyType.GOO, 'goo'],
+//   [ENUM.LowerBodyType.CAT, 'cat'],
+//   [ENUM.LowerBodyType.LIZARD, 'lizard'],
+//   [ENUM.LowerBodyType.PONY, 'pony'],
+//   [ENUM.LowerBodyType.BUNNY, 'bunny'],
+//   [ENUM.LowerBodyType.HARPY, 'harpy'],
+//   [ENUM.LowerBodyType.KANGAROO, 'kangaroo'],
+//   [ENUM.LowerBodyType.CHITINOUS_SPIDER_LEGS, 'chitinous spider legs'],
+//   [ENUM.LowerBodyType.DRIDER_LOWER_BODY, 'drider'],
+//   [ENUM.LowerBodyType.FOX, 'fox'],
+//   [ENUM.LowerBodyType.DRAGON, 'dragon'],
+//   [ENUM.LowerBodyType.RACCOON, 'raccoon'],
+//   [ENUM.LowerBodyType.FERRET, 'ferret'],
+//   [ENUM.LowerBodyType.CLOVEN_HOOFED, 'cloven-hoofed'],
+//   [ENUM.LowerBodyType.ECHIDNA, 'echidna'],
+//   [ENUM.LowerBodyType.ECHIDNA, 'deertaur'],
+// ];
+// export const DEFAULT_PIERCING_NAMES: [number, string][] = [
+//   [ENUM.PiercingType.NONE, 'none'],
+//   [ENUM.PiercingType.STUD, 'stud'],
+//   [ENUM.PiercingType.RING, 'ring'],
+//   [ENUM.PiercingType.LADDER, 'ladder'],
+//   [ENUM.PiercingType.HOOP, 'hoop'],
+//   [ENUM.PiercingType.CHAIN, 'chain'],
+// ];
 /*export const DEFAULT_VAGINA_TYPE_NAMES: [number, string][] = [
         [
             [VAGINA_TYPE_HUMAN, "human"],
             [VAGINA_TYPE_EQUINE, "equine"],
             [VAGINA_TYPE_BLACK_SAND_TRAP, "black sandtrap"]
         ]*/
-export const DEFAULT_VAGINA_WETNESS_SCALES: [number, string][] = [
-  [ENUM.VaginalWetnessType.VAGINA_WETNESS_DRY, 'dry'],
-  [ENUM.VaginalWetnessType.VAGINA_WETNESS_NORMAL, 'normal'],
-  [ENUM.VaginalWetnessType.VAGINA_WETNESS_WET, 'wet'],
-  [ENUM.VaginalWetnessType.VAGINA_WETNESS_SLICK, 'slick'],
-  [ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING, 'drooling'],
-  [ENUM.VaginalWetnessType.VAGINA_WETNESS_SLAVERING, 'slavering'],
-];
-export const DEFAULT_VAGINA_LOOSENESS_SCALES: [number, string][] = [
-  [ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_TIGHT, 'tight'],
-  [ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_NORMAL, 'normal'],
-  [ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_LOOSE, 'loose'],
-  [ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING, 'gaping'],
-  [ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING_WIDE, 'gaping wide'],
-  [ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_CLOWN_CAR, 'clown-car level'],
-];
-export const DEFAULT_ANAL_WETNESS_SCALES: [number, string][] = [
-  [ENUM.AnalWetnessType.ANAL_WETNESS_DRY, 'dry'],
-  [ENUM.AnalWetnessType.ANAL_WETNESS_NORMAL, 'normal'],
-  [ENUM.AnalWetnessType.ANAL_WETNESS_MOIST, 'moist'],
-  [ENUM.AnalWetnessType.ANAL_WETNESS_SLIMY, 'slimym'],
-  [ENUM.AnalWetnessType.ANAL_WETNESS_DROOLING, 'drooling'],
-  [ENUM.AnalWetnessType.ANAL_WETNESS_SLIME_DROOLING, 'slime-drooling'],
-];
-export const DEFAULT_ANAL_LOOSENESS_SCALES: [number, string][] = [
-  [ENUM.AnalLoosenessType.ANAL_LOOSENESS_VIRGIN, 'virgin'],
-  [ENUM.AnalLoosenessType.ANAL_LOOSENESS_TIGHT, 'tight'],
-  [ENUM.AnalLoosenessType.ANAL_LOOSENESS_NORMAL, 'normal'],
-  [ENUM.AnalLoosenessType.ANAL_LOOSENESS_LOOSE, 'loose'],
-  [ENUM.AnalLoosenessType.ANAL_LOOSENESS_STRETCHED, 'stretched'],
-  [ENUM.AnalLoosenessType.ANAL_LOOSENESS_GAPING, 'gaping'],
-];
-export const DEFAULT_HIP_RATING_SCALES: [number, string][] = [
-  [ENUM.HipRatingType.HIP_RATING_BOYISH, 'boyish'],
-  [ENUM.HipRatingType.HIP_RATING_SLENDER, 'slender'],
-  [ENUM.HipRatingType.HIP_RATING_AVERAGE, 'average'],
-  [ENUM.HipRatingType.HIP_RATING_AMPLE, 'ample'],
-  [ENUM.HipRatingType.HIP_RATING_CURVY, 'curvy'],
-  [ENUM.HipRatingType.HIP_RATING_FERTILE, 'fertile'],
-  [ENUM.HipRatingType.HIP_RATING_INHUMANLY_WIDE, 'inhumanly wide'],
-];
-export const DEFAULT_BUTT_RATING_SCALES: [number, string][] = [
-  [ENUM.ButtRatingType.BUTT_RATING_BUTTLESS, 'buttless'],
-  [ENUM.ButtRatingType.BUTT_RATING_TIGHT, 'tight'],
-  [ENUM.ButtRatingType.BUTT_RATING_AVERAGE, 'average'],
-  [ENUM.ButtRatingType.BUTT_RATING_NOTICEABLE, 'noticeable'],
-  [ENUM.ButtRatingType.BUTT_RATING_LARGE, 'large'],
-  [ENUM.ButtRatingType.BUTT_RATING_JIGGLY, 'jiggly'],
-  [ENUM.ButtRatingType.BUTT_RATING_EXPANSIVE, 'expansive'],
-  [ENUM.ButtRatingType.BUTT_RATING_HUGE, 'huge'],
-  [ENUM.ButtRatingType.BUTT_RATING_INCONCEIVABLE, 'inconceivably big'],
-];
+// export const DEFAULT_VAGINA_WETNESS_SCALES: [number, string][] = [
+//   [ENUM.VaginalWetnessType.DRY, 'dry'],
+//   [ENUM.VaginalWetnessType.NORMAL, 'normal'],
+//   [ENUM.VaginalWetnessType.WET, 'wet'],
+//   [ENUM.VaginalWetnessType.SLICK, 'slick'],
+//   [ENUM.VaginalWetnessType.DROOLING, 'drooling'],
+//   [ENUM.VaginalWetnessType.SLAVERING, 'slavering'],
+// ];
+// export const DEFAULT_VAGINA_LOOSENESS_SCALES: [number, string][] = [
+//   [ENUM.VaginalLoosenessType.TIGHT, 'tight'],
+//   [ENUM.VaginalLoosenessType.NORMAL, 'normal'],
+//   [ENUM.VaginalLoosenessType.LOOSE, 'loose'],
+//   [ENUM.VaginalLoosenessType.GAPING, 'gaping'],
+//   [ENUM.VaginalLoosenessType.GAPING_WIDE, 'gaping wide'],
+//   [ENUM.VaginalLoosenessType.CLOWN_CAR, 'clown-car level'],
+// ];
+// export const DEFAULT_ANAL_WETNESS_SCALES: [number, string][] = [
+//   [ENUM.AnalWetnessType.DRY, 'dry'],
+//   [ENUM.AnalWetnessType.NORMAL, 'normal'],
+//   [ENUM.AnalWetnessType.MOIST, 'moist'],
+//   [ENUM.AnalWetnessType.SLIMY, 'slimym'],
+//   [ENUM.AnalWetnessType.DROOLING, 'drooling'],
+//   [ENUM.AnalWetnessType.SLIME_DROOLING, 'slime-drooling'],
+// ];
+// export const DEFAULT_ANAL_LOOSENESS_SCALES: [number, string][] = [
+//   [ENUM.AnalLoosenessType.VIRGIN, 'virgin'],
+//   [ENUM.AnalLoosenessType.TIGHT, 'tight'],
+//   [ENUM.AnalLoosenessType.NORMAL, 'normal'],
+//   [ENUM.AnalLoosenessType.LOOSE, 'loose'],
+//   [ENUM.AnalLoosenessType.STRETCHED, 'stretched'],
+//   [ENUM.AnalLoosenessType.GAPING, 'gaping'],
+// ];
+// export const DEFAULT_HIP_RATING_SCALES: [number, string][] = [
+//   [ENUM.HipRatingType.BOYISH, 'boyish'],
+//   [ENUM.HipRatingType.SLENDER, 'slender'],
+//   [ENUM.HipRatingType.AVERAGE, 'average'],
+//   [ENUM.HipRatingType.AMPLE, 'ample'],
+//   [ENUM.HipRatingType.CURVY, 'curvy'],
+//   [ENUM.HipRatingType.FERTILE, 'fertile'],
+//   [ENUM.HipRatingType.INHUMANLY_WIDE, 'inhumanly wide'],
+// ];
+// export const DEFAULT_BUTT_RATING_SCALES: [number, string][] = [
+//   [ENUM.ButtRatingType.BUTTLESS, 'buttless'],
+//   [ENUM.ButtRatingType.TIGHT, 'tight'],
+//   [ENUM.ButtRatingType.AVERAGE, 'average'],
+//   [ENUM.ButtRatingType.NOTICEABLE, 'noticeable'],
+//   [ENUM.ButtRatingType.LARGE, 'large'],
+//   [ENUM.ButtRatingType.JIGGLY, 'jiggly'],
+//   [ENUM.ButtRatingType.EXPANSIVE, 'expansive'],
+//   [ENUM.ButtRatingType.HUGE, 'huge'],
+//   [ENUM.ButtRatingType.INCONCEIVABLE, 'inconceivably big'],
+// ];
 
 /**
  * Assume scale = [[0,"small"],[5,"average"],[10,"big"]]
@@ -1891,14 +1865,41 @@ export function allBreastsDescript(creature: Creature): string {
 }
 
 export function tailDescript(i_creature: Creature): string {
-  if (i_creature.tailType == ENUM.TailType.TAIL_TYPE_NONE) {
+  const DEFAULT_TAIL_NAMES: [number, string][] = [
+    [ENUM.TailType.NONE, 'non-existant'],
+    [ENUM.TailType.HORSE, 'horse'],
+    [ENUM.TailType.DOG, 'dog'],
+    [ENUM.TailType.DEMONIC, 'demonic'],
+    [ENUM.TailType.COW, 'cow'],
+    [ENUM.TailType.SPIDER_ADBOMEN, 'spider abdomen'],
+    [ENUM.TailType.BEE_ABDOMEN, 'bee abdomen'],
+    [ENUM.TailType.SHARK, 'shark'],
+    [ENUM.TailType.CAT, 'cat'],
+    [ENUM.TailType.LIZARD, 'lizard'],
+    [ENUM.TailType.RABBIT, 'rabbit'],
+    [ENUM.TailType.HARPY, 'harpy'],
+    [ENUM.TailType.KANGAROO, 'kangaroo'],
+    [ENUM.TailType.FOX, 'fox'],
+    [ENUM.TailType.DRACONIC, 'draconic'],
+    [ENUM.TailType.RACCOON, 'raccoon'],
+    [ENUM.TailType.MOUSE, 'mouse'],
+    [ENUM.TailType.BEHEMOTH, 'behemoth'],
+    [ENUM.TailType.PIG, 'pig'],
+    [ENUM.TailType.SCORPION, 'scorpion'],
+    [ENUM.TailType.GOAT, 'goat'],
+    [ENUM.TailType.RHINO, 'rhino'],
+    [ENUM.TailType.ECHIDNA, 'echidna'],
+    [ENUM.TailType.DEER, 'deer'],
+  ];
+
+  if (i_creature.tailType == ENUM.TailType.NONE) {
     console.warn('WARNING: Creature has no tails to describe.');
     return '<b>!Creature has no tails to describe!</b>';
   }
 
   let descript = '';
 
-  if (i_creature.tailType == ENUM.TailType.TAIL_TYPE_FOX && i_creature.tailVenom >= 1) {
+  if (i_creature.tailType == ENUM.TailType.FOX && i_creature.tailVenom >= 1) {
     // Kitsune tails, we're using tailVenom to track tail count
     if (i_creature.tailVenom > 1) {
       if (i_creature.tailVenom == 2) descript += 'pair ';
@@ -1918,14 +1919,41 @@ export function tailDescript(i_creature: Creature): string {
 }
 
 export function oneTailDescript(i_creature: Creature): string {
-  if (i_creature.tailType == ENUM.TailType.TAIL_TYPE_NONE) {
+  const DEFAULT_TAIL_NAMES: [number, string][] = [
+    [ENUM.TailType.NONE, 'non-existant'],
+    [ENUM.TailType.HORSE, 'horse'],
+    [ENUM.TailType.DOG, 'dog'],
+    [ENUM.TailType.DEMONIC, 'demonic'],
+    [ENUM.TailType.COW, 'cow'],
+    [ENUM.TailType.SPIDER_ADBOMEN, 'spider abdomen'],
+    [ENUM.TailType.BEE_ABDOMEN, 'bee abdomen'],
+    [ENUM.TailType.SHARK, 'shark'],
+    [ENUM.TailType.CAT, 'cat'],
+    [ENUM.TailType.LIZARD, 'lizard'],
+    [ENUM.TailType.RABBIT, 'rabbit'],
+    [ENUM.TailType.HARPY, 'harpy'],
+    [ENUM.TailType.KANGAROO, 'kangaroo'],
+    [ENUM.TailType.FOX, 'fox'],
+    [ENUM.TailType.DRACONIC, 'draconic'],
+    [ENUM.TailType.RACCOON, 'raccoon'],
+    [ENUM.TailType.MOUSE, 'mouse'],
+    [ENUM.TailType.BEHEMOTH, 'behemoth'],
+    [ENUM.TailType.PIG, 'pig'],
+    [ENUM.TailType.SCORPION, 'scorpion'],
+    [ENUM.TailType.GOAT, 'goat'],
+    [ENUM.TailType.RHINO, 'rhino'],
+    [ENUM.TailType.ECHIDNA, 'echidna'],
+    [ENUM.TailType.DEER, 'deer'],
+  ];
+
+  if (i_creature.tailType == ENUM.TailType.NONE) {
     console.warn('WARNING: Creature has no tails to describe.');
     return '<b>!Creature has no tails to describe!</b>';
   }
 
   let descript = '';
 
-  if (i_creature.tailType == ENUM.TailType.TAIL_TYPE_FOX && i_creature.tailVenom >= 1) {
+  if (i_creature.tailType == ENUM.TailType.FOX && i_creature.tailVenom >= 1) {
     if (i_creature.tailVenom == 1) {
       descript += 'your kitsune tail';
     } else {

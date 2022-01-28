@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, UTIL, BindType, StatusEffects, Items, PerkLib, Inventory, Creature, Camp, FLAG, CombatTeases } from 'coc';
+import { liveData, ENUM, GUI, UTIL, BindType, Inventory, Creature, Camp, FLAG, CombatTeases } from 'coc';
 
 //------------
 // ACTIONS
@@ -38,7 +38,7 @@ export function battleMenu(): void {
     GUI.addButton(7, 'Wait', wait);
   }
   GUI.addButton(8, 'Fantasize', fantasize);
-  if (liveData.player.findStatusEffect(StatusEffects.Bind) >= 0) {
+  if (liveData.player.findStatusEffect(liveData.StatusEffects.Bind) >= 0) {
     GUI.menu();
     GUI.addButton(0, 'Struggle', struggle);
     GUI.addButton(1, 'Wait', wait);
@@ -55,7 +55,7 @@ export function tease(justText = false): void {
   //Go on!
   if (!justText) GUI.clearOutput();
   //You can't tease a blind guy!
-  if (liveData.monster.findStatusEffect(StatusEffects.Blind) >= 0) {
+  if (liveData.monster.findStatusEffect(liveData.StatusEffects.Blind) >= 0) {
     GUI.outputText(
       'You do your best to tease ' +
         liveData.monster.a +
@@ -66,7 +66,7 @@ export function tease(justText = false): void {
     );
     return;
   }
-  if (liveData.player.findStatusEffect(StatusEffects.Sealed) >= 0 && liveData.player.statusEffectValue(StatusEffects.Sealed, 2) == 1) {
+  if (liveData.player.findStatusEffect(liveData.StatusEffects.Sealed) >= 0 && liveData.player.statusEffectValue(liveData.StatusEffects.Sealed, 2) == 1) {
     GUI.outputText(
       'You do your best to tease ' +
         liveData.monster.a +
@@ -91,7 +91,11 @@ export function flee(): void {
   // PREEMPTIVE
   //------------
   let success: boolean | undefined | null = undefined;
-  if (inCombat() && liveData.player.findStatusEffect(StatusEffects.Sealed) >= 0 && liveData.player.statusEffectValue(StatusEffects.Sealed, 2) == 4) {
+  if (
+    inCombat() &&
+    liveData.player.findStatusEffect(liveData.StatusEffects.Sealed) >= 0 &&
+    liveData.player.statusEffectValue(liveData.StatusEffects.Sealed, 2) == 4
+  ) {
     GUI.outputText(
       "You try to run, but you just can't seem to escape. <b>Your ability to run was sealed, and now you've wasted a chance to attack!</b><br><br>",
     );
@@ -110,15 +114,15 @@ export function flee(): void {
     );
     success = true;
   }
-  // if (liveData.monster.findStatusEffect(StatusEffects.GenericRunDisabled) >= 0 /* || urtaQuest.isUrta()*/) {
+  // if (liveData.monster.findStatusEffect(liveData.StatusEffects.GenericRunDisabled) >= 0 /* || urtaQuest.isUrta()*/) {
   //     GUI.outputText("You can't escape from this fight!")
   //     success = null
   // }
-  // if (liveData.monster.findStatusEffect(StatusEffects.Level) >= 0 && liveData.monster.statusEffectv1(StatusEffects.Level) < 4) {
+  // if (liveData.monster.findStatusEffect(liveData.StatusEffects.Level) >= 0 && liveData.monster.statusEffectv1(liveData.StatusEffects.Level) < 4) {
   //     GUI.outputText("You're too deeply mired to escape! You'll have to <b>climb</b> some first!")
   //     success = null
   // }
-  // if (liveData.monster.findStatusEffect(StatusEffects.RunDisabled) >= 0) {
+  // if (liveData.monster.findStatusEffect(liveData.StatusEffects.RunDisabled) >= 0) {
   //     GUI.outputText("You'd like to run, but you can't scale the walls of the pit with so many demonic hands pulling you down!")
   //     success = null
   // }
@@ -170,7 +174,7 @@ export function flee(): void {
                 GUI.outputText("You make a quick dash for the door and attempt to escape! ");
             }*/
     //Stuck!
-    /*else */ if (liveData.player.findStatusEffect(StatusEffects.NoFlee) >= 0) {
+    /*else */ if (liveData.player.findStatusEffect(liveData.StatusEffects.NoFlee) >= 0) {
       if (liveData.monster.refName == 'goblin') GUI.outputText('You try to flee but get stuck in the sticky white goop surrounding you.<br><br>');
       else GUI.outputText('You put all your skills at running to work and make a supreme effort to escape, but are unable to get away!<br><br>');
       success = false;
@@ -203,12 +207,12 @@ export function flee(): void {
   //Modifier based on conditions
   if (liveData.player.canFly()) escapeMod -= 20;
   if (
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_RACCOON &&
-    liveData.player.earType == ENUM.EarType.EARS_RACCOON &&
-    liveData.player.findPerk(PerkLib.Runner) >= 0
+    liveData.player.tailType == ENUM.TailType.RACCOON &&
+    liveData.player.earType == ENUM.EarType.Raccoon &&
+    liveData.player.findPerk(liveData.PerkLib.Runner) >= 0
   )
     escapeMod -= 25;
-  if (liveData.monster.findStatusEffect(StatusEffects.Stunned) >= 0) escapeMod -= 50;
+  if (liveData.monster.findStatusEffect(liveData.StatusEffects.Stunned) >= 0) escapeMod -= 50;
   else {
     //Big tits doesn't matter as much if ya can fly!
     if (liveData.player.biggestTitSize() >= 35) escapeMod += 5;
@@ -254,8 +258,8 @@ export function flee(): void {
   //Ember is SPUCIAL
   /*if (monster.name == "Ember") {
             //GET AWAY
-            if (liveData.player.spe > UTIL.rand(monster.spe + escapeMod) || (liveData.player.findPerk(PerkLib.Runner) >= 0 && UTIL.rand(100) < 50)) {
-                if (liveData.player.findPerk(PerkLib.Runner) >= 0) 
+            if (liveData.player.spe > UTIL.rand(monster.spe + escapeMod) || (liveData.player.findPerk(liveData.PerkLib.Runner) >= 0 && UTIL.rand(100) < 50)) {
+                if (liveData.player.findPerk(liveData.PerkLib.Runner) >= 0) 
                     GUI.outputText("Using your skill at running, y");
                 else 
                     GUI.outputText("Y");
@@ -283,9 +287,9 @@ export function flee(): void {
       //Fliers flee!
       GUI.outputText(UTIL.capitalize(liveData.monster.a) + liveData.monster.refName + " can't catch you.");
     else if (
-      liveData.player.tailType == ENUM.TailType.TAIL_TYPE_RACCOON &&
-      liveData.player.earType == ENUM.EarType.EARS_RACCOON &&
-      liveData.player.findPerk(PerkLib.Runner) >= 0
+      liveData.player.tailType == ENUM.TailType.RACCOON &&
+      liveData.player.earType == ENUM.EarType.Raccoon &&
+      liveData.player.findPerk(liveData.PerkLib.Runner) >= 0
     )
       //sekrit benefit: if you have coon ears, coon tail, and Runner perk, change normal Runner escape to flight-type escape
       GUI.outputText(
@@ -305,7 +309,7 @@ export function flee(): void {
     success = true;
   }
   //Runner perk chance
-  else if (liveData.player.findPerk(PerkLib.Runner) >= 0 && UTIL.rand(100) < 50) {
+  else if (liveData.player.findPerk(liveData.PerkLib.Runner) >= 0 && UTIL.rand(100) < 50) {
     GUI.outputText('Thanks to your talent for running, you manage to escape.');
 
     if (liveData.monster.name == 'Izma') {
@@ -340,9 +344,9 @@ export function flee(): void {
             ' and drag you back to the ground before you can fly away!',
         );
     } else if (
-      liveData.player.tailType == ENUM.TailType.TAIL_TYPE_RACCOON &&
-      liveData.player.earType == ENUM.EarType.EARS_RACCOON &&
-      liveData.player.findPerk(PerkLib.Runner) >= 0
+      liveData.player.tailType == ENUM.TailType.RACCOON &&
+      liveData.player.earType == ENUM.EarType.Raccoon &&
+      liveData.player.findPerk(liveData.PerkLib.Runner) >= 0
     )
       // >>>>>>[P] FAIL
       GUI.outputText(
@@ -448,8 +452,8 @@ export function wait(): void {
     // TODO: fix call to commented line below
     // SandTrap.sandTrapWait()
     return;
-  } else if (liveData.player.findStatusEffect(StatusEffects.Bind)) {
-    switch (liveData.player.statusEffectValue(StatusEffects.Bind, 1)) {
+  } else if (liveData.player.findStatusEffect(liveData.StatusEffects.Bind)) {
+    switch (liveData.player.statusEffectValue(liveData.StatusEffects.Bind, 1)) {
       case BindType.BIND_TYPE_GOO:
         GUI.outputText(
           "You writhe uselessly, trapped inside the goo girl's warm, seething body. Darkness creeps at the edge of your vision as you are lulled into surrendering by the rippling vibrations of the girl's pulsing body around yours.",
@@ -464,38 +468,38 @@ export function wait(): void {
       default:
     }
   } else GUI.outputText('You decide not to take any action this round.<br><br>');
-  /*if (monster.findStatusEffect(StatusEffects.PCTailTangle) >= 0) {
+  /*if (monster.findStatusEffect(liveData.StatusEffects.PCTailTangle) >= 0) {
             monster.kitsuneWait();
         }
 
         }
-        else if (monster.findStatusEffect(StatusEffects.MinotaurEntangled) >= 0) {
+        else if (monster.findStatusEffect(liveData.StatusEffects.MinotaurEntangled) >= 0) {
             GUI.clearOutput();
             GUI.outputText("You sigh and relax in the chains, eying the well-endowed minotaur as you await whatever rough treatment he desires to give. His musky, utterly male scent wafts your way on the wind, and you feel droplets of your lust dripping down your thighs. You lick your lips as you watch the pre-cum drip from his balls, eager to get down there and worship them. Why did you ever try to struggle against this fate?<br><br>");
             player.changeLust(30 + UTIL.rand(5), true);
             combatRoundOver();
         }
-        else if (player.findStatusEffect(StatusEffects.Whispered) >= 0) {
+        else if (player.findStatusEffect(liveData.StatusEffects.Whispered) >= 0) {
             GUI.clearOutput();
             GUI.outputText("You shake off the mental compulsions and ready yourself to fight!<br><br>");
-            player.removeStatusEffect(StatusEffects.Whispered);
+            player.removeStatusEffect(liveData.StatusEffects.Whispered);
             combatRoundOver();
         }
-        else if (player.findStatusEffect(StatusEffects.HarpyBind) >= 0) {
+        else if (player.findStatusEffect(liveData.StatusEffects.HarpyBind) >= 0) {
             GUI.clearOutput();
             GUI.outputText("The brood continues to hammer away at your defenseless self. ");
             player.changeHP(-(80 + UTIL.rand(40)), true);
             combatRoundOver();
         }
-        else if (monster.findStatusEffect(StatusEffects.QueenBind) >= 0) {
+        else if (monster.findStatusEffect(liveData.StatusEffects.QueenBind) >= 0) {
             monster.ropeStruggles(true);
         }
-        /*else if (player.findStatusEffect(StatusEffects.GooArmorBind) >= 0) {
+        /*else if (player.findStatusEffect(liveData.StatusEffects.GooArmorBind) >= 0) {
             GUI.clearOutput();
             GUI.outputText("Suddenly, the goo-girl leaks half-way out of her heavy armor and lunges at you. You attempt to dodge her attack, but she doesn't try and hit you - instead, she wraps around you, pinning your arms to your chest. More and more goo latches onto you - you'll have to fight to get out of ");
-            player.addStatusValue(StatusEffects.GooArmorBind, 1, 1);
-            if (player.statusEffectValue(StatusEffects.GooArmorBind, 1) >= 5) {
-                if (monster.findStatusEffect(StatusEffects.Spar) >= 0)
+            player.addStatusValue(liveData.StatusEffects.GooArmorBind, 1, 1);
+            if (player.statusEffectValue(liveData.StatusEffects.GooArmorBind, 1) >= 5) {
+                if (monster.findStatusEffect(liveData.StatusEffects.Spar) >= 0)
                     Valeria.pcWinsValeriaSparDefeat();
                 else
                     Valeria.gooArmorBeatsUpPC();
@@ -503,10 +507,10 @@ export function wait(): void {
             }
             combatRoundOver();
         }
-        else if (player.findStatusEffect(StatusEffects.HolliConstrict) >= 0) {
+        else if (player.findStatusEffect(liveData.StatusEffects.HolliConstrict) >= 0) {
             monster.waitForHolliConstrict(true);
         }
-        else if (player.findStatusEffect(StatusEffects.TentacleBind) >= 0) {
+        else if (player.findStatusEffect(liveData.StatusEffects.TentacleBind) >= 0) {
             GUI.clearOutput();
             if (player.cocks.length > 0)
                 GUI.outputText("The creature continues spiraling around your cock, sending shivers up and down your body. You must escape or this creature will overwhelm you!");
@@ -516,20 +520,20 @@ export function wait(): void {
             player.changeLust((8 + player.sen / 10), true);
             combatRoundOver();
         }
-        else if (player.findStatusEffect(StatusEffects.IsabellaStunned) >= 0) {
+        else if (player.findStatusEffect(liveData.StatusEffects.IsabellaStunned) >= 0) {
             GUI.clearOutput();
             GUI.outputText("You wobble about for some time but manage to recover. Isabella capitalizes on your wasted time to act again.<br><br>");
-            player.removeStatusEffect(StatusEffects.IsabellaStunned);
+            player.removeStatusEffect(liveData.StatusEffects.IsabellaStunned);
         }
-        else if (player.findStatusEffect(StatusEffects.Stunned) >= 0) {
+        else if (player.findStatusEffect(liveData.StatusEffects.Stunned) >= 0) {
             GUI.clearOutput();
             GUI.outputText("You wobble about, stunned for a moment. After shaking your head, you clear the stars from your vision, but by then you've squandered your chance to act.<br><br>");
-            player.removeStatusEffect(StatusEffects.Stunned);
+            player.removeStatusEffect(liveData.StatusEffects.Stunned);
         }
-        else if (player.findStatusEffect(StatusEffects.Confusion) >= 0) {
+        else if (player.findStatusEffect(liveData.StatusEffects.Confusion) >= 0) {
             GUI.clearOutput();
             GUI.outputText("You shake your head and file your memories in the past, where they belong. It's time to fight!<br><br>n");
-            player.removeStatusEffect(StatusEffects.Confusion);
+            player.removeStatusEffect(liveData.StatusEffects.Confusion);
         }*/
   //else {
 
@@ -542,7 +546,7 @@ export function wait(): void {
 export function fantasize(): void {
   GUI.clearOutput();
   let lustGain = 0;
-  if (liveData.player.armor == Items.Armor.GooArmor) {
+  if (liveData.player.armor == liveData.Items.Armor.GooArmor) {
     GUI.outputText('As you fantasize, you feel Valeria rubbing her gooey body all across your sensitive skin');
     if (liveData.player.gender > 0) GUI.outputText(' and genitals');
     GUI.outputText(', arousing you even further.<br>');
@@ -609,14 +613,14 @@ export function fantasize(): void {
 export function struggle(): void {
   GUI.clearOutput();
   let damage = 0;
-  switch (liveData.player.statusEffectValue(StatusEffects.Bind, 1)) {
+  switch (liveData.player.statusEffectValue(liveData.StatusEffects.Bind, 1)) {
     case BindType.BIND_TYPE_GOO:
       if (UTIL.rand(80) < 33 + liveData.player.str) {
         //33% chance to break free + up to 100% chance for strength
         GUI.outputText(
           'You claw your fingers wildly within the slime and manage to brush against her heart-shaped nucleus. The girl silently gasps and loses cohesion, allowing you to pull yourself free while she attempts to solidify.',
         );
-        liveData.player.removeStatusEffect(StatusEffects.Bind);
+        liveData.player.removeStatusEffect(liveData.StatusEffects.Bind);
       } else {
         GUI.outputText(
           "You writhe uselessly, trapped inside the goo girl's warm, seething body. Darkness creeps at the edge of your vision as you are lulled into surrendering by the rippling vibrations of the girl's pulsing body around yours. ",
@@ -629,7 +633,7 @@ export function struggle(): void {
       if (UTIL.rand(80) < 33 + liveData.player.str / 1.5) {
         //33% chance to break free + up to 66% chance for strength
         GUI.outputText("You wriggle and squirm violently, tearing yourself out from within the naga's coils.");
-        liveData.player.removeStatusEffect(StatusEffects.Bind);
+        liveData.player.removeStatusEffect(liveData.StatusEffects.Bind);
       } else {
         GUI.outputText("The naga's grip on you tightens as you struggle to break free from the stimulating pressure. ");
         damage += 7 + UTIL.rand(5);
@@ -648,8 +652,8 @@ export function struggle(): void {
             liveData.player.legs() +
             ' and hit the beast in its beak, causing it to let out an inhuman cry and drop you to the ground smartly.<br><br>',
         );
-        liveData.player.removeStatusEffect(StatusEffects.Bind);
-        liveData.monster.createStatusEffect(StatusEffects.TentacleCoolDown, 3, 0, 0, 0);
+        liveData.player.removeStatusEffect(liveData.StatusEffects.Bind);
+        liveData.monster.createStatusEffect(liveData.StatusEffects.TentacleCoolDown, 3, 0, 0, 0);
       } else {
         //Fail to break free
         GUI.outputText('Despite trying to escape, the creature only tightens its grip, making it difficult to breathe. ');
@@ -696,8 +700,8 @@ export function startCombat(enemy: Creature, immediate = false): void {
 
 export function fatigueRecovery(): void {
   liveData.player.changeFatigue(-1, false);
-  if (liveData.player.findPerk(PerkLib.SpeedyRecovery) >= 0) liveData.player.changeFatigue(-1, false);
-  if (liveData.player.findPerk(PerkLib.EnlightenedNinetails) >= 0 || liveData.player.findPerk(PerkLib.CorruptedNinetails) >= 0)
+  if (liveData.player.findPerk(liveData.PerkLib.SpeedyRecovery) >= 0) liveData.player.changeFatigue(-1, false);
+  if (liveData.player.findPerk(liveData.PerkLib.EnlightenedNinetails) >= 0 || liveData.player.findPerk(liveData.PerkLib.CorruptedNinetails) >= 0)
     liveData.player.changeFatigue(-(1 + UTIL.rand(3)), false);
 }
 export function teaseXP(XP: number): void {
@@ -812,7 +816,7 @@ export function magicMenu(): void {
   if (liveData.player.spells.heal) GUI.addButton(6, 'Heal', spellHeal);
   if (liveData.player.spells.might) GUI.addButton(7, 'Might', spellMight);
   //Special
-  if (liveData.player.findPerk(PerkLib.CleansingPalm) >= 0) GUI.addButton(10, 'CleansingPalm', spellCleansingPalm);
+  if (liveData.player.findPerk(liveData.PerkLib.CleansingPalm) >= 0) GUI.addButton(10, 'CleansingPalm', spellCleansingPalm);
   GUI.addButton(14, 'Back', battleMenu);
 }
 
@@ -822,10 +826,10 @@ export function spellBlind(): void {
 }
 export function spellChargeWeapon(silent: boolean): void {
   if (silent) {
-    liveData.player.createStatusEffect(StatusEffects.ChargeWeapon, 10 * spellMod(), 0, 0, 0);
+    liveData.player.createStatusEffect(liveData.StatusEffects.ChargeWeapon, 10 * spellMod(), 0, 0, 0);
     return;
   }
-  if (liveData.player.findPerk(PerkLib.BloodMage) < 0 && liveData.player.fatigue + spellCost(15) > liveData.player.maxFatigue()) {
+  if (liveData.player.findPerk(liveData.PerkLib.BloodMage) < 0 && liveData.player.fatigue + spellCost(15) > liveData.player.maxFatigue()) {
     GUI.outputText('You are too tired to cast this spell.');
     GUI.doNext(magicMenu);
     return;
@@ -836,7 +840,7 @@ export function spellChargeWeapon(silent: boolean): void {
       liveData.player.weapon.equipmentName +
       ".  It crackles loudly, ensuring you'll do more damage with it for the rest of the fight.<br><br>",
   );
-  liveData.player.createStatusEffect(StatusEffects.ChargeWeapon, 10 * spellMod(), 0, 0, 0);
+  liveData.player.createStatusEffect(liveData.StatusEffects.ChargeWeapon, 10 * spellMod(), 0, 0, 0);
   liveData.gameFlags[FLAG.SPELLS_CAST]++;
   spellPerkUnlock();
   // liveData.monster.combatAI() // TODO: commented out line; why was it here?
@@ -891,19 +895,19 @@ export function spellMod(): number {
 }
 
 export function spellPerkUnlock(): void {
-  if (liveData.gameFlags[FLAG.SPELLS_CAST] >= 5 && liveData.player.findPerk(PerkLib.SpellcastingAffinity) < 0) {
+  if (liveData.gameFlags[FLAG.SPELLS_CAST] >= 5 && liveData.player.findPerk(liveData.PerkLib.SpellcastingAffinity) < 0) {
     GUI.outputText(
       "<b>You've become more comfortable with your spells, unlocking the Spellcasting Affinity perk and reducing fatigue cost of spells by 20%!</b><br><br>",
     );
-    liveData.player.createPerk(PerkLib.SpellcastingAffinity, 20, 0, 0, 0);
+    liveData.player.createPerk(liveData.PerkLib.SpellcastingAffinity, 20, 0, 0, 0);
   }
-  if (liveData.gameFlags[FLAG.SPELLS_CAST] >= 15 && liveData.player.perkValue(PerkLib.SpellcastingAffinity, 1) < 35) {
+  if (liveData.gameFlags[FLAG.SPELLS_CAST] >= 15 && liveData.player.perkValue(liveData.PerkLib.SpellcastingAffinity, 1) < 35) {
     GUI.outputText("<b>You've become more comfortable with your spells, further reducing your spell costs by an additional 15%!</b><br><br>");
-    liveData.player.setPerkValue(PerkLib.SpellcastingAffinity, 1, 35);
+    liveData.player.setPerkValue(liveData.PerkLib.SpellcastingAffinity, 1, 35);
   }
-  if (liveData.gameFlags[FLAG.SPELLS_CAST] >= 45 && liveData.player.perkValue(PerkLib.SpellcastingAffinity, 1) < 50) {
+  if (liveData.gameFlags[FLAG.SPELLS_CAST] >= 45 && liveData.player.perkValue(liveData.PerkLib.SpellcastingAffinity, 1) < 50) {
     GUI.outputText("<b>You've become more comfortable with your spells, further reducing your spell costs by an additional 15%!</b><br><br>");
-    liveData.player.setPerkValue(PerkLib.SpellcastingAffinity, 1, 50);
+    liveData.player.setPerkValue(liveData.PerkLib.SpellcastingAffinity, 1, 50);
   }
 }
 

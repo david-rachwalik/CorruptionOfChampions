@@ -1,4 +1,4 @@
-import { liveData, GUI, UTIL, FLAG, Camp, Inventory, Items, Data } from 'coc';
+import { liveData, GUI, UTIL, FLAG, Camp, Inventory, Data } from 'coc';
 
 Data.addToGameFlags(FLAG.WANDERER_MET, FLAG.WANDERER_DEMON, FLAG.WANDERER_EPILOGUE);
 
@@ -127,7 +127,7 @@ export function wandererEpilogue() {
         "She steps away and blows a kiss as her wings unfurl. With a powerful downstroke she scatters sand everywhere, forcing you to throw an arm in front of your eyes. When the debris settles, she's gone.<br><br>",
       );
       liveData.player.changeLust(5);
-      Inventory.takeItem(Items.Consumables.SuccubiDelight, Camp.returnToCampUseOneHour);
+      Inventory.takeItem(liveData.Items.Consumables.SuccubiDelight, Camp.returnToCampUseOneHour);
       liveData.gameFlags[FLAG.WANDERER_EPILOGUE] = 1;
     }
     //Second Encounter
@@ -138,7 +138,7 @@ export function wandererEpilogue() {
       //Catch it
       if (50 < liveData.player.spe + UTIL.rand(60)) {
         GUI.outputText("You handily catch a small potion vial. When you look up, she's gone.<br><br>");
-        Inventory.takeItem(Items.Consumables.SuccubiDelight, Camp.returnToCampUseOneHour);
+        Inventory.takeItem(liveData.Items.Consumables.SuccubiDelight, Camp.returnToCampUseOneHour);
       }
       //Drop it
       else {
@@ -168,7 +168,7 @@ export function wandererEpilogue() {
       GUI.outputText(
         'While exploring the desert, you find a strange bottle half-buried in the sand. A small note is tied to it:<br><br>"<i>I just knew you\'d find this. Try this a few times and I think you might change your mind about Marcus\' situation.<br> -Lovely Lucia</i>"<br><br>',
       );
-      Inventory.takeItem(Items.Consumables.SuccubiDelight, Camp.returnToCampUseOneHour);
+      Inventory.takeItem(liveData.Items.Consumables.SuccubiDelight, Camp.returnToCampUseOneHour);
     }
   }
 }

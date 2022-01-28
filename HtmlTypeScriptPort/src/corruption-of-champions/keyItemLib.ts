@@ -84,6 +84,4 @@ class KeyItemTypeContainer {
   }
 }
 
-const KeyItems = new KeyItemTypeContainer();
-
-export { KeyItems };
+export { KeyItemTypeContainer };

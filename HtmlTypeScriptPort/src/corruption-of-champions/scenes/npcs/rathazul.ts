@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, Data, Item, Items, PerkLib, Inventory, Camp, FLAG, KeyItems } from 'coc';
+import { liveData, ENUM, GUI, Data, Item, Inventory, Camp, FLAG } from 'coc';
 
 Data.addToGameFlags(FLAG.RATHAZUL_MET, FLAG.RATHAZUL_CAMP, FLAG.RATHAZUL_PURCHASE_COUNTER, FLAG.RATHAZUL_ARMOUR_COUNTER);
 
@@ -137,14 +137,14 @@ export function rathazulWorkOffer() {
             purificationByRathazulBegin();
             return true;
         }*/
-  if (liveData.player.hasItem(Items.Consumables.BlackEgg) || liveData.player.hasItem(Items.Consumables.LargeBlackEgg)) {
+  if (liveData.player.hasItem(liveData.Items.Consumables.BlackEgg) || liveData.player.hasItem(liveData.Items.Consumables.LargeBlackEgg)) {
     liveData.gameFlags[9999] = 1; //PC_KNOWS_ABOUT_BLACK_EGGS
     GUI.outputText(
       'He eyes the onyx egg in your inventory and offers a little advice. "<i>Be careful with black eggs. They can turn your skin to living latex or rubber. The smaller ones are usually safer, but everyone reacts differently. I\'d get rid of them, if you want my opinion.</i>"<br><br>',
     );
   }
   //Item crafting offer
-  if (liveData.player.hasItem(Items.Materials.GreenGel)) {
+  if (liveData.player.hasItem(liveData.Items.Materials.GreenGel)) {
     //Gel
     if (liveData.gameFlags[FLAG.RATHAZUL_ARMOUR_COUNTER] == 0)
       GUI.outputText(
@@ -154,7 +154,7 @@ export function rathazulWorkOffer() {
       GUI.outputText(
         'He pipes up with a bit of excitement in his voice, "<i>With just five pieces of slime-gel I could make another suit of armor...</i>"<br>',
       );
-    if (liveData.player.hasItem(Items.Materials.GreenGel, 5)) {
+    if (liveData.player.hasItem(liveData.Items.Materials.GreenGel, 5)) {
       GUI.outputText('<br>');
       showArmorMenu = true;
       totalOffers++;
@@ -162,12 +162,12 @@ export function rathazulWorkOffer() {
       GUI.outputText("You realize you're still a bit short of gel.<br><br>");
     }
   }
-  if (liveData.player.hasItem(Items.Materials.BeeChitin)) {
+  if (liveData.player.hasItem(liveData.Items.Materials.BeeChitin)) {
     //Chitin
     GUI.outputText(
       'The elderly rat looks at you intently and offers, "<i>I see you\'ve gathered a piece of chitin from the giant bees of the forests. If you bring me five pieces I could probably craft it into some tough armor.</i>"<br>',
     );
-    if (liveData.player.hasItem(Items.Materials.BeeChitin, 5)) {
+    if (liveData.player.hasItem(liveData.Items.Materials.BeeChitin, 5)) {
       GUI.outputText('<br>');
       showArmorMenu = true;
       totalOffers++;
@@ -175,33 +175,34 @@ export function rathazulWorkOffer() {
       GUI.outputText("You realize you're still a bit short of chitin.<br><br>");
     }
   }
-  /*if (liveData.player.hasItem(Items.Materials.SpiderSilk) && flags[RATHAZUL_SILK_ARMOR_COUNTDOWN] + flags[UNKNOWN_FLAG_NUMBER_00275] == 0) { //SPOIDAH
+  /*if (liveData.player.hasItem(liveData.Items.Materials.SpiderSilk) && flags[RATHAZUL_SILK_ARMOR_COUNTDOWN] + flags[UNKNOWN_FLAG_NUMBER_00275] == 0) { //SPOIDAH
             showArmorMenu = true;
             totalOffers++;
             GUI.outputText("\"<i>Oooh, is that some webbing from a giant spider or spider-morph? Most excellent! With a little bit of alchemical treatment, it is possible I could loosen the fibers enough to weave them into something truly magnificent - armor, or even a marvelous robe,</i>\" offers <br><br>");
         }
-        if (liveData.player.hasItem(Items.Materials.DragonScale)) { //Dragonscale
+        if (liveData.player.hasItem(liveData.Items.Materials.DragonScale)) { //Dragonscale
             showArmorMenu = true;
             totalOffers++;
             GUI.outputText("\"<i>Oooh, is that dragon scale? If you happen to have five of these, I can work them into armor,</i>\" Rathazul says.<br><br>");
         }*/
   //Marae bark armor
-  if (liveData.player.hasKeyItem(KeyItems.TentacledBarkPlates) >= 0 || liveData.player.hasKeyItem(KeyItems.DivineBarkPlates) >= 0) showArmorMenu = true;
+  if (liveData.player.hasKeyItem(liveData.KeyItems.TentacledBarkPlates) >= 0 || liveData.player.hasKeyItem(liveData.KeyItems.DivineBarkPlates) >= 0)
+    showArmorMenu = true;
   //Item purification offer
   let pCounter = 0;
-  if (liveData.player.hasItem(Items.Consumables.IncubiDraft)) {
+  if (liveData.player.hasItem(liveData.Items.Consumables.IncubiDraft)) {
     pCounter++;
   }
-  if (liveData.player.hasItem(Items.Consumables.SuccubiMilk)) {
+  if (liveData.player.hasItem(liveData.Items.Consumables.SuccubiMilk)) {
     pCounter++;
   }
-  if (liveData.player.hasItem(Items.Consumables.SuccubiDelight)) {
+  if (liveData.player.hasItem(liveData.Items.Consumables.SuccubiDelight)) {
     pCounter++;
   }
-  if (liveData.player.hasItem(Items.Consumables.LaBova)) {
+  if (liveData.player.hasItem(liveData.Items.Consumables.LaBova)) {
     pCounter++;
   }
-  if (liveData.player.hasItem(Items.Consumables.MinoCum)) {
+  if (liveData.player.hasItem(liveData.Items.Consumables.MinoCum)) {
     pCounter++;
   }
   if (pCounter > 0) {
@@ -227,7 +228,7 @@ export function rathazulWorkOffer() {
     totalOffers++;
   }
   //Bee honey
-  if (liveData.player.hasItem(Items.Consumables.BeeHoney)) {
+  if (liveData.player.hasItem(liveData.Items.Consumables.BeeHoney)) {
     GUI.outputText(
       'Rathazul offers, "<i>If you\'re in need of a pure honey, I can distill the regular bee honey. You\'ll also need 25 gems up front.</i>"<br><br>',
     );
@@ -256,7 +257,7 @@ export function rathazulWorkOffer() {
             lethiciteDefense = growLethiciteDefense;
         }*/
   if (liveData.gameFlags[FLAG.RATHAZUL_CAMP] > 0) {
-    /*if (flags[RATHAZUL_DEBIMBO_OFFERED] == 0 && (sophieBimbo.bimboSophie() || player.findPerk(PerkLib.BroBrains) >= 0 || player.findPerk(PerkLib.BimboBrains) >= 0 || player.findPerk(PerkLib.FutaFaculties) >= 0)) {
+    /*if (flags[RATHAZUL_DEBIMBO_OFFERED] == 0 && (sophieBimbo.bimboSophie() || player.findPerk(liveData.PerkLib.BroBrains) >= 0 || player.findPerk(liveData.PerkLib.BimboBrains) >= 0 || player.findPerk(liveData.PerkLib.FutaFaculties) >= 0)) {
                 rathazulDebimboOffer();
                 return true;
             }
@@ -271,11 +272,11 @@ export function rathazulWorkOffer() {
                 GUI.outputText("<br><br>");
             }
             //Purification potion for Minerva
-            if (flags[MINERVA_PURIFICATION_RATHAZUL_TALKED] == 2 && flags[MINERVA_PURIFICATION_PROGRESS] < 10 && player.hasKeyItem(KeyItems.RathazulsPurityPotion) < 0) {
+            if (flags[MINERVA_PURIFICATION_RATHAZUL_TALKED] == 2 && flags[MINERVA_PURIFICATION_PROGRESS] < 10 && player.hasKeyItem(liveData.KeyItems.RathazulsPurityPotion) < 0) {
                 GUI.outputText("The rodent alchemist suddenly looks at you in a questioning manner. \"<i>Have you had any luck finding those items? I need pure honey and at least two samples of other purifiers; your friend’s spring may grow the items you need.</i>\"");
                 GUI.outputText("<br><br>");
             }*/
-    if (liveData.player.hasItem(Items.Consumables.Lactaid, 5) && liveData.player.hasItem(Items.Consumables.LaBova, 2)) {
+    if (liveData.player.hasItem(liveData.Items.Consumables.Lactaid, 5) && liveData.player.hasItem(liveData.Items.Consumables.LaBova, 2)) {
       GUI.outputText(
         'The rodent sniffs your possessions. "<i>You know, I could make something with five bottles of Lactaid and two bottles of purified LaBova. I\'ll also need 250 gems.</i>"',
       );
@@ -299,13 +300,13 @@ export function rathazulWorkOffer() {
     if (purify) GUI.addButton(4, 'Purify', purifySomething, null, null, null, 'Ask him to purify any tainted potions. <br><br>Cost: 20 Gems.');
 
     /*if (debimbo) GUI.addButton(5, "Debimbo", makeADeBimboDraft, null, null, null, "Ask Rathazul to make a debimbofying potion for you. <br><br>Cost: 250 Gems <br>Needs 5 Scholar Teas.");
-            if (player.hasItem(Items.Consumables.BeeHoney)) GUI.addButton(6, Items.Consumables.PureHoney.shortName, rathazulMakesPureHoney, null, null, null, "Ask him to distill a vial of bee honey into a pure honey. <br><br>Cost: 25 Gems <br>Needs 1 vial of Bee Honey");
+            if (player.hasItem(liveData.Items.Consumables.BeeHoney)) GUI.addButton(6, liveData.Items.Consumables.PureHoney.shortName, rathazulMakesPureHoney, null, null, null, "Ask him to distill a vial of bee honey into a pure honey. <br><br>Cost: 25 Gems <br>Needs 1 vial of Bee Honey");
             if (liveData.gameFlags[FLAG.RATHAZUL_PURCHASE_COUNTER] >= 5) GUI.addButton(7, "ProLactaid", rathazulMakesMilkPotion, null, null, null, "Ask him to brew a special lactation potion. <br><br>Cost: 250 Gems <br>Needs 5 Lactaids and 2 Purified LaBovas.");
             if (liveData.gameFlags[FLAG.RATHAZUL_PURCHASE_COUNTER] >= 5) GUI.addButton(8, "Taurinum", rathazulMakesTaurPotion, null, null, null, "Ask him to brew a special potion that could aid in becoming a centaur. <br><br>Cost: 100 Gems <br>Needs 2 Equinum and 1 Minotaur Blood.");
             if (reductos) GUI.addButton(9, "Reducto", reductos);
 
             if (lethiciteDefense != null) GUI.addButton(10, "Lethicite", lethiciteDefense, null, null, null, "Ask him if he can make use of that lethicite you've obtained from Marae.");
-            if (player.hasItem(Items.Consumables.PureHoney, 1) && player.hasItem(Items.Consumables.CalmMint, 1) && player.hasItem(Items.Consumables.PurePeach, 1) && player.hasKeyItem(KeyItems.RathazulsPurityPotion) < 0 &&(flags[MINERVA_PURIFICATION_RATHAZUL_TALKED] == 2 && flags[MINERVA_PURIFICATION_PROGRESS] < 10)) {
+            if (player.hasItem(liveData.Items.Consumables.PureHoney, 1) && player.hasItem(liveData.Items.Consumables.CalmMint, 1) && player.hasItem(liveData.Items.Consumables.PurePeach, 1) && player.hasKeyItem(liveData.KeyItems.RathazulsPurityPotion) < 0 &&(flags[MINERVA_PURIFICATION_RATHAZUL_TALKED] == 2 && flags[MINERVA_PURIFICATION_PROGRESS] < 10)) {
                 GUI.addButton(11, "Pure Potion", rathazulMakesPurifyPotion, null, null, null, "Ask him to brew a purification potion for Minerva.");
             }*/
 
@@ -323,22 +324,22 @@ export function rathazulArmorMenu() {
   GUI.clearOutput();
   GUI.outputText('Which armor project would you like to pursue with Rathazul?');
   GUI.menu();
-  if (liveData.player.hasItem(Items.Materials.GreenGel, 5)) {
+  if (liveData.player.hasItem(liveData.Items.Materials.GreenGel, 5)) {
     GUI.addButton(0, 'GelArmor', craftOozeArmor);
   }
-  if (liveData.player.hasItem(Items.Materials.BeeChitin, 5)) {
+  if (liveData.player.hasItem(liveData.Items.Materials.BeeChitin, 5)) {
     GUI.addButton(1, 'BeeArmor', craftCarapace);
   }
-  /*if (player.hasItem(Items.Materials.SpiderSilk) && flags[RATHAZUL_SILK_ARMOR_COUNTDOWN] + flags[UNKNOWN_FLAG_NUMBER_00275] == 0) {
+  /*if (player.hasItem(liveData.Items.Materials.SpiderSilk) && flags[RATHAZUL_SILK_ARMOR_COUNTDOWN] + flags[UNKNOWN_FLAG_NUMBER_00275] == 0) {
             GUI.addButton(2, "SpiderSilk", craftSilkArmor);
         }
-        if (player.hasItem(Items.Materials.DragonScale, 2)) {
+        if (player.hasItem(liveData.Items.Materials.DragonScale, 2)) {
             GUI.addButton(3, "Dragonscale", craftDragonscaleArmor);
         }
-        if (player.hasKeyItem(KeyItems.TentacledBarkPlates) >= 0) {
+        if (player.hasKeyItem(liveData.KeyItems.TentacledBarkPlates) >= 0) {
             GUI.addButton(5, "T.Bark Armor", craftMaraeArmor, false);
         }
-        if (player.hasKeyItem(KeyItems.DivineBarkPlates) >= 0) {
+        if (player.hasKeyItem(liveData.KeyItems.DivineBarkPlates) >= 0) {
             GUI.addButton(6, "D.Bark Armor", craftMaraeArmor, true);
         }*/
   GUI.addButton(14, 'Back', returnToRathazulMenu);
@@ -350,9 +351,9 @@ export function craftOozeArmor() {
   GUI.outputText(
     "Rathazul takes the green gel from you and drops it into an empty cauldron. With speed well beyond what you'd expect from such an elderly creature, he nimbly unstops a number of vials and pours them into the cauldron. He lets the mixture come to a boil, readying a simple humanoid-shaped mold from what you had thought was piles of junk material. In no time at all, he has cast the boiling liquid into the mold, and after a few more minutes he cracks it open, revealing a suit of glistening armor.<br><br>",
   );
-  liveData.player.destroyItems(Items.Materials.GreenGel, 5);
+  liveData.player.destroyItems(liveData.Items.Materials.GreenGel, 5);
   liveData.gameFlags[FLAG.RATHAZUL_PURCHASE_COUNTER]++;
-  Inventory.takeItem(Items.Armor.GelArmor, returnToRathazulMenu);
+  Inventory.takeItem(liveData.Items.Armor.GelArmor, returnToRathazulMenu);
 }
 //Chitin Armour
 export function craftCarapace() {
@@ -377,9 +378,9 @@ export function craftCarapace() {
     GUI.outputText(
       'Your ' + liveData.player.chestDesc() + ' barely fit into the breastplate, leaving you displaying a large amount of jiggling cleavage.<br><br>',
     );
-  liveData.player.destroyItems(Items.Materials.BeeChitin, 5);
+  liveData.player.destroyItems(liveData.Items.Materials.BeeChitin, 5);
   liveData.gameFlags[FLAG.RATHAZUL_PURCHASE_COUNTER]++;
-  Inventory.takeItem(Items.Armor.BeeArmor, returnToRathazulMenu);
+  Inventory.takeItem(liveData.Items.Armor.BeeArmor, returnToRathazulMenu);
 }
 //Spider Silk Armour/Robes/Undergarments
 export function craftSilkArmor() {
@@ -388,12 +389,12 @@ export function craftSilkArmor() {
     'You hand the bundled webbing to Rathazul carefully, lest you damage the elderly mouse. He gives you a bemused smile and snatches the stuff from your grasp while he mutters, "<i>I\'m not falling apart you know.</i>"<br><br>',
   );
   //(Not enough webs:
-  if (!liveData.player.hasItem(Items.Materials.SpiderSilk, 5)) {
+  if (!liveData.player.hasItem(liveData.Items.Materials.SpiderSilk, 5)) {
     GUI.outputText(
       "The rat shakes his head and hands it back to you. \"<i>This isn't enough for me to make anything with. I'll need at least five bundles of this stuff total, so you'll need to find more,</i>\" he explains.<br><br>",
     );
     //(optional spider bonus:
-    if (liveData.player.tailType == ENUM.TailType.TAIL_TYPE_SPIDER_ADBOMEN) {
+    if (liveData.player.tailType == ENUM.TailType.SPIDER_ADBOMEN) {
       GUI.outputText(
         'You show him your spider-like abdomen in response, offering to produce more webbing for him. Rathazul chuckles dryly, a sound that reminds you of hot wind rushing through a dead valley. "<i>Dear child, this would never do. Silk this tough can only be produced by a true-born spider. No matter how you change yourself, you\'ll always be a human at heart.</i>"<br><br>',
       );
@@ -401,7 +402,7 @@ export function craftSilkArmor() {
         'The old rat shakes his head and adds, "<i>Well, now that I think about it, the venom of a red widow might be able to transform you until you are a spider to the core, but I have absolutely no idea what that would do to you. If you ever try such a dangerous, reckless idea, let me know. I want to have my notebooks handy, for SCIENCE!</i>"<br><br>',
       );
     }
-    if (liveData.player.hasItem(Items.Materials.T_SSILK, 2)) {
+    if (liveData.player.hasItem(liveData.Items.Materials.T_SSILK, 2)) {
       GUI.outputText('"<i>But this should be enough for undergarments if you want,</i>" Rathazul adds.');
       GUI.doYesNo(commissionSilkArmorForReal, declineSilkArmorCommish);
       return;
@@ -429,13 +430,13 @@ export function commissionSilkArmorForReal() {
     'You sort 500 gems into a pouch and toss them to Rathazul, along with the rest of the webbing. The wizened alchemist snaps the items out of the air with lightning-fast movements and goes to work immediately. He bustles about with enormous energy, invigorated by the challenging task before him. It seems Rathazul has completely forgotten about you, but as you turn to leave, he calls out, "<i>What did you want me to make? A mage\'s robe or some nigh-impenetrable armor? Or undergarments if you want.</i>"<br><br>',
   );
   GUI.menu();
-  if (liveData.player.hasItem(Items.Materials.SpiderSilk, 5)) {
-    GUI.addButton(0, 'Armor', chooseArmorOrRobes, 1, null, null, Items.Armor.SpiderSilkArmor.description);
-    GUI.addButton(1, 'Robes', chooseArmorOrRobes, 2, null, null, Items.Armor.SpiderSilkRobes.description);
+  if (liveData.player.hasItem(liveData.Items.Materials.SpiderSilk, 5)) {
+    GUI.addButton(0, 'Armor', chooseArmorOrRobes, 1, null, null, liveData.Items.Armor.SpiderSilkArmor.description);
+    GUI.addButton(1, 'Robes', chooseArmorOrRobes, 2, null, null, liveData.Items.Armor.SpiderSilkRobes.description);
   }
-  GUI.addButton(2, 'Bra', chooseArmorOrRobes, 3, null, null, Items.Undergarments.SpiderSilkBra.description);
-  GUI.addButton(3, 'Panties', chooseArmorOrRobes, 4, null, null, Items.Undergarments.SpiderSilkPanties.description);
-  GUI.addButton(4, 'Loincloth', chooseArmorOrRobes, 5, null, null, Items.Undergarments.SpiderSilkLoincloth.description);
+  GUI.addButton(2, 'Bra', chooseArmorOrRobes, 3, null, null, liveData.Items.Undergarments.SpiderSilkBra.description);
+  GUI.addButton(3, 'Panties', chooseArmorOrRobes, 4, null, null, liveData.Items.Undergarments.SpiderSilkPanties.description);
+  GUI.addButton(4, 'Loincloth', chooseArmorOrRobes, 5, null, null, liveData.Items.Undergarments.SpiderSilkLoincloth.description);
   GUI.addButton(14, 'Nevermind', declineSilkArmorCommish);
 }
 export function declineSilkArmorCommish() {
@@ -448,10 +449,10 @@ export function declineSilkArmorCommish() {
 export function chooseArmorOrRobes(armorType: number) {
   if (armorType == 1 || armorType == 2) {
     //Armor or robes
-    liveData.player.destroyItems(Items.Materials.SpiderSilk, 5);
+    liveData.player.destroyItems(liveData.Items.Materials.SpiderSilk, 5);
   } else {
     //Undergarments
-    liveData.player.destroyItems(Items.Materials.SpiderSilk, 2);
+    liveData.player.destroyItems(liveData.Items.Materials.SpiderSilk, 2);
   }
   liveData.player.changeGems(-500);
   GUI.outputText('Rathazul grunts in response and goes back to work. ');
@@ -481,7 +482,7 @@ export function collectRathazulArmor() {
       GUI.outputText(
         'While you marvel at the strange equipment, Rathazul explains, "<i>When you said you wanted armor, I realized I could skip a few of the alchemical processes used to soften material. The savings let me acquire a cheap metal set of armor to use as a base, and I molded half the armor around each piece, then removed it and created the outer, defensive layers with the rest of the webbing. Unfortunately, I didn\'t have enough silk for a solid codpiece, but I did manage to make a you thin loincloth from the leftover scraps - for modesty.</i>"<br><br>',
       );
-      itype = Items.Armor.SpiderSilkArmor;
+      itype = liveData.Items.Armor.SpiderSilkArmor;
       break;
     case 2: //Robes
       //GUI.outputText(images.showImage("rathazul-craft-silkrobes"));
@@ -492,7 +493,7 @@ export function collectRathazulArmor() {
       GUI.outputText(
         'Rathazul gingerly takes down the garment and hands it to you. "<i>Don\'t let the softness of the material fool you. This robe is tougher than many armors, and the spider-silk\'s properties may even help you in your spell-casting as well.</i>"<br><br>',
       );
-      itype = Items.Armor.SpiderSilkRobes;
+      itype = liveData.Items.Armor.SpiderSilkRobes;
       break;
     case 3: //Bra
       //GUI.outputText(images.showImage("rathazul-craft-silkbra"));
@@ -503,7 +504,7 @@ export function collectRathazulArmor() {
       GUI.outputText(
         'Rathazul gingerly takes the garment and hands it to you. "<i>Don\'t let the softness of the material fool you. These bras are very durable and should be comfortable as well.</i>"<br><br>',
       );
-      itype = Items.Undergarments.SpiderSilkBra;
+      itype = liveData.Items.Undergarments.SpiderSilkBra;
       break;
     case 4: //Panties
       //GUI.outputText(images.showImage("rathazul-craft-silkpanties"));
@@ -514,7 +515,7 @@ export function collectRathazulArmor() {
       GUI.outputText(
         'Rathazul gingerly takes the garment and hands it to you. "<i>Don\'t let the softness of the material fool you. These panties are very durable and should be comfortable as well.</i>"<br><br>',
       );
-      itype = Items.Undergarments.SpiderSilkPanties;
+      itype = liveData.Items.Undergarments.SpiderSilkPanties;
       break;
     case 5: //Loincloth
       //GUI.outputText(images.showImage("rathazul-craft-silkloincloth"));
@@ -525,11 +526,11 @@ export function collectRathazulArmor() {
       GUI.outputText(
         'Rathazul gingerly takes the garment and hands it to you. "<i>Don\'t let the softness of the material fool you. This loincloth is very durable and should be comfortable as well.</i>"<br><br>',
       );
-      itype = Items.Undergarments.SpiderSilkLoincloth;
+      itype = liveData.Items.Undergarments.SpiderSilkLoincloth;
       break;
     default:
       GUI.outputText('Something bugged! Please report this bug to Kitteh6660.');
-      itype = Items.Armor.SpiderSilkRobes;
+      itype = liveData.Items.Armor.SpiderSilkRobes;
   }
   //Reset counters
   liveData.gameFlags[FLAG.RATHAZUL_PURCHASE_COUNTER]++;
@@ -544,22 +545,22 @@ export function craftDragonscaleArmor() {
     'The rat looks at the sheets of dragon scales you\'re carrying and says, "<i>I could work these into armor. Or if you want, undergarments. I have the necessary supplies.</i>"',
   );
   GUI.menu();
-  if (liveData.player.hasItem(Items.Materials.DragonScale, 5)) {
-    GUI.addButton(0, 'Armor', craftDragonscaleArmorForReal, 0, null, null, Items.Armor.DragonscaleArmor.description);
-    GUI.addButton(1, 'Robe', craftDragonscaleArmorForReal, 1, null, null, Items.Armor.DragonscaleRobes.description);
+  if (liveData.player.hasItem(liveData.Items.Materials.DragonScale, 5)) {
+    GUI.addButton(0, 'Armor', craftDragonscaleArmorForReal, 0, null, null, liveData.Items.Armor.DragonscaleArmor.description);
+    GUI.addButton(1, 'Robe', craftDragonscaleArmorForReal, 1, null, null, liveData.Items.Armor.DragonscaleRobes.description);
   } else GUI.outputText("<br><br>You realize you're still a bit short on dragonscales for the armor but you can have undergarments made instead.");
-  GUI.addButton(2, 'Bra', craftDragonscaleArmorForReal, 2, null, null, Items.Undergarments.DragonscaleBra.description);
-  GUI.addButton(3, 'Thong', craftDragonscaleArmorForReal, 3, null, null, Items.Undergarments.DragonscaleThong.description);
-  GUI.addButton(4, 'Loincloth', craftDragonscaleArmorForReal, 4, null, null, Items.Undergarments.DragonscaleLoincloth.description);
+  GUI.addButton(2, 'Bra', craftDragonscaleArmorForReal, 2, null, null, liveData.Items.Undergarments.DragonscaleBra.description);
+  GUI.addButton(3, 'Thong', craftDragonscaleArmorForReal, 3, null, null, liveData.Items.Undergarments.DragonscaleThong.description);
+  GUI.addButton(4, 'Loincloth', craftDragonscaleArmorForReal, 4, null, null, liveData.Items.Undergarments.DragonscaleLoincloth.description);
   GUI.addButton(14, 'Nevermind', returnToRathazulMenu);
 }
 export function craftDragonscaleArmorForReal(type: number) {
   if (type == 0 || type == 1) {
     //Armor or robes
-    liveData.player.destroyItems(Items.Materials.DragonScale, 5);
+    liveData.player.destroyItems(liveData.Items.Materials.DragonScale, 5);
   } else {
     //Undergarments
-    liveData.player.destroyItems(Items.Materials.DragonScale, 2);
+    liveData.player.destroyItems(liveData.Items.Materials.DragonScale, 2);
   }
   GUI.clearOutput();
   let itype;
@@ -572,7 +573,7 @@ export function craftDragonscaleArmorForReal(type: number) {
       GUI.outputText(
         'The armor is red and the breastplate has nicely decorated pauldrons to give an imposing looks. You touch the armor and feel the scaly texture. "<i>It\'s quite flexible and should offer very good protection,</i>" Rathazul says.',
       );
-      itype = Items.Armor.DragonscaleArmor;
+      itype = liveData.Items.Armor.DragonscaleArmor;
       break;
     case 1: //Robes
       //GUI.outputText(images.showImage("rathazul-craft-dragonscalerobes"));
@@ -582,7 +583,7 @@ export function craftDragonscaleArmorForReal(type: number) {
       GUI.outputText(
         'The robe is red and appears to be textured with scales. You touch the robes and feel the scaly texture. "<i>It\'s quite flexible and should offer very good protection,</i>" Rathazul says.',
       );
-      itype = Items.Armor.DragonscaleRobes;
+      itype = liveData.Items.Armor.DragonscaleRobes;
       break;
     case 2: //Bra
       //GUI.outputText(images.showImage("rathazul-craft-dragonscalebra"));
@@ -592,7 +593,7 @@ export function craftDragonscaleArmorForReal(type: number) {
       GUI.outputText(
         'It\'s nicely textured with dragon scales. "<i>I\'ve used leather straps to maintain the flexibility. It should be comfortable and protective,</i>" Rathazul says.',
       );
-      itype = Items.Undergarments.DragonscaleBra;
+      itype = liveData.Items.Undergarments.DragonscaleBra;
       break;
     case 3: //Thong
       //GUI.outputText(images.showImage("rathazul-craft-dragonscalethong"));
@@ -602,7 +603,7 @@ export function craftDragonscaleArmorForReal(type: number) {
       GUI.outputText(
         'It\'s nicely textured with dragon scales. "<i>I\'ve used leather straps to maintain the flexibility. It should be comfortable and protective,</i>" Rathazul says.',
       );
-      itype = Items.Undergarments.DragonscaleThone;
+      itype = liveData.Items.Undergarments.DragonscaleThone;
       break;
     case 4: //Loincloth
       //GUI.outputText(images.showImage("rathazul-craft-dragonscaleloincloth"));
@@ -612,11 +613,11 @@ export function craftDragonscaleArmorForReal(type: number) {
       GUI.outputText(
         'It\'s nicely textured with dragon scales. "<i>I\'ve used leather straps to maintain the flexibility. It should be comfortable and protective,</i>" Rathazul says.',
       );
-      itype = Items.Undergarments.DragonscaleLoincloth;
+      itype = liveData.Items.Undergarments.DragonscaleLoincloth;
       break;
     default:
       GUI.outputText('Something bugged! Please report this bug to Kitteh6660.');
-      itype = Items.Armor.DSCLARM;
+      itype = liveData.Items.Armor.DSCLARM;
       break;
   }
   liveData.gameFlags[FLAG.RATHAZUL_PURCHASE_COUNTER]++;
@@ -647,8 +648,8 @@ export function craftMaraeArmor(divine = false) {
       GUI.outputText(
         'Your ' + liveData.player.chestDesc() + ' barely fit into the breastplate, leaving you displaying a large amount of jiggling cleavage.<br><br>',
       );
-    liveData.player.removeKeyItem(KeyItems.TentacledBarkPlates);
-    Inventory.takeItem(Items.Armor.TentacledBarkArmor, returnToRathazulMenu);
+    liveData.player.removeKeyItem(liveData.KeyItems.TentacledBarkPlates);
+    Inventory.takeItem(liveData.Items.Armor.TentacledBarkArmor, returnToRathazulMenu);
   } else {
     ////GUI.outputText(images.showImage("rathazul-craft-barkarmor-pure"));
     GUI.outputText(
@@ -672,8 +673,8 @@ export function craftMaraeArmor(divine = false) {
       GUI.outputText(
         'Your ' + liveData.player.chestDesc() + ' barely fit into the breastplate, leaving you displaying a large amount of jiggling cleavage.<br><br>',
       );
-    liveData.player.removeKeyItem(KeyItems.DivineBarkPlates);
-    Inventory.takeItem(Items.Armor.DivineBarkArmor, returnToRathazulMenu);
+    liveData.player.removeKeyItem(liveData.KeyItems.DivineBarkPlates);
+    Inventory.takeItem(liveData.Items.Armor.DivineBarkArmor, returnToRathazulMenu);
   }
 }
 
@@ -687,22 +688,22 @@ export function buyDyes() {
   GUI.outputText('<br><br><b>(-50 Gems)</b>');
   liveData.player.changeGems(-50);
   GUI.menu();
-  GUI.addButton(0, 'Auburn', buyDye, Items.Consumables.HairDyeAuburn);
-  GUI.addButton(1, 'Black', buyDye, Items.Consumables.HairDyeBlack);
-  GUI.addButton(2, 'Blond', buyDye, Items.Consumables.HairDyeBlond);
-  GUI.addButton(3, 'Brown', buyDye, Items.Consumables.HairDyeBrown);
-  GUI.addButton(4, 'Red', buyDye, Items.Consumables.HairDyeRed);
-  GUI.addButton(5, 'White', buyDye, Items.Consumables.HairDyeWhite);
-  GUI.addButton(6, 'Gray', buyDye, Items.Consumables.HairDyeGray);
+  GUI.addButton(0, 'Auburn', buyDye, liveData.Items.Consumables.HairDyeAuburn);
+  GUI.addButton(1, 'Black', buyDye, liveData.Items.Consumables.HairDyeBlack);
+  GUI.addButton(2, 'Blond', buyDye, liveData.Items.Consumables.HairDyeBlond);
+  GUI.addButton(3, 'Brown', buyDye, liveData.Items.Consumables.HairDyeBrown);
+  GUI.addButton(4, 'Red', buyDye, liveData.Items.Consumables.HairDyeRed);
+  GUI.addButton(5, 'White', buyDye, liveData.Items.Consumables.HairDyeWhite);
+  GUI.addButton(6, 'Gray', buyDye, liveData.Items.Consumables.HairDyeGray);
   if (liveData.gameFlags[FLAG.RATHAZUL_PURCHASE_COUNTER] >= 8) {
-    GUI.addButton(7, 'Blue', buyDye, Items.Consumables.HairDyeBlue);
-    GUI.addButton(8, 'Green', buyDye, Items.Consumables.HairDyeGreen);
-    GUI.addButton(9, 'Orange', buyDye, Items.Consumables.HairDyeOrange);
-    GUI.addButton(10, 'Purple', buyDye, Items.Consumables.HairDyePurple);
-    GUI.addButton(11, 'Pink', buyDye, Items.Consumables.HairDyePink);
+    GUI.addButton(7, 'Blue', buyDye, liveData.Items.Consumables.HairDyeBlue);
+    GUI.addButton(8, 'Green', buyDye, liveData.Items.Consumables.HairDyeGreen);
+    GUI.addButton(9, 'Orange', buyDye, liveData.Items.Consumables.HairDyeOrange);
+    GUI.addButton(10, 'Purple', buyDye, liveData.Items.Consumables.HairDyePurple);
+    GUI.addButton(11, 'Pink', buyDye, liveData.Items.Consumables.HairDyePink);
   }
   if (liveData.gameFlags[FLAG.RATHAZUL_PURCHASE_COUNTER] >= 12) {
-    GUI.addButton(12, 'Rainbow', buyDye, Items.Consumables.HairDyeRainbow);
+    GUI.addButton(12, 'Rainbow', buyDye, liveData.Items.Consumables.HairDyeRainbow);
   }
   GUI.addButton(14, 'Nevermind', buyDyeNevermind);
 }
@@ -727,13 +728,13 @@ export function buyOils() {
   GUI.outputText('<br><br><b>(-50 Gems)</b>');
   liveData.player.changeGems(-50);
   GUI.menu();
-  GUI.addButton(0, 'Dark', buyOil, Items.Consumables.SkinOilDark);
-  GUI.addButton(1, 'Ebony', buyOil, Items.Consumables.SkinOilEbony);
-  GUI.addButton(2, 'Fair', buyOil, Items.Consumables.SkinOilFair);
-  GUI.addButton(3, 'Light', buyOil, Items.Consumables.SkinOilLight);
-  GUI.addButton(4, 'Mahogany', buyOil, Items.Consumables.SkinOilMahogany);
-  GUI.addButton(5, 'Olive', buyOil, Items.Consumables.SkinOilOlive);
-  GUI.addButton(6, 'Russet', buyOil, Items.Consumables.SkinOilRusset);
+  GUI.addButton(0, 'Dark', buyOil, liveData.Items.Consumables.SkinOilDark);
+  GUI.addButton(1, 'Ebony', buyOil, liveData.Items.Consumables.SkinOilEbony);
+  GUI.addButton(2, 'Fair', buyOil, liveData.Items.Consumables.SkinOilFair);
+  GUI.addButton(3, 'Light', buyOil, liveData.Items.Consumables.SkinOilLight);
+  GUI.addButton(4, 'Mahogany', buyOil, liveData.Items.Consumables.SkinOilMahogany);
+  GUI.addButton(5, 'Olive', buyOil, liveData.Items.Consumables.SkinOilOlive);
+  GUI.addButton(6, 'Russet', buyOil, liveData.Items.Consumables.SkinOilRusset);
   GUI.addButton(14, 'Nevermind', buyOilNevermind);
 }
 export function buyOil(oil: Item) {
@@ -757,10 +758,10 @@ export function buyLotions() {
   GUI.outputText('<br><br><b>(-50 Gems)</b>');
   liveData.player.changeGems(-50);
   GUI.menu();
-  GUI.addButton(0, 'Clear', buyLotion, Items.Consumables.BodyLotionClear);
-  GUI.addButton(1, 'Rough', buyLotion, Items.Consumables.BodyLotionRough);
-  GUI.addButton(2, 'Sexy', buyLotion, Items.Consumables.BodyLotionSexy);
-  GUI.addButton(3, 'Smooth', buyLotion, Items.Consumables.BodyLotionSmooth);
+  GUI.addButton(0, 'Clear', buyLotion, liveData.Items.Consumables.BodyLotionClear);
+  GUI.addButton(1, 'Rough', buyLotion, liveData.Items.Consumables.BodyLotionRough);
+  GUI.addButton(2, 'Sexy', buyLotion, liveData.Items.Consumables.BodyLotionSexy);
+  GUI.addButton(3, 'Smooth', buyLotion, liveData.Items.Consumables.BodyLotionSmooth);
   GUI.addButton(14, 'Nevermind', buyLotionNevermind);
 }
 export function buyLotion(lotion: Item) {
@@ -785,20 +786,20 @@ export function purifySomething() {
   GUI.outputText('Rathazul asks, "<i>What would you like me to purify?</i>"');
   GUI.menu();
   //Item purification offer
-  if (liveData.player.hasItem(Items.Consumables.IncubiDraft)) {
-    GUI.addButton(0, 'Incubi Draft', purifyItem, Items.Consumables.IncubiDraft);
+  if (liveData.player.hasItem(liveData.Items.Consumables.IncubiDraft)) {
+    GUI.addButton(0, 'Incubi Draft', purifyItem, liveData.Items.Consumables.IncubiDraft);
   }
-  if (liveData.player.hasItem(Items.Consumables.SuccubiMilk)) {
-    GUI.addButton(1, 'Succubi Milk', purifyItem, Items.Consumables.SuccubiMilk);
+  if (liveData.player.hasItem(liveData.Items.Consumables.SuccubiMilk)) {
+    GUI.addButton(1, 'Succubi Milk', purifyItem, liveData.Items.Consumables.SuccubiMilk);
   }
-  if (liveData.player.hasItem(Items.Consumables.SuccubiDelight)) {
-    GUI.addButton(2, 'S. Delight', purifyItem, Items.Consumables.SuccubiDelight);
+  if (liveData.player.hasItem(liveData.Items.Consumables.SuccubiDelight)) {
+    GUI.addButton(2, 'S. Delight', purifyItem, liveData.Items.Consumables.SuccubiDelight);
   }
-  /*if (player.hasItem(Items.Consumables.LaBova)) {
-            GUI.addButton(3, "LaBova", purifyItem, Items.Consumables.LaBova);
+  /*if (player.hasItem(liveData.Items.Consumables.LaBova)) {
+            GUI.addButton(3, "LaBova", purifyItem, liveData.Items.Consumables.LaBova);
         }
-        if (player.hasItem(Items.Consumables.MinoCum)) {
-            GUI.addButton(4, "Minotaur Cum", purifyItem, Items.Consumables.MinoCum);
+        if (player.hasItem(liveData.Items.Consumables.MinoCum)) {
+            GUI.addButton(4, "Minotaur Cum", purifyItem, liveData.Items.Consumables.MinoCum);
         }*/
   GUI.addButton(14, 'Back', rathazulWorkOffer);
 }
@@ -814,25 +815,25 @@ export function purifyItem(item: Item) {
   liveData.player.changeGems(-20);
   liveData.gameFlags[FLAG.RATHAZUL_PURCHASE_COUNTER]++;
   switch (item) {
-    case Items.Consumables.IncubiDraft:
-      liveData.player.destroyItems(Items.Consumables.IncubiDraft, 1);
-      Inventory.takeItem(Items.Consumables.IncubiDraftPurified, returnToRathazulMenu);
+    case liveData.Items.Consumables.IncubiDraft:
+      liveData.player.destroyItems(liveData.Items.Consumables.IncubiDraft, 1);
+      Inventory.takeItem(liveData.Items.Consumables.IncubiDraftPurified, returnToRathazulMenu);
       break;
-    case Items.Consumables.SuccubiMilk:
-      liveData.player.destroyItems(Items.Consumables.SuccubiMilk, 1);
-      Inventory.takeItem(Items.Consumables.SuccubiMilkPurified, returnToRathazulMenu);
+    case liveData.Items.Consumables.SuccubiMilk:
+      liveData.player.destroyItems(liveData.Items.Consumables.SuccubiMilk, 1);
+      Inventory.takeItem(liveData.Items.Consumables.SuccubiMilkPurified, returnToRathazulMenu);
       break;
-    /*case Items.Consumables.SuccubiDelight:
-                liveData.player.destroyItems(Items.Consumables.SuccubiDelight, 1);
-                Inventory.takeItem(Items.Consumables.SuccubiDelightPurified, returnToRathazulMenu);
+    /*case liveData.Items.Consumables.SuccubiDelight:
+                liveData.player.destroyItems(liveData.Items.Consumables.SuccubiDelight, 1);
+                Inventory.takeItem(liveData.Items.Consumables.SuccubiDelightPurified, returnToRathazulMenu);
                 break;
-            case Items.Consumables.LaBova:
-                liveData.player.destroyItems(Items.Consumables.LaBova, 1);
-                Inventory.takeItem(Items.Consumables.LaBovaPurified, returnToRathazulMenu);
+            case liveData.Items.Consumables.LaBova:
+                liveData.player.destroyItems(liveData.Items.Consumables.LaBova, 1);
+                Inventory.takeItem(liveData.Items.Consumables.LaBovaPurified, returnToRathazulMenu);
                 break;
-            case Items.Consumables.MinoCum:
-                liveData.player.destroyItems(Items.Consumables.MinoCum, 1);
-                Inventory.takeItem(Items.Consumables.MinotaurCumPurified, returnToRathazulMenu);
+            case liveData.Items.Consumables.MinoCum:
+                liveData.player.destroyItems(liveData.Items.Consumables.MinoCum, 1);
+                Inventory.takeItem(liveData.Items.Consumables.MinotaurCumPurified, returnToRathazulMenu);
                 break;*/
     default:
   }
@@ -858,9 +859,9 @@ export function purificationByRathazulBegin() {
 
 export function rathazulMakesPurifyPotion() {
   GUI.clearOutput();
-  liveData.player.destroyItems(Items.Consumables.PureHoney, 1);
-  // liveData.player.destroyItems(Items.Consumables.CalmMint, 1)
-  // liveData.player.destroyItems(Items.Consumables.PurePeach, 1)
+  liveData.player.destroyItems(liveData.Items.Consumables.PureHoney, 1);
+  // liveData.player.destroyItems(liveData.Items.Consumables.CalmMint, 1)
+  // liveData.player.destroyItems(liveData.Items.Consumables.PurePeach, 1)
   GUI.outputText(
     'You hurry over to Rathazul, and tell him you have the items you think he needs. His eyes widen in shock as you show them to him, and he immediately snatches them from you without a word, hurrying over to his alchemical equipment. You watch, uncertain of what he’s doing, as he messes around with it, but within minutes he has produced a strange-looking potion that he brings back to you.',
   );
@@ -870,7 +871,7 @@ export function rathazulMakesPurifyPotion() {
     '<br><br>Rathazul shrugs helplessly. "<i>This formula is untested; its effects are unpredictable... But, surely it cannot make things worse?</i>"',
   );
   GUI.outputText('<br><br>You concede he has a point and take the potion; all you need to do now is give it to Minerva and hope for the best.');
-  liveData.player.createKeyItem(KeyItems.RathazulsPurityPotion, 0, 0, 0, 0);
+  liveData.player.createKeyItem(liveData.KeyItems.RathazulsPurityPotion, 0, 0, 0, 0);
   GUI.menu();
   GUI.addButton(0, 'Next', returnToRathazulMenu);
 }
@@ -889,7 +890,7 @@ export function rathazulDebimboOffer() {
             }
             else {*/
     //Notification if the PC is the one bimbo'ed*
-    if (liveData.player.findPerk(PerkLib.BimboBrains) >= 0 || liveData.player.findPerk(PerkLib.FutaFaculties) >= 0) {
+    if (liveData.player.findPerk(liveData.PerkLib.BimboBrains) >= 0 || liveData.player.findPerk(liveData.PerkLib.FutaFaculties) >= 0) {
       GUI.outputText(
         '<br><br>Rathazul glances your way as you approach his lab, a thoughtful expression on his age-lined face. "<i>Tell me [name], do you truly enjoy living your life under the debilitating effects of that cursed potion? Even now the spark of intelligence has all but left from your eyes. Do you even understand what I\'m saying?</i>"',
       );
@@ -899,7 +900,7 @@ export function rathazulDebimboOffer() {
       GUI.outputText(
         '<br><br>"<i>Child, please... bring me five Scholar\'s Teas and 250 gems for reagents, then I can fix you! I can help you! Just... get the tea!</i>" the alchemist pleads, counting off to five on his clawed fingers for extra emphasis while shaking his gem pouch profusely. You bite your lower lip— he seems really really mad about this or something. Maybe you should like, get the tea?',
       );
-    } else if (liveData.player.findPerk(PerkLib.BroBrains) >= 0) {
+    } else if (liveData.player.findPerk(liveData.PerkLib.BroBrains) >= 0) {
       GUI.outputText(
         '<br><br>Rathazul glances your way as you approach his lab, a thoughtful expression on his age-lined face. "<i>I see you happen to have drank a can of Bro Brew in the past. If you ever need me to restore your intelligence capabilities, bring me five scholar teas and 250 gems. Thanks Marae you\'re not a bimbo; that would have been worse.</i>"',
       );
@@ -921,9 +922,9 @@ export function makeADeBimboDraft() {
   );
   //Take items
   liveData.player.changeGems(-250);
-  liveData.player.destroyItems(Items.Consumables.ScholarsTea, 5);
+  liveData.player.destroyItems(liveData.Items.Consumables.ScholarsTea, 5);
   liveData.gameFlags[FLAG.RATHAZUL_PURCHASE_COUNTER]++;
-  // Inventory.takeItem(Items.Consumables.Debimbo, returnToRathazulMenu)
+  // Inventory.takeItem(liveData.Items.Consumables.Debimbo, returnToRathazulMenu)
 }
 
 // export { RathazulScene }

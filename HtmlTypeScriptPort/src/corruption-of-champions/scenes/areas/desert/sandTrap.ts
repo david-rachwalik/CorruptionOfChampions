@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, UTIL, FLAG, Data, Creature, Items, COMBAT, Camp, StatusEffects } from 'coc';
+import { liveData, ENUM, GUI, UTIL, FLAG, Data, Creature, COMBAT, Camp } from 'coc';
 
 /**
  * Ported by Matraia on 10/7/16.
@@ -45,9 +45,9 @@ export class SandTrap extends Creature {
     this.weapon.attack = 10;
     this.armor.equipmentName = 'chitin';
     this.armor.defense = 20;
-    this.shield = Items.NOTHING;
-    this.upperGarment = Items.NOTHING;
-    this.lowerGarment = Items.NOTHING;
+    this.shield = liveData.Items.NOTHING;
+    this.upperGarment = liveData.Items.NOTHING;
+    this.lowerGarment = liveData.Items.NOTHING;
     this.bonusHP = 100;
     this.additionalXP = 0;
     this.lustVuln = 0.55;
@@ -84,7 +84,7 @@ export class SandTrap extends Creature {
     this.hornType = 0;
     this.horns = 0;
     this.gills = false;
-    this.tailType = ENUM.TailType.TAIL_TYPE_DEMONIC;
+    this.tailType = ENUM.TailType.DEMONIC;
     this.tailVenom = 0;
     this.tailRecharge = 0;
     this.wingType = 0;
@@ -92,8 +92,8 @@ export class SandTrap extends Creature {
     this.femininity = 50;
     this.tone = 0;
     this.thickness = 0;
-    this.hipRating = ENUM.HipRatingType.HIP_RATING_AMPLE + 2;
-    this.buttRating = ENUM.ButtRatingType.BUTT_RATING_LARGE;
+    this.hipRating = ENUM.HipRatingType.AMPLE + 2;
+    this.buttRating = ENUM.ButtRatingType.LARGE;
 
     //Sexual Characteristics
     //Cocks
@@ -102,18 +102,18 @@ export class SandTrap extends Creature {
     this.ballSize = 4;
     this.cumMultiplier = 3;
     //Vaginas
-    this.createVagina(false, ENUM.VaginalWetnessType.VAGINA_WETNESS_NORMAL, ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_NORMAL);
+    this.createVagina(false, ENUM.VaginalWetnessType.NORMAL, ENUM.VaginalLoosenessType.NORMAL);
     //Ass
     // this.ass = new Ass()
-    this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_NORMAL;
-    this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_DRY;
+    this.ass.analLooseness = ENUM.AnalLoosenessType.NORMAL;
+    this.ass.analWetness = ENUM.AnalWetnessType.DRY;
     //Breasts
     this.createBreastRow(0, 0);
 
     //Drops
     this.clearDrops(); //Need to be called before populating the item arrays.
-    this.addDrop(Items.Consumables.TrapOil, 90); //The former is the item, the latter is the drop chance in percent.
-    this.addDrop(Items.Consumables.OviElixir, 10);
+    this.addDrop(liveData.Items.Consumables.TrapOil, 90); //The former is the item, the latter is the drop chance in percent.
+    this.addDrop(liveData.Items.Consumables.OviElixir, 10);
     //TODO This actually should be a chained drop in the form of new ChainedDrop(consumables.TRAPOIL).add(consumables.OVIELIX,1/3);. Do we want to add in the chained drop functionality?
 
     //Victory/defeat
@@ -260,8 +260,8 @@ export class SandTrap extends Creature {
     //Lose to Sand Trap while in Bad End mode.
     if (
       liveData.gameFlags[FLAG.SANDTRAP_LOSS_REPEATS] >= 2 &&
-      liveData.player.eyeType == ENUM.EyeType.EYES_BLACK_EYES_SAND_TRAP &&
-      liveData.player.wingType == ENUM.WingType.WING_TYPE_GIANT_DRAGONFLY
+      liveData.player.eyeType == ENUM.EyeType.BlackEyesSandTrap &&
+      liveData.player.wingType == ENUM.WingType.GIANT_DRAGONFLY
     ) {
       loseLastFightWithSandTrap();
       return;
@@ -316,7 +316,7 @@ export function sandTrapWin() {
   if (liveData.player.lust >= 33) {
     GUI.outputText('<br><br>Before you go, you take in the helpless body of your would-be ambusher.  What do you do?');
     GUI.menu();
-    //TODO Track Down this Status Effect and see if it needs replacing: if (player.isNaga() && player.findStatusEffect(StatusEffects.Naga) >= 0 && player.gender > 0 && player.faceType == FACE_SNAKE_FANGS) GUI.addButton(0, "Naga3Some", nagaThreesomeWithSandTrap);
+    //TODO Track Down this Status Effect and see if it needs replacing: if (player.isNaga() && player.findStatusEffect(liveData.StatusEffects.Naga) >= 0 && player.gender > 0 && player.faceType == ENUM.FaceType.SnakeFangs) GUI.addButton(0, "Naga3Some", nagaThreesomeWithSandTrap);
     if (liveData.player.hasCock() && liveData.player.str >= 60) GUI.addButton(1, 'UseYourCock', cockWin); //stickWanginSandgina
     if (liveData.player.hasVagina()) GUI.addButton(2, 'RideVaginal', vaginaWin); //rideDatSandTarp
     if (liveData.player.gender > 0) GUI.addButton(3, 'Handjob', handjobWin); // useSandTarpsHands
@@ -828,7 +828,7 @@ export function cockLoseToSandTrap() {
   GUI.outputText(
     '<br><br>You awaken a while later, wearily getting to your feet and looking around.  You are standing in a featureless stretch of desert... there is no suggestion of the sandtrap, or indeed that you are in the same place where it caught you.  A fair amount of time has passed though, judging by the sky above you.  Perhaps it was all a particularly lucid mirage?  A sensation of... fullness in your abdomen suggests otherwise.  Clutching your bowels uneasily, you make your way back to camp.',
   );
-  //monster.createStatusEffect(StatusEffects.Fertilized,0,0,0,0); // TODO TEST THIS
+  //monster.createStatusEffect(liveData.StatusEffects.Fertilized,0,0,0,0); // TODO TEST THIS
   //sandTrapPregChance(); // TODO Set Up Pregnancy
   liveData.player.dynStats(['lib', 1]);
   liveData.player.slimeFeed();
@@ -846,7 +846,7 @@ export function chicksLoseToSandTrap() {
   GUI.outputText(
     '<br><br>"<i>Hyou arrrhe a vessel creature, arrrhen\'t you?</i>" says the sandtrap, gently stroking your face.  It seems the more excited it gets and the less it feels the need to pretend, the more fluttery and broken its voice becomes; it is like you are listening to a hive of bees that just happens to be forming words.',
   );
-  if (liveData.monster.findStatusEffect(StatusEffects.Fertilized) >= 0)
+  if (liveData.monster.findStatusEffect(liveData.StatusEffects.Fertilized) >= 0)
     GUI.outputText(
       '  "<i>A cute little wwworker hasz fallen into my home.  Wwwell, that isz ok.  Fortunately for hwyou, I already have some eggsz ready.  Hhyou will get to be a queen! Iszn\'t that exciting?</i>"',
     );
@@ -900,7 +900,7 @@ export function chicksLoseToSandTrap() {
     '<br><br>You awaken a while later, staggering to your feet and looking around.  You are standing in a featureless stretch of the desert... there is no suggestion of the sandtrap, or indeed that you are in the same place where it caught you.  A fair amount of time has passed though, judging by the sky above you.  Perhaps it was all a particularly lucid mirage?  A sensation of... fullness in your abdomen suggests otherwise.  Clutching your bowels uneasily, you make your way back to camp.',
   );
   //buttpreg only if RNG decided trap was fertilized, reduce lust, increase lib, simefeed
-  if (liveData.monster.findStatusEffect(StatusEffects.Fertilized) >= 0) sandTrapPregChance(); //TODO Pregnancy
+  if (liveData.monster.findStatusEffect(liveData.StatusEffects.Fertilized) >= 0) sandTrapPregChance(); //TODO Pregnancy
   liveData.player.dynStats(['lib', 1]);
   liveData.player.slimeFeed();
   //reduce lust, increase lib, slimefeed, reset hours since cum
@@ -919,7 +919,7 @@ export function genderlessLoseToSandTrap() {
   );
 
   //(Trap has fertilised eggs:
-  if (liveData.monster.findStatusEffect(StatusEffects.Fertilized) >= 0)
+  if (liveData.monster.findStatusEffect(liveData.StatusEffects.Fertilized) >= 0)
     GUI.outputText(
       '"<i>Not a worker OR a drone! Wwwell, that isz ok.  Even ants who hhhave nothing can be someone for somebody.  And hhyou can be mommy for my childrrhen!</i>"',
     );
@@ -968,9 +968,8 @@ export function genderlessLoseToSandTrap() {
 export function sandTrapPregChance() {
   //Only happens if PC aint already buttpregged
   // TODO Add stuff in to make sure the above happens.
-  if (liveData.gameFlags[FLAG.FERTILE_SANDTRAP] == 1)
-    liveData.player.buttKnockUp(ENUM.PregnancyType.PREGNANCY_SANDTRAP_FERTILE, ENUM.IncubationType.INCUBATION_SANDTRAP);
-  else liveData.player.buttKnockUp(ENUM.PregnancyType.PREGNANCY_SANDTRAP, ENUM.IncubationType.INCUBATION_SANDTRAP);
+  if (liveData.gameFlags[FLAG.FERTILE_SANDTRAP] == 1) liveData.player.buttKnockUp(ENUM.PregnancyType.SANDTRAP_FERTILE, ENUM.IncubationType.SANDTRAP);
+  else liveData.player.buttKnockUp(ENUM.PregnancyType.SANDTRAP, ENUM.IncubationType.SANDTRAP);
 }
 
 export function birfSandTarps() {
@@ -1051,8 +1050,8 @@ export function encounterASandTrap() {
   // First, see if the bad end triggers
   if (
     liveData.gameFlags[FLAG.SANDTRAP_LOSS_REPEATS] >= 2 &&
-    liveData.player.eyeType == ENUM.EyeType.EYES_BLACK_EYES_SAND_TRAP &&
-    liveData.player.wingType == ENUM.WingType.WING_TYPE_GIANT_DRAGONFLY
+    liveData.player.eyeType == ENUM.EyeType.BlackEyesSandTrap &&
+    liveData.player.wingType == ENUM.WingType.GIANT_DRAGONFLY
   ) {
     sandTrapBadEnd();
     return;

@@ -1,22 +1,21 @@
 export * as Appearance from 'coc/appearance';
-export * as ENUM from 'coc/appearanceEnums';
-export { CharacterType, Creature } from 'coc/creature';
+// export * as ENUM from 'coc/flags/appearanceEnums';
+export * as ENUM from 'coc/flags/asset-enums';
 export * as Debug from 'coc/debug';
-export { GameContext, liveData } from 'coc/globalVariables';
-export { Item, ItemLib, Items } from 'coc/itemClass';
+export { GameContext } from 'coc/game-context';
+export { Item, ItemContainer } from 'coc/itemClass';
 export { HairDye, SkinOil, BodyLotion } from 'coc/itemConstructors';
 export { ItemSlot } from 'coc/itemSlotClass';
-export { KeyItem, KeyItemType, KeyItemIDs } from 'coc/keyItemClass';
-export { KeyItems } from 'coc/keyItemLib';
+export { KeyItem, KeyItemType } from 'coc/keyItemClass';
+export { KeyItemTypeContainer } from 'coc/keyItemLib';
 export * as MAIN from 'coc/main';
 export * as PerkMenuBuilder from 'coc/perkBuildMenu';
-export { Perk, PerkType, PerkIDs } from 'coc/perkClass';
-export { PerkLib } from 'coc/perkLib';
-export { Spell, Player } from 'coc/player';
+export { Perk, PerkType } from 'coc/perkClass';
+export { PerkTypeContainer } from 'coc/perkLib';
 export * as PlayerInfo from 'coc/playerInfo';
 export { Pregnancy } from 'coc/pregnancy';
-export { StatusEffect, StatusEffectType, StatusEffectIDs } from 'coc/statusEffectClass';
-export { BindType, VenomType, StatusEffects } from 'coc/statusEffectLib';
+export { StatusEffect, StatusEffectType } from 'coc/statusEffectClass';
+export { BindType, VenomType, StatusEffectTypeContainer } from 'coc/statusEffectLib';
 
 export * as GUI from 'coc/engine/gui';
 export * as Input from 'coc/engine/input';
@@ -35,6 +34,11 @@ export { ItemMaterials } from 'coc/items/materials';
 export * as TransformationEffects from 'coc/items/transformationEffects';
 export { ItemWeapon } from 'coc/items/weapons';
 export * as ReductoMenu from 'coc/items/specialConsumables/reducto';
+
+// --- MODELS ---
+
+export { Creature } from 'coc/models/creature';
+export { Spell, Player } from 'coc/models/player';
 
 export { Ass } from 'coc/models/body-parts/assClass';
 export { BreastRow } from 'coc/models/body-parts/breastRowClass';
@@ -83,3 +87,8 @@ export * as RathazulScene from 'coc/scenes/npcs/rathazul';
 export * as PlacesFarm from 'coc/scenes/places/farm';
 export * as TownRuins from 'coc/scenes/places/townruins';
 export * as WhitneyScene from 'coc/scenes/places/farm/whitney';
+
+// --- Live Database Context ---
+
+// export { StatusEffects, StatusEffectIDs, PerkLib, KeyItems, ItemLib, Items, liveData } from 'coc/main-context';
+export { liveData } from 'coc/main-context';

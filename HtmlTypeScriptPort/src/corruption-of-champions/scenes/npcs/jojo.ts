@@ -53,8 +53,8 @@
 //         this.cumMultiplier = 1
 //         this.hoursSinceCum = 1000
 //         this.createBreastRow(0)
-//         this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_TIGHT
-//         this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_NORMAL
+//         this.ass.analLooseness = ENUM.AnalLoosenessType.TIGHT
+//         this.ass.analWetness = ENUM.AnalWetnessType.NORMAL
 //         if (liveData.gameFlags[FLAG.JOJO_CORRUPTION_STAGE] == 3) {
 //             this.lust += 30
 //             this.cocks[0].cockThickness += 0.2
@@ -242,7 +242,7 @@
 //         GUI.clearOutput()
 //         this.jojoSprite()
 //         GUI.menu()
-//         if (liveData.player.findStatusEffect(StatusEffects.Infested) >= 0) {
+//         if (liveData.player.findStatusEffect(liveData.StatusEffects.Infested) >= 0) {
 //             GUI.outputText("As you approach the serene monk, you see his nose twitch, disturbing his meditation.<br><br>")
 //             GUI.outputText(
 //                 '"<i>It seems that the agents of corruption have taken residence within the temple that is your body.</i>", Jojo says flatly. "<i>This is a most unfortunate development. There is no reason to despair as there are always ways to fight the corruption. However, great effort will be needed to combat this form of corruption and may leave lasting impressions upon you. If you are ready, we can purge your being of the rogue creatures of lust.</i>"<br><br>'
@@ -337,7 +337,7 @@
 //             getGame().followerInteractions.catchRathazulNapping();
 //             return;
 //         }*/
-//         if (liveData.player.findStatusEffect(StatusEffects.Infested) >= 0) {
+//         if (liveData.player.findStatusEffect(liveData.StatusEffects.Infested) >= 0) {
 //             // Worms overrides everything else
 //             GUI.outputText("As you approach the serene monk, you see his nose twitch.<br><br>")
 //             GUI.outputText(
@@ -412,7 +412,7 @@
 //             null,
 //             liveData.gameFlags[FLAG.JOJO_NIGHT_WATCH] > 0 ? "Request him to stop guarding the camp." : "Request him to guard the camp at night."
 //         )
-//         if (liveData.player.findStatusEffect(StatusEffects.Infested) >= 0) GUI.addButton(5, "Purge", this.wormRemoval, null, null, null, "Request him to purge the worms from your body.")
+//         if (liveData.player.findStatusEffect(liveData.StatusEffects.Infested) >= 0) GUI.addButton(5, "Purge", this.wormRemoval, null, null, null, "Request him to purge the worms from your body.")
 //         if (liveData.player.cor > 10 && liveData.player.lust >= 33 && liveData.player.gender > 0 && liveData.gameFlags[FLAG.DISABLED_JOJO_RAPE] <= 0)
 //             GUI.addButton(8, "Rape", this.jojoAtCampRape, null, null, null, "Rape the poor monk mouse-morph." + (liveData.player.cor < 40 ? " Why would you do that?" : ""))
 //         if (liveData.player.lust >= 33 && liveData.gameFlags[FLAG.JOJO_CORRUPTION_STAGE] <= -3) GUI.addButton(8, "Sex", this.pureJojoSexMenu, null, null, null, "Initiate sexy time with the mouse-morph.")
@@ -623,44 +623,44 @@
 //             "As you start up a conversation with Jojo, the two of you speak at length about nothing really important or noteworthy, just small talk. That is until the monk brings up the subject of your background. You tell him about Ingnam and your family there, and the tradition of sending a champion through the portal. When he asks why anyone would choose to come here, you tell him how legends say that in years a champion wasn’t sent through the portal, terrible things happened to the village.<br><br>"
 //         )
 //         GUI.outputText("“<i>That portal?</i>” Jojo asks, pointing to the very portal you stumbled through. You nod and he asks, “<i>So... what were you like in Ingnam?</i>”<br><br>")
-//         if (liveData.player.findPerk(PerkLib.HistoryAlchemist) >= 0) {
+//         if (liveData.player.findPerk(liveData.PerkLib.HistoryAlchemist) >= 0) {
 //             GUI.outputText(
 //                 "You tell Jojo that you were the assistant to Riku, an alchemist residing in your village. He asks questions about your time with the alchemist and how you family felt about you taking up alchemy. You tell him that you were just about to go into advanced studies when it was announced that you were the next champion and all you really learned was how to increase the potency of certain types of items.<br><br>"
 //             )
-//         } else if (liveData.player.findPerk(PerkLib.HistoryFighter) >= 0) {
+//         } else if (liveData.player.findPerk(liveData.PerkLib.HistoryFighter) >= 0) {
 //             GUI.outputText(
 //                 "You tell Jojo about how, growing up, you got into fights a lot. You name names and tell him why and how each of those little brats had got what was coming to them. You tell him how you had planned to join the village guard, but that became a pipe dream when it was announced that you were the next champion.<br><br>"
 //             )
-//         } else if (liveData.player.findPerk(PerkLib.HistoryHealer) >= 0) {
+//         } else if (liveData.player.findPerk(liveData.PerkLib.HistoryHealer) >= 0) {
 //             GUI.outputText(
 //                 "You tell Jojo about how you spent a lot of your time at the side of Dende, the village healer. You talk about why you wanted to spend time with the older man as he looked after the sick and infirm and the skills you learned there. You let him know how you had just decided to train to become an official healer when you were announced to be the next champion.<br><br>"
 //             )
-//         } else if (liveData.player.findPerk(PerkLib.HistoryReligious) >= 0) {
+//         } else if (liveData.player.findPerk(liveData.PerkLib.HistoryReligious) >= 0) {
 //             GUI.outputText(
 //                 "You tell Jojo about how you spent most of your time in the temple. He seems to really like hearing about the differences in religious practices between the Celestial Lotus and your village. You tell him about the various clergy of your hometown and how Sister Esther took time to teach you about meditation.<br><br>"
 //             )
-//         } else if (liveData.player.findPerk(PerkLib.HistoryScholar) >= 0) {
+//         } else if (liveData.player.findPerk(liveData.PerkLib.HistoryScholar) >= 0) {
 //             GUI.outputText("You tell Jojo about your insatiable thirst for knowledge and how you spent a lot of time in school. You tell him the story about how you 'convinced' Mr. ")
 //             if (liveData.silly) GUI.outputText("Savin")
 //             else GUI.outputText("Sellet")
 //             GUI.outputText(" to let you read some of the rare books in his collection, skipping over how much begging and pleading was actually involved.<br><br>")
-//         } else if (liveData.player.findPerk(PerkLib.HistorySlut) >= 0) {
+//         } else if (liveData.player.findPerk(liveData.PerkLib.HistorySlut) >= 0) {
 //             GUI.outputText("You tell Jojo about how you spent time... making friends. Jojo looks at you weirdly and when you tell him you had a lot of friends....<br><br>")
 //             GUI.outputText("“<i>That's nice I guess [name] but didn't you have aspirations beyond being, erm... popular?</i>” he questions.<br><br>")
 //             GUI.outputText("You laugh and tell him that you were just really good and making friends, instead of the truth about how much of a slut you actually were.<br><br>")
-//         } else if (liveData.player.findPerk(PerkLib.HistorySlacker) >= 0) {
+//         } else if (liveData.player.findPerk(liveData.PerkLib.HistorySlacker) >= 0) {
 //             GUI.outputText(
 //                 "You tell Jojo about how you spent your time basically relaxing with your fiends. You gloss over how big of a lazy bum you were with stories of the times you generally made a nuisance of yourself. You don’t tell him that you’re pretty sure you were chosen as the next champion in order to be gotten rid of.<br><br>"
 //             )
-//         } else if (liveData.player.findPerk(PerkLib.HistorySmith) >= 0) {
+//         } else if (liveData.player.findPerk(liveData.PerkLib.HistorySmith) >= 0) {
 //             GUI.outputText(
 //                 "You tell Jojo about how you spent your time training to become a blacksmith. Not knowing much about smithing he asks questions about the things you learned and you answer them to the best of your ability. To finish you describe the process of fitting armor in great detail and how you were going to start learning advanced techniques but were announced to be the next champion.<br><br>"
 //             )
-//         } else if (liveData.player.findPerk(PerkLib.HistoryWhore) >= 0) {
+//         } else if (liveData.player.findPerk(liveData.PerkLib.HistoryWhore) >= 0) {
 //             GUI.outputText(
 //                 "You tell Jojo about how you spent a lot of your time... making money. When the naive little monk asks how, you just smile as you fondly remember the older whore, Poison, showing you the ropes and teaching the tricks of the trade. Regardless of how it made people think of you, it was certainly good money. In an attempt to hide some of the messier details of your past from the monk, you explain how you accepted... odd jobs for people, important work that not many others in the village would be willing to accept. He seems confused but shrugs it off.<br><br>"
 //             )
-//         } else if (liveData.player.findPerk(PerkLib.HistoryFortune) >= 0) {
+//         } else if (liveData.player.findPerk(liveData.PerkLib.HistoryFortune) >= 0) {
 //             GUI.outputText("You tell Jojo about how you're lucky and you've made quite a bit of money. When the monk asks how, you shrug and tell him it's just plain luck.<br><br>")
 //         } else {
 //             GUI.outputText("Somehow, you don't seem to have a defined history perk... <b>Please report a bug!</b><br><br>")
@@ -835,7 +835,7 @@
 //         }
 //         liveData.gameFlags[TIMES_TRAINED_WITH_JOJO]++
 //         // {If everything is cool}
-//         if (liveData.player.findPerk(PerkLib.ControlledBreath) < 0 && liveData.player.findPerk(PerkLib.CleansingPalm) < 0 && liveData.player.findPerk(PerkLib.Enlightened) < 0) {
+//         if (liveData.player.findPerk(liveData.PerkLib.ControlledBreath) < 0 && liveData.player.findPerk(liveData.PerkLib.CleansingPalm) < 0 && liveData.player.findPerk(liveData.PerkLib.Enlightened) < 0) {
 //             GUI.outputText("Jojo gives you a bright cheerful smile, “<i>Alright [name]... let's begin.</i>”<br><br>")
 //             GUI.outputText(
 //                 "Jojo's teaching style periodically switches between lecture and sparring. When he explains a concept or a strike, he guides you through it before asking you to try it on him. He is patient but firm. He doesn't punish you when you make a mistake, instead, corrects you and asks you to try again. He doesn't allow you to give up, and his teaching style stops you from feeling frustrated.<br><br>"
@@ -853,11 +853,11 @@
 //                 else GUI.outputText(" rise and fall")
 //                 GUI.outputText(" smoothly even in the heat of battle. From now on you know you'll recover more quickly.<br><br>")
 //                 GUI.outputText("<b>(Perk Gained: Controlled Breath -</b> Increases rate of fatigue regeneration by 10%<b>)</b>")
-//                 liveData.player.createPerk(PerkLib.ControlledBreath, 0, 0, 0, 0)
+//                 liveData.player.createPerk(liveData.PerkLib.ControlledBreath, 0, 0, 0, 0)
 //             }
 //         }
 //         //{after the PC has gained the controlled breath perk}
-//         else if (liveData.player.findPerk(PerkLib.ControlledBreath) >= 0 && liveData.player.findPerk(PerkLib.CleansingPalm) < 0 && liveData.player.findPerk(PerkLib.Enlightened) < 0) {
+//         else if (liveData.player.findPerk(liveData.PerkLib.ControlledBreath) >= 0 && liveData.player.findPerk(liveData.PerkLib.CleansingPalm) < 0 && liveData.player.findPerk(liveData.PerkLib.Enlightened) < 0) {
 //             GUI.outputText("Jojo gives you a big toothy grin, “<i>Alright [name]... let's begin.</i>”<br><br>")
 //             GUI.outputText(
 //                 "Jojo switches up the way he is instructing you. Largely due to your increased endurance, the two of you spend more time moving through forms together and practicing strikes and maneuvers. When it comes time for a brief lecture, he breaks out one of the few scrolls he has from his order and tells you what he knows about the contents.<br><br>"
@@ -870,11 +870,11 @@
 //                 GUI.outputText("The repeated movements are slowly starting to sink in, your muscles becoming accustomed to Jojo's training.<br><br>")
 //                 GUI.outputText("By the end of the training session with the mouse, you think that you may have picked up something that might help against the denizens of this world.<br><br>")
 //                 GUI.outputText("<b>(Ability Gained: Cleansing Palm -</b> A ranged fighting technique of Jojo's order, allows you to blast your enemies with waves of pure spiritual energy, weakening them and hurting the corrupt.<b>)</b>")
-//                 liveData.player.createPerk(PerkLib.CleansingPalm, 0, 0, 0, 0)
+//                 liveData.player.createPerk(liveData.PerkLib.CleansingPalm, 0, 0, 0, 0)
 //             }
 //         }
 //         //{after the PC has gained the Cleansing Palm attack}
-//         else if (liveData.player.findPerk(PerkLib.ControlledBreath) >= 0 && liveData.player.findPerk(PerkLib.CleansingPalm) >= 0 && liveData.player.findPerk(PerkLib.Enlightened) < 0) {
+//         else if (liveData.player.findPerk(liveData.PerkLib.ControlledBreath) >= 0 && liveData.player.findPerk(liveData.PerkLib.CleansingPalm) >= 0 && liveData.player.findPerk(liveData.PerkLib.Enlightened) < 0) {
 //             GUI.outputText("Jojo gives you a big smile brimming with pride, “<i>Alright [Name]... let's begin.</i>”<br><br>")
 //             GUI.outputText(
 //                 "Largely due to your increased endurance and improved technique the two of you spend more time sparring and dancing through the forms Jojo knows. When it comes time for a brief lecture, Jojo pants as he sits with you, taking a minute to regain his breath. Jojo's lectures, instead of dealing with how to strike and defend oneself, deal with the nature of the soul. You learn much about individuality, willpower and determination and after the lecture the two of you meditate on what you've learned for a few silent moments.<br><br>"
@@ -891,7 +891,7 @@
 //                     "The camp is alive with the sounds of voices on the wind, of the ominous sizzling of the great scar between worlds that is the portal that brought you here. You feel open to the universe as if it were a lady in a dress sitting next to you, that you could easily reach out and touch. You feel liberated and free despite the fact that you are not moving a muscle. You are ready for anything but expecting nothing. You are neither thinking nor dreaming, you simply are.<br><br>"
 //                 )
 //                 GUI.outputText("<b>(Perk Gained: Enlightened -</b> White magic threshold reduced. Meditation restores health. Grants the ability to meditate alone. You can still masturbate though.<b>)</b>")
-//                 liveData.player.createPerk(PerkLib.Enlightened, 0, 0, 0, 0)
+//                 liveData.player.createPerk(liveData.PerkLib.Enlightened, 0, 0, 0, 0)
 //             }
 //         }
 //         //{after PC has gained the Enlightened Perk}
@@ -982,7 +982,7 @@
 //         if (liveData.player.HP > liveData.player.maxHP() * 0.5) liveData.player.HP = Math.floor(liveData.player.maxHP() * 0.5)
 //         liveData.player.damageHunger(30)
 //         liveData.player.sens = 11
-//         liveData.player.removeStatusEffect(StatusEffects.Infested)
+//         liveData.player.removeStatusEffect(liveData.StatusEffects.Infested)
 //         liveData.player.modStats(["sen", -1], ["cor", -15])
 //         liveData.player.orgasm()
 //         GUI.doNext(Camp.returnToCampUseOneHour)
@@ -2097,7 +2097,7 @@
 //             GUI.addButton(0, "Gentle BJ", this.corruptJojoBJGentle)
 //             GUI.addButton(5, "Cruel BJ", this.corruptJojoBJCruel)
 //             GUI.addButton(3, "Gentle Anal", this.corruptJojoAnalGentle)
-//             /*if (player.findPerk(PerkLib.Whispered) >= 0)
+//             /*if (player.findPerk(liveData.PerkLib.Whispered) >= 0)
 //                 GUI.addButton(8, "Whisper", this.whisperJojobait);
 //             else */ GUI.addButton(8, "Cruel Anal", this.corruptJojoAnalCruel) //Overrides Anal Smother - Herms don't smother, they fuck
 //         }

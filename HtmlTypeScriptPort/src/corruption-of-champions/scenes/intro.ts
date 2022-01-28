@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, Camp, Player, Items } from 'coc';
+import { liveData, ENUM, GUI, Camp, Player } from 'coc';
 
 //------------
 // CREATION
@@ -7,8 +7,8 @@ export function initializeNewGame() {
   //Initialize player
   liveData.player = new Player();
   liveData.player.HP = liveData.player.maxHP();
-  liveData.player.weapon = Items.NOTHING;
-  liveData.player.armor = Items.Armor.ComfortableClothes;
+  liveData.player.weapon = liveData.Items.NOTHING;
+  liveData.player.armor = liveData.Items.Armor.ComfortableClothes;
   //Clear Flags
   //flags = [0] * 3000;
   //Route to character naming
@@ -34,15 +34,15 @@ export function chooseGender() {
   GUI.clearOutput();
   GUI.outputText('You are ' + liveData.player.name + '. Are you a man or a woman?');
   GUI.menu();
-  GUI.addButton(0, 'Man', setGender, ENUM.GenderType.GENDER_MALE);
-  GUI.addButton(1, 'Woman', setGender, ENUM.GenderType.GENDER_FEMALE);
-  GUI.addButton(2, 'Hermaphrodite', setGender, ENUM.GenderType.GENDER_HERM);
+  GUI.addButton(0, 'Man', setGender, ENUM.GenderType.Male);
+  GUI.addButton(1, 'Woman', setGender, ENUM.GenderType.Female);
+  GUI.addButton(2, 'Hermaphrodite', setGender, ENUM.GenderType.Herm);
 }
 export function setGender(gender: ENUM.GenderType): void {
   switch (gender) {
-    case ENUM.GenderType.GENDER_NONE:
+    case ENUM.GenderType.NONE:
       break;
-    case ENUM.GenderType.GENDER_MALE: //Male
+    case ENUM.GenderType.Male: //Male
       //Attribute changes
       liveData.player.str += 3;
       liveData.player.tou += 2;
@@ -60,7 +60,7 @@ export function setGender(gender: ENUM.GenderType): void {
       //Breasts
       liveData.player.createBreastRow();
       break;
-    case ENUM.GenderType.GENDER_FEMALE: //Female
+    case ENUM.GenderType.Female: //Female
       //Attribute changes
       liveData.player.spe += 3;
       liveData.player.inte += 2;
@@ -77,7 +77,7 @@ export function setGender(gender: ENUM.GenderType): void {
       //Breasts
       liveData.player.createBreastRow();
       break;
-    case ENUM.GenderType.GENDER_HERM: //Hermaphrodite
+    case ENUM.GenderType.Herm: //Hermaphrodite
       //Attribute changes
       liveData.player.str += 1;
       liveData.player.tou += 1;
@@ -104,25 +104,25 @@ export function chooseBuild() {
   GUI.clearOutput();
   GUI.menu();
   switch (liveData.player.gender) {
-    case ENUM.GenderType.GENDER_NONE:
+    case ENUM.GenderType.NONE:
       GUI.outputText("This isn't supposed to happen. Off you go!");
       GUI.doNext(chooseGender);
       break;
-    case ENUM.GenderType.GENDER_MALE:
+    case ENUM.GenderType.Male:
       GUI.outputText('You are a man. Your upbringing has provided you an advantage in strength and toughness.');
       GUI.addButton(0, 'Lean', setBuild, 'MaleLean');
       GUI.addButton(1, 'Average', setBuild, 'MaleAverage');
       GUI.addButton(2, 'Thick', setBuild, 'MaleThick');
       GUI.addButton(3, 'Girly', setBuild, 'MaleGirly');
       break;
-    case ENUM.GenderType.GENDER_FEMALE:
+    case ENUM.GenderType.Female:
       GUI.outputText('You are a woman. Your upbringing has provided you an advantage in speed and intellect.');
       GUI.addButton(0, 'Slender', setBuild, 'FemaleSlender');
       GUI.addButton(1, 'Average', setBuild, 'FemaleAverage');
       GUI.addButton(2, 'Curvy', setBuild, 'FemaleCurvy');
       GUI.addButton(3, 'Tomboyish', setBuild, 'FemaleTomboyish');
       break;
-    case ENUM.GenderType.GENDER_HERM:
+    case ENUM.GenderType.Herm:
       GUI.outputText('You are a hermaphrodite. Your upbringing has provided you with the best of both worlds.');
       GUI.addButton(0, 'Mas. Lean', setBuild, 'MaleLean');
       GUI.addButton(1, 'Mas. Average', setBuild, 'MaleAverage');
@@ -147,17 +147,17 @@ export function setBuild(build: string): void {
       liveData.player.thickness = 30;
       liveData.player.tone += 5;
 
-      liveData.player.breastRows[0].breastRating = ENUM.BreastSizeType.BREAST_CUP_FLAT;
-      liveData.player.buttRating = ENUM.ButtRatingType.BUTT_RATING_TIGHT;
-      liveData.player.hipRating = ENUM.HipRatingType.HIP_RATING_SLENDER;
+      liveData.player.breastRows[0].breastRating = ENUM.BreastSizeType.CUP_FLAT;
+      liveData.player.buttRating = ENUM.ButtRatingType.TIGHT;
+      liveData.player.hipRating = ENUM.HipRatingType.SLENDER;
       break;
     case 'MaleAverage':
       liveData.player.femininity = 30;
       liveData.player.thickness = 50;
 
-      liveData.player.breastRows[0].breastRating = ENUM.BreastSizeType.BREAST_CUP_FLAT;
-      liveData.player.buttRating = ENUM.ButtRatingType.BUTT_RATING_AVERAGE;
-      liveData.player.hipRating = ENUM.HipRatingType.HIP_RATING_AVERAGE;
+      liveData.player.breastRows[0].breastRating = ENUM.BreastSizeType.CUP_FLAT;
+      liveData.player.buttRating = ENUM.ButtRatingType.AVERAGE;
+      liveData.player.hipRating = ENUM.HipRatingType.AVERAGE;
       break;
     case 'MaleThick':
       liveData.player.spe -= 4;
@@ -168,9 +168,9 @@ export function setBuild(build: string): void {
       liveData.player.thickness = 70;
       liveData.player.tone -= 5;
 
-      liveData.player.breastRows[0].breastRating = ENUM.BreastSizeType.BREAST_CUP_FLAT;
-      liveData.player.buttRating = ENUM.ButtRatingType.BUTT_RATING_NOTICEABLE;
-      liveData.player.hipRating = ENUM.HipRatingType.HIP_RATING_AVERAGE;
+      liveData.player.breastRows[0].breastRating = ENUM.BreastSizeType.CUP_FLAT;
+      liveData.player.buttRating = ENUM.ButtRatingType.NOTICEABLE;
+      liveData.player.hipRating = ENUM.HipRatingType.AVERAGE;
       break;
     case 'MaleGirly':
       liveData.player.str -= 2;
@@ -180,9 +180,9 @@ export function setBuild(build: string): void {
       liveData.player.thickness = 50;
       liveData.player.tone = 26;
 
-      liveData.player.breastRows[0].breastRating = ENUM.BreastSizeType.BREAST_CUP_A;
-      liveData.player.buttRating = ENUM.ButtRatingType.BUTT_RATING_NOTICEABLE;
-      liveData.player.hipRating = ENUM.HipRatingType.HIP_RATING_SLENDER;
+      liveData.player.breastRows[0].breastRating = ENUM.BreastSizeType.CUP_A;
+      liveData.player.buttRating = ENUM.ButtRatingType.NOTICEABLE;
+      liveData.player.hipRating = ENUM.HipRatingType.SLENDER;
       break;
     //Female builds (Hermaphrodites choosing these builds will be a futanari)
     case 'FemaleSlender':
@@ -193,17 +193,17 @@ export function setBuild(build: string): void {
       liveData.player.thickness = 30;
       liveData.player.tone += 5;
 
-      liveData.player.breastRows[0].breastRating = ENUM.BreastSizeType.BREAST_CUP_B;
-      liveData.player.buttRating = ENUM.ButtRatingType.BUTT_RATING_TIGHT;
-      liveData.player.hipRating = ENUM.HipRatingType.HIP_RATING_AMPLE;
+      liveData.player.breastRows[0].breastRating = ENUM.BreastSizeType.CUP_B;
+      liveData.player.buttRating = ENUM.ButtRatingType.TIGHT;
+      liveData.player.hipRating = ENUM.HipRatingType.AMPLE;
       break;
     case 'FemaleAverage':
       liveData.player.femininity = 70;
       liveData.player.thickness = 50;
 
-      liveData.player.breastRows[0].breastRating = ENUM.BreastSizeType.BREAST_CUP_C;
-      liveData.player.buttRating = ENUM.ButtRatingType.BUTT_RATING_NOTICEABLE;
-      liveData.player.hipRating = ENUM.HipRatingType.HIP_RATING_AMPLE;
+      liveData.player.breastRows[0].breastRating = ENUM.BreastSizeType.CUP_C;
+      liveData.player.buttRating = ENUM.ButtRatingType.NOTICEABLE;
+      liveData.player.hipRating = ENUM.HipRatingType.AMPLE;
       break;
     case 'FemaleCurvy':
       liveData.player.spe -= 2;
@@ -213,9 +213,9 @@ export function setBuild(build: string): void {
       liveData.player.femininity = 71;
       liveData.player.thickness = 70;
 
-      liveData.player.breastRows[0].breastRating = ENUM.BreastSizeType.BREAST_CUP_D;
-      liveData.player.buttRating = ENUM.ButtRatingType.BUTT_RATING_LARGE;
-      liveData.player.hipRating = ENUM.HipRatingType.HIP_RATING_CURVY;
+      liveData.player.breastRows[0].breastRating = ENUM.BreastSizeType.CUP_D;
+      liveData.player.buttRating = ENUM.ButtRatingType.LARGE;
+      liveData.player.hipRating = ENUM.HipRatingType.CURVY;
       break;
     case 'FemaleTomboyish':
       liveData.player.str += 1;
@@ -225,9 +225,9 @@ export function setBuild(build: string): void {
       liveData.player.thickness = 50;
       liveData.player.tone = 50;
 
-      liveData.player.breastRows[0].breastRating = ENUM.BreastSizeType.BREAST_CUP_A;
-      liveData.player.buttRating = ENUM.ButtRatingType.BUTT_RATING_TIGHT;
-      liveData.player.hipRating = ENUM.HipRatingType.HIP_RATING_SLENDER;
+      liveData.player.breastRows[0].breastRating = ENUM.BreastSizeType.CUP_A;
+      liveData.player.buttRating = ENUM.ButtRatingType.TIGHT;
+      liveData.player.hipRating = ENUM.HipRatingType.SLENDER;
       break;
     default:
   }
@@ -309,7 +309,7 @@ export function arrivalPartOne(): void {
     'The entrance of the cave gapes open, sharp stalactites hanging over the entrance, giving it the appearance of a monstrous mouth.  Elder Nomur stops and nods to you, gesturing for you to proceed alone.<br><br>',
   );
   GUI.outputText('The cave is unusually warm and damp, ');
-  if (liveData.player.gender == ENUM.GenderType.GENDER_FEMALE)
+  if (liveData.player.gender == ENUM.GenderType.Female)
     GUI.outputText('and your body seems to feel the same way, flushing as you feel a warmth and dampness between your thighs. ');
   else GUI.outputText('and your body reacts with a sense of growing warmth focusing in your groin, your manhood hardening for no apparent reason. ');
   GUI.outputText(
@@ -326,7 +326,7 @@ export function arrivalPartTwo(): void {
   GUI.outputText(
     "You wake with a splitting headache and a body full of burning desire.  A shadow darkens your view momentarily and your training kicks in.  You roll to the side across the bare ground and leap to your feet.  A surprised looking imp stands a few feet away, holding an empty vial.  He's completely naked, an improbably sized pulsing red cock hanging between his spindly legs.  You flush with desire as a wave of lust washes over you, your mind reeling as you fight ",
   );
-  if (liveData.player.gender == ENUM.GenderType.GENDER_FEMALE) GUI.outputText('the urge to chase down his rod and impale yourself on it.<br><br>');
+  if (liveData.player.gender == ENUM.GenderType.Female) GUI.outputText('the urge to chase down his rod and impale yourself on it.<br><br>');
   else GUI.outputText('the urge to ram your cock down his throat.  The strangeness of the thought surprises you.<br><br>');
   GUI.outputText(
     'The imp says, "<i>I\'m amazed you aren\'t already chasing down my cock, human.  The last Champion was an eager whore for me by the time she woke up.  This lust draft made sure of it.</i>"',

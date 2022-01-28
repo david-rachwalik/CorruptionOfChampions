@@ -1,4 +1,4 @@
-import { liveData, GUI, Data, UTIL, FLAG, KeyItems, Camp, AmilyScene } from 'coc';
+import { liveData, GUI, Data, UTIL, FLAG, Camp, AmilyScene } from 'coc';
 
 Data.addToGameFlags(FLAG.AMILY_VILLAGE_EXPLORED, FLAG.HAS_ARMOR_RACK, FLAG.HAS_EQUIPMENT_RACK, FLAG.HAS_WEAPON_RACK);
 
@@ -99,15 +99,15 @@ export function exploreVillageRuin() {
     switch (rack) {
       case 0:
         liveData.gameFlags[FLAG.HAS_ARMOR_RACK] = 1;
-        liveData.player.createKeyItem(KeyItems.ArmorRack, 0, 0, 0, 0);
+        liveData.player.createKeyItem(liveData.KeyItems.ArmorRack, 0, 0, 0, 0);
         break;
       case 1:
         liveData.gameFlags[FLAG.HAS_WEAPON_RACK] = 1;
-        liveData.player.createKeyItem(KeyItems.WeaponRack, 0, 0, 0, 0);
+        liveData.player.createKeyItem(liveData.KeyItems.WeaponRack, 0, 0, 0, 0);
         break;
       case 2:
         liveData.gameFlags[FLAG.HAS_EQUIPMENT_RACK] = 1;
-        liveData.player.createKeyItem(KeyItems.ShieldRack, 0, 0, 0, 0);
+        liveData.player.createKeyItem(liveData.KeyItems.ShieldRack, 0, 0, 0, 0);
         break;
       default:
         GUI.outputText('  <b>Please let Kitteh6660 know about this bug.</b>');

@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, FLAG, Creature, Data, UTIL, Items, PerkLib, Camp, COMBAT } from 'coc';
+import { liveData, ENUM, GUI, FLAG, Creature, Data, UTIL, Camp, COMBAT } from 'coc';
 
 // Merging Oasis and Demon Pack code into one file
 
@@ -37,13 +37,13 @@ export class DemonPack extends Creature {
     this.XP = 0;
     this.gems = UTIL.rand(25) + 10;
     //Battle variables
-    this.weapon = Items.NOTHING;
-    this.shield = Items.NOTHING;
-    this.armor = Items.NOTHING;
-    this.upperGarment = Items.NOTHING;
-    this.lowerGarment = Items.NOTHING;
-    this.accessory1 = Items.NOTHING;
-    this.accessory2 = Items.NOTHING;
+    this.weapon = liveData.Items.NOTHING;
+    this.shield = liveData.Items.NOTHING;
+    this.armor = liveData.Items.NOTHING;
+    this.upperGarment = liveData.Items.NOTHING;
+    this.lowerGarment = liveData.Items.NOTHING;
+    this.accessory1 = liveData.Items.NOTHING;
+    this.accessory2 = liveData.Items.NOTHING;
     this.weapon.equipmentName = 'claws';
     this.weapon.verb = 'claw';
     this.armor.equipmentName = 'demonic skin';
@@ -80,10 +80,10 @@ export class DemonPack extends Creature {
     this.armType = 0;
     //Extra parts (This code section may be removed)
     this.antennae = 0;
-    this.hornType = ENUM.HornType.HORNS_DEMON;
+    this.hornType = ENUM.HornType.DEMON;
     this.horns = 2;
     this.gills = false;
-    this.tailType = ENUM.TailType.TAIL_TYPE_DEMONIC;
+    this.tailType = ENUM.TailType.DEMONIC;
     this.tailVenom = 0;
     this.tailRecharge = 0;
     this.wingType = 0;
@@ -91,8 +91,8 @@ export class DemonPack extends Creature {
     this.femininity = 50;
     this.tone = 0;
     this.thickness = 0;
-    this.hipRating = ENUM.HipRatingType.HIP_RATING_AMPLE + 2;
-    this.buttRating = ENUM.ButtRatingType.BUTT_RATING_LARGE;
+    this.hipRating = ENUM.HipRatingType.AMPLE + 2;
+    this.buttRating = ENUM.ButtRatingType.LARGE;
 
     //Sexual Characteristics
     //Cocks
@@ -102,20 +102,20 @@ export class DemonPack extends Creature {
     this.ballSize = 1;
     this.cumMultiplier = 3;
     //Vaginas
-    this.createVagina(false, ENUM.VaginalWetnessType.VAGINA_WETNESS_SLICK, ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_LOOSE);
+    this.createVagina(false, ENUM.VaginalWetnessType.SLICK, ENUM.VaginalLoosenessType.LOOSE);
     //Ass
     // this.ass = new Ass()
-    this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_STRETCHED;
-    this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_SLIME_DROOLING;
+    this.ass.analLooseness = ENUM.AnalLoosenessType.STRETCHED;
+    this.ass.analWetness = ENUM.AnalWetnessType.SLIME_DROOLING;
     //Breasts
     this.createBreastRow(0, 0);
 
     //Drops
     this.clearDrops(); //Need to be called before populating the item arrays.
-    this.addDrop(Items.Consumables.SuccubiMilk, 25);
-    this.addDrop(Items.Consumables.IncubiDraft, 25);
-    this.addDrop(Items.Consumables.OviElixir, 25);
-    this.addDrop(Items.Consumables.BlackBook, 25);
+    this.addDrop(liveData.Items.Consumables.SuccubiMilk, 25);
+    this.addDrop(liveData.Items.Consumables.IncubiDraft, 25);
+    this.addDrop(liveData.Items.Consumables.OviElixir, 25);
+    this.addDrop(liveData.Items.Consumables.BlackBook, 25);
 
     //Victory/defeat
     this.victory = demonWin;
@@ -134,19 +134,19 @@ export class DemonPack extends Creature {
       GUI.outputText('You duck, weave, and dodge.  Despite their best efforts, the throng of demons only hit the air and each other.');
     }
     //Determine if evaded
-    else if (liveData.player.findPerk(PerkLib.Evade) >= 0 && UTIL.rand(100) < 10) {
+    else if (liveData.player.findPerk(liveData.PerkLib.Evade) >= 0 && UTIL.rand(100) < 10) {
       GUI.outputText('Using your skills at evading attacks, you anticipate and sidestep ' + liveData.monster.a + liveData.monster.name + "' attacks.");
     }
     //("Misdirection"
     else if (
-      liveData.player.findPerk(PerkLib.Misdirection) >= 0 &&
+      liveData.player.findPerk(liveData.PerkLib.Misdirection) >= 0 &&
       UTIL.rand(100) < 15 &&
       liveData.player.armor.equipmentName == 'red, high-society bodysuit'
     ) {
       GUI.outputText("Using Raphael's teachings, you anticipate and sidestep " + liveData.monster.a + liveData.monster.name + "' attacks.");
     }
     //Determine if cat'ed
-    else if (liveData.player.findPerk(PerkLib.Flexibility) >= 0 && UTIL.rand(100) < 6) {
+    else if (liveData.player.findPerk(liveData.PerkLib.Flexibility) >= 0 && UTIL.rand(100) < 6) {
       GUI.outputText('With your incredible flexibility, you squeeze out of the way of ' + liveData.monster.a + liveData.monster.name + "' attacks.");
     } else {
       let temp = (liveData.monster.str + liveData.monster.weapon.attack) * (liveData.player.damagePercent() / 100); //Determine damage - str modified by enemy toughness!
@@ -374,7 +374,7 @@ export function oasisSexing() {
           ' and tussle eagerly for position at your entrance, first with hands and then with a wide range of demonic dicks.  ',
       );
     //gaping cunners!
-    if (liveData.player.vaginas[0].vaginalLooseness >= ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_CLOWN_CAR)
+    if (liveData.player.vaginas[0].vaginalLooseness >= ENUM.VaginalLoosenessType.CLOWN_CAR)
       GUI.outputText(
         'However all of this fighting for place is in vain, as the leader with the huge cock has already marked you for his own. The broad demon shoves the smaller ones roughly to the side at the sight of your freakishly large pussy and carefully lowers his gigantic dick to the entrance of your gargantuan fuck hole. Without pause or ceremony the leader plunges his enormous phallus into you and although it takes all the muscles in his body he begins to drive it back and forth, filling every possible inch of your ' +
           liveData.player.vaginaDescript(0) +
@@ -477,7 +477,7 @@ export function oasisSexing() {
     //►Oasis Demons Defeat PC as part of antm
     //Antmorph stuff //TODO Phylla Additional Stuff
     /*
-            if (monster.findStatusEffect(StatusEffects.phyllafight) >= 0) {
+            if (monster.findStatusEffect(liveData.StatusEffects.phyllafight) >= 0) {
             GUI.outputText("You sought to save the ant-girl from being raped, and looking around, you don't see her anywhere.  She must have gotten away safely.  Mission... accomplished?  Wait, that ungrateful little bitch just left you to suffer in her place!  Your ass is gonna be sore for a while, but not as sore as your pride...  ");
             flags[kFLAGS.ANTS_PC_FAILED_PHYLLA] = 1;
             }*/
@@ -617,7 +617,7 @@ export function demonWin() {
   }
   // TODO Phylla and SFW Mode
   /*
-        if (findStatusEffect(StatusEffects.phyllafight) >= 0) {
+        if (findStatusEffect(liveData.StatusEffects.phyllafight) >= 0) {
             GUI.doNext(game.desert.antsScene.consolePhylla);
         } else if (hpVictory || flags[kFLAGS.SFW_MODE] > 0){
             COMBAT.cleanupAfterCombat();

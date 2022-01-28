@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, UTIL, Data, FLAG, Item, Items, Camp, Inventory, WhitneyScene } from 'coc';
+import { liveData, ENUM, GUI, UTIL, Data, FLAG, Item, Camp, Inventory, WhitneyScene } from 'coc';
 
 Data.addToGameFlags(FLAG.FARM_DISABLED, FLAG.FARM_CORRUPTION_STARTED, FLAG.MET_WHITNEY, FLAG.WHITNEY_FLIPPED_OUT_OVER_KELLY);
 
@@ -45,7 +45,7 @@ export function farmExploreEncounter() {
         );
     }
     liveData.gameFlags[FLAG.MET_WHITNEY]++;
-    Inventory.takeItem(Items.Consumables.CaninePepper, Camp.returnToCampUseOneHour);
+    Inventory.takeItem(liveData.Items.Consumables.CaninePepper, Camp.returnToCampUseOneHour);
   }
   //Repeat Offender
   else {
@@ -92,7 +92,7 @@ export function farmExploreEncounter() {
                     GUI.addButton(3,"Marble", MarbleScene.meetMarble);
                 }
                 if (player.hasKeyItem("Breast Milker - Installed At Whitney's Farm") >= 0) {
-                    if (player.findStatusEffect(StatusEffects.Milked) >= 0) {
+                    if (player.findStatusEffect(liveData.StatusEffects.Milked) >= 0) {
                         GUI.outputText("<br><br><b>Your " + player.nippleDescript(0) + "s are currently too sore to be milked. You'll have to wait a while.</b>");
                     }
                     else GUI.addButton(5, "Get Milked", getMilked);
@@ -139,8 +139,8 @@ export function exploreFarm() {
   // }
 
   //In withdrawl odds are higher.
-  /*if (player.findStatusEffect(StatusEffects.NoMoreMarble) < 0 && player.findStatusEffect(StatusEffects.MarbleWithdrawl) >= 0) {
-            if (player.statusEffectValue(StatusEffects.Marble, 3) == 1) MarbleScene.addictedEncounterHappy();
+  /*if (player.findStatusEffect(liveData.StatusEffects.NoMoreMarble) < 0 && player.findStatusEffect(liveData.StatusEffects.MarbleWithdrawl) >= 0) {
+            if (player.statusEffectValue(liveData.StatusEffects.Marble, 3) == 1) MarbleScene.addictedEncounterHappy();
             else MarbleScene.encounterMarbleAshamedAddiction();
             return;
         }*/
@@ -229,8 +229,8 @@ export function exploreFarm() {
 export function workFarm() {
   GUI.clearOutput();
   //In withdrawl odds are higher.
-  /*if (player.findStatusEffect(StatusEffects.NoMoreMarble) < 0 && player.findStatusEffect(StatusEffects.MarbleWithdrawl) >= 0) {
-            if (player.statusEffectv3(StatusEffects.Marble) == 1) MarbleScene.addictedEncounterHappy();
+  /*if (player.findStatusEffect(liveData.StatusEffects.NoMoreMarble) < 0 && player.findStatusEffect(liveData.StatusEffects.MarbleWithdrawl) >= 0) {
+            if (player.statusEffectv3(liveData.StatusEffects.Marble) == 1) MarbleScene.addictedEncounterHappy();
             else MarbleScene.encounterMarbleAshamedAddiction();
             return;
         }*/
@@ -249,7 +249,7 @@ export function workFarm() {
             }
             if (liveData.gameFlags[MARBLE_MET] > 0) {
                 //Pre-addiction events(explore events take 1 hour, working ones take 3)
-                if (player.statusEffectv3(StatusEffects.Marble) == 0) {
+                if (player.statusEffectv3(liveData.StatusEffects.Marble) == 0) {
                     marbling = UTIL.rand(2);
                     //Help out Marble, version 1 (can occur anytime before the player becomes addicted):
                     if (marbling == 0) MarbleScene.helpMarble1();
@@ -258,13 +258,13 @@ export function workFarm() {
                     return;
                 }
                 else {
-                    if (player.findPerk(PerkLib.MarbleResistant) >= 0) {
+                    if (player.findPerk(liveData.PerkLib.MarbleResistant) >= 0) {
                         //(work with Marble when helping)
                         MarbleScene.postAddictionFarmHelpings();
                         return;
                     }
-                    if (player.statusEffectv3(StatusEffects.Marble) == 1) {
-                        if (player.findStatusEffect(StatusEffects.MarbleWithdrawl) >= 0)
+                    if (player.statusEffectv3(liveData.StatusEffects.Marble) == 1) {
+                        if (player.findStatusEffect(liveData.StatusEffects.MarbleWithdrawl) >= 0)
                             marbling = 0;
                         else
                             marbling = 1;
@@ -275,7 +275,7 @@ export function workFarm() {
                         return;
                     }
                     else {
-                        if (player.findStatusEffect(StatusEffects.MarbleWithdrawl) >= 0) marbling = 0;
+                        if (player.findStatusEffect(liveData.StatusEffects.MarbleWithdrawl) >= 0) marbling = 0;
                         else marbling = 1;
                         //While Addicted Events type 2 (Marble is ashamed):
                         if (marbling == 0) MarbleScene.encounterMarbleAshamedAddiction();
@@ -299,7 +299,7 @@ export function workFarm() {
       'Opening the door to one of the empty stalls, Whitney says, "<i>I don\'t get to them as often as I should. Anything you can do would help.</i>"\n\n',
     );
     GUI.outputText('You steel yourself, ignore your ');
-    if (liveData.player.faceType == ENUM.FaceType.FACE_DOG) GUI.outputText('sensitive ');
+    if (liveData.player.faceType == ENUM.FaceType.Dog) GUI.outputText('sensitive ');
     GUI.outputText('nose, and set to work.');
     //[Lust increase based on libido, degree of cow/mino features]
     liveData.player.changeLust(liveData.player.cowScore() + liveData.player.minoScore());
@@ -320,26 +320,26 @@ export function workFarm() {
     );
     //(75% chance normal pepper, 25% chance \"<i>rare</i>\" pepper)
     const pepper = UTIL.rand(4);
-    let itype: Item = Items.Consumables.CaninePepper;
+    let itype: Item = liveData.Items.Consumables.CaninePepper;
     // if (pepper <= 2) {
-    //   itype = Items.Consumables.CaninePepper;
+    //   itype = liveData.Items.Consumables.CaninePepper;
     // } else {
     if (pepper > 2) {
       switch (UTIL.rand(5)) {
         case 0:
-          itype = Items.Consumables.CaninePepperLarge;
+          itype = liveData.Items.Consumables.CaninePepperLarge;
           break;
         case 1:
-          itype = Items.Consumables.CaninePepperDouble;
+          itype = liveData.Items.Consumables.CaninePepperDouble;
           break;
         case 2:
-          itype = Items.Consumables.CaninePepperBlack;
+          itype = liveData.Items.Consumables.CaninePepperBlack;
           break;
         case 3:
-          itype = Items.Consumables.CaninePepperKnotty;
+          itype = liveData.Items.Consumables.CaninePepperKnotty;
           break;
         case 4:
-          itype = Items.Consumables.CaninePepperBulby;
+          itype = liveData.Items.Consumables.CaninePepperBulby;
           break;
       }
     }

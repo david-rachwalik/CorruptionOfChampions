@@ -1,4 +1,4 @@
-import { liveData, ENUM, FLAG, UTIL, GUI, Creature, Data, Items, Appearance, COMBAT, Camp, StatusEffects, Inventory, PerkLib } from 'coc';
+import { liveData, ENUM, FLAG, UTIL, GUI, Creature, Data, Appearance, COMBAT, Camp, Inventory } from 'coc';
 
 Data.addToGameFlags(FLAG.MINOTAUR_TF2, FLAG.MINOTAUR_AND_COWGIRL);
 
@@ -53,17 +53,17 @@ export class Minotaur extends Creature {
 
     //Appearance
     this.tallness = UTIL.rand(37) + 84;
-    this.hipRating = ENUM.HipRatingType.HIP_RATING_AVERAGE;
-    this.buttRating = ENUM.ButtRatingType.BUTT_RATING_AVERAGE;
-    this.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED;
+    this.hipRating = ENUM.HipRatingType.AVERAGE;
+    this.buttRating = ENUM.ButtRatingType.AVERAGE;
+    this.lowerBody = ENUM.LowerBodyType.HOOFED;
     this.furColor = UTIL.randomChoice('black', 'brown');
     this.skinDesc = 'shaggy fur';
-    this.skinType = ENUM.SkinType.SKIN_TYPE_FUR;
+    this.skinType = ENUM.SkinType.Fur;
     this.skinTone = this.furColor;
     this.hairColor = this.furColor;
     this.hairLength = 3;
-    this.faceType = ENUM.FaceType.FACE_COW_MINOTAUR;
-    this.tailType = ENUM.TailType.TAIL_TYPE_COW;
+    this.faceType = ENUM.FaceType.Minotaur;
+    this.tailType = ENUM.TailType.COW;
     //Sexual characteristics
     this.createBreastRow();
     this.createCock(UTIL.rand(13) + 24, 2 + UTIL.rand(3), ENUM.CockType.HORSE);
@@ -72,14 +72,14 @@ export class Minotaur extends Creature {
     this.cumMultiplier = 1.5;
     this.hoursSinceCum = this.ballSize * 10;
 
-    this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_STRETCHED;
-    this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_NORMAL;
-    this.createStatusEffect(StatusEffects.BonusACapacity, 30, 0, 0, 0);
+    this.ass.analLooseness = ENUM.AnalLoosenessType.STRETCHED;
+    this.ass.analWetness = ENUM.AnalWetnessType.NORMAL;
+    this.createStatusEffect(liveData.StatusEffects.BonusACapacity, 30, 0, 0, 0);
 
     //Drops
     this.clearDrops(); //Need to be called before populating the item arrays.
-    this.addDrop(Items.Consumables.MinotaurBlood, 50);
-    this.addDrop(Items.Consumables.MinoCum, 20);
+    this.addDrop(liveData.Items.Consumables.MinotaurBlood, 50);
+    this.addDrop(liveData.Items.Consumables.MinoCum, 20);
 
     if (this.ballSize > 4) {
       this.battleDesc +=
@@ -91,14 +91,14 @@ export class Minotaur extends Creature {
     // TODO Axe Stuff
     if (this.hasAxe) {
       this.battleDesc += ' <b>This minotaur seems to have found a deadly looking axe somewhere!</b>';
-      //this.weapon = Items.Weapons.LargeAxe;
+      //this.weapon = liveData.Items.Weapons.LargeAxe;
       this.weapon.equipmentName = 'axe';
       this.weapon.verb = 'cleave';
       this.weapon.attack = 15;
       this.bonusHP += 20;
       this.lustVuln -= 0.03;
       this.level++;
-      //this.addDrop(Items.Weapons.LargeAxe, 25);
+      //this.addDrop(liveData.Items.Weapons.LargeAxe, 25);
     }
 
     //Victory/defeat
@@ -413,9 +413,9 @@ export function joinBeingAMinoCumSlut() {
   GUI.outputText(
     "<br><br>Some part of your mind voices a complaint at what comes next, a voice that's quickly squelched inside the addiction-fueled haze of your brain. You pull your head upwards and extend your tongue, slurping a large glob of cum from the cow-girl's snatch. There's a surprised yelp from above you, followed by a coo of pleasure. To your surprise, the cow-girl actually lowers her cunt down onto your face, giggling madly, filling your nostrils with the scent of her muff, with the scent of recent sex. Not letting this opportunity go to waste, you repay her actions from earlier, slipping your ",
   );
-  if (liveData.player.tongueType == ENUM.TongueType.TONGUE_SNAKE) GUI.outputText('serpentine ');
-  else if (liveData.player.tongueType == ENUM.TongueType.TONGUE_DEMONIC) GUI.outputText('demonic ');
-  else if (liveData.player.tongueType == ENUM.TongueType.TONGUE_DRACONIC) GUI.outputText('draconic ');
+  if (liveData.player.tongueType == ENUM.TongueType.Snake) GUI.outputText('serpentine ');
+  else if (liveData.player.tongueType == ENUM.TongueType.Demonic) GUI.outputText('demonic ');
+  else if (liveData.player.tongueType == ENUM.TongueType.Draconic) GUI.outputText('draconic ');
   else if (liveData.player.hasLongTongue()) GUI.outputText('inhumanly long ');
   GUI.outputText("tongue inside her, eagerly licking out and guzzling down the remnants of the minotaur's present.");
 
@@ -499,14 +499,14 @@ export function joinBeingAMinoCumSlut() {
   }
   //Chance to impregnate PC, get mino-fix, and maybe relief from feeder perk.
   liveData.player.minoCumAddiction(10);
-  liveData.player.knockUp(ENUM.PregnancyType.PREGNANCY_MINOTAUR, ENUM.IncubationType.INCUBATION_MINOTAUR);
-  if (liveData.player.findStatusEffect(StatusEffects.Feeder) >= 0) {
+  liveData.player.knockUp(ENUM.PregnancyType.MINOTAUR, ENUM.IncubationType.MINOTAUR);
+  if (liveData.player.findStatusEffect(liveData.StatusEffects.Feeder) >= 0) {
     //You've now been milked, reset the timer for that
-    liveData.player.addStatusValue(StatusEffects.Feeder, 1, 1);
-    liveData.player.changeStatusValue(StatusEffects.Feeder, 2, 0);
+    liveData.player.addStatusValue(liveData.StatusEffects.Feeder, 1, 1);
+    liveData.player.changeStatusValue(liveData.StatusEffects.Feeder, 2, 0);
   }
   //(Acquired minotaur cum!)
-  Inventory.takeItem(Items.Consumables.MinoCum, Camp.returnToCampUseOneHour);
+  Inventory.takeItem(liveData.Items.Consumables.MinoCum, Camp.returnToCampUseOneHour);
 }
 
 export function watchAMinoCumSlut() {
@@ -573,8 +573,8 @@ export function minoAddictionFuck() {
 // Win TODO Phyllafight!
 export function minotaurWin() {
   /*
-        if (player.findStatusEffect(StatusEffects.PhyllaFight) >= 0) {
-            player.removeStatusEffect(StatusEffects.PhyllaFight);
+        if (player.findStatusEffect(liveData.StatusEffects.PhyllaFight) >= 0) {
+            player.removeStatusEffect(liveData.StatusEffects.PhyllaFight);
             GUI.outputText("You defeat a minotaur!  ", true);
             phyllaBeatAMino();
         } else {
@@ -635,7 +635,7 @@ export function minoVictoryRapeChoices() {
   }
 
   // Are you a feeder?
-  if (liveData.player.findPerk(PerkLib.Feeder) >= 0) GUI.addButton(8, 'Breastfeed', minotaurDrinksMilkNewsAtEleven);
+  if (liveData.player.findPerk(liveData.PerkLib.Feeder) >= 0) GUI.addButton(8, 'Breastfeed', minotaurDrinksMilkNewsAtEleven);
 
   //We have more buttons now! No longer overlaps feeder.
   // Are you going to oviposit the poor critter?
@@ -644,7 +644,12 @@ export function minoVictoryRapeChoices() {
   }
 
   //Does the player have the lusty maiden's armor?
-  if (UTIL.rand(2) == 0 && liveData.player.hasVagina() && liveData.player.biggestTitSize() >= 4 && liveData.player.armor == Items.Armor.LustyMaidenArmor) {
+  if (
+    UTIL.rand(2) == 0 &&
+    liveData.player.hasVagina() &&
+    liveData.player.biggestTitSize() >= 4 &&
+    liveData.player.armor == liveData.Items.Armor.LustyMaidenArmor
+  ) {
     //GUI.addButton(10, "B.Titfuck", lustyMaidenPaizuri); //TODO Add Lusty Maiden Armor Scene
   }
 
@@ -671,7 +676,7 @@ export function minoVictoryRapeChoices() {
       );
   }
   //Not able to rape but a feeder
-  else if (liveData.player.findStatusEffect(StatusEffects.Feeder) >= 0 && liveData.gameFlags[FLAG.SFW_MODE] == 0) {
+  else if (liveData.player.findStatusEffect(liveData.StatusEffects.Feeder) >= 0 && liveData.gameFlags[FLAG.SFW_MODE] == 0) {
     if (liveData.monster.lust >= liveData.monster.maxLust())
       GUI.outputText(
         'You smile in satisfaction as the ' +
@@ -937,7 +942,7 @@ export function girlRapeAMinotaur() {
 
   liveData.player.dynStats(['spe', -0.5], ['int', -0.5], ['sen', 1.5], ['cor', 1]);
   //Preggers chance!
-  liveData.player.knockUp(ENUM.PregnancyType.PREGNANCY_MINOTAUR, ENUM.IncubationType.INCUBATION_MINOTAUR); //TODO Add in player pregnancy progression for mino pregnancy.
+  liveData.player.knockUp(ENUM.PregnancyType.MINOTAUR, ENUM.IncubationType.MINOTAUR); //TODO Add in player pregnancy progression for mino pregnancy.
   COMBAT.cleanupAfterCombat();
   liveData.player.orgasm();
 }
@@ -966,11 +971,11 @@ export function minotaurGetsRapedByHerms() {
   );
   // let temp = liveData.player.vaginas[0].vaginalLooseness
   liveData.player.cuntChange(liveData.monster.cockArea(0), true);
-  if (liveData.player.vaginas[0].vaginalLooseness < ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING)
+  if (liveData.player.vaginas[0].vaginalLooseness < ENUM.VaginalLoosenessType.GAPING)
     GUI.outputText(
       'A small suppressed part of your mind dimly registers that this should be fairly painful, but the lust and drug-like pre-cum wash that thought away with waves of pleasure.  ',
     );
-  if (liveData.player.vaginas[0].vaginalLooseness >= ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING)
+  if (liveData.player.vaginas[0].vaginalLooseness >= ENUM.VaginalLoosenessType.GAPING)
     GUI.outputText(
       'The intense feelings seem to grow more and more powerful as he stays inside you, his drug-like pre-cum making your ' +
         liveData.player.vaginaDescript(0) +
@@ -989,7 +994,7 @@ export function minotaurGetsRapedByHerms() {
 
   liveData.player.dynStats(['spe', -0.5], ['int', -0.5], ['sen', 1.5], ['cor', 1]);
   //Preggers chance!
-  liveData.player.knockUp(ENUM.PregnancyType.PREGNANCY_MINOTAUR, ENUM.IncubationType.INCUBATION_MINOTAUR);
+  liveData.player.knockUp(ENUM.PregnancyType.MINOTAUR, ENUM.IncubationType.MINOTAUR);
   COMBAT.cleanupAfterCombat();
   liveData.player.orgasm();
 }
@@ -1415,7 +1420,7 @@ export function minotaurBlowjob() {
     "You grimace at the awkward feeling of the beast's snout against you, but soon regain confidence in your choice as the monster begins to take your prick into his mouth.  His eyes grow wide as his lips wrap around you, with ",
   );
   if (liveData.monster.lust >= liveData.monster.maxLust()) GUI.outputText('his own burning lusts');
-  else if (liveData.player.findPerk(PerkLib.ArousingAura) >= 0) GUI.outputText('the power of your corruption');
+  else if (liveData.player.findPerk(liveData.PerkLib.ArousingAura) >= 0) GUI.outputText('the power of your corruption');
   else GUI.outputText('the salty taste of your pre-cum');
   GUI.outputText(' leaving him hungry for more.<br><br>');
 
@@ -1639,8 +1644,8 @@ export function minotaurDrinksMilkNewsAtEleven() {
   liveData.player.dynStats(['lib', 0.2]);
   liveData.player.changeLust(-50);
   //You've now been milked, reset the timer for that
-  liveData.player.addStatusValue(StatusEffects.Feeder, 1, 1);
-  liveData.player.changeStatusValue(StatusEffects.Feeder, 2, 0);
+  liveData.player.addStatusValue(liveData.StatusEffects.Feeder, 1, 1);
+  liveData.player.changeStatusValue(liveData.StatusEffects.Feeder, 2, 0);
   COMBAT.cleanupAfterCombat();
 }
 
@@ -1770,8 +1775,8 @@ export function layBeeEggsInCowbutt() {
 // Loss TODO Phyllafight and Worms
 export function minotaurLose() {
   /*
-        if (findStatusEffect(StatusEffects.PhyllaFight) >= 0) {
-            removeStatusEffect(StatusEffects.PhyllaFight);
+        if (findStatusEffect(liveData.StatusEffects.PhyllaFight) >= 0) {
+            removeStatusEffect(liveData.StatusEffects.PhyllaFight);
             game.desert.antsScene.phyllaPCLostToMino();
         } else if (pcCameWorms){
             GUI.outputText("<br><br>The minotaur picks you up and forcibly tosses you from his cave, grunting in displeasure.", false);
@@ -1934,7 +1939,7 @@ export function getRapedByMinotaur(autoRape = false) {
       liveData.player.dynStats(['tou', -0.5], ['sen', 1], ['lus', -5], ['cor', 1]);
     }
     //Preggers chance!
-    liveData.player.knockUp(ENUM.PregnancyType.PREGNANCY_MINOTAUR, ENUM.IncubationType.INCUBATION_MINOTAUR);
+    liveData.player.knockUp(ENUM.PregnancyType.MINOTAUR, ENUM.IncubationType.MINOTAUR);
   }
   if (liveData.player.cockTotal() > 0 && liveData.player.sens + UTIL.rand(40) > 50) {
     GUI.outputText('You orgasm, ');
@@ -2047,7 +2052,7 @@ export function getMinoHawtDawged() {
     '<br><br>...and then his head pushes out the top of your ass again, fountaining with his spunk. Gout after gout of it rains down on you, painting your butt, ',
   );
   //[if (hasTail = true)
-  if (liveData.player.tailType > ENUM.TailType.TAIL_TYPE_NONE) GUI.outputText('your tail, ');
+  if (liveData.player.tailType > ENUM.TailType.NONE) GUI.outputText('your tail, ');
   GUI.outputText(
     "your back, and even your hair with gushes of his sticky, musk-smothered seed. Your entire backside flushes with the heat of his orgasm as it starts to die down, a few last drools of the hot stuff spilling out of his cock, and he withdraws from your butt, leaving you one last gift of a single spurt lodged between your fat cheeks and slowly dripping out. The Minotaur's cum seems to make your head swim, and everything starts to go foggy...",
   );

@@ -1,4 +1,4 @@
-import { liveData, ENUM, UTIL, GUI, Ass, Item, Items, ItemSlot, CharacterType, Creature, StatusEffects, VenomType, PerkLib, Appearance } from 'coc';
+import { liveData, ENUM, UTIL, GUI, Ass, Item, ItemSlot, Creature, VenomType, Appearance } from 'coc';
 
 class Spell {
   blind: boolean;
@@ -42,7 +42,7 @@ class Player extends Creature {
   constructor() {
     super();
 
-    this.type = CharacterType.Player;
+    this.type = ENUM.CharacterType.Player;
     this.a = '';
     this.name = '';
     this.refName = 'You';
@@ -55,25 +55,25 @@ class Player extends Creature {
     this.gender = 0; //0 genderless, 1 male, 2 female, 3 hermaphrodite
     this.tallness = 60; //Height in inches
     this.skinTone = 'light';
-    this.skinType = ENUM.SkinType.SKIN_TYPE_PLAIN;
+    this.skinType = ENUM.SkinType.Plain;
     this.skinAdj = '';
-    this.hairType = ENUM.HairType.HAIR_NORMAL;
+    this.hairType = ENUM.HairType.Normal;
     this.hairColor = 'brown';
     this.hairLength = 1;
-    this.beardType = ENUM.BeardType.BEARD_NORMAL;
+    this.beardType = ENUM.BeardType.Normal;
     this.beardLength = 0;
     this.furColor = 'none';
 
-    this.earType = ENUM.EarType.EARS_HUMAN;
-    this.tailType = ENUM.TailType.TAIL_TYPE_NONE;
+    this.earType = ENUM.EarType.Human;
+    this.tailType = ENUM.TailType.NONE;
     this.tailVenom = 0;
     this.tailRecharge = 0;
-    this.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN;
+    this.lowerBody = ENUM.LowerBodyType.HUMAN;
 
     this.tone = 50;
     this.thickness = 50;
-    this.hipRating = ENUM.HipRatingType.HIP_RATING_BOYISH;
-    this.buttRating = ENUM.ButtRatingType.BUTT_RATING_AVERAGE;
+    this.hipRating = ENUM.HipRatingType.BOYISH;
+    this.buttRating = ENUM.ButtRatingType.AVERAGE;
 
     //Sexual Characteristics
     //Cocks
@@ -91,8 +91,8 @@ class Player extends Creature {
     this.lactationMultiplier = 0;
 
     //Equipment
-    this.weapon = Items.NOTHING;
-    this.armor = Items.Armor.ComfortableClothes;
+    this.weapon = liveData.Items.NOTHING;
+    this.armor = liveData.Items.Armor.ComfortableClothes;
 
     this.teaseLevel = 0;
     this.teaseXP = 0;
@@ -144,7 +144,7 @@ class Player extends Creature {
             else
                 percent -= 27;
             //Perk-based
-            if (this.findPerk(PerkLib.Resistance) >= 0)
+            if (this.findPerk(liveData.PerkLib.Resistance) >= 0)
                 percent -= 10;
             //Apply cap
             if (percent < 25)
@@ -167,7 +167,7 @@ class Player extends Creature {
     //Determine race type:
     let race = 'human';
     if (this.catScore() >= 4) {
-      if (this.isTaur() && this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT) {
+      if (this.isTaur() && this.lowerBody == ENUM.LowerBodyType.CAT) {
         race = 'cat-taur';
         if (this.faceType == 0) race = 'sphinx-morph'; // no way to be fully feral anyway
       } else {
@@ -185,14 +185,14 @@ class Player extends Creature {
       if (this.balls > 0 && this.ballSize > 5) race = 'tanuki-morph';
     }
     if (this.dogScore() >= 4) {
-      if (this.isTaur() && this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG) race = 'dog-taur';
+      if (this.isTaur() && this.lowerBody == ENUM.LowerBodyType.DOG) race = 'dog-taur';
       else {
         race = 'dog-morph';
         if (this.faceType == 0) race = 'dog-' + this.mf('man', 'girl');
       }
     }
     if (this.foxScore() >= 4) {
-      if (this.isTaur() && this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_FOX) race = 'fox-taur';
+      if (this.isTaur() && this.lowerBody == ENUM.LowerBodyType.FOX) race = 'fox-taur';
       else if (this.skinType == 1) race = 'fox-morph';
       else race = 'fox-' + this.mf('morph', 'girl');
     }
@@ -205,7 +205,7 @@ class Player extends Creature {
     }
     if (this.horseScore() >= 3) {
       if (this.isTaur()) race = 'centaur-morph';
-      else if (this.hornType == ENUM.HornType.HORNS_UNICORN) race = 'unicorn-morph';
+      else if (this.hornType == ENUM.HornType.UNICORN) race = 'unicorn-morph';
       else race = 'equine-morph';
     }
     if (this.mutantScore() >= 5 && race == 'human') race = 'corrupted mutant';
@@ -275,11 +275,11 @@ class Player extends Creature {
     }
     //</mod>
     if (this.lowerBody == 3) race = 'naga';
-    if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED && this.isTaur()) {
-      if (this.wingType == ENUM.WingType.WING_TYPE_FEATHERED_LARGE) race = 'pegataur';
+    if (this.lowerBody == ENUM.LowerBodyType.HOOFED && this.isTaur()) {
+      if (this.wingType == ENUM.WingType.FEATHERED_LARGE) race = 'pegataur';
       else race = 'centaur';
     }
-    if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_PONY) race = 'pony-kin';
+    if (this.lowerBody == ENUM.LowerBodyType.PONY) race = 'pony-kin';
     if (this.gooScore() >= 3) {
       race = 'goo-';
       race += this.mf('boi', 'girl');
@@ -354,12 +354,12 @@ class Player extends Creature {
 
   sandTrapScore() {
     let counter = 0;
-    if (this.findStatusEffect(StatusEffects.BlackNipples) >= 0) counter++;
-    if (this.findStatusEffect(StatusEffects.Uniball) >= 0) counter++;
+    if (this.findStatusEffect(liveData.StatusEffects.BlackNipples) >= 0) counter++;
+    if (this.findStatusEffect(liveData.StatusEffects.Uniball) >= 0) counter++;
     if (this.hasVagina() && this.vaginaType() == 5) counter++;
-    if (this.eyeType == ENUM.EyeType.EYES_BLACK_EYES_SAND_TRAP) counter++;
-    if (this.wingType == ENUM.WingType.WING_TYPE_GIANT_DRAGONFLY) counter++;
-    if (this.findStatusEffect(StatusEffects.Uniball) >= 0) counter++;
+    if (this.eyeType == ENUM.EyeType.BlackEyesSandTrap) counter++;
+    if (this.wingType == ENUM.WingType.GIANT_DRAGONFLY) counter++;
+    if (this.findStatusEffect(liveData.StatusEffects.Uniball) >= 0) counter++;
     return counter;
   }
 
@@ -384,12 +384,12 @@ class Player extends Creature {
   //Determine Ferret Rating!
   ferretScore() {
     let counter = 0;
-    if (this.faceType == ENUM.FaceType.FACE_FERRET_MASK) counter++;
-    if (this.faceType == ENUM.FaceType.FACE_FERRET) counter += 2;
-    if (this.earType == ENUM.EarType.EARS_FERRET) counter++;
-    if (this.tailType == ENUM.TailType.TAIL_TYPE_FERRET) counter++;
-    if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_FERRET) counter++;
-    if (this.skinType == ENUM.SkinType.SKIN_TYPE_FUR && counter > 0) counter++;
+    if (this.faceType == ENUM.FaceType.FerretMask) counter++;
+    if (this.faceType == ENUM.FaceType.Ferret) counter += 2;
+    if (this.earType == ENUM.EarType.Ferret) counter++;
+    if (this.tailType == ENUM.TailType.FERRET) counter++;
+    if (this.lowerBody == ENUM.LowerBodyType.FERRET) counter++;
+    if (this.skinType == ENUM.SkinType.Fur && counter > 0) counter++;
     return counter;
   }
   //Determine Dog Rating
@@ -508,18 +508,18 @@ class Player extends Creature {
   kitsuneScore() {
     let kitsuneCounter = 0;
     //If the character has fox ears, +1
-    if (this.earType == ENUM.EarType.EARS_FOX) kitsuneCounter++;
+    if (this.earType == ENUM.EarType.Fox) kitsuneCounter++;
     //If the character has a fox tail, +1
-    if (this.tailType == ENUM.TailType.TAIL_TYPE_FOX) kitsuneCounter++;
+    if (this.tailType == ENUM.TailType.FOX) kitsuneCounter++;
     //If the character has two or more fox tails, +2
-    if (this.tailType == ENUM.TailType.TAIL_TYPE_FOX && this.tailVenom >= 2) kitsuneCounter += 2;
+    if (this.tailType == ENUM.TailType.FOX && this.tailVenom >= 2) kitsuneCounter += 2;
     //If the character has tattooed skin, +1
     //9999
     //If the character has a 'vag of holding', +1
     if (this.vaginalCapacity() >= 8000) kitsuneCounter++;
     //If the character's kitsune score is greater than 0 and:
     //If the character has a normal face, +1
-    if (kitsuneCounter > 0 && (this.faceType == ENUM.FaceType.FACE_HUMAN || this.faceType == ENUM.FaceType.FACE_FOX)) kitsuneCounter++;
+    if (kitsuneCounter > 0 && (this.faceType == ENUM.FaceType.Human || this.faceType == ENUM.FaceType.Fox)) kitsuneCounter++;
     //If the character's kitsune score is greater than 1 and:
     //If the character has "blonde","black","red","white", or "silver" hair, +1
     //if (kitsuneCounter > 0 && (InCollection(furColor, KitsuneScene.basicKitsuneHair) || InCollection(furColor, KitsuneScene.elderKitsuneColors)))
@@ -527,17 +527,17 @@ class Player extends Creature {
     //If the character's femininity is 40 or higher, +1
     if (kitsuneCounter > 0 && this.femininity >= 40) kitsuneCounter++;
     //If the character has fur, scales, or gooey skin, -1
-    //if (this.skinType == SKIN_TYPE_FUR && !InCollection(furColor, KitsuneScene.basicKitsuneFur) && !InCollection(furColor, KitsuneScene.elderKitsuneColors))
+    //if (this.skinType == ENUM.SkinType.Fur && !InCollection(furColor, KitsuneScene.basicKitsuneFur) && !InCollection(furColor, KitsuneScene.elderKitsuneColors))
     //    kitsuneCounter--;
-    if (this.skinType > ENUM.SkinType.SKIN_TYPE_FUR) kitsuneCounter -= this.skinType; // -2 sor scales, -3 for goo
+    if (this.skinType > ENUM.SkinType.Fur) kitsuneCounter -= this.skinType; // -2 sor scales, -3 for goo
     //If the character has abnormal legs, -1
-    if (this.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN && this.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_FOX) kitsuneCounter--;
+    if (this.lowerBody != ENUM.LowerBodyType.HUMAN && this.lowerBody != ENUM.LowerBodyType.FOX) kitsuneCounter--;
     //If the character has a nonhuman face, -1
-    if (this.faceType != ENUM.FaceType.FACE_HUMAN && this.faceType != ENUM.FaceType.FACE_FOX) kitsuneCounter--;
+    if (this.faceType != ENUM.FaceType.Human && this.faceType != ENUM.FaceType.Fox) kitsuneCounter--;
     //If the character has ears other than fox ears, -1
-    if (this.earType != ENUM.EarType.EARS_FOX) kitsuneCounter--;
+    if (this.earType != ENUM.EarType.Fox) kitsuneCounter--;
     //If the character has tail(s) other than fox tails, -1
-    if (this.tailType != ENUM.TailType.TAIL_TYPE_FOX) kitsuneCounter--;
+    if (this.tailType != ENUM.TailType.FOX) kitsuneCounter--;
 
     return kitsuneCounter;
   }
@@ -545,30 +545,30 @@ class Player extends Creature {
   //Determine Dragon Rating
   dragonScore() {
     let dragonCounter = 0;
-    if (this.faceType == ENUM.FaceType.FACE_DRAGON) dragonCounter++;
-    if (this.earType == ENUM.EarType.EARS_DRAGON) dragonCounter++;
-    if (this.tailType == ENUM.TailType.TAIL_TYPE_DRACONIC) dragonCounter++;
-    if (this.tongueType == ENUM.TongueType.TONGUE_DRACONIC) dragonCounter++;
+    if (this.faceType == ENUM.FaceType.Dragon) dragonCounter++;
+    if (this.earType == ENUM.EarType.Dragon) dragonCounter++;
+    if (this.tailType == ENUM.TailType.DRACONIC) dragonCounter++;
+    if (this.tongueType == ENUM.TongueType.Draconic) dragonCounter++;
     if (this.countCocksOfType(ENUM.CockType.DRAGON) > 0) dragonCounter++;
-    if (this.wingType == ENUM.WingType.WING_TYPE_DRACONIC_SMALL || this.wingType == ENUM.WingType.WING_TYPE_DRACONIC_LARGE) dragonCounter++;
-    if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DRAGON) dragonCounter++;
-    if (this.horns > 0 && (this.hornType == ENUM.HornType.HORNS_DRACONIC_X2 || this.hornType == ENUM.HornType.HORNS_DRACONIC_X4_12_INCH_LONG)) dragonCounter++;
-    if (this.skinType == ENUM.SkinType.SKIN_TYPE_SCALES && dragonCounter > 0) dragonCounter++;
-    if (this.hornType == ENUM.HornType.HORNS_DRACONIC_X4_12_INCH_LONG || this.hornType == ENUM.HornType.HORNS_DRACONIC_X2) dragonCounter++;
-    if (this.findPerk(PerkLib.Dragonfire) >= 0) dragonCounter++;
+    if (this.wingType == ENUM.WingType.DRACONIC_SMALL || this.wingType == ENUM.WingType.DRACONIC_LARGE) dragonCounter++;
+    if (this.lowerBody == ENUM.LowerBodyType.DRAGON) dragonCounter++;
+    if (this.horns > 0 && (this.hornType == ENUM.HornType.DRACONIC_X2 || this.hornType == ENUM.HornType.DRACONIC_X4_12_INCH_LONG)) dragonCounter++;
+    if (this.skinType == ENUM.SkinType.Scales && dragonCounter > 0) dragonCounter++;
+    if (this.hornType == ENUM.HornType.DRACONIC_X4_12_INCH_LONG || this.hornType == ENUM.HornType.DRACONIC_X2) dragonCounter++;
+    if (this.findPerk(liveData.PerkLib.Dragonfire) >= 0) dragonCounter++;
     return dragonCounter;
   }
 
   //Goblinscore
   goblinScore() {
     let horseCounter = 0;
-    if (this.earType == ENUM.EarType.EARS_ELFIN) horseCounter++;
+    if (this.earType == ENUM.EarType.Elfin) horseCounter++;
     if (this.skinTone == 'pale yellow' || this.skinTone == 'grayish-blue' || this.skinTone == 'green' || this.skinTone == 'dark green') horseCounter++;
     if (horseCounter > 0) {
-      if (this.faceType == ENUM.FaceType.FACE_HUMAN) horseCounter++;
+      if (this.faceType == ENUM.FaceType.Human) horseCounter++;
       if (this.tallness < 48) horseCounter++;
       if (this.hasVagina()) horseCounter++;
-      if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN) horseCounter++;
+      if (this.lowerBody == ENUM.LowerBodyType.HUMAN) horseCounter++;
     }
     return horseCounter;
   }
@@ -576,19 +576,19 @@ class Player extends Creature {
   //Gooscore
   gooScore() {
     let gooCounter = 0;
-    if (this.hairType == ENUM.HairType.HAIR_GOO) gooCounter++;
+    if (this.hairType == ENUM.HairType.Goo) gooCounter++;
     if (this.skinAdj == 'slimy') gooCounter++;
     if (this.lowerBody == 8) gooCounter++;
     if (this.vaginalCapacity() > 9000) gooCounter++;
-    if (this.findStatusEffect(StatusEffects.SlimeCraving) >= 0) gooCounter++;
+    if (this.findStatusEffect(liveData.StatusEffects.SlimeCraving) >= 0) gooCounter++;
     return gooCounter;
   }
 
   //Nagascore
   nagaScore() {
     let nagaCounter = 0;
-    if (this.faceType == ENUM.FaceType.FACE_SNAKE_FANGS) nagaCounter++;
-    if (this.tongueType == ENUM.TongueType.TONGUE_SNAKE) nagaCounter++;
+    if (this.faceType == ENUM.FaceType.SnakeFangs) nagaCounter++;
+    if (this.tongueType == ENUM.TongueType.Snake) nagaCounter++;
     if (nagaCounter > 0 && this.antennae == 0) nagaCounter++;
     if (nagaCounter > 0 && this.wingType == 0) nagaCounter++;
     return nagaCounter;
@@ -597,14 +597,14 @@ class Player extends Creature {
   //Bunnyscore
   bunnyScore() {
     let bunnyCounter = 0;
-    if (this.faceType == ENUM.FaceType.FACE_BUNNY) bunnyCounter++;
-    if (this.tailType == ENUM.TailType.TAIL_TYPE_RABBIT) bunnyCounter++;
-    if (this.earType == ENUM.EarType.EARS_BUNNY) bunnyCounter++;
-    if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_BUNNY) bunnyCounter++;
+    if (this.faceType == ENUM.FaceType.Bunny) bunnyCounter++;
+    if (this.tailType == ENUM.TailType.RABBIT) bunnyCounter++;
+    if (this.earType == ENUM.EarType.Bunny) bunnyCounter++;
+    if (this.lowerBody == ENUM.LowerBodyType.BUNNY) bunnyCounter++;
     //More than 2 balls reduces bunny score
     if (this.balls > 2 && bunnyCounter > 0) bunnyCounter--;
     //Human skin on bunmorph adds
-    if (this.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN && bunnyCounter > 1) bunnyCounter++;
+    if (this.skinType == ENUM.SkinType.Plain && bunnyCounter > 1) bunnyCounter++;
     //No wings and antennae a plus
     if (bunnyCounter > 0 && this.antennae == 0) bunnyCounter++;
     if (bunnyCounter > 0 && this.wingType == 0) bunnyCounter++;
@@ -614,13 +614,13 @@ class Player extends Creature {
   //Harpyscore
   harpyScore() {
     let harpy = 0;
-    if (this.armType == ENUM.ArmType.ARM_TYPE_HARPY) harpy++;
-    if (this.hairType == ENUM.HairType.HAIR_FEATHER) harpy++;
-    if (this.wingType == ENUM.WingType.WING_TYPE_FEATHERED_LARGE) harpy++;
-    if (this.tailType == ENUM.TailType.TAIL_TYPE_HARPY) harpy++;
-    if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HARPY) harpy++;
-    if (harpy >= 2 && this.faceType == ENUM.FaceType.FACE_HUMAN) harpy++;
-    if (harpy >= 2 && (this.earType == ENUM.EarType.EARS_HUMAN || this.earType == ENUM.EarType.EARS_ELFIN)) harpy++;
+    if (this.armType == ENUM.ArmType.HARPY) harpy++;
+    if (this.hairType == ENUM.HairType.Feather) harpy++;
+    if (this.wingType == ENUM.WingType.FEATHERED_LARGE) harpy++;
+    if (this.tailType == ENUM.TailType.HARPY) harpy++;
+    if (this.lowerBody == ENUM.LowerBodyType.HARPY) harpy++;
+    if (harpy >= 2 && this.faceType == ENUM.FaceType.Human) harpy++;
+    if (harpy >= 2 && (this.earType == ENUM.EarType.Human || this.earType == ENUM.EarType.Elfin)) harpy++;
     return harpy;
   }
 
@@ -628,45 +628,45 @@ class Player extends Creature {
   kangaScore() {
     let kanga = 0;
     if (this.countCocksOfType(ENUM.CockType.KANGAROO) > 0) kanga++;
-    if (this.earType == ENUM.EarType.EARS_KANGAROO) kanga++;
-    if (this.tailType == ENUM.TailType.TAIL_TYPE_KANGAROO) kanga++;
-    if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_KANGAROO) kanga++;
-    if (this.faceType == ENUM.FaceType.FACE_KANGAROO) kanga++;
-    if (kanga >= 2 && this.skinType == ENUM.SkinType.SKIN_TYPE_FUR) kanga++;
+    if (this.earType == ENUM.EarType.Kangaroo) kanga++;
+    if (this.tailType == ENUM.TailType.KANGAROO) kanga++;
+    if (this.lowerBody == ENUM.LowerBodyType.KANGAROO) kanga++;
+    if (this.faceType == ENUM.FaceType.Kangaroo) kanga++;
+    if (kanga >= 2 && this.skinType == ENUM.SkinType.Fur) kanga++;
     return kanga;
   }
 
   //sharkscore
   sharkScore() {
     let sharkCounter = 0;
-    if (this.faceType == ENUM.FaceType.FACE_SHARK_TEETH) sharkCounter++;
-    if (this.wingType == ENUM.WingType.WING_TYPE_SHARK_FIN) sharkCounter++;
-    if (this.tailType == ENUM.TailType.TAIL_TYPE_SHARK) sharkCounter++;
-    if (this.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN && (this.skinTone == 'rough gray' || this.skinTone == 'orange and black striped')) sharkCounter++;
+    if (this.faceType == ENUM.FaceType.SharkTeeth) sharkCounter++;
+    if (this.wingType == ENUM.WingType.SHARK_FIN) sharkCounter++;
+    if (this.tailType == ENUM.TailType.SHARK) sharkCounter++;
+    if (this.skinType == ENUM.SkinType.Plain && (this.skinTone == 'rough gray' || this.skinTone == 'orange and black striped')) sharkCounter++;
     return sharkCounter;
   }
 
   //Determine Mutant Rating
   mutantScore() {
     let mutantCounter = 0;
-    if (this.faceType > ENUM.FaceType.FACE_HUMAN) mutantCounter++;
-    if (this.skinType > ENUM.SkinType.SKIN_TYPE_PLAIN) mutantCounter++;
-    if (this.tailType > ENUM.TailType.TAIL_TYPE_NONE) mutantCounter++;
+    if (this.faceType > ENUM.FaceType.Human) mutantCounter++;
+    if (this.skinType > ENUM.SkinType.Plain) mutantCounter++;
+    if (this.tailType > ENUM.TailType.NONE) mutantCounter++;
     if (this.cockTotal() > 1) mutantCounter++;
     if (this.hasCock() && this.hasVagina()) mutantCounter++;
     if (this.hasFuckableNipples()) mutantCounter++;
     if (this.breastRows.length > 1) mutantCounter++;
-    if (this.faceType == ENUM.FaceType.FACE_HORSE) {
-      if (this.skinType == ENUM.SkinType.SKIN_TYPE_FUR) mutantCounter--;
-      if (this.tailType == ENUM.TailType.TAIL_TYPE_HORSE) mutantCounter--;
+    if (this.faceType == ENUM.FaceType.Horse) {
+      if (this.skinType == ENUM.SkinType.Fur) mutantCounter--;
+      if (this.tailType == ENUM.TailType.HORSE) mutantCounter--;
     }
-    if (this.faceType == ENUM.FaceType.FACE_DOG) {
-      if (this.skinType == ENUM.SkinType.SKIN_TYPE_FUR) mutantCounter--;
-      if (this.tailType == ENUM.TailType.TAIL_TYPE_DOG) mutantCounter--;
+    if (this.faceType == ENUM.FaceType.Dog) {
+      if (this.skinType == ENUM.SkinType.Fur) mutantCounter--;
+      if (this.tailType == ENUM.TailType.DOG) mutantCounter--;
     }
-    if (this.faceType == ENUM.FaceType.FACE_CAT) {
-      if (this.skinType == ENUM.SkinType.SKIN_TYPE_FUR) mutantCounter--;
-      if (this.tailType == ENUM.TailType.TAIL_TYPE_CAT) mutantCounter--;
+    if (this.faceType == ENUM.FaceType.Cat) {
+      if (this.skinType == ENUM.SkinType.Fur) mutantCounter--;
+      if (this.tailType == ENUM.TailType.CAT) mutantCounter--;
     }
     return mutantCounter--;
   }
@@ -675,10 +675,10 @@ class Player extends Creature {
   sirenScore() {
     let sirenCounter = 0;
     if (
-      this.faceType == ENUM.FaceType.FACE_SHARK_TEETH &&
-      this.tailType == ENUM.TailType.TAIL_TYPE_SHARK &&
-      this.wingType == ENUM.WingType.WING_TYPE_FEATHERED_LARGE &&
-      this.armType == ENUM.ArmType.ARM_TYPE_HARPY
+      this.faceType == ENUM.FaceType.SharkTeeth &&
+      this.tailType == ENUM.TailType.SHARK &&
+      this.wingType == ENUM.WingType.FEATHERED_LARGE &&
+      this.armType == ENUM.ArmType.HARPY
     )
       sirenCounter += 4;
     if (this.hasVagina() && sirenCounter > 0) sirenCounter++;
@@ -688,21 +688,21 @@ class Player extends Creature {
 
   pigScore() {
     let pigCounter = 0;
-    if (this.earType == ENUM.EarType.EARS_PIG) pigCounter++;
-    if (this.tailType == ENUM.TailType.TAIL_TYPE_PIG) pigCounter++;
-    if (this.faceType == ENUM.FaceType.FACE_PIG || ENUM.FaceType.FACE_BOAR) pigCounter++;
-    if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CLOVEN_HOOFED) pigCounter += 2;
+    if (this.earType == ENUM.EarType.Pig) pigCounter++;
+    if (this.tailType == ENUM.TailType.PIG) pigCounter++;
+    if (this.faceType == ENUM.FaceType.Pig || ENUM.FaceType.Boar) pigCounter++;
+    if (this.lowerBody == ENUM.LowerBodyType.CLOVEN_HOOFED) pigCounter += 2;
     if (this.countCocksOfType(ENUM.CockType.PIG) > 0) pigCounter++;
     return pigCounter;
   }
 
   satyrScore() {
     let satyrCounter = 0;
-    if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED) satyrCounter++;
-    if (this.tailType == ENUM.TailType.TAIL_TYPE_GOAT) satyrCounter++;
+    if (this.lowerBody == ENUM.LowerBodyType.HOOFED) satyrCounter++;
+    if (this.tailType == ENUM.TailType.GOAT) satyrCounter++;
     if (satyrCounter >= 2) {
-      if (this.earType == ENUM.EarType.EARS_ELFIN) satyrCounter++;
-      if (this.faceType == ENUM.FaceType.FACE_HUMAN) satyrCounter++;
+      if (this.earType == ENUM.EarType.Elfin) satyrCounter++;
+      if (this.faceType == ENUM.FaceType.Human) satyrCounter++;
       if (this.countCocksOfType(ENUM.CockType.HUMAN) > 0) satyrCounter++;
       if (this.balls > 0 && this.ballSize >= 3) satyrCounter++;
     }
@@ -711,10 +711,10 @@ class Player extends Creature {
 
   rhinoScore() {
     let rhinoCounter = 0;
-    if (this.earType == ENUM.EarType.EARS_RHINO) rhinoCounter++;
-    if (this.tailType == ENUM.TailType.TAIL_TYPE_RHINO) rhinoCounter++;
-    if (this.faceType == ENUM.FaceType.FACE_RHINO) rhinoCounter++;
-    if (this.hornType == ENUM.HornType.HORNS_RHINO) rhinoCounter++;
+    if (this.earType == ENUM.EarType.Rhino) rhinoCounter++;
+    if (this.tailType == ENUM.TailType.RHINO) rhinoCounter++;
+    if (this.faceType == ENUM.FaceType.Rhino) rhinoCounter++;
+    if (this.hornType == ENUM.HornType.RHINO) rhinoCounter++;
     if (rhinoCounter >= 2 && this.skinTone == 'gray') rhinoCounter++;
     if (rhinoCounter >= 2 && this.hasCock() && this.countCocksOfType(ENUM.CockType.RHINO) > 0) rhinoCounter++;
     return rhinoCounter;
@@ -722,24 +722,24 @@ class Player extends Creature {
 
   echidnaScore() {
     let echidnaCounter = 0;
-    if (this.earType == ENUM.EarType.EARS_ECHIDNA) echidnaCounter++;
-    if (this.tailType == ENUM.TailType.TAIL_TYPE_ECHIDNA) echidnaCounter++;
-    if (this.faceType == ENUM.FaceType.FACE_ECHIDNA) echidnaCounter++;
-    if (this.tongueType == ENUM.TongueType.TONGUE_ECHIDNA) echidnaCounter++;
-    if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_ECHIDNA) echidnaCounter++;
-    if (echidnaCounter >= 2 && this.skinType == ENUM.SkinType.SKIN_TYPE_FUR) echidnaCounter++;
+    if (this.earType == ENUM.EarType.Echidna) echidnaCounter++;
+    if (this.tailType == ENUM.TailType.ECHIDNA) echidnaCounter++;
+    if (this.faceType == ENUM.FaceType.Echidna) echidnaCounter++;
+    if (this.tongueType == ENUM.TongueType.Echidna) echidnaCounter++;
+    if (this.lowerBody == ENUM.LowerBodyType.ECHIDNA) echidnaCounter++;
+    if (echidnaCounter >= 2 && this.skinType == ENUM.SkinType.Fur) echidnaCounter++;
     if (echidnaCounter >= 2 && this.hasCock() && this.countCocksOfType(ENUM.CockType.ECHIDNA) > 0) echidnaCounter++;
     return echidnaCounter;
   }
 
   deerScore() {
     let deerCounter = 0;
-    if (this.earType == ENUM.EarType.EARS_DEER) deerCounter++;
-    if (this.tailType == ENUM.TailType.TAIL_TYPE_DEER) deerCounter++;
-    if (this.faceType == ENUM.FaceType.FACE_DEER) deerCounter++;
-    if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CLOVEN_HOOFED || this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DEERTAUR) deerCounter++;
-    if (this.hornType == ENUM.HornType.HORNS_ANTLERS && this.horns >= 4) deerCounter++;
-    if (deerCounter >= 2 && this.skinType == ENUM.SkinType.SKIN_TYPE_FUR) deerCounter++;
+    if (this.earType == ENUM.EarType.Deer) deerCounter++;
+    if (this.tailType == ENUM.TailType.DEER) deerCounter++;
+    if (this.faceType == ENUM.FaceType.Deer) deerCounter++;
+    if (this.lowerBody == ENUM.LowerBodyType.CLOVEN_HOOFED || this.lowerBody == ENUM.LowerBodyType.DEERTAUR) deerCounter++;
+    if (this.hornType == ENUM.HornType.ANTLERS && this.horns >= 4) deerCounter++;
+    if (deerCounter >= 2 && this.skinType == ENUM.SkinType.Fur) deerCounter++;
     if (deerCounter >= 3 && this.countCocksOfType(ENUM.CockType.HORSE) > 0) deerCounter++;
     return deerCounter;
   }
@@ -747,12 +747,12 @@ class Player extends Creature {
   //Dragonne
   dragonneScore() {
     let dragonneCounter = 0;
-    if (this.faceType == ENUM.FaceType.FACE_CAT) dragonneCounter++;
-    if (this.earType == ENUM.EarType.EARS_CAT) dragonneCounter++;
-    if (this.tailType == ENUM.TailType.TAIL_TYPE_CAT) dragonneCounter++;
-    if (this.tongueType == ENUM.TongueType.TONGUE_DRACONIC) dragonneCounter++;
-    if (this.wingType == ENUM.WingType.WING_TYPE_DRACONIC_LARGE || this.wingType == ENUM.WingType.WING_TYPE_DRACONIC_SMALL) dragonneCounter++;
-    if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT) dragonneCounter++;
+    if (this.faceType == ENUM.FaceType.Cat) dragonneCounter++;
+    if (this.earType == ENUM.EarType.Cat) dragonneCounter++;
+    if (this.tailType == ENUM.TailType.CAT) dragonneCounter++;
+    if (this.tongueType == ENUM.TongueType.Draconic) dragonneCounter++;
+    if (this.wingType == ENUM.WingType.DRACONIC_LARGE || this.wingType == ENUM.WingType.DRACONIC_SMALL) dragonneCounter++;
+    if (this.lowerBody == ENUM.LowerBodyType.CAT) dragonneCounter++;
     if (this.skinType == 2 && dragonneCounter > 0) dragonneCounter++;
     return dragonneCounter;
   }
@@ -760,19 +760,15 @@ class Player extends Creature {
   //Manticore
   manticoreScore() {
     let catCounter = 0;
-    if (this.faceType == ENUM.FaceType.FACE_CAT) catCounter++;
-    if (this.earType == ENUM.EarType.EARS_CAT) catCounter++;
-    if (this.tailType == ENUM.TailType.TAIL_TYPE_SCORPION) catCounter += 2;
-    if (this.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT) catCounter++;
+    if (this.faceType == ENUM.FaceType.Cat) catCounter++;
+    if (this.earType == ENUM.EarType.Cat) catCounter++;
+    if (this.tailType == ENUM.TailType.SCORPION) catCounter += 2;
+    if (this.lowerBody == ENUM.LowerBodyType.CAT) catCounter++;
     if (catCounter >= 4) {
-      if (
-        this.hornType == ENUM.HornType.HORNS_DEMON ||
-        this.hornType == ENUM.HornType.HORNS_DRACONIC_X2 ||
-        this.hornType == ENUM.HornType.HORNS_DRACONIC_X4_12_INCH_LONG
-      )
+      if (this.hornType == ENUM.HornType.DEMON || this.hornType == ENUM.HornType.DRACONIC_X2 || this.hornType == ENUM.HornType.DRACONIC_X4_12_INCH_LONG)
         catCounter++;
-      if (this.wingType == ENUM.WingType.WING_TYPE_BAT_LIKE_TINY || this.wingType == ENUM.WingType.WING_TYPE_DRACONIC_SMALL) catCounter++;
-      if (this.wingType == ENUM.WingType.WING_TYPE_BAT_LIKE_LARGE || this.wingType == ENUM.WingType.WING_TYPE_DRACONIC_LARGE) catCounter += 2;
+      if (this.wingType == ENUM.WingType.BAT_LIKE_TINY || this.wingType == ENUM.WingType.DRACONIC_SMALL) catCounter++;
+      if (this.wingType == ENUM.WingType.BAT_LIKE_LARGE || this.wingType == ENUM.WingType.DRACONIC_LARGE) catCounter += 2;
     }
     //Fur only counts if some canine features are present
     if (this.skinType == 1 && catCounter >= 6) catCounter++;
@@ -929,7 +925,7 @@ class Player extends Creature {
         if (this.cocks.length == 1) GUI.outputText('  <b>Your ' + this.cockDescript(0) + ' would look more at home on a large horse than you.</b>');
         if (this.cocks.length > 1)
           GUI.outputText('  <b>Your ' + this.multiCockDescriptLight() + ' would look more at home on a large horse than on your body.</b>');
-        if (this.biggestTitSize() >= ENUM.BreastSizeType.BREAST_CUP_C) {
+        if (this.biggestTitSize() >= ENUM.BreastSizeType.CUP_C) {
           if (this.cocks.length == 1)
             GUI.outputText('  You could easily stuff your ' + this.cockDescript(0) + ' between your breasts and give yourself the titty-fuck of a lifetime.');
           if (this.cocks.length > 1)
@@ -1072,118 +1068,118 @@ class Player extends Creature {
 
   //CLEAR STATUSES
   clearStatuses() {
-    while (this.findStatusEffect(StatusEffects.Web) >= 0) {
-      this.modStats(['spe', this.statusEffectValue(StatusEffects.Web, 1)]);
-      this.removeStatusEffect(StatusEffects.Web);
+    while (this.findStatusEffect(liveData.StatusEffects.Web) >= 0) {
+      this.modStats(['spe', this.statusEffectValue(liveData.StatusEffects.Web, 1)]);
+      this.removeStatusEffect(liveData.StatusEffects.Web);
     }
-    if (this.findStatusEffect(StatusEffects.Shielding) >= 0) this.removeStatusEffect(StatusEffects.Shielding);
-    if (this.findStatusEffect(StatusEffects.HolliConstrict) >= 0) this.removeStatusEffect(StatusEffects.HolliConstrict);
-    if (this.findStatusEffect(StatusEffects.LustStones) >= 0) this.removeStatusEffect(StatusEffects.LustStones);
-    if (liveData.monster.findStatusEffect(StatusEffects.Sandstorm) >= 0) liveData.monster.removeStatusEffect(StatusEffects.Sandstorm);
-    if (this.findStatusEffect(StatusEffects.Sealed) >= 0) this.removeStatusEffect(StatusEffects.Sealed);
-    if (this.findStatusEffect(StatusEffects.Berzerking) >= 0) this.removeStatusEffect(StatusEffects.Berzerking);
-    if (liveData.monster.findStatusEffect(StatusEffects.TailWhip) >= 0) liveData.monster.removeStatusEffect(StatusEffects.TailWhip);
-    if (this.findStatusEffect(StatusEffects.UBERWEB) >= 0) this.removeStatusEffect(StatusEffects.UBERWEB);
-    if (this.findStatusEffect(StatusEffects.DriderKiss) >= 0) this.removeStatusEffect(StatusEffects.DriderKiss);
-    if (this.findStatusEffect(StatusEffects.WebSilence) >= 0) this.removeStatusEffect(StatusEffects.WebSilence);
-    if (this.findStatusEffect(StatusEffects.GooArmorSilence) >= 0) this.removeStatusEffect(StatusEffects.GooArmorSilence);
+    if (this.findStatusEffect(liveData.StatusEffects.Shielding) >= 0) this.removeStatusEffect(liveData.StatusEffects.Shielding);
+    if (this.findStatusEffect(liveData.StatusEffects.HolliConstrict) >= 0) this.removeStatusEffect(liveData.StatusEffects.HolliConstrict);
+    if (this.findStatusEffect(liveData.StatusEffects.LustStones) >= 0) this.removeStatusEffect(liveData.StatusEffects.LustStones);
+    if (liveData.monster.findStatusEffect(liveData.StatusEffects.Sandstorm) >= 0) liveData.monster.removeStatusEffect(liveData.StatusEffects.Sandstorm);
+    if (this.findStatusEffect(liveData.StatusEffects.Sealed) >= 0) this.removeStatusEffect(liveData.StatusEffects.Sealed);
+    if (this.findStatusEffect(liveData.StatusEffects.Berzerking) >= 0) this.removeStatusEffect(liveData.StatusEffects.Berzerking);
+    if (liveData.monster.findStatusEffect(liveData.StatusEffects.TailWhip) >= 0) liveData.monster.removeStatusEffect(liveData.StatusEffects.TailWhip);
+    if (this.findStatusEffect(liveData.StatusEffects.UBERWEB) >= 0) this.removeStatusEffect(liveData.StatusEffects.UBERWEB);
+    if (this.findStatusEffect(liveData.StatusEffects.DriderKiss) >= 0) this.removeStatusEffect(liveData.StatusEffects.DriderKiss);
+    if (this.findStatusEffect(liveData.StatusEffects.WebSilence) >= 0) this.removeStatusEffect(liveData.StatusEffects.WebSilence);
+    if (this.findStatusEffect(liveData.StatusEffects.GooArmorSilence) >= 0) this.removeStatusEffect(liveData.StatusEffects.GooArmorSilence);
 
-    if (this.findStatusEffect(StatusEffects.Whispered) >= 0) this.removeStatusEffect(StatusEffects.Whispered);
-    if (this.findStatusEffect(StatusEffects.AkbalSpeed) >= 0) {
-      this.modStats(['spe', -this.statusEffectValue(StatusEffects.AkbalSpeed, 1)]);
-      this.removeStatusEffect(StatusEffects.AkbalSpeed);
+    if (this.findStatusEffect(liveData.StatusEffects.Whispered) >= 0) this.removeStatusEffect(liveData.StatusEffects.Whispered);
+    if (this.findStatusEffect(liveData.StatusEffects.AkbalSpeed) >= 0) {
+      this.modStats(['spe', -this.statusEffectValue(liveData.StatusEffects.AkbalSpeed, 1)]);
+      this.removeStatusEffect(liveData.StatusEffects.AkbalSpeed);
     }
-    if (this.findStatusEffect(StatusEffects.AmilyVenom) >= 0) {
-      this.modStats(['str', this.statusEffectValue(StatusEffects.AmilyVenom, 1)]);
-      this.modStats(['spe', this.statusEffectValue(StatusEffects.AmilyVenom, 2)]);
-      this.removeStatusEffect(StatusEffects.AmilyVenom);
+    if (this.findStatusEffect(liveData.StatusEffects.AmilyVenom) >= 0) {
+      this.modStats(['str', this.statusEffectValue(liveData.StatusEffects.AmilyVenom, 1)]);
+      this.modStats(['spe', this.statusEffectValue(liveData.StatusEffects.AmilyVenom, 2)]);
+      this.removeStatusEffect(liveData.StatusEffects.AmilyVenom);
     }
-    while (this.findStatusEffect(StatusEffects.Blind) >= 0) this.removeStatusEffect(StatusEffects.Blind);
-    if (this.findStatusEffect(StatusEffects.SheilaOil) >= 0) this.removeStatusEffect(StatusEffects.SheilaOil);
-    if (this.findStatusEffect(StatusEffects.TwuWuv) >= 0) {
-      this.modStats(['int', this.statusEffectValue(StatusEffects.TwuWuv, 1)]);
-      this.removeStatusEffect(StatusEffects.TuvWuv);
+    while (this.findStatusEffect(liveData.StatusEffects.Blind) >= 0) this.removeStatusEffect(liveData.StatusEffects.Blind);
+    if (this.findStatusEffect(liveData.StatusEffects.SheilaOil) >= 0) this.removeStatusEffect(liveData.StatusEffects.SheilaOil);
+    if (this.findStatusEffect(liveData.StatusEffects.TwuWuv) >= 0) {
+      this.modStats(['int', this.statusEffectValue(liveData.StatusEffects.TwuWuv, 1)]);
+      this.removeStatusEffect(liveData.StatusEffects.TuvWuv);
     }
-    if (this.findStatusEffect(StatusEffects.Bind) >= 0) this.removeStatusEffect(StatusEffects.Bind);
-    if (this.findStatusEffect(StatusEffects.Venom) >= 0) {
-      if (this.statusEffectValue(StatusEffects.Venom, 1) == VenomType.VENOM_TYPE_BEE) {
-        this.modStats(['str', this.statusEffectValue(StatusEffects.Venom, 2)]);
-        this.modStats(['spe', this.statusEffectValue(StatusEffects.Venom, 3)]);
+    if (this.findStatusEffect(liveData.StatusEffects.Bind) >= 0) this.removeStatusEffect(liveData.StatusEffects.Bind);
+    if (this.findStatusEffect(liveData.StatusEffects.Venom) >= 0) {
+      if (this.statusEffectValue(liveData.StatusEffects.Venom, 1) == VenomType.VENOM_TYPE_BEE) {
+        this.modStats(['str', this.statusEffectValue(liveData.StatusEffects.Venom, 2)]);
+        this.modStats(['spe', this.statusEffectValue(liveData.StatusEffects.Venom, 3)]);
       }
-      this.removeStatusEffect(StatusEffects.Venom);
+      this.removeStatusEffect(liveData.StatusEffects.Venom);
     }
-    if (this.findStatusEffect(StatusEffects.Silence) >= 0) this.removeStatusEffect(StatusEffects.Silence);
+    if (this.findStatusEffect(liveData.StatusEffects.Silence) >= 0) this.removeStatusEffect(liveData.StatusEffects.Silence);
 
-    if (this.findStatusEffect(StatusEffects.StoneLust) >= 0) this.removeStatusEffect(StatusEffects.StoneLust);
-    this.removeStatusEffect(StatusEffects.FirstAttack);
-    if (this.findStatusEffect(StatusEffects.TemporaryHeat) >= 0) this.removeStatusEffect(StatusEffects.TemporaryHeat);
-    if (this.findStatusEffect(StatusEffects.NoFlee) >= 0) this.removeStatusEffect(StatusEffects.NoFlee);
-    if (this.findStatusEffect(StatusEffects.Poison) >= 0) this.removeStatusEffect(StatusEffects.Poison);
-    if (this.findStatusEffect(StatusEffects.IsabellaStunned) >= 0) this.removeStatusEffect(StatusEffects.IsabellaStunned);
-    if (this.findStatusEffect(StatusEffects.Stunned) >= 0) this.removeStatusEffect(StatusEffects.Stunned);
-    if (this.findStatusEffect(StatusEffects.Confusion) >= 0) this.removeStatusEffect(StatusEffects.Confusion);
-    if (this.findStatusEffect(StatusEffects.ThroatPunch) >= 0) this.removeStatusEffect(StatusEffects.ThroatPunch);
-    if (this.findStatusEffect(StatusEffects.KissOfDeath) >= 0) this.removeStatusEffect(StatusEffects.KissOfDeath);
-    if (this.findStatusEffect(StatusEffects.AcidSlap) >= 0) this.removeStatusEffect(StatusEffects.AcidSlap);
-    if (this.findStatusEffect(StatusEffects.CalledShot) >= 0) {
-      this.modStats(['spe', this.statusEffectValue(StatusEffects.CalledShot, 1)]);
-      this.removeStatusEffect(StatusEffects.CalledShot);
+    if (this.findStatusEffect(liveData.StatusEffects.StoneLust) >= 0) this.removeStatusEffect(liveData.StatusEffects.StoneLust);
+    this.removeStatusEffect(liveData.StatusEffects.FirstAttack);
+    if (this.findStatusEffect(liveData.StatusEffects.TemporaryHeat) >= 0) this.removeStatusEffect(liveData.StatusEffects.TemporaryHeat);
+    if (this.findStatusEffect(liveData.StatusEffects.NoFlee) >= 0) this.removeStatusEffect(liveData.StatusEffects.NoFlee);
+    if (this.findStatusEffect(liveData.StatusEffects.Poison) >= 0) this.removeStatusEffect(liveData.StatusEffects.Poison);
+    if (this.findStatusEffect(liveData.StatusEffects.IsabellaStunned) >= 0) this.removeStatusEffect(liveData.StatusEffects.IsabellaStunned);
+    if (this.findStatusEffect(liveData.StatusEffects.Stunned) >= 0) this.removeStatusEffect(liveData.StatusEffects.Stunned);
+    if (this.findStatusEffect(liveData.StatusEffects.Confusion) >= 0) this.removeStatusEffect(liveData.StatusEffects.Confusion);
+    if (this.findStatusEffect(liveData.StatusEffects.ThroatPunch) >= 0) this.removeStatusEffect(liveData.StatusEffects.ThroatPunch);
+    if (this.findStatusEffect(liveData.StatusEffects.KissOfDeath) >= 0) this.removeStatusEffect(liveData.StatusEffects.KissOfDeath);
+    if (this.findStatusEffect(liveData.StatusEffects.AcidSlap) >= 0) this.removeStatusEffect(liveData.StatusEffects.AcidSlap);
+    if (this.findStatusEffect(liveData.StatusEffects.CalledShot) >= 0) {
+      this.modStats(['spe', this.statusEffectValue(liveData.StatusEffects.CalledShot, 1)]);
+      this.removeStatusEffect(liveData.StatusEffects.CalledShot);
     }
-    if (this.findStatusEffect(StatusEffects.DemonSeed) >= 0) this.removeStatusEffect(StatusEffects.DemonSeed);
-    if (this.findStatusEffect(StatusEffects.InfestAttempted) >= 0) this.removeStatusEffect(StatusEffects.InfestAttempted);
-    if (this.findStatusEffect(StatusEffects.Might) >= 0) {
-      this.modStats(['str', -this.statusEffectValue(StatusEffects.Might, 1)]);
-      this.modStats(['tou', -this.statusEffectValue(StatusEffects.Might, 2)]);
-      this.removeStatusEffect(StatusEffects.Might);
+    if (this.findStatusEffect(liveData.StatusEffects.DemonSeed) >= 0) this.removeStatusEffect(liveData.StatusEffects.DemonSeed);
+    if (this.findStatusEffect(liveData.StatusEffects.InfestAttempted) >= 0) this.removeStatusEffect(liveData.StatusEffects.InfestAttempted);
+    if (this.findStatusEffect(liveData.StatusEffects.Might) >= 0) {
+      this.modStats(['str', -this.statusEffectValue(liveData.StatusEffects.Might, 1)]);
+      this.modStats(['tou', -this.statusEffectValue(liveData.StatusEffects.Might, 2)]);
+      this.removeStatusEffect(liveData.StatusEffects.Might);
     }
-    if (this.findStatusEffect(StatusEffects.ChargeWeapon) >= 0) this.removeStatusEffect(StatusEffects.ChargeWeapon);
-    if (this.findStatusEffect(StatusEffects.Disarmed) >= 0) {
-      this.removeStatusEffect(StatusEffects.Disarmed);
+    if (this.findStatusEffect(liveData.StatusEffects.ChargeWeapon) >= 0) this.removeStatusEffect(liveData.StatusEffects.ChargeWeapon);
+    if (this.findStatusEffect(liveData.StatusEffects.Disarmed) >= 0) {
+      this.removeStatusEffect(liveData.StatusEffects.Disarmed);
     }
-    if (this.findStatusEffect(StatusEffects.AnemoneVenom) >= 0) {
-      this.modStats(['str', this.statusEffectValue(StatusEffects.AnemoneVenom, 1)]);
-      this.modStats(['spe', this.statusEffectValue(StatusEffects.AnemoneVenom, 2)]);
-      this.removeStatusEffect(StatusEffects.AnemoneVenom);
+    if (this.findStatusEffect(liveData.StatusEffects.AnemoneVenom) >= 0) {
+      this.modStats(['str', this.statusEffectValue(liveData.StatusEffects.AnemoneVenom, 1)]);
+      this.modStats(['spe', this.statusEffectValue(liveData.StatusEffects.AnemoneVenom, 2)]);
+      this.removeStatusEffect(liveData.StatusEffects.AnemoneVenom);
     }
-    if (this.findStatusEffect(StatusEffects.GnollSpear) >= 0) {
-      this.modStats(['spe', this.statusEffectValue(StatusEffects.AnemoneVenom, 1)]);
-      this.removeStatusEffect(StatusEffects.GnollSpear);
+    if (this.findStatusEffect(liveData.StatusEffects.GnollSpear) >= 0) {
+      this.modStats(['spe', this.statusEffectValue(liveData.StatusEffects.AnemoneVenom, 1)]);
+      this.removeStatusEffect(liveData.StatusEffects.GnollSpear);
     }
-    if (this.findStatusEffect(StatusEffects.BasiliskCompulsion) >= 0) this.removeStatusEffect(StatusEffects.BasiliskCompulsion);
-    if (this.findStatusEffect(StatusEffects.BasiliskSlow) >= 0) {
-      this.modStats(['spe', this.statusEffectValue(StatusEffects.AnemoneVenom, 1)]);
-      this.removeStatusEffect(StatusEffects.BasiliskSlow);
+    if (this.findStatusEffect(liveData.StatusEffects.BasiliskCompulsion) >= 0) this.removeStatusEffect(liveData.StatusEffects.BasiliskCompulsion);
+    if (this.findStatusEffect(liveData.StatusEffects.BasiliskSlow) >= 0) {
+      this.modStats(['spe', this.statusEffectValue(liveData.StatusEffects.AnemoneVenom, 1)]);
+      this.removeStatusEffect(liveData.StatusEffects.BasiliskSlow);
     }
-    if (this.findStatusEffect(StatusEffects.GiantGrabbed) >= 0) this.removeStatusEffect(StatusEffects.GiantGrabbed);
-    if (this.findStatusEffect(StatusEffects.GiantBoulder) >= 0) this.removeStatusEffect(StatusEffects.GiantBoulder);
-    if (this.findStatusEffect(StatusEffects.GiantStrLoss) >= 0) {
-      this.modStats(['str', this.statusEffectValue(StatusEffects.GiantStrLoss, 1)]);
-      this.removeStatusEffect(StatusEffects.GiantStrLoss);
+    if (this.findStatusEffect(liveData.StatusEffects.GiantGrabbed) >= 0) this.removeStatusEffect(liveData.StatusEffects.GiantGrabbed);
+    if (this.findStatusEffect(liveData.StatusEffects.GiantBoulder) >= 0) this.removeStatusEffect(liveData.StatusEffects.GiantBoulder);
+    if (this.findStatusEffect(liveData.StatusEffects.GiantStrLoss) >= 0) {
+      this.modStats(['str', this.statusEffectValue(liveData.StatusEffects.GiantStrLoss, 1)]);
+      this.removeStatusEffect(liveData.StatusEffects.GiantStrLoss);
     }
-    if (this.findStatusEffect(StatusEffects.LizanBlowpipe) >= 0) {
-      this.modStats(['str', this.statusEffectValue(StatusEffects.LizanBlowpipe, 1)]);
-      this.modStats(['tou', this.statusEffectValue(StatusEffects.LizanBlowpipe, 2)]);
-      this.modStats(['spe', this.statusEffectValue(StatusEffects.LizanBlowpipe, 3)]);
-      this.modStats(['sen', -this.statusEffectValue(StatusEffects.LizanBlowpipe, 4)]);
-      this.removeStatusEffect(StatusEffects.LizanBlowpipe);
+    if (this.findStatusEffect(liveData.StatusEffects.LizanBlowpipe) >= 0) {
+      this.modStats(['str', this.statusEffectValue(liveData.StatusEffects.LizanBlowpipe, 1)]);
+      this.modStats(['tou', this.statusEffectValue(liveData.StatusEffects.LizanBlowpipe, 2)]);
+      this.modStats(['spe', this.statusEffectValue(liveData.StatusEffects.LizanBlowpipe, 3)]);
+      this.modStats(['sen', -this.statusEffectValue(liveData.StatusEffects.LizanBlowpipe, 4)]);
+      this.removeStatusEffect(liveData.StatusEffects.LizanBlowpipe);
     }
-    while (this.findStatusEffect(StatusEffects.IzmaBleed) >= 0) this.removeStatusEffect(StatusEffects.IzmaBleed);
-    if (this.findStatusEffect(StatusEffects.GardenerSapSpeed) >= 0) {
-      this.modStats(['spe', this.statusEffectValue(StatusEffects.GardenerSapSpeed, 1)]);
-      this.removeStatusEffect(StatusEffects.GardenerSapSpeed);
+    while (this.findStatusEffect(liveData.StatusEffects.IzmaBleed) >= 0) this.removeStatusEffect(liveData.StatusEffects.IzmaBleed);
+    if (this.findStatusEffect(liveData.StatusEffects.GardenerSapSpeed) >= 0) {
+      this.modStats(['spe', this.statusEffectValue(liveData.StatusEffects.GardenerSapSpeed, 1)]);
+      this.removeStatusEffect(liveData.StatusEffects.GardenerSapSpeed);
     }
-    if (this.findStatusEffect(StatusEffects.KnockedBack) >= 0) this.removeStatusEffect(StatusEffects.KnockedBack);
-    if (this.findStatusEffect(StatusEffects.RemovedArmor) >= 0) this.removeStatusEffect(StatusEffects.RemovedArmor);
-    if (this.findStatusEffect(StatusEffects.JCLustLevel) >= 0) this.removeStatusEffect(StatusEffects.JCLustLevel);
-    if (this.findStatusEffect(StatusEffects.MirroredAttack) >= 0) this.removeStatusEffect(StatusEffects.MirroredAttack);
-    if (this.findStatusEffect(StatusEffects.Tentagrappled) >= 0) this.removeStatusEffect(StatusEffects.Tentagrappled);
-    if (this.findStatusEffect(StatusEffects.TentagrappleCooldown) >= 0) this.removeStatusEffect(StatusEffects.TentagrappleCooldown);
-    if (this.findStatusEffect(StatusEffects.ShowerDotEffect) >= 0) this.removeStatusEffect(StatusEffects.ShowerDotEffect);
-    if (this.findStatusEffect(StatusEffects.VineHealUsed) >= 0) this.removeStatusEffect(StatusEffects.VineHealUsed);
+    if (this.findStatusEffect(liveData.StatusEffects.KnockedBack) >= 0) this.removeStatusEffect(liveData.StatusEffects.KnockedBack);
+    if (this.findStatusEffect(liveData.StatusEffects.RemovedArmor) >= 0) this.removeStatusEffect(liveData.StatusEffects.RemovedArmor);
+    if (this.findStatusEffect(liveData.StatusEffects.JCLustLevel) >= 0) this.removeStatusEffect(liveData.StatusEffects.JCLustLevel);
+    if (this.findStatusEffect(liveData.StatusEffects.MirroredAttack) >= 0) this.removeStatusEffect(liveData.StatusEffects.MirroredAttack);
+    if (this.findStatusEffect(liveData.StatusEffects.Tentagrappled) >= 0) this.removeStatusEffect(liveData.StatusEffects.Tentagrappled);
+    if (this.findStatusEffect(liveData.StatusEffects.TentagrappleCooldown) >= 0) this.removeStatusEffect(liveData.StatusEffects.TentagrappleCooldown);
+    if (this.findStatusEffect(liveData.StatusEffects.ShowerDotEffect) >= 0) this.removeStatusEffect(liveData.StatusEffects.ShowerDotEffect);
+    if (this.findStatusEffect(liveData.StatusEffects.VineHealUsed) >= 0) this.removeStatusEffect(liveData.StatusEffects.VineHealUsed);
   }
 
   setFurColor(colorArray: string[]) {
-    if (this.skinType == ENUM.SkinType.SKIN_TYPE_FUR) {
+    if (this.skinType == ENUM.SkinType.Fur) {
       this.furColor = colorArray[UTIL.rand(colorArray.length)];
     }
   }
@@ -1216,8 +1212,8 @@ class Player extends Creature {
   //ITEMS
   getMaxSlots() {
     let slots = 3;
-    if (this.findPerk(PerkLib.StrongBack) >= 0) slots++;
-    if (this.findPerk(PerkLib.StrongBack2) >= 0) slots++;
+    if (this.findPerk(liveData.PerkLib.StrongBack) >= 0) slots++;
+    if (this.findPerk(liveData.PerkLib.StrongBack2) >= 0) slots++;
     return slots;
   }
 
@@ -1243,7 +1239,7 @@ class Player extends Creature {
 
   emptySlot() {
     for (let i = 0; i < this.itemSlots.length; i++) {
-      if ((this.itemSlots[i].itype == undefined || this.itemSlots[i].itype == Items.NOTHING) && i < this.getMaxSlots()) return i;
+      if ((this.itemSlots[i].itype == undefined || this.itemSlots[i].itype == liveData.Items.NOTHING) && i < this.getMaxSlots()) return i;
     }
     return -1;
   }

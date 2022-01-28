@@ -1,4 +1,4 @@
-import { liveData, FLAG, Data, PerkLib } from 'coc';
+import { liveData, FLAG, Data } from 'coc';
 
 Data.addToGameFlags(
   FLAG.MARBLE_MET,
@@ -12,11 +12,11 @@ Data.addToGameFlags(
 
 export function marbleStatusChange(affection: number, addiction: number, isAddicted = -1) {
   //Values only change if not brought to conclusion
-  if (liveData.player.findPerk(PerkLib.MarblesMilk) < 0 && liveData.player.findPerk(PerkLib.MarbleResistant) < 0) {
+  if (liveData.player.findPerk(liveData.PerkLib.MarblesMilk) < 0 && liveData.player.findPerk(liveData.PerkLib.MarbleResistant) < 0) {
     liveData.gameFlags[FLAG.MARBLE_AFFECTION] += affection;
     liveData.gameFlags[FLAG.MARBLE_ADDICTION] += addiction;
   }
-  //if (isAddicted != -1) player.changeStatusValue(StatusEffects.Marble, 3, isAddicted);
+  //if (isAddicted != -1) player.changeStatusValue(liveData.StatusEffects.Marble, 3, isAddicted);
 }
 
 export function applyMarblesMilk() {

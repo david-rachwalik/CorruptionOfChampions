@@ -7,7 +7,6 @@ import {
   PlacesFarm,
   AreasGenericExploration,
   Camp,
-  Items,
   Inventory,
   GooGirlScene,
   GreenSlimeScene,
@@ -107,20 +106,20 @@ export function findLakeLoot() {
       GUI.outputText(
         "You find a long and oddly flared vial half-buried in the sand. Written across the middle band of the vial is a single word: 'Equinum'.<br>",
       );
-      item = Items.Consumables.Equinum;
+      item = liveData.Items.Consumables.Equinum;
       break;
     case 1:
       GUI.outputText(
         'You find an odd, fruit-bearing tree growing near the lake shore. One of the fruits has fallen on the ground in front of you. You pick it up.<br>',
       );
-      item = Items.Consumables.WhiskerFruit;
+      item = liveData.Items.Consumables.WhiskerFruit;
       break;
     case 2:
       GUI.outputText("You find a small clay jar half-buried in the sand. Written across the jar is a single word: 'Hummanus'.<br>");
-      item = Items.Consumables.Hummanus;
+      item = liveData.Items.Consumables.Hummanus;
       break;
     default:
-      item = Items.Consumables.Equinum;
+      item = liveData.Items.Consumables.Equinum;
   }
   Inventory.takeItem(item, Camp.returnToCampUseOneHour);
 }

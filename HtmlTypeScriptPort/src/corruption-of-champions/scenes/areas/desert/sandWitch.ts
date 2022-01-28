@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, UTIL, FLAG, Creature, Appearance, Data, Items, PerkLib, StatusEffects, Camp, COMBAT } from 'coc';
+import { liveData, ENUM, GUI, UTIL, FLAG, Creature, Appearance, Data, Camp, COMBAT } from 'coc';
 
 Data.addToGameFlags(FLAG.SAND_WITCH_RAPED);
 
@@ -42,27 +42,27 @@ export class SandWitch extends Creature {
 
     //Appearance
     this.tallness = UTIL.rand(12) + 55;
-    this.hipRating = ENUM.HipRatingType.HIP_RATING_CURVY;
-    this.buttRating = ENUM.ButtRatingType.BUTT_RATING_LARGE;
+    this.hipRating = ENUM.HipRatingType.CURVY;
+    this.buttRating = ENUM.ButtRatingType.LARGE;
     this.skinTone = 'bronzed';
     this.hairColor = 'sandy-blonde';
     this.hairLength = 15;
 
     //Sexual characteristics
-    this.createVagina(false, ENUM.VaginalWetnessType.VAGINA_WETNESS_WET, ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_LOOSE);
+    this.createVagina(false, ENUM.VaginalWetnessType.WET, ENUM.VaginalLoosenessType.LOOSE);
     this.createBreastRow(Appearance.breastCupInverse('DD'));
     this.createBreastRow(Appearance.breastCupInverse('DD'));
-    this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_TIGHT;
-    this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_NORMAL;
+    this.ass.analLooseness = ENUM.AnalLoosenessType.TIGHT;
+    this.ass.analWetness = ENUM.AnalWetnessType.NORMAL;
 
     //Drops
     this.clearDrops(); //Need to be called before populating the item arrays.
-    this.addDrop(Items.Consumables.WhiteBook, 10);
-    this.addDrop(Items.Consumables.WhiteBook, 10);
-    this.addDrop(Items.Consumables.LaBova, 15);
-    this.addDrop(Items.Consumables.TatteredScroll, 15);
-    this.addDrop(Items.Consumables.Lactaid, 15);
-    this.addDrop(Items.Weapons.WizardStaff, 5);
+    this.addDrop(liveData.Items.Consumables.WhiteBook, 10);
+    this.addDrop(liveData.Items.Consumables.WhiteBook, 10);
+    this.addDrop(liveData.Items.Consumables.LaBova, 15);
+    this.addDrop(liveData.Items.Consumables.TatteredScroll, 15);
+    this.addDrop(liveData.Items.Consumables.Lactaid, 15);
+    this.addDrop(liveData.Items.Weapons.WizardStaff, 5);
 
     //Victory/defeat
     this.victory = win;
@@ -85,7 +85,7 @@ export class SandWitch extends Creature {
 
   lustAttack() {
     GUI.outputText('The sand witch points at you, drawing a circle in the air and mouthing strange words.<br><br>');
-    if (liveData.player.findStatusEffect(StatusEffects.StoneLust) >= 0) {
+    if (liveData.player.findStatusEffect(liveData.StatusEffects.StoneLust) >= 0) {
       GUI.outputText('The orb inside you grows warm, almost hot, suffusing your body with heat and arousal. ');
       liveData.player.changeLust(8 + liveData.player.sens / 10, true);
     } else {
@@ -111,7 +111,7 @@ export class SandWitch extends Creature {
           'You desperately grab for it, but are too late!  It pushes firmly against your rectum and slips inside instantaneously. You groan in frustration as it begins pulsing and vibrating, sometimes even seeming to change size. ',
         );
       }
-      liveData.player.createStatusEffect(StatusEffects.StoneLust, 0, 0, 0, 0);
+      liveData.player.createStatusEffect(liveData.StatusEffects.StoneLust, 0, 0, 0, 0);
       liveData.player.changeLust(4 + liveData.player.sens / 10, true);
     }
   }
@@ -132,7 +132,7 @@ export function encounter() {
     liveData.gameFlags[FLAG.CODEX_ENTRY_SANDWITCHES] = 1;
     GUI.outputText('<br><br><b>New codex entry unlocked: Sand Witches!</b><br><br>');
   }
-  /*if (player.statusEffectValue(StatusEffects.Exgartuan, 1) == 1 && player.cockArea(0) > 100 && player.statusAffectv2(StatusAffects.Exgartuan) == 0) {
+  /*if (player.statusEffectValue(liveData.StatusEffects.Exgartuan, 1) == 1 && player.cockArea(0) > 100 && player.statusAffectv2(StatusAffects.Exgartuan) == 0) {
             GUI.outputText("<br><br>The " + liveData.player.armorName + " covering your lower half hits the ground, as if yanked down by magic.  Your " + cockDescript(0) + " pulsates darkly, growing rigid in seconds as the demon within you takes over.  It barks, \"<i>Fuck, how about I cast my spell on you baby?</i>\"<br><br>");
             GUI.outputText("The sandwitch ");
             if (player.cor < 50)
@@ -364,7 +364,7 @@ export function sandWitchBadEnd() {
   GUI.outputText(
     'Something breaks within your soul, accompanied by a strangled sob. Tears of humiliation trickle down your face as you part your quivering lips. "<i>Please milk me, Mistress. Your slave needs to be milked.</i>"<br><br>',
   );
-  if (liveData.player.findPerk(PerkLib.MarblesMilk) >= 0) {
+  if (liveData.player.findPerk(liveData.PerkLib.MarblesMilk) >= 0) {
     GUI.outputText(
       "No sooner have you spoken before a torrent of milk spurts from each of your nipples, but the effect isn't as pleasurable as it used to be; in fact you're starting to feel very weak.  The Sand Witch looks at you in confusion as the stream of milk from your massive breasts quickly slows and your breasts start to shrivel up.<br><br>",
     );
@@ -386,8 +386,8 @@ export function sandWitchBadEnd() {
 // WIN AGAINST SAND WITCH
 
 export function win() {
-  if (liveData.player.findStatusEffect(StatusEffects.StoneLust)) {
-    liveData.player.removeStatusEffect(StatusEffects.StoneLust);
+  if (liveData.player.findStatusEffect(liveData.StatusEffects.StoneLust)) {
+    liveData.player.removeStatusEffect(liveData.StatusEffects.StoneLust);
   }
 
   if (liveData.player.lust >= 33 && liveData.gameFlags[FLAG.SFW_MODE] <= 0) {
@@ -416,7 +416,7 @@ export function beatSandWitch() {
   );
   GUI.menu();
   GUI.addButton(0, 'Fuck Witch', sandWitchRaped, null, null, null, 'TO BE ADDED');
-  //if (player.hasKeyItem(KeyItems.   ) >= 0) {
+  //if (player.hasKeyItem(liveData.KeyItems.   ) >= 0) {
   //    GUI.addButton(1, "Dildo Rape", sandWitchGetsDildoed, null, null, null, "TO BE ADDED");
   //}
   if (liveData.silly == true) {
@@ -1222,7 +1222,11 @@ export function sandWitchSpanking() {
     GUI.outputText("Worse still, [eachCock] is now unprotected and pressed against the rough stone by your body-weight.  It's less than pleasant.  ");
   else if (liveData.player.hasVagina()) GUI.outputText("Worse still, your [vagina] is pressed up against the rough stone.  It's less than pleasant.  ");
   GUI.outputText('You bristle at your helplessness');
-  if (liveData.player.findPerk(PerkLib.FireLord) >= 0 || liveData.player.findPerk(PerkLib.Hellfire) >= 0 || liveData.player.findPerk(PerkLib.Dragonfire) >= 0)
+  if (
+    liveData.player.findPerk(liveData.PerkLib.FireLord) >= 0 ||
+    liveData.player.findPerk(liveData.PerkLib.Hellfire) >= 0 ||
+    liveData.player.findPerk(liveData.PerkLib.Dragonfire) >= 0
+  )
     GUI.outputText(
       ", breathing out a gout of flame in rage, but you can't even direct the blast properly like   All it does is melt some of the sand below into glass",
     );

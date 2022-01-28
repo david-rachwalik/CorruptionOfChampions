@@ -32,4 +32,4 @@ class Storage {
   }
 }
 
-export { IStorage, Storage };
+export { Storage };

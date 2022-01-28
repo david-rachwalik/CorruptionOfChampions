@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, FLAG, Data, Creature, Appearance, BindType, StatusEffects, VenomType, Items, UTIL, PerkLib, COMBAT, Camp } from 'coc';
+import { liveData, ENUM, GUI, FLAG, Data, Creature, Appearance, BindType, VenomType, UTIL, COMBAT, Camp } from 'coc';
 
 Data.addToGameFlags(FLAG.NAGA_LAST_ENCOUNTERED_AS_NAGA, FLAG.NAGA_FUCKED_AS_NAGA);
 
@@ -45,24 +45,24 @@ class Naga extends Creature {
 
     //Appearance
     this.tallness = UTIL.rand(12) + 55;
-    this.hipRating = ENUM.HipRatingType.HIP_RATING_CURVY;
-    this.buttRating = ENUM.ButtRatingType.BUTT_RATING_LARGE;
-    this.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_NAGA;
+    this.hipRating = ENUM.HipRatingType.CURVY;
+    this.buttRating = ENUM.ButtRatingType.LARGE;
+    this.lowerBody = ENUM.LowerBodyType.NAGA;
     this.skinTone = 'bronzed';
     this.hairColor = 'sandy-blonde';
     this.hairLength = 15;
     //Sexual characteristics
-    this.createVagina(false, ENUM.VaginalWetnessType.VAGINA_WETNESS_SLAVERING, ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_LOOSE);
+    this.createVagina(false, ENUM.VaginalWetnessType.SLAVERING, ENUM.VaginalLoosenessType.LOOSE);
     this.createBreastRow(Appearance.breastCupInverse('C'));
-    this.createStatusEffect(StatusEffects.BonusVCapacity, 40, 0, 0, 0);
-    this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_TIGHT;
-    this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_DRY;
-    this.createStatusEffect(StatusEffects.BonusACapacity, 10, 0, 0, 0);
+    this.createStatusEffect(liveData.StatusEffects.BonusVCapacity, 40, 0, 0, 0);
+    this.ass.analLooseness = ENUM.AnalLoosenessType.TIGHT;
+    this.ass.analWetness = ENUM.AnalWetnessType.DRY;
+    this.createStatusEffect(liveData.StatusEffects.BonusACapacity, 10, 0, 0, 0);
 
     //Drops
     this.clearDrops(); //Need to be called before populating the item arrays.
-    this.addDrop(Items.Consumables.Reptilum, 50);
-    this.addDrop(Items.Consumables.SnakeOil, 40);
+    this.addDrop(liveData.Items.Consumables.Reptilum, 50);
+    this.addDrop(liveData.Items.Consumables.SnakeOil, 40);
 
     //Victory/defeat
     this.victory = nagaWin;
@@ -99,13 +99,13 @@ class Naga extends Creature {
   nagaPoisonBiteAttack() {
     let damage = 0;
     GUI.outputText('The naga strikes with the speed of a cobra, sinking her fangs into your flesh! ');
-    if (liveData.player.findStatusEffect(StatusEffects.Venom) < 0) {
+    if (liveData.player.findStatusEffect(liveData.StatusEffects.Venom) < 0) {
       GUI.outputText("The venom's effects are almost instantaneous; your vision begins to blur and it becomes increasingly harder to stand. ");
       if (liveData.player.spe > 4) {
         liveData.player.spe -= 3;
-        liveData.player.createStatusEffect(StatusEffects.Venom, VenomType.VENOM_TYPE_NAGA, 3, 0, 0);
+        liveData.player.createStatusEffect(liveData.StatusEffects.Venom, VenomType.VENOM_TYPE_NAGA, 3, 0, 0);
       } else {
-        liveData.player.createStatusEffect(StatusEffects.Venom, VenomType.VENOM_TYPE_NAGA, 0, 0, 0);
+        liveData.player.createStatusEffect(liveData.StatusEffects.Venom, VenomType.VENOM_TYPE_NAGA, 0, 0, 0);
         damage += 5 + UTIL.rand(5);
       }
       damage += 5 + UTIL.rand(5);
@@ -113,7 +113,7 @@ class Naga extends Creature {
       GUI.outputText("The venom's effects intensify as your vision begins to blur and it becomes increasingly harder to stand. ");
       if (liveData.player.spe > 3) {
         liveData.player.spe -= 2;
-        liveData.player.addStatusValue(StatusEffects.Venom, 1, 2);
+        liveData.player.addStatusValue(liveData.StatusEffects.Venom, 1, 2);
       } else damage += 5 + UTIL.rand(5);
       damage += 5 + UTIL.rand(5);
     }
@@ -129,8 +129,8 @@ class Naga extends Creature {
     GUI.outputText(
       "The naga draws close and suddenly wraps herself around you, binding you in place! You can't help but feel strangely aroused by the sensation of her scales rubbing against your body. All you can do is struggle as she begins to squeeze tighter! ",
     );
-    liveData.player.createStatusEffect(StatusEffects.Bind, BindType.BIND_TYPE_NAGA, 0, 0, 0);
-    /*if (player.findPerk(PerkLib.Juggernaut) < 0 && armorPerk != "Heavy") {
+    liveData.player.createStatusEffect(liveData.StatusEffects.Bind, BindType.BIND_TYPE_NAGA, 0, 0, 0);
+    /*if (player.findPerk(liveData.PerkLib.Juggernaut) < 0 && armorPerk != "Heavy") {
             player.changeHP(-(2+UTIL.rand(4)), true);
         }*/
   }
@@ -141,10 +141,10 @@ class Naga extends Creature {
   nagaTailWhip() {
     GUI.outputText('The naga tenses and twists herself forcefully.  ');
     //[if evaded]
-    if (liveData.player.findPerk(PerkLib.Evade) && UTIL.rand(6) == 0) {
+    if (liveData.player.findPerk(liveData.PerkLib.Evade) && UTIL.rand(6) == 0) {
       GUI.outputText('You see her tail whipping toward you and evade it at the last second. You quickly roll back onto your feet.');
     } else if (
-      liveData.player.findPerk(PerkLib.Misdirection) >= 0 &&
+      liveData.player.findPerk(liveData.PerkLib.Misdirection) >= 0 &&
       UTIL.rand(100) < 10 &&
       liveData.player.armor.equipmentName == 'red, high-society bodysuit'
     ) {
@@ -229,7 +229,7 @@ export function nagaEncounterSex(prompt: boolean): void {
     GUI.outputText(
       'She lets out a soft moan and leans her head forward, pressing her lips against yours. You squeeze her body even more firmly against yours in response, the tips of your tails wrapping around one another. You open your mouth slightly and press your tongue against her lips. She offers no resistance and you begin caressing the inside of her mouth with your tongue, circling her fangs as she uses her own tongue to gently stroke ',
     );
-    if (liveData.player.faceType == ENUM.FaceType.FACE_SNAKE_FANGS)
+    if (liveData.player.faceType == ENUM.FaceType.SnakeFangs)
       //If player has fangs
       GUI.outputText('your own.');
     //Player has no fangs
@@ -365,7 +365,7 @@ export function nagaEncounterSex(prompt: boolean): void {
         ' pressing against her own. You kiss her harder, pressing your body as close to her as you can, enjoying the feeling of your two bodies entwined together. You wrap your tail around hers, trying to make every part of your body touch every part of hers.  The feeling of her scaled tail rubbing against your body sends shivers of ecstasy down your spine. You pull away from her mouth and move your head to kiss at her neck, ',
     );
     //(if player has fangs)
-    if (liveData.player.faceType == ENUM.FaceType.FACE_SNAKE_FANGS) GUI.outputText('carefully nibbling at it so as to not break the skin.  ');
+    if (liveData.player.faceType == ENUM.FaceType.SnakeFangs) GUI.outputText('carefully nibbling at it so as to not break the skin.  ');
     else GUI.outputText('nibbling gently at it.  ');
     GUI.outputText(
       "Traveling down, you pause at her collarbone, letting go of her hips to bring your hands up to her perfectly rounded breasts. A moan escapes the naga's lips as you massage her erect nipples. Your mouth continues its trek down the naga's supple body and you make sure to pause on each breast, circling inward and stopping on each nipple to suck gently on them.<br><br>",
@@ -461,7 +461,7 @@ export function nagaWin() {
 }
 
 export function nagaLoss() {
-  if (liveData.player.findStatusEffect(StatusEffects.Infested) >= 0) {
+  if (liveData.player.findStatusEffect(liveData.StatusEffects.Infested) >= 0) {
     GUI.outputText("<br><br>The naga's eyes go wide and she turns to leave, no longer interested in you.");
     //player.orgasm(); Player orgasming after defeat with worms makes no sense? Maybe do a check to see if they lost by lust first?
     COMBAT.cleanupAfterCombat();
@@ -490,7 +490,7 @@ export function nagaRapeChoice() {
       GUI.addButton(0, 'As Male', nagaVictoryMale, null, null, null, 'TO BE ADDED.');
       GUI.addButton(1, 'As Female', nagaVictoryFemale, null, null, null, 'TO BE ADDED.');
     }
-    if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_GOO) {
+    if (liveData.player.lowerBody == ENUM.LowerBodyType.GOO) {
       GUI.addButton(2, 'Gooey Rape', gooNagaRape, null, null, null, 'TO BE ADDED.');
     }
     if (eggs != null) GUI.addButton(3, 'Eggs', eggs, null, null, null, 'TO BE ADDED.');
@@ -538,7 +538,8 @@ export function nagaVictoryGenderless() {
   }
   //b)Corrupted
   else {
-    if (liveData.player.findStatusEffect(StatusEffects.MeanToNaga) < 0) liveData.player.createStatusEffect(StatusEffects.MeanToNaga, 0, 0, 0, 0);
+    if (liveData.player.findStatusEffect(liveData.StatusEffects.MeanToNaga) < 0)
+      liveData.player.createStatusEffect(liveData.StatusEffects.MeanToNaga, 0, 0, 0, 0);
     GUI.outputText(
       'An evil grin crosses your face as you stand over the fallen snake woman, the thrum of your heartbeat pounding against your ears. A myriad of the terrible things you are about to do to her cross your mind as you start to take off your pants when you remember that you have nothing to do those things with. Your cries of damnation are loud enough to be heard from miles away.<br><br>',
     );
@@ -547,7 +548,7 @@ export function nagaVictoryGenderless() {
       "You thrust yourself on top of her and roughly open the scaly covering at her crotch, revealing her awaiting pussy. You bring your mouth over her opening and thrust your tongue deep inside. A mix between a whimper and a moan escapes the naga's lips as you twist your tongue deeper inside her, as though trying to taste every part of her.<br><br>",
     );
     //(If player has no fangs)
-    if (liveData.player.faceType != ENUM.FaceType.FACE_SNAKE_FANGS) {
+    if (liveData.player.faceType != ENUM.FaceType.SnakeFangs) {
       GUI.outputText(
         "You feel her start to thrust her hips into your face to try to gain more pleasure, but you won't be having ANY of that. You quickly take your tongue out of her and move your way up to her breasts, groping at them and biting at her nipples. The naga cries out in pain and tries to push your head away. You give her one last bite, hard enough to draw blood from her before getting up.<br><br>",
       );
@@ -798,7 +799,8 @@ export function nagaVictoryFemale() {
     }
     //b) Corrupted
     else {
-      if (liveData.player.findStatusEffect(StatusEffects.MeanToNaga) < 0) liveData.player.createStatusEffect(StatusEffects.MeanToNaga, 0, 0, 0, 0);
+      if (liveData.player.findStatusEffect(liveData.StatusEffects.MeanToNaga) < 0)
+        liveData.player.createStatusEffect(liveData.StatusEffects.MeanToNaga, 0, 0, 0, 0);
       GUI.outputText(
         'As you watch the writhing form of the defeated naga, you cannot help but feel turned on by it. You step forward, grabbing the naga by the shoulders and forcing her down against the sand, face up. Then, pinning her arms under your knees, you straddle her chest, crushing her modest breasts against her constricted ribcage. You can already see the panic in her face as you ' +
           (liveData.player.armorDescript() != 'gear'
@@ -947,14 +949,14 @@ export function gooNagaRape() {
   else if (liveData.player.gender == 2) {
     GUI.outputText('You shriek in delight as wave after wave of orgasms rush over you');
     //(if squirter)
-    if (liveData.player.vaginas[0].vaginalWetness == ENUM.VaginalWetnessType.VAGINA_WETNESS_SLAVERING)
+    if (liveData.player.vaginas[0].vaginalWetness == ENUM.VaginalWetnessType.SLAVERING)
       GUI.outputText(', your girlcum gushing out and pooling on the stomach of the naga');
     GUI.outputText('.');
   }
   //(if herm)
   if (liveData.player.gender == 3) {
     GUI.outputText('You scream in ecstasy as you hit your peak, your girlcum ');
-    if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_SLAVERING) GUI.outputText('leaking out');
+    if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.SLAVERING) GUI.outputText('leaking out');
     else GUI.outputText("gushing out to form a pool on the naga's stomach");
     GUI.outputText(' and your ' + liveData.player.multiCockDescriptLight());
     //(normal)
@@ -1106,7 +1108,10 @@ export function nagaRapesPlayer() {
   GUI.clearOutput();
   //BIMBO!  LIKE, TOTALLY AWESOME AND CUM!
   //[Naga-on-Female Bimbo Loss Scene]
-  if ((liveData.player.findPerk(PerkLib.BimboBrains) >= 0 || liveData.player.findPerk(PerkLib.FutaFaculties) >= 0) && liveData.player.hasVagina()) {
+  if (
+    (liveData.player.findPerk(liveData.PerkLib.BimboBrains) >= 0 || liveData.player.findPerk(liveData.PerkLib.FutaFaculties) >= 0) &&
+    liveData.player.hasVagina()
+  ) {
     GUI.outputText('You fall to your knees, like usual, your sexy form shaking with desire.<br><br>');
 
     GUI.outputText(
@@ -1359,7 +1364,7 @@ export function nagaRapesPlayer() {
           ' and dripping with cum, allowing the last few drops of cum to splash across her face and breasts. Her cheeks are still full of seed and  as she moves in closer, you wonder what she has planned. She grabs your shoulders with her still-slick hands, and leans in all the way for a final, passionate kiss. As your lips are pushed apart by her own, you feel a large amount of your still-warm sperm enter your mouth. You try to resist, but she begins to massage your throat, forcing you to swallow it all.<br><br>',
       );
       //(If you've been a bad boy during victory scenes)
-      if (liveData.player.findStatusEffect(StatusEffects.MeanToNaga) >= 0)
+      if (liveData.player.findStatusEffect(liveData.StatusEffects.MeanToNaga) >= 0)
         GUI.outputText(
           "As you gulp down a mouthful of your own seed, you notice something strange about it. The taste, there is something about it, it tastes almost like... POISON! You gag, but it's too late. The naga pulls away, wiping the last drips of cum from the corner of her mouth, and smiles mischievously as your vision begins to fade. The last thing you see is her face, with a look of complete satisfaction stretched across it.  With that last vision, the poison takes its effect, and you pass into unconsciousness.",
         );
@@ -1538,7 +1543,7 @@ export function nagaRapesPlayer() {
         '  As you finally reach your next climax, the naga pokes her tongue a little bit deeper inside your mouth, reaching to the back of your throat.',
       );
       //(If you have been a bad girl in past encounters)
-      if (liveData.player.findStatusEffect(StatusEffects.MeanToNaga) >= 0) {
+      if (liveData.player.findStatusEffect(liveData.StatusEffects.MeanToNaga) >= 0) {
         GUI.outputText(
           '  Down this slippery rope, she drops only a few drops of her potent poison, which completely bypass your gag reflex and drop straight down your throat. You hardly notice, too busy bucking your hips against the massive tail buried within your ' +
             liveData.player.vaginaDescript(0) +

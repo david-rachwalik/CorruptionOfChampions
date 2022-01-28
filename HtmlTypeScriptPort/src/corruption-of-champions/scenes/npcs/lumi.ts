@@ -1,4 +1,4 @@
-import { liveData, FLAG, UTIL, GUI, Data, Camp, Item, Items, Inventory } from 'coc';
+import { liveData, FLAG, UTIL, GUI, Data, Camp, Item, Inventory } from 'coc';
 
 Data.addToGameFlags(FLAG.LUMI_MET);
 
@@ -64,9 +64,9 @@ export function lumiShop() {
   GUI.outputText('Oviposition Elixir - 45 gems<br>');
   //The player is given a list of choices, clicking on one gives the description and the price, like Giacomo.
   GUI.menu();
-  GUI.addButton(0, Items.Consumables.LustDraft.shortName, lumiLustDraftPitch);
-  GUI.addButton(1, Items.Consumables.GoblinAle.shortName, lumiPitchGobboAle);
-  GUI.addButton(2, Items.Consumables.OviElixir.shortName, lumiPitchOviElixer);
+  GUI.addButton(0, liveData.Items.Consumables.LustDraft.shortName, lumiLustDraftPitch);
+  GUI.addButton(1, liveData.Items.Consumables.GoblinAle.shortName, lumiPitchGobboAle);
+  GUI.addButton(2, liveData.Items.Consumables.OviElixir.shortName, lumiPitchOviElixer);
   GUI.addButton(4, 'Leave', lumiLabChoices);
 }
 
@@ -77,7 +77,7 @@ export function lumiLustDraftPitch() {
     'You point at the bottle filled with bubble-gum pink fluid.<br><br>"<i>De lust dwaft? Always a favowite, with it you nevar have to worwy about not bein weady for sexy time; one of my fiwst creations. 15 gems each.</i>"<br><br>',
   );
   GUI.outputText('Will you buy the lust draft?');
-  GUI.doYesNo(UTIL.createCallBackFunction(lumiPurchase, Items.Consumables.LustDraft), lumiShop);
+  GUI.doYesNo(UTIL.createCallBackFunction(lumiPurchase, liveData.Items.Consumables.LustDraft), lumiShop);
 }
 //Goblin Ale
 export function lumiPitchGobboAle() {
@@ -86,7 +86,7 @@ export function lumiPitchGobboAle() {
     'You point at the flagon. "<i>Oh? Oh thats Lumi\'s... actually no, dat tispsy stuff for 20 gems. You\'ll like if you want to be like Lumi. Do you like it?</i>"<br><br>',
   );
   GUI.outputText('Will you buy the goblin ale?');
-  GUI.doYesNo(UTIL.createCallBackFunction(lumiPurchase, Items.Consumables.GoblinAle), lumiShop);
+  GUI.doYesNo(UTIL.createCallBackFunction(lumiPurchase, liveData.Items.Consumables.GoblinAle), lumiShop);
 }
 //Ovi Elixir
 export function lumiPitchOviElixer() {
@@ -95,16 +95,16 @@ export function lumiPitchOviElixer() {
     'You point at the curious hexagonal bottle. "<i>De Oviposar Elixir? Made baithsed on da giant bee\'s special stuff dey give deir queen. It will help make de burfing go faster, an if you dwink it while you awen pweggy, iw will give you some eggs to burf later. More dwinks, eqwals more and biggar eggs. Lumi charges 45 gems for each dose.</i>"<br><br>',
   );
   GUI.outputText('Will you buy the Ovi Elixir?');
-  GUI.doYesNo(UTIL.createCallBackFunction(lumiPurchase, Items.Consumables.OviElixir), lumiShop);
+  GUI.doYesNo(UTIL.createCallBackFunction(lumiPurchase, liveData.Items.Consumables.OviElixir), lumiShop);
 }
 
 export function lumiPurchase(itype: Item) {
   GUI.clearOutput();
   //After choosing, and PC has enough gems
   let cost = 0;
-  if (itype == Items.Consumables.OviElixir) cost = 45;
-  if (itype == Items.Consumables.GoblinAle) cost = 20;
-  if (itype == Items.Consumables.LustDraft) cost = 15;
+  if (itype == liveData.Items.Consumables.OviElixir) cost = 45;
+  if (itype == liveData.Items.Consumables.GoblinAle) cost = 20;
+  if (itype == liveData.Items.Consumables.LustDraft) cost = 15;
   if (liveData.player.gems >= cost) {
     GUI.outputText('You pay Lumi the gems, and she hands you ' + itype.longName + ' saying, "<i>Here ya go!</i>"<br><br>');
     liveData.player.changeGems(-cost);

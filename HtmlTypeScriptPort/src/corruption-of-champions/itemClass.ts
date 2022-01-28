@@ -1,18 +1,11 @@
-import { liveData, GUI, UTIL, ItemArmor, ItemUndergarments, ItemConsumables, ItemMaterials, ItemWeapon, Inventory } from 'coc';
-
-export const ITEM_TYPE_WEAPON = 'Weapon';
-export const ITEM_TYPE_ARMOUR = 'Armour';
-export const ITEM_TYPE_UNDERGARMENT = 'Undergarment';
-export const ITEM_TYPE_CONSUMABLE = 'Consumable';
-export const ITEM_TYPE_MATERIAL = 'Material';
-export const ITEM_TYPE_SHIELD = 'Shield';
+import { liveData, GUI, ItemArmor, ItemUndergarments, ItemConsumables, ItemMaterials, ItemWeapon, Inventory, ENUM } from 'coc';
 
 class Item {
   //Required values, will be declared by parameters
   id: string;
   shortName: string;
   longName: string;
-  type: string;
+  type: number;
   //Optional
   description: string; //This will appear on tooltip.
   value: number; //The value in gems. Defaults at 6.
@@ -25,7 +18,7 @@ class Item {
   sexiness: number;
   verb: string;
 
-  constructor(itemId: string, itemShortName: string, itemLongName: string, itemType: string) {
+  constructor(itemId: string, itemShortName: string, itemLongName: string, itemType: number) {
     //Required values, will be declared by parameters
     this.id = itemId;
     this.shortName = itemShortName;
@@ -46,17 +39,17 @@ class Item {
     this.sexiness = 0;
     this.verb = '';
     //Add to library for lookup.
-    ItemLib[this.id] = this;
+    liveData.ItemLib[this.id] = this;
   }
 
   getTooltipDescription() {
     let text = this.description;
     text += '<br><br><b>Type:</b> ' + this.type;
     text += '<br><b>Base value:</b> ' + this.value;
-    if (this.type == ITEM_TYPE_WEAPON) {
+    if (this.type == ENUM.ItemType.Weapon) {
       text += '<br><b>Attack:</b> ' + this.attack;
     }
-    if (this.type == ITEM_TYPE_ARMOUR || this.type == ITEM_TYPE_UNDERGARMENT) {
+    if (this.type == ENUM.ItemType.Armour || this.type == ENUM.ItemType.Undergarment) {
       if (this.defense > 0) text += '<br><b>Defense:</b> ' + this.defense;
       if (this.sexiness > 0) text += '<br><b>Sexiness:</b> ' + this.sexiness;
     }
@@ -64,18 +57,18 @@ class Item {
   }
 
   canUse() {
-    if (this.type == ITEM_TYPE_MATERIAL) return false;
+    if (this.type == ENUM.ItemType.Material) return false;
     else return true;
   }
 
   useItem() {
-    if (this.type == ITEM_TYPE_CONSUMABLE) {
+    if (this.type == ENUM.ItemType.Consumable) {
       if (this.consumeEffect != null) {
         this.consumeEffect();
       }
       return false;
     }
-    if (this.type == ITEM_TYPE_WEAPON || this.type == ITEM_TYPE_ARMOUR) {
+    if (this.type == ENUM.ItemType.Weapon || this.type == ENUM.ItemType.Armour) {
       this.equipItem();
       return false;
     }
@@ -91,12 +84,12 @@ class Item {
     GUI.outputText('You equip your ' + this.equipmentName + '.');
     let oldItem: Item | null = null;
     //Determine if it's weapon or armour.
-    if (this.type == ITEM_TYPE_WEAPON) {
-      if (liveData.player.weapon.id != Items.NOTHING.id) oldItem = UTIL.lookupItem(liveData.player.weapon.id);
+    if (this.type == ENUM.ItemType.Weapon) {
+      if (liveData.player.weapon.id != liveData.Items.NOTHING.id) oldItem = liveData.lookupItem(liveData.player.weapon.id);
       liveData.player.weapon = this;
     }
-    if (this.type == ITEM_TYPE_ARMOUR) {
-      if (liveData.player.armor.id != Items.NOTHING.id) oldItem = UTIL.lookupItem(liveData.player.armor.id);
+    if (this.type == ENUM.ItemType.Armour) {
+      if (liveData.player.armor.id != liveData.Items.NOTHING.id) oldItem = liveData.lookupItem(liveData.player.armor.id);
       liveData.player.armor = this;
     }
     //Check if you aren't previously using fists or naked.
@@ -112,7 +105,6 @@ class Item {
     //TODO
   }
 }
-const ItemLib: { [key: string]: Item } = {}; //Hold item IDs for purpose of looking up or for save data.
 
 class ItemContainer {
   NOTHING: Item;
@@ -123,7 +115,7 @@ class ItemContainer {
   Undergarments: ItemUndergarments;
 
   constructor() {
-    this.NOTHING = new Item('Nothing', 'NOTHING!', 'nothing', ITEM_TYPE_MATERIAL);
+    this.NOTHING = new Item('Nothing', 'NOTHING!', 'nothing', ENUM.ItemType.Material);
     this.NOTHING.description = 'You know, you are not supposed to see this tooltip. Please let Kitteh6660 know so he can fix it.';
     this.NOTHING.equipmentName = 'nothing';
     this.NOTHING.verb = 'punch';
@@ -138,6 +130,5 @@ class ItemContainer {
     this.Undergarments = new ItemUndergarments();
   }
 }
-const Items = new ItemContainer();
 
-export { Item, ItemLib, Items };
+export { Item, ItemContainer };

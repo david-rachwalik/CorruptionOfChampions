@@ -1,19 +1,19 @@
-import { liveData, PerkType, PerkLib } from 'coc';
+import { liveData, PerkType } from 'coc';
 
 export function buildPerkList(): PerkType[] {
   const perksAvailable: PerkType[] = [];
   //Strength Perks
-  if (liveData.player.str >= 25) addPerkToDropdown(perksAvailable, PerkLib.StrongBack);
-  if (liveData.player.str >= 50 && liveData.player.findPerk(PerkLib.StrongBack) >= 0) addPerkToDropdown(perksAvailable, PerkLib.StrongBack2);
+  if (liveData.player.str >= 25) addPerkToDropdown(perksAvailable, liveData.PerkLib.StrongBack);
+  if (liveData.player.str >= 50 && liveData.player.findPerk(liveData.PerkLib.StrongBack) >= 0) addPerkToDropdown(perksAvailable, liveData.PerkLib.StrongBack2);
   //Toughness Perks
-  if (liveData.player.tou >= 25) addPerkToDropdown(perksAvailable, PerkLib.Tank);
-  if (liveData.player.tou >= 50 && liveData.player.findPerk(PerkLib.Tank) >= 0) addPerkToDropdown(perksAvailable, PerkLib.Tank2);
+  if (liveData.player.tou >= 25) addPerkToDropdown(perksAvailable, liveData.PerkLib.Tank);
+  if (liveData.player.tou >= 50 && liveData.player.findPerk(liveData.PerkLib.Tank) >= 0) addPerkToDropdown(perksAvailable, liveData.PerkLib.Tank2);
   //Speed Perks
-  if (liveData.player.spe >= 25) addPerkToDropdown(perksAvailable, PerkLib.Evade);
-  if (liveData.player.spe >= 25) addPerkToDropdown(perksAvailable, PerkLib.Runner);
+  if (liveData.player.spe >= 25) addPerkToDropdown(perksAvailable, liveData.PerkLib.Evade);
+  if (liveData.player.spe >= 25) addPerkToDropdown(perksAvailable, liveData.PerkLib.Runner);
   //Intelligence Perks
-  if (liveData.player.inte >= 25) addPerkToDropdown(perksAvailable, PerkLib.Precision);
-  if (liveData.player.inte >= 25) addPerkToDropdown(perksAvailable, PerkLib.Spellpower);
+  if (liveData.player.inte >= 25) addPerkToDropdown(perksAvailable, liveData.PerkLib.Precision);
+  if (liveData.player.inte >= 25) addPerkToDropdown(perksAvailable, liveData.PerkLib.Spellpower);
   //Libido Perks
 
   //Corruption Perks

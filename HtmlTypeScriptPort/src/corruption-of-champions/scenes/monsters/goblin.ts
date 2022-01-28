@@ -1,4 +1,4 @@
-import { liveData, ENUM, FLAG, UTIL, GUI, Creature, Items, COMBAT, StatusEffects, Appearance, PerkLib } from 'coc';
+import { liveData, ENUM, FLAG, UTIL, GUI, Creature, COMBAT, Appearance } from 'coc';
 
 // Goblins originally created by aimozg.
 // Updated for CoC HTML mod by Mattibun.
@@ -73,27 +73,27 @@ export class Goblin extends Creature {
 
     //Appearance
     this.tallness = 35 + UTIL.rand(4);
-    this.hipRating = ENUM.HipRatingType.HIP_RATING_AMPLE + 2;
-    this.buttRating = ENUM.ButtRatingType.BUTT_RATING_LARGE;
+    this.hipRating = ENUM.HipRatingType.AMPLE + 2;
+    this.buttRating = ENUM.ButtRatingType.LARGE;
     this.skinTone = 'dark green';
     this.hairColor = 'purple';
     this.hairLength = 4;
     //Sexual characteristics
-    this.createVagina(false, ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING, ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_NORMAL);
-    this.createStatusEffect(StatusEffects.BonusVCapacity, 40, 0, 0, 0);
+    this.createVagina(false, ENUM.VaginalWetnessType.DROOLING, ENUM.VaginalLoosenessType.NORMAL);
+    this.createStatusEffect(liveData.StatusEffects.BonusVCapacity, 40, 0, 0, 0);
     this.createBreastRow(Appearance.breastCupInverse('E'));
-    this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_TIGHT;
-    this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_DRY;
-    this.createStatusEffect(StatusEffects.BonusACapacity, 30, 0, 0, 0);
+    this.ass.analLooseness = ENUM.AnalLoosenessType.TIGHT;
+    this.ass.analWetness = ENUM.AnalWetnessType.DRY;
+    this.createStatusEffect(liveData.StatusEffects.BonusACapacity, 30, 0, 0, 0);
 
     //Drops
     this.clearDrops(); //Need to be called before populating the item arrays.
-    this.addDrop(Items.Consumables.HairDyeRed, 5);
-    this.addDrop(Items.Consumables.HairDyeOrange, 5);
-    this.addDrop(Items.Consumables.HairDyePurple, 5);
-    this.addDrop(Items.Consumables.HairDyeBlue, 5);
-    this.addDrop(Items.Consumables.HairDyePink, 5);
-    this.addDrop(Items.Consumables.GoblinAle, 25);
+    this.addDrop(liveData.Items.Consumables.HairDyeRed, 5);
+    this.addDrop(liveData.Items.Consumables.HairDyeOrange, 5);
+    this.addDrop(liveData.Items.Consumables.HairDyePurple, 5);
+    this.addDrop(liveData.Items.Consumables.HairDyeBlue, 5);
+    this.addDrop(liveData.Items.Consumables.HairDyePink, 5);
+    this.addDrop(liveData.Items.Consumables.GoblinAle, 25);
 
     //Victory/defeat
     this.victory = victoryAgainstGoblin;
@@ -265,27 +265,28 @@ export class Goblin extends Creature {
     }
 
     //Dodge chance!
-    if ((liveData.player.findPerk(PerkLib.Evade) >= 0 && UTIL.rand(10) <= 3) || UTIL.rand(100) < liveData.player.spe / 5) {
+    if ((liveData.player.findPerk(liveData.PerkLib.Evade) >= 0 && UTIL.rand(10) <= 3) || UTIL.rand(100) < liveData.player.spe / 5) {
       GUI.outputText('<br>You narrowly avoid the gush of alchemic fluids!<br>');
     } else {
       //Get hit!
       if (color == 'red') {
         //Temporary heat
         GUI.outputText('<br>The red fluids hit you and instantly soak into your skin, disappearing.  Your skin flushes and you feel warm.  Oh no...<br>');
-        if (liveData.player.findStatusEffect(StatusEffects.TemporaryHeat) < 0)
-          liveData.player.createStatusEffect(StatusEffects.TemporaryHeat, 0, multiplier, 0, 0);
+        if (liveData.player.findStatusEffect(liveData.StatusEffects.TemporaryHeat) < 0)
+          liveData.player.createStatusEffect(liveData.StatusEffects.TemporaryHeat, 0, multiplier, 0, 0);
       } else if (color == 'green') {
         //Green poison
         GUI.outputText(
           '<br>The greenish fluids splash over you, making you feel slimy and gross.  Nausea plagues you immediately - you have been poisoned!<br>',
         );
-        if (liveData.player.findStatusEffect(StatusEffects.Poison) < 0) liveData.player.createStatusEffect(StatusEffects.Poison, 0, multiplier, 0, 0);
+        if (liveData.player.findStatusEffect(liveData.StatusEffects.Poison) < 0)
+          liveData.player.createStatusEffect(liveData.StatusEffects.Poison, 0, multiplier, 0, 0);
       } else if (color == 'white') {
         //sticky flee prevention
         GUI.outputText(
           "<br>You try to avoid it, but it splatters the ground around you with very sticky white fluid, making it difficult to run.  You'll have a hard time escaping now!<br>",
         );
-        if (liveData.player.findStatusEffect(StatusEffects.NoFlee) < 0) liveData.player.createStatusEffect(StatusEffects.NoFlee, 0, 0, 0, 0);
+        if (liveData.player.findStatusEffect(liveData.StatusEffects.NoFlee) < 0) liveData.player.createStatusEffect(liveData.StatusEffects.NoFlee, 0, 0, 0, 0);
       } else if (color == 'black') {
         //Increase fatigue
         GUI.outputText('<br>The black fluid splashes all over you and wicks into your skin near-instantly.  It makes you feel tired and drowsy.<br>');
@@ -315,7 +316,7 @@ export function victoryAgainstGoblin() {
 
   // Let's see what buttons we can make!
   // Not horny enough or not a feeder:
-  if (liveData.player.lust < 30 && liveData.player.findStatusEffect(StatusEffects.Feeder) < 0) {
+  if (liveData.player.lust < 30 && liveData.player.findStatusEffect(liveData.StatusEffects.Feeder) < 0) {
     // Check this Status Effect check
     COMBAT.cleanupAfterCombat();
     return;
@@ -343,13 +344,13 @@ export function victoryAgainstGoblin() {
       ) {
         GUI.addButton(3, 'Dick In Ass', goblinButtSex, null, null, null, 'TO BE ADDED');
       }
-      if (liveData.player.findStatusEffect(StatusEffects.Feeder) >= 0) {
+      if (liveData.player.findStatusEffect(liveData.StatusEffects.Feeder) >= 0) {
         //CHECK THIS STATUS EFFECT!
         GUI.addButton(5, 'Breastfeed', giveGoblinAMilkMustache, null, null, null, 'TO BE ADDED');
       }
-      if (liveData.player.tailType == ENUM.TailType.TAIL_TYPE_SPIDER_ADBOMEN && liveData.player.cockThatFits(liveData.monster.vaginalCapacity()) >= 0) {
+      if (liveData.player.tailType == ENUM.TailType.SPIDER_ADBOMEN && liveData.player.cockThatFits(liveData.monster.vaginalCapacity()) >= 0) {
         GUI.addButton(6, 'SpiderCondom', goblinCondomed, 0, null, null, 'TO BE ADDED'); // Pass argument to do Spider condom
-      } else if (liveData.player.hasItem(Items.Consumables.Condom) && liveData.player.cockThatFits(liveData.monster.vaginalCapacity()) >= 0) {
+      } else if (liveData.player.hasItem(liveData.Items.Consumables.Condom) && liveData.player.cockThatFits(liveData.monster.vaginalCapacity()) >= 0) {
         GUI.addButton(6, 'Use Condom', goblinCondomed, 1, null, null, 'TO BE ADDED'); // Pass argument to do normal condom
       }
     }
@@ -362,13 +363,13 @@ export function victoryAgainstGoblin() {
   }
 
   // Not horny enough, but can feed or oviposit
-  if (liveData.player.canOvipositSpider() || liveData.player.findStatusEffect(StatusEffects.Feeder) >= 0) {
+  if (liveData.player.canOvipositSpider() || liveData.player.findStatusEffect(liveData.StatusEffects.Feeder) >= 0) {
     // CHECK STATUS EFFECT
     GUI.outputText("<br><br><b>You aren't horny enough to rape her, but ");
-    if (liveData.player.findStatusEffect(StatusEffects.Feeder) >= 0)
+    if (liveData.player.findStatusEffect(liveData.StatusEffects.Feeder) >= 0)
       GUI.outputText('your nipples ache with the desire to feed her your milk.  Do you feed her milk or leave?</b>');
     else GUI.outputText('your abdomen aches with the desire to impregnate her full of insect eggs.  Do you?</b>');
-    if (liveData.player.findStatusEffect(StatusEffects.Feeder) >= 0) {
+    if (liveData.player.findStatusEffect(liveData.StatusEffects.Feeder) >= 0) {
       //CHECK THIS STATUS EFFECT!
       GUI.addButton(5, 'Breastfeed', giveGoblinAMilkMustache, null, null, null, 'TO BE ADDED');
     }
@@ -659,7 +660,7 @@ export function goblinFemaleRape() {
     //GUI.outputText(images.showImage("goblin-win-female-naga-rapedfem"));
     GUI.outputText('You slither over to the helpless goblin, who watches you half in fear, half in curiosity. ');
     //[Has fangs:
-    if (liveData.player.faceType == ENUM.FaceType.FACE_SNAKE_FANGS)
+    if (liveData.player.faceType == ENUM.FaceType.SnakeFangs)
       GUI.outputText('You bare your fangs at her and the curiosity disappears. She turns to run, but your tail is faster than she is.');
     //[No fangs:
     else
@@ -753,9 +754,9 @@ export function goblinFemaleRape() {
         liveData.player.vaginaDescript(0) +
         ' ',
     );
-    if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_WET) GUI.outputText('grows puffy and moist');
-    else if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING) GUI.outputText('drips with feminine moisture');
-    else if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_SLAVERING) GUI.outputText('slowly begins to soak your thighs');
+    if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.WET) GUI.outputText('grows puffy and moist');
+    else if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.DROOLING) GUI.outputText('drips with feminine moisture');
+    else if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.SLAVERING) GUI.outputText('slowly begins to soak your thighs');
     else GUI.outputText('drools with need, puddling under you');
     GUI.outputText('.  Your arousal can wait.  This slut needs to be punished.<br><br>');
     GUI.outputText(
@@ -771,11 +772,9 @@ export function goblinFemaleRape() {
         ".  She thrashes against you, too lost to her own pleasure to realize what's going on.   Forcefully you put her plump little lips on your box and grind, letting her tongue slip into your folds.  Her eyes are little white slits, her pupils rolled up out of view, but there's enough of something in there that her tongue recognizes the taste and starts licking.  You tremble; it feels WAY better than it should.  Perhaps some of her potions have left a residue on her lips and tongue, but you don't care.<br><br>",
     );
     GUI.outputText('You cum on the drugged green bitch, ');
-    if (liveData.player.vaginas[0].vaginalWetness > ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING) GUI.outputText('splattering her with your fluids');
-    else if (liveData.player.vaginas[0].vaginalWetness > ENUM.VaginalWetnessType.VAGINA_WETNESS_SLICK)
-      GUI.outputText('coating her face with the proof of your pleasure');
-    else if (liveData.player.vaginas[0].vaginalWetness > ENUM.VaginalWetnessType.VAGINA_WETNESS_WET)
-      GUI.outputText('leaving her sticky with your nether-juices');
+    if (liveData.player.vaginas[0].vaginalWetness > ENUM.VaginalWetnessType.DROOLING) GUI.outputText('splattering her with your fluids');
+    else if (liveData.player.vaginas[0].vaginalWetness > ENUM.VaginalWetnessType.SLICK) GUI.outputText('coating her face with the proof of your pleasure');
+    else if (liveData.player.vaginas[0].vaginalWetness > ENUM.VaginalWetnessType.WET) GUI.outputText('leaving her sticky with your nether-juices');
     else GUI.outputText('leaving the taste of pussy on her tongue');
     GUI.outputText('.  ');
     if (liveData.player.biggestLactation() >= 3.5) GUI.outputText('Milk explodes from your nipples, soaking the petite slut.  ');
@@ -949,8 +948,8 @@ export function rapeAGoblinCorruptTooBig() {
   GUI.outputText('"<i>Alright, whore. You wanted my babies? Here. They. CUM!</i>" you yell. However, ');
   if (liveData.player.hasVagina()) {
     GUI.outputText('while your ' + liveData.player.vaginaDescript(0) + ' ');
-    if (liveData.player.vaginas[0].vaginalWetness <= ENUM.VaginalWetnessType.VAGINA_WETNESS_SLICK) GUI.outputText('juices ');
-    else if (liveData.player.vaginas[0].vaginalWetness <= ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING) GUI.outputText('floods ');
+    if (liveData.player.vaginas[0].vaginalWetness <= ENUM.VaginalWetnessType.SLICK) GUI.outputText('juices ');
+    else if (liveData.player.vaginas[0].vaginalWetness <= ENUM.VaginalWetnessType.DROOLING) GUI.outputText('floods ');
     else GUI.outputText('explodes ');
     if (liveData.player.cockTotal() > 1) GUI.outputText('and the rest of your ' + liveData.player.multiCockDescriptLight() + ' drench her, ');
   } else if (liveData.player.cockTotal() > 1) {
@@ -1091,8 +1090,8 @@ export function giveGoblinAMilkMustache() {
   liveData.player.modStats(['lib', 0.2]);
   liveData.player.changeLust(-50);
   //You've now been milked, reset the timer for that
-  liveData.player.addStatusValue(StatusEffects.Feeder, 1, 1); // CHECK THIS
-  liveData.player.changeStatusValue(StatusEffects.Feeder, 2, 0); // CHECK THIS
+  liveData.player.addStatusValue(liveData.StatusEffects.Feeder, 1, 1); // CHECK THIS
+  liveData.player.changeStatusValue(liveData.StatusEffects.Feeder, 2, 0); // CHECK THIS
   COMBAT.cleanupAfterCombat();
 }
 
@@ -1135,7 +1134,7 @@ export function goblinCondomed(mode: number) {
     );
   } else {
     //Latex condom (item)
-    liveData.player.destroyItems(Items.Consumables.Condom, 1);
+    liveData.player.destroyItems(liveData.Items.Consumables.Condom, 1);
     GUI.outputText(
       'you tear open the packet and slide the latex condom over your ' +
         liveData.player.cockDescript(x) +
@@ -1280,7 +1279,7 @@ export function defeatAgainstGoblin() {
     return;
   }
   // Goblin is smart and won't rape a player with worms. // WILL NEED TESTING WHEN WE GET TO WORMS/DOCUMENT HOW STATUS EFFECTS WORK!
-  else if (liveData.player.findStatusEffect(StatusEffects.Infested) >= 0) {
+  else if (liveData.player.findStatusEffect(liveData.StatusEffects.Infested) >= 0) {
     GUI.outputText("<br><br>The goblin's eyes go wide and she turns to leave, no longer interested in you.");
     //player.orgasm(); Player orgasming after defeat makes no sense? Maybe do a check to see if they lost by lust first?
     COMBAT.cleanupAfterCombat();
@@ -1297,7 +1296,7 @@ export function goblinRapesPlayer() {
   //if (doSFWloss()) return;
 
   // Check for Bimbo or Futa mentality first...
-  if (liveData.player.findPerk(PerkLib.BimboBrains) >= 0 || liveData.player.findPerk(PerkLib.FutaFaculties) >= 0) {
+  if (liveData.player.findPerk(liveData.PerkLib.BimboBrains) >= 0 || liveData.player.findPerk(liveData.PerkLib.FutaFaculties) >= 0) {
     // And if the player still has a vagina...
     if (liveData.player.hasVagina()) {
       //GUI.outputText(images.showImage("goblin-loss-female-bimbodildo"));
@@ -1411,9 +1410,9 @@ export function goblinRapesPlayer() {
   }
   if (liveData.player.hasVagina()) {
     //GUI.outputText(images.showImage("goblin-loss-female-raped"));
-    if (liveData.player.vaginas[0].vaginalWetness <= ENUM.VaginalWetnessType.VAGINA_WETNESS_NORMAL)
+    if (liveData.player.vaginas[0].vaginalWetness <= ENUM.VaginalWetnessType.NORMAL)
       GUI.outputText("The lips of your sex engorge, becoming almost as puffy as the goblin's.  ");
-    else if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING)
+    else if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.DROOLING)
       GUI.outputText('Feminine lubricant soaks into the back of your ' + liveData.player.armorName + '.  ');
     else GUI.outputText('It rapidly forms into a puddle as your ' + liveData.player.vaginaDescript(0) + ' does its best to show just how ready you are.  ');
   }
@@ -1584,7 +1583,7 @@ export function goblinRapesPlayer() {
         liveData.player.clitDescript() +
         ' and yanking her toy free.  Your lips ',
     );
-    if (liveData.player.vaginas[0].vaginalLooseness <= ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING) GUI.outputText('gape apart momentarily');
+    if (liveData.player.vaginas[0].vaginalLooseness <= ENUM.VaginalLoosenessType.GAPING) GUI.outputText('gape apart momentarily');
     else GUI.outputText('gape wider than ever, but only for a moment');
     GUI.outputText('.<br><br>');
     GUI.outputText(

@@ -1,4 +1,4 @@
-import { liveData, GUI, UTIL, Camp, FLAG, AreasGenericExploration, TentacleBeastScene, TamaniScene, BeeGirlScene, KeyItems } from 'coc';
+import { liveData, GUI, UTIL, Camp, FLAG, AreasGenericExploration, TentacleBeastScene, TamaniScene, BeeGirlScene } from 'coc';
 
 export function explore() {
   GUI.clearOutput();
@@ -23,7 +23,7 @@ export function explore() {
         liveData.gameFlags[FLAG.TAMANI_TIME_OUT] == 0 &&
         liveData.player.gender > 0 &&
         liveData.gameFlags[FLAG.TAMANI_BAD_ENDED] == 0 &&
-        (liveData.player.totalCocks() > 0 || liveData.player.hasKeyItem(KeyItems.DeluxeDildo) < 0)
+        (liveData.player.totalCocks() > 0 || liveData.player.hasKeyItem(liveData.KeyItems.DeluxeDildo) < 0)
       ) {
         if (
           liveData.player.totalCocks() > 0 &&
@@ -43,7 +43,7 @@ export function explore() {
     case 2: //Tentacle Beasts (Not yet implemented)
       // TODO Track down this legacy flag if (player.gender > 0) flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00247] = 0;
       //Tentacle avoidance chance due to dangerous plants
-      if (liveData.player.hasKeyItem(KeyItems.DangerousPlants) >= 0 && liveData.player.inte / 2 > UTIL.rand(50)) {
+      if (liveData.player.hasKeyItem(liveData.KeyItems.DangerousPlants) >= 0 && liveData.player.inte / 2 > UTIL.rand(50)) {
         //trace("TENTACLE'S AVOIDED DUE TO BOOK!");
         GUI.outputText(
           "Using the knowledge contained in your 'Dangerous Plants' book, you determine a tentacle beast's lair is nearby, do you continue?  If not you could return to camp.\n\n",

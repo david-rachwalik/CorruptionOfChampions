@@ -58,10 +58,10 @@ export function tryDiscover() {
       GUI.outputText(
         'You stumble as the ground shifts a bit underneath you. Groaning in frustration, you straighten up and discover the rough feeling of sand ',
       );
-      if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN) GUI.outputText('inside your footwear, between your toes');
-      if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED) GUI.outputText('in your hooves');
-      if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG) GUI.outputText('in your paws');
-      if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_NAGA) GUI.outputText('in your scales');
+      if (liveData.player.lowerBody == ENUM.LowerBodyType.HUMAN) GUI.outputText('inside your footwear, between your toes');
+      if (liveData.player.lowerBody == ENUM.LowerBodyType.HOOFED) GUI.outputText('in your hooves');
+      if (liveData.player.lowerBody == ENUM.LowerBodyType.DOG) GUI.outputText('in your paws');
+      if (liveData.player.lowerBody == ENUM.LowerBodyType.NAGA) GUI.outputText('in your scales');
       GUI.outputText(".<br><br><b>You've discovered the Desert!</b>");
       liveData.exploration.exploredDesert = 1;
       return;

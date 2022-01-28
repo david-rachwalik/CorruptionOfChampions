@@ -1,4 +1,4 @@
-import { Item, Items } from 'coc';
+import { Item, liveData } from 'coc';
 
 class ItemSlot {
   quantity: number;
@@ -6,18 +6,18 @@ class ItemSlot {
 
   constructor() {
     this.quantity = 0;
-    this.itype = Items.NOTHING;
+    this.itype = liveData.Items.NOTHING;
   }
 
   setItemAndQty(itype: Item, quant: number) {
-    if (itype == null) itype = Items.NOTHING;
-    if (quant == 0 && itype == Items.NOTHING) {
+    if (itype == null) itype = liveData.Items.NOTHING;
+    if (quant == 0 && itype == liveData.Items.NOTHING) {
       this.emptySlot();
       return;
     }
-    if (quant < 0 || (quant == 0 && itype != Items.NOTHING) || (quant > 0 && itype == Items.NOTHING)) {
+    if (quant < 0 || (quant == 0 && itype != liveData.Items.NOTHING) || (quant > 0 && itype == liveData.Items.NOTHING)) {
       quant = 0;
-      itype = Items.NOTHING;
+      itype = liveData.Items.NOTHING;
     }
     this.quantity = quant;
     this.itype = itype;
@@ -28,12 +28,12 @@ class ItemSlot {
   removeOneItem() {
     if (this.quantity > 0) {
       this.quantity--;
-      if (this.quantity <= 0) this.itype = Items.NOTHING;
+      if (this.quantity <= 0) this.itype = liveData.Items.NOTHING;
     }
   }
   emptySlot() {
     this.quantity = 0;
-    this.itype = Items.NOTHING;
+    this.itype = liveData.Items.NOTHING;
   }
 }
 

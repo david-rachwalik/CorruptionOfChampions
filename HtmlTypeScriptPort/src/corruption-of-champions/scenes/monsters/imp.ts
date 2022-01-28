@@ -1,4 +1,4 @@
-import { liveData, ENUM, FLAG, UTIL, GUI, Creature, COMBAT, Items, StatusEffects, Inventory, PerkLib } from 'coc';
+import { liveData, ENUM, FLAG, UTIL, GUI, Creature, COMBAT, Inventory } from 'coc';
 
 export class Imp extends Creature {
   constructor() {
@@ -38,26 +38,26 @@ export class Imp extends Creature {
     this.temperment = 1; //TEMPERMENT_LUSTY_GRAPPLES
     //Appearance
     this.tallness = UTIL.rand(24) + 25;
-    this.hipRating = ENUM.HipRatingType.HIP_RATING_BOYISH;
-    this.buttRating = ENUM.ButtRatingType.BUTT_RATING_TIGHT;
+    this.hipRating = ENUM.HipRatingType.BOYISH;
+    this.buttRating = ENUM.ButtRatingType.TIGHT;
     this.skinTone = 'red';
     this.hairColor = 'black';
     this.hairLength = 5;
-    this.wingType = ENUM.WingType.WING_TYPE_IMP;
+    this.wingType = ENUM.WingType.IMP;
     //Sexual characteristics
     this.createCock(UTIL.rand(2) + 11, 2.5, ENUM.CockType.DEMON);
     this.balls = 2;
     this.ballSize = 1;
     this.createBreastRow(0);
-    this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_STRETCHED;
-    this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_NORMAL;
+    this.ass.analLooseness = ENUM.AnalLoosenessType.STRETCHED;
+    this.ass.analWetness = ENUM.AnalWetnessType.NORMAL;
 
     //Drops
     this.clearDrops();
-    this.addDrop(Items.Consumables.IncubiDraft, 30);
-    this.addDrop(Items.Consumables.SuccubiMilk, 30);
-    this.addDrop(Items.Consumables.ImpFood, 30);
-    this.addDrop(Items.Consumables.CaninePepper, 10);
+    this.addDrop(liveData.Items.Consumables.IncubiDraft, 30);
+    this.addDrop(liveData.Items.Consumables.SuccubiMilk, 30);
+    this.addDrop(liveData.Items.Consumables.ImpFood, 30);
+    this.addDrop(liveData.Items.Consumables.CaninePepper, 10);
 
     //Victory/defeat
     this.victory = victoryAgainstImp;
@@ -97,19 +97,19 @@ export class Imp extends Creature {
     }
     if (liveData.player.lust >= 60 && liveData.player.hasVagina()) {
       switch (liveData.player.vaginas[0].vaginalWetness) {
-        case ENUM.VaginalWetnessType.VAGINA_WETNESS_NORMAL:
+        case ENUM.VaginalWetnessType.NORMAL:
           GUI.outputText('Your ' + liveData.player.allVaginaDescript() + ' dampen' + (liveData.player.vaginas.length > 1 ? '' : 's') + ' perceptibly.');
           break;
-        case ENUM.VaginalWetnessType.VAGINA_WETNESS_WET:
+        case ENUM.VaginalWetnessType.WET:
           GUI.outputText('Your crotch becomes sticky with girl-lust.');
           break;
-        case ENUM.VaginalWetnessType.VAGINA_WETNESS_SLICK:
+        case ENUM.VaginalWetnessType.SLICK:
           GUI.outputText('Your ' + liveData.player.allVaginaDescript() + ' become' + (liveData.player.vaginas.length > 1 ? '' : 's') + ' sloppy and wet.');
           break;
-        case ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING:
+        case ENUM.VaginalWetnessType.DROOLING:
           GUI.outputText('Thick runners of girl-lube stream down the insides of your thighs.');
           break;
-        case ENUM.VaginalWetnessType.VAGINA_WETNESS_SLAVERING:
+        case ENUM.VaginalWetnessType.SLAVERING:
           GUI.outputText('Your ' + liveData.player.allVaginaDescript() + ' instantly soak' + (liveData.player.vaginas.length > 1 ? '' : 's') + ' your groin.');
           break;
         default: //Dry vaginas are unaffected
@@ -170,8 +170,8 @@ Additional possible results are in the commented code above.
 export function victoryAgainstImp() {
   GUI.clearOutput();
   //Screen messages
-  const canFeed = liveData.player.findStatusEffect(StatusEffects.Feeder) >= 0;
-  const canBikiniTits = liveData.player.hasVagina() && liveData.player.biggestTitSize() >= 4 && liveData.player.armor == Items.Armor.LustyMaidenArmor;
+  const canFeed = liveData.player.findStatusEffect(liveData.StatusEffects.Feeder) >= 0;
+  const canBikiniTits = liveData.player.hasVagina() && liveData.player.biggestTitSize() >= 4 && liveData.player.armor == liveData.Items.Armor.LustyMaidenArmor;
   GUI.outputText('You smile in satisfaction as ' + liveData.monster.a + liveData.monster.refName + ' collapses and begins masturbating feverishly.');
   GUI.menu();
   if (canFeed) {
@@ -201,7 +201,7 @@ export function victoryAgainstImp() {
         GUI.outputText("<br><br><b>You're too big to rape an imp with " + liveData.player.oMultiCockDesc() + '.</b>');
       else {
         GUI.addButton(0, liveData.player.isTaur() ? 'Centaur Rape' : 'Male Rape', liveData.player.isTaur() ? centaurOnImpStart : rapeImpWithDick);
-        if (liveData.player.hasItem(Items.Consumables.Condom) && !liveData.player.isTaur()) GUI.addButton(5, 'Use Condom', rapeImpWithDick, true);
+        if (liveData.player.hasItem(liveData.Items.Consumables.Condom) && !liveData.player.isTaur()) GUI.addButton(5, 'Use Condom', rapeImpWithDick, true);
       }
     }
     if (liveData.player.hasVagina()) {
@@ -230,7 +230,7 @@ export function rapeImpWithDick(condomed = false) {
   let x = liveData.player.cockThatFits(liveData.monster.analCapacity());
   if (x < 0) x = 0;
   if (condomed) {
-    liveData.player.destroyItems(Items.Consumables.Condom, 1);
+    liveData.player.destroyItems(liveData.Items.Consumables.Condom, 1);
     GUI.outputText(
       'You first unwrap the condom wrapper and slide the latex all evenly all over your ' + liveData.player.cockDescript(x) + " until it's fully covered.",
     );
@@ -752,7 +752,7 @@ export function centaurOnImpFemale(vape = false) {
       '.  ',
   );
   //Not gaping?
-  if (liveData.player.vaginas[0].vaginalLooseness <= ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING) {
+  if (liveData.player.vaginas[0].vaginalLooseness <= ENUM.VaginalLoosenessType.GAPING) {
     //Penetration for non-gape cases
     GUI.outputText(
       'With a lascivious grin the imp hops forward, gripping your flanks as it drives its member forward into your ' +
@@ -1380,7 +1380,7 @@ export function killImp() {
 // TAKE THE IMP'S SKULL
 
 export function takeSkull() {
-  Inventory.takeItem(Items.Materials.ImpSkull, COMBAT.cleanupAfterCombat);
+  Inventory.takeItem(liveData.Items.Materials.ImpSkull, COMBAT.cleanupAfterCombat);
 }
 
 // LOSE TO IMP SCENES
@@ -1394,7 +1394,7 @@ export function impRapesYou() {
   //if (doSFWloss()) return; FIGURE OUT THIS FUNCTION
 
   if (
-    (liveData.player.findPerk(PerkLib.BimboBrains) >= 0 || liveData.player.findPerk(PerkLib.FutaFaculties) >= 0) &&
+    (liveData.player.findPerk(liveData.PerkLib.BimboBrains) >= 0 || liveData.player.findPerk(liveData.PerkLib.FutaFaculties) >= 0) &&
     !liveData.player.isTaur() &&
     liveData.player.hasVagina()
   ) {

@@ -1,4 +1,4 @@
-import { liveData, ENUM, FLAG, GUI, Camp, Items, Inventory, Data } from 'coc';
+import { liveData, ENUM, FLAG, GUI, Camp, Inventory, Data } from 'coc';
 
 Data.addToGameFlags(FLAG.MET_OTTERGIRL);
 
@@ -232,7 +232,7 @@ export function ottergirlLikesDongs() {
   GUI.outputText('<br><br>You take a minute to recover before doing the same. ');
   liveData.player.orgasm();
   liveData.player.modStats(['sen', -1]);
-  Inventory.takeItem(Items.Consumables.FishFillet, Camp.returnToCampUseOneHour);
+  Inventory.takeItem(liveData.Items.Consumables.FishFillet, Camp.returnToCampUseOneHour);
 }
 
 //For Chicks
@@ -329,7 +329,7 @@ export function ottersForGals() {
 
   liveData.player.orgasm();
   liveData.player.modStats(['sen', -1]);
-  Inventory.takeItem(Items.Consumables.FishFillet, Camp.returnToCampUseOneHour);
+  Inventory.takeItem(liveData.Items.Consumables.FishFillet, Camp.returnToCampUseOneHour);
 }
 
 //For Pansies
@@ -352,5 +352,5 @@ export function getSomeFishYaFatty() {
     "<br><br>She retrieves a delicious-smelling slab of roasted fish, properly salted and wrapped in a large green leaf. \"<i>Here ya're, fresh as it comes 'less you want it still walkin' and talkin'.</i>\"",
   );
   GUI.outputText('<br><br>You thank Callu for the food and take your leave. ');
-  Inventory.takeItem(Items.Consumables.FishFillet, Camp.returnToCampUseOneHour);
+  Inventory.takeItem(liveData.Items.Consumables.FishFillet, Camp.returnToCampUseOneHour);
 }

@@ -1,14 +1,24 @@
-import { UTIL, FLAG, Creature, Player, Time, ItemSlot, AmilyScene, TamaniScene, SandWitchScene } from 'coc';
+import {
+  UTIL,
+  FLAG,
+  Creature,
+  Player,
+  Time,
+  ItemSlot,
+  AmilyScene,
+  TamaniScene,
+  SandWitchScene,
+  ItemContainer,
+  Item,
+  KeyItemTypeContainer,
+  PerkTypeContainer,
+  StatusEffectTypeContainer,
+  StatusEffectType,
+  KeyItemType,
+  PerkType,
+} from 'coc';
 
-interface IExploration {
-  explored: number;
-  exploredForest: number;
-  exploredLake: number;
-  exploredDesert: number;
-  exploredMountain: number;
-}
-
-class Exploration implements IExploration {
+class Exploration {
   explored: number;
   exploredForest: number;
   exploredLake: number;
@@ -24,7 +34,7 @@ class Exploration implements IExploration {
   }
 }
 
-interface IGameContext {
+class GameContext {
   //Variables that can be set as development progresses.
   gameVersion: string;
   saveVersion: number;
@@ -52,52 +62,18 @@ interface IGameContext {
   shiftKeyDown: boolean;
 
   time: Time;
-  exploration: IExploration;
-  gameFlags: { [key: string]: number };
-  // pregnancyProgression: PregnancyProgression
+  exploration: Exploration;
 
-  amily: AmilyScene.Amily;
-  tamanipreg: TamaniScene.Tamani;
-  sandWitch: SandWitchScene.SandWitch;
-  beeGirlAttitude: number;
-  bowSkill: number;
+  //Lookup calls originated in UTIL
+  Items: ItemContainer;
+  ItemLib: { [key: string]: Item }; //Hold item IDs for purpose of looking up or for save data.
+  KeyItems: KeyItemTypeContainer;
+  KeyItemIDs: { [key: string]: KeyItemType }; //Hold key item IDs for purpose of looking up.
+  PerkLib: PerkTypeContainer;
+  PerkIDs: { [key: string]: PerkType }; //Hold perk IDs for purpose of looking up.
+  StatusEffects: StatusEffectTypeContainer;
+  StatusEffectIDs: { [key: string]: StatusEffectType }; //Hold status effect IDs for purpose of looking up.
 
-  // Combat
-  nullCreature: Creature;
-  monster: Creature;
-  currentTurn: number;
-  currentRound: number;
-}
-
-class GameContext implements IGameContext {
-  //Variables that can be set as development progresses.
-  gameVersion: string;
-  saveVersion: number;
-  levelCap: number;
-  //Game settings
-  storage: Storage;
-  debug: boolean;
-  silly: boolean;
-  hyperHappy: boolean;
-  lowStandards: boolean;
-  hungerEnabled: boolean; // realistic mode
-  SFWMode: boolean;
-  //Interface settings
-  use12Hours: boolean;
-  useMetrics: boolean;
-  //Store data for fonts
-  buttonFont: string;
-  mainFont: string;
-  mainFontSizeArray: string[];
-  mainFontSizeIndex: number;
-  //Core variables
-  player: Player;
-  playerMenu: any;
-  gameStarted: boolean;
-  shiftKeyDown: boolean;
-
-  time: Time;
-  exploration: IExploration;
   gameFlags: { [key: string]: number };
   // pregnancyProgression: PregnancyProgression
 
@@ -156,6 +132,16 @@ class GameContext implements IGameContext {
 
     this.exploration = new Exploration();
 
+    //Lookup calls (originated in UTIL)
+    this.Items = new ItemContainer();
+    this.KeyItems = new KeyItemTypeContainer();
+    this.PerkLib = new PerkTypeContainer();
+    this.StatusEffects = new StatusEffectTypeContainer();
+    this.ItemLib = {}; //Hold item IDs for purpose of looking up or for save data.
+    this.KeyItemIDs = {}; //Hold key item IDs for purpose of looking up.
+    this.PerkIDs = {}; //Hold perk IDs for purpose of looking up.
+    this.StatusEffectIDs = {}; //Hold status effect IDs for purpose of looking up.
+
     //NPC variables
     //let flags = [0] * 3000; //For legacy purposes only.
     // let gameFlags = []
@@ -191,9 +177,10 @@ class GameContext implements IGameContext {
     //	}
     for (let i = 0; i < minutes; i++) {
       this.time.increment();
-      this.player.pregnancyAdvance(); // Advances the Player's pregnancy.
-      this.amily.pregnancyAdvance(); // Advances AmilyScene.Amily's pregnancy.
-      this.tamanipreg.pregnancyAdvance(); //Advances TamaniScene.Tamani's pregnancy.
+      // TODO: reactivate when game is stable (really call for each every minute?)
+      // this.player.pregnancyAdvance(); // Advances the Player's pregnancy.
+      // this.amily.pregnancyAdvance(); // Advances AmilyScene.Amily's pregnancy.
+      // this.tamanipreg.pregnancyAdvance(); //Advances TamaniScene.Tamani's pregnancy.
     }
     //pregnancyProgression.updatePregnancy(); // Outputs the results of the Player's pregnancy flags once time passes.
   }
@@ -201,7 +188,20 @@ class GameContext implements IGameContext {
   advanceHours(hours: number) {
     this.advanceMinutes(hours * 60);
   }
-}
-const liveData = new GameContext();
 
-export { GameContext, liveData };
+  //Lookup calls (originated in UTIL) (e.g. UTIL.lookupItem to liveData.lookupItem)
+  lookupItem(id: string) {
+    return this.ItemLib[id];
+  }
+  lookupKeyItem(id: string) {
+    return this.KeyItemIDs[id];
+  }
+  lookupPerk(id: string) {
+    return this.PerkIDs[id];
+  }
+  lookupStatusEffects(id: string) {
+    return this.StatusEffectIDs[id];
+  }
+}
+
+export { GameContext };

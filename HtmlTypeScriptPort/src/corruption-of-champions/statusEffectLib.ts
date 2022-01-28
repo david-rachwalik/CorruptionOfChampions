@@ -235,6 +235,5 @@ class StatusEffectTypeContainer {
     this.KeltBJ = new StatusEffectType('KeltBJ');
   }
 }
-const StatusEffects = new StatusEffectTypeContainer();
 
-export { BindType, VenomType, StatusEffects };
+export { BindType, VenomType, StatusEffectTypeContainer };

@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, UTIL, Items, Inventory } from 'coc';
+import { liveData, ENUM, GUI, UTIL, Inventory } from 'coc';
 
 /**
  * Originally Created by aimozg on 11.01.14.
@@ -7,7 +7,7 @@ import { liveData, ENUM, GUI, UTIL, Items, Inventory } from 'coc';
 export function cancelReducto() {
   GUI.clearOutput();
   GUI.outputText('You put the salve away.<br><br>');
-  Inventory.takeItem(Items.Consumables.Reducto);
+  Inventory.takeItem(liveData.Items.Consumables.Reducto);
 }
 
 export function reductoBalls() {

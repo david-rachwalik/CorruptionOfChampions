@@ -1,4 +1,4 @@
-import { liveData, ENUM, Creature, Data, FLAG, StatusEffects, Appearance, Items, UTIL, COMBAT, GUI, Camp, KeyItems, PerkLib } from 'coc';
+import { liveData, ENUM, Creature, Data, FLAG, Appearance, UTIL, COMBAT, GUI, Camp } from 'coc';
 
 Data.addToGameFlags(
   FLAG.TAMANI_MET,
@@ -26,15 +26,15 @@ export class Tamani extends Creature {
     this.battleDesc =
       "She keeps her arms folded across her breasts and glares at you.  The little thing is only about four feet tall, with pink and black dyed hair cut into a cute little 'do.  The greenish-gray skin of her breasts bulges out around her arms, supported by a few leather straps, amplifying her cleavage.  Her cunt lips are pierced multiple times, inflamed, and slightly parted.  There really isn't any clothing on her to hide them, just more of the ever-present straps wrapping around her thighs."; //TODO Fix Desc.
     // this.plural = false;
-    this.createVagina(false, ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING, ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_NORMAL);
-    this.createStatusEffect(StatusEffects.BonusVCapacity, 55, 0, 0, 0);
+    this.createVagina(false, ENUM.VaginalWetnessType.DROOLING, ENUM.VaginalLoosenessType.NORMAL);
+    this.createStatusEffect(liveData.StatusEffects.BonusVCapacity, 55, 0, 0, 0);
     this.createBreastRow(Appearance.breastCupInverse('E'));
-    this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_TIGHT;
-    this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_DRY;
-    this.createStatusEffect(StatusEffects.BonusACapacity, 40, 0, 0, 0);
+    this.ass.analLooseness = ENUM.AnalLoosenessType.TIGHT;
+    this.ass.analWetness = ENUM.AnalWetnessType.DRY;
+    this.createStatusEffect(liveData.StatusEffects.BonusACapacity, 40, 0, 0, 0);
     this.tallness = 40;
-    this.hipRating = ENUM.HipRatingType.HIP_RATING_AMPLE + 2;
-    this.buttRating = ENUM.ButtRatingType.BUTT_RATING_LARGE;
+    this.hipRating = ENUM.HipRatingType.AMPLE + 2;
+    this.buttRating = ENUM.ButtRatingType.LARGE;
     this.skinTone = 'greenish gray';
     this.hairColor = 'pink and black';
     this.hairLength = 16;
@@ -55,14 +55,14 @@ export class Tamani extends Creature {
     this.level = 4;
     this.gems = UTIL.rand(25) + 5;
     this.clearDrops();
-    this.addDrop(Items.Consumables.GoblinAle, 25);
-    this.addDrop(Items.Consumables.LustDraft, 5);
-    this.addDrop(Items.Consumables.HairDyePink, 5);
-    this.addDrop(Items.Consumables.HairDyeBlue, 5);
-    this.addDrop(Items.Consumables.HairDyeOrange, 5);
-    this.addDrop(Items.Consumables.HairDyePurple, 5);
-    this.addDrop(Items.Consumables.IncubiDraft, 5);
-    this.addDrop(Items.Consumables.Reducto, 5);
+    this.addDrop(liveData.Items.Consumables.GoblinAle, 25);
+    this.addDrop(liveData.Items.Consumables.LustDraft, 5);
+    this.addDrop(liveData.Items.Consumables.HairDyePink, 5);
+    this.addDrop(liveData.Items.Consumables.HairDyeBlue, 5);
+    this.addDrop(liveData.Items.Consumables.HairDyeOrange, 5);
+    this.addDrop(liveData.Items.Consumables.HairDyePurple, 5);
+    this.addDrop(liveData.Items.Consumables.IncubiDraft, 5);
+    this.addDrop(liveData.Items.Consumables.Reducto, 5);
     //this.addDrop(Item.Consumables., 5); //TODO Add Large Blue Egg
 
     this.victory = tamaniWin;
@@ -510,7 +510,7 @@ export function spareTamani() {
 export function postTamaniRemoval() {
   GUI.outputText('<br><br>With Tamani no more, you take her satchel and return to your camp.');
   liveData.monster.XP += 100; //Gain more XP as Tamani's removed from the game.
-  liveData.player.createKeyItem(KeyItems.TamanisSatchel, 2, 1, 1, 100); // GAIN SATCHEL
+  liveData.player.createKeyItem(liveData.KeyItems.TamanisSatchel, 2, 1, 1, 100); // GAIN SATCHEL
   if (liveData.tamanipreg.isPregnant()) liveData.tamanipreg.knockUpForce(0, 0); //Clear Tamani Pregnancy.
   COMBAT.cleanupAfterCombat();
 }
@@ -1149,7 +1149,7 @@ export function tamaniHypnosis() {
     GUI.outputText(
       'Taking that as an opportunity, you pick up the pace, plunging yourself in and out of her with a renewed, almost vicious vigor.  The wet slaps of your juice-',
     );
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR) GUI.outputText('matted');
+    if (liveData.player.skinType == ENUM.SkinType.Fur) GUI.outputText('matted');
     else GUI.outputText('slicked');
     GUI.outputText(
       ' ' +
@@ -1677,13 +1677,13 @@ export function tamaniStartFight() {
 
 export function tamaniKnockUp() {
   if (liveData.tamanipreg.isPregnant()) return; //Already preggers
-  liveData.tamanipreg.knockUpForce(ENUM.PregnancyType.PREGNANCY_PLAYER, 216, FLAG.INCUBATION_TAMANI_EVENT); //Nine day long pregnancy
+  liveData.tamanipreg.knockUpForce(ENUM.PregnancyType.PLAYER, 216, FLAG.INCUBATION_TAMANI_EVENT); //Nine day long pregnancy
   liveData.tamanipreg.eventFill(FLAG.INCUBATION_TAMANI_EVENT); //Converts hours into minutes for finer event tracking.
   //Determine how many kids...
   liveData.gameFlags[FLAG.TAMANI_PREGNANCY_COUNT] = 2;
   const cum = liveData.player.cumQ();
   //Breeder perk is awesome
-  if (liveData.player.findPerk(PerkLib.MaraesGiftStud) >= 0) liveData.gameFlags[FLAG.TAMANI_PREGNANCY_COUNT] += 3; //TODO Check findPerk Thing
+  if (liveData.player.findPerk(liveData.PerkLib.MaraesGiftStud) >= 0) liveData.gameFlags[FLAG.TAMANI_PREGNANCY_COUNT] += 3; //TODO Check findPerk Thing
   if (cum >= 50 && UTIL.rand(2) == 0) liveData.gameFlags[FLAG.TAMANI_PREGNANCY_COUNT]++;
   if (cum >= 100 && UTIL.rand(2) == 0) liveData.gameFlags[FLAG.TAMANI_PREGNANCY_COUNT]++;
   if (cum >= 200 && UTIL.rand(2) == 0) liveData.gameFlags[FLAG.TAMANI_PREGNANCY_COUNT]++;
@@ -1854,7 +1854,7 @@ export function tamaniBirthScene() {
 }
 
 export function tamaniGivesBirth() {
-  if (liveData.tamanipreg.pregnancyType == ENUM.PregnancyType.PREGNANCY_PLAYER) {
+  if (liveData.tamanipreg.pregnancyType == ENUM.PregnancyType.PLAYER) {
     //Don't want drider eggs to add to her daughers
     liveData.gameFlags[FLAG.TAMANI_NUMBER_OF_DAUGHTERS] += liveData.gameFlags[FLAG.TAMANI_PREGNANCY_COUNT];
     liveData.gameFlags[FLAG.TAMANI_PREGNANCY_COUNT] = 0;
@@ -1879,22 +1879,22 @@ export function tamaniGivesBirth() {
         player.createKeyItem("Deluxe Dildo", 0, 0, 0, 0);
     }
     GUI.menu();
-    if (player.keyItemv1(KeyItems.TamanisSatchel) > 0) {
-        GUI.outputText("\nThere " + (player.keyItemv1(KeyItems.TamanisSatchel) == 1 ? "is a container" : "are two containers") + " of pasty sustance labelled as 'Reducto'.");
+    if (player.keyItemv1(liveData.KeyItems.TamanisSatchel) > 0) {
+        GUI.outputText("\nThere " + (player.keyItemv1(liveData.KeyItems.TamanisSatchel) == 1 ? "is a container" : "are two containers") + " of pasty sustance labelled as 'Reducto'.");
         GUI.addButton(0, consumables.REDUCTO.shortName, satchelTakeItem, consumables.REDUCTO, 1);
         isEmpty = false;
     }
-    if (player.keyItemv2(KeyItems.TamanisSatchel) > 0) {
+    if (player.keyItemv2(liveData.KeyItems.TamanisSatchel) > 0) {
         GUI.outputText("\nThere's a bottle of pink hair dye inside.");
         GUI.addButton(1, consumables.PINKDYE.shortName, satchelTakeItem, consumables.PINKDYE, 2);
         isEmpty = false;
     }
-    if (player.keyItemv3(KeyItems.TamanisSatchel) > 0) {
-        GUI.outputText("\nThere " + (player.keyItemv3(KeyItems.TamanisSatchel) == 1 ? "is a bottle" : "are two bottles") + " of pink fluid, labelled 'Lust Draft'.");
+    if (player.keyItemv3(liveData.KeyItems.TamanisSatchel) > 0) {
+        GUI.outputText("\nThere " + (player.keyItemv3(liveData.KeyItems.TamanisSatchel) == 1 ? "is a bottle" : "are two bottles") + " of pink fluid, labelled 'Lust Draft'.");
         GUI.addButton(2, consumables.L_DRAFT.shortName, satchelTakeItem, consumables.L_DRAFT, 3);
         isEmpty = false;
     }
-    if (player.keyItemv4(KeyItems.TamanisSatchel) > 0) {
+    if (player.keyItemv4(liveData.KeyItems.TamanisSatchel) > 0) {
         GUI.outputText("\nThere are 100 gems inside within the satchel. You can take them if you want.");
         GUI.addButton(3, "Gems", satchelTakeGems);
         isEmpty = false;
@@ -1904,17 +1904,17 @@ export function tamaniGivesBirth() {
     if (isEmpty) {
         GUI.clearOutput();
         GUI.outputText("The satchel is devoid of its content. You discard the empty satchel.");
-        player.removeKeyItem(KeyItems.TamanisSatchel);
+        player.removeKeyItem(liveData.KeyItems.TamanisSatchel);
         GUI.doNext(inventory.checkKeyItems);
     }
     }
     private function satchelTakeItem(item:ItemType, keyValue:int):void {
-        player.addKeyValue(KeyItems.TamanisSatchel, keyValue, -1);
+        player.addKeyValue(liveData.KeyItems.TamanisSatchel, keyValue, -1);
     inventory.takeItem(item, openTamanisSatchel);
     }
     private function satchelTakeGems():void {
         player.gems += 100;
-    player.addKeyValue(KeyItems.TamanisSatchel, 4, -100);
+    player.addKeyValue(liveData.KeyItems.TamanisSatchel, 4, -100);
     statScreenRefresh();
     openTamanisSatchel();
     }

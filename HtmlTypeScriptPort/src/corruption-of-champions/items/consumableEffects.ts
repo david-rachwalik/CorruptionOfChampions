@@ -1,4 +1,4 @@
-import { liveData, ENUM, UTIL, GUI, FLAG, Data, Camp, PerkLib, COMBAT, ReductoMenu, Items, Inventory, StatusEffects } from 'coc';
+import { liveData, ENUM, UTIL, GUI, FLAG, Data, Camp, COMBAT, ReductoMenu, Inventory } from 'coc';
 
 Data.addToGameFlags(FLAG.TIMES_TRANSFORMED, FLAG.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD);
 
@@ -547,7 +547,7 @@ abstract class ConsumableEffects {
     if (!purified) liveData.player.minoCumAddiction(7);
     else liveData.player.minoCumAddiction(-2);
     GUI.outputText('As soon as you crack the seal on the bottled white fluid, a ');
-    if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_STATE] == 0 && liveData.player.findPerk(PerkLib.MinotaurCumResistance) < 0)
+    if (liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_STATE] == 0 && liveData.player.findPerk(liveData.PerkLib.MinotaurCumResistance) < 0)
       GUI.outputText('potent musk washes over you.');
     else GUI.outputText('heavenly scent fills your nostrils.');
     if (!purified) {
@@ -578,16 +578,16 @@ abstract class ConsumableEffects {
       GUI.outputText('  Your ' + liveData.player.clitDescript() + ' engorges, ');
       if (liveData.player.clitLength < 3) GUI.outputText('parting your lips.');
       else GUI.outputText('bursting free of your lips and bobbing under its own weight.');
-      if (liveData.player.vaginas[0].vaginalWetness <= ENUM.VaginalWetnessType.VAGINA_WETNESS_NORMAL)
+      if (liveData.player.vaginas[0].vaginalWetness <= ENUM.VaginalWetnessType.NORMAL)
         GUI.outputText('  Wetness builds inside you as your ' + liveData.player.vaginaDescript(0) + ' tingles and aches to be filled.');
-      else if (liveData.player.vaginas[0].vaginalWetness <= ENUM.VaginalWetnessType.VAGINA_WETNESS_SLICK)
+      else if (liveData.player.vaginas[0].vaginalWetness <= ENUM.VaginalWetnessType.SLICK)
         GUI.outputText('  A trickle of wetness escapes your ' + liveData.player.vaginaDescript(0) + ' as your body reacts to the desire burning inside you.');
-      else if (liveData.player.vaginas[0].vaginalWetness <= ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING)
+      else if (liveData.player.vaginas[0].vaginalWetness <= ENUM.VaginalWetnessType.DROOLING)
         GUI.outputText('  Wet fluids leak down your thighs as your body reacts to this new stimulus.');
       else GUI.outputText('  Slick fluids soak your thighs as your body reacts to this new stimulus.');
     }
     //(Minotaur fantasy)
-    if (!COMBAT.inCombat() == true && UTIL.rand(10) == 1 && !purified && liveData.player.findPerk(PerkLib.MinotaurCumResistance) < 0) {
+    if (!COMBAT.inCombat() == true && UTIL.rand(10) == 1 && !purified && liveData.player.findPerk(liveData.PerkLib.MinotaurCumResistance) < 0) {
       GUI.outputText(
         "<br><br>Your eyes flutter closed for a second as a fantasy violates your mind.  You're on your knees, prostrate before a minotaur.  Its narcotic scent fills the air around you, and you're swaying back and forth with your belly already sloshing and full of spunk.  Its equine-like member is rubbing over your face, and you submit to the beast, stretching your jaw wide to take its sweaty, glistening girth inside you.  Your tongue quivers happily as you begin sucking and slurping, swallowing each drop of pre-cum you entice from the beastly erection.  Gurgling happily, you give yourself to your inhuman master for a chance to swallow into unthinking bliss.",
       );
@@ -595,28 +595,28 @@ abstract class ConsumableEffects {
       liveData.player.changeLust(UTIL.rand(5) + liveData.player.cor / 20 + liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] / 5);
     }
     //(Healing – if hurt and uber-addicted (hasperk))
-    if (liveData.player.HP < liveData.player.maxHP() && liveData.player.findPerk(PerkLib.MinotaurCumAddict) >= 0) {
+    if (liveData.player.HP < liveData.player.maxHP() && liveData.player.findPerk(liveData.PerkLib.MinotaurCumAddict) >= 0) {
       GUI.outputText('<br><br>The fire of your arousal consumes your body, leaving vitality in its wake.  You feel much better!');
       liveData.player.changeHP(liveData.player.maxHP() / 4, false);
     }
     //Uber-addicted status!
-    if (liveData.player.findPerk(PerkLib.MinotaurCumAddict) >= 0 && liveData.gameFlags[FLAG.MINOTAUR_CUM_REALLY_ADDICTED_STATE] <= 0 && !purified) {
+    if (liveData.player.findPerk(liveData.PerkLib.MinotaurCumAddict) >= 0 && liveData.gameFlags[FLAG.MINOTAUR_CUM_REALLY_ADDICTED_STATE] <= 0 && !purified) {
       liveData.gameFlags[FLAG.MINOTAUR_CUM_REALLY_ADDICTED_STATE] = 3 + UTIL.rand(2);
       GUI.outputText(
         '<br><br><b>Your body feels so amazing and sensitive.  Experimentally you pinch yourself and discover that even pain is turning you on!</b>',
       );
     }
     //Clear mind a bit
-    if (purified && (liveData.player.findPerk(PerkLib.MinotaurCumAddict) >= 0 || liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] >= 40)) {
+    if (purified && (liveData.player.findPerk(liveData.PerkLib.MinotaurCumAddict) >= 0 || liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] >= 40)) {
       GUI.outputText(
         "<br><br>Your mind feels a bit clearer just from drinking the purified minotaur cum. Maybe if you drink more of these, you'll be able to rid yourself of your addiction?",
       );
-      if (liveData.player.findPerk(PerkLib.MinotaurCumAddict) >= 0 && liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] <= 50) {
+      if (liveData.player.findPerk(liveData.PerkLib.MinotaurCumAddict) >= 0 && liveData.gameFlags[FLAG.MINOTAUR_CUM_ADDICTION_TRACKER] <= 50) {
         GUI.outputText(
           "  Suddenly, you black out and images flash in your mind about getting abducted by minotaurs and the abandonment of your quest that eventually leads to Lethice's success in taking over Mareth. No, it cannot be! You wake up and recover from the blackout, horrified to find out what would really happen if you spend the rest of your life with the Minotaurs! You shake your head and realize that you're no longer dependent on the cum.  ",
         );
         GUI.outputText('<br><b>(Lost Perk: Minotaur Cum Addict!)</b>');
-        liveData.player.removePerk(PerkLib.MinotaurCumAddict);
+        liveData.player.removePerk(liveData.PerkLib.MinotaurCumAddict);
       }
     }
     liveData.player.refillHunger(25);
@@ -640,11 +640,11 @@ abstract class ConsumableEffects {
   static oviElixir() {
     if (liveData.player.hasVagina() == false) {
       GUI.outputText('You pop the cork and prepare to drink the stuff, but the smell nearly makes you gag.  You cork it hastily.<br><br>');
-      Inventory.takeItem(Items.Consumables.OviElixir);
+      Inventory.takeItem(liveData.Items.Consumables.OviElixir);
       return false;
     }
     //Oviposition Elixir!
-    /* Notes on StatusEffects.Eggs
+    /* Notes on liveData.StatusEffects.Eggs
         v1 = egg type.
         v2 = size - 0 for normal, 1 for large
         v3 = quantity
@@ -658,13 +658,13 @@ abstract class ConsumableEffects {
         */
     liveData.player.slimeFeed();
     GUI.outputText("You pop the cork and gulp down the thick greenish fluid.  The taste is unusual and unlike anything you've tasted before.");
-    if (liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_GOO_STUFFED) {
+    if (liveData.player.pregnancyType == ENUM.PregnancyType.GOO_STUFFED) {
       GUI.outputText(
         "<br><br>For a moment you feel even more bloated than you already are.  That feeling is soon replaced by a dull throbbing pain.  It seems that with Valeria's goo filling your womb the ovielixir is unable to work its magic on you.",
       );
       return false;
     }
-    if (liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_WORM_STUFFED) {
+    if (liveData.player.pregnancyType == ENUM.PregnancyType.WORM_STUFFED) {
       GUI.outputText(
         '<br><br>For a moment you feel even more bloated than you already are.  That feeling is soon replaced by a dull throbbing pain.  It seems that with the worms filling your womb the ovielixir is unable to work its magic on you.',
       );
@@ -675,8 +675,8 @@ abstract class ConsumableEffects {
       GUI.outputText(
         "<br><br>The elixir has an immediate effect on your belly, causing it to swell out slightly as if pregnant.  You guess you'll be laying eggs sometime soon!",
       );
-      // liveData.player.knockUp(FLAG.PREGNANCY_OVIELIXIR_EGGS, ENUM.IncubationType.INCUBATION_OVIELIXIR_EGGS, 1, 1)
-      liveData.player.createStatusEffect(StatusEffects.Eggs, UTIL.rand(6), 0, UTIL.rand(3) + 5, 0);
+      // liveData.player.knockUp(FLAG.PREGNANCY_OVIELIXIR_EGGS, ENUM.IncubationType.OVIELIXIR_EGGS, 1, 1)
+      liveData.player.createStatusEffect(liveData.StatusEffects.Eggs, UTIL.rand(6), 0, UTIL.rand(3) + 5, 0);
       return false;
     }
     //Drinking multiple elixirs
@@ -684,12 +684,12 @@ abstract class ConsumableEffects {
     // TODO: (DMR) fix below after PREGNANCY_OVIELIXIR_EGGS is a proper number flag
     // if (liveData.player.pregnancyType == FLAG.PREGNANCY_OVIELIXIR_EGGS) {
     //     //If player already has eggs, chance of size increase!
-    //     if (liveData.player.findStatusEffect(StatusEffects.Eggs) >= 0) {
+    //     if (liveData.player.findStatusEffect(liveData.StatusEffects.Eggs) >= 0) {
     //         //If eggs are small, chance of increase!
-    //         if (liveData.player.statusEffectValue(StatusEffects.Eggs, 2) == 0) {
+    //         if (liveData.player.statusEffectValue(liveData.StatusEffects.Eggs, 2) == 0) {
     //             //1 in 2 chance!
     //             if (UTIL.rand(3) == 0) {
-    //                 liveData.player.addStatusValue(StatusEffects.Eggs, 2, 1)
+    //                 liveData.player.addStatusValue(liveData.StatusEffects.Eggs, 2, 1)
     //                 GUI.outputText("<br><br>Your pregnant belly suddenly feels heavier and more bloated than before.  You wonder what the elixir just did.")
     //                 changeOccurred = true
     //             }
@@ -697,12 +697,12 @@ abstract class ConsumableEffects {
     //         //Chance of quantity increase!
     //         if (UTIL.rand(2) == 0) {
     //             GUI.outputText("<br><br>A rumble radiates from your uterus as it shifts uncomfortably and your belly gets a bit larger.")
-    //             liveData.player.addStatusValue(StatusEffects.Eggs, 3, UTIL.rand(4) + 1)
+    //             liveData.player.addStatusValue(liveData.StatusEffects.Eggs, 3, UTIL.rand(4) + 1)
     //             changeOccurred = true
     //         }
     //     }
     // }
-    if (!changeOccurred && liveData.player.pregnancyIncubation > 20 && liveData.player.pregnancyType != ENUM.PregnancyType.PREGNANCY_BUNNY) {
+    if (!changeOccurred && liveData.player.pregnancyIncubation > 20 && liveData.player.pregnancyType != ENUM.PregnancyType.BUNNY) {
       //If no changes, speed up pregnancy.
       GUI.outputText(
         '<br><br>You gasp as your pregnancy suddenly leaps forwards, your belly bulging outward a few inches as it gets closer to time for birthing.',

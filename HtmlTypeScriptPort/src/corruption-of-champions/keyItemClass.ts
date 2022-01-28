@@ -22,6 +22,4 @@ class KeyItemType {
   }
 }
 
-const KeyItemIDs: { [key: string]: KeyItemType } = {}; //Hold key item IDs for purpose of looking up.
-
-export { KeyItem, KeyItemType, KeyItemIDs };
+export { KeyItem, KeyItemType };

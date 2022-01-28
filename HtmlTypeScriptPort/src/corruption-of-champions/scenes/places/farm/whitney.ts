@@ -1,4 +1,4 @@
-import { liveData, GUI, UTIL, KeyItems, Camp } from 'coc';
+import { liveData, GUI, UTIL, Camp } from 'coc';
 
 //[YES]
 export function whitneyMilkerHookup(breast = true) {
@@ -7,11 +7,11 @@ export function whitneyMilkerHookup(breast = true) {
     'Whitney takes the gear back to her farm after promising to have it working within the hour. She did leave you with a cryptic warning to "<i>leave the milkings to the beasts, lest you become one</i>.</i>"<br><br>You shrug and head back to check up on camp.',
   );
   if (breast) {
-    liveData.player.createKeyItem(KeyItems.BreastMilkerInstalled, 0, 0, 0, 0);
-    liveData.player.removeKeyItem(KeyItems.BreastMilker);
+    liveData.player.createKeyItem(liveData.KeyItems.BreastMilkerInstalled, 0, 0, 0, 0);
+    liveData.player.removeKeyItem(liveData.KeyItems.BreastMilker);
   } else {
-    liveData.player.createKeyItem(KeyItems.CockMilkerInstalled, 0, 0, 0, 0);
-    liveData.player.removeKeyItem(KeyItems.CockMilker);
+    liveData.player.createKeyItem(liveData.KeyItems.CockMilkerInstalled, 0, 0, 0, 0);
+    liveData.player.removeKeyItem(liveData.KeyItems.CockMilker);
   }
   GUI.doNext(Camp.returnToCampUseOneHour);
 }
@@ -30,12 +30,12 @@ export function talkWhitney() {
   //[FIND WHITNEY TXT]
   GUI.clearOutput();
   //Centaur Hookups!
-  if (liveData.player.hasKeyItem(KeyItems.ToyFakeMare) < 0 && liveData.player.isTaur()) {
+  if (liveData.player.hasKeyItem(liveData.KeyItems.ToyFakeMare) < 0 && liveData.player.isTaur()) {
     centaurToysHoooooo();
     return;
   }
   /*// Requires: PC has met both Marble and Kelt
-        if (liveData.gameFlags[MURBLE_FARM_TALK_LEVELS] > 0 && player.findStatusEffect(StatusEffects.Kelt) >= 0 && liveData.gameFlags[WHITNEY_TALK_MURBLE_AND_KELT] == 0)
+        if (liveData.gameFlags[MURBLE_FARM_TALK_LEVELS] > 0 && player.findStatusEffect(liveData.StatusEffects.Kelt) >= 0 && liveData.gameFlags[WHITNEY_TALK_MURBLE_AND_KELT] == 0)
         {
             liveData.gameFlags[WHITNEY_TALK_MURBLE_AND_KELT] = 1;
 
@@ -50,7 +50,7 @@ export function talkWhitney() {
         }
 
         // Requires: PC has entered Tel’Adre
-        if (player.findStatusEffect(StatusEffects.TelAdre) >= 0 && player.statusEffectv1(StatusEffects.TelAdre) >= 1 && liveData.gameFlags[WHITNEY_TALK_TELADRE] == 0 && liveData.gameFlags[WHITNEY_TALK_MURBLE_AND_KELT] == 1)
+        if (player.findStatusEffect(liveData.StatusEffects.TelAdre) >= 0 && player.statusEffectv1(liveData.StatusEffects.TelAdre) >= 1 && liveData.gameFlags[WHITNEY_TALK_TELADRE] == 0 && liveData.gameFlags[WHITNEY_TALK_MURBLE_AND_KELT] == 1)
         {
             liveData.gameFlags[WHITNEY_TALK_TELADRE] = 1;
 
@@ -73,7 +73,7 @@ export function talkWhitney() {
 
             GUI.outputText("You find Whitney outside the milking shed, carefully writing labels at a trestle table and sticking them on large bottles of milk.");
             //[PC has used milking device:
-            if (player.findStatusEffect(StatusEffects.BreastsMilked) >= 0)
+            if (player.findStatusEffect(liveData.StatusEffects.BreastsMilked) >= 0)
             {
                 GUI.outputText(" You are uncomfortably aware of the number of them which are labelled ‘[name]’, and a charged memory of strong suction on your [nipples] comes back to you.");
             }
@@ -99,15 +99,15 @@ export function talkWhitney() {
             GUI.outputText("\n\n“<i>Centaurs ‘n goblins mainly,</i>” she replies. “<i>Sometimes even get the mountain folk coming down here to trade. Milk’s a rare enough commodity to a harpy or basilisk to get 'em to stop ruttin' an' fighting for two minutes and buy some.</i>” She sighs. “<i>Used to be you could talk with em, get news, but they mostly don’t even bother doing that anymore - just point at what they want, throw their gems down and leave. Gnolls and imps like milk too,</i>” she goes on in a harder tone, “<i>but they prefer tryin' stealin' it. Marble and Kelt deal with them.</i>”");
 
             // [PC has used milking device:
-            if (player.findStatusEffect(StatusEffects.BreastsMilked) >= 0)
+            if (player.findStatusEffect(liveData.StatusEffects.BreastsMilked) >= 0)
             {
                 GUI.outputText("\n\nShe smiles at you. “<i>I charge top gem for your produce, of course. Human milk is a very rare commodity these days, and it has a powerful calming effect on most anyone. Folks love it for their kids.</i>”");
             }
 
             //[PC has used cock milker:
-            if (player.findStatusEffect(StatusEffects.CockPumped) >= 0)
+            if (player.findStatusEffect(liveData.StatusEffects.CockPumped) >= 0)
             {
-                if (player.findStatusEffect(StatusEffects.BreastsMilked) < 0) GUI.outputText("\n\n");
+                if (player.findStatusEffect(liveData.StatusEffects.BreastsMilked) < 0) GUI.outputText("\n\n");
 
                 GUI.outputText("You notice a number of smaller bottles filled with a creamy fluid on the table, arranged in a cargo container. It takes you a moment to realize what it is. “<i>Why d’you think I pay you for it?</i> ” says Whitney with a laugh, catching your expression. “<i>I kin use some of it for my herd, but it’s just as easy to sell it to goblins ‘n harpies. Much better to buy it from me than to waste energy catching and beating it out of a satyr. 'Sides, how'd ya think I kept my hair so luxurious? Goblin hairdressers are top notch.</i>”");
             }
@@ -170,8 +170,8 @@ export function talkWhitney() {
       "She's leaning back against a thick tree with a wide-brimmed hat drooped low over her eyes.  You call out to her, thinking the dog-woman has fallen asleep, but her head snaps up and her alert eyes lock on to you immediately. Maybe she wasn't dozing. She calls out, \"<i>Come on over and 'ave a sit, I'm starved fer company!</i>\" You settle in for a chat.<br><br>",
     );
   //[HAVE MILKER THAT ISN'T PLUGGED IN]
-  if (UTIL.rand(4) == 0 && liveData.player.hasKeyItem(KeyItems.BreastMilkerInstalled) < 0) {
-    if (liveData.player.hasKeyItem(KeyItems.BreastMilker) >= 0) {
+  if (UTIL.rand(4) == 0 && liveData.player.hasKeyItem(liveData.KeyItems.BreastMilkerInstalled) < 0) {
+    if (liveData.player.hasKeyItem(liveData.KeyItems.BreastMilker) >= 0) {
       GUI.outputText('Before you can say much of anything, Whitney exclaims, "<i>My stars! Is that one of them demon\'s milking machines?</i>"<br><br>');
       GUI.outputText(
         "You nod and tell her how you liberated it from the demonic factory and explain that even though it should be fully functional, it'll need to connect to some other machinery to work, and it's way more than any one person could handle.<br><br>",
@@ -215,7 +215,11 @@ export function talkWhitney() {
     }
   }
   //[HAVE COCK MILKER THAT ISN'T PLUGGED IN]
-  if (UTIL.rand(4) == 0 && liveData.player.hasKeyItem(KeyItems.CockMilkerInstalled) < 0 && liveData.player.hasKeyItem(KeyItems.CockMilker) >= 0) {
+  if (
+    UTIL.rand(4) == 0 &&
+    liveData.player.hasKeyItem(liveData.KeyItems.CockMilkerInstalled) < 0 &&
+    liveData.player.hasKeyItem(liveData.KeyItems.CockMilker) >= 0
+  ) {
     GUI.outputText('Before you can say much of anything, Whitney exclaims, "<i>My stars! Is that one of them demon\'s milking machines?</i>"<br><br>');
     GUI.outputText(
       "You nod and tell her how you got it and explain that even though it should be fully functional, it'll need to connect to some other machinery to work, and it's way more than any one person could handle.<br><br>",
@@ -250,7 +254,7 @@ export function breastMilkerPurchase() {
   GUI.outputText(
     'Whitney takes the gems and leaves with the promise of having your gear set up within the hour. She calls back over her shoulder with a cryptic warning, "<i>Watch how much time you spend getting milked like an animal, lest you wind up like one.</i>"',
   );
-  liveData.player.createKeyItem(KeyItems.BreastMilker, 0, 0, 0, 0);
+  liveData.player.createKeyItem(liveData.KeyItems.BreastMilker, 0, 0, 0, 0);
   liveData.player.changeGems(-250);
   GUI.doNext(Camp.returnToCampUseOneHour);
 }
@@ -292,7 +296,7 @@ export function centaurToysHoooooo() {
     "You tell her sure, and spend the next few minutes loading them onto the back of your horse-body. Even if you don't end up using them yourself, you've got plenty of room in camp for them, unlike Whitney. Loaded up with centaur-friendly sex toys, you make your way back to camp.<br><br>",
   );
   GUI.outputText('(<b>Key Items Gained: Fake Mare and Centaur Pole</b>)');
-  liveData.player.createKeyItem(KeyItems.ToyFakeMare, 0, 0, 0, 0);
-  liveData.player.createKeyItem(KeyItems.ToyCentaurPole, 0, 0, 0, 0);
+  liveData.player.createKeyItem(liveData.KeyItems.ToyFakeMare, 0, 0, 0, 0);
+  liveData.player.createKeyItem(liveData.KeyItems.ToyCentaurPole, 0, 0, 0, 0);
   GUI.doNext(Camp.returnToCampUseOneHour);
 }

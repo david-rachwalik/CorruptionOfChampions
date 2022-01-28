@@ -1,5 +1,4 @@
-import { liveData, GUI, UTIL, Camp, FLAG, Item, Items, ItemSlot, COMBAT } from 'coc';
-import { ITEM_TYPE_ARMOUR, ITEM_TYPE_SHIELD, ITEM_TYPE_WEAPON } from 'coc/itemClass';
+import { liveData, ENUM, GUI, UTIL, Camp, FLAG, Item, ItemSlot, COMBAT } from 'coc';
 
 export const inventorySlotName = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth'];
 
@@ -90,14 +89,14 @@ export function unequipMenu() {
 // Performs unequipping of the relevant item type
 export function unequipWeapon() {
   GUI.clearOutput();
-  const oldWeapon = UTIL.lookupItem(liveData.player.weapon.id);
-  liveData.player.weapon = Items.NOTHING;
+  const oldWeapon = liveData.lookupItem(liveData.player.weapon.id);
+  liveData.player.weapon = liveData.Items.NOTHING;
   takeItem(oldWeapon, unequipMenu);
 }
 export function unequipArmor() {
   GUI.clearOutput();
-  const oldArmor = UTIL.lookupItem(liveData.player.armor.id);
-  liveData.player.armor = Items.NOTHING;
+  const oldArmor = liveData.lookupItem(liveData.player.armor.id);
+  liveData.player.armor = liveData.Items.NOTHING;
   takeItem(oldArmor, unequipMenu);
 }
 
@@ -110,7 +109,7 @@ export function takeItem(itype: Item, nextAction?: () => void, overrideAbandon?:
 			CoC_Settings.error("takeItem(null)");
 			return;
 		}*/
-  if (itype == Items.NOTHING) return;
+  if (itype == liveData.Items.NOTHING) return;
   if (nextAction != null) liveData.callNext = nextAction;
   else liveData.callNext = liveData.playerMenu;
   //Check for an existing stack with room in the inventory and return the value for it.
@@ -145,7 +144,7 @@ export function takeItem(itype: Item, nextAction?: () => void, overrideAbandon?:
 // Uses an item from the inventory
 export function useItemInInventory(slotNum: number) {
   GUI.clearOutput();
-  //if (liveData.player.itemSlots[slotNum].itype.type == ITEM_TYPE_CONSUMABLE) {
+  //if (liveData.player.itemSlots[slotNum].itype.type == ENUM.ItemType.Consumable) {
   const item = liveData.player.itemSlots[slotNum].itype;
   if (liveData.shiftKeyDown) {
     deleteItemPrompt(item, slotNum);
@@ -258,7 +257,7 @@ export function takeItemFull(itype: Item, showUseNow: boolean, source: ItemSlot)
   );
   GUI.menu();
   for (let x = 0; x < 10; x++) {
-    if (liveData.player.itemSlots[x].itype != Items.NOTHING && x < liveData.player.getMaxSlots())
+    if (liveData.player.itemSlots[x].itype != liveData.Items.NOTHING && x < liveData.player.getMaxSlots())
       GUI.addButton(x, liveData.player.itemSlots[x].itype.shortName + ' x' + liveData.player.itemSlots[x].quantity, replaceItem, itype, x);
   }
   if (source != null) {
@@ -548,18 +547,18 @@ export function allAcceptable(itype: string) {
   return true;
 }
 
-export function armorAcceptable(type: string) {
-  if (type == ITEM_TYPE_ARMOUR) return true;
+export function armorAcceptable(type: number) {
+  if (type == ENUM.ItemType.Armour) return true;
   return false;
 }
 
-export function weaponAcceptable(type: string) {
-  if (type == ITEM_TYPE_WEAPON) return true;
+export function weaponAcceptable(type: number) {
+  if (type == ENUM.ItemType.Weapon) return true;
   return false;
 }
 
-export function shieldAcceptable(type: string) {
-  if (type == ITEM_TYPE_SHIELD) return true;
+export function shieldAcceptable(type: number) {
+  if (type == ENUM.ItemType.Shield) return true;
   return false;
 }
 //function jewelryAcceptable(itype) { return itype is Jewelry; };
@@ -568,7 +567,7 @@ export function shieldAcceptable(type: string) {
 // This function displays the menu for placing items into storage and checks player item types for storage type compatibilty.
 export function placeInStorage(
   placeInStorageFunction: (a: number) => void,
-  typeAcceptableFunction: (a: string) => boolean,
+  typeAcceptableFunction: (a: number) => boolean,
   text: string,
   showEmptyWarning: boolean,
 ) {
@@ -690,7 +689,7 @@ export function pickFrom(slotNum: number) {
 
 export function itemAnyInStorage(startSlot: number, endSlot: number) {
   for (let x = startSlot; x < endSlot; x++) {
-    if (liveData.player.itemSlots[x].itype != Items.NOTHING) if (liveData.player.itemSlots[x].quantity > 0) return true;
+    if (liveData.player.itemSlots[x].itype != liveData.Items.NOTHING) if (liveData.player.itemSlots[x].quantity > 0) return true;
   }
   return false;
 }

@@ -1,4 +1,4 @@
-import { liveData, FLAG, UTIL, GUI, StatusEffects, Data, Camp, Items, Inventory, KeyItems } from 'coc';
+import { liveData, FLAG, UTIL, GUI, Data, Camp, Inventory } from 'coc';
 
 /* License schmicense ahead!
  LICENSE
@@ -32,7 +32,7 @@ export function giacomoEncounter() {
   GUI.clearOutput();
   if (liveData.gameFlags[FLAG.GIACOMO_MET] == 0) {
     firstEncounter();
-  } else if (liveData.gameFlags[FLAG.GIACOMO_WORMS_OFFERED] == 0 && liveData.player.findStatusEffect(StatusEffects.Infested) >= 0) {
+  } else if (liveData.gameFlags[FLAG.GIACOMO_WORMS_OFFERED] == 0 && liveData.player.findStatusEffect(liveData.StatusEffects.Infested) >= 0) {
     //If infested && no worm offer yet
     GUI.outputText("Upon walking up to Giacomo's wagon, he turns to look at you and cocks an eyebrow in curiosity and mild amusement.<br><br>");
     GUI.outputText(
@@ -147,7 +147,7 @@ export function buyVitailtyTincture() {
     GUI.doNext(potionMenu);
   } else {
     liveData.player.changeGems(-15);
-    Inventory.takeItem(Items.Consumables.VitalityTincture, potionMenu);
+    Inventory.takeItem(liveData.Items.Consumables.VitalityTincture, potionMenu);
   }
 }
 
@@ -165,7 +165,7 @@ export function buyScholarsTea() {
     GUI.doNext(potionMenu);
   } else {
     liveData.player.changeGems(-15);
-    Inventory.takeItem(Items.Consumables.ScholarsTea, potionMenu);
+    Inventory.takeItem(liveData.Items.Consumables.ScholarsTea, potionMenu);
   }
 }
 
@@ -183,7 +183,7 @@ export function buyScholarsTea() {
 //         GUI.doNext(potionMenu)
 //     } else {
 //         liveData.player.changeGems(-75)
-//         Inventory.takeItem(Items.Consumables.CeruleanPotion, potionMenu)
+//         Inventory.takeItem(liveData.Items.Consumables.CeruleanPotion, potionMenu)
 //     }
 // }
 
@@ -199,7 +199,7 @@ export function buyCondom() {
     GUI.doNext(eroticaMenu);
   } else {
     liveData.player.changeGems(-2);
-    Inventory.takeItem(Items.Consumables.Condom, eroticaMenu);
+    Inventory.takeItem(liveData.Items.Consumables.Condom, eroticaMenu);
   }
 }
 
@@ -208,7 +208,7 @@ export function buyCondom() {
 //------------
 export function pitchDangerousPlantsBook() {
   GUI.clearOutput();
-  if (liveData.player.hasKeyItem(KeyItems.BookDangerousPlants) >= 0) {
+  if (liveData.player.hasKeyItem(liveData.KeyItems.BookDangerousPlants) >= 0) {
     GUI.outputText("<b>You already own the book 'Dangerous Plants'.</b>");
     GUI.doNext(bookMenu);
     return;
@@ -227,14 +227,14 @@ export function buyDangerousPlantsBook() {
       "<br><br>You consider yourself fortunate to be quite literate in this day and age. It certainly comes in handy with this book. Obviously written by well-informed, but women-starved men, the narrative drearily states the various types of poisonous and carnivorous plants in the world. One entry that really grabs you is the chapter on 'Violation Plants'. The chapter drones on about an entire classification of specially bred plants whose purpose is to torture or feed off a human being without permanently injuring and killing them. Most of these plants attempt to try breeding with humans and are insensitive to the intricacies of human reproduction to be of any value, save giving the person no end of hell. These plants range from massive shambling horrors to small plant-animal hybrids that attach themselves to people. As you finish the book, you cannot help but shiver at the many unnatural types of plants out there and wonder what sick bastard created such monstrosities. ",
     );
     liveData.player.changeGems(-10);
-    liveData.player.createKeyItem(KeyItems.BookDangerousPlants, 0, 0, 0, 0);
+    liveData.player.createKeyItem(liveData.KeyItems.BookDangerousPlants, 0, 0, 0, 0);
   }
   GUI.doNext(bookMenu);
 }
 
 export function pitchTravellersGuide() {
   GUI.clearOutput();
-  if (liveData.player.hasKeyItem(KeyItems.BookTravelGuide) >= 0) {
+  if (liveData.player.hasKeyItem(liveData.KeyItems.BookTravelGuide) >= 0) {
     GUI.outputText("<b>You already own the book 'Traveler's Guide'.</b>");
     GUI.doNext(bookMenu);
     return;
@@ -253,14 +253,14 @@ export function buyTravellersGuide() {
       'The crazy merchant said you might not need this and he was right. Written at a simple level, this was obviously intended for a city-dweller who never left the confines of their walls. Littered with childish illustrations and silly phrases, the book is informative in the sense that it does tell a person what they need and what to do, but naively downplays the dangers of the forest and from bandits. Were it not so cheap, you would be pissed at the merchant. However, he is right in the fact that giving this to some idiot ignorant of the dangers of the road saves time from having to answer a bunch of stupid questions.',
     );
     liveData.player.changeGems(-1);
-    liveData.player.createKeyItem(KeyItems.BookTravelGuide, 0, 0, 0, 0);
+    liveData.player.createKeyItem(liveData.KeyItems.BookTravelGuide, 0, 0, 0, 0);
   }
   GUI.doNext(bookMenu);
 }
 
 export function pitchHentaiComic() {
   GUI.clearOutput();
-  if (liveData.player.hasKeyItem(KeyItems.BookHentaiComic) >= 0) {
+  if (liveData.player.hasKeyItem(liveData.KeyItems.BookHentaiComic) >= 0) {
     GUI.outputText('<b>You already own a Hentai Comic!</b>');
     GUI.doNext(bookMenu);
     return;
@@ -283,14 +283,14 @@ export function buyHentaiComic() {
     liveData.player.modStats(['lib', 2]);
     liveData.player.changeLust(20, true);
     liveData.player.changeGems(-10);
-    liveData.player.createKeyItem(KeyItems.BookHentaiComic, 0, 0, 0, 0);
+    liveData.player.createKeyItem(liveData.KeyItems.BookHentaiComic, 0, 0, 0, 0);
   }
   GUI.doNext(bookMenu);
 }
 
 export function pitchYogaGuide() {
   GUI.clearOutput();
-  if (liveData.player.hasKeyItem(KeyItems.BookYogaGuide) >= 0) {
+  if (liveData.player.hasKeyItem(liveData.KeyItems.BookYogaGuide) >= 0) {
     GUI.outputText('<b>You already own a yoga guide!</b>');
     GUI.doNext(bookMenu);
     return;
@@ -307,7 +307,7 @@ export function buyYogaGuide() {
   } else {
     GUI.outputText('You exchange 100 gems for the tome.');
     liveData.player.changeGems(-100);
-    liveData.player.createKeyItem(KeyItems.BookYogaGuide, 0, 0, 0, 0);
+    liveData.player.createKeyItem(liveData.KeyItems.BookYogaGuide, 0, 0, 0, 0);
   }
   GUI.doNext(bookMenu);
 }
@@ -317,7 +317,7 @@ export function buyYogaGuide() {
 //------------
 export function pitchDildo() {
   GUI.clearOutput();
-  if (liveData.player.hasKeyItem(KeyItems.ToyDildo) >= 0) {
+  if (liveData.player.hasKeyItem(liveData.KeyItems.ToyDildo) >= 0) {
     GUI.outputText('<b>You already own a Dildo!</b>');
     GUI.doNext(eroticaMenu);
     return;
@@ -334,14 +334,14 @@ export function buyDildo() {
   } else {
     GUI.outputText('After making the payment, Giacomo hands you the Dildo');
     liveData.player.changeGems(-20);
-    liveData.player.createKeyItem(KeyItems.ToyDildo, 0, 0, 0, 0);
+    liveData.player.createKeyItem(liveData.KeyItems.ToyDildo, 0, 0, 0, 0);
   }
   GUI.doNext(eroticaMenu);
 }
 
 export function pitchSelfStimulationBelt() {
   GUI.clearOutput();
-  if (liveData.player.hasKeyItem(KeyItems.ToyStimBelt) >= 0) {
+  if (liveData.player.hasKeyItem(liveData.KeyItems.ToyStimBelt) >= 0) {
     GUI.outputText('<b>You already own a Self-Stimulation Belt!</b>');
     GUI.doNext(eroticaMenu);
     return;
@@ -358,7 +358,7 @@ export function buySelfStimulationBelt() {
   } else {
     GUI.outputText('After making the payment, Giacomo hands you the Self-Stimulation Belt');
     liveData.player.changeGems(-30);
-    liveData.player.createKeyItem(KeyItems.ToyStimBelt, 0, 0, 0, 0);
+    liveData.player.createKeyItem(liveData.KeyItems.ToyStimBelt, 0, 0, 0, 0);
     GUI.doNext(eroticaMenu);
   }
   GUI.doNext(eroticaMenu);
@@ -366,7 +366,7 @@ export function buySelfStimulationBelt() {
 
 export function pitchAllNaturalSelfStimulationBelt() {
   GUI.clearOutput();
-  if (liveData.player.hasKeyItem(KeyItems.ToyANBelt) >= 0) {
+  if (liveData.player.hasKeyItem(liveData.KeyItems.ToyANBelt) >= 0) {
     GUI.outputText('<b>You already own an All-Natural Self-Stimulation Belt!</b>');
     GUI.doNext(eroticaMenu);
     return;
@@ -377,7 +377,7 @@ export function pitchAllNaturalSelfStimulationBelt() {
   GUI.outputText(
     '"<i>This device is quite intriguing,</i>" Giacomo begins, "<i>This pleasure engine is NOT for the faint-of-heart. Being constructed of materials from the workshops of biomechanical artificers, this device outperforms its mechanical cousin in every way. Guaranteed to last longer than you do, this machine will give you as many mind-shattering orgasms as you can handle. Unlike the mechanical belt, you do not need to wind it up. It soaks up the power of the sun itself in an amazing feat of engineering. Four hours a day is all it needs! Keep in mind that if there is no sun for a couple of days, it will not work without a full day\'s sunshine. You may wonder why I am wearing gloves. Well, that is because of the pads on the belt.</i>" Giacomo points to a couple of small, amber pads on the belt. "<i>They are sensitive to human touch and activate the belt. This is all yours for 40 gems and you get the gloves for free! Again, this device offers ultimate pleasure. If you can\'t handle it, I will not be offended if you turn it down.</i>"',
   );
-  if (liveData.player.hasKeyItem(KeyItems.BookDangerousPlants) >= 0 && liveData.player.inte > 39) {
+  if (liveData.player.hasKeyItem(liveData.KeyItems.BookDangerousPlants) >= 0 && liveData.player.inte > 39) {
     GUI.outputText(
       '<br><br>The nodule and the base of the stimulator look vaguely like some of the things you have seen in the Dangerous Plant book. You wonder if there is not something devious about this item. Giacomo is also sweating. It is too cool for that, this time of year.',
     );
@@ -398,14 +398,14 @@ export function buyAllNaturalSelfStimulationBelt() {
   } else {
     GUI.outputText('After making the payment, Giacomo hands you the All-Natural Self-Stimulation Belt');
     liveData.player.changeGems(-40);
-    liveData.player.createKeyItem(KeyItems.ToyANBelt, 0, 0, 0, 0);
+    liveData.player.createKeyItem(liveData.KeyItems.ToyANBelt, 0, 0, 0, 0);
   }
   GUI.doNext(eroticaMenu);
 }
 
 export function pitchOnahole() {
   GUI.clearOutput();
-  if (liveData.player.hasKeyItem(KeyItems.ToyOnahole) >= 0) {
+  if (liveData.player.hasKeyItem(liveData.KeyItems.ToyOnahole) >= 0) {
     GUI.outputText('<b>You already own a Plain Onahole!</b>');
     GUI.doNext(eroticaMenu);
     return;
@@ -422,14 +422,14 @@ export function buyOnahole() {
   } else {
     GUI.outputText('After making the payment, Giacomo hands you the Plain Onahole');
     liveData.player.changeGems(-20);
-    liveData.player.createKeyItem(KeyItems.ToyOnahole, 0, 0, 0, 0);
+    liveData.player.createKeyItem(liveData.KeyItems.ToyOnahole, 0, 0, 0, 0);
   }
   GUI.doNext(eroticaMenu);
 }
 
 export function pitchDeluxeOnahole() {
   GUI.clearOutput();
-  if (liveData.player.hasKeyItem(KeyItems.ToyDeluxeOnahole) >= 0) {
+  if (liveData.player.hasKeyItem(liveData.KeyItems.ToyDeluxeOnahole) >= 0) {
     GUI.outputText('<b>You already own a Deluxe Onahole!</b>');
     GUI.doNext(eroticaMenu);
     return;
@@ -446,14 +446,14 @@ export function buyDeluxeOnahole() {
   } else {
     GUI.outputText('After making the payment, Giacomo hands you the Deluxe Onahole');
     liveData.player.changeGems(-50);
-    liveData.player.createKeyItem(KeyItems.ToyDeluxeOnahole, 0, 0, 0, 0);
+    liveData.player.createKeyItem(liveData.KeyItems.ToyDeluxeOnahole, 0, 0, 0, 0);
   }
   GUI.doNext(eroticaMenu);
 }
 
 export function pitchAllNaturalOnahole() {
   GUI.clearOutput();
-  if (liveData.player.hasKeyItem(KeyItems.ToyANOnahole) >= 0) {
+  if (liveData.player.hasKeyItem(liveData.KeyItems.ToyANOnahole) >= 0) {
     GUI.outputText('<b>You already own an All-Natural Onahole!</b>');
     GUI.doNext(eroticaMenu);
     return;
@@ -466,7 +466,7 @@ export function pitchAllNaturalOnahole() {
   GUI.outputText(
     'The other two genders simply do not have the stamina for it. This thing is all-natural, meaning that it powers itself and is made with the Artificers\' organic methods. It will cease functioning if it is not used or you fail to give the opening a few drops of this fluid once every three days.</i>" Giacomo pauses to hold up a small bottle. He places the bottle down and continues his sales pitch, "<i>If you plan on not using this thing regularly, do not buy it. These items are very rare and this one will probably be the only one you\'ll ever see. Normally I pitch my products like crazy. However, with this I do not need to. This thing DOES work too well, and you WILL cum, period. It will work you until you do not want it to work anymore. It will not stop until IT decides to stop. However, for the extreme needs of a lovely example of the dual-sex, it may be the very thing you need. Again, this is for the ultimate hardcore pleasure seeker amongst the ultimate hardcore. It costs a humble 150 gems, but for superhuman thrills, who can put a price tag on that?</i>',
   );
-  if (liveData.player.hasKeyItem(KeyItems.BookDangerousPlants) >= 0 && liveData.player.inte > 35) {
+  if (liveData.player.hasKeyItem(liveData.KeyItems.BookDangerousPlants) >= 0 && liveData.player.inte > 35) {
     GUI.outputText(
       '<br><br>While skillfully avoiding Giacomo\'s suspicion, you correctly surmise that the toy is not a toy at all. It is the outer shell for a hybrid animal-plant. The creature is very much alive. While the technical name for this beast is in the usual unpronounceable scholastic gibberish, the common nickname for this is the "All-Day Sucker". It gets its name due to the fact that its diet consists of high nutrient fluids, especially semen. It was used both as a torture device and as a pleasure pet of the snobbish elite because it would clamp down upon the member of a person and not release until it has stimulated the person enough to ejaculate sufficiently to feed. However, the All-Day Sucker swells up like fleas and ticks do, thus requiring hours of stimulation to have its fill. There was something else about these things, but you cannot remember exactly what it was.',
     );
@@ -485,14 +485,14 @@ export function buyAllNaturalOnahole() {
   } else {
     GUI.outputText('After making the payment, Giacomo hands you the All-Natural Onahole');
     liveData.player.changeGems(-150);
-    liveData.player.createKeyItem(KeyItems.ANOnahole, 0, 0, 0, 0);
+    liveData.player.createKeyItem(liveData.KeyItems.ANOnahole, 0, 0, 0, 0);
   }
   GUI.doNext(eroticaMenu);
 }
 
 export function pitchDualStimulationBelt() {
   GUI.clearOutput();
-  if (liveData.player.hasKeyItem(KeyItems.ToyDualBelt) >= 0) {
+  if (liveData.player.hasKeyItem(liveData.KeyItems.ToyDualBelt) >= 0) {
     GUI.outputText('<b>You already own a Dual Belt!</b>');
     GUI.doNext(eroticaMenu);
     return;
@@ -511,7 +511,7 @@ export function buyDualStimulationBelt() {
       'You are a bit dubious at the pleasure it could offer you, but it would be better than being raped by the creatures constantly... maybe to even work out some excess lusts... hesitantly, you reach into your bag and grab 50 gems, handing it to him. He greedily snatches it from your palm and hands you with the belt with a smile. "<i>I promise you won\'t be disappointed.</i>" He counts the gems and waves goodbye.<br><br>(<b>Dual Belt acquired!</b>)',
     );
     liveData.player.changeGems(-150);
-    liveData.player.createKeyItem(KeyItems.ToyDualBelt, 0, 0, 0, 0);
+    liveData.player.createKeyItem(liveData.KeyItems.ToyDualBelt, 0, 0, 0, 0);
   }
   GUI.doNext(eroticaMenu);
 }
@@ -556,10 +556,10 @@ export function wormRemoval() {
   //Add 1 tincture of vitality to inventory
   //Infestation purged. Hit Points reduced to 10% of MAX. Corruption -20.
   if (liveData.player.HP > liveData.player.maxHP() * 0.15) liveData.player.changeHP(-(liveData.player.HP - liveData.player.maxHP() * 0.15), false);
-  liveData.player.removeStatusEffect(StatusEffects.Infested);
+  liveData.player.removeStatusEffect(liveData.StatusEffects.Infested);
   liveData.player.modStats(['lib', -1], ['cor', -8]);
   liveData.player.changeGems(-175);
-  Inventory.takeItem(Items.Consumables.VitalityTincture, Camp.returnToCampUseOneHour);
+  Inventory.takeItem(liveData.Items.Consumables.VitalityTincture, Camp.returnToCampUseOneHour);
 }
 
 /*export function nightSuccubiFirstTime() {
@@ -781,7 +781,7 @@ export function wormRemoval() {
             //Clear out any queue'ed events if bad-end
             //coming.  PC has to dig his own grave.
             if (flags[kFLAGS.CERULEAN_POTION_BAD_END_FUTA_COUNTER] > 10) {
-                player.removeStatusEffect(StatusEffects.SuccubiNight);
+                player.removeStatusEffect(liveData.StatusEffects.SuccubiNight);
             }
             player.changeFatigue(20);
             player.cumMultiplier++;

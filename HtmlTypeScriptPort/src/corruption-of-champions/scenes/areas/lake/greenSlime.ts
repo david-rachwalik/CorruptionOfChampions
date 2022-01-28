@@ -1,4 +1,4 @@
-import { liveData, ENUM, FLAG, GUI, UTIL, COMBAT, Creature, Items, StatusEffects } from 'coc';
+import { liveData, ENUM, FLAG, GUI, UTIL, COMBAT, Creature } from 'coc';
 
 export class GreenSlime extends Creature {
   constructor() {
@@ -40,24 +40,24 @@ export class GreenSlime extends Creature {
 
     //Appearance
     this.tallness = UTIL.rand(8) + 80;
-    this.hipRating = ENUM.HipRatingType.HIP_RATING_AMPLE;
-    this.buttRating = ENUM.ButtRatingType.BUTT_RATING_LARGE;
-    this.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_GOO;
+    this.hipRating = ENUM.HipRatingType.AMPLE;
+    this.buttRating = ENUM.ButtRatingType.LARGE;
+    this.lowerBody = ENUM.LowerBodyType.GOO;
     this.skinTone = 'green';
     //Sexual characteristics
     this.createCock(18, 2, ENUM.CockType.HUMAN);
     this.createBreastRow(0);
-    this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_STRETCHED;
-    this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_SLIME_DROOLING;
+    this.ass.analLooseness = ENUM.AnalLoosenessType.STRETCHED;
+    this.ass.analWetness = ENUM.AnalWetnessType.SLIME_DROOLING;
     this.cumMultiplier = 3;
     this.hoursSinceCum = 20;
     this.createCock(18, 2, ENUM.CockType.HUMAN);
 
     //Drops
     this.clearDrops(); //Need to be called before populating the item arrays.
-    this.addDrop(Items.Weapons.Pipe, 10);
-    this.addDrop(Items.Consumables.WetCloth, 45);
-    this.addDrop(Items.Materials.GreenGel, 45);
+    this.addDrop(liveData.Items.Weapons.Pipe, 10);
+    this.addDrop(liveData.Items.Consumables.WetCloth, 45);
+    this.addDrop(liveData.Items.Materials.GreenGel, 45);
 
     //Victory/defeat
     this.victory = greenSlimeWin;
@@ -150,7 +150,7 @@ export function encounterSlime() {
 export function greenSlimeWin() {
   GUI.outputText('You smile in satisfaction as the ' + liveData.monster.name + ' collapses, unable to continue fighting.');
   //Boobfeed.
-  if (liveData.player.findStatusEffect(StatusEffects.Feeder) >= 0 && liveData.gameFlags[FLAG.SFW_MODE] <= 0) {
+  if (liveData.player.findStatusEffect(liveData.StatusEffects.Feeder) >= 0 && liveData.gameFlags[FLAG.SFW_MODE] <= 0) {
     //Eligible to rape
     if (liveData.player.lust >= 33 && liveData.player.gender > 0) {
       GUI.outputText("<br><br>You're horny enough to try and rape it, though you'd rather see how much milk you can squirt into it.  What do you do?");
@@ -315,8 +315,8 @@ export function rapeOozeWithMilk() {
 
   liveData.player.dynStats(['lib', 0.2]);
   //You've now been milked, reset the timer for that
-  liveData.player.addStatusValue(StatusEffects.Feeder, 1, 1);
-  liveData.player.changeStatusValue(StatusEffects.Feeder, 2, 0);
+  liveData.player.addStatusValue(liveData.StatusEffects.Feeder, 1, 1);
+  liveData.player.changeStatusValue(liveData.StatusEffects.Feeder, 2, 0);
   COMBAT.cleanupAfterCombat();
   liveData.player.orgasm();
 }

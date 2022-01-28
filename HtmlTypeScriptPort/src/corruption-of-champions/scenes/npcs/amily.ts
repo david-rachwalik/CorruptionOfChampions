@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, UTIL, Data, Creature, StatusEffects, FLAG, Items, Camp, Appearance, COMBAT, KeyItems } from 'coc';
+import { liveData, ENUM, GUI, UTIL, Data, Creature, FLAG, Camp, Appearance, COMBAT } from 'coc';
 
 /*
  * Amily created by aimozg on 02.01.14.
@@ -79,18 +79,18 @@ export class Amily extends Creature {
 
     //Appearance
     this.tallness = 48;
-    this.hipRating = ENUM.HipRatingType.HIP_RATING_AMPLE + 2;
-    this.buttRating = ENUM.ButtRatingType.BUTT_RATING_LARGE;
+    this.hipRating = ENUM.HipRatingType.AMPLE + 2;
+    this.buttRating = ENUM.ButtRatingType.LARGE;
     this.skinTone = 'dark green';
     this.hairColor = 'purple';
     this.hairLength = 4;
     //Sexual characteristics
-    this.createVagina(false, ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING, ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_NORMAL);
-    this.createStatusEffect(StatusEffects.BonusVCapacity, 40, 0, 0, 0);
+    this.createVagina(false, ENUM.VaginalWetnessType.DROOLING, ENUM.VaginalLoosenessType.NORMAL);
+    this.createStatusEffect(liveData.StatusEffects.BonusVCapacity, 40, 0, 0, 0);
     this.createBreastRow(Appearance.breastCupInverse('E'));
-    this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_TIGHT;
-    this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_DRY;
-    this.createStatusEffect(StatusEffects.BonusACapacity, 30, 0, 0, 0);
+    this.ass.analLooseness = ENUM.AnalLoosenessType.TIGHT;
+    this.ass.analWetness = ENUM.AnalWetnessType.DRY;
+    this.createStatusEffect(liveData.StatusEffects.BonusACapacity, 30, 0, 0, 0);
 
     //Drops
     this.clearDrops(); //Need to be called before populating the item arrays.
@@ -105,7 +105,7 @@ export class Amily extends Creature {
         this.long = "You are currently fighting Amily. The mouse-morph is dressed in rags and glares at you in rage, knife in hand. She keeps herself close to the ground, ensuring she can quickly close the distance between you two or run away.";
         // this.plural = false;
         this.createVagina(false, VAGINA_WETNESS_NORMAL, VAGINA_LOOSENESS_NORMAL);
-        this.createStatusEffect(StatusEffects.BonusVCapacity, 48, 0, 0, 0);
+        this.createStatusEffect(liveData.StatusEffects.BonusVCapacity, 48, 0, 0, 0);
         this.createBreastRow(Appearance.breastCupInverse("C"));
         this.ass.analLooseness = ANAL_LOOSENESS_VIRGIN;
         this.ass.analWetness = ANAL_WETNESS_DRY;
@@ -113,7 +113,7 @@ export class Amily extends Creature {
         this.hipRating = HIP_RATING_AMPLE;
         this.buttRating = BUTT_RATING_TIGHT;
         this.skinTone = "tawny";
-        this.skinType = SKIN_TYPE_FUR;
+        this.skinType = ENUM.SkinType.Fur;
         this.hairColor = "brown";
         this.hairLength = 5;
 
@@ -212,7 +212,7 @@ export function start() {
   }
   // Reset worm block if worms have been eliminated from the player
   if (liveData.gameFlags[FLAG.AMILY_GROSSED_OUT_BY_WORMS] == 1) {
-    if (liveData.player.findStatusEffect(StatusEffects.Infested) < 0) {
+    if (liveData.player.findStatusEffect(liveData.StatusEffects.Infested) < 0) {
       liveData.gameFlags[FLAG.AMILY_GROSSED_OUT_BY_WORMS] = 0;
     }
   }
@@ -262,13 +262,13 @@ export function start() {
   // Amily corruption path
   if (liveData.gameFlags[FLAG.AMILY_CORRUPT_FLIPOUT] > 0 && liveData.player.cor > 25) {
     //Cook amily a snack if player doesnt have key item for it.
-    if (liveData.player.hasKeyItem(KeyItems.PotentMixture) < 0 && liveData.gameFlags[FLAG.CREATE_POTENT_MIXTURE] < 3) {
+    if (liveData.player.hasKeyItem(liveData.KeyItems.PotentMixture) < 0 && liveData.gameFlags[FLAG.CREATE_POTENT_MIXTURE] < 3) {
       cookAmilyASnack();
       return;
     } else {
-      if (liveData.player.hasKeyItem(KeyItems.PotentMixture) && liveData.gameFlags[FLAG.AMILY_CORRUPTION_PATH] == 0) amilyCorrupt1();
-      else if (liveData.player.hasKeyItem(KeyItems.PotentMixture) && liveData.gameFlags[FLAG.AMILY_CORRUPTION_PATH] == 1) amilyCorrupt2();
-      else if (liveData.player.hasKeyItem(KeyItems.PotentMixture) && liveData.gameFlags[FLAG.AMILY_CORRUPTION_PATH] == 2) amilyCorrupt3();
+      if (liveData.player.hasKeyItem(liveData.KeyItems.PotentMixture) && liveData.gameFlags[FLAG.AMILY_CORRUPTION_PATH] == 0) amilyCorrupt1();
+      else if (liveData.player.hasKeyItem(liveData.KeyItems.PotentMixture) && liveData.gameFlags[FLAG.AMILY_CORRUPTION_PATH] == 1) amilyCorrupt2();
+      else if (liveData.player.hasKeyItem(liveData.KeyItems.PotentMixture) && liveData.gameFlags[FLAG.AMILY_CORRUPTION_PATH] == 2) amilyCorrupt3();
       else rapeCorruptAmily4Meeting(); //rapeCorruptAmily4Meeting();
       return;
     }
@@ -763,7 +763,7 @@ export function amilyStandardMeeting() {
   }
   GUI.addButton(1, 'Talk', talkToAmily, null, null, null, 'Actually, I just came for conversation...');
   if (
-    liveData.player.hasItem(Items.Consumables.IncubiDraftPurified) &&
+    liveData.player.hasItem(liveData.Items.Consumables.IncubiDraftPurified) &&
     liveData.gameFlags[FLAG.AMILY_WANG_LENGTH] == 0 &&
     liveData.gameFlags[FLAG.AMILY_HERM_QUEST] == 2 &&
     liveData.gameFlags[FLAG.AMILY_AFFECTION] >= 40 &&
@@ -996,7 +996,7 @@ export function desperateAmilyPleaTurnDown() {
   //[Player has found Tel'Adre]
   // UNCOMMENT AFTER TEL'ADRE FLAGS ARE SET
   /*
-            if (player.statusEffectv1(StatusEffects.TelAdre) >= 1) {
+            if (player.statusEffectv1(liveData.StatusEffects.TelAdre) >= 1) {
             GUI.outputText("You tell her that you've discovered a hidden city in the desert, free of corruption. Amily looks shocked, but clearly grateful as you assure her of its existence and provide instructions on how to get there.<br><br>");
             }
             else {
@@ -1076,7 +1076,7 @@ export function amilyLesbianStopHer() {
 export function amilyLesbianLetHerGo() {
   GUI.clearOutput();
   /*(If player is already locked into a relationship):
-            if (player.hasStatusEffect(StatusEffects.CampMarble) >= 0 || urtaLove()) {
+            if (player.hasStatusEffect(liveData.StatusEffects.CampMarble) >= 0 || urtaLove()) {
             GUI.outputText("You put a hand on her shoulder, bringing her to a stop. She looks so hopeful at you that it's almost painful, but you tell her that, while you do care for her and you like her as a friend, you're already in a relationship with somebody.<br><br>");
 
             GUI.outputText("\"<i>Are you? ...I see. Well, I'm happy that you, at least, found somebody. I... You're still welcome to come by and talk, but I'll respect your wishes.</i>\" Amily tells you. Evidently still quite embarrassed, she apologises and then melts away into the ruins again.");
@@ -1130,7 +1130,7 @@ export function makeAmilyAHerm() {
   GUI.outputText('You agree  and allow her to begin leading you to the "<i>bedroom</i>".');
   liveData.gameFlags[FLAG.AMILY_WANG_LENGTH] = 4;
   liveData.gameFlags[FLAG.AMILY_WANG_GIRTH] = 1;
-  liveData.player.destroyItems(Items.Consumables.IncubiDraftPurified, 1);
+  liveData.player.destroyItems(liveData.Items.Consumables.IncubiDraftPurified, 1);
   GUI.menu();
   //[Herm Amily on Female PC, First Time, scene plays]
   GUI.doNext(amilyHermOnFemalePC);
@@ -1689,92 +1689,92 @@ export function amilyConversationStart() {
     //}
     // Item checks only work in the first slot.
     // Player has Equinum in first slot
-    if (liveData.player.hasItem(Items.Consumables.Equinum)) {
+    if (liveData.player.hasItem(liveData.Items.Consumables.Equinum)) {
       GUI.outputText(
         '"<i>That\'s a distillation of horse essence, I think.</i>" Amily says.  "<i>I guess it would probably make you stronger and tougher... but horses aren\'t smart, and it might be too strong for a human to handle without changing them,</i>" she warns you.<br><br>',
       );
     }
     //Canine Pepper & Variants:
     // THIS PART MAKES NO SENSE! Either combine them all with a big OR clause or write descriptions for each!
-    else if (liveData.player.hasItem(Items.Consumables.CaninePepper)) {
+    else if (liveData.player.hasItem(liveData.Items.Consumables.CaninePepper)) {
       GUI.outputText(
         "\"<i>Looks kind of like a dog's dick, doesn't it?  Especially this one with the big knot-like bulge or this one with the ball-like bulbs.  I suppose it would make you more dog-like... but I'm pretty sure you should avoid these jet-black ones.  I can't remember why...</i>\" she trails off, wracking her brain.<br><br>",
       );
     }
     //Large Pepper
-    else if (liveData.player.hasItem(Items.Consumables.CaninePepperLarge)) {
+    else if (liveData.player.hasItem(liveData.Items.Consumables.CaninePepperLarge)) {
       GUI.outputText(
         "\"<i>Looks kind of like a dog's dick, doesn't it?  Especially this one with the big knot-like bulge or this one with the ball-like bulbs.  I suppose it would make you more dog-like... but I'm pretty sure you should avoid these jet-black ones.  I can't remember why...</i>\" she trails off, wracking her brain.<br><br>",
       );
     }
     //Double Pepper
-    else if (liveData.player.hasItem(Items.Consumables.CaninePepperDouble)) {
+    else if (liveData.player.hasItem(liveData.Items.Consumables.CaninePepperDouble)) {
       GUI.outputText(
         "\"<i>Looks kind of like a dog's dick, doesn't it?  Especially this one with the big knot-like bulge or this one with the ball-like bulbs.  I suppose it would make you more dog-like... but I'm pretty sure you should avoid these jet-black ones.  I can't remember why...</i>\" she trails off, wracking her brain.<br><br>",
       );
     }
     //Black Pepper
-    else if (liveData.player.hasItem(Items.Consumables.CaninePepperBlack)) {
+    else if (liveData.player.hasItem(liveData.Items.Consumables.CaninePepperBlack)) {
       GUI.outputText(
         "\"<i>Looks kind of like a dog's dick, doesn't it?  Especially this one with the big knot-like bulge or this one with the ball-like bulbs.  I suppose it would make you more dog-like... but I'm pretty sure you should avoid these jet-black ones.  I can't remember why...</i>\" she trails off, wracking her brain.<br><br>",
       );
     }
     //Canine Pepper & Variants:
-    else if (liveData.player.hasItem(Items.Consumables.CaninePepperKnotty)) {
+    else if (liveData.player.hasItem(liveData.Items.Consumables.CaninePepperKnotty)) {
       GUI.outputText(
         "\"<i>Looks kind of like a dog's dick, doesn't it?  Especially this one with the big knot-like bulge or this one with the ball-like bulbs.  I suppose it would make you more dog-like... but I'm pretty sure you should avoid these jet-black ones.  I can't remember why...</i>\" she trails off, wracking her brain.<br><br>",
       );
     }
     //Canine Pepper & Variants:
-    else if (liveData.player.hasItem(Items.Consumables.CaninePepperBulby)) {
+    else if (liveData.player.hasItem(liveData.Items.Consumables.CaninePepperBulby)) {
       GUI.outputText(
         "\"<i>Looks kind of like a dog's dick, doesn't it?  Especially this one with the big knot-like bulge or this one with the ball-like bulbs.  I suppose it would make you more dog-like... but I'm pretty sure you should avoid these jet-black ones.  I can't remember why...</i>\" she trails off, wracking her brain.<br><br>",
       );
     }
     // Now we're out of the stupid...
     //Succubus Milk/Incubus Draft:
-    else if (liveData.player.hasItem(Items.Consumables.IncubiDraft) || liveData.player.hasItem(Items.Consumables.SuccubiMilk)) {
+    else if (liveData.player.hasItem(liveData.Items.Consumables.IncubiDraft) || liveData.player.hasItem(liveData.Items.Consumables.SuccubiMilk)) {
       GUI.outputText(
         "She recoils with a hiss.  \"<i>That's demon fluid, it is - like drinking liquid corruption! Avoid that stuff if you can; it'll turn you into a demon, and supercharge your sex-drive.  I've heard it can even mess with your gender if you drink too much of the opposite stuff.</i>\"<br><br>",
       );
     }
     //Succubi's Delight:
-    else if (liveData.player.hasItem(Items.Consumables.SuccubiDelight)) {
+    else if (liveData.player.hasItem(liveData.Items.Consumables.SuccubiDelight)) {
       GUI.outputText(
         '"<i>Full of taint, no question of that.  Succubi give it to males who haven\'t become demons yet; makes them better able to produce cum, and pushes them towards demonhood.</i>"<br><br>',
       );
     }
     /*
                 //Wet Cloth:
-                else if (player.hasItem(Items.Consumables.We) {
+                else if (player.hasItem(liveData.Items.Consumables.We) {
                 GUI.outputText("\"<i>I... have no idea what that is.</i>\" she says, looking confused.  \"<i>I guess it's... slimey?  Concentrate of goo?  I think it's got something to do with whatever's been polluting the lake, so I wouldn't rub it into your skin.</i>\"<br><br>");
                 }*/
     //Bee Honey:
-    else if (liveData.player.hasItem(Items.Consumables.BeeHoney)) {
+    else if (liveData.player.hasItem(liveData.Items.Consumables.BeeHoney)) {
       GUI.outputText(
         '"<i>Honey from a giant bee?</i>" she asks eagerly, perking up.  "<i>Oh, that stuff\'s delicious! I hear it\'s full of special essences secreted by the giant bees, though, so it could have transformative effects.</i>"<br><br>',
       );
     }
     /*
                 //Pure Honey:
-                else if (player.hasItem(Items.Consumables.) {
+                else if (player.hasItem(liveData.Items.Consumables.) {
                 GUI.outputText("\"<i>You managed to get your hands on ultra-pure giant bee honey?</i>\" she asks, sounding impressed.  \"<i>I hear that stuff's so pure it can actually help purge the eater of demonic taint - but it's probably otherwise the same as regular bee honey.</i>\"<br><br>");
                 } */
     //Whisker Fruit:
-    if (liveData.player.hasItem(Items.Consumables.WhiskerFruit)) {
+    if (liveData.player.hasItem(liveData.Items.Consumables.WhiskerFruit)) {
       GUI.outputText(
         '"<i>That\'s a whisker fruit,</i>" Amily says, "<i>It might give you cat ears and even tail! It would make you cute-looking!</i>"<br><br>',
       );
     }
     //Pigtail or Boar Truffle:
-    if (liveData.player.hasItem(Items.Consumables.PigTruffle)) {
+    if (liveData.player.hasItem(liveData.Items.Consumables.PigTruffle)) {
       GUI.outputText(
         '"<i>That\'s a pigtail truffle,</i>" Amily says, "<i>It might give you pig ears and even tail! It would make you plump and cute-looking!</i>"<br><br>',
       );
     } else {
       /*
                 //Green Glob:
-                else if (player.hasItem(Items.) == useables.GREENGL) {
+                else if (player.hasItem(liveData.Items.) == useables.GREENGL) {
                 GUI.outputText("\"<i>A blob of slime from a green gel?  Hmm...</i>\" she looks thoughtful.  \"<i>I think I remember my dad once telling me you could make a really strong armor out of a special distillation of green oozes.  I can't say for sure, and I wouldn't have the equipment even if I did remember.</i>\"<br><br>");
                 }
                 //Bee Chitin:
@@ -2741,7 +2741,7 @@ export function amilySexPlaytimeFirst() {
 export function amilySexPtII() {
   //worm infested reaction
   /*
-            if (player.findStatusEffect(StatusEffects.Infested) >= 0) {
+            if (player.findStatusEffect(liveData.StatusEffects.Infested) >= 0) {
             GUI.outputText("\"<i>EWWWW!  You're infested!</i>\" she shrieks, \"<i>Get out!  Don't come back 'til you get rid of the worms!</i>\"\n\nYou high tail it out of there.  It looks like Amily doesn't want much to do with you until you're cured.");
             GUI.doNext(camp.returnToCampUseOneHour);
             liveData.gameFlags[FLAG.AMILY_AFFECTION] -= 3;
@@ -3132,7 +3132,7 @@ export function fuckAmilyPreg() {
   //(If player has a tail)
 
   //CHECK THIS IF IT FAILS
-  if (liveData.player.tailType > ENUM.TailType.TAIL_TYPE_NONE)
+  if (liveData.player.tailType > ENUM.TailType.NONE)
     GUI.outputText('You even feel Amily wrap her mousy tail around your own, making you chuckle softly into your lovers mouth.  ');
   else GUI.outputText("A tickling sensation hits your body, making you snort and giggle, realising that Amily's tail is fondling your thigh.  ");
   GUI.outputText(
@@ -3398,7 +3398,7 @@ export function amilyHermOnFemalePC() {
   //(If player is preg
 
   if (liveData.player.isPregnant()) {
-    if (liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_AMILY) GUI.outputText("\"<i>Boy, this is weird.  I'm a woman and I'm going to be a dad.");
+    if (liveData.player.pregnancyType == ENUM.PregnancyType.AMILY) GUI.outputText("\"<i>Boy, this is weird.  I'm a woman and I'm going to be a dad.");
     else
       GUI.outputText(
         "\"<i>After you give birth to this baby come and see me when you're ready for mine.  This is really weird, I'm a woman and I can't wait to be a dad.",
@@ -3408,7 +3408,7 @@ export function amilyHermOnFemalePC() {
   else {
     GUI.outputText("\"<i>Let's see if you'll be a mommy from this load... If not, well, I guess we'll have to try again.");
     //PREGGO CHECK HERE
-    liveData.player.knockUp(ENUM.PregnancyType.PREGNANCY_AMILY, FLAG.INCUBATION_MOUSE);
+    liveData.player.knockUp(ENUM.PregnancyType.AMILY, FLAG.INCUBATION_MOUSE);
     liveData.player.eventFill(FLAG.INCUBATION_MOUSE_EVENT);
   }
 
@@ -3624,7 +3624,7 @@ export function amilyPreggoChance() {
 
   //25% + gradually increasing cumQ bonus
   if (UTIL.rand(4) == 0 || liveData.player.cumQ() > UTIL.rand(1000)) {
-    liveData.amily.knockUpForce(ENUM.PregnancyType.PREGNANCY_PLAYER, FLAG.INCUBATION_MOUSE - 182, FLAG.INCUBATION_AMILY_EVENT);
+    liveData.amily.knockUpForce(ENUM.PregnancyType.PLAYER, FLAG.INCUBATION_MOUSE - 182, FLAG.INCUBATION_AMILY_EVENT);
   }
 }
 
@@ -3958,7 +3958,7 @@ export function meetAmilyAsACorruptAsshat() {
 
   /*
                 //(if PC doesn't have the perk Evasion or Feline Flexibility)
-                if (player.findPerk(PerkLib.Evade) < 0 && player.findPerk(PerkLib.Flexibility) < 0) {
+                if (player.findPerk(liveData.PerkLib.Evade) < 0 && player.findPerk(liveData.PerkLib.Flexibility) < 0) {
                 GUI.outputText("Amily's sudden reaction catches you off guard and the dart hits you; almost immediately you feel your body going stiff. Amily doesn't even wait to see if she hit you or not before running away, yelling back at you.<br><br>");
 
                 GUI.outputText("\"<i>Don't come near me again!  You're tainted, ruined!</i>\" Her voice is panicked, as she disappears into the ruins.<br><br>");
@@ -4007,8 +4007,8 @@ export function cookAmilyASnack() {
     //Takes 1 hour.
     //(if PC doesn't have the required items)
     if (
-      !(liveData.player.hasItem(Items.Consumables.LustDraft) || liveData.player.hasItem(Items.Consumables.FuckDraft)) ||
-      !liveData.player.hasItem(Items.Consumables.GoblinAle)
+      !(liveData.player.hasItem(liveData.Items.Consumables.LustDraft) || liveData.player.hasItem(liveData.Items.Consumables.FuckDraft)) ||
+      !liveData.player.hasItem(liveData.Items.Consumables.GoblinAle)
     ) {
       GUI.outputText(
         "You think about going into the Ruined Village, but you don't have the ingredients to create more of Amily's medicine. You return to your camp.",
@@ -4063,10 +4063,10 @@ export function cookAmilyASnack() {
       //CONSUME THE ITEMS AND PUT THE POTENT MIXTURE ITEM INTO KEY ITEM INVENTORY. MAY NEED TO RENAME THAT FLAG.
 
       //Consume items
-      if (liveData.player.hasItem(Items.Consumables.LustDraft)) liveData.player.destroyItems(Items.Consumables.LustDraft, 1);
-      else liveData.player.destroyItems(Items.Consumables.FuckDraft, 1);
-      liveData.player.destroyItems(Items.Consumables.GoblinAle, 1);
-      liveData.player.createKeyItem(KeyItems.PotentMixture, 0, 0, 0, 0);
+      if (liveData.player.hasItem(liveData.Items.Consumables.LustDraft)) liveData.player.destroyItems(liveData.Items.Consumables.LustDraft, 1);
+      else liveData.player.destroyItems(liveData.Items.Consumables.FuckDraft, 1);
+      liveData.player.destroyItems(liveData.Items.Consumables.GoblinAle, 1);
+      liveData.player.createKeyItem(liveData.KeyItems.PotentMixture, 0, 0, 0, 0);
       liveData.gameFlags[FLAG.CREATE_POTENT_MIXTURE]++;
     }
   }
@@ -4074,8 +4074,8 @@ export function cookAmilyASnack() {
   else {
     //(if PC doesn't have the required items and has >= 25 Corruption)
     if (
-      !(liveData.player.hasItem(Items.Consumables.LustDraft) || liveData.player.hasItem(Items.Consumables.FuckDraft)) ||
-      !liveData.player.hasItem(Items.Consumables.GoblinAle)
+      !(liveData.player.hasItem(liveData.Items.Consumables.LustDraft) || liveData.player.hasItem(liveData.Items.Consumables.FuckDraft)) ||
+      !liveData.player.hasItem(liveData.Items.Consumables.GoblinAle)
     ) {
       GUI.outputText(
         "You think about going into the Ruined Village, but decide it's best to wait until you have a plan underway. Maybe some lust draft and a goblin ale to get the ball rolling... You return to your camp.",
@@ -4094,7 +4094,7 @@ export function cookAmilyASnack() {
     //(else)
     else {
       GUI.outputText('You pick up a bowl and carefully pour the contents of the ');
-      if (liveData.player.hasItem(Items.Consumables.LustDraft)) GUI.outputText('Lust Draft ');
+      if (liveData.player.hasItem(liveData.Items.Consumables.LustDraft)) GUI.outputText('Lust Draft ');
       else GUI.outputText('Fuck Draft ');
       GUI.outputText(
         "and Goblin Ale inside, then you produce a wooden branch and begin stirring the contents until they are mixed together. Slowly you dip a finger and take a experimental lick; you're almost knocked back by the strong taste, your ",
@@ -4138,10 +4138,10 @@ export function cookAmilyASnack() {
         'After taking a few minutes to rest you look inside the bowl; the mixture has become pinkish-white in color and it bubbles omniously. You take one of the empty bottles and fill it with as much of the mixture as you can, before putting the cork back and putting it back into your pouch. Now all you have to do is find Amily... You smile wickedly as you head back to camp.<br><br>',
       );
       //Consume items
-      if (liveData.player.hasItem(Items.Consumables.LustDraft)) liveData.player.destroyItems(Items.Consumables.LustDraft, 1);
-      else liveData.player.destroyItems(Items.Consumables.FuckDraft, 1);
-      liveData.player.destroyItems(Items.Consumables.GoblinAle, 1);
-      liveData.player.createKeyItem(KeyItems.PotentMixture, 0, 0, 0, 0);
+      if (liveData.player.hasItem(liveData.Items.Consumables.LustDraft)) liveData.player.destroyItems(liveData.Items.Consumables.LustDraft, 1);
+      else liveData.player.destroyItems(liveData.Items.Consumables.FuckDraft, 1);
+      liveData.player.destroyItems(liveData.Items.Consumables.GoblinAle, 1);
+      liveData.player.createKeyItem(liveData.KeyItems.PotentMixture, 0, 0, 0, 0);
 
       liveData.gameFlags[FLAG.CREATE_POTENT_MIXTURE]++;
     }
@@ -4293,7 +4293,7 @@ export function amilyCorrupt2() {
 
     GUI.outputText('"<i>Yes! Please I need it!</i>" she says eagerly, closing her eyes and opening her mouth.');
 
-    liveData.player.removeKeyItem(KeyItems.PotentMixture);
+    liveData.player.removeKeyItem(liveData.KeyItems.PotentMixture);
     //RAPE 2 GO
     amilyCorruptionRape();
   }
@@ -4335,7 +4335,7 @@ export function amilyCorrupt3() {
     'She takes the bottle from your hand and throws it away. "<i>No. All I need is your cum... Please let me drink more. I-I\'ll do anything you want, just let me have a taste. Please?</i>" She begs.<br><br>',
   );
 
-  liveData.player.removeKeyItem(KeyItems.PotentMixture);
+  liveData.player.removeKeyItem(liveData.KeyItems.PotentMixture);
   GUI.outputText(
     "Surprised at her forwardness, you realize something. She must be addicted to you, or more specifically... Your cum. You barely supress the urge to laugh, this is priceless! The prudish mouse has been reduced to a needy addict. This is almost too perfect, you were just imagining previously how good it'd be if she turned into a cumslut.<br><br>",
   );
@@ -4446,7 +4446,7 @@ export function rapeCorruptAmily1() {
 export function rapeCorruptAmily1Male() {
   let x = liveData.player.cockThatFits(61);
   if (x < 0) x = 0;
-  liveData.player.removeKeyItem(KeyItems.PotentMixture);
+  liveData.player.removeKeyItem(liveData.KeyItems.PotentMixture);
   GUI.clearOutput();
   GUI.outputText(
     'You smile and say, "<i>Fine, but you\'re gonna have to work for it.</i>" Amily\'s answer is to open her mouth wide. The invitation clear, you scoot closer to her mouth, and her lips touch the tip of your ' +
@@ -4481,7 +4481,7 @@ export function rapeCorruptAmily1Male() {
 //NEED COMBAT CODE
 export function rapeCorruptAmily1Female() {
   GUI.clearOutput();
-  liveData.player.removeKeyItem(KeyItems.PotentMixture);
+  liveData.player.removeKeyItem(liveData.KeyItems.PotentMixture);
   GUI.outputText(
     'You smile and say, "<i>Fine, but you\'re gonna have to work for it.</i>" Amily\'s answer is to open her mouth wide. The invitation clear, you advance and lower your ' +
       liveData.player.vaginaDescript() +
@@ -5010,7 +5010,7 @@ export function rapeCorruptAmily4Male() {
 
   GUI.outputText('Her words please you, and you ');
   if (liveData.player.isNaga()) GUI.outputText('coil your serpentine tail around her head.');
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_GOO) GUI.outputText('engulf her maw in slime.');
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.GOO) GUI.outputText('engulf her maw in slime.');
   else GUI.outputText('put a ' + liveData.player.foot() + ' on her head.');
   GUI.outputText(
     ' She falls silent and you say. "<i>Very well. From now on I am your one and only ' +
@@ -5141,7 +5141,7 @@ export function rapeCorruptAmily4Female() {
 
   GUI.outputText('Her words please you, and you ');
   if (liveData.player.isNaga()) GUI.outputText('coil your serpentine tail around her head.');
-  else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_GOO) GUI.outputText('engulf her maw in slime.');
+  else if (liveData.player.lowerBody == ENUM.LowerBodyType.GOO) GUI.outputText('engulf her maw in slime.');
   else GUI.outputText('put a ' + liveData.player.foot() + ' on her head.');
   GUI.outputText(
     '  She falls silent and you say, "<i>Very well. From now on I am your one and only mistress. You will address me as such, always. My word is law, and you shall do whatever I tell you to, whenever I tell you to. Rise, it\'s time to break you into your new role as my cum-dumpster.</i>"<br><br>',
@@ -5202,8 +5202,7 @@ export function rapeCorruptAmily4Epilogue() {
   //Add corrupted amily flag here
   liveData.gameFlags[FLAG.AMILY_FOLLOWER] = 2;
   //Change to normal mouse pregnancy
-  if (liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_AMILY)
-    liveData.player.knockUpForce(ENUM.PregnancyType.PREGNANCY_MOUSE, liveData.player.pregnancyIncubation);
+  if (liveData.player.pregnancyType == ENUM.PregnancyType.AMILY) liveData.player.knockUpForce(ENUM.PregnancyType.MOUSE, liveData.player.pregnancyIncubation);
   //Set other flags if Amily is moving in for the first time
   //if (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00173] == 0) { //Corruption freakout flag. Not sure if we need to wrap it like this
   liveData.gameFlags[FLAG.AMILY_CUP_SIZE] = 5;
@@ -5215,7 +5214,7 @@ export function rapeCorruptAmily4Epilogue() {
   /*         
         //}
                 //if marble is there, tag it for freakout
-                if (player.findStatusEffect(StatusEffects.CampMarble) >= 0) {
+                if (player.findStatusEffect(liveData.StatusEffects.CampMarble) >= 0) {
                 flags[kFLAGS.MARBLE_OR_AMILY_FIRST_FOR_FREAKOUT] = 1;
                 }
                 else flags[kFLAGS.MARBLE_OR_AMILY_FIRST_FOR_FREAKOUT] = 2;
@@ -5234,10 +5233,10 @@ export function amilyCanHaveTFNow() {
   return !!(
     liveData.gameFlags[FLAG.AMILY_NOT_FURRY] == 0 &&
     liveData.gameFlags[FLAG.AMILY_OFFERED_DEFURRY] == 1 &&
-    liveData.player.hasItem(Items.Consumables.GoldenSeed) &&
-    (liveData.player.hasItem(Items.Consumables.LargeBlackEgg) || liveData.player.hasItem(Items.Consumables.BlackEgg)) &&
-    (liveData.player.hasItem(Items.Consumables.SuccubiMilkPurified) || (amilyCorrupt() == true && liveData.player.hasItem(Items.Consumables.SuccubiMilk))) ==
-      true
+    liveData.player.hasItem(liveData.Items.Consumables.GoldenSeed) &&
+    (liveData.player.hasItem(liveData.Items.Consumables.LargeBlackEgg) || liveData.player.hasItem(liveData.Items.Consumables.BlackEgg)) &&
+    (liveData.player.hasItem(liveData.Items.Consumables.SuccubiMilkPurified) ||
+      (amilyCorrupt() == true && liveData.player.hasItem(liveData.Items.Consumables.SuccubiMilk))) == true
   );
 }
 
@@ -5246,13 +5245,13 @@ export function amilyCanHaveTFNow() {
 export function amilyDefurrify() {
   // Figure out how to consume items
 
-  liveData.player.destroyItems(Items.Consumables.GoldenSeed, 1);
-  if (liveData.player.hasItem(Items.Consumables.BlackEgg)) liveData.player.destroyItems(Items.Consumables.BlackEgg, 1);
-  else liveData.player.destroyItems(Items.Consumables.LargeBlackEgg, 1);
+  liveData.player.destroyItems(liveData.Items.Consumables.GoldenSeed, 1);
+  if (liveData.player.hasItem(liveData.Items.Consumables.BlackEgg)) liveData.player.destroyItems(liveData.Items.Consumables.BlackEgg, 1);
+  else liveData.player.destroyItems(liveData.Items.Consumables.LargeBlackEgg, 1);
   if (amilyCorrupt()) {
-    if (liveData.player.hasItem(Items.Consumables.SuccubiMilk)) liveData.player.destroyItems(Items.Consumables.SuccubiMilk, 1);
-    else liveData.player.destroyItems(Items.Consumables.SuccubiMilkPurified);
-  } else liveData.player.destroyItems(Items.Consumables.SuccubiMilkPurified);
+    if (liveData.player.hasItem(liveData.Items.Consumables.SuccubiMilk)) liveData.player.destroyItems(liveData.Items.Consumables.SuccubiMilk, 1);
+    else liveData.player.destroyItems(liveData.Items.Consumables.SuccubiMilkPurified);
+  } else liveData.player.destroyItems(liveData.Items.Consumables.SuccubiMilkPurified);
   liveData.gameFlags[FLAG.AMILY_OFFERED_DEFURRY] = 2; // We're now completing this dumb little quest.
   liveData.gameFlags[FLAG.AMILY_NOT_FURRY] = 1;
   liveData.gameFlags[FLAG.AMILY_OFFER_ACCEPTED] = 1;
@@ -5390,7 +5389,7 @@ export function amilyBecomesFollower() {
   // liveData.gameFlags[FLAG.AMILY_CLOTHING] = "rags"
   //if marble is there, tag it for freakout
   /*
-                //if (player.findStatusEffect(StatusEffects.CampMarble) >= 0) {
+                //if (player.findStatusEffect(liveData.StatusEffects.CampMarble) >= 0) {
                 //    flags[kFLAGS.MARBLE_OR_AMILY_FIRST_FOR_FREAKOUT] = 1;
                 //}
                 //else flags[kFLAGS.MARBLE_OR_AMILY_FIRST_FOR_FREAKOUT] = 2;

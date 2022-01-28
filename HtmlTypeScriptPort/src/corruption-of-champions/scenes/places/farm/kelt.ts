@@ -80,12 +80,12 @@
 //             //     return
 //             // }
 //             // //Naked event if its time for it
-//             // if (liveData.gameFlags[FLAG.KELT_MET] == 4 && liveData.player.findStatusEffect(StatusEffects.NakedOn) < 0) {
+//             // if (liveData.gameFlags[FLAG.KELT_MET] == 4 && liveData.player.findStatusEffect(liveData.StatusEffects.NakedOn) < 0) {
 //             //     this.keltRequiresNakedness()
 //             //     return
 //             // }
 //             // //60+ Submissiveness—First Time Blowjob Requirement
-//             // if (liveData.player.statusEffectv2(StatusEffects.Kelt) >= 40 && liveData.player.findStatusEffect(StatusEffects.KeltBJ) < 0) {
+//             // if (liveData.player.statusEffectv2(liveData.StatusEffects.Kelt) >= 40 && liveData.player.findStatusEffect(liveData.StatusEffects.KeltBJ) < 0) {
 //             //     this.keltRequiresBlowjobs()
 //             //     return
 //             // }
@@ -144,7 +144,7 @@
 //     static keltMainEncounterAfterNakedReq() {
 //         //After naked requirement
 //         //(Naked On)
-//         if (liveData.player.findStatusEffect(StatusEffects.NakedOn) >= 0) {
+//         if (liveData.player.findStatusEffect(liveData.StatusEffects.NakedOn) >= 0) {
 //             GUI.outputText(
 //                 "He nods, smirking slightly, and gestures at your clothes impatiently. With some pleasure, you strip down before him, discarding your clothes with a little flair. Kelt is grinning by the end, openly admiring your body, and you feel a little more aroused for obeying his dominant command.\r\r"
 //             )
@@ -162,7 +162,7 @@
 //                     )
 //                     if ((liveData.player.cor + liveData.player.lib + liveData.player.lust >= 220 && liveData.player.inte < 40) || liveData.gameFlags[FLAG.KELT_SUBMISSIVENESS] >= 70) {
 //                         GUI.outputText(" <b>With a lusty smile, you decide to ALWAYS get naked before practicing.</b>")
-//                         //player.createStatusEffect(StatusEffects.NakedOn,0,0,0,0);
+//                         //player.createStatusEffect(liveData.StatusEffects.NakedOn,0,0,0,0);
 //                     }
 //                     GUI.outputText("\r\r")
 //                     //[+5 Submissive])
@@ -190,7 +190,7 @@
 //                     )
 //                     if ((liveData.player.cor + liveData.player.lib + liveData.player.lust >= 220 && liveData.player.inte < 40) || liveData.gameFlags[FLAG.KELT_SUBMISSIVENESS] >= 75) {
 //                         GUI.outputText(" <b>You cast a seductive smile Kelt's way and decide you should always strip before practice</b>.")
-//                         liveData.player.createStatusEffect(StatusEffects.NakedOn, 0, 0, 0, 0)
+//                         liveData.player.createStatusEffect(liveData.StatusEffects.NakedOn, 0, 0, 0, 0)
 //                     }
 //                     GUI.outputText("\r\r")
 //                     liveData.player.changeLust(liveData.player.lib / 10 + 5, false)
@@ -218,7 +218,7 @@
 //             GUI.outputText("Together, the two of you head off to the practice field.\r\r")
 //         }
 //         //IF BLOWJOB HAS HAPPENED ALREADY, chances to repeat
-//         if (liveData.player.statusEffectv2(StatusEffects.Kelt) >= 60 && UTIL.rand(4) == 0 && liveData.player.findStatusEffect(StatusEffects.KeltBJ) >= 0) {
+//         if (liveData.player.statusEffectv2(liveData.StatusEffects.Kelt) >= 60 && UTIL.rand(4) == 0 && liveData.player.findStatusEffect(liveData.StatusEffects.KeltBJ) >= 0) {
 //             this.keltMainEncounterPostBlowjob()
 //             return
 //         }
@@ -228,7 +228,7 @@
 //     static keltMainEncounter3() {
 //         var temporary = 0
 //         //(Clothed)
-//         if (liveData.player.findStatusEffect(StatusEffects.NakedOn) < 0) {
+//         if (liveData.player.findStatusEffect(liveData.StatusEffects.NakedOn) < 0) {
 //             GUI.outputText(
 //                 "Kelt is arrogant, crude, and all too often cruel as he mocks your attempts at archery again and again. Despite all this, however, he obviously does know what he's doing. You try to ignore his insults and lewd comments as best as you can and focus on the archery. In the end, you feel you've learned a lot, though Kelt remains snide.\r\r"
 //             )
@@ -244,8 +244,8 @@
 //                 if (liveData.player.race() != "centaur") GUI.outputText("\"<i>If you were a centaur, I'd recommend suicide. Since you're a " + liveData.player.race() + ", I'd say your best option is to fuck off.</i>\"\r\r")
 //                 else GUI.outputText("\"<i>As a centaur, I'd recommend suicide. Really, it's that or man the fuck up.</i>\"\r\r")
 //             }
-//             //player.addStatusValue(StatusEffects.Kelt,1,5+UTIL.rand(4));
-//             if (liveData.player.statusEffectv1(StatusEffects.Kelt) < 90) bowSkill(5 + UTIL.rand(4))
+//             //player.addStatusValue(liveData.StatusEffects.Kelt,1,5+UTIL.rand(4));
+//             if (liveData.player.statusEffectv1(liveData.StatusEffects.Kelt) < 90) bowSkill(5 + UTIL.rand(4))
 //             else bowSkill(1)
 //         }
 //         //NAKERS
@@ -269,12 +269,12 @@
 //                     "Kelt's forelegs rear up just enough to plant them around your shoulders, his massive weight bearing down on you. The bale of hay lifts you just high enough to line up with his fat erection, which presses between your asscheeks even now.\r\r"
 //                 )
 //                 //(Submissive, 0-30:
-//                 if (liveData.player.statusEffectv2(StatusEffects.Kelt) <= 30)
+//                 if (liveData.player.statusEffectv2(liveData.StatusEffects.Kelt) <= 30)
 //                     GUI.outputText(
 //                         "You struggle as best as you can, but Kelt weighs a good deal more than you do. As his thrusting hips anxiously press his cock to your nether-lips, you realize this is going to happen, whether you want it to or not. The thought fills you with an undeniable shiver of pleasure.\r\r"
 //                     )
 //                 //(Submissive, 30-70:
-//                 else if (liveData.player.statusEffectv2(StatusEffects.Kelt) <= 70)
+//                 else if (liveData.player.statusEffectv2(liveData.StatusEffects.Kelt) <= 70)
 //                     GUI.outputText(
 //                         "You put forth a token effort to escape, but it is obvious from the beginning that there is no way to get out from under the heavy weight of the centaur. Besides, the desire running through you is palpable... in a way, you want this to happen. So much so that as Kelt is thrusting, trying to line up his cock, you raise your hips to help him out, silently longing for penetration.\r\r"
 //                     )
@@ -309,12 +309,12 @@
 //                     "\"<i>Not too bad, not too bad! You make for a pretty decent fuck! Maybe after you bear a couple of my foals, I'll add you to my harem. You'd like that, wouldn't you? You just can't wait to get a bellyful of centaurs, can you?</i>\"\r\r"
 //                 )
 //                 //(Submissive, 0-30:
-//                 if (liveData.player.statusEffectv2(StatusEffects.Kelt) <= 30)
+//                 if (liveData.player.statusEffectv2(liveData.StatusEffects.Kelt) <= 30)
 //                     GUI.outputText(
 //                         "You shiver and groan, unable to help yourself. It is clear that Kelt has every intention of breeding you, and you are helpless to stop the urges of your body. Terrifying images of being raped daily by this cruel beast fill your head... of your belly swelling with his young again and again. You let out a moaning cry, and orgasm helplessly even as Kelt laughs.\r\r"
 //                     )
 //                 //(Submissive, 30-70:
-//                 else if (liveData.player.statusEffectv2(StatusEffects.Kelt) <= 70)
+//                 else if (liveData.player.statusEffectv2(liveData.StatusEffects.Kelt) <= 70)
 //                     GUI.outputText(
 //                         "The thought of that fills you with a dreadful shiver of lust, from your head to your toes. Your body longs to be bred, again and again, and the idea of submitting to this powerful creature is so powerfully erotic that you cum on the spot, orgasming with delightful abandon. The thought of being this centaur's breeding slave feels so right!\r\r"
 //                     )
@@ -335,7 +335,7 @@
 //                 liveData.player.orgasm()
 //                 GUI.outputText("He leaves you without another word.")
 //                 //(+5 Submissive)
-//                 liveData.player.addStatusValue(StatusEffects.Kelt, 2, 5)
+//                 liveData.player.addStatusValue(liveData.StatusEffects.Kelt, 2, 5)
 //                 //(Pregnancy Chance)
 //                 // liveData.player.knockUp(PregnancyStore.PREGNANCY_KELT, PregnancyStore.INCUBATION_CENTAUR, 50)
 //                 //Should be equivalent to the old way, but now Kelt does all the usual things like checking for contraceptives and fertilizing eggs if PC can oviposit
@@ -349,12 +349,12 @@
 //                     "The lesson proceeds as normal, with you taking shots while Kelt arrogantly critiques your style, tossing out colorful and creative insults whenever possible. He has no shame about mocking your body as much as he laughs at your archery, and makes several crude comments about what it might be good for."
 //                 )
 //                 //(Submissive, 0-30:
-//                 if (liveData.player.statusEffectv2(StatusEffects.Kelt) <= 30)
+//                 if (liveData.player.statusEffectv2(liveData.StatusEffects.Kelt) <= 30)
 //                     GUI.outputText(
 //                         "You try to ignore the foul remarks, telling yourself that this is simply the way he is. It does not help, though, that at times you feel Kelt's eyes wandering across you lustfully. At least some of his comments are not mockeries, but suggestions. The entire experience makes you feel a little more uncomfortable around the abusive centaur."
 //                     )
 //                 //(Submissive, 30-70:
-//                 else if (liveData.player.statusEffectv2(StatusEffects.Kelt) <= 70)
+//                 else if (liveData.player.statusEffectv2(liveData.StatusEffects.Kelt) <= 70)
 //                     GUI.outputText(
 //                         "Despite yourself, some of his cruder comments make you blush. By now, you're getting used to the oft times depraved sexuality of the demon world... but it is a little humiliating to subject yourself to this kind of treatment... and, to your shame, sometimes it's a little arousing. Though Kelt is insulting, cruel, and crude, you also notice real lust in some of his glances. By the end of the lesson, you are flushed with arousal as well as exertion."
 //                     )
@@ -364,8 +364,8 @@
 //                         "Of course, Kelt's words only distract you even more from hitting the target. Not because you are angry... but because you are aroused. Somehow, his lewd comments and crude jibes make you shiver with anticipation. He's just so powerful, so masculine. Kelt seems well aware of the effect he has on you, and once reaches out to slap your ass heartily. By the end of the training, you feel intensely horny."
 //                     )
 //                 liveData.player.changeLust(10)
-//                 //player.addStatusValue(StatusEffects.Kelt,1,4);
-//                 if (liveData.player.statusEffectv1(StatusEffects.Kelt) < 90) bowSkill(4)
+//                 //player.addStatusValue(liveData.StatusEffects.Kelt,1,4);
+//                 if (liveData.player.statusEffectv1(liveData.StatusEffects.Kelt) < 90) bowSkill(4)
 //                 else bowSkill(1)
 //                 GUI.doNext(Camp.returnToCampUseOneHour)
 //                 return
@@ -413,16 +413,16 @@
 //                     GUI.outputText('"<i>Not bad, for a cow. You certainly seemed to enjoy it too.</i>"\r\r')
 //                     GUI.outputText("Even released, your teat continues to drizzle slightly, spilling your milk shamefully on the ground as Kelt continues to squeeze your breasts.\r\r")
 //                     //You've now been milked, reset the timer for that
-//                     liveData.player.addStatusValue(StatusEffects.Feeder, 1, 1)
-//                     liveData.player.changeStatusValue(StatusEffects.Feeder, 2, 0)
+//                     liveData.player.addStatusValue(liveData.StatusEffects.Feeder, 1, 1)
+//                     liveData.player.changeStatusValue(liveData.StatusEffects.Feeder, 2, 0)
 //                 }
 //                 GUI.outputText("\"<i>Take it from me, bitch. Know your place. Breasts are for women, and women are for fucking until their bellies are full of foals. 'Teach me archery, Kelt!' Ha! Now that's a joke.</i>\"\r\r")
 //                 GUI.outputText("Flicking your erect teats painfully one last time, Kelt walks away, laughing loudly to himself.")
 //                 GUI.doNext(Camp.returnToCampUseOneHour)
 //                 //(+5 Submissive)
-//                 liveData.player.addStatusValue(StatusEffects.Kelt, 2, 5)
-//                 //player.addStatusValue(StatusEffects.Kelt,1,4);
-//                 if (liveData.player.statusEffectv1(StatusEffects.Kelt) < 90) bowSkill(4)
+//                 liveData.player.addStatusValue(liveData.StatusEffects.Kelt, 2, 5)
+//                 //player.addStatusValue(liveData.StatusEffects.Kelt,1,4);
+//                 if (liveData.player.statusEffectv1(liveData.StatusEffects.Kelt) < 90) bowSkill(4)
 //                 else bowSkill(1)
 //                 return
 //             }
@@ -453,8 +453,8 @@
 //                 //(+5 Submissive)
 //                 liveData.player.changeLust(15, false)
 //                 liveData.gameFlags[FLAG.KELT_SUBMISSIVENESS] += 5
-//                 //player.addStatusValue(StatusEffects.Kelt,1,4);
-//                 if (liveData.player.statusEffectv1(StatusEffects.Kelt) < 90) bowSkill(4)
+//                 //player.addStatusValue(liveData.StatusEffects.Kelt,1,4);
+//                 if (liveData.player.statusEffectv1(liveData.StatusEffects.Kelt) < 90) bowSkill(4)
 //                 else bowSkill(1)
 //                 bowSkill(4)
 //                 GUI.doNext(Camp.returnToCampUseOneHour)
@@ -466,7 +466,7 @@
 
 //     static keltMainEncounterPostBlowjob() {
 //         //(Blowjob Requirement On)
-//         if (liveData.player.findStatusEffect(StatusEffects.BlowjobOn) >= 0) {
+//         if (liveData.player.findStatusEffect(liveData.StatusEffects.BlowjobOn) >= 0) {
 //             //(Submissiveness 75+, Lust 60+)
 //             if (liveData.player.lust >= 75 || (liveData.gameFlags[FLAG.KELT_SUBMISSIVENESS] >= 90 && UTIL.rand(2) == 0)) {
 //                 //GUI.outputText(images.showImage("kelt-farm-smallbarn"));
@@ -628,7 +628,7 @@
 //         GUI.outputText("To your surprise, however, Kelt does not seem particularly bothered. In fact, he laughs as you leave.\r\r")
 //         GUI.outputText('"<i>Keep fooling yourself, bitch. I\'ll be waiting when you get hungry.</i>" \r\rKelt leaves, refusing to teach you now.')
 //         //(-5 Submissiveness)
-//         liveData.player.addStatusValue(StatusEffects.Kelt, 2, -5)
+//         liveData.player.addStatusValue(liveData.StatusEffects.Kelt, 2, -5)
 //         liveData.player.changeLust(5, false)
 //         GUI.doNext(Camp.returnToCampUseOneHour)
 //     }
@@ -638,8 +638,8 @@
 //         GUI.clearOutput()
 //         GUI.outputText("\"<i>There we go. Who's a good little whore? Who's a hungry little slut? Okay, bitch... time to fill that belly of yours. Open wide.</i>\"\r\r")
 //         GUI.outputText("Reluctantly, with shame burning in your cheeks and desire ravaging your mind, you lower yourself before him and do just that.\r\r")
-//         if (liveData.player.statusEffectv2(StatusEffects.Kelt) >= 90) {
-//             liveData.player.createStatusEffect(StatusEffects.BlowjobOn, 0, 0, 0, 0)
+//         if (liveData.player.statusEffectv2(liveData.StatusEffects.Kelt) >= 90) {
+//             liveData.player.createStatusEffect(liveData.StatusEffects.BlowjobOn, 0, 0, 0, 0)
 //         }
 //         this.keltReluctantGivingBJ()
 //         GUI.doNext(this.continueAfterBJ)

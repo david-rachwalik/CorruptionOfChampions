@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, UTIL, Data, FLAG, Creature, Items, COMBAT, PerkLib, Camp } from 'coc';
+import { liveData, ENUM, GUI, UTIL, Data, FLAG, Creature, COMBAT, Camp } from 'coc';
 
 /**
  * Ported by matraia on 10/7/16.
@@ -64,7 +64,7 @@ export class WormMass extends Creature {
     this.XP = 0;
     this.gems = 0;
     //Battle variables
-    this.weapon = Items.NOTHING;
+    this.weapon = liveData.Items.NOTHING;
     this.weapon.equipmentName = 'worm';
     this.weapon.verb = 'slap';
     this.armor.equipmentName = 'skin';
@@ -99,16 +99,16 @@ export class WormMass extends Creature {
     this.femininity = 50;
     this.tone = 0;
     this.thickness = 0;
-    this.hipRating = ENUM.HipRatingType.HIP_RATING_SLENDER;
-    this.buttRating = ENUM.ButtRatingType.BUTT_RATING_BUTTLESS;
+    this.hipRating = ENUM.HipRatingType.SLENDER;
+    this.buttRating = ENUM.ButtRatingType.BUTTLESS;
 
     //Sexual Characteristics
     //Cocks
 
     //Ass
     // this.ass = new Ass()
-    this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_VIRGIN;
-    this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_DRY;
+    this.ass.analLooseness = ENUM.AnalLoosenessType.VIRGIN;
+    this.ass.analWetness = ENUM.AnalWetnessType.DRY;
     //Breasts
     this.createBreastRow(0, 0);
 
@@ -146,7 +146,7 @@ export class WormMass extends Creature {
       return;
     }
     //Evade
-    if (liveData.player.findPerk(PerkLib.Evade) >= 0 && UTIL.rand(100) < 10) {
+    if (liveData.player.findPerk(liveData.PerkLib.Evade) >= 0 && UTIL.rand(100) < 10) {
       GUI.outputText('Using your skills at evading attacks, you anticipate and sidestep ' + this.a + this.name + "' attacks.<br>");
       return;
     }
@@ -371,13 +371,13 @@ export function wormsRun() {
     GUI.outputText("The ceaseless squirming of your uninvited guests send your body into paroxysms. Collapsing to your knees, you immediately begin pushing gouts of dick milk out of your body. You feel tremendous pressure in your pelvis and in your cock as you realize that you are pushing worms out with each torrent of cum! Stream upon stream of cum breaks free from the prison of your body, carrying some of the worms inside you with it. Once the orgasm passes, you collapse to the ground, totally spent. Before you pass out, you feel the unfortunate presence of the fat worm still in your body.", true);
     player.orgasm();
     //Check infestation and update it
-    if (player.findStatusEffect(StatusEffects.Infested) >= 0) {
+    if (player.findStatusEffect(liveData.StatusEffects.Infested) >= 0) {
     //Increment infestation number
-    if (player.statusEffectv1(StatusEffects.Infested) < 5) {
-    player.addStatusValue(StatusEffects.Infested,1,1);
+    if (player.statusEffectv1(liveData.StatusEffects.Infested) < 5) {
+    player.addStatusValue(liveData.StatusEffects.Infested,1,1);
     player.cumMultiplier+=0.5;
     //fifth time is the charm!
-    if (player.statusEffectv1(StatusEffects.Infested) == 5) {
+    if (player.statusEffectv1(liveData.StatusEffects.Infested) == 5) {
     //Futaz
     if (player.balls == 0) {
     GUI.outputText("\n\nAfter you empty yourself, you feel your body shift. The presence of the large worm is no longer discomforting. It is as if your seminal bladder has enlarged to accommodate the new thing inside you. Likewise, your ejaculations have become truly monstrous and the amount of worms you expel has also increased. You realize that the large worm has become a part of you and you can now <b>infest</b> your enemies much in the same manner as you have been infested, yourself. All you need now is some poor fool to overwhelm with your new 'pets'.", false);
@@ -419,7 +419,7 @@ export function wormsRun() {
     GUI.doNext(camp.returnToCampUseOneHour);
     return;
     }
-    if (monster.findStatusEffect(StatusEffects.TwuWuv) >= 0) {
+    if (monster.findStatusEffect(liveData.StatusEffects.TwuWuv) >= 0) {
     GUI.outputText("You expose yourself and attempt to focus on expelling your squirming pets toward Sheila but as you picture launching a flood of parasites from [eachCock], the fantasy she sent returns to you, breaking your concentration!  Your hand darts automatically to your crotch, stroking [oneCock] as you imagine unloading into her cunt... only with effort do you pull it away!\n\n");
     GUI.outputText("\"<i>Oh, my,</i>\" the demon teases.  \"<i>You don't have to masturbate yourself, [name]... I'll be happy to do it for you.</i>\"\n\n");
     dynStats("lus", 5 + player.sens/10, "resisted", false);
@@ -506,9 +506,9 @@ export function wormsRun() {
     GUI.outputText("\n\nYou relax in the afterglow, pondering just how you'll handle living with the constant desire, barely noticing the colony slinking off, freshly lubricated by your sexual fluids.  You drink into a lusty slumber, absently fingering [oneCock].");
     GUI.outputText("\n\n<b>You are infested, again!</b>");
     //Reinfest
-    if (player.findStatusEffect(StatusEffects.Infested) >= 0) {trace("BWUH?");}
+    if (player.findStatusEffect(liveData.StatusEffects.Infested) >= 0) {trace("BWUH?");}
     else {
-    player.createStatusEffect(StatusEffects.Infested,0,0,0,0);
+    player.createStatusEffect(liveData.StatusEffects.Infested,0,0,0,0);
     dynStats("cor", 0);
     }
     if (player.cor < 25) {

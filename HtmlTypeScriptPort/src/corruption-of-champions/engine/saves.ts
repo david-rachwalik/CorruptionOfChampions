@@ -1,4 +1,4 @@
-import { liveData, GameContext, GUI, UTIL, Player, ItemSlot, StatusEffect, MAIN, Perk, KeyItem, Camp } from 'coc';
+import { liveData, GameContext, GUI, Player, ItemSlot, StatusEffect, MAIN, Perk, KeyItem, Camp } from 'coc';
 
 // This code handles saving and loading of games. (Save State)
 export const totalSlots = 14;
@@ -258,8 +258,8 @@ export function loadGameObject(slot: string): boolean {
     // }
     liveData.player = saveData.player;
     //Manually set equipment
-    if (saveData.player.weapon != undefined) liveData.player.weapon = UTIL.lookupItem(saveData.player.weapon.id);
-    if (saveData.player.armor != undefined) liveData.player.armor = UTIL.lookupItem(saveData.player.armor.id);
+    if (saveData.player.weapon != undefined) liveData.player.weapon = liveData.lookupItem(saveData.player.weapon.id);
+    if (saveData.player.armor != undefined) liveData.player.armor = liveData.lookupItem(saveData.player.armor.id);
 
     //Set items
     liveData.player.itemSlots = [];
@@ -267,15 +267,15 @@ export function loadGameObject(slot: string): boolean {
       liveData.player.itemSlots.push(new ItemSlot());
     }
     for (let i = 0; i < saveData.player.itemSlots.length; i++) {
-      liveData.player.itemSlots[i].setItemAndQty(UTIL.lookupItem(saveData.player.itemSlots[i].id), saveData.player.itemSlots[i].quantity);
+      liveData.player.itemSlots[i].setItemAndQty(liveData.lookupItem(saveData.player.itemSlots[i].id), saveData.player.itemSlots[i].quantity);
     }
 
     //Perks
     liveData.player.perks = [];
     for (let i = 0; i < saveData.player.perks.length; i++) {
-      if (UTIL.lookupPerk(saveData.player.perks[i].id) == undefined) continue;
+      if (liveData.lookupPerk(saveData.player.perks[i].id) == undefined) continue;
       liveData.player.createPerk(
-        UTIL.lookupPerk(saveData.player.perks[i].id),
+        liveData.lookupPerk(saveData.player.perks[i].id),
         saveData.player.perks[i].value1,
         saveData.player.perks[i].value2,
         saveData.player.perks[i].value3,
@@ -287,7 +287,7 @@ export function loadGameObject(slot: string): boolean {
     liveData.player.statusEffects = [];
     for (let i = 0; i < saveData.player.statusEffects.length; i++) {
       liveData.player.createStatusEffect(
-        UTIL.lookupStatusEffects(saveData.player.statusEffects[i].id),
+        liveData.lookupStatusEffects(saveData.player.statusEffects[i].id),
         saveData.player.statusEffects[i].value1,
         saveData.player.statusEffects[i].value2,
         saveData.player.statusEffects[i].value3,

@@ -1,4 +1,4 @@
-import { liveData, ENUM, FLAG, UTIL, GUI, Creature, COMBAT, Items, StatusEffects, PerkLib } from 'coc';
+import { liveData, ENUM, FLAG, UTIL, GUI, Creature, COMBAT } from 'coc';
 
 /**
  * Created by aimozg on 04.01.14.
@@ -45,14 +45,14 @@ export class Hellhound extends Creature {
 
     //Appearance
     this.tallness = UTIL.rand(37) + 84;
-    this.hipRating = ENUM.HipRatingType.HIP_RATING_AVERAGE;
-    this.buttRating = ENUM.ButtRatingType.BUTT_RATING_AVERAGE + 1;
-    this.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG;
+    this.hipRating = ENUM.HipRatingType.AVERAGE;
+    this.buttRating = ENUM.ButtRatingType.AVERAGE + 1;
+    this.lowerBody = ENUM.LowerBodyType.DOG;
     this.skinTone = 'black';
-    this.skinType = ENUM.SkinType.SKIN_TYPE_FUR;
+    this.skinType = ENUM.SkinType.Fur;
     this.hairColor = 'red';
     this.hairLength = 3;
-    this.tailType = ENUM.TailType.TAIL_TYPE_DOG;
+    this.tailType = ENUM.TailType.DOG;
     //Sexual characteristics
     this.createBreastRow();
     this.createBreastRow();
@@ -62,18 +62,18 @@ export class Hellhound extends Creature {
     this.balls = 2;
     this.ballSize = 4;
     this.cumMultiplier = 5;
-    this.ass.analLooseness = ENUM.AnalLoosenessType.ANAL_LOOSENESS_STRETCHED;
-    this.ass.analWetness = ENUM.AnalWetnessType.ANAL_WETNESS_NORMAL;
-    this.createStatusEffect(StatusEffects.BonusACapacity, 30, 0, 0, 0);
+    this.ass.analLooseness = ENUM.AnalLoosenessType.STRETCHED;
+    this.ass.analWetness = ENUM.AnalWetnessType.NORMAL;
+    this.createStatusEffect(liveData.StatusEffects.BonusACapacity, 30, 0, 0, 0);
 
     //Drops
     this.clearDrops(); //Need to be called before populating the item arrays.
-    this.addDrop(Items.Consumables.CaninePepper, 30);
-    this.addDrop(Items.Consumables.CaninePepperBulby, 12);
-    this.addDrop(Items.Consumables.CaninePepperKnotty, 12);
-    this.addDrop(Items.Consumables.CaninePepperBlack, 12);
-    this.addDrop(Items.Consumables.CaninePepperDouble, 12);
-    this.addDrop(Items.Consumables.CaninePepperLarge, 12);
+    this.addDrop(liveData.Items.Consumables.CaninePepper, 30);
+    this.addDrop(liveData.Items.Consumables.CaninePepperBulby, 12);
+    this.addDrop(liveData.Items.Consumables.CaninePepperKnotty, 12);
+    this.addDrop(liveData.Items.Consumables.CaninePepperBlack, 12);
+    this.addDrop(liveData.Items.Consumables.CaninePepperDouble, 12);
+    this.addDrop(liveData.Items.Consumables.CaninePepperLarge, 12);
 
     //Victory/defeat
     this.victory = hellhoundWin;
@@ -100,7 +100,7 @@ export class Hellhound extends Creature {
   //comment in this function commented out in original code
   hellhoundFire() {
     //Blind dodge change
-    if (liveData.monster.findStatusEffect(StatusEffects.Blind) >= 0) {
+    if (liveData.monster.findStatusEffect(liveData.StatusEffects.Blind) >= 0) {
       GUI.outputText(
         UTIL.capitalize(liveData.monster.a) + liveData.monster.refName + " completely misses you with a wave of dark fire! Thank the gods it's blind!",
       );
@@ -114,12 +114,12 @@ export class Hellhound extends Creature {
         enemyAI();
         return;
         }*/
-    if (liveData.player.findPerk(PerkLib.Evade) >= 0 && liveData.player.spe >= 35 && UTIL.rand(3) != 0) {
+    if (liveData.player.findPerk(liveData.PerkLib.Evade) >= 0 && liveData.player.spe >= 35 && UTIL.rand(3) != 0) {
       GUI.outputText(
         "Both the hellhound's heads breathe in deeply before blasting a wave of dark fire at you.  You easily avoid the wave, diving to the side and making the most of your talents at evasion.",
       );
     } else if (
-      liveData.player.findPerk(PerkLib.Misdirection) >= 0 &&
+      liveData.player.findPerk(liveData.PerkLib.Misdirection) >= 0 &&
       UTIL.rand(100) < 20 &&
       liveData.player.armor.equipmentName == 'red, high-society bodysuit'
     ) {
@@ -129,7 +129,7 @@ export class Hellhound extends Creature {
           liveData.monster.refName +
           "'s fire.<br>",
       );
-    } else if (liveData.player.findPerk(PerkLib.Flexibility) >= 0 && liveData.player.spe > 30 && UTIL.rand(10) != 0) {
+    } else if (liveData.player.findPerk(liveData.PerkLib.Flexibility) >= 0 && liveData.player.spe > 30 && UTIL.rand(10) != 0) {
       GUI.outputText(
         "Both the hellhound's heads breathe in deeply before blasting a wave of dark fire at you.  You twist and drop with incredible flexibility, watching the fire blow harmlessly overhead.",
       );
@@ -145,7 +145,7 @@ export class Hellhound extends Creature {
   }
 
   hellhoundScent() {
-    if (liveData.player.findStatusEffect(StatusEffects.NoFlee) >= 0) {
+    if (liveData.player.findStatusEffect(liveData.StatusEffects.NoFlee) >= 0) {
       if (liveData.monster.spe == 100) {
         this.hellhoundFire();
         return;
@@ -158,7 +158,7 @@ export class Hellhound extends Creature {
       GUI.outputText(
         "The hellhound keeps his four eyes on you as he sniffs the ground where you were moments ago. He raises his heads back up and gives you a fiery grin - he seems to have acquired your scent!  It'll be hard to get away now...",
       );
-      liveData.player.createStatusEffect(StatusEffects.NoFlee, 0, 0, 0, 0);
+      liveData.player.createStatusEffect(liveData.StatusEffects.NoFlee, 0, 0, 0, 0);
     }
     COMBAT.combatRoundOver();
   }
@@ -230,7 +230,7 @@ export function hellhoundRapesPlayer() {
   GUI.outputText(
     'The heads of the hellhound grin with desire as he rises onto his hind legs. As the hellhound stands before you, your eyes widen at the sight of its equipment: a pair of eight-inch long black rods, one above the other, with a sack containing a quad of flaming balls underneath. As the hound swaggers closer, you gulp at the thought of what those fiery balls are going to be pumping into you. You are helpless against the hellhound as he pushes you onto your ',
   );
-  if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED) GUI.outputText('hocks and knees');
+  if (liveData.player.lowerBody == ENUM.LowerBodyType.HOOFED) GUI.outputText('hocks and knees');
   else GUI.outputText('hands and knees');
   GUI.outputText(
     ' and positions himself behind you. He grips you with his clawed hands on your shoulders and easily holds you in place. The powerful creature is easily able to get past your ' +
@@ -239,7 +239,7 @@ export function hellhoundRapesPlayer() {
       liveData.player.buttDescript() +
       '.  A shudder shoots through your body as he brings his two heads down to either side of your own, his hot canine breath blowing past your ears. He stays there for a few moments, completely still... before suddenly pulling his heads back and ',
   );
-  if (liveData.player.vaginas.length > 0 && liveData.player.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_NAGA)
+  if (liveData.player.vaginas.length > 0 && liveData.player.lowerBody != ENUM.LowerBodyType.NAGA)
     GUI.outputText('slamming his twin dicks into your ' + liveData.player.vaginaDescript(0) + ' and your ' + liveData.player.assholeDescript() + '.  ');
   else
     GUI.outputText(
@@ -249,7 +249,7 @@ export function hellhoundRapesPlayer() {
         liveData.player.buttDescript() +
         '.  ',
     );
-  if (liveData.player.vaginas.length > 0 && liveData.player.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_NAGA) {
+  if (liveData.player.vaginas.length > 0 && liveData.player.lowerBody != ENUM.LowerBodyType.NAGA) {
     if (liveData.player.vaginalCapacity() < liveData.monster.cockArea(0))
       GUI.outputText(
         'You feel an intense mixture of sensations in your lower body as your ' +
@@ -270,7 +270,7 @@ export function hellhoundRapesPlayer() {
     if (liveData.player.cuntChange(liveData.monster.cockArea(0), false))
       GUI.outputText('The beast howls as your ' + liveData.player.vaginaDescript(0) + ' is stretched to accommodate the large shaft.  ');
     GUI.outputText('The hellhound pants for a few seconds before continuing.  ');
-    if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.VAGINA_WETNESS_WET)
+    if (liveData.player.vaginas[0].vaginalWetness < ENUM.VaginalWetnessType.WET)
       GUI.outputText('The pause gives your ' + liveData.player.vaginaDescript(0) + " time to moisten, ensuring the next thrust won't be quite as rough.  ");
     GUI.outputText(
       'This time the beast starts pumping in and out more gently, only a short distance at a time as the hellhound continues panting.  As the pain in your ' +
@@ -298,7 +298,7 @@ export function hellhoundRapesPlayer() {
           ' a single extended lick with his long dog-like tongue before he runs off. You quickly look over and manage to catch a glimpse of its tail before it disappears from view, just before your body falls into a deep sleep. When you wake, you can still feel the afterglow of the hot seed inside you.',
       );
     //Preggers chance!
-    liveData.player.knockUp(ENUM.PregnancyType.PREGNANCY_HELL_HOUND, ENUM.IncubationType.INCUBATION_HELL_HOUND, 101);
+    liveData.player.knockUp(ENUM.PregnancyType.HELL_HOUND, ENUM.IncubationType.HELL_HOUND, 101);
   } else {
     GUI.outputText(
       'Your lower body explodes with pain as the hellhound forces himself in too quickly for your ' +
@@ -516,7 +516,7 @@ export function hellhoundGetsRaped() {
     //increase lust by 30, corruption by 6, and libido by 3
     dynStats("lib", 3, "lus", 30, "cor", 6);
     //player gains hellfire perk.  Hellfire deals physical damage to completely pure foes, lust damage to completely corrupt foes, and a mix for those in between.  Its power is based on the PC's corruption and level.  Appearance is slightly changed to mention that the PC's eyes and mouth occasionally show flicks of fire from within them, text could possibly vary based on corruption.
-    if (player.findPerk(PerkLib.Hellfire) < 0) player.createPerk(PerkLib.Hellfire, 0, 0, 0, 0);
+    if (player.findPerk(liveData.PerkLib.Hellfire) < 0) player.createPerk(liveData.PerkLib.Hellfire, 0, 0, 0, 0);
     //Hellhounds no longer encounterable.
     flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00141]++;
     GUI.doNext(camp.returnToCampUseOneHour);
@@ -643,7 +643,7 @@ export function hellhoundPropahRape() {
     liveData.player.cuntChange(liveData.monster.cockArea(0), true, false, true);
     liveData.player.buttChange(liveData.monster.cockArea(1), true, false, true);
     // --- CORRUPTION < 40 (and not masocistic - I lost track if there is such a perk) ---
-    if (liveData.player.cor < 40 && liveData.player.findPerk(PerkLib.Masochist) < 0) {
+    if (liveData.player.cor < 40 && liveData.player.findPerk(liveData.PerkLib.Masochist) < 0) {
       GUI.outputText(
         "As you bottom out on his sheath, you lean forward to engulf more of his hot cocks inside you. The hellhound enjoys the treatment you are giving him. As a result, the flames along his eyes and snout flicker back to life. Just as your hardening clit presses against the top of his ballsack, the hellhound's natural flames lick across your sex. The magical fire fills you with arousal, but also applies intense pain to your most sensitive spot. You practically jump off the corrupt creature, pulling the dicks from your holes in great speed. Nearly blacking out from the sensations, you cover your burnt button, not daring to touch it. You curse the creature, loudly swearing at the hellhound. In your fury, you barely notice that he looks disappointed and maybe even somewhat sorry.",
       );
@@ -733,7 +733,7 @@ export function hellhoundPropahRape() {
     //[if corrupt]
     else liveData.player.dynStats(['cor', 1.5]);
     //Preggers chance!
-    liveData.player.knockUp(ENUM.PregnancyType.PREGNANCY_HELL_HOUND, ENUM.IncubationType.INCUBATION_HELL_HOUND, 101);
+    liveData.player.knockUp(ENUM.PregnancyType.HELL_HOUND, ENUM.IncubationType.HELL_HOUND, 101);
   }
   COMBAT.cleanupAfterCombat();
 }

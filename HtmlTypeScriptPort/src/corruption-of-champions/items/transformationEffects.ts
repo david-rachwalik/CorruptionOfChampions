@@ -1,4 +1,4 @@
-import { liveData, ENUM, GUI, UTIL, FLAG, PerkLib, Appearance, StatusEffects, COMBAT } from 'coc';
+import { liveData, ENUM, GUI, UTIL, FLAG, Appearance, COMBAT } from 'coc';
 
 export function beeTFs(type: number): void {
   const pure = type == 1;
@@ -9,8 +9,8 @@ export function beeTFs(type: number): void {
   if (UTIL.rand(2) == 0) changeLimit++;
   if (UTIL.rand(2) == 0) changeLimit++;
   if (UTIL.rand(2) == 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.HistoryAlchemist) >= 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.TransformationResistance) >= 0) changeLimit--;
+  if (liveData.player.findPerk(liveData.PerkLib.HistoryAlchemist) >= 0) changeLimit++;
+  if (liveData.player.findPerk(liveData.PerkLib.TransformationResistance) >= 0) changeLimit--;
   //Drink text
   if (special) {
     GUI.outputText(
@@ -24,7 +24,7 @@ export function beeTFs(type: number): void {
   }
   liveData.player.slimeFeed();
   liveData.player.refillHunger(15);
-  if ((pure || special) && liveData.player.pregnancyType == ENUM.PregnancyType.PREGNANCY_FAERIE) {
+  if ((pure || special) && liveData.player.pregnancyType == ENUM.PregnancyType.FAERIE) {
     //Pure or special honey can reduce the corruption of a phouka baby
     if (liveData.gameFlags[FLAG.PREGNANCY_CORRUPTION] > 1) {
       //Child is phouka, hates pure honey
@@ -113,31 +113,31 @@ export function beeTFs(type: number): void {
     if (liveData.player.bRows() >= 3) GUI.outputText('abdomen');
     else GUI.outputText('chest');
     GUI.outputText('. The ' + liveData.player.nippleDescript(liveData.player.breastRows.length - 1) + 's even fade until nothing but ');
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR) GUI.outputText(liveData.player.hairColor + ' ' + liveData.player.skinDesc);
+    if (liveData.player.skinType == ENUM.SkinType.Fur) GUI.outputText(liveData.player.hairColor + ' ' + liveData.player.skinDesc);
     else GUI.outputText(liveData.player.skinTone + ' ' + liveData.player.skinDesc);
     GUI.outputText(" remains. <b>You've lost a row of breasts!</b>");
     liveData.player.modStats(['sen', -5]);
     liveData.player.removeBreastRow(liveData.player.breastRows.length - 1, 1);
   }
   //Antennae
-  if (changes < changeLimit && liveData.player.antennae == ENUM.AntennaeType.ANTENNAE_NONE && liveData.player.horns == 0 && UTIL.rand(3) == 0) {
+  if (changes < changeLimit && liveData.player.antennae == ENUM.AntennaeType.NONE && liveData.player.horns == 0 && UTIL.rand(3) == 0) {
     GUI.outputText('<br><br>Your head itches momentarily as two floppy antennae sprout from your ' + liveData.player.hairDescript() + '.');
-    liveData.player.antennae = ENUM.AntennaeType.ANTENNAE_BEE;
+    liveData.player.antennae = ENUM.AntennaeType.BEE;
     changes++;
   }
   //Horns
   if (changes < changeLimit && liveData.player.horns > 0 && UTIL.rand(3) == 0) {
     liveData.player.horns = 0;
-    liveData.player.hornType = ENUM.HornType.HORNS_NONE;
+    liveData.player.hornType = ENUM.HornType.NONE;
     GUI.outputText('<br><br>Your horns crumble, falling apart in large chunks until they flake away to nothing.');
     changes++;
   }
   //Bee Legs
-  if (changes < changeLimit && liveData.player.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_BEE && UTIL.rand(4) == 0) {
+  if (changes < changeLimit && liveData.player.lowerBody != ENUM.LowerBodyType.BEE && UTIL.rand(4) == 0) {
     GUI.outputText(
       "<br><br>Your legs tremble with sudden unbearable pain, as if they're being ripped apart from the inside out and being stitched together again all at once. You scream in agony as you hear bones snapping and cracking. A moment later the pain fades and you are able to turn your gaze down to your beautiful new legs, covered in shining black chitin from the thigh down, and downy yellow fuzz along your upper thighs.",
     );
-    liveData.player.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_BEE;
+    liveData.player.lowerBody = ENUM.LowerBodyType.BEE;
     liveData.player.legCount = 2;
     changes++;
   }
@@ -161,25 +161,25 @@ export function beeTFs(type: number): void {
   //Gain oviposition!
   if (
     changes < changeLimit &&
-    liveData.player.findPerk(PerkLib.BeeOvipositor) < 0 &&
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_BEE_ABDOMEN &&
+    liveData.player.findPerk(liveData.PerkLib.BeeOvipositor) < 0 &&
+    liveData.player.tailType == ENUM.TailType.BEE_ABDOMEN &&
     UTIL.rand(2) == 0
   ) {
     GUI.outputText(
       "<br><br>An odd swelling starts in your insectile abdomen, somewhere along the underside. Curling around, you reach back to your extended, bulbous bee part and run your fingers along the underside. You gasp when you feel a tender, yielding slit near the stinger. As you probe this new orifice, a shock of pleasure runs through you, and a tubular, black, semi-hard appendage drops out, pulsating as heavily as any sexual organ. <b>The new organ is clearly an ovipositor!</b> A few gentle prods confirm that it's just as sensitive; you can already feel your internals changing, adjusting to begin the production of unfertilized eggs. You idly wonder what laying them with your new bee ovipositor will feel like...",
     );
     GUI.outputText('<br><br>(<b>Perk Gained: Bee Ovipositor - Allows you to lay eggs in your foes!</b>)');
-    liveData.player.createPerk(PerkLib.BeeOvipositor, 0, 0, 0, 0);
+    liveData.player.createPerk(liveData.PerkLib.BeeOvipositor, 0, 0, 0, 0);
     changes++;
   }
   //Bee butt - 66% lower chance if already has a tail
   if (
     changes < changeLimit &&
-    liveData.player.tailType != ENUM.TailType.TAIL_TYPE_BEE_ABDOMEN &&
-    (liveData.player.tailType == ENUM.TailType.TAIL_TYPE_NONE || UTIL.rand(1.5) == 0) &&
+    liveData.player.tailType != ENUM.TailType.BEE_ABDOMEN &&
+    (liveData.player.tailType == ENUM.TailType.NONE || UTIL.rand(1.5) == 0) &&
     UTIL.rand(4) == 0
   ) {
-    if (liveData.player.tailType > ENUM.TailType.TAIL_TYPE_NONE)
+    if (liveData.player.tailType > ENUM.TailType.NONE)
       GUI.outputText(
         '<br><br>Painful swelling just above your ' +
           liveData.player.buttDescript() +
@@ -191,13 +191,13 @@ export function beeTFs(type: number): void {
           liveData.player.buttDescript() +
           " doubles you over. It gets worse and worse as the swollen lump begins to protrude from your backside, swelling and rounding with a series of pops until you have a bulbous abdomen hanging just above your butt. The whole thing is covered in a hard chitinous material, and large enough to be impossible to hide. You sigh as your stinger slides into place with a 'snick', finishing the transformation. <b>You have a bee's abdomen.</b>",
       );
-    liveData.player.tailType = ENUM.TailType.TAIL_TYPE_BEE_ABDOMEN;
+    liveData.player.tailType = ENUM.TailType.BEE_ABDOMEN;
     liveData.player.tailVenom = 10;
     liveData.player.tailRecharge = 2;
     changes++;
   }
   //Venom Increase
-  if (changes < changeLimit && liveData.player.tailType == ENUM.TailType.TAIL_TYPE_BEE_ABDOMEN && liveData.player.tailRecharge < 15 && UTIL.rand(2)) {
+  if (changes < changeLimit && liveData.player.tailType == ENUM.TailType.BEE_ABDOMEN && liveData.player.tailRecharge < 15 && UTIL.rand(2)) {
     if (liveData.player.tailRecharge < 5) liveData.player.tailRecharge += 1;
     if (liveData.player.tailRecharge < 10) liveData.player.tailRecharge += 1;
     if (liveData.player.tailRecharge < 15) liveData.player.tailRecharge += 1;
@@ -210,9 +210,9 @@ export function beeTFs(type: number): void {
   }
   //Wings
   //Grow bigger bee wings!
-  if (changes < changeLimit && liveData.player.wingType == ENUM.WingType.WING_TYPE_BEE_LIKE_SMALL && UTIL.rand(4)) {
+  if (changes < changeLimit && liveData.player.wingType == ENUM.WingType.BEE_LIKE_SMALL && UTIL.rand(4)) {
     changes++;
-    liveData.player.wingType = ENUM.WingType.WING_TYPE_BEE_LIKE_LARGE;
+    liveData.player.wingType = ENUM.WingType.BEE_LIKE_LARGE;
     liveData.player.wingDesc = 'large bee-like';
     GUI.outputText(
       '<br><br>Your wings tingle as they grow, filling out until they are large enough to lift you from the ground and allow you to fly! <b>You now have large bee wings!</b> You give a few experimental flaps and begin hovering in place, a giddy smile plastered on your face by the thrill of flight.',
@@ -220,13 +220,9 @@ export function beeTFs(type: number): void {
   }
 
   //Grow new bee wings if player has none.
-  if (
-    changes < changeLimit &&
-    (liveData.player.wingType == ENUM.WingType.WING_TYPE_NONE || liveData.player.wingType == ENUM.WingType.WING_TYPE_SHARK_FIN) &&
-    UTIL.rand(4)
-  ) {
+  if (changes < changeLimit && (liveData.player.wingType == ENUM.WingType.NONE || liveData.player.wingType == ENUM.WingType.SHARK_FIN) && UTIL.rand(4)) {
     changes++;
-    if (liveData.player.wingType == ENUM.WingType.WING_TYPE_SHARK_FIN)
+    if (liveData.player.wingType == ENUM.WingType.SHARK_FIN)
       GUI.outputText(
         '<br><br>You feel an itching on your large back-fin as something begins growing there. You twist and contort yourself, trying to scratch and bring yourself relief, and failing miserably. A sense of relief erupts from you as you feel something new grow out from your fin. You hastily remove the top portion of your ' +
           liveData.player.armor.equipmentName +
@@ -242,19 +238,16 @@ export function beeTFs(type: number): void {
           liveData.player.armor.equipmentName +
           ' later and you are ready to continue your journey with <b>your new bee wings</b>.',
       );
-    liveData.player.wingType = ENUM.WingType.WING_TYPE_BEE_LIKE_SMALL;
+    liveData.player.wingType = ENUM.WingType.BEE_LIKE_SMALL;
     liveData.player.wingDesc = 'small bee-like';
   }
   //Melt demon wings!
-  if (
-    changes < changeLimit &&
-    (liveData.player.wingType == ENUM.WingType.WING_TYPE_BAT_LIKE_TINY || liveData.player.wingType == ENUM.WingType.WING_TYPE_BAT_LIKE_LARGE)
-  ) {
+  if (changes < changeLimit && (liveData.player.wingType == ENUM.WingType.BAT_LIKE_TINY || liveData.player.wingType == ENUM.WingType.BAT_LIKE_LARGE)) {
     changes++;
     GUI.outputText(
       "<br><br>Your demonic wings ripple, jelly-like. Worried, you crane back to look, and to your horror, they're melting away! Runnels of amber honey trail down the wings' edges, building into a steady flow. <b>In a moment, the only remnant of your wings is a puddle of honey in the dirt</b>. Even that is gone in seconds, wicked into the dry soil.",
     );
-    liveData.player.wingType = ENUM.WingType.WING_TYPE_NONE;
+    liveData.player.wingType = ENUM.WingType.NONE;
     liveData.player.wingDesc = '';
   }
   if (UTIL.rand(4) == 0 && liveData.player.gills && changes < changeLimit) {
@@ -385,8 +378,8 @@ export function canineTFs(type: number): void {
   let changeLimit = 1;
   if (UTIL.rand(2) == 0) changeLimit++;
   if (UTIL.rand(2) == 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.HistoryAlchemist) >= 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.TransformationResistance) >= 0) changeLimit--;
+  if (liveData.player.findPerk(liveData.PerkLib.HistoryAlchemist) >= 0) changeLimit++;
+  if (liveData.player.findPerk(liveData.PerkLib.TransformationResistance) >= 0) changeLimit--;
   //Initial outputs & crit level
   switch (type) {
     case 0: //Normal
@@ -417,11 +410,11 @@ export function canineTFs(type: number): void {
   //------------
   // BAD END
   //------------
-  /*if (type <= 0 && crit > 1 && player.skinType == ENUM.SkinType.SKIN_TYPE_FUR && player.faceType == ENUM.FaceType.FACE_DOG && player.earType == ENUM.EarType.EARS_DOG && player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG && player.tailType == ENUM.TailType.TAIL_TYPE_DOG && UTIL.rand(2) == 0 && player.findStatusAffect(StatusAffects.DogWarning) >= 0 && player.findPerk(PerkLib.TransformationResistance) < 0) {
+  /*if (type <= 0 && crit > 1 && player.skinType == ENUM.SkinType.Fur && player.faceType == ENUM.FaceType.Dog && player.earType == ENUM.EarType.Dog && player.lowerBody == ENUM.LowerBodyType.DOG && player.tailType == ENUM.TailType.DOG && UTIL.rand(2) == 0 && player.findStatusAffect(StatusAffects.DogWarning) >= 0 && player.findPerk(liveData.PerkLib.TransformationResistance) < 0) {
     temp = UTIL.rand(2);
     if (temp == 0) {
     GUI.outputText("<br><br>As you swallow the pepper, you note that the spicy hotness on your tongue seems to be spreading. Your entire body seems to tingle and burn, making you feel far warmer than normal, feverish even. Unable to stand it any longer you tear away your clothes, hoping to cool down a little. Sadly, this does nothing to aid you with your problem. On the bright side, the sudden feeling of vertigo you've developed is more than enough to take your mind off your temperature issues. You fall forward onto your hands and knees, well not really hands and knees to be honest. More like paws and knees. That can't be good, you think for a moment, before the sensation of your bones shifting into a quadrupedal configuration robs you of your concentration. After that, it is only a short time before your form is remade completely into that of a large dog, or perhaps a wolf. The distinction would mean little to you now, even if you were capable of comprehending it. ");
-    if (player.findPerk(PerkLib.MarblesMilk) >= 0) GUI.outputText("All you know is that there is a scent on the wind, it is time to hunt, and at the end of the day you need to come home for your milk.");
+    if (player.findPerk(liveData.PerkLib.MarblesMilk) >= 0) GUI.outputText("All you know is that there is a scent on the wind, it is time to hunt, and at the end of the day you need to come home for your milk.");
     else GUI.outputText("All you know is that there is a scent on the wind, and it is time to hunt.");
     }
     if (temp == 1) GUI.outputText("<br><br>You devour the sweet pepper, carefully licking your fingers for all the succulent juices of the fruit, and are about to go on your way when suddenly a tightness begins to build in your chest and stomach, horrid cramps working their way first through your chest, then slowly flowing out to your extremities, the feeling soon joined by horrible, blood-curdling cracks as your bones begin to reform, twisting and shifting, your mind exploding with pain. You fall to the ground, reaching one hand forward. No... A paw, you realize in horror, as you try to push yourself back up. You watch in horror, looking down your foreleg as thicker fur erupts from your skin, a " + player.hairColor + " coat slowly creeping from your bare flesh to cover your body. Suddenly, you feel yourself slipping away, as if into a dream, your mind warping and twisting, your body finally settling into its new form. With one last crack of bone you let out a yelp, kicking free of the cloth that binds you, wresting yourself from its grasp and fleeing into the now setting sun, eager to find prey to dine on tonight.");
@@ -429,11 +422,11 @@ export function canineTFs(type: number): void {
     return;
     }
     //WARNING, overdose VERY close!
-    if (type <= 0 && player.skinType == ENUM.SkinType.SKIN_TYPE_FUR && player.faceType == ENUM.FaceType.FACE_DOG && player.tailType == ENUM.TailType.TAIL_TYPE_DOG && player.earType == ENUM.EarType.EARS_DOG && player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG && player.findStatusAffect(StatusAffects.DogWarning) >= 0 && UTIL.rand(3) == 0) {
+    if (type <= 0 && player.skinType == ENUM.SkinType.Fur && player.faceType == ENUM.FaceType.Dog && player.tailType == ENUM.TailType.DOG && player.earType == ENUM.EarType.Dog && player.lowerBody == ENUM.LowerBodyType.DOG && player.findStatusAffect(StatusAffects.DogWarning) >= 0 && UTIL.rand(3) == 0) {
     GUI.outputText("<b><br><br>Eating the pepper, you realize how dog-like you've become, and you wonder what else the peppers could change...</b>");
     }
     //WARNING, overdose is close!
-    if (type <= 0 && player.skinType == ENUM.SkinType.SKIN_TYPE_FUR && player.faceType == ENUM.FaceType.FACE_DOG && player.tailType == ENUM.TailType.TAIL_TYPE_DOG && player.earType == ENUM.EarType.EARS_DOG && player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG && player.findStatusAffect(StatusAffects.DogWarning) < 0) {
+    if (type <= 0 && player.skinType == ENUM.SkinType.Fur && player.faceType == ENUM.FaceType.Dog && player.tailType == ENUM.TailType.DOG && player.earType == ENUM.EarType.Dog && player.lowerBody == ENUM.LowerBodyType.DOG && player.findStatusAffect(StatusAffects.DogWarning) < 0) {
     player.createStatusAffect(StatusAffects.DogWarning, 0, 0, 0, 0);
     GUI.outputText("<b><br><br>Eating the pepper, you realize how dog-like you've become, and you wonder what else the peppers could change...</b>");
     }*/
@@ -470,23 +463,23 @@ export function canineTFs(type: number): void {
   // NORMALIZATION
   //------------
   //-Remove feather-arms (copy this for goblin ale, mino blood, equinum, canine pepps, demon items)
-  if (changes < changeLimit && liveData.player.armType == ENUM.ArmType.ARM_TYPE_HARPY && UTIL.rand(4) == 0) {
+  if (changes < changeLimit && liveData.player.armType == ENUM.ArmType.HARPY && UTIL.rand(4) == 0) {
     GUI.outputText(
       "<br><br>You scratch at your biceps absentmindedly, but no matter how much you scratch, it isn't getting rid of the itch. Glancing down in irritation, you discover that your feathery arms are shedding their feathery coating. The wing-like shape your arms once had is gone in a matter of moments, leaving " +
         liveData.player.skinDesc +
         ' behind.',
     );
-    liveData.player.armType = ENUM.ArmType.ARM_TYPE_HUMAN;
+    liveData.player.armType = ENUM.ArmType.HUMAN;
     changes++;
   }
   //-Remove chitin-arms (copy this for goblin ale, mino blood, equinum, canine pepps, demon items)
-  if (changes < changeLimit && liveData.player.armType == ENUM.ArmType.ARM_TYPE_SPIDER && UTIL.rand(4) == 0) {
+  if (changes < changeLimit && liveData.player.armType == ENUM.ArmType.SPIDER && UTIL.rand(4) == 0) {
     GUI.outputText(
       "<br><br>You scratch at your biceps absentmindedly, but no matter how much you scratch, it isn't getting rid of the itch. Glancing down in irritation, you discover that your arms' chitinous covering is flaking away. The glossy black coating is soon gone, leaving " +
         liveData.player.skinDesc +
         ' behind.',
     );
-    liveData.player.armType = ENUM.ArmType.ARM_TYPE_HUMAN;
+    liveData.player.armType = ENUM.ArmType.HUMAN;
     changes++;
   }
   //-Remove feathery hair (copy for equinum, canine peppers, Labova)
@@ -502,11 +495,11 @@ export function canineTFs(type: number): void {
         "<br><br>You run your fingers through your downy-soft feather-hair while you await the effects of the item you just ingested. While your hand is up there, it detects a change in the texture of your feathers. They're completely disappearing, merging down into strands of regular hair. <b>Your hair is no longer feathery!</b>",
       );
     changes++;
-    liveData.player.hairType = ENUM.HairType.HAIR_NORMAL;
+    liveData.player.hairType = ENUM.HairType.Normal;
   }
   //Remove odd eyes
-  if (changes < changeLimit && UTIL.rand(5) == 0 && liveData.player.eyeType > ENUM.EyeType.EYES_HUMAN) {
-    if (liveData.player.eyeType == ENUM.EyeType.EYES_BLACK_EYES_SAND_TRAP) {
+  if (changes < changeLimit && UTIL.rand(5) == 0 && liveData.player.eyeType > ENUM.EyeType.Human) {
+    if (liveData.player.eyeType == ENUM.EyeType.BlackEyesSandTrap) {
       GUI.outputText(
         '<br><br>You feel a twinge in your eyes and you blink. It feels like black cataracts have just fallen away from you, and you know without needing to see your reflection that your eyes have gone back to looking human.',
       );
@@ -516,10 +509,10 @@ export function canineTFs(type: number): void {
           liveData.player.feet() +
           ' from under you. As you steady and open your eyes, you realize something seems different. Your vision is changed somehow.',
       );
-      if (liveData.player.eyeType == ENUM.EyeType.EYES_FOUR_SPIDER_EYES) GUI.outputText(' Your multiple, arachnid eyes are gone!</b>');
+      if (liveData.player.eyeType == ENUM.EyeType.FourSpiderEyes) GUI.outputText(' Your multiple, arachnid eyes are gone!</b>');
       GUI.outputText(' <b>You have normal, humanoid eyes again.</b>');
     }
-    liveData.player.eyeType = ENUM.EyeType.EYES_HUMAN;
+    liveData.player.eyeType = ENUM.EyeType.Human;
     changes++;
   }
   //------------
@@ -860,7 +853,7 @@ export function canineTFs(type: number): void {
     if (liveData.player.cumMultiplier < 2 && UTIL.rand(2) == 0 && changes < changeLimit) {
       temp = 1.5;
       //Lots of cum raises cum multiplier cap to 2 instead of 1.5
-      if (liveData.player.findPerk(PerkLib.MessyOrgasms) >= 0) temp = 2;
+      if (liveData.player.findPerk(liveData.PerkLib.MessyOrgasms) >= 0) temp = 2;
       if (temp < liveData.player.cumMultiplier + 0.05 * crit) {
         changes--;
       } else {
@@ -1183,11 +1176,11 @@ export function canineTFs(type: number): void {
   if (
     UTIL.rand(5) == 0 &&
     changes < changeLimit &&
-    liveData.player.faceType != ENUM.FaceType.FACE_DOG &&
-    liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR &&
-    liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG
+    liveData.player.faceType != ENUM.FaceType.Dog &&
+    liveData.player.skinType == ENUM.SkinType.Fur &&
+    liveData.player.lowerBody == ENUM.LowerBodyType.DOG
   ) {
-    if (liveData.player.faceType == ENUM.FaceType.FACE_HORSE)
+    if (liveData.player.faceType == ENUM.FaceType.Horse)
       GUI.outputText(
         '<br><br>Your face is wracked with pain. You throw back your head and scream in agony as you feel your cheekbones breaking and shifting, reforming into something else. <b>Your horse-like features rearrange to take on many canine aspects.</b>',
       );
@@ -1195,11 +1188,11 @@ export function canineTFs(type: number): void {
       GUI.outputText(
         '<br><br>Your face is wracked with pain. You throw back your head and scream in agony as you feel your cheekbones breaking and shifting, reforming into something... different. You find a puddle to view your reflection...<b>your face is now a cross between human and canine features.</b>',
       );
-    liveData.player.faceType = ENUM.FaceType.FACE_DOG;
+    liveData.player.faceType = ENUM.FaceType.Dog;
     changes++;
   }
   if (type == 3 && liveData.player.hairColor != 'midnight black') {
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR)
+    if (liveData.player.skinType == ENUM.SkinType.Fur)
       GUI.outputText(
         '<b><br><br>Your fur and hair tingles, growing in thicker than ever as darkness begins to spread from the roots, turning it midnight black.</b>',
       );
@@ -1209,7 +1202,7 @@ export function canineTFs(type: number): void {
           liveData.player.skinDesc +
           " itches like crazy as fur grows out from it, coating your body. It's incredibly dense and black as the middle of a moonless night.</b>",
       );
-    liveData.player.skinType = ENUM.SkinType.SKIN_TYPE_FUR;
+    liveData.player.skinType = ENUM.SkinType.Fur;
     liveData.player.skinAdj = 'thick';
     liveData.player.skinDesc = 'fur';
     liveData.player.hairColor = 'midnight black';
@@ -1219,17 +1212,17 @@ export function canineTFs(type: number): void {
   if (
     UTIL.rand(4) == 0 &&
     changes < changeLimit &&
-    liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG &&
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_DOG &&
-    liveData.player.skinType != ENUM.SkinType.SKIN_TYPE_FUR
+    liveData.player.lowerBody == ENUM.LowerBodyType.DOG &&
+    liveData.player.tailType == ENUM.TailType.DOG &&
+    liveData.player.skinType != ENUM.SkinType.Fur
   ) {
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN)
+    if (liveData.player.skinType == ENUM.SkinType.Plain)
       GUI.outputText(
         '<br><br>Your skin itches intensely. You gaze down as more and more hairs break forth from your skin, quickly transforming into a soft coat of fur. <b>You are now covered in ' +
           liveData.player.furColor +
           ' fur from head to toe.</b>',
       );
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES)
+    if (liveData.player.skinType == ENUM.SkinType.Scales)
       GUI.outputText(
         '<br><br>Your scales itch incessantly. You scratch, feeling them flake off to reveal a coat of ' +
           liveData.player.furColor +
@@ -1237,7 +1230,7 @@ export function canineTFs(type: number): void {
           liveData.player.furColor +
           ' fur from head to toe.</b>',
       );
-    liveData.player.skinType = ENUM.SkinType.SKIN_TYPE_FUR;
+    liveData.player.skinType = ENUM.SkinType.Fur;
     liveData.player.skinDesc = 'fur';
     liveData.player.setFurColor([
       'brown',
@@ -1260,16 +1253,16 @@ export function canineTFs(type: number): void {
   //Change to paws - requires tail and ears
   if (
     UTIL.rand(3) == 0 &&
-    liveData.player.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG &&
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_DOG &&
-    liveData.player.earType == ENUM.EarType.EARS_DOG &&
+    liveData.player.lowerBody != ENUM.LowerBodyType.DOG &&
+    liveData.player.tailType == ENUM.TailType.DOG &&
+    liveData.player.earType == ENUM.EarType.Dog &&
     changes < changeLimit
   ) {
     //Feet -> paws
-    if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN)
+    if (liveData.player.lowerBody == ENUM.LowerBodyType.HUMAN)
       GUI.outputText('<br><br>You scream in agony as you feel the bones in your feet break and begin to rearrange. <b>You now have paws</b>.');
     //Hooves -> Paws
-    else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED)
+    else if (liveData.player.lowerBody == ENUM.LowerBodyType.HOOFED)
       GUI.outputText(
         '<br><br>You feel your hooves suddenly splinter, growing into five unique digits. Their flesh softens as your hooves reshape into furred paws.',
       );
@@ -1277,48 +1270,43 @@ export function canineTFs(type: number): void {
       GUI.outputText(
         "<br><br>Your lower body is wracked by pain! Once it passes, you discover that you're standing on fur-covered paws! <b>You now have paws</b>.",
       );
-    liveData.player.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG;
+    liveData.player.lowerBody = ENUM.LowerBodyType.DOG;
     liveData.player.legCount = 2;
     changes++;
   }
   //Change to dog-ears!  Requires dog-tail
-  if (
-    UTIL.rand(2) == 0 &&
-    liveData.player.earType != ENUM.EarType.EARS_DOG &&
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_DOG &&
-    changes < changeLimit
-  ) {
+  if (UTIL.rand(2) == 0 && liveData.player.earType != ENUM.EarType.Dog && liveData.player.tailType == ENUM.TailType.DOG && changes < changeLimit) {
     if (liveData.player.earType == -1) GUI.outputText('<br><br>Two painful nubs begin sprouting from your head, growing and opening into canine ears. ');
-    if (liveData.player.earType == ENUM.EarType.EARS_HUMAN)
+    if (liveData.player.earType == ENUM.EarType.Human)
       GUI.outputText(
         '<br><br>The skin on the sides of your face stretches painfully as your ears migrate upwards, towards the top of your head. They shift and elongate, becoming canine in nature. ',
       );
-    if (liveData.player.earType == ENUM.EarType.EARS_HORSE) GUI.outputText('<br><br>Your equine ears twist as they transform into canine versions. ');
-    if (liveData.player.earType > ENUM.EarType.EARS_DOG) GUI.outputText('<br><br>Your ears transform, becoming more canine in appearance. ');
-    liveData.player.earType = ENUM.EarType.EARS_DOG;
+    if (liveData.player.earType == ENUM.EarType.Horse) GUI.outputText('<br><br>Your equine ears twist as they transform into canine versions. ');
+    if (liveData.player.earType > ENUM.EarType.Dog) GUI.outputText('<br><br>Your ears transform, becoming more canine in appearance. ');
+    liveData.player.earType = ENUM.EarType.Dog;
     liveData.player.earValue = 2;
     GUI.outputText('<b>You now have dog ears.</b>');
     changes++;
   }
   //Grow tail if not dog-tailed
-  if (UTIL.rand(3) == 0 && changes < changeLimit && liveData.player.tailType != ENUM.TailType.TAIL_TYPE_DOG) {
-    if (liveData.player.tailType == ENUM.TailType.TAIL_TYPE_NONE)
+  if (UTIL.rand(3) == 0 && changes < changeLimit && liveData.player.tailType != ENUM.TailType.DOG) {
+    if (liveData.player.tailType == ENUM.TailType.NONE)
       GUI.outputText(
         '<br><br>A pressure builds on your backside. You feel under your clothes and discover an odd bump that seems to be growing larger by the moment. In seconds it passes between your fingers, bursts out the back of your clothes, and grows most of the way to the ground. A thick coat of fur springs up to cover your new tail. ',
       );
-    if (liveData.player.tailType == ENUM.TailType.TAIL_TYPE_HORSE)
+    if (liveData.player.tailType == ENUM.TailType.HORSE)
       GUI.outputText(
         '<br><br>You feel a tightness in your rump, matched by the tightness with which the strands of your tail clump together. In seconds they fuse into a single tail, rapidly sprouting thick fur. ',
       );
-    if (liveData.player.tailType == ENUM.TailType.TAIL_TYPE_DEMONIC)
+    if (liveData.player.tailType == ENUM.TailType.DEMONIC)
       GUI.outputText(
         '<br><br>The tip of your tail feels strange. As you pull it around to check on it, the spaded tip disappears, quickly replaced by a thick coat of fur over the entire surface of your tail. ',
       );
     //Generic message for now
-    if (liveData.player.tailType >= ENUM.TailType.TAIL_TYPE_COW)
+    if (liveData.player.tailType >= ENUM.TailType.COW)
       GUI.outputText('<br><br>You feel your backside shift and change, flesh molding and displacing into a long puffy tail! ');
     changes++;
-    liveData.player.tailType = ENUM.TailType.TAIL_TYPE_DOG;
+    liveData.player.tailType = ENUM.TailType.DOG;
     GUI.outputText('<b>You now have a dog-tail.</b>');
   }
   if (UTIL.rand(4) == 0 && liveData.player.gills && changes < changeLimit) {
@@ -1326,7 +1314,7 @@ export function canineTFs(type: number): void {
     liveData.player.gills = false;
     changes++;
   }
-  if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR && changes < changeLimit && UTIL.rand(3) == 0) {
+  if (liveData.player.skinType == ENUM.SkinType.Fur && changes < changeLimit && UTIL.rand(3) == 0) {
     GUI.outputText(
       '<br><br>You become more... solid. Sinewy. A memory comes unbidden from your youth of a grizzled wolf you encountered while hunting, covered in scars, yet still moving with an easy grace. You imagine that must have felt something like ',
     );
@@ -1352,8 +1340,8 @@ export function cowTFs(tainted: boolean, enhanced: boolean): void {
   if (UTIL.rand(2) == 0) changeLimit++;
   if (UTIL.rand(3) == 0) changeLimit++;
   if (UTIL.rand(3) == 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.HistoryAlchemist) >= 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.TransformationResistance) >= 0) changeLimit--;
+  if (liveData.player.findPerk(liveData.PerkLib.HistoryAlchemist) >= 0) changeLimit++;
+  if (liveData.player.findPerk(liveData.PerkLib.TransformationResistance) >= 0) changeLimit--;
   if (enhanced) changeLimit += 2;
   //Temporary storage
   let temp = 0;
@@ -1454,8 +1442,8 @@ export function cowTFs(tainted: boolean, enhanced: boolean): void {
     //if the last of the player's dicks are eliminated this way, they gain a virgin vagina;
     if (liveData.player.cocks.length == 0 && !liveData.player.hasVagina()) {
       liveData.player.createVagina();
-      liveData.player.vaginas[0].vaginalLooseness = ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_TIGHT;
-      liveData.player.vaginas[0].vaginalWetness = ENUM.VaginalWetnessType.VAGINA_WETNESS_NORMAL;
+      liveData.player.vaginas[0].vaginalLooseness = ENUM.VaginalLoosenessType.TIGHT;
+      liveData.player.vaginas[0].vaginalWetness = ENUM.VaginalWetnessType.NORMAL;
       liveData.player.vaginas[0].virgin = true;
       liveData.player.clitLength = 0.25;
       GUI.outputText(
@@ -1489,7 +1477,7 @@ export function cowTFs(tainted: boolean, enhanced: boolean): void {
     boobsGrew = true;
   }
   //Remove feathery hair
-  if (changes < changeLimit && liveData.player.hairType == ENUM.HairType.HAIR_FEATHER && UTIL.rand(4) == 0) {
+  if (changes < changeLimit && liveData.player.hairType == ENUM.HairType.Feather && UTIL.rand(4) == 0) {
     //(long):
     if (liveData.player.hairLength >= 6)
       GUI.outputText(
@@ -1500,7 +1488,7 @@ export function cowTFs(tainted: boolean, enhanced: boolean): void {
       GUI.outputText(
         "<br><br>You run your fingers through your downy-soft feather-hair while you await the effects of the item you just ingested.  While your hand is up there, it detects a change in the texture of your feathers.  They're completely disappearing, merging down into strands of regular hair.  <b>Your hair is no longer feathery!</b>",
       );
-    liveData.player.hairType = ENUM.HairType.HAIR_NORMAL;
+    liveData.player.hairType = ENUM.HairType.Normal;
     changes++;
   }
   //If breasts are D or bigger and are not lactating, they also start lactating:
@@ -1666,7 +1654,7 @@ export function cowTFs(tainted: boolean, enhanced: boolean): void {
         changes++;
       }
       if (
-        (liveData.player.breastRows[0].lactationMultiplier > 2 && liveData.player.findStatusEffect(StatusEffects.Feeder) >= 0) ||
+        (liveData.player.breastRows[0].lactationMultiplier > 2 && liveData.player.findStatusEffect(liveData.StatusEffects.Feeder) >= 0) ||
         liveData.player.breastRows[0].lactationMultiplier > 5
       ) {
         if (UTIL.rand(2) == 0) GUI.outputText("<br><br>Your breasts suddenly feel less full, it seems you aren't lactating at quite the level you were.");
@@ -1686,7 +1674,7 @@ export function cowTFs(tainted: boolean, enhanced: boolean): void {
   //to give their milk to other creatures
   //(capable of getting them addicted):
   if (
-    liveData.player.findStatusEffect(StatusEffects.Feeder) < 0 &&
+    liveData.player.findStatusEffect(liveData.StatusEffects.Feeder) < 0 &&
     liveData.player.biggestLactation() >= 3 &&
     UTIL.rand(2) == 0 &&
     liveData.player.biggestTitSize() >= 5 &&
@@ -1695,15 +1683,15 @@ export function cowTFs(tainted: boolean, enhanced: boolean): void {
     GUI.outputText(
       "<br><br>You start to feel a strange desire to give your milk to other creatures.  For some reason, you know it will be very satisfying.<br><br><b>(You have gained the 'Feeder' perk!)</b>",
     );
-    liveData.player.createStatusEffect(StatusEffects.Feeder, 0, 0, 0, 0);
-    liveData.player.createPerk(PerkLib.Feeder, 0, 0, 0, 0);
+    liveData.player.createStatusEffect(liveData.StatusEffects.Feeder, 0, 0, 0, 0);
+    liveData.player.createPerk(liveData.PerkLib.Feeder, 0, 0, 0, 0);
     changes++;
   }
   //UNFINISHED
   //If player has addictive quality and drinks pure version, removes addictive quality.
   //if the player has a vagina and it is tight, it loosens.
   if (liveData.player.hasVagina()) {
-    if (liveData.player.vaginas[0].vaginalLooseness < ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_LOOSE && changes < changeLimit && UTIL.rand(2) == 0) {
+    if (liveData.player.vaginas[0].vaginalLooseness < ENUM.VaginalLoosenessType.LOOSE && changes < changeLimit && UTIL.rand(2) == 0) {
       GUI.outputText(
         '<br><br>You feel a relaxing sensation in your groin.  On further inspection you discover your ' +
           liveData.player.vaginaDescript(0) +
@@ -1711,9 +1699,10 @@ export function cowTFs(tainted: boolean, enhanced: boolean): void {
       );
       liveData.player.vaginas[0].vaginalLooseness++;
       //Cunt Stretched used to determine how long since last enlargement
-      if (liveData.player.findStatusEffect(StatusEffects.CuntStretched) < 0) liveData.player.createStatusEffect(StatusEffects.CuntStretched, 0, 0, 0, 0);
+      if (liveData.player.findStatusEffect(liveData.StatusEffects.CuntStretched) < 0)
+        liveData.player.createStatusEffect(liveData.StatusEffects.CuntStretched, 0, 0, 0, 0);
       //Reset the timer on it to 0 when restretched.
-      else liveData.player.changeStatusValue(StatusEffects.CuntStretched, 1, 0);
+      else liveData.player.changeStatusValue(liveData.StatusEffects.CuntStretched, 1, 0);
       liveData.player.vaginas[0].vaginalLooseness++;
       changes++;
       liveData.player.changeLust(10);
@@ -1721,50 +1710,44 @@ export function cowTFs(tainted: boolean, enhanced: boolean): void {
   }
   // Folding in Oviposition perk update code
   if (tainted && UTIL.rand(5) == 0) {
-    if (liveData.player.findPerk(PerkLib.Oviposition) == 1 && liveData.player.lizardScore() < 8) {
+    if (liveData.player.findPerk(liveData.PerkLib.Oviposition) == 1 && liveData.player.lizardScore() < 8) {
       GUI.outputText(
         '<br><br>Another change in your uterus ripples through your reproductive systems.' +
           "  Somehow you know you've lost a little bit of reptilian reproductive ability.<br>",
       );
       GUI.outputText('(<b>Perk Lost: Oviposition</b>)<br>');
-      liveData.player.removePerk(PerkLib.Oviposition);
+      liveData.player.removePerk(liveData.PerkLib.Oviposition);
     }
   }
   //General Appearance (Tail -> Ears -> Paws(fur stripper) -> Face -> Horns
   //Give the player a bovine tail, same as the minotaur
-  if (tainted && liveData.player.tailType != ENUM.TailType.TAIL_TYPE_COW && changes < changeLimit && UTIL.rand(3) == 0) {
-    if (liveData.player.tailType == ENUM.TailType.TAIL_TYPE_NONE)
+  if (tainted && liveData.player.tailType != ENUM.TailType.COW && changes < changeLimit && UTIL.rand(3) == 0) {
+    if (liveData.player.tailType == ENUM.TailType.NONE)
       GUI.outputText(
         '<br><br>You feel the flesh above your ' +
           liveData.player.buttDescript() +
           ' knotting and growing.  It twists and writhes around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.',
       );
     else {
-      if (liveData.player.tailType < ENUM.TailType.TAIL_TYPE_SPIDER_ADBOMEN || liveData.player.tailType > ENUM.TailType.TAIL_TYPE_BEE_ABDOMEN) {
+      if (liveData.player.tailType < ENUM.TailType.SPIDER_ADBOMEN || liveData.player.tailType > ENUM.TailType.BEE_ABDOMEN) {
         GUI.outputText(
           '<br><br>Your tail bunches uncomfortably, twisting and writhing around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.',
         );
       }
       //insect
-      if (liveData.player.tailType == ENUM.TailType.TAIL_TYPE_SPIDER_ADBOMEN || liveData.player.tailType == ENUM.TailType.TAIL_TYPE_BEE_ABDOMEN) {
+      if (liveData.player.tailType == ENUM.TailType.SPIDER_ADBOMEN || liveData.player.tailType == ENUM.TailType.BEE_ABDOMEN) {
         GUI.outputText(
           '<br><br>Your insect-like abdomen tingles pleasantly as it begins shrinking and softening, chitin morphing and reshaping until it looks exactly like a <b>cow tail</b>.',
         );
       }
     }
-    liveData.player.tailType = ENUM.TailType.TAIL_TYPE_COW;
+    liveData.player.tailType = ENUM.TailType.COW;
     changes++;
   }
   //Give the player bovine ears, same as the minotaur
-  if (
-    tainted &&
-    liveData.player.earType != ENUM.EarType.EARS_COW &&
-    changes < changeLimit &&
-    UTIL.rand(4) == 0 &&
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_COW
-  ) {
+  if (tainted && liveData.player.earType != ENUM.EarType.Cow && changes < changeLimit && UTIL.rand(4) == 0 && liveData.player.tailType == ENUM.TailType.COW) {
     GUI.outputText('<br><br>You feel your ears tug on your scalp as they twist shape, becoming oblong and cow-like.  <b>You now have cow ears.</b>');
-    liveData.player.earType = ENUM.EarType.EARS_COW;
+    liveData.player.earType = ENUM.EarType.Cow;
     changes++;
   }
   //If the player is under 7 feet in height, increase their height, similar to the minotaur
@@ -1786,30 +1769,30 @@ export function cowTFs(tainted: boolean, enhanced: boolean): void {
     changes++;
   }
   //Give the player hoofs, if the player already has hoofs STRIP FUR
-  if (tainted && liveData.player.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED && liveData.player.earType == ENUM.EarType.EARS_COW) {
+  if (tainted && liveData.player.lowerBody != ENUM.LowerBodyType.HOOFED && liveData.player.earType == ENUM.EarType.Cow) {
     if (changes < changeLimit && UTIL.rand(3) == 0) {
       changes++;
-      if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN)
+      if (liveData.player.lowerBody == ENUM.LowerBodyType.HUMAN)
         GUI.outputText(
           '<br><br>You stagger as your feet change, curling up into painful angry lumps of flesh.  They get tighter and tighter, harder and harder, until at last they solidify into hooves!',
         );
-      if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG)
+      if (liveData.player.lowerBody == ENUM.LowerBodyType.DOG)
         GUI.outputText(
           '<br><br>You stagger as your paws change, curling up into painful angry lumps of flesh.  They get tighter and tighter, harder and harder, until at last they solidify into hooves!',
         );
-      if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_NAGA)
+      if (liveData.player.lowerBody == ENUM.LowerBodyType.NAGA)
         GUI.outputText(
           '<br><br>You collapse as your sinuous snake-tail tears in half, shifting into legs.  The pain is immense, particularly in your new feet as they curl inward and transform into hooves!',
         );
       //Catch-all
-      if (liveData.player.lowerBody > ENUM.LowerBodyType.LOWER_BODY_TYPE_NAGA)
+      if (liveData.player.lowerBody > ENUM.LowerBodyType.NAGA)
         GUI.outputText(
           '<br><br>You stagger as your ' +
             liveData.player.feet() +
             ' change, curling up into painful angry lumps of flesh.  They get tighter and tighter, harder and harder, until at last they solidify into hooves!',
         );
       GUI.outputText('  A coat of beastial fur springs up below your waist, itching as it fills in.<b>  You now have hooves in place of your feet!</b>');
-      liveData.player.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED;
+      liveData.player.lowerBody = ENUM.LowerBodyType.HOOFED;
       liveData.player.legCount = 2;
       liveData.player.dynStats(['cor', 0]); // Why is this even here?
       changes++;
@@ -1818,14 +1801,14 @@ export function cowTFs(tainted: boolean, enhanced: boolean): void {
   //If the player's face is non-human, they gain a human face
   if (
     !enhanced &&
-    liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED &&
-    liveData.player.faceType != ENUM.FaceType.FACE_HUMAN &&
+    liveData.player.lowerBody == ENUM.LowerBodyType.HOOFED &&
+    liveData.player.faceType != ENUM.FaceType.Human &&
     changes < changeLimit &&
     UTIL.rand(4) == 0
   ) {
     //Remove face before fur!
     GUI.outputText('<br><br>Your visage twists painfully, returning to a normal human shape.  <b>Your face is human again!</b>');
-    liveData.player.faceType = ENUM.FaceType.FACE_HUMAN;
+    liveData.player.faceType = ENUM.FaceType.Human;
     changes++;
   }
   //enhanced get shitty fur
@@ -1842,25 +1825,25 @@ export function cowTFs(tainted: boolean, enhanced: boolean): void {
       );
     liveData.player.skinDesc = 'fur';
     liveData.player.skinAdj = '';
-    liveData.player.skinType = ENUM.SkinType.SKIN_TYPE_FUR;
+    liveData.player.skinType = ENUM.SkinType.Fur;
     liveData.player.hairColor = 'black and white spotted';
     liveData.player.furColor = liveData.player.hairColor;
   }
   //if enhanced to probova give a shitty cow face
-  else if (enhanced && liveData.player.faceType != ENUM.FaceType.FACE_COW_MINOTAUR) {
+  else if (enhanced && liveData.player.faceType != ENUM.FaceType.Minotaur) {
     GUI.outputText(
       '<br><br>Your visage twists painfully, warping and crackling as your bones are molded into a new shape.  Once it finishes, you reach up to touch it, and you discover that <b>your face is like that of a cow!</b>',
     );
-    liveData.player.faceType = ENUM.FaceType.FACE_COW_MINOTAUR;
+    liveData.player.faceType = ENUM.FaceType.Minotaur;
     changes++;
   }
   //Give the player bovine horns, or increase their size, same as the minotaur
   //New horns or expanding mino horns
-  if (tainted && changes < changeLimit && UTIL.rand(3) == 0 && liveData.player.faceType == ENUM.FaceType.FACE_HUMAN) {
+  if (tainted && changes < changeLimit && UTIL.rand(3) == 0 && liveData.player.faceType == ENUM.FaceType.Human) {
     //Get bigger or change horns
-    if (liveData.player.hornType == ENUM.HornType.HORNS_COW_MINOTAUR || liveData.player.hornType == ENUM.HornType.HORNS_NONE) {
+    if (liveData.player.hornType == ENUM.HornType.COW_MINOTAUR || liveData.player.hornType == ENUM.HornType.NONE) {
       //Get bigger if player has horns
-      if (liveData.player.hornType == ENUM.HornType.HORNS_COW_MINOTAUR) {
+      if (liveData.player.hornType == ENUM.HornType.COW_MINOTAUR) {
         if (liveData.player.horns < 5) {
           //Fems horns don't get bigger.
           GUI.outputText('<br><br>Your small horns get a bit bigger, stopping as medium sized nubs.');
@@ -1869,24 +1852,24 @@ export function cowTFs(tainted: boolean, enhanced: boolean): void {
         }
       }
       //If no horns yet..
-      if (liveData.player.hornType == ENUM.HornType.HORNS_NONE || liveData.player.horns == 0) {
+      if (liveData.player.hornType == ENUM.HornType.NONE || liveData.player.horns == 0) {
         GUI.outputText(
           '<br><br>With painful pressure, the skin on your forehead splits around two tiny nub-like horns, similar to those you would see on the cattle back in your homeland.',
         );
-        liveData.player.hornType = ENUM.HornType.HORNS_COW_MINOTAUR;
+        liveData.player.hornType = ENUM.HornType.COW_MINOTAUR;
         liveData.player.horns = 1;
         changes++;
       }
       //TF other horns
-      if (liveData.player.hornType != ENUM.HornType.HORNS_NONE && liveData.player.hornType != ENUM.HornType.HORNS_COW_MINOTAUR && liveData.player.horns > 0) {
+      if (liveData.player.hornType != ENUM.HornType.NONE && liveData.player.hornType != ENUM.HornType.COW_MINOTAUR && liveData.player.horns > 0) {
         GUI.outputText('<br><br>Your horns twist, filling your skull with agonizing pain for a moment as they transform into cow-horns.');
-        liveData.player.hornType = ENUM.HornType.HORNS_COW_MINOTAUR;
+        liveData.player.hornType = ENUM.HornType.COW_MINOTAUR;
       }
     }
     //Not mino horns, change to cow-horns
-    if (liveData.player.hornType == ENUM.HornType.HORNS_DEMON || liveData.player.hornType > ENUM.HornType.HORNS_COW_MINOTAUR) {
+    if (liveData.player.hornType == ENUM.HornType.DEMON || liveData.player.hornType > ENUM.HornType.COW_MINOTAUR) {
       GUI.outputText('<br><br>Your horns vibrate and shift as if made of clay, reforming into two small bovine nubs.');
-      liveData.player.hornType = ENUM.HornType.HORNS_COW_MINOTAUR;
+      liveData.player.hornType = ENUM.HornType.COW_MINOTAUR;
       liveData.player.horns = 2;
       changes++;
     }
@@ -1958,8 +1941,8 @@ export function succubiDelight(tainted: boolean): void {
   //Chances to up the max number of changes
   if (UTIL.rand(2) == 0) changeLimit++;
   if (UTIL.rand(2) == 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.HistoryAlchemist) >= 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.TransformationResistance) >= 0) changeLimit--;
+  if (liveData.player.findPerk(liveData.PerkLib.HistoryAlchemist) >= 0) changeLimit++;
+  if (liveData.player.findPerk(liveData.PerkLib.TransformationResistance) >= 0) changeLimit--;
   //Generic drinking text
   GUI.outputText('You uncork the bottle and drink down the strange substance, struggling to down the thick liquid.');
   //low corruption thoughts
@@ -2024,7 +2007,7 @@ export function succubiDelight(tainted: boolean): void {
       //Temp is the max it can be raised to
       let temp = 3;
       //Lots of cum raises cum multiplier cap to 6 instead of 3
-      if (liveData.player.findPerk(PerkLib.MessyOrgasms) >= 0) temp = 6;
+      if (liveData.player.findPerk(liveData.PerkLib.MessyOrgasms) >= 0) temp = 6;
       if (temp < liveData.player.cumMultiplier + 0.4 * crit) {
         changes--;
       } else {
@@ -2067,33 +2050,33 @@ export function equineTFs(): void {
   //Chance to raise limit
   if (UTIL.rand(2) == 0) changeLimit++;
   if (UTIL.rand(3) == 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.HistoryAlchemist) >= 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.TransformationResistance) >= 0) changeLimit--;
+  if (liveData.player.findPerk(liveData.PerkLib.HistoryAlchemist) >= 0) changeLimit++;
+  if (liveData.player.findPerk(liveData.PerkLib.TransformationResistance) >= 0) changeLimit--;
   //Used for random chances
   //Set up output
   GUI.outputText('You down the potion, grimacing at the strong taste.');
   //CHANCE OF BAD END - 20% if face/tail/skin/cock are appropriate.
   //If hooved bad end doesn't appear till centaured
   if (
-    liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR &&
-    liveData.player.faceType == ENUM.FaceType.FACE_HORSE &&
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_HORSE &&
-    liveData.player.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED
+    liveData.player.skinType == ENUM.SkinType.Fur &&
+    liveData.player.faceType == ENUM.FaceType.Horse &&
+    liveData.player.tailType == ENUM.TailType.HORSE &&
+    liveData.player.lowerBody != ENUM.LowerBodyType.HOOFED
   ) {
     //WARNINGS
     //Repeat warnings
-    /*if (player.findStatusEffect(StatusEffects.HorseWarning) >= 0 && UTIL.rand(3) == 0) {
-        if (player.statusEffectValue(StatusEffects.HorseWarning, 1) == 0) GUI.outputText("<br><br><b>You feel a creeping chill down your back as your entire body shivers, as if rejecting something foreign.  Maybe you ought to cut back on the horse potions.</b>");
-        if (player.statusEffectValue(StatusEffects.HorseWarning, 1) > 0) GUI.outputText("<br><br><b>You wonder how many more of these you can drink before you become a horse...</b>");
-        player.addStatusValue(StatusEffects.HorseWarning, 1, 1);
+    /*if (player.findStatusEffect(liveData.StatusEffects.HorseWarning) >= 0 && UTIL.rand(3) == 0) {
+        if (player.statusEffectValue(liveData.StatusEffects.HorseWarning, 1) == 0) GUI.outputText("<br><br><b>You feel a creeping chill down your back as your entire body shivers, as if rejecting something foreign.  Maybe you ought to cut back on the horse potions.</b>");
+        if (player.statusEffectValue(liveData.StatusEffects.HorseWarning, 1) > 0) GUI.outputText("<br><br><b>You wonder how many more of these you can drink before you become a horse...</b>");
+        player.addStatusValue(liveData.StatusEffects.HorseWarning, 1, 1);
         }
         //First warning
-        if (player.findStatusEffect(StatusEffects.HorseWarning) < 0) {
+        if (player.findStatusEffect(liveData.StatusEffects.HorseWarning) < 0) {
         GUI.outputText("<b><br><br>While you drink the tasty potion, you realize how horse-like you already are, and wonder what else the potion could possibly change...</b>");
-        player.createStatusEffect(StatusEffects.HorseWarning, 0, 0, 0, 0);
+        player.createStatusEffect(liveData.StatusEffects.HorseWarning, 0, 0, 0, 0);
         }*/
     //Bad End
-    if (UTIL.rand(4) == 0 && liveData.gameFlags[FLAG.HORSE_WARNING] == 1 && liveData.player.findPerk(PerkLib.TransformationResistance) < 0) {
+    if (UTIL.rand(4) == 0 && liveData.gameFlags[FLAG.HORSE_WARNING] == 1 && liveData.player.findPerk(liveData.PerkLib.TransformationResistance) < 0) {
       //Must have been warned first...
       //If player has dicks check for horsedicks
       if (liveData.player.cockTotal() > 0) {
@@ -2233,23 +2216,23 @@ export function equineTFs(): void {
   // NORMALIZE
   //------------
   //-Remove feather-arms (copy this for goblin ale, mino blood, equinum, canine pepps, demon items)
-  if (changes < changeLimit && liveData.player.armType == ENUM.ArmType.ARM_TYPE_HARPY && UTIL.rand(4) == 0) {
+  if (changes < changeLimit && liveData.player.armType == ENUM.ArmType.HARPY && UTIL.rand(4) == 0) {
     GUI.outputText(
       "<br><br>You scratch at your biceps absentmindedly, but no matter how much you scratch, it isn't getting rid of the itch. Glancing down in irritation, you discover that your feathery arms are shedding their feathery coating. The wing-like shape your arms once had is gone in a matter of moments, leaving " +
         liveData.player.skinDesc +
         ' behind.',
     );
-    liveData.player.armType = ENUM.ArmType.ARM_TYPE_HUMAN;
+    liveData.player.armType = ENUM.ArmType.HUMAN;
     changes++;
   }
   //-Remove chitin-arms (copy this for goblin ale, mino blood, equinum, canine pepps, demon items)
-  if (changes < changeLimit && liveData.player.armType == ENUM.ArmType.ARM_TYPE_SPIDER && UTIL.rand(4) == 0) {
+  if (changes < changeLimit && liveData.player.armType == ENUM.ArmType.SPIDER && UTIL.rand(4) == 0) {
     GUI.outputText(
       "<br><br>You scratch at your biceps absentmindedly, but no matter how much you scratch, it isn't getting rid of the itch. Glancing down in irritation, you discover that your arms' chitinous covering is flaking away. The glossy black coating is soon gone, leaving " +
         liveData.player.skinDesc +
         ' behind.',
     );
-    liveData.player.armType = ENUM.ArmType.ARM_TYPE_HUMAN;
+    liveData.player.armType = ENUM.ArmType.HUMAN;
     changes++;
   }
   //-Remove feathery hair (copy for equinum, canine peppers, Labova)
@@ -2265,7 +2248,7 @@ export function equineTFs(): void {
         "<br><br>You run your fingers through your downy-soft feather-hair while you await the effects of the item you just ingested. While your hand is up there, it detects a change in the texture of your feathers. They're completely disappearing, merging down into strands of regular hair. <b>Your hair is no longer feathery!</b>",
       );
     changes++;
-    liveData.player.hairType = ENUM.HairType.HAIR_NORMAL;
+    liveData.player.hairType = ENUM.HairType.Normal;
   }
   //------------
   // SEXUAL TFs
@@ -2489,7 +2472,7 @@ export function equineTFs(): void {
   if (liveData.player.gender == 2 || liveData.player.gender == 3) {
     //Single vag
     if (liveData.player.vaginas.length == 1) {
-      if (liveData.player.vaginas[0].vaginalLooseness <= ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING && changes < changeLimit && UTIL.rand(2) == 0) {
+      if (liveData.player.vaginas[0].vaginalLooseness <= ENUM.VaginalLoosenessType.GAPING && changes < changeLimit && UTIL.rand(2) == 0) {
         GUI.outputText(
           '<br><br>You grip your gut in pain as you feel your organs shift slightly. When the pressure passes, you realize your ' +
             liveData.player.vaginaDescript(0) +
@@ -2498,7 +2481,7 @@ export function equineTFs(): void {
         liveData.player.vaginas[0].vaginalLooseness++;
         changes++;
       }
-      if (liveData.player.vaginas[0].vaginalWetness <= ENUM.VaginalWetnessType.VAGINA_WETNESS_NORMAL && changes < changeLimit && UTIL.rand(2) == 0) {
+      if (liveData.player.vaginas[0].vaginalWetness <= ENUM.VaginalWetnessType.NORMAL && changes < changeLimit && UTIL.rand(2) == 0) {
         GUI.outputText('<br><br>Your ' + liveData.player.vaginaDescript(0) + ' moistens perceptably, giving off an animalistic scent.');
         liveData.player.vaginas[0].vaginalWetness++;
         changes++;
@@ -2520,7 +2503,7 @@ export function equineTFs(): void {
           temp2 = liveData.player.vaginas[temp].vaginalWetness;
         }
       }
-      if (liveData.player.vaginas[temp].vaginalWetness <= ENUM.VaginalWetnessType.VAGINA_WETNESS_NORMAL && changes < changeLimit && UTIL.rand(2) == 0) {
+      if (liveData.player.vaginas[temp].vaginalWetness <= ENUM.VaginalWetnessType.NORMAL && changes < changeLimit && UTIL.rand(2) == 0) {
         GUI.outputText('<br><br>One of your ' + liveData.player.vaginaDescript(temp) + ' moistens perceptably, giving off an animalistic scent.');
         liveData.player.vaginas[temp].vaginalWetness++;
         changes++;
@@ -2539,7 +2522,7 @@ export function equineTFs(): void {
           temp2 = liveData.player.vaginas[temp].vaginalLooseness;
         }
       }
-      if (liveData.player.vaginas[0].vaginalLooseness <= ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING && changes < changeLimit && UTIL.rand(2) == 0) {
+      if (liveData.player.vaginas[0].vaginalLooseness <= ENUM.VaginalLoosenessType.GAPING && changes < changeLimit && UTIL.rand(2) == 0) {
         GUI.outputText(
           '<br><br>You grip your gut in pain as you feel your organs shift slightly. When the pressure passes, you realize one of your ' +
             liveData.player.vaginaDescript(temp) +
@@ -2549,7 +2532,7 @@ export function equineTFs(): void {
         changes++;
       }
     }
-    if (liveData.player.statusEffectValue(StatusEffects.Heat, 2) < 30 && UTIL.rand(2) == 0 && changes < changeLimit) {
+    if (liveData.player.statusEffectValue(liveData.StatusEffects.Heat, 2) < 30 && UTIL.rand(2) == 0 && changes < changeLimit) {
       if (liveData.player.goIntoHeat(true)) {
         changes++;
       }
@@ -2616,7 +2599,7 @@ export function equineTFs(): void {
   //NON - GENDER SPECIFIC CHANGES
   //Tail -> Ears -> Fur -> Face
   //Centaur if hooved
-  if (changes < changeLimit && UTIL.rand(6) == 0 && liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED && !liveData.player.isTaur()) {
+  if (changes < changeLimit && UTIL.rand(6) == 0 && liveData.player.lowerBody == ENUM.LowerBodyType.HOOFED && !liveData.player.isTaur()) {
     GUI.outputText(
       "<br><br>Immense pain overtakes you as you feel your backbone snap. The agony doesn't stop, blacking you out as your spine lengthens, growing with new flesh from your backside as the bones of your legs flex and twist. Muscle groups shift and rearrange themselves as the change completes, the pain dying away as your consciousness returns. <b>You now have the lower body of a centaur</b>.",
     );
@@ -2630,8 +2613,8 @@ export function equineTFs(): void {
     changes++;
   }
   //Remove odd eyes
-  if (changes < changeLimit && UTIL.rand(5) == 0 && liveData.player.eyeType > ENUM.EyeType.EYES_HUMAN) {
-    if (liveData.player.eyeType == ENUM.EyeType.EYES_BLACK_EYES_SAND_TRAP) {
+  if (changes < changeLimit && UTIL.rand(5) == 0 && liveData.player.eyeType > ENUM.EyeType.Human) {
+    if (liveData.player.eyeType == ENUM.EyeType.BlackEyesSandTrap) {
       GUI.outputText(
         '<br><br>You feel a twinge in your eyes and you blink. It feels like black cataracts have just fallen away from you, and you know without needing to see your reflection that your eyes have gone back to looking human.',
       );
@@ -2641,21 +2624,21 @@ export function equineTFs(): void {
           liveData.player.feet() +
           ' from under you. As you steady and open your eyes, you realize something seems different. Your vision is changed somehow.',
       );
-      if (liveData.player.eyeType == ENUM.EyeType.EYES_FOUR_SPIDER_EYES) GUI.outputText(' Your multiple, arachnid eyes are gone!</b>');
+      if (liveData.player.eyeType == ENUM.EyeType.FourSpiderEyes) GUI.outputText(' Your multiple, arachnid eyes are gone!</b>');
       GUI.outputText(' <b>You have normal, humanoid eyes again.</b>');
     }
-    liveData.player.eyeType = ENUM.EyeType.EYES_HUMAN;
+    liveData.player.eyeType = ENUM.EyeType.Human;
     changes++;
   }
   //HorseFace - Req's Fur && Ears
   if (
-    liveData.player.faceType != ENUM.FaceType.FACE_HORSE &&
-    liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR &&
+    liveData.player.faceType != ENUM.FaceType.Horse &&
+    liveData.player.skinType == ENUM.SkinType.Fur &&
     changes < changeLimit &&
     UTIL.rand(5) == 0 &&
-    liveData.player.earType == ENUM.EarType.EARS_HORSE
+    liveData.player.earType == ENUM.EarType.Horse
   ) {
-    if (liveData.player.faceType == ENUM.FaceType.FACE_DOG)
+    if (liveData.player.faceType == ENUM.FaceType.Dog)
       GUI.outputText(
         "<br><br>Mind-numbing pain shatters through you as you feel your facial bones rearranging. You clutch at your face in agony as your skin crawls and shifts, your visage reshaping to replace your dog-like characteristics with those of a horse. <b>You now have a horse's face.</b>",
       );
@@ -2663,23 +2646,18 @@ export function equineTFs(): void {
       GUI.outputText(
         '<br><br>Mind-numbing pain shatters through you as you feel your facial bones breaking and shifting. You clutch at yourself in agony as you feel your skin crawl and elongate under your fingers. Eventually the pain subsides, leaving you with a face that seamlessly blends human and equine features. <b>You have a very equine-looking face.</b>',
       );
-    liveData.player.faceType = ENUM.FaceType.FACE_HORSE;
+    liveData.player.faceType = ENUM.FaceType.Horse;
     changes++;
   }
   //Fur - if has horsetail && ears and not at changelimit
-  if (
-    liveData.player.skinType != ENUM.SkinType.SKIN_TYPE_FUR &&
-    changes < changeLimit &&
-    UTIL.rand(4) == 0 &&
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_HORSE
-  ) {
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN)
+  if (liveData.player.skinType != ENUM.SkinType.Fur && changes < changeLimit && UTIL.rand(4) == 0 && liveData.player.tailType == ENUM.TailType.HORSE) {
+    if (liveData.player.skinType == ENUM.SkinType.Plain)
       GUI.outputText(
         '<br><br>An itchy feeling springs up over every inch of your skin. As you scratch yourself madly, you feel fur grow out of your skin until <b>you have a fine coat of ' +
           liveData.player.hairColor +
           '-colored fur.</b>',
       );
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES) {
+    if (liveData.player.skinType == ENUM.SkinType.Scales) {
       liveData.player.skinDesc = 'fur';
       GUI.outputText(
         '<br><br>Your ' +
@@ -2692,7 +2670,7 @@ export function equineTFs(): void {
       );
     }
     changes++;
-    liveData.player.skinType = ENUM.SkinType.SKIN_TYPE_FUR;
+    liveData.player.skinType = ENUM.SkinType.Fur;
     liveData.player.skinDesc = 'fur';
     liveData.player.setFurColor([
       'brown',
@@ -2713,28 +2691,23 @@ export function equineTFs(): void {
     ]);
   }
   //Ears - requires tail
-  if (
-    liveData.player.earType != ENUM.EarType.EARS_HORSE &&
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_HORSE &&
-    changes < changeLimit &&
-    UTIL.rand(3) == 0
-  ) {
+  if (liveData.player.earType != ENUM.EarType.Horse && liveData.player.tailType == ENUM.TailType.HORSE && changes < changeLimit && UTIL.rand(3) == 0) {
     if (liveData.player.earType == -1)
       GUI.outputText('<br><br>Two painful lumps sprout on the top of your head, forming into tear-drop shaped ears, covered with short fur. ');
-    if (liveData.player.earType == ENUM.EarType.EARS_HUMAN)
+    if (liveData.player.earType == ENUM.EarType.Human)
       GUI.outputText(
         '<br><br>Your ears tug painfully on your face as they begin shifting, moving upwards to the top of your head and transforming into a upright animalistic ears. ',
       );
-    if (liveData.player.earType == ENUM.EarType.EARS_DOG)
+    if (liveData.player.earType == ENUM.EarType.Dog)
       GUI.outputText('<br><br>Your ears change shape, morphing into from their doglike shape into equine-like ears! ');
-    if (liveData.player.earType > ENUM.EarType.EARS_DOG) GUI.outputText('<br><br>Your ears change shape, morphing into teardrop-shaped horse ears! ');
-    liveData.player.earType = ENUM.EarType.EARS_HORSE;
+    if (liveData.player.earType > ENUM.EarType.Dog) GUI.outputText('<br><br>Your ears change shape, morphing into teardrop-shaped horse ears! ');
+    liveData.player.earType = ENUM.EarType.Horse;
     liveData.player.earValue = 0;
     GUI.outputText('<b>You now have horse ears.</b>');
     changes++;
   }
   //Tail - no-prereq
-  if (liveData.player.tailType != ENUM.TailType.TAIL_TYPE_HORSE && UTIL.rand(2) == 0 && changes < changeLimit) {
+  if (liveData.player.tailType != ENUM.TailType.HORSE && UTIL.rand(2) == 0 && changes < changeLimit) {
     //no tail
     if (liveData.player.tailType == 0) {
       GUI.outputText(
@@ -2744,7 +2717,7 @@ export function equineTFs(): void {
       );
     }
     //if other animal tail
-    if (liveData.player.tailType > ENUM.TailType.TAIL_TYPE_HORSE && liveData.player.tailType <= ENUM.TailType.TAIL_TYPE_COW) {
+    if (liveData.player.tailType > ENUM.TailType.HORSE && liveData.player.tailType <= ENUM.TailType.COW) {
       GUI.outputText(
         '<br><br>Pain lances up your ' +
           liveData.player.assholeDescript() +
@@ -2752,12 +2725,12 @@ export function equineTFs(): void {
       );
     }
     //if bee/spider-butt.
-    if (liveData.player.tailType > ENUM.TailType.TAIL_TYPE_COW && liveData.player.tailType < ENUM.TailType.TAIL_TYPE_SHARK) {
+    if (liveData.player.tailType > ENUM.TailType.COW && liveData.player.tailType < ENUM.TailType.SHARK) {
       GUI.outputText(
         '<br><br>Your insect-like abdomen bunches up as it begins shrinking, exoskeleton flaking off like a snake sheds its skin. It bunches up until it is as small as a tennis ball, then explodes outwards, growing into an animalistic tail shape. Moments later, it explodes into filaments of pain, dividing into hundreds of strands and turning into a shiny horsetail.',
       );
     }
-    if (liveData.player.tailType >= ENUM.TailType.TAIL_TYPE_SHARK) {
+    if (liveData.player.tailType >= ENUM.TailType.SHARK) {
       GUI.outputText(
         '<br><br>Pain lances up your ' +
           liveData.player.assholeDescript() +
@@ -2765,7 +2738,7 @@ export function equineTFs(): void {
       );
     }
     GUI.outputText(' <b>You now have a horse-tail.</b>');
-    liveData.player.tailType = ENUM.TailType.TAIL_TYPE_HORSE;
+    liveData.player.tailType = ENUM.TailType.HORSE;
     liveData.player.tailVenom = 0;
     liveData.player.tailRecharge = 0;
     changes++;
@@ -2794,8 +2767,8 @@ export function felineTFs(): void {
   if (UTIL.rand(2) == 0) changeLimit++;
   if (UTIL.rand(2) == 0) changeLimit++;
   if (UTIL.rand(3) == 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.HistoryAlchemist) >= 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.TransformationResistance) >= 0) changeLimit--;
+  if (liveData.player.findPerk(liveData.PerkLib.HistoryAlchemist) >= 0) changeLimit++;
+  if (liveData.player.findPerk(liveData.PerkLib.TransformationResistance) >= 0) changeLimit--;
   //Text go!
   GUI.clearOutput();
   GUI.outputText(
@@ -2932,7 +2905,7 @@ export function felineTFs(): void {
             liveData.player.vaginaDescript(0) +
             ' clenches tightly, squeezing with reflexive, aching need. Your skin flushes hot ',
         );
-        if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR) GUI.outputText('underneath your fur ');
+        if (liveData.player.skinType == ENUM.SkinType.Fur) GUI.outputText('underneath your fur ');
         GUI.outputText('as images and fantasies ');
         if (liveData.player.cor < 50) GUI.outputText('assault ');
         else GUI.outputText('fill ');
@@ -3008,8 +2981,8 @@ export function felineTFs(): void {
   if (
     liveData.player.cockTotal() > 0 &&
     liveData.player.countCocksOfType(ENUM.CockType.CAT) < liveData.player.cockTotal() &&
-    (liveData.player.earType == ENUM.EarType.EARS_CAT || UTIL.rand(3) > 0) &&
-    (liveData.player.tailType == ENUM.TailType.TAIL_TYPE_CAT || UTIL.rand(3) > 0) &&
+    (liveData.player.earType == ENUM.EarType.Cat || UTIL.rand(3) > 0) &&
+    (liveData.player.tailType == ENUM.TailType.CAT || UTIL.rand(3) > 0) &&
     changes < changeLimit &&
     UTIL.rand(4) == 0
   ) {
@@ -3095,9 +3068,9 @@ export function felineTFs(): void {
   //------------
   //Body type changes.  Teh rarest of the rare.
   //DA EARZ
-  if (liveData.player.earType != ENUM.EarType.EARS_CAT && UTIL.rand(5) == 0 && changes < changeLimit) {
+  if (liveData.player.earType != ENUM.EarType.Cat && UTIL.rand(5) == 0 && changes < changeLimit) {
     //human to cat:
-    if (liveData.player.earType == ENUM.EarType.EARS_HUMAN) {
+    if (liveData.player.earType == ENUM.EarType.Human) {
       if (UTIL.rand(2) == 0)
         GUI.outputText(
           '<br><br>The skin on the sides of your face stretches painfully as your ears migrate upwards, towards the top of your head. They shift and elongate a little, fur growing on them as they become feline in nature. <b>You now have cat ears.</b>',
@@ -3118,17 +3091,12 @@ export function felineTFs(): void {
           "<br><br>Your ears tingle and begin to change shape. Within a few moments, they've become long and feline. Thanks to the new fuzzy organs, you find yourself able to hear things that eluded your notice up until now. <b>You now have cat ears.</b>",
         );
     }
-    liveData.player.earType = ENUM.EarType.EARS_CAT;
+    liveData.player.earType = ENUM.EarType.Cat;
     changes++;
   }
   //DA TAIL (IF ALREADY HAZ URZ)
-  if (
-    liveData.player.tailType != ENUM.TailType.TAIL_TYPE_CAT &&
-    liveData.player.earType == ENUM.EarType.EARS_CAT &&
-    UTIL.rand(5) == 0 &&
-    changes < changeLimit
-  ) {
-    if (liveData.player.tailType == ENUM.TailType.TAIL_TYPE_NONE) {
+  if (liveData.player.tailType != ENUM.TailType.CAT && liveData.player.earType == ENUM.EarType.Cat && UTIL.rand(5) == 0 && changes < changeLimit) {
+    if (liveData.player.tailType == ENUM.TailType.NONE) {
       temp = UTIL.rand(3);
       if (temp == 0)
         GUI.outputText(
@@ -3150,19 +3118,19 @@ export function felineTFs(): void {
       GUI.outputText(
         "<br><br>You pause and tilt your head... something feels different. Ah, that's what it is; you turn around and look down at your tail as it starts to change shape, narrowing and sprouting glossy fur. <b>You now have a cat tail.</b>",
       );
-    liveData.player.tailType = ENUM.TailType.TAIL_TYPE_CAT;
+    liveData.player.tailType = ENUM.TailType.CAT;
     changes++;
   }
   //Da paws (if already haz ears & tail)
   if (
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_CAT &&
-    liveData.player.earType == ENUM.EarType.EARS_CAT &&
+    liveData.player.tailType == ENUM.TailType.CAT &&
+    liveData.player.earType == ENUM.EarType.Cat &&
     UTIL.rand(5) == 0 &&
     changes < changeLimit &&
-    liveData.player.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT
+    liveData.player.lowerBody != ENUM.LowerBodyType.CAT
   ) {
     //hoof to cat:
-    if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED) {
+    if (liveData.player.lowerBody == ENUM.LowerBodyType.HOOFED) {
       GUI.outputText(
         '<br><br>You feel your hooves suddenly splinter, growing into five unique digits. Their flesh softens as your hooves reshape into furred cat paws. <b>You now have cat paws.</b>',
       );
@@ -3170,7 +3138,7 @@ export function felineTFs(): void {
         GUI.outputText(" You feel woozy and collapse on your side. When you wake, you're no longer a centaur and your body has returned to a humanoid shape.");
     }
     //Goo to cat
-    else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_GOO) {
+    else if (liveData.player.lowerBody == ENUM.LowerBodyType.GOO) {
       GUI.outputText(
         '<br><br>Your lower body rushes inward, molding into two leg-like shapes that gradually stiffen up. In moments they solidify into digitigrade legs, complete with soft, padded cat-paws. <b>You now have cat-paws!</b>',
       );
@@ -3182,21 +3150,21 @@ export function felineTFs(): void {
           liveData.player.feet() +
           ' break and begin to rearrange. When the pain fades, you feel surprisingly well-balanced. <b>You now have cat paws.</b>',
       );
-    liveData.player.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT;
+    liveData.player.lowerBody = ENUM.LowerBodyType.CAT;
     liveData.player.legCount = 2;
     changes++;
   }
   //TURN INTO A FURRAH!  OH SHIT
   if (
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_CAT &&
-    liveData.player.earType == ENUM.EarType.EARS_CAT &&
+    liveData.player.tailType == ENUM.TailType.CAT &&
+    liveData.player.earType == ENUM.EarType.Cat &&
     UTIL.rand(5) == 0 &&
     changes < changeLimit &&
-    liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT &&
-    liveData.player.skinType != ENUM.SkinType.SKIN_TYPE_FUR
+    liveData.player.lowerBody == ENUM.LowerBodyType.CAT &&
+    liveData.player.skinType != ENUM.SkinType.Fur
   ) {
     GUI.outputText('<br><br>Your ' + liveData.player.skinDesc + ' begins to tingle, then itch. ');
-    liveData.player.skinType = ENUM.SkinType.SKIN_TYPE_FUR;
+    liveData.player.skinType = ENUM.SkinType.Fur;
     liveData.player.skinDesc = 'fur';
     liveData.player.setFurColor([
       'brown',
@@ -3227,14 +3195,13 @@ export function felineTFs(): void {
   }
   //CAT-FACE!  FULL ON FURRY!  RAGE AWAY NEKOZ
   if (
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_CAT &&
-    liveData.player.earType == ENUM.EarType.EARS_CAT &&
+    liveData.player.tailType == ENUM.TailType.CAT &&
+    liveData.player.earType == ENUM.EarType.Cat &&
     UTIL.rand(5) == 0 &&
     changes < changeLimit &&
-    liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT &&
-    (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR ||
-      (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES && liveData.player.dragonneScore() >= 4)) &&
-    liveData.player.faceType != ENUM.FaceType.FACE_CAT
+    liveData.player.lowerBody == ENUM.LowerBodyType.CAT &&
+    (liveData.player.skinType == ENUM.SkinType.Fur || (liveData.player.skinType == ENUM.SkinType.Scales && liveData.player.dragonneScore() >= 4)) &&
+    liveData.player.faceType != ENUM.FaceType.Cat
   ) {
     //Gain cat face, replace old face
     temp = UTIL.rand(3);
@@ -3250,7 +3217,7 @@ export function felineTFs(): void {
       GUI.outputText(
         '<br><br>Your face is wracked with pain. You throw back your head and scream in agony as you feel your cheekbones breaking and shifting, reforming into something else. <b>Your facial features rearrange to take on many feline aspects.</b>',
       );
-    liveData.player.faceType = ENUM.FaceType.FACE_CAT;
+    liveData.player.faceType = ENUM.FaceType.Cat;
     changes++;
   }
   if (UTIL.rand(4) == 0 && liveData.player.gills && changes < changeLimit) {
@@ -3282,8 +3249,8 @@ export function goblinTFs(): void {
   if (UTIL.rand(3) == 0) changeLimit++;
   if (UTIL.rand(4) == 0) changeLimit++;
   if (UTIL.rand(5) == 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.HistoryAlchemist) >= 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.TransformationResistance) >= 0) changeLimit--;
+  if (liveData.player.findPerk(liveData.PerkLib.HistoryAlchemist) >= 0) changeLimit++;
+  if (liveData.player.findPerk(liveData.PerkLib.TransformationResistance) >= 0) changeLimit--;
   GUI.outputText('You drink the ale, finding it to have a remarkably smooth yet potent taste. You lick your lips and sneeze, feeling slightly tipsy.');
   liveData.player.slimeFeed();
   liveData.player.changeLust(15);
@@ -3322,9 +3289,15 @@ export function goblinTFs(): void {
     changes++;
   }
   //Boost vaginal capacity without gaping
-  if (changes < changeLimit && UTIL.rand(3) == 0 && liveData.player.hasVagina() && liveData.player.statusEffectValue(StatusEffects.BonusVCapacity, 1) < 40) {
-    if (liveData.player.findStatusEffect(StatusEffects.BonusVCapacity) < 0) liveData.player.createStatusEffect(StatusEffects.BonusVCapacity, 0, 0, 0, 0);
-    liveData.player.addStatusValue(StatusEffects.BonusVCapacity, 1, 5);
+  if (
+    changes < changeLimit &&
+    UTIL.rand(3) == 0 &&
+    liveData.player.hasVagina() &&
+    liveData.player.statusEffectValue(liveData.StatusEffects.BonusVCapacity, 1) < 40
+  ) {
+    if (liveData.player.findStatusEffect(liveData.StatusEffects.BonusVCapacity) < 0)
+      liveData.player.createStatusEffect(liveData.StatusEffects.BonusVCapacity, 0, 0, 0, 0);
+    liveData.player.addStatusValue(liveData.StatusEffects.BonusVCapacity, 1, 5);
     GUI.outputText(
       '<br><br>There is a sudden... emptiness within your ' +
         liveData.player.vaginaDescript(0) +
@@ -3362,7 +3335,7 @@ export function goblinTFs(): void {
     GUI.outputText(
       '<br><br>As you down the potent ale, your head begins to feel heavier - and not just from the alcohol! Reaching up, you notice your tentacles becoming soft and somewhat fibrous. Pulling one down reveals that it feels smooth, silky, and fibrous; you watch as it dissolves into many thin, hair-like strands. <b>Your hair is now back to normal!</b>',
     );
-    liveData.player.hairType = ENUM.HairType.HAIR_NORMAL;
+    liveData.player.hairType = ENUM.HairType.Normal;
     changes++;
   }
   //Shrink
@@ -3373,23 +3346,23 @@ export function goblinTFs(): void {
   }
 
   //-Remove feather-arms (copy this for goblin ale, mino blood, equinum, canine pepps, demon items)
-  if (changes < changeLimit && liveData.player.armType == ENUM.ArmType.ARM_TYPE_HARPY && UTIL.rand(4) == 0) {
+  if (changes < changeLimit && liveData.player.armType == ENUM.ArmType.HARPY && UTIL.rand(4) == 0) {
     GUI.outputText(
       "<br><br>You scratch at your biceps absentmindedly, but no matter how much you scratch, it isn't getting rid of the itch. Glancing down in irritation, you discover that your feathery arms are shedding their feathery coating. The wing-like shape your arms once had is gone in a matter of moments, leaving " +
         liveData.player.skinDesc +
         ' behind.',
     );
-    liveData.player.armType = ENUM.ArmType.ARM_TYPE_HUMAN;
+    liveData.player.armType = ENUM.ArmType.HUMAN;
     changes++;
   }
   //-Remove chitin-arms (copy this for goblin ale, mino blood, equinum, canine pepps, demon items)
-  if (changes < changeLimit && liveData.player.armType == ENUM.ArmType.ARM_TYPE_SPIDER && UTIL.rand(4) == 0) {
+  if (changes < changeLimit && liveData.player.armType == ENUM.ArmType.SPIDER && UTIL.rand(4) == 0) {
     GUI.outputText(
       "<br><br>You scratch at your biceps absentmindedly, but no matter how much you scratch, it isn't getting rid of the itch. Glancing down in irritation, you discover that your arms' chitinous covering is flaking away. The glossy black coating is soon gone, leaving " +
         liveData.player.skinDesc +
         ' behind.',
     );
-    liveData.player.armType = ENUM.ArmType.ARM_TYPE_HUMAN;
+    liveData.player.armType = ENUM.ArmType.HUMAN;
     changes++;
   }
   //REMOVAL STUFF
@@ -3397,11 +3370,11 @@ export function goblinTFs(): void {
   if (
     changes < changeLimit &&
     UTIL.rand(4) == 0 &&
-    (liveData.player.wingType == ENUM.WingType.WING_TYPE_BEE_LIKE_SMALL ||
-      liveData.player.wingType == ENUM.WingType.WING_TYPE_BEE_LIKE_LARGE ||
-      liveData.player.wingType >= ENUM.WingType.WING_TYPE_HARPY)
+    (liveData.player.wingType == ENUM.WingType.BEE_LIKE_SMALL ||
+      liveData.player.wingType == ENUM.WingType.BEE_LIKE_LARGE ||
+      liveData.player.wingType >= ENUM.WingType.HARPY)
   ) {
-    if (liveData.player.wingType == ENUM.WingType.WING_TYPE_SHARK_FIN)
+    if (liveData.player.wingType == ENUM.WingType.SHARK_FIN)
       GUI.outputText(
         "<br><br>Your back tingles, feeling lighter. Something lands behind you with a 'thump', and when you turn to look, you see your fin has fallen off. This might be the best (and worst) booze you've ever had! <b>You no longer have a fin!</b>",
       );
@@ -3409,22 +3382,22 @@ export function goblinTFs(): void {
       GUI.outputText(
         "<br><br>Your shoulders tingle, feeling lighter. Something lands behind you with a 'thump', and when you turn to look you see your wings have fallen off. This might be the best (and worst) booze you've ever had! <b>You no longer have wings!</b>",
       );
-    liveData.player.wingType = ENUM.WingType.WING_TYPE_NONE;
+    liveData.player.wingType = ENUM.WingType.NONE;
     changes++;
   }
   //Removes wings and antennaes!
-  if (changes < changeLimit && UTIL.rand(3) == 0 && liveData.player.antennae > ENUM.AntennaeType.ANTENNAE_NONE) {
+  if (changes < changeLimit && UTIL.rand(3) == 0 && liveData.player.antennae > ENUM.AntennaeType.NONE) {
     GUI.outputText(
       '<br><br>Your ' +
         liveData.player.hairDescript() +
         " itches so you give it a scratch, only to have your antennae fall to the ground. What a relief. <b>You've lost your antennae!</b>",
     );
     changes++;
-    liveData.player.antennae = ENUM.AntennaeType.ANTENNAE_NONE;
+    liveData.player.antennae = ENUM.AntennaeType.NONE;
   }
   //Remove odd eyes
-  if (changes < changeLimit && UTIL.rand(5) == 0 && liveData.player.eyeType > ENUM.EyeType.EYES_HUMAN) {
-    if (liveData.player.eyeType == ENUM.EyeType.EYES_BLACK_EYES_SAND_TRAP) {
+  if (changes < changeLimit && UTIL.rand(5) == 0 && liveData.player.eyeType > ENUM.EyeType.Human) {
+    if (liveData.player.eyeType == ENUM.EyeType.BlackEyesSandTrap) {
       GUI.outputText(
         '<br><br>You feel a twinge in your eyes and you blink. It feels like black cataracts have just fallen away from you, and you know without needing to see your reflection that your eyes have gone back to looking human.',
       );
@@ -3434,10 +3407,10 @@ export function goblinTFs(): void {
           liveData.player.feet() +
           ' from under you. As you steady and open your eyes, you realize something seems different. Your vision is changed somehow.',
       );
-      if (liveData.player.eyeType == ENUM.EyeType.EYES_FOUR_SPIDER_EYES) GUI.outputText(' Your multiple, arachnid eyes are gone!</b>');
+      if (liveData.player.eyeType == ENUM.EyeType.FourSpiderEyes) GUI.outputText(' Your multiple, arachnid eyes are gone!</b>');
       GUI.outputText(' <b>You have normal, humanoid eyes again.</b>');
     }
-    liveData.player.eyeType = ENUM.EyeType.EYES_HUMAN;
+    liveData.player.eyeType = ENUM.EyeType.Human;
     changes++;
   }
   //-Remove extra breast rows
@@ -3451,28 +3424,23 @@ export function goblinTFs(): void {
     if (liveData.player.bRows() >= 3) GUI.outputText('abdomen');
     else GUI.outputText('chest');
     GUI.outputText('. The ' + liveData.player.nippleDescript(liveData.player.breastRows.length - 1) + 's even fade until nothing but ');
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR) GUI.outputText(liveData.player.hairColor + ' ' + liveData.player.skinDesc);
+    if (liveData.player.skinType == ENUM.SkinType.Fur) GUI.outputText(liveData.player.hairColor + ' ' + liveData.player.skinDesc);
     else GUI.outputText(liveData.player.skinTone + ' ' + liveData.player.skinDesc);
     GUI.outputText(" remains. <b>You've lost a row of breasts!</b>");
     liveData.player.modStats(['sen', -5]);
     liveData.player.removeBreastRow(liveData.player.breastRows.length - 1, 1);
   }
   //Skin/fur
-  if (
-    liveData.player.skinType != ENUM.SkinType.SKIN_TYPE_PLAIN &&
-    changes < changeLimit &&
-    UTIL.rand(4) == 0 &&
-    liveData.player.faceType == ENUM.FaceType.FACE_HUMAN
-  ) {
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR)
+  if (liveData.player.skinType != ENUM.SkinType.Plain && changes < changeLimit && UTIL.rand(4) == 0 && liveData.player.faceType == ENUM.FaceType.Human) {
+    if (liveData.player.skinType == ENUM.SkinType.Fur)
       GUI.outputText(
         "<br><br>Your fur itches incessantly, so you start scratching it. It starts coming off in big clumps before the whole mess begins sloughing off your body. In seconds, your skin is nude. <b>You've lost your fur!</b>",
       );
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES)
+    if (liveData.player.skinType == ENUM.SkinType.Scales)
       GUI.outputText(
         "<br><br>Your scales itch incessantly, so you scratch at them. They start falling off wholesale, leaving you standing in a pile of scales after only a few moments. <b>You've lost your scales!</b>",
       );
-    if (liveData.player.skinType > ENUM.SkinType.SKIN_TYPE_SCALES)
+    if (liveData.player.skinType > ENUM.SkinType.Scales)
       GUI.outputText(
         '<br><br>Your ' +
           liveData.player.skinDesc +
@@ -3480,7 +3448,7 @@ export function goblinTFs(): void {
       );
     liveData.player.skinAdj = '';
     liveData.player.skinDesc = 'skin';
-    liveData.player.skinType = ENUM.SkinType.SKIN_TYPE_PLAIN;
+    liveData.player.skinType = ENUM.SkinType.Plain;
     changes++;
   }
   //skinTone
@@ -3499,32 +3467,27 @@ export function goblinTFs(): void {
     }
     changes++;
     GUI.outputText('<br><br>Whoah, that was weird. You just hallucinated that your ');
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR) GUI.outputText('skin');
+    if (liveData.player.skinType == ENUM.SkinType.Fur) GUI.outputText('skin');
     else GUI.outputText(liveData.player.skinDesc);
     GUI.outputText(' turned ' + liveData.player.skinTone + ". No way! It's staying, it really changed color!");
   }
   //Face!
-  if (
-    liveData.player.faceType != ENUM.FaceType.FACE_HUMAN &&
-    changes < changeLimit &&
-    UTIL.rand(4) == 0 &&
-    liveData.player.earType == ENUM.EarType.EARS_ELFIN
-  ) {
+  if (liveData.player.faceType != ENUM.FaceType.Human && changes < changeLimit && UTIL.rand(4) == 0 && liveData.player.earType == ENUM.EarType.Elfin) {
     changes++;
-    liveData.player.faceType = ENUM.FaceType.FACE_HUMAN;
+    liveData.player.faceType = ENUM.FaceType.Human;
     GUI.outputText(
       '<br><br>Another violent sneeze escapes you. It hurt! You feel your nose and discover your face has changed back into a more normal look. <b>You have a human looking face again!</b>',
     );
   }
   //Ears!
-  if (liveData.player.earType != ENUM.EarType.EARS_ELFIN && changes < changeLimit && UTIL.rand(3) == 0) {
+  if (liveData.player.earType != ENUM.EarType.Elfin && changes < changeLimit && UTIL.rand(3) == 0) {
     GUI.outputText(
       '<br><br>A weird tingling runs through your scalp as your ' +
         liveData.player.hairDescript() +
         ' shifts slightly. You reach up to touch and bump <b>your new pointed elfin ears</b>. You bet they look cute!',
     );
     changes++;
-    liveData.player.earType = ENUM.EarType.EARS_ELFIN;
+    liveData.player.earType = ENUM.EarType.Elfin;
   }
   if (UTIL.rand(4) == 0 && liveData.player.gills && changes < changeLimit) {
     GUI.outputText('<br><br>Your chest itches, and as you reach up to scratch it, you realize your gills have withdrawn into your skin.');
@@ -3552,7 +3515,7 @@ export function goblinTFs(): void {
   if (
     changes < changeLimit &&
     UTIL.rand(4) == 0 &&
-    ((liveData.player.ass.analWetness > 0 && liveData.player.findPerk(PerkLib.MaraesGiftButtslut) < 0) || liveData.player.ass.analWetness > 1)
+    ((liveData.player.ass.analWetness > 0 && liveData.player.findPerk(liveData.PerkLib.MaraesGiftButtslut) < 0) || liveData.player.ass.analWetness > 1)
   ) {
     GUI.outputText(
       '<br><br>You feel a tightening up in your colon and your [asshole] sucks into itself. You feel sharp pain at first but that thankfully fades. Your ass seems to have dried and tightened up.',
@@ -3574,8 +3537,8 @@ export function humanTFs(): void {
   let changeLimit = 1;
   if (UTIL.rand(2) == 0) changeLimit++;
   if (UTIL.rand(2) == 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.HistoryAlchemist) >= 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.TransformationResistance) >= 0) changeLimit--;
+  if (liveData.player.findPerk(liveData.PerkLib.HistoryAlchemist) >= 0) changeLimit++;
+  if (liveData.player.findPerk(liveData.PerkLib.TransformationResistance) >= 0) changeLimit--;
   //Text go!
   GUI.clearOutput();
   GUI.outputText(
@@ -3601,7 +3564,7 @@ export function humanTFs(): void {
     GUI.outputText(
       '<br><br>Your quadrupedal hind-quarters seizes, overbalancing your surprised front-end and causing you to stagger and fall to your side. Pain lances throughout, contorting your body into a tightly clenched ball of pain while tendons melt and bones break, melt, and regrow. When it finally stops, <b>you look down to behold your new pair of human legs</b>!',
     );
-    liveData.player.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN;
+    liveData.player.lowerBody = ENUM.LowerBodyType.HUMAN;
     liveData.player.legCount = 2;
     changes++;
   }
@@ -3610,7 +3573,7 @@ export function humanTFs(): void {
     GUI.outputText(
       '<br><br>Your lower body rushes inward, molding into two leg-like shapes that gradually stiffen up. In moments they solidify into normal-looking legs, complete with regular, human feet. <b>You now have normal feet!</b>',
     );
-    liveData.player.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN;
+    liveData.player.lowerBody = ENUM.LowerBodyType.HUMAN;
     liveData.player.legCount = 2;
     changes++;
   }
@@ -3619,25 +3582,25 @@ export function humanTFs(): void {
     GUI.outputText(
       '<br><br>You collapse as your sinuous snake-tail tears in half, shifting into legs. The pain is immense, particularly where your new feet are forming. <b>You have human legs again.</b>',
     );
-    liveData.player.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN;
+    liveData.player.lowerBody = ENUM.LowerBodyType.HUMAN;
     liveData.player.legCount = 2;
     changes++;
   }
   //(Non-human -> Normal Human Legs)
-  if (liveData.player.isBiped() && liveData.player.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN && changes < changeLimit && UTIL.rand(4) == 0) {
+  if (liveData.player.isBiped() && liveData.player.lowerBody != ENUM.LowerBodyType.HUMAN && changes < changeLimit && UTIL.rand(4) == 0) {
     GUI.outputText(
       '<br><br>You collapse as your legs shift and twist. By the time the pain subsides, you notice that you have normal legs and normal feet. <b>You now have normal feet!</b>',
     );
-    liveData.player.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN;
+    liveData.player.lowerBody = ENUM.LowerBodyType.HUMAN;
     liveData.player.legCount = 2;
     changes++;
   }
   //Remove Incorporeality Perk
-  if (liveData.player.findPerk(PerkLib.Incorporeality) >= 0 && changes < changeLimit && UTIL.rand(10) == 0) {
+  if (liveData.player.findPerk(liveData.PerkLib.Incorporeality) >= 0 && changes < changeLimit && UTIL.rand(10) == 0) {
     GUI.outputText(
       '<br><br>You feel a strange sensation in your [legs] as they start to feel more solid. They become more opaque until finally, you can no longer see through your [legs]. <br><b>(Perk Lost: Incorporeality!)</b>',
     );
-    liveData.player.removePerk(PerkLib.Incorporeality);
+    liveData.player.removePerk(liveData.PerkLib.Incorporeality);
     changes++;
   }
   //-Skin color change – tan, olive, dark, light
@@ -3651,8 +3614,7 @@ export function humanTFs(): void {
   ) {
     changes++;
     GUI.outputText('<br><br>It takes a while for you to notice, but <b>');
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR)
-      GUI.outputText('the skin under your ' + liveData.player.furColor + ' ' + liveData.player.skinDesc);
+    if (liveData.player.skinType == ENUM.SkinType.Fur) GUI.outputText('the skin under your ' + liveData.player.furColor + ' ' + liveData.player.skinDesc);
     else GUI.outputText('your ' + liveData.player.skinDesc);
     GUI.outputText(' has changed to become ');
     const temp = UTIL.rand(4);
@@ -3664,8 +3626,8 @@ export function humanTFs(): void {
   }
   //Change skin to normal
   if (
-    liveData.player.skinType != ENUM.SkinType.SKIN_TYPE_PLAIN &&
-    (liveData.player.earType == ENUM.EarType.EARS_HUMAN || liveData.player.earType == ENUM.EarType.EARS_ELFIN) &&
+    liveData.player.skinType != ENUM.SkinType.Plain &&
+    (liveData.player.earType == ENUM.EarType.Human || liveData.player.earType == ENUM.EarType.Elfin) &&
     UTIL.rand(4) == 0 &&
     changes < changeLimit
   ) {
@@ -3674,58 +3636,58 @@ export function humanTFs(): void {
         liveData.player.skinFurScales() +
         ' ',
     );
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES) GUI.outputText('are');
+    if (liveData.player.skinType == ENUM.SkinType.Scales) GUI.outputText('are');
     else GUI.outputText('is');
     GUI.outputText(' falling to the ground, revealing flawless skin below. <b>You now have normal skin.</b>');
 
-    liveData.player.skinType = ENUM.SkinType.SKIN_TYPE_PLAIN;
+    liveData.player.skinType = ENUM.SkinType.Plain;
     liveData.player.skinDesc = 'skin';
     changes++;
   }
   //-Remove feather-arms (copy this for goblin ale, mino blood, equinum, canine pepps, demon items)
-  if (changes < changeLimit && liveData.player.armType == ENUM.ArmType.ARM_TYPE_HARPY && UTIL.rand(4) == 0) {
+  if (changes < changeLimit && liveData.player.armType == ENUM.ArmType.HARPY && UTIL.rand(4) == 0) {
     GUI.outputText(
       "<br><br>You scratch at your biceps absentmindedly, but no matter how much you scratch, it isn't getting rid of the itch. Glancing down in irritation, you discover that your feathery arms are shedding their feathery coating. The wing-like shape your arms once had is gone in a matter of moments, leaving " +
         liveData.player.skinDesc +
         ' behind.',
     );
-    liveData.player.armType = ENUM.ArmType.ARM_TYPE_HUMAN;
+    liveData.player.armType = ENUM.ArmType.HUMAN;
     changes++;
   }
   //-Remove chitin-arms (copy this for goblin ale, mino blood, equinum, canine pepps, demon items)
-  if (changes < changeLimit && liveData.player.armType == ENUM.ArmType.ARM_TYPE_SPIDER && UTIL.rand(4) == 0) {
+  if (changes < changeLimit && liveData.player.armType == ENUM.ArmType.SPIDER && UTIL.rand(4) == 0) {
     GUI.outputText(
       "<br><br>You scratch at your biceps absentmindedly, but no matter how much you scratch, it isn't getting rid of the itch. Glancing down in irritation, you discover that your arms' chitinous covering is flaking away. The glossy black coating is soon gone, leaving " +
         liveData.player.skinDesc +
         ' behind.',
     );
-    liveData.player.armType = ENUM.ArmType.ARM_TYPE_HUMAN;
+    liveData.player.armType = ENUM.ArmType.HUMAN;
     changes++;
   }
   //------------
   // MINOR TFs
   //------------
   //-Human face
-  if (liveData.player.faceType != ENUM.FaceType.FACE_HUMAN && changes < changeLimit && UTIL.rand(4) == 0) {
+  if (liveData.player.faceType != ENUM.FaceType.Human && changes < changeLimit && UTIL.rand(4) == 0) {
     GUI.outputText(
       '<br><br>Sudden agony sweeps over your ' +
         liveData.player.face() +
         ", your visage turning hideous as bones twist and your jawline shifts. The pain slowly vanishes, leaving you weeping into your fingers. When you pull your hands away you realize you've been left with a completely normal, human face.",
     );
-    liveData.player.faceType = ENUM.FaceType.FACE_HUMAN;
+    liveData.player.faceType = ENUM.FaceType.Human;
     changes++;
   }
   //-Human tongue
-  if (liveData.player.tongueType != ENUM.TongueType.TONGUE_HUMAN && changes < changeLimit && UTIL.rand(4) == 0) {
+  if (liveData.player.tongueType != ENUM.TongueType.Human && changes < changeLimit && UTIL.rand(4) == 0) {
     GUI.outputText(
       '<br><br>You feel something strange inside your face as your tongue shrinks and recedes until it feels smooth and rounded. <b>You realize your tongue has changed back into human tongue!</b>',
     );
-    liveData.player.tongueType = ENUM.TongueType.TONGUE_HUMAN;
+    liveData.player.tongueType = ENUM.TongueType.Human;
     changes++;
   }
   //Remove odd eyes
-  if (changes < changeLimit && UTIL.rand(5) == 0 && liveData.player.eyeType > ENUM.EyeType.EYES_HUMAN) {
-    if (liveData.player.eyeType == ENUM.EyeType.EYES_BLACK_EYES_SAND_TRAP) {
+  if (changes < changeLimit && UTIL.rand(5) == 0 && liveData.player.eyeType > ENUM.EyeType.Human) {
+    if (liveData.player.eyeType == ENUM.EyeType.BlackEyesSandTrap) {
       GUI.outputText(
         '<br><br>You feel a twinge in your eyes and you blink. It feels like black cataracts have just fallen away from you, and you know without needing to see your reflection that your eyes have gone back to looking human.',
       );
@@ -3735,23 +3697,18 @@ export function humanTFs(): void {
           liveData.player.feet() +
           ' from under you. As you steady and open your eyes, you realize something seems different. Your vision is changed somehow.',
       );
-      if (liveData.player.eyeType == ENUM.EyeType.EYES_FOUR_SPIDER_EYES) GUI.outputText(' Your multiple, arachnid eyes are gone!</b>');
+      if (liveData.player.eyeType == ENUM.EyeType.FourSpiderEyes) GUI.outputText(' Your multiple, arachnid eyes are gone!</b>');
       GUI.outputText(' <b>You have normal, humanoid eyes again.</b>');
     }
-    liveData.player.eyeType = ENUM.EyeType.EYES_HUMAN;
+    liveData.player.eyeType = ENUM.EyeType.Human;
     changes++;
   }
   //-Gain human ears (If you have human face)
-  if (
-    liveData.player.earType != ENUM.EarType.EARS_HUMAN &&
-    liveData.player.faceType == ENUM.FaceType.FACE_HUMAN &&
-    changes < changeLimit &&
-    UTIL.rand(4) == 0
-  ) {
+  if (liveData.player.earType != ENUM.EarType.Human && liveData.player.faceType == ENUM.FaceType.Human && changes < changeLimit && UTIL.rand(4) == 0) {
     GUI.outputText(
       "<br><br>Ouch, your head aches! It feels like your ears are being yanked out of your head, and when you reach up to hold your aching noggin, you find they've vanished! Swooning and wobbling with little sense of balance, you nearly fall a half-dozen times before <b>a pair of normal, human ears sprout from the sides of your head.</b> You had almost forgotten what human ears felt like!",
     );
-    liveData.player.earType = ENUM.EarType.EARS_HUMAN;
+    liveData.player.earType = ENUM.EarType.Human;
     changes++;
   }
   //Removes gills
@@ -3771,7 +3728,7 @@ export function humanTFs(): void {
     liveData.gameFlags[FLAG.HAS_BLACK_NIPPLES] = 0;
   }
   //Remove feathery hair (copy for equinum, canine peppers, Labova)
-  if (changes < changeLimit && liveData.player.hairType == ENUM.HairType.HAIR_FEATHER && UTIL.rand(4) == 0) {
+  if (changes < changeLimit && liveData.player.hairType == ENUM.HairType.Feather && UTIL.rand(4) == 0) {
     //(long):
     if (liveData.player.hairLength >= 6)
       GUI.outputText(
@@ -3783,25 +3740,25 @@ export function humanTFs(): void {
         "<br><br>You run your fingers through your downy-soft feather-hair while you await the effects of the item you just ingested. While your hand is up there, it detects a change in the texture of your feathers. They're completely disappearing, merging down into strands of regular hair. <b>Your hair is no longer feathery!</b>",
       );
     changes++;
-    liveData.player.hairType = ENUM.HairType.HAIR_NORMAL;
+    liveData.player.hairType = ENUM.HairType.Normal;
   }
   //Remove anemone hair
-  if (changes < changeLimit && liveData.player.hairType == ENUM.HairType.HAIR_ANEMONE && UTIL.rand(3) == 0) {
+  if (changes < changeLimit && liveData.player.hairType == ENUM.HairType.Anemone && UTIL.rand(3) == 0) {
     //-insert anemone hair removal into them under whatever criteria you like, though hair removal should precede abdomen growth; here's some sample text:
     GUI.outputText(
       '<br><br>You feel something strange going in on your head. You reach your hands up to feel your tentacle-hair, only to find out that the tentacles have vanished and replaced with normal hair. <b>Your hair is normal again!</b>',
     );
-    liveData.player.hairType = ENUM.HairType.HAIR_NORMAL;
+    liveData.player.hairType = ENUM.HairType.Normal;
     changes++;
   }
   //Remove goo hair
-  if (changes < changeLimit && liveData.player.hairType == ENUM.HairType.HAIR_GOO && UTIL.rand(3) == 0) {
+  if (changes < changeLimit && liveData.player.hairType == ENUM.HairType.Goo && UTIL.rand(3) == 0) {
     GUI.outputText(
       '<br><br>Your gooey hair begins to fall out in globs, eventually leaving you with a bald head. Your head is not left bald for long, though. Within moments, a full head of hair sprouts from the skin of your scalp. <b>Your hair is normal again!</b>',
     );
     //Turn hair growth on.
     liveData.gameFlags[FLAG.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD] = 0;
-    liveData.player.hairType = ENUM.HairType.HAIR_NORMAL;
+    liveData.player.hairType = ENUM.HairType.Normal;
     changes++;
   }
   //Restart hair growth
@@ -3809,30 +3766,30 @@ export function humanTFs(): void {
     GUI.outputText('<br><br>You feel an itching sensation in your scalp as you realize the change. <b>Your hair is growing normally again!</b>');
     //Turn hair growth on.
     liveData.gameFlags[FLAG.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD] = 0;
-    liveData.player.hairType = ENUM.HairType.HAIR_NORMAL;
+    liveData.player.hairType = ENUM.HairType.Normal;
     changes++;
   }
   //------------
   // EXTRA PARTS REMOVAL
   //------------
   //Removes antennae
-  if (liveData.player.antennae > ENUM.AntennaeType.ANTENNAE_NONE && UTIL.rand(3) == 0 && changes < changeLimit) {
+  if (liveData.player.antennae > ENUM.AntennaeType.NONE && UTIL.rand(3) == 0 && changes < changeLimit) {
     GUI.outputText(
       '<br><br>The muscles in your brow clench tightly, and you feel a tremendous pressure on your upper forehead. When it passes, you touch yourself and discover your antennae have vanished!',
     );
-    liveData.player.antennae = ENUM.AntennaeType.ANTENNAE_NONE;
+    liveData.player.antennae = ENUM.AntennaeType.NONE;
     changes++;
   }
   //Removes horns
   if (changes < changeLimit && liveData.player.horns > 0 && UTIL.rand(5) == 0) {
     liveData.player.horns = 0;
-    liveData.player.hornType = ENUM.HornType.HORNS_NONE;
+    liveData.player.hornType = ENUM.HornType.NONE;
     GUI.outputText('<br><br>Your horns crumble, falling apart in large chunks until they flake away to nothing.');
     changes++;
   }
   //Removes wings
-  if (liveData.player.wingType > ENUM.WingType.WING_TYPE_NONE && UTIL.rand(5) == 0 && changes < changeLimit) {
-    if (liveData.player.wingType == ENUM.WingType.WING_TYPE_SHARK_FIN)
+  if (liveData.player.wingType > ENUM.WingType.NONE && UTIL.rand(5) == 0 && changes < changeLimit) {
+    if (liveData.player.wingType == ENUM.WingType.SHARK_FIN)
       GUI.outputText(
         '<br><br>A wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into your spine. After a moment the pain passes, though your fin is gone!',
       );
@@ -3840,15 +3797,15 @@ export function humanTFs(): void {
       GUI.outputText(
         '<br><br>A wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into each of your shoulder-blades. After a moment the pain passes, though your wings are gone!',
       );
-    liveData.player.wingType = ENUM.WingType.WING_TYPE_NONE;
+    liveData.player.wingType = ENUM.WingType.NONE;
     changes++;
   }
   //Removes tail
-  if (liveData.player.tailType > ENUM.TailType.TAIL_TYPE_NONE && UTIL.rand(5) == 0 && changes < changeLimit) {
+  if (liveData.player.tailType > ENUM.TailType.NONE && UTIL.rand(5) == 0 && changes < changeLimit) {
     GUI.outputText(
       '<br><br>You feel something shifting in your backside. Then something detaches from your backside and it falls onto the ground. <b>You no longer have a tail!</b>',
     );
-    liveData.player.tailType = ENUM.TailType.TAIL_TYPE_NONE;
+    liveData.player.tailType = ENUM.TailType.NONE;
     liveData.player.tailVenom = 0;
     liveData.player.tailRecharge = 5;
     changes++;
@@ -3948,7 +3905,7 @@ export function humanTFs(): void {
     if (liveData.player.breastRows.length >= 3) GUI.outputText('abdomen');
     else GUI.outputText('chest');
     GUI.outputText('. The ' + liveData.player.nippleDescript(liveData.player.breastRows.length - 1) + 's even fade until nothing but ');
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR) GUI.outputText(liveData.player.hairColor + ' ' + liveData.player.skinDesc);
+    if (liveData.player.skinType == ENUM.SkinType.Fur) GUI.outputText(liveData.player.hairColor + ' ' + liveData.player.skinDesc);
     else GUI.outputText(liveData.player.skinTone + ' ' + liveData.player.skinDesc);
     GUI.outputText(" remains. <b>You've lost a row of breasts!</b>");
     liveData.player.modStats(['sen', -5]);
@@ -4020,8 +3977,8 @@ export function impTFs(): void {
   let changes = 0;
   let changeLimit = 1;
   if (UTIL.rand(2) == 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.HistoryAlchemist) >= 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.TransformationResistance) >= 0) changeLimit--;
+  if (liveData.player.findPerk(liveData.PerkLib.HistoryAlchemist) >= 0) changeLimit++;
+  if (liveData.player.findPerk(liveData.PerkLib.TransformationResistance) >= 0) changeLimit--;
   //Consumption text
   if (liveData.player.hasCock()) GUI.outputText("The food tastes strange and corrupt - you can't really think of a better word for it, but it's unclean.");
   else GUI.outputText('The food tastes... corrupt, for lack of a better word.');
@@ -4046,7 +4003,7 @@ export function impTFs(): void {
   }
   //Red skin!
   if (changes < changeLimit && UTIL.rand(10) == 0 && liveData.player.skinTone != 'red') {
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR) GUI.outputText('<br><br>Underneath your fur, your skin ');
+    if (liveData.player.skinType == ENUM.SkinType.Fur) GUI.outputText('<br><br>Underneath your fur, your skin ');
     else GUI.outputText('<br><br>Your ' + liveData.player.skinDesc + ' ');
     if (UTIL.rand(2) == 0) liveData.player.skinTone = 'red';
     else liveData.player.skinTone = 'orange';
@@ -4068,14 +4025,14 @@ export function pigTFs(boar: boolean): void {
   if (UTIL.rand(2) == 0) changeLimit++;
   if (UTIL.rand(3) == 0) changeLimit++;
   if (boar) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.HistoryAlchemist) >= 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.TransformationResistance) >= 0) changeLimit--;
+  if (liveData.player.findPerk(liveData.PerkLib.HistoryAlchemist) >= 0) changeLimit++;
+  if (liveData.player.findPerk(liveData.PerkLib.TransformationResistance) >= 0) changeLimit--;
   GUI.outputText('You take a bite into the pigtail truffle. It oddly tastes like bacon. You eventually finish eating. ');
   liveData.player.refillHunger(20);
   //------------
   // BAD END!
   //------------
-  /*if (UTIL.rand(5) == 0 && player.pigScore() >= 5 && player.findPerk(PerkLib.TransformationResistance) < 0) {
+  /*if (UTIL.rand(5) == 0 && player.pigScore() >= 5 && player.findPerk(liveData.PerkLib.TransformationResistance) < 0) {
     if (flags[PIG_BAD_END_WARNING] == 0) {
     GUI.outputText("<br><br>You find yourself idly daydreaming of flailing about in the mud, letting go of all of your troubles. Eventually, you shake off the thought. Why would you do something like that? Maybe you should cut back on all the truffles?");
     player.modStats("inte", -3);
@@ -4158,20 +4115,15 @@ export function pigTFs(boar: boolean): void {
     changes++;
   }
   //Gain pig ears!
-  if (UTIL.rand(boar ? 3 : 4) == 0 && changes < changeLimit && liveData.player.earType != ENUM.EarType.EARS_PIG) {
+  if (UTIL.rand(boar ? 3 : 4) == 0 && changes < changeLimit && liveData.player.earType != ENUM.EarType.Pig) {
     GUI.outputText(
       "<br><br>You feel a pressure on your ears as they begin to reshape. Once the changes finish, you flick them about experimentally, <b>and you're left with pointed, floppy pig ears.</b>",
     );
-    liveData.player.earType = ENUM.EarType.EARS_PIG;
+    liveData.player.earType = ENUM.EarType.Pig;
     changes++;
   }
   //Gain pig tail if you already have pig ears!
-  if (
-    UTIL.rand(boar ? 2 : 3) == 0 &&
-    changes < changeLimit &&
-    liveData.player.earType == ENUM.EarType.EARS_PIG &&
-    liveData.player.tailType != ENUM.TailType.TAIL_TYPE_PIG
-  ) {
+  if (UTIL.rand(boar ? 2 : 3) == 0 && changes < changeLimit && liveData.player.earType == ENUM.EarType.Pig && liveData.player.tailType != ENUM.TailType.PIG) {
     if (liveData.player.tailType > 0)
       //If you have non-pig tail.
       GUI.outputText(
@@ -4182,38 +4134,38 @@ export function pigTFs(boar: boolean): void {
       GUI.outputText(
         '<br><br>You feel a tug at the base of your spine as it lengthens ever so slightly. Looking over your shoulder, <b>you find that you have sprouted a small, curly pig tail.</b>',
       );
-    liveData.player.tailType = ENUM.TailType.TAIL_TYPE_PIG;
+    liveData.player.tailType = ENUM.TailType.PIG;
     changes++;
   }
   //Gain pig tail even when centaur, needs pig ears.
   if (
     UTIL.rand(boar ? 2 : 3) == 0 &&
     changes < changeLimit &&
-    liveData.player.earType == ENUM.EarType.EARS_PIG &&
-    liveData.player.tailType != ENUM.TailType.TAIL_TYPE_PIG &&
+    liveData.player.earType == ENUM.EarType.Pig &&
+    liveData.player.tailType != ENUM.TailType.PIG &&
     liveData.player.isTaur() &&
-    (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED || liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_PONY)
+    (liveData.player.lowerBody == ENUM.LowerBodyType.HOOFED || liveData.player.lowerBody == ENUM.LowerBodyType.PONY)
   ) {
     GUI.outputText(
       '<br><br>There is a tingling in your [tail] as it begins to warp and change. When the sensation dissipates, <b>you are left with a small, curly pig tail.</b> This new, mismatched tail looks a bit odd on your horse lower body.',
     );
-    liveData.player.tailType = ENUM.TailType.TAIL_TYPE_PIG;
+    liveData.player.tailType = ENUM.TailType.PIG;
     changes++;
   }
   //Turn your lower body into pig legs if you have pig ears and tail.
   if (
     UTIL.rand(boar ? 3 : 4) == 0 &&
     changes < changeLimit &&
-    liveData.player.earType == ENUM.EarType.EARS_PIG &&
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_PIG &&
-    liveData.player.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_CLOVEN_HOOFED
+    liveData.player.earType == ENUM.EarType.Pig &&
+    liveData.player.tailType == ENUM.TailType.PIG &&
+    liveData.player.lowerBody != ENUM.LowerBodyType.CLOVEN_HOOFED
   ) {
     if (liveData.player.isTaur())
       //Centaur
       GUI.outputText(
         "<br><br>You scream in agony as a horrible pain racks your entire bestial lower half. Unable to take it anymore, you pass out. When you wake up, you're shocked to find that you no longer have the animal's lower body. Instead, you only have two legs. They are digitigrade and end in cloven hooves. <b>You now have pig legs!</b>",
       );
-    else if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_NAGA)
+    else if (liveData.player.lowerBody == ENUM.LowerBodyType.NAGA)
       //Naga
       GUI.outputText(
         "<br><br>You scream in agony as a horrible pain racks the entire length of your snake-like coils. Unable to take it anymore, you pass out. When you wake up, you're shocked to find that you no longer have the lower body of a snake. Instead, you only have two legs. They are digitigrade and end in cloven hooves. <b>You now have pig legs!</b>",
@@ -4223,7 +4175,7 @@ export function pigTFs(boar: boolean): void {
       GUI.outputText(
         '<br><br>You scream in agony as the bones in your legs break and rearrange. Once the pain subsides, you inspect your legs, finding that they are digitigrade and ending in cloven hooves. <b>You now have pig legs!</b>',
       );
-    liveData.player.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_CLOVEN_HOOFED;
+    liveData.player.lowerBody = ENUM.LowerBodyType.CLOVEN_HOOFED;
     liveData.player.legCount = 2;
     changes++;
   }
@@ -4231,31 +4183,31 @@ export function pigTFs(boar: boolean): void {
   if (
     UTIL.rand(boar ? 2 : 3) == 0 &&
     changes < changeLimit &&
-    liveData.player.earType == ENUM.EarType.EARS_PIG &&
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_PIG &&
-    liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CLOVEN_HOOFED &&
-    liveData.player.faceType != ENUM.FaceType.FACE_PIG &&
-    liveData.player.faceType != ENUM.FaceType.FACE_BOAR
+    liveData.player.earType == ENUM.EarType.Pig &&
+    liveData.player.tailType == ENUM.TailType.PIG &&
+    liveData.player.lowerBody == ENUM.LowerBodyType.CLOVEN_HOOFED &&
+    liveData.player.faceType != ENUM.FaceType.Pig &&
+    liveData.player.faceType != ENUM.FaceType.Boar
   ) {
     GUI.outputText(
       '<br><br>You cry out in pain as the bones in your face begin to break and rearrange. You rub your face furiously in an attempt to ease the pain, but to no avail. As the sensations pass, you examine your face in a nearby puddle. <b>You nearly gasp in shock at the sight of your new pig face!</b>',
     );
-    liveData.player.faceType = ENUM.FaceType.FACE_PIG;
+    liveData.player.faceType = ENUM.FaceType.Pig;
     changes++;
   }
   //Gain boar face if you have pig face.
   if (
     UTIL.rand(3) == 0 &&
     changes < changeLimit &&
-    liveData.player.earType == ENUM.EarType.EARS_PIG &&
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_PIG &&
-    liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CLOVEN_HOOFED &&
-    liveData.player.faceType == ENUM.FaceType.FACE_PIG
+    liveData.player.earType == ENUM.EarType.Pig &&
+    liveData.player.tailType == ENUM.TailType.PIG &&
+    liveData.player.lowerBody == ENUM.LowerBodyType.CLOVEN_HOOFED &&
+    liveData.player.faceType == ENUM.FaceType.Pig
   ) {
     GUI.outputText(
       "<br><br>You cry out in pain as the bones in your face begin to break and rearrange. You rub your face furiously in an attempt to ease the pain, but to no avail. Your bottom teeth ache as well. What's happening to you? As the sensations pass, you examine your face in a nearby puddle. <b>You nearly gasp in shock at the sight of your new tusky boar face!</b>",
     );
-    liveData.player.faceType = ENUM.FaceType.FACE_BOAR;
+    liveData.player.faceType = ENUM.FaceType.Boar;
     changes++;
   }
   //Change skin colour
@@ -4294,8 +4246,8 @@ export function lizardTFs(): void {
   if (UTIL.rand(2) == 0) changeLimit++;
   if (UTIL.rand(2) == 0) changeLimit++;
   if (UTIL.rand(4) == 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.HistoryAlchemist) >= 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.TransformationResistance) >= 0) changeLimit--;
+  if (liveData.player.findPerk(liveData.PerkLib.HistoryAlchemist) >= 0) changeLimit++;
+  if (liveData.player.findPerk(liveData.PerkLib.TransformationResistance) >= 0) changeLimit--;
   //clear screen
   GUI.clearOutput();
   GUI.outputText(
@@ -4477,7 +4429,7 @@ export function lizardTFs(): void {
         liveData.player.cockDescript(0) +
         '.  The flesh darkens, turning purple',
     );
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR || liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES)
+    if (liveData.player.skinType == ENUM.SkinType.Fur || liveData.player.skinType == ENUM.SkinType.Scales)
       GUI.outputText(' and shedding ' + liveData.player.skinDesc);
     GUI.outputText(
       " as the bulge lengthens, pushing out from your body.  Too surprised to react, you can only pant in pain and watch as the fleshy lump starts to take on a penis-like appearance.  <b>You're growing a second lizard-cock!</b>  It doesn't stop growing until it's just as long as its brother and the same shade of shiny purple.  A dribble of cum oozes from its tip, and you feel relief at last.",
@@ -4495,7 +4447,7 @@ export function lizardTFs(): void {
   if (
     liveData.player.countCocksOfType(ENUM.CockType.LIZARD) == liveData.player.cockTotal() &&
     changes < changeLimit &&
-    liveData.player.findStatusEffect(StatusEffects.Infested) >= 0
+    liveData.player.findStatusEffect(liveData.StatusEffects.Infested) >= 0
   ) {
     GUI.outputText(
       '<br><br>Like rats from a sinking ship, worms escape from your body in a steady stream.  Surprisingly, the sensation is remarkably pleasant, similar to the pleasure of sexual release in a way.  Though they seem inexhaustible, the tiny, cum-slimed invertebrates slow to a trickle.  The larger worm-kin inside you stirs as if disturbed from a nap, coming loose from whatever moorings it had attached itself to in the interior of your form.  It slowly works its way up your urethra, stretching to an almost painful degree with every lurching motion.  Your dick bloats out around the base, stretched like the ovipositor on a bee-girl in order to handle the parasitic creature, but thankfully, the ordeal is a brief one.',
@@ -4509,7 +4461,7 @@ export function lizardTFs(): void {
     GUI.outputText(
       '  The white creature joins its kin on the ground and slowly slithers away.  Perhaps they prefer mammals? In any event, <b>you are no longer infected with worms</b>.',
     );
-    liveData.player.removeStatusEffect(StatusEffects.Infested);
+    liveData.player.removeStatusEffect(liveData.StatusEffects.Infested);
     changes++;
   }
   //-Breasts vanish to 0 rating if male
@@ -4548,10 +4500,10 @@ export function lizardTFs(): void {
     GUI.outputText(
       'escapes it.  <b>You are no longer lactating.</b>  That makes sense, only mammals lactate!  Smiling, you muse at how much time this will save you when cleaning your gear.',
     );
-    if (liveData.player.findPerk(PerkLib.Feeder) >= 0 || liveData.player.findStatusEffect(StatusEffects.Feeder) >= 0) {
+    if (liveData.player.findPerk(liveData.PerkLib.Feeder) >= 0 || liveData.player.findStatusEffect(liveData.StatusEffects.Feeder) >= 0) {
       GUI.outputText('<br><br>(<b>Feeder perk lost!</b>)');
-      liveData.player.removePerk(PerkLib.Feeder);
-      liveData.player.removeStatusEffect(StatusEffects.Feeder);
+      liveData.player.removePerk(liveData.PerkLib.Feeder);
+      liveData.player.removeStatusEffect(liveData.StatusEffects.Feeder);
     }
     changes++;
     //Loop through and reset lactation
@@ -4579,7 +4531,7 @@ export function lizardTFs(): void {
   //-VAGs
   if (
     liveData.player.hasVagina() &&
-    liveData.player.findPerk(PerkLib.Oviposition) < 0 &&
+    liveData.player.findPerk(liveData.PerkLib.Oviposition) < 0 &&
     changes < changeLimit &&
     UTIL.rand(5) == 0 &&
     liveData.player.lizardScore() > 3
@@ -4588,29 +4540,29 @@ export function lizardTFs(): void {
       "<br><br>Deep inside yourself there is a change.  It makes you feel a little woozy, but passes quickly.  Beyond that, you aren't sure exactly what just happened, but you are sure it originated from your womb.<br>",
     );
     GUI.outputText('(<b>Perk Gained: Oviposition</b>)');
-    liveData.player.createPerk(PerkLib.Oviposition, 0, 0, 0, 0);
+    liveData.player.createPerk(liveData.PerkLib.Oviposition, 0, 0, 0, 0);
     changes++;
   }
 
   //Physical changes:
   //-Existing horns become draconic, max of 4, max length of 1'
-  if (liveData.player.hornType != ENUM.HornType.HORNS_DRACONIC_X4_12_INCH_LONG && changes < changeLimit && UTIL.rand(5) == 0) {
+  if (liveData.player.hornType != ENUM.HornType.DRACONIC_X4_12_INCH_LONG && changes < changeLimit && UTIL.rand(5) == 0) {
     //No dragon horns yet.
-    if (liveData.player.hornType != ENUM.HornType.HORNS_DRACONIC_X2 && liveData.player.hornType != ENUM.HornType.HORNS_DRACONIC_X4_12_INCH_LONG) {
+    if (liveData.player.hornType != ENUM.HornType.DRACONIC_X2 && liveData.player.hornType != ENUM.HornType.DRACONIC_X4_12_INCH_LONG) {
       //Already have horns
       if (liveData.player.horns > 0) {
         //High quantity demon horns
-        if (liveData.player.hornType == ENUM.HornType.HORNS_DEMON && liveData.player.horns > 4) {
+        if (liveData.player.hornType == ENUM.HornType.DEMON && liveData.player.horns > 4) {
           GUI.outputText(
             '<br><br>Your horns condense, twisting around each other and merging into larger, pointed protrusions.  By the time they finish you have four draconic-looking horns, each about twelve inches long.',
           );
           liveData.player.horns = 12;
-          liveData.player.hornType = ENUM.HornType.HORNS_DRACONIC_X4_12_INCH_LONG;
+          liveData.player.hornType = ENUM.HornType.DRACONIC_X4_12_INCH_LONG;
         } else {
           GUI.outputText(
             "<br><br>You feel your horns changing and warping, and reach back to touch them.  They have a slight curve and a gradual taper.  They must look something like the horns the dragons in your village's legends always had.",
           );
-          liveData.player.hornType = ENUM.HornType.HORNS_DRACONIC_X2;
+          liveData.player.hornType = ENUM.HornType.DRACONIC_X2;
           if (liveData.player.horns > 13) {
             GUI.outputText("  The change seems to have shrunken the horns, they're about a foot long now.");
             liveData.player.horns = 12;
@@ -4625,14 +4577,14 @@ export function lizardTFs(): void {
           "<br><br>With painful pressure, the skin on the sides of your forehead splits around two tiny nub-like horns.  They're angled back in such a way as to resemble those you saw on the dragons in your village's legends.  A few inches of horn sprout from your head before stopping.  <b>You have about four inches of dragon-like horn.</b>",
         );
         liveData.player.horns = 4;
-        liveData.player.hornType = ENUM.HornType.HORNS_DRACONIC_X2;
+        liveData.player.hornType = ENUM.HornType.DRACONIC_X2;
 
         changes++;
       }
     }
     //ALREADY DRAGON
     else {
-      if (liveData.player.hornType == ENUM.HornType.HORNS_DRACONIC_X2) {
+      if (liveData.player.hornType == ENUM.HornType.DRACONIC_X2) {
         if (liveData.player.horns < 12) {
           if (UTIL.rand(2) == 0) {
             GUI.outputText('<br><br>You get a headache as an inch of fresh horn escapes from your pounding skull.');
@@ -4652,7 +4604,7 @@ export function lizardTFs(): void {
           GUI.outputText(
             '<br><br>A second row of horns erupts under the first, and though they are narrower, they grow nearly as long as your first row before they stop.  A sense of finality settles over you.  <b>You have as many horns as a lizan can grow.</b>',
           );
-          liveData.player.hornType = ENUM.HornType.HORNS_DRACONIC_X4_12_INCH_LONG;
+          liveData.player.hornType = ENUM.HornType.DRACONIC_X4_12_INCH_LONG;
           changes++;
         }
       }
@@ -4678,9 +4630,9 @@ export function lizardTFs(): void {
   }
   //Big physical changes:
   //-Legs – Draconic, clawed feet
-  if (liveData.player.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_LIZARD && changes < changeLimit && UTIL.rand(5) == 0) {
+  if (liveData.player.lowerBody != ENUM.LowerBodyType.LIZARD && changes < changeLimit && UTIL.rand(5) == 0) {
     //Hooves -
-    if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED)
+    if (liveData.player.lowerBody == ENUM.LowerBodyType.HOOFED)
       GUI.outputText(
         '<br><br>You scream in agony as you feel your hooves crack and break apart, beginning to rearrange.  Your legs change to a digitigrade shape while your feet grow claws and shift to have three toes on the front and a smaller toe on the heel.',
       );
@@ -4691,13 +4643,13 @@ export function lizardTFs(): void {
       );
     //feet types -
     else if (
-      liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN ||
-      liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG ||
-      liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DEMONIC_HIGH_HEELS ||
-      liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DEMONIC_CLAWS ||
-      liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_BEE ||
-      liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_CAT ||
-      liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_LIZARD
+      liveData.player.lowerBody == ENUM.LowerBodyType.HUMAN ||
+      liveData.player.lowerBody == ENUM.LowerBodyType.DOG ||
+      liveData.player.lowerBody == ENUM.LowerBodyType.DEMONIC_HIGH_HEELS ||
+      liveData.player.lowerBody == ENUM.LowerBodyType.DEMONIC_CLAWS ||
+      liveData.player.lowerBody == ENUM.LowerBodyType.BEE ||
+      liveData.player.lowerBody == ENUM.LowerBodyType.CAT ||
+      liveData.player.lowerBody == ENUM.LowerBodyType.LIZARD
     )
       GUI.outputText(
         '<br><br>You scream in agony as you feel the bones in your legs break and begin to rearrange. They change to a digitigrade shape while your feet grow claws and shift to have three toes on the front and a smaller toe on the heel.',
@@ -4710,19 +4662,19 @@ export function lizardTFs(): void {
           ', morphing and twisting them until the bones rearrange into a digitigrade configuration.  The strange legs have three-toed, clawed feet, complete with a small vestigial claw-toe on the back for added grip.',
       );
     GUI.outputText('  <b>You have reptilian legs and claws!</b>');
-    liveData.player.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_LIZARD;
+    liveData.player.lowerBody = ENUM.LowerBodyType.LIZARD;
     liveData.player.legCount = 2;
     changes++;
   }
   //-Tail – sinuous lizard tail
   if (
-    liveData.player.tailType != ENUM.TailType.TAIL_TYPE_LIZARD &&
-    liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_LIZARD &&
+    liveData.player.tailType != ENUM.TailType.LIZARD &&
+    liveData.player.lowerBody == ENUM.LowerBodyType.LIZARD &&
     changes < changeLimit &&
     UTIL.rand(5) == 0
   ) {
     //No tail
-    if (liveData.player.tailType == ENUM.TailType.TAIL_TYPE_NONE)
+    if (liveData.player.tailType == ENUM.TailType.NONE)
       GUI.outputText(
         '<br><br>You drop onto the ground as your spine twists and grows, forcing the flesh above your ' +
           liveData.player.assDescript() +
@@ -4733,12 +4685,12 @@ export function lizardTFs(): void {
       GUI.outputText(
         '<br><br>You drop to the ground as your tail twists and grows, changing its shape in order to gradually taper to a point.  It flicks back and forth, prehensile and totally under your control.  <b>You now have a reptilian tail.</b>',
       );
-    liveData.player.tailType = ENUM.TailType.TAIL_TYPE_LIZARD;
+    liveData.player.tailType = ENUM.TailType.LIZARD;
     changes++;
   }
   //Remove odd eyes
-  if (changes < changeLimit && UTIL.rand(5) == 0 && liveData.player.eyeType > ENUM.EyeType.EYES_HUMAN) {
-    if (liveData.player.eyeType == ENUM.EyeType.EYES_BLACK_EYES_SAND_TRAP) {
+  if (changes < changeLimit && UTIL.rand(5) == 0 && liveData.player.eyeType > ENUM.EyeType.Human) {
+    if (liveData.player.eyeType == ENUM.EyeType.BlackEyesSandTrap) {
       GUI.outputText(
         '<br><br>You feel a twinge in your eyes and you blink.  It feels like black cataracts have just fallen away from you, and you know without needing to see your reflection that your eyes have gone back to looking human.',
       );
@@ -4748,37 +4700,37 @@ export function lizardTFs(): void {
           liveData.player.feet() +
           ' from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.',
       );
-      if (liveData.player.eyeType == ENUM.EyeType.EYES_FOUR_SPIDER_EYES) GUI.outputText('  Your multiple, arachnid eyes are gone!</b>');
+      if (liveData.player.eyeType == ENUM.EyeType.FourSpiderEyes) GUI.outputText('  Your multiple, arachnid eyes are gone!</b>');
       GUI.outputText('  <b>You have normal, humanoid eyes again.</b>');
     }
-    liveData.player.eyeType = ENUM.EyeType.EYES_HUMAN;
+    liveData.player.eyeType = ENUM.EyeType.Human;
     changes++;
   }
   //-Ears become smaller nub-like openings?
   if (
-    liveData.player.earType != ENUM.EarType.EARS_LIZARD &&
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_LIZARD &&
-    liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_LIZARD &&
+    liveData.player.earType != ENUM.EarType.Lizard &&
+    liveData.player.tailType == ENUM.TailType.LIZARD &&
+    liveData.player.lowerBody == ENUM.LowerBodyType.LIZARD &&
     changes < changeLimit &&
     UTIL.rand(5) == 0
   ) {
     GUI.outputText(
       '<br><br>Tightness centers on your scalp, pulling your ears down from their normal, fleshy shape into small, scaley bumps with holes in their centers.  <b>You have reptilian ears!</b>',
     );
-    liveData.player.earType = ENUM.EarType.EARS_LIZARD;
+    liveData.player.earType = ENUM.EarType.Lizard;
     changes++;
   }
   //-Scales – color changes to red, green, white, blue, or black.  Rarely: purple or silver.
   if (
-    liveData.player.skinType != ENUM.SkinType.SKIN_TYPE_SCALES &&
-    liveData.player.earType == ENUM.EarType.EARS_LIZARD &&
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_LIZARD &&
-    liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_LIZARD &&
+    liveData.player.skinType != ENUM.SkinType.Scales &&
+    liveData.player.earType == ENUM.EarType.Lizard &&
+    liveData.player.tailType == ENUM.TailType.LIZARD &&
+    liveData.player.lowerBody == ENUM.LowerBodyType.LIZARD &&
     changes < changeLimit &&
     UTIL.rand(5) == 0
   ) {
     //(fur)
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR) {
+    if (liveData.player.skinType == ENUM.SkinType.Fur) {
       //set new skinTone
       if (UTIL.rand(10) == 0) {
         if (UTIL.rand(2) == 0) liveData.player.skinTone = 'purple';
@@ -4828,17 +4780,17 @@ export function lizardTFs(): void {
       }
       GUI.outputText(liveData.player.skinTone + ' scales.</b>');
     }
-    liveData.player.skinType = ENUM.SkinType.SKIN_TYPE_SCALES;
+    liveData.player.skinType = ENUM.SkinType.Scales;
     liveData.player.skinDesc = 'scales';
     changes++;
   }
   //-Lizard-like face.
   if (
-    liveData.player.faceType != ENUM.FaceType.FACE_LIZARD &&
-    liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_SCALES &&
-    liveData.player.earType == ENUM.EarType.EARS_LIZARD &&
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_LIZARD &&
-    liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_LIZARD &&
+    liveData.player.faceType != ENUM.FaceType.Lizard &&
+    liveData.player.skinType == ENUM.SkinType.Scales &&
+    liveData.player.earType == ENUM.EarType.Lizard &&
+    liveData.player.tailType == ENUM.TailType.LIZARD &&
+    liveData.player.lowerBody == ENUM.LowerBodyType.LIZARD &&
     changes < changeLimit &&
     UTIL.rand(5) == 0
   ) {
@@ -4847,7 +4799,7 @@ export function lizardTFs(): void {
         liveData.player.face() +
         " as bones crack and shift.  Your jawbone rearranges while your cranium shortens.  The changes seem to last forever; once they've finished, no time seems to have passed.  Your fingers brush against your toothy snout as you get used to your new face.  It seems <b>you have a toothy, reptilian visage now.</b>",
     );
-    liveData.player.faceType = ENUM.FaceType.FACE_LIZARD;
+    liveData.player.faceType = ENUM.FaceType.Lizard;
   }
   if (UTIL.rand(4) == 0 && liveData.player.gills && changes < changeLimit) {
     GUI.outputText('<br><br>Your chest itches, and as you reach up to scratch it, you realize your gills have withdrawn into your skin.');
@@ -4867,7 +4819,7 @@ export function lizardTFs(): void {
 export function harpyTFs(type: number): void {
   //I think these are old debugging variables
   // let tfSource = "goldenSeed";
-  //if (player.findPerk(PerkLib.HarpyWomb) >= 0) tfSource += "-HarpyWomb";
+  //if (player.findPerk(liveData.PerkLib.HarpyWomb) >= 0) tfSource += "-HarpyWomb";
   //'type' refers to the variety of seed.
   //0 == standard.
   //1 == enhanced - increase change limit and no pre-reqs for TF
@@ -4876,8 +4828,8 @@ export function harpyTFs(type: number): void {
   if (type == 1) changeLimit += 2;
   if (UTIL.rand(2) == 0) changeLimit++;
   if (UTIL.rand(2) == 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.HistoryAlchemist) >= 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.TransformationResistance) >= 0) changeLimit--;
+  if (liveData.player.findPerk(liveData.PerkLib.HistoryAlchemist) >= 0) changeLimit++;
+  if (liveData.player.findPerk(liveData.PerkLib.TransformationResistance) >= 0) changeLimit--;
   //Generic eating text:
   GUI.clearOutput();
   GUI.outputText('You pop the nut into your mouth, chewing the delicious treat and swallowing it quickly.  No wonder harpies love these things so much!');
@@ -5076,7 +5028,7 @@ export function harpyTFs(type: number): void {
     if (liveData.player.breastRows.length >= 3) GUI.outputText('abdomen');
     else GUI.outputText('chest');
     GUI.outputText('. The ' + liveData.player.nippleDescript(liveData.player.breastRows.length - 1) + 's even fade until nothing but ');
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR) GUI.outputText(liveData.player.hairColor + ' ' + liveData.player.skinDesc);
+    if (liveData.player.skinType == ENUM.SkinType.Fur) GUI.outputText(liveData.player.hairColor + ' ' + liveData.player.skinDesc);
     else GUI.outputText(liveData.player.skinTone + ' ' + liveData.player.skinDesc);
     GUI.outputText(" remains. <b>You've lost a row of breasts!</b>");
     liveData.player.dynStats(['sen', -5]);
@@ -5162,8 +5114,7 @@ export function harpyTFs(type: number): void {
   ) {
     changes++;
     GUI.outputText('<br><br>It takes a while for you to notice, but <b>');
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR)
-      GUI.outputText('the skin under your ' + liveData.player.hairColor + ' ' + liveData.player.skinDesc);
+    if (liveData.player.skinType == ENUM.SkinType.Fur) GUI.outputText('the skin under your ' + liveData.player.hairColor + ' ' + liveData.player.skinDesc);
     else GUI.outputText('your ' + liveData.player.skinDesc);
     GUI.outputText(' has changed to become ');
     const temp = UTIL.rand(4);
@@ -5222,8 +5173,8 @@ export function harpyTFs(type: number): void {
     changes++;
   }
   //Remove odd eyes
-  if (changes < changeLimit && UTIL.rand(5) == 0 && liveData.player.eyeType > ENUM.EyeType.EYES_HUMAN) {
-    if (liveData.player.eyeType == ENUM.EyeType.EYES_BLACK_EYES_SAND_TRAP) {
+  if (changes < changeLimit && UTIL.rand(5) == 0 && liveData.player.eyeType > ENUM.EyeType.Human) {
+    if (liveData.player.eyeType == ENUM.EyeType.BlackEyesSandTrap) {
       GUI.outputText(
         '<br><br>You feel a twinge in your eyes and you blink.  It feels like black cataracts have just fallen away from you, and you know without needing to see your reflection that your eyes have gone back to looking human.',
       );
@@ -5233,10 +5184,10 @@ export function harpyTFs(type: number): void {
           liveData.player.feet() +
           ' from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.',
       );
-      if (liveData.player.eyeType == ENUM.EyeType.EYES_FOUR_SPIDER_EYES) GUI.outputText('  Your multiple, arachnid eyes are gone!</b>');
+      if (liveData.player.eyeType == ENUM.EyeType.FourSpiderEyes) GUI.outputText('  Your multiple, arachnid eyes are gone!</b>');
       GUI.outputText('  <b>You have normal, humanoid eyes again.</b>');
     }
-    liveData.player.eyeType = ENUM.EyeType.EYES_HUMAN;
+    liveData.player.eyeType = ENUM.EyeType.Human;
     changes++;
   }
   //****************
@@ -5244,9 +5195,9 @@ export function harpyTFs(type: number): void {
   //****************
   //-Harpy legs
   if (
-    liveData.player.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_HARPY &&
+    liveData.player.lowerBody != ENUM.LowerBodyType.HARPY &&
     changes < changeLimit &&
-    (type == 1 || liveData.player.tailType == ENUM.TailType.TAIL_TYPE_HARPY) &&
+    (type == 1 || liveData.player.tailType == ENUM.TailType.HARPY) &&
     UTIL.rand(4) == 0
   ) {
     //(biped/taur)
@@ -5263,7 +5214,7 @@ export function harpyTFs(type: number): void {
       GUI.outputText(
         "<br><br>Your gooey undercarriage loses some of its viscosity, dumping you into the puddle that was once your legs. As you watch, the fluid pulls together into a pair of distinctly leg-like shapes, solidifying into a distinctly un-gooey form. You've even regained a pair of feet!  ",
       );
-    liveData.player.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_HARPY;
+    liveData.player.lowerBody = ENUM.LowerBodyType.HARPY;
     liveData.player.legCount = 2;
     changes++;
     //(cont)
@@ -5275,13 +5226,13 @@ export function harpyTFs(type: number): void {
   }
   //-Feathery Tail
   if (
-    liveData.player.tailType != ENUM.TailType.TAIL_TYPE_HARPY &&
+    liveData.player.tailType != ENUM.TailType.HARPY &&
     changes < changeLimit &&
-    (type == 1 || liveData.player.wingType == ENUM.WingType.WING_TYPE_FEATHERED_LARGE) &&
+    (type == 1 || liveData.player.wingType == ENUM.WingType.FEATHERED_LARGE) &&
     UTIL.rand(4) == 0
   ) {
     //(tail)
-    if (liveData.player.tailType > ENUM.TailType.TAIL_TYPE_NONE)
+    if (liveData.player.tailType > ENUM.TailType.NONE)
       GUI.outputText(
         '<br><br>Your tail shortens, folding into the crack of your ' +
           liveData.player.buttDescript() +
@@ -5294,14 +5245,14 @@ export function harpyTFs(type: number): void {
           liveData.player.skinDesc +
           ' in its place. The new tail fluffs up and down instinctively with every shift of the breeze. <b>You have a feathery harpy tail!</b>',
       );
-    liveData.player.tailType = ENUM.TailType.TAIL_TYPE_HARPY;
+    liveData.player.tailType = ENUM.TailType.HARPY;
     changes++;
   }
   //-Propah Wings
   if (
-    liveData.player.wingType == ENUM.WingType.WING_TYPE_NONE &&
+    liveData.player.wingType == ENUM.WingType.NONE &&
     changes < changeLimit &&
-    (type == 1 || liveData.player.armType == ENUM.ArmType.ARM_TYPE_HARPY) &&
+    (type == 1 || liveData.player.armType == ENUM.ArmType.HARPY) &&
     UTIL.rand(4) == 0
   ) {
     GUI.outputText(
@@ -5313,18 +5264,18 @@ export function harpyTFs(type: number): void {
         liveData.player.hairColor +
         ' wings.</b>',
     );
-    liveData.player.wingType = ENUM.WingType.WING_TYPE_FEATHERED_LARGE;
+    liveData.player.wingType = ENUM.WingType.FEATHERED_LARGE;
     liveData.player.wingDesc = 'large, feathered';
     changes++;
   }
   //-Remove old wings
   if (
-    liveData.player.wingType != ENUM.WingType.WING_TYPE_FEATHERED_LARGE &&
-    liveData.player.wingType > ENUM.WingType.WING_TYPE_NONE &&
+    liveData.player.wingType != ENUM.WingType.FEATHERED_LARGE &&
+    liveData.player.wingType > ENUM.WingType.NONE &&
     changes < changeLimit &&
     UTIL.rand(4) == 0
   ) {
-    if (liveData.player.wingType != ENUM.WingType.WING_TYPE_SHARK_FIN)
+    if (liveData.player.wingType != ENUM.WingType.SHARK_FIN)
       GUI.outputText(
         '<br><br>Sensation fades from your ' +
           liveData.player.wingDesc +
@@ -5334,12 +5285,12 @@ export function harpyTFs(type: number): void {
       GUI.outputText(
         '<br><br>Sensation fades from your large fin slowly but surely, leaving it a dried out husk that breaks off to fall on the ground. Your back closes up to conceal the loss, as smooth and unbroken as the day you entered the portal.',
       );
-    liveData.player.wingType = ENUM.WingType.WING_TYPE_NONE;
+    liveData.player.wingType = ENUM.WingType.NONE;
     liveData.player.wingDesc = 'non-existant';
     changes++;
   }
   //-Feathery Arms
-  if (liveData.player.armType != ENUM.ArmType.ARM_TYPE_HARPY && changes < changeLimit && (type == 1 || liveData.player.hairType == 1) && UTIL.rand(4) == 0) {
+  if (liveData.player.armType != ENUM.ArmType.HARPY && changes < changeLimit && (type == 1 || liveData.player.hairType == 1) && UTIL.rand(4) == 0) {
     GUI.outputText(
       '<br><br>You smile impishly as you lick the last bits of the nut from your teeth, but when you go to wipe your mouth, instead of the usual texture of your ' +
         liveData.player.skinDesc +
@@ -5348,11 +5299,11 @@ export function harpyTFs(type: number): void {
         ", covering your forearms until <b>your arms look vaguely like wings</b>. Your hands remain unchanged thankfully. It'd be impossible to be a champion without hands! The feathery limbs might help you maneuver if you were to fly, but there's no way they'd support you alone.",
     );
     changes++;
-    liveData.player.armType = ENUM.ArmType.ARM_TYPE_HARPY;
+    liveData.player.armType = ENUM.ArmType.HARPY;
     updateClaws();
   }
   //-Feathery Hair
-  if (liveData.player.hairType != 1 && changes < changeLimit && (type == 1 || liveData.player.faceType == ENUM.FaceType.FACE_HUMAN) && UTIL.rand(4) == 0) {
+  if (liveData.player.hairType != 1 && changes < changeLimit && (type == 1 || liveData.player.faceType == ENUM.FaceType.Human) && UTIL.rand(4) == 0) {
     GUI.outputText(
       "<br><br>A tingling starts in your scalp, getting worse and worse until you're itching like mad, the feathery strands of your hair tickling your fingertips while you scratch like a dog itching a flea. When you pull back your hand, you're treated to the sight of downy fluff trailing from your fingernails. A realization dawns on you - you have feathers for hair, just like a harpy!",
     );
@@ -5361,9 +5312,9 @@ export function harpyTFs(type: number): void {
   }
   //-Human face
   if (
-    liveData.player.faceType != ENUM.FaceType.FACE_HUMAN &&
+    liveData.player.faceType != ENUM.FaceType.Human &&
     changes < changeLimit &&
-    (type == 1 || liveData.player.earType == ENUM.EarType.EARS_HUMAN || liveData.player.earType == ENUM.EarType.EARS_ELFIN) &&
+    (type == 1 || liveData.player.earType == ENUM.EarType.Human || liveData.player.earType == ENUM.EarType.Elfin) &&
     UTIL.rand(4) == 0
   ) {
     GUI.outputText(
@@ -5371,15 +5322,15 @@ export function harpyTFs(type: number): void {
         liveData.player.face() +
         ", your visage turning hideous as bones twist and your jawline shifts. The pain slowly vanishes, leaving you weeping into your fingers. When you pull your hands away you realize you've been left with a completely normal, human face.",
     );
-    liveData.player.faceType = ENUM.FaceType.FACE_HUMAN;
+    liveData.player.faceType = ENUM.FaceType.Human;
     changes++;
   }
   //-Gain human ears (keep elf ears)
-  if (liveData.player.earType != ENUM.EarType.EARS_HUMAN && liveData.player.earType != ENUM.EarType.EARS_ELFIN && changes < changeLimit && UTIL.rand(4) == 0) {
+  if (liveData.player.earType != ENUM.EarType.Human && liveData.player.earType != ENUM.EarType.Elfin && changes < changeLimit && UTIL.rand(4) == 0) {
     GUI.outputText(
       "<br><br>Ouch, your head aches! It feels like your ears are being yanked out of your head, and when you reach up to hold your aching noggin, you find they've vanished! Swooning and wobbling with little sense of balance, you nearly fall a half-dozen times before <b>a pair of normal, human ears sprout from the sides of your head.</b> You had almost forgotten what human ears felt like!",
     );
-    liveData.player.earType = ENUM.EarType.EARS_HUMAN;
+    liveData.player.earType = ENUM.EarType.Human;
     changes++;
   }
   if (UTIL.rand(4) == 0 && liveData.player.gills && changes < changeLimit) {
@@ -5390,13 +5341,13 @@ export function harpyTFs(type: number): void {
   //SPECIAL:
   //Harpy Womb – All eggs are automatically upgraded to large, requires legs + tail to be harpy.
   if (
-    liveData.player.findPerk(PerkLib.HarpyWomb) < 0 &&
-    liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HARPY &&
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_HARPY &&
+    liveData.player.findPerk(liveData.PerkLib.HarpyWomb) < 0 &&
+    liveData.player.lowerBody == ENUM.LowerBodyType.HARPY &&
+    liveData.player.tailType == ENUM.TailType.HARPY &&
     UTIL.rand(4) == 0 &&
     changes < changeLimit
   ) {
-    liveData.player.createPerk(PerkLib.HarpyWomb, 0, 0, 0, 0);
+    liveData.player.createPerk(liveData.PerkLib.HarpyWomb, 0, 0, 0, 0);
     GUI.outputText(
       "<br><br>There's a rumbling in your womb, signifying that some strange change has taken place in your most feminine area. No doubt something in it has changed to be more like a harpy. (<b>You've gained the Harpy Womb perk! All the eggs you lay will always be large so long as you have harpy legs and a harpy tail.</b>)",
     );
@@ -5405,7 +5356,7 @@ export function harpyTFs(type: number): void {
   if (
     changes < changeLimit &&
     UTIL.rand(4) == 0 &&
-    ((liveData.player.ass.analWetness > 0 && liveData.player.findPerk(PerkLib.MaraesGiftButtslut) < 0) || liveData.player.ass.analWetness > 1)
+    ((liveData.player.ass.analWetness > 0 && liveData.player.findPerk(liveData.PerkLib.MaraesGiftButtslut) < 0) || liveData.player.ass.analWetness > 1)
   ) {
     GUI.outputText(
       '<br><br>You feel a tightening up in your colon and your [asshole] sucks into itself.  You feel sharp pain at first but that thankfully fades.  Your ass seems to have dried and tightened up.',
@@ -5447,8 +5398,8 @@ export function minotaurTFs(): void {
   if (UTIL.rand(2) == 0) changeLimit++;
   if (UTIL.rand(3) == 0) changeLimit++;
   if (UTIL.rand(3) == 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.HistoryAlchemist) >= 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.TransformationResistance) >= 0) changeLimit--;
+  if (liveData.player.findPerk(liveData.PerkLib.HistoryAlchemist) >= 0) changeLimit++;
+  if (liveData.player.findPerk(liveData.PerkLib.TransformationResistance) >= 0) changeLimit--;
   if (changeLimit == 1) changeLimit = 2;
   //Temporary storage
   let temp = 0;
@@ -5551,42 +5502,41 @@ export function minotaurTFs(): void {
     changes++;
   }
   //Ovipositing Check
-  if (UTIL.rand(5) == 0 && changes >= changeLimit && liveData.player.findPerk(PerkLib.Oviposition) >= 0 && liveData.player.lizardScore() < 8) {
+  if (UTIL.rand(5) == 0 && changes >= changeLimit && liveData.player.findPerk(liveData.PerkLib.Oviposition) >= 0 && liveData.player.lizardScore() < 8) {
     GUI.outputText(
       "<br><br>Another change in your uterus ripples through your reproductive systems. Somehow you know you've lost a little bit of reptilian reproductive ability.<br>",
     );
     GUI.outputText('(<b>Perk Lost: Oviposition</b>)<br>');
-    liveData.player.removePerk(PerkLib.Oviposition);
+    liveData.player.removePerk(liveData.PerkLib.Oviposition);
   }
   //Restore arms to become human arms again
   if (UTIL.rand(4) == 0) restoreArms();
   //+hooves
-  if (liveData.player.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED) {
+  if (liveData.player.lowerBody != ENUM.LowerBodyType.HOOFED) {
     if (changes < changeLimit && UTIL.rand(3) == 0) {
       changes++;
-      if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HUMAN)
+      if (liveData.player.lowerBody == ENUM.LowerBodyType.HUMAN)
         GUI.outputText(
           '<br><br>You stagger as your feet change, curling up into painful angry lumps of flesh.  They get tighter and tighter, harder and harder, until at last they solidify into hooves!',
         );
-      if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_DOG)
+      if (liveData.player.lowerBody == ENUM.LowerBodyType.DOG)
         GUI.outputText(
           '<br><br>You stagger as your paws change, curling up into painful angry lumps of flesh.  They get tighter and tighter, harder and harder, until at last they solidify into hooves!',
         );
-      if (liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_NAGA)
+      if (liveData.player.lowerBody == ENUM.LowerBodyType.NAGA)
         GUI.outputText(
           '<br><br>You collapse as your sinuous snake-tail tears in half, shifting into legs.  The pain is immense, particularly in your new feet as they curl inward and transform into hooves!',
         );
       //Catch-all
-      if (liveData.player.lowerBody > ENUM.LowerBodyType.LOWER_BODY_TYPE_NAGA)
+      if (liveData.player.lowerBody > ENUM.LowerBodyType.NAGA)
         GUI.outputText(
           '<br><br>You stagger as your ' +
             liveData.player.feet() +
             ' change, curling up into painful angry lumps of flesh.  They get tighter and tighter, harder and harder, until at last they solidify into hooves!',
         );
-      if (liveData.player.skinType != ENUM.SkinType.SKIN_TYPE_FUR)
-        GUI.outputText('  A fine coat of fur grows out below your waist, itching briefly as it fills in.');
+      if (liveData.player.skinType != ENUM.SkinType.Fur) GUI.outputText('  A fine coat of fur grows out below your waist, itching briefly as it fills in.');
       GUI.outputText('<b>  You now have hooves in place of your feet!</b>');
-      liveData.player.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED;
+      liveData.player.lowerBody = ENUM.LowerBodyType.HOOFED;
       liveData.player.legCount = 2;
       liveData.player.dynStats(['spe', 1]);
       changes++;
@@ -5595,7 +5545,7 @@ export function minotaurTFs(): void {
   if (!liveData.gameFlags[FLAG.HYPER_HAPPY]) {
     //Kills vagina size (and eventually the whole vagina)
     if (liveData.player.vaginas.length > 0) {
-      if (liveData.player.vaginas[0].vaginalLooseness > ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_TIGHT) {
+      if (liveData.player.vaginas[0].vaginalLooseness > ENUM.VaginalLoosenessType.TIGHT) {
         //tighten that bitch up!
         GUI.outputText('<br><br>Your ' + liveData.player.vaginaDescript(0) + ' clenches up painfully as it tightens up, becoming smaller and tighter.');
         liveData.player.vaginas[0].vaginalLooseness--;
@@ -5630,7 +5580,7 @@ export function minotaurTFs(): void {
       if (liveData.player.bRows() >= 3) GUI.outputText('abdomen');
       else GUI.outputText('chest');
       GUI.outputText('. The ' + liveData.player.nippleDescript(liveData.player.breastRows.length - 1) + 's even fade until nothing but ');
-      if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR) GUI.outputText(liveData.player.hairColor + ' ' + liveData.player.skinDesc);
+      if (liveData.player.skinType == ENUM.SkinType.Fur) GUI.outputText(liveData.player.hairColor + ' ' + liveData.player.skinDesc);
       else GUI.outputText(liveData.player.skinTone + ' ' + liveData.player.skinDesc);
       GUI.outputText(" remains. <b>You've lost a row of breasts!</b>");
       liveData.player.dynStats(['sen', -5]);
@@ -5802,7 +5752,7 @@ export function minotaurTFs(): void {
   }
 
   //Anti-masturbation status
-  if (UTIL.rand(4) == 0 && changes < changeLimit && liveData.player.findStatusEffect(StatusEffects.Dysfunction) < 0) {
+  if (UTIL.rand(4) == 0 && changes < changeLimit && liveData.player.findStatusEffect(liveData.StatusEffects.Dysfunction) < 0) {
     if (liveData.player.cocks.length > 0)
       GUI.outputText(
         '<br><br>Your ' +
@@ -5816,7 +5766,7 @@ export function minotaurTFs(): void {
           ' tingles abruptly, then stops.  Worried, you reach down to check it, only to discover that it feels... numb.  It will be very hard to masturbate like ',
       );
     if (liveData.player.cocks.length > 0 || liveData.player.hasVagina()) {
-      liveData.player.createStatusEffect(StatusEffects.Dysfunction, 96, 0, 0, 0);
+      liveData.player.createStatusEffect(liveData.StatusEffects.Dysfunction, 96, 0, 0, 0);
       changes++;
     }
   }
@@ -5842,32 +5792,27 @@ export function minotaurTFs(): void {
   }
   //Face change, requires Ears + Height + Hooves
   if (
-    liveData.player.earType == ENUM.EarType.EARS_COW &&
-    liveData.player.lowerBody == ENUM.LowerBodyType.LOWER_BODY_TYPE_HOOFED &&
+    liveData.player.earType == ENUM.EarType.Cow &&
+    liveData.player.lowerBody == ENUM.LowerBodyType.HOOFED &&
     liveData.player.tallness >= 90 &&
     changes < changeLimit &&
     UTIL.rand(3) == 0
   ) {
-    if (liveData.player.faceType != ENUM.FaceType.FACE_COW_MINOTAUR) {
+    if (liveData.player.faceType != ENUM.FaceType.Minotaur) {
       GUI.outputText(
         '<br><br>Bones shift and twist painfully as your visage twists and morphs to resemble that of the beast whose blood you now drink.  <b>You now have a minotaur-like face.</b>',
       );
       changes++;
-      liveData.player.faceType = ENUM.FaceType.FACE_COW_MINOTAUR;
+      liveData.player.faceType = ENUM.FaceType.Minotaur;
     }
   }
   //+mino horns require ears/tail
-  if (
-    changes < changeLimit &&
-    UTIL.rand(3) == 0 &&
-    liveData.player.earType == ENUM.EarType.EARS_COW &&
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_COW
-  ) {
+  if (changes < changeLimit && UTIL.rand(3) == 0 && liveData.player.earType == ENUM.EarType.Cow && liveData.player.tailType == ENUM.TailType.COW) {
     temp = 1;
     //New horns or expanding mino horns
-    if (liveData.player.hornType == ENUM.HornType.HORNS_COW_MINOTAUR || liveData.player.hornType == ENUM.HornType.HORNS_NONE) {
+    if (liveData.player.hornType == ENUM.HornType.COW_MINOTAUR || liveData.player.hornType == ENUM.HornType.NONE) {
       //Get bigger if player has horns
-      if (liveData.player.hornType == ENUM.HornType.HORNS_COW_MINOTAUR) {
+      if (liveData.player.hornType == ENUM.HornType.COW_MINOTAUR) {
         //Fems horns don't get bigger.
         if (liveData.player.vaginas.length > 0) {
           if (liveData.player.horns > 4) {
@@ -5916,51 +5861,46 @@ export function minotaurTFs(): void {
         GUI.outputText(
           '<br><br>With painful pressure, the skin on your forehead splits around two tiny nub-like horns, similar to those you would see on the cattle back in your homeland.',
         );
-        liveData.player.hornType = ENUM.HornType.HORNS_COW_MINOTAUR;
+        liveData.player.hornType = ENUM.HornType.COW_MINOTAUR;
         liveData.player.horns = 2;
         changes++;
       }
     }
     //Not mino horns, change to cow-horns
-    if (liveData.player.hornType == ENUM.HornType.HORNS_DEMON || liveData.player.hornType > ENUM.HornType.HORNS_COW_MINOTAUR) {
+    if (liveData.player.hornType == ENUM.HornType.DEMON || liveData.player.hornType > ENUM.HornType.COW_MINOTAUR) {
       GUI.outputText('<br><br>Your horns vibrate and shift as if made of clay, reforming into two horns with a bovine-like shape.');
-      liveData.player.hornType = ENUM.HornType.HORNS_COW_MINOTAUR;
+      liveData.player.hornType = ENUM.HornType.COW_MINOTAUR;
       changes++;
     }
   }
   //+cow ears	- requires tail
-  if (
-    liveData.player.earType != ENUM.EarType.EARS_COW &&
-    changes < changeLimit &&
-    liveData.player.tailType == ENUM.TailType.TAIL_TYPE_COW &&
-    UTIL.rand(2) == 0
-  ) {
+  if (liveData.player.earType != ENUM.EarType.Cow && changes < changeLimit && liveData.player.tailType == ENUM.TailType.COW && UTIL.rand(2) == 0) {
     GUI.outputText('<br><br>You feel your ears tug on your scalp as they twist shape, becoming oblong and cow-like.  <b>You now have cow ears.</b>');
-    liveData.player.earType = ENUM.EarType.EARS_COW;
+    liveData.player.earType = ENUM.EarType.Cow;
     changes++;
   }
   //+cow tail
-  if (changes < changeLimit && UTIL.rand(2) == 0 && liveData.player.tailType != ENUM.TailType.TAIL_TYPE_COW) {
-    if (liveData.player.tailType == ENUM.TailType.TAIL_TYPE_NONE)
+  if (changes < changeLimit && UTIL.rand(2) == 0 && liveData.player.tailType != ENUM.TailType.COW) {
+    if (liveData.player.tailType == ENUM.TailType.NONE)
       GUI.outputText(
         '<br><br>You feel the flesh above your ' +
           liveData.player.buttDescript() +
           ' knotting and growing.  It twists and writhes around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.',
       );
     else {
-      if (liveData.player.tailType < ENUM.TailType.TAIL_TYPE_SPIDER_ADBOMEN || liveData.player.tailType > ENUM.TailType.TAIL_TYPE_BEE_ABDOMEN) {
+      if (liveData.player.tailType < ENUM.TailType.SPIDER_ADBOMEN || liveData.player.tailType > ENUM.TailType.BEE_ABDOMEN) {
         GUI.outputText(
           '<br><br>Your tail bunches uncomfortably, twisting and writhing around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.',
         );
       }
       //insect
-      if (liveData.player.tailType == ENUM.TailType.TAIL_TYPE_SPIDER_ADBOMEN || liveData.player.tailType == ENUM.TailType.TAIL_TYPE_BEE_ABDOMEN) {
+      if (liveData.player.tailType == ENUM.TailType.SPIDER_ADBOMEN || liveData.player.tailType == ENUM.TailType.BEE_ABDOMEN) {
         GUI.outputText(
           '<br><br>Your insect-like abdomen tingles pleasantly as it begins shrinking and softening, chitin morphing and reshaping until it looks exactly like a <b>cow tail</b>.',
         );
       }
     }
-    liveData.player.tailType = ENUM.TailType.TAIL_TYPE_COW;
+    liveData.player.tailType = ENUM.TailType.COW;
     changes++;
   }
   if (UTIL.rand(4) == 0 && liveData.player.gills && changes < changeLimit) {
@@ -5971,7 +5911,7 @@ export function minotaurTFs(): void {
   if (
     changes < changeLimit &&
     UTIL.rand(4) == 0 &&
-    ((liveData.player.ass.analWetness > 0 && liveData.player.findPerk(PerkLib.MaraesGiftButtslut) < 0) || liveData.player.ass.analWetness > 1)
+    ((liveData.player.ass.analWetness > 0 && liveData.player.findPerk(liveData.PerkLib.MaraesGiftButtslut) < 0) || liveData.player.ass.analWetness > 1)
   ) {
     GUI.outputText(
       '<br><br>You feel a tightening up in your colon and your [asshole] sucks into itself.  You feel sharp pain at first but that thankfully fades.  Your ass seems to have dried and tightened up.',
@@ -6004,8 +5944,8 @@ export function snakeTFs(): void {
   let changeLimit = 1;
   if (UTIL.rand(2) == 0) changeLimit++;
   if (UTIL.rand(2) == 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.HistoryAlchemist) >= 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.TransformationResistance) >= 0) changeLimit--;
+  if (liveData.player.findPerk(liveData.PerkLib.HistoryAlchemist) >= 0) changeLimit++;
+  if (liveData.player.findPerk(liveData.PerkLib.TransformationResistance) >= 0) changeLimit--;
   //b) Description while used
   GUI.outputText(
     'Pinching your nose, you quickly uncork the vial and bring it to your mouth, determined to see what effects it might have on your body. Pouring in as much as you can take, you painfully swallow before going for another shot, emptying the bottle.',
@@ -6021,8 +5961,8 @@ export function snakeTFs(): void {
   }
   //Removed Oviposition update check. Just returns zero for this transformation.
   //Removes wings
-  if (liveData.player.wingType > ENUM.WingType.WING_TYPE_NONE && UTIL.rand(3) == 0 && changes < changeLimit) {
-    if (liveData.player.wingType == ENUM.WingType.WING_TYPE_SHARK_FIN)
+  if (liveData.player.wingType > ENUM.WingType.NONE && UTIL.rand(3) == 0 && changes < changeLimit) {
+    if (liveData.player.wingType == ENUM.WingType.SHARK_FIN)
       GUI.outputText(
         '<br><br>A wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into your spine.  After a moment the pain passes, though your fin is gone!',
       );
@@ -6030,21 +5970,21 @@ export function snakeTFs(): void {
       GUI.outputText(
         '<br><br>A wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into each of your shoulder-blades.  After a moment the pain passes, though your wings are gone!',
       );
-    liveData.player.wingType = ENUM.WingType.WING_TYPE_NONE;
+    liveData.player.wingType = ENUM.WingType.NONE;
     changes++;
   }
   //Removes antennae
-  if (liveData.player.antennae > ENUM.AntennaeType.ANTENNAE_NONE && UTIL.rand(3) == 0 && changes < changeLimit) {
+  if (liveData.player.antennae > ENUM.AntennaeType.NONE && UTIL.rand(3) == 0 && changes < changeLimit) {
     GUI.outputText(
       '<br><br>The muscles in your brow clench tightly, and you feel a tremendous pressure on your upper forehead.  When it passes, you touch yourself and discover your antennae have vanished!',
     );
-    liveData.player.antennae = ENUM.AntennaeType.ANTENNAE_NONE;
+    liveData.player.antennae = ENUM.AntennaeType.NONE;
     changes++;
   }
   //9c) II The tongue (sensitivity bonus, stored as a perk?)
   if (changes == 0 && UTIL.rand(3) == 0) {
-    if (liveData.player.tongueType != ENUM.TongueType.TONGUE_SNAKE && changes < changeLimit) {
-      if (liveData.player.tongueType == ENUM.TongueType.TONGUE_HUMAN) {
+    if (liveData.player.tongueType != ENUM.TongueType.Snake && changes < changeLimit) {
+      if (liveData.player.tongueType == ENUM.TongueType.Human) {
         GUI.outputText(
           '<br><br>Your taste-buds start aching as they swell to an uncomfortably large size. ' +
             'Trying to understand what in the world could have provoked such a reaction, you bring your hands up to your mouth, ' +
@@ -6061,7 +6001,7 @@ export function snakeTFs(): void {
         GUI.outputText('  After a moment the bunched-up tongue-flesh begins to flatten out, then extend forwards.');
         GUI.outputText('  By the time the transformation has finished, <b>your tongue has changed into a long, forked snake-tongue.</b>');
       }
-      liveData.player.tongueType = ENUM.TongueType.TONGUE_SNAKE;
+      liveData.player.tongueType = ENUM.TongueType.Snake;
       liveData.player.dynStats(['sen', 5]);
       changes++;
     }
@@ -6069,8 +6009,8 @@ export function snakeTFs(): void {
   //9c) III The fangs
   if (
     changes == 0 &&
-    liveData.player.tongueType == ENUM.TongueType.TONGUE_SNAKE &&
-    liveData.player.faceType != ENUM.FaceType.FACE_SNAKE_FANGS &&
+    liveData.player.tongueType == ENUM.TongueType.Snake &&
+    liveData.player.faceType != ENUM.FaceType.SnakeFangs &&
     UTIL.rand(3) == 0 &&
     changes < changeLimit
   ) {
@@ -6078,10 +6018,10 @@ export function snakeTFs(): void {
       '<br><br>Without warning, you feel your canine teeth jump almost an inch in size, clashing on your gums, cutting yourself quite badly. As you attempt to find a new way to close your mouth without dislocating your jaw, you notice that they are dripping with a bitter, khaki liquid.  Watch out, and <b>try not to bite your tongue with your poisonous fangs!</b>',
     );
     if (
-      liveData.player.faceType != ENUM.FaceType.FACE_HUMAN &&
-      liveData.player.faceType != ENUM.FaceType.FACE_SHARK_TEETH &&
-      liveData.player.faceType != ENUM.FaceType.FACE_BUNNY &&
-      liveData.player.faceType != ENUM.FaceType.FACE_SPIDER_FANGS
+      liveData.player.faceType != ENUM.FaceType.Human &&
+      liveData.player.faceType != ENUM.FaceType.SharkTeeth &&
+      liveData.player.faceType != ENUM.FaceType.Bunny &&
+      liveData.player.faceType != ENUM.FaceType.SpiderFangs
     ) {
       GUI.outputText(
         '  As the change progresses, your ' +
@@ -6089,15 +6029,15 @@ export function snakeTFs(): void {
           " reshapes.  The sensation is far more pleasant than teeth cutting into gums, and as the tingling transformation completes, <b>you've gained with a normal-looking, human visage.</b>",
       );
     }
-    liveData.player.faceType = ENUM.FaceType.FACE_SNAKE_FANGS;
+    liveData.player.faceType = ENUM.FaceType.SnakeFangs;
     changes++;
   }
   //9c) I The tail ( http://tvtropes.org/pmwiki/pmwiki.php/Main/TransformationIsAFreeAction ) (Shouldn't we try to avert this? -Ace)
   //Should the enemy "kill" you during the transformation, it skips the scene and immediately goes to tthe rape scene. (Now that I'm thinking about it, we should add some sort of appendix where the player realizes how much he's/she's changed. -Ace)
   if (
     changes == 0 &&
-    liveData.player.faceType == ENUM.FaceType.FACE_SNAKE_FANGS &&
-    liveData.player.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_NAGA &&
+    liveData.player.faceType == ENUM.FaceType.SnakeFangs &&
+    liveData.player.lowerBody != ENUM.LowerBodyType.NAGA &&
     UTIL.rand(4) == 0 &&
     changes < changeLimit
   ) {
@@ -6126,7 +6066,7 @@ export function snakeTFs(): void {
     GUI.outputText(
       "  But then, scales start to form on the surface of your skin, slowly becoming visible, recoloring all of your body from the waist down in a snake-like pattern. The feeling is... not that bad actually, kind of like callous, except on your whole lower body. The transformation complete, you get up, standing on your newly formed snake tail. You can't help feeling proud of this majestic new body of yours.",
     );
-    liveData.player.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_NAGA;
+    liveData.player.lowerBody = ENUM.LowerBodyType.NAGA;
     liveData.player.legCount = 1;
     changes++;
   }
@@ -6180,23 +6120,23 @@ export function slimeTFs(): void {
   //Commented out in the original
   /*Calculate goopiness
     let goopiness:Number = 0;
-    if (player.skinType == ENUM.SkinType.SKIN_TYPE_GOO) goopiness+=2;
+    if (player.skinType == ENUM.SkinType.Goo) goopiness+=2;
     if (player.hair.indexOf("gooey") != -1) goopiness++;
     if (player.hasVagina()) {
     if (player.vaginalCapacity() >= 9000) goopiness++;
     }*/
   //Cosmetic changes based on 'goopyness'
   // Standard Ovipoisitor removal
-  if (UTIL.rand(5) == 0 && changes >= changeLimit && liveData.player.findPerk(PerkLib.Oviposition) >= 0 && liveData.player.lizardScore() < 8) {
+  if (UTIL.rand(5) == 0 && changes >= changeLimit && liveData.player.findPerk(liveData.PerkLib.Oviposition) >= 0 && liveData.player.lizardScore() < 8) {
     GUI.outputText(
       "<br><br>Another change in your uterus ripples through your reproductive systems. Somehow you know you've lost a little bit of reptilian reproductive ability.<br>",
     );
     GUI.outputText('(<b>Perk Lost: Oviposition</b>)<br>');
-    liveData.player.removePerk(PerkLib.Oviposition);
+    liveData.player.removePerk(liveData.PerkLib.Oviposition);
   }
   //Remove wings
-  if (liveData.player.wingType > ENUM.WingType.WING_TYPE_NONE) {
-    if (liveData.player.wingType == ENUM.WingType.WING_TYPE_SHARK_FIN)
+  if (liveData.player.wingType > ENUM.WingType.NONE) {
+    if (liveData.player.wingType == ENUM.WingType.SHARK_FIN)
       GUI.outputText(
         '<br><br>You sigh, feeling a hot wet tingling down your back.  It tickles slightly as you feel your fin slowly turn to sludge, dripping to the ground as your body becomes more goo-like.',
       );
@@ -6204,7 +6144,7 @@ export function slimeTFs(): void {
       GUI.outputText(
         '<br><br>You sigh, feeling a hot wet tingling down your back.  It tickles slightly as you feel your wings slowly turn to sludge, dripping to the ground as your body becomes more goo-like.',
       );
-    liveData.player.wingType = ENUM.WingType.WING_TYPE_NONE;
+    liveData.player.wingType = ENUM.WingType.NONE;
   }
   //Goopy hair
   if (liveData.player.hairType != 3) {
@@ -6251,13 +6191,13 @@ export function slimeTFs(): void {
   }
   //1.Goopy skin
   if (liveData.player.hairType == 3 && (liveData.player.skinDesc != 'skin' || liveData.player.skinAdj != 'slimy')) {
-    if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_PLAIN)
+    if (liveData.player.skinType == ENUM.SkinType.Plain)
       GUI.outputText(
         '<br><br>You sigh, feeling your ' +
           liveData.player.armor.equipmentName +
           ' sink into you as your skin becomes less solid, gooey even.  You realize your entire body has become semi-solid and partly liquid!',
       );
-    else if (liveData.player.skinType == ENUM.SkinType.SKIN_TYPE_FUR)
+    else if (liveData.player.skinType == ENUM.SkinType.Fur)
       GUI.outputText(
         '<br><br>You sigh, suddenly feeling your fur become hot and wet.  You look down as your ' +
           liveData.player.armor.equipmentName +
@@ -6269,7 +6209,7 @@ export function slimeTFs(): void {
     //             liveData.player.armor.equipmentName +
     //             " has even sunk partway into you."
     //     )
-    liveData.player.skinType = ENUM.SkinType.SKIN_TYPE_GOO;
+    liveData.player.skinType = ENUM.SkinType.Goo;
     liveData.player.skinDesc = 'skin';
     liveData.player.skinAdj = 'slimy';
     if (
@@ -6287,13 +6227,13 @@ export function slimeTFs(): void {
       else if (blaht <= 8) liveData.player.skinTone = 'cerulean';
       else liveData.player.skinTone = 'emerald';
       GUI.outputText(liveData.player.skinTone + '!');
-      if (liveData.player.armType != ENUM.ArmType.ARM_TYPE_HUMAN || liveData.player.clawType != ENUM.ClawType.CLAW_TYPE_NORMAL) restoreArms(tfSource);
+      if (liveData.player.armType != ENUM.ArmType.HUMAN || liveData.player.clawType != ENUM.ClawType.NORMAL) restoreArms(tfSource);
     }
   }
   ////1a.Make alterations to dick/vaginal/nippular descriptors to match
   //DONE EXCEPT FOR TITS & MULTIDICKS (UNFINISHED KINDA)
   //2.Goo legs
-  if (liveData.player.skinAdj == 'slimy' && liveData.player.skinDesc == 'skin' && liveData.player.lowerBody != ENUM.LowerBodyType.LOWER_BODY_TYPE_GOO) {
+  if (liveData.player.skinAdj == 'slimy' && liveData.player.skinDesc == 'skin' && liveData.player.lowerBody != ENUM.LowerBodyType.GOO) {
     GUI.outputText(
       '<br><br>Your viewpoint rapidly drops as everything below your ' +
         liveData.player.buttDescript() +
@@ -6304,7 +6244,7 @@ export function slimeTFs(): void {
       liveData.player.tallness = 36;
       GUI.outputText('  The goo firms up and you return to your previous height.  It would truly be hard to get any shorter than you already are!');
     }
-    liveData.player.lowerBody = ENUM.LowerBodyType.LOWER_BODY_TYPE_GOO;
+    liveData.player.lowerBody = ENUM.LowerBodyType.GOO;
     liveData.player.legCount = 1;
   }
   //3a. Grow vagina if none
@@ -6313,15 +6253,16 @@ export function slimeTFs(): void {
       '<br><br>A wet warmth spreads through your slimey groin as a narrow gash appears on the surface of your groin.  <b>You have grown a vagina.</b>',
     );
     liveData.player.createVagina();
-    liveData.player.vaginas[0].vaginalWetness = ENUM.VaginalWetnessType.VAGINA_WETNESS_DROOLING;
-    liveData.player.vaginas[0].vaginalLooseness = ENUM.VaginalLoosenessType.VAGINA_LOOSENESS_GAPING;
+    liveData.player.vaginas[0].vaginalWetness = ENUM.VaginalWetnessType.DROOLING;
+    liveData.player.vaginas[0].vaginalLooseness = ENUM.VaginalLoosenessType.GAPING;
     liveData.player.clitLength = 0.4;
     liveData.player.genderCheck();
   }
   //3b.Infinite Vagina
   if (liveData.player.vaginalCapacity() < 9000) {
-    if (liveData.player.findStatusEffect(StatusEffects.BonusVCapacity) < 0) liveData.player.createStatusEffect(StatusEffects.BonusVCapacity, 9000, 0, 0, 0);
-    else liveData.player.addStatusValue(StatusEffects.BonusVCapacity, 1, 9000);
+    if (liveData.player.findStatusEffect(liveData.StatusEffects.BonusVCapacity) < 0)
+      liveData.player.createStatusEffect(liveData.StatusEffects.BonusVCapacity, 9000, 0, 0, 0);
+    else liveData.player.addStatusValue(liveData.StatusEffects.BonusVCapacity, 1, 9000);
     GUI.outputText(
       '<br><br>Your ' +
         liveData.player.vaginaDescript(0) +
@@ -6336,14 +6277,14 @@ export function slimeTFs(): void {
   }
   //Big slime girl
   else {
-    if (liveData.player.findStatusEffect(StatusEffects.SlimeCraving) < 0) {
+    if (liveData.player.findStatusEffect(liveData.StatusEffects.SlimeCraving) < 0) {
       GUI.outputText(
         "<br><br>You feel a growing gnawing in your gut.  You feel... hungry, but not for food.  No, you need something wet and goopy pumped into you.  You NEED it.  You can feel it in your bones.  <b>If you don't feed that need... you'll get weaker and maybe die.</b>",
       );
-      liveData.player.createStatusEffect(StatusEffects.SlimeCraving, 0, 0, 0, 1); //Value four indicates this tracks strength and speed separately
+      liveData.player.createStatusEffect(liveData.StatusEffects.SlimeCraving, 0, 0, 0, 1); //Value four indicates this tracks strength and speed separately
     } else {
       GUI.outputText("<br><br>You feel full for a moment, but you know it's just a temporary respite from your constant need to be 'injected' with fluid.");
-      liveData.player.changeStatusValue(StatusEffects.SlimeCraving, 1, 0);
+      liveData.player.changeStatusValue(liveData.StatusEffects.SlimeCraving, 1, 0);
     }
   }
   if (UTIL.rand(2) == 0) GUI.outputText(liveData.player.modFem(85, 3));
@@ -6358,8 +6299,8 @@ export function trapOil(): void {
   if (UTIL.rand(2) == 0) changeLimit++;
   if (UTIL.rand(3) == 0) changeLimit++;
   if (UTIL.rand(3) == 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.HistoryAlchemist) >= 0) changeLimit++;
-  if (liveData.player.findPerk(PerkLib.TransformationResistance) >= 0) changeLimit--;
+  if (liveData.player.findPerk(liveData.PerkLib.HistoryAlchemist) >= 0) changeLimit++;
+  if (liveData.player.findPerk(liveData.PerkLib.TransformationResistance) >= 0) changeLimit--;
   GUI.outputText('You pour some of the oil onto your hands and ');
   if (liveData.player.cor < 30) GUI.outputText('hesitantly ');
   else if (liveData.player.cor > 70) GUI.outputText('eagerly ');
@@ -6482,7 +6423,7 @@ export function trapOil(): void {
   if (
     liveData.player.balls > 0 &&
     liveData.player.hasCock() &&
-    (liveData.player.ballSize > 1 || liveData.player.findStatusEffect(StatusEffects.Uniball) < 0) &&
+    (liveData.player.ballSize > 1 || liveData.player.findStatusEffect(liveData.StatusEffects.Uniball) < 0) &&
     UTIL.rand(4) == 0 &&
     changes < changeLimit
   ) {
@@ -6496,7 +6437,7 @@ export function trapOil(): void {
     if (liveData.player.ballSize > 15) liveData.player.ballSize--;
     if (liveData.player.ballSize > 20) liveData.player.ballSize--;
     //Testicle Reduction final:
-    if (liveData.player.ballSize < 1 && liveData.player.findStatusEffect(StatusEffects.Uniball) < 0) {
+    if (liveData.player.ballSize < 1 && liveData.player.findStatusEffect(liveData.StatusEffects.Uniball) < 0) {
       GUI.outputText(
         "  You whimper as once again, your balls tighten and shrink.  Your eyes widen when you feel the gentle weight of your testicles pushing against the top of your [hips], and a few hesitant swings of your rear confirm what you can feel - you've tightened your balls up so much they no longer hang beneath your " +
           liveData.player.multiCockDescriptLight() +
@@ -6506,7 +6447,7 @@ export function trapOil(): void {
       );
       //[Note: Balls description should no longer say “swings heavily beneath”.  For simplicity's sake sex scenes should continue to assume two balls]
       liveData.player.ballSize = 1;
-      liveData.player.createStatusEffect(StatusEffects.Uniball, 0, 0, 0, 0);
+      liveData.player.createStatusEffect(liveData.StatusEffects.Uniball, 0, 0, 0, 0);
     } else if (liveData.player.ballSize < 1) liveData.player.ballSize = 1;
     changes++;
   }
@@ -6560,8 +6501,8 @@ export function trapOil(): void {
         GUI.outputText(
           '<br><br>You laugh as you feel your features once again soften, before stopping abruptly.  Your laugh sounded more like a girly giggle than anything else.  Feeling slightly more sober, you touch the soft flesh of your face prospectively.  The trap oil has changed you profoundly, making your innate maleness... difficult to discern, to say the least.  You suspect you could make yourself look even more like a girl now if you wanted to.',
         );
-        if (liveData.player.findPerk(PerkLib.Androgyny) < 0) {
-          liveData.player.createPerk(PerkLib.Androgyny, 0, 0, 0, 0);
+        if (liveData.player.findPerk(liveData.PerkLib.Androgyny) < 0) {
+          liveData.player.createPerk(liveData.PerkLib.Androgyny, 0, 0, 0, 0);
           GUI.outputText('<br><br>(<b>Perk Gained: Androgyny</b>)');
         }
         liveData.player.femininity += 10;
@@ -6593,8 +6534,8 @@ export function trapOil(): void {
         GUI.outputText(
           '<br><br>You laugh as you feel your features once again soften, before stopping abruptly.  Your laugh sounded more like a boyish crow than anything else.  Feeling slightly more sober, you touch the defined lines of your face prospectively.  The trap oil has changed you profoundly, making your innate femaleness... difficult to discern, to say the least.  You suspect you could make yourself look even more like a boy now if you wanted to.',
         );
-        if (liveData.player.findPerk(PerkLib.Androgyny) < 0) {
-          liveData.player.createPerk(PerkLib.Androgyny, 0, 0, 0, 0);
+        if (liveData.player.findPerk(liveData.PerkLib.Androgyny) < 0) {
+          liveData.player.createPerk(liveData.PerkLib.Androgyny, 0, 0, 0, 0);
           GUI.outputText('<br><br>(<b>Perk Gained: Androgyny</b>)');
         }
       } else {
@@ -6610,12 +6551,12 @@ export function trapOil(): void {
     }
   }
   //Replace oviposition code
-  if (UTIL.rand(5) == 0 && changes >= changeLimit && liveData.player.findPerk(PerkLib.Oviposition) >= 0 && liveData.player.lizardScore() < 8) {
+  if (UTIL.rand(5) == 0 && changes >= changeLimit && liveData.player.findPerk(liveData.PerkLib.Oviposition) >= 0 && liveData.player.lizardScore() < 8) {
     GUI.outputText(
       "<br><br>Another change in your uterus ripples through your reproductive systems. Somehow you know you've lost a little bit of reptilian reproductive ability.<br>",
     );
     GUI.outputText('(<b>Perk Lost: Oviposition</b>)<br>');
-    liveData.player.removePerk(PerkLib.Oviposition);
+    liveData.player.removePerk(liveData.PerkLib.Oviposition);
   }
   //Nipples Turn Black:
   if (liveData.gameFlags[FLAG.HAS_BLACK_NIPPLES] == 0 && UTIL.rand(6) == 0 && changes < changeLimit) {
@@ -6626,20 +6567,20 @@ export function trapOil(): void {
     changes++;
   }
   //Remove odd eyes
-  if (liveData.player.eyeType == ENUM.EyeType.EYES_FOUR_SPIDER_EYES && UTIL.rand(2) == 0 && changes < changeLimit) {
+  if (liveData.player.eyeType == ENUM.EyeType.FourSpiderEyes && UTIL.rand(2) == 0 && changes < changeLimit) {
     GUI.outputText(
       '<br><br>You blink and stumble, a wave of vertigo threatening to pull your ' +
         liveData.player.feet() +
         ' from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.',
     );
-    if (liveData.player.eyeType == ENUM.EyeType.EYES_FOUR_SPIDER_EYES) GUI.outputText('  Your multiple, arachnid eyes are gone!</b>');
+    if (liveData.player.eyeType == ENUM.EyeType.FourSpiderEyes) GUI.outputText('  Your multiple, arachnid eyes are gone!</b>');
     GUI.outputText('  <b>You have normal, humanoid eyes again.</b>');
-    liveData.player.eyeType = ENUM.EyeType.EYES_HUMAN;
+    liveData.player.eyeType = ENUM.EyeType.Human;
     changes++;
   }
   //PC Trap Effects
-  if (liveData.player.eyeType != ENUM.EyeType.EYES_BLACK_EYES_SAND_TRAP && UTIL.rand(4) == 0 && changes < changeLimit) {
-    liveData.player.eyeType = ENUM.EyeType.EYES_BLACK_EYES_SAND_TRAP;
+  if (liveData.player.eyeType != ENUM.EyeType.BlackEyesSandTrap && UTIL.rand(4) == 0 && changes < changeLimit) {
+    liveData.player.eyeType = ENUM.EyeType.BlackEyesSandTrap;
     //Eyes Turn Black:
     GUI.outputText(
       "<br><br>You blink, and then blink again.  It feels like something is irritating your eyes.  Panic sets in as black suddenly blooms in the corner of your left eye and then your right, as if drops of ink were falling into them.  You calm yourself down with the thought that rubbing at your eyes will certainly make whatever is happening to them worse; through force of will you hold your hands behind your back and wait for the strange affliction to run its course.  The strange inky substance pools over your entire vision before slowly fading, thankfully taking the irritation with it.  As soon as it goes you stride quickly over to the stream and stare at your reflection.  <b>Your pupils, your irises, your entire eye has turned a liquid black</b>, leaving you looking vaguely like the many half insect creatures which inhabit these lands.  You find you are merely grateful the change apparently hasn't affected your vision.",
@@ -6667,13 +6608,13 @@ export function trapOil(): void {
     changes++;
   }
   //Dragonfly Wings:
-  if (liveData.player.wingType != ENUM.WingType.WING_TYPE_GIANT_DRAGONFLY && UTIL.rand(4) == 0 && changes < changeLimit) {
+  if (liveData.player.wingType != ENUM.WingType.GIANT_DRAGONFLY && UTIL.rand(4) == 0 && changes < changeLimit) {
     GUI.outputText(
       "<br><br>You scream and fall to your knees as incredible pain snags at your shoulders, as if needle like hooks were being sunk into your flesh just below your shoulder blades.  After about five seconds of white hot, keening agony it is with almost sexual relief that something splits out of your upper back.  You clench the dirt as you slide what feel like giant leaves of paper into the open air.  Eventually the sensation passes and you groggily get to your feet.  You can barely believe what you can see by craning your neck behind you - <b>you've grown a set of four giant dragonfly wings</b>, thinner, longer and more pointed than the ones you've seen upon the forest bee girls, but no less diaphanous and beautiful.  You cautiously flex the new muscle groups in your shoulder blades and gasp as your new wings whirr and lift you several inches off the ground.  What fun this is going to be!",
     );
     //Wings Fall Out: You feel a sharp pinching sensation in your shoulders and you cringe slightly.  Your former dragonfly wings make soft, papery sounds as they fall into the dirt behind you.
     changes++;
-    liveData.player.wingType = ENUM.WingType.WING_TYPE_GIANT_DRAGONFLY;
+    liveData.player.wingType = ENUM.WingType.GIANT_DRAGONFLY;
     liveData.player.wingDesc = 'giant dragonfly';
   }
   if (changes == 0) {
@@ -6700,8 +6641,8 @@ public function updateOvipositionPerk(tfSource:String):int
         tfSource = tsParts[0];
 
     // First things first :)
-    if (player.findPerk(PerkLib.BasiliskWomb) >= 0) {
-        if (player.findPerk(PerkLib.Oviposition) >= 0)
+    if (player.findPerk(liveData.PerkLib.BasiliskWomb) >= 0) {
+        if (player.findPerk(liveData.PerkLib.Oviposition) >= 0)
             return 0; // we already have it => no change
 
         // Basilisk Womb but no Oviposition? Fix, whats broken
@@ -6709,7 +6650,7 @@ public function updateOvipositionPerk(tfSource:String):int
             +"  Beyond that, you aren't sure exactly what just happened, but you are sure it originated from your basilisk womb.<br>");
         GUI.outputText("(<b>Perk Gained: Oviposition</b>)");
 
-        player.createPerk(PerkLib.Oviposition, 0, 0, 0, 0);
+        player.createPerk(liveData.PerkLib.Oviposition, 0, 0, 0, 0);
         return 1; // true => gained Oviposition Perk
     }
 
@@ -6727,42 +6668,42 @@ public function updateOvipositionPerk(tfSource:String):int
             return 0; // Don't change it. So we're done, yay!
 
         case "reptilum":
-        // if (player.findPerk(PerkLib.Oviposition) >= 0) return 0;
+        // if (player.findPerk(liveData.PerkLib.Oviposition) >= 0) return 0;
             GUI.outputText("<br><br>Deep inside yourself there is a change.  It makes you feel a little woozy, but passes quickly."
                 +"  Beyond that, you aren't sure exactly what just happened, but you are sure it originated from your womb.<br>");
             GUI.outputText("(<b>Perk Gained: Oviposition</b>)");
 
-            player.createPerk(PerkLib.Oviposition, 0, 0, 0, 0);
+            player.createPerk(liveData.PerkLib.Oviposition, 0, 0, 0, 0);
             changes++;
             return 1; // Gained it
             break;
 
         default:
-            if (player.findPerk(PerkLib.Oviposition) < 0) return 0;
+            if (player.findPerk(liveData.PerkLib.Oviposition) < 0) return 0;
             if (player.lizardScore() >= 8) return 0; // Still high, so don't remove Oviposition yet!
             if (tfSource != "superHummus") {
                 GUI.outputText("<br><br>Another change in your uterus ripples through your reproductive systems."
                     +"  Somehow you know you've lost a little bit of reptilian reproductive ability.<br>");
                 GUI.outputText("(<b>Perk Lost: Oviposition</b>)<br>");
             }
-            player.removePerk(PerkLib.Oviposition);
+            player.removePerk(liveData.PerkLib.Oviposition);
             return -1; // Lost it
     }
 }
 */
 
-export function updateClaws(clawType: ENUM.ClawType = ENUM.ClawType.CLAW_TYPE_NORMAL) {
+export function updateClaws(clawType: ENUM.ClawType = ENUM.ClawType.NORMAL) {
   let clawTone = '';
   const oldClawTone = liveData.player.clawTone;
 
   switch (clawType) {
-    case ENUM.ClawType.CLAW_TYPE_DRAGON:
+    case ENUM.ClawType.DRAGON:
       clawTone = 'steel-gray';
       break;
-    case ENUM.ClawType.CLAW_TYPE_SALAMANDER:
+    case ENUM.ClawType.SALAMANDER:
       clawTone = 'fiery-red';
       break;
-    case ENUM.ClawType.CLAW_TYPE_LIZARD:
+    case ENUM.ClawType.LIZARD:
       // See http://www.bergenbattingcenter.com/lizard-skins-bat-grip/ for all those NYI! lizard skin colors
       // I'm still not that happy with these claw tones. Any suggestion would be nice.
       switch (liveData.player.skinTone) {
@@ -6826,10 +6767,10 @@ export function restoreArms(tfSource = '') {
 
   if (tfSource == 'gooGasmic') {
     // skin just turned gooey. Now lets fix unusual arms.
-    const hasClaws = liveData.player.clawType != ENUM.ClawType.CLAW_TYPE_NORMAL;
+    const hasClaws = liveData.player.clawType != ENUM.ClawType.NORMAL;
 
     message = '\n\n';
-    if (liveData.player.armType == ENUM.ArmType.ARM_TYPE_HARPY) {
+    if (liveData.player.armType == ENUM.ArmType.HARPY) {
       message += 'The feathers on your arms melt back into your now gooey skin.';
       if (hasClaws) message += ' Additionally your now gooey claws melt back into your fingers.';
     } else if (hasClaws) {
@@ -6837,47 +6778,47 @@ export function restoreArms(tfSource = '') {
     }
 
     if (hasClaws) message += " Well, who cares, gooey claws aren't very useful in combat to begin with.";
-    if (hasClaws || liveData.player.armType == ENUM.ArmType.ARM_TYPE_HARPY) GUI.outputText(message + '  <b>You have normal human arms again.</b>');
+    if (hasClaws || liveData.player.armType == ENUM.ArmType.HARPY) GUI.outputText(message + '  <b>You have normal human arms again.</b>');
 
     updateClaws();
-    liveData.player.armType = ENUM.ArmType.ARM_TYPE_HUMAN;
+    liveData.player.armType = ENUM.ArmType.HUMAN;
     return 1;
   }
 
-  if (changes < changeLimit && liveData.player.armType != ENUM.ArmType.ARM_TYPE_HUMAN) {
-    if ([ENUM.ArmType.ARM_TYPE_HARPY, ENUM.ArmType.ARM_TYPE_SPIDER, ENUM.ArmType.ARM_TYPE_SALAMANDER].indexOf(liveData.player.armType) >= 0)
+  if (changes < changeLimit && liveData.player.armType != ENUM.ArmType.HUMAN) {
+    if ([ENUM.ArmType.HARPY, ENUM.ArmType.SPIDER, ENUM.ArmType.SALAMANDER].indexOf(liveData.player.armType) >= 0)
       //TODO Add Salamander Arm Type
       message += "\n\nYou scratch at your biceps absentmindedly, but no matter how much you scratch, it isn't getting rid of the itch.";
 
     switch (liveData.player.armType) {
-      case ENUM.ArmType.ARM_TYPE_HARPY:
+      case ENUM.ArmType.HARPY:
         message +=
           '  Glancing down in irritation, you discover that your feathery arms are shedding their feathery coating.' +
           '  The wing-like shape your arms once had is gone in a matter of moments, leaving [skinfurscales] behind.';
         break;
 
-      case ENUM.ArmType.ARM_TYPE_SPIDER:
+      case ENUM.ArmType.SPIDER:
         message +=
           "  Glancing down in irritation, you discover that your arms' chitinous covering is flaking away." +
           '  The glossy black coating is soon gone, leaving [skinfurscales] behind.';
         break;
 
-      case ENUM.ArmType.ARM_TYPE_SALAMANDER:
+      case ENUM.ArmType.SALAMANDER:
         message +=
           '  Glancing down in irritation, you discover that your once scaly arms are shedding their scales and that' +
           ' your claws become normal human fingernails again.';
         break;
 
-      case ENUM.ArmType.ARM_TYPE_PREDATOR: //TODO Add Predator Arm Type
+      case ENUM.ArmType.PREDATOR: //TODO Add Predator Arm Type
         switch (liveData.player.skinType) {
-          case ENUM.SkinType.SKIN_TYPE_GOO:
-            if (liveData.player.clawType != ENUM.ClawType.CLAW_TYPE_NORMAL)
+          case ENUM.SkinType.Goo:
+            if (liveData.player.clawType != ENUM.ClawType.NORMAL)
               message += '\n\nYour gooey claws melt into your fingers.' + " Well, who cares, gooey claws aren't very useful in combat to begin with.";
             break;
 
-          case ENUM.SkinType.SKIN_TYPE_PLAIN:
-          case ENUM.SkinType.SKIN_TYPE_FUR:
-          case ENUM.SkinType.SKIN_TYPE_SCALES:
+          case ENUM.SkinType.Plain:
+          case ENUM.SkinType.Fur:
+          case ENUM.SkinType.Scales:
             message += '\n\nYou feel a sudden tingle in your [claws] and then you realize,' + ' that they have become normal human fingernails again.';
             break;
         }
@@ -6888,7 +6829,7 @@ export function restoreArms(tfSource = '') {
     }
     GUI.outputText(message + '  <b>You have normal human arms again.</b>');
     updateClaws();
-    liveData.player.armType = ENUM.ArmType.ARM_TYPE_HUMAN;
+    liveData.player.armType = ENUM.ArmType.HUMAN;
     changes++;
     return 1;
   }
