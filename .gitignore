@@ -260,13 +260,13 @@ paket-files/
 __pycache__/
 *.pyc
 
+# --- Custom Omissions ---
 
-# Custom additions
 **/.azure/credentials
 *vault.yml
+package-lock.json
+wwwroot/
+dist/
 
 # Terraform
 .terraform.lock.*
-
-# Distributables (TypeScript, WebPack, etc.)
-dist/
