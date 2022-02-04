@@ -1,0 +1,278 @@
+/* Body Content */
+body {
+  background-color: #ebd7a5;
+}
+nav {
+  float: left;
+  margin-right: 0;
+  margin-left: 0;
+  display: block;
+}
+
+/* Heading Texts */
+h2 {
+  font-size: 1.2em;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 10px;
+}
+
+/* Wrapper */
+#app,
+#wrapper {
+  margin-left: auto;
+  margin-right: auto;
+  width: 920px;
+  background: url(../assets/images/interface/background.jpg) no-repeat;
+  background-size: cover;
+}
+
+/* Main Text Display */
+#maintext {
+  width: 687px;
+  height: 440px;
+  padding-left: 5px;
+  overflow-y: scroll;
+  display: block;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 2px solid #000000;
+}
+
+/* Stats Display */
+#stats {
+  width: 210px;
+  height: 560px;
+  margin-right: 0;
+  /*background-image: url(../assets/images/interface/sidepanel.png);
+	background-repeat: no-repeat;*/
+}
+#stats p {
+  width: 200px;
+  padding-left: 5px;
+  margin-top: 0;
+  line-height: 1.4em;
+  overflow-x: visible;
+}
+.statframe {
+  padding-top: 0;
+  margin-top: 0;
+  margin-left: 10px;
+  height: 20px;
+  width: 160px;
+  display: block;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 2px ridge #000000;
+}
+.statframeblank {
+  padding-top: 0;
+  margin-top: 0;
+  margin-left: 10px;
+  height: 20px;
+  width: 160px;
+  display: block;
+  /*border: 2px ridge #000000;*/
+  padding: 2px;
+}
+.statbar {
+  background-image: linear-gradient(to bottom, rgba(255, 0, 0, 0.7), rgba(255, 127, 127, 0.7) 50%, rgba(255, 0, 0, 0.7) 50%);
+  height: 100%;
+  width: 100%;
+  transition: width 0.5s ease-in-out;
+}
+.statlabel {
+  position: relative;
+  left: 0px;
+  top: -2px;
+  padding: 0;
+  margin: 0;
+  height: 0;
+  width: 100px;
+  display: block;
+  color: #000000;
+  font-family: 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', sans-serif;
+  font-size: 12px;
+  text-shadow: 1px 1px 5px #333333;
+}
+.statlabel:hover {
+  cursor: help;
+}
+.statnum {
+  position: relative;
+  top: -2px;
+  right: 50px;
+  padding: 0;
+  margin: 0;
+  height: 0;
+  width: 60px;
+  text-align: right;
+  color: black;
+  font-family: 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
+  font-size: 18px;
+  text-shadow: 1px 1px 5px #333333;
+}
+.statnum:hover {
+  cursor: help;
+}
+.statupdown {
+  float: inherit;
+  position: relative;
+  left: 162px;
+  bottom: 22px;
+  background-image: url(../assets/images/interface/arrow-up.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 24px;
+  width: 24px;
+}
+#timeDisplay {
+  padding-top: 5px;
+  padding-left: 10px;
+  font-family: 'Lucida Console', 'Courier New', monospace;
+}
+#spriteDisplay {
+  display: inline-block;
+  margin-left: 10px;
+  margin-bottom: 0;
+  height: 80px;
+  width: 100px;
+  bottom: 0px;
+}
+#spriteDisplay img {
+  position: inherit;
+  display: block;
+  bottom: -50%;
+  padding-top: 18px;
+  padding-left: 10px;
+  transform: scale(2);
+  image-rendering: -moz-crisp-edges; /*Needed until Firefox properly resolves this.*/
+  image-rendering: pixelated;
+}
+
+/* Buttons */
+.buttonrow {
+  padding-bottom: 40px;
+}
+.button {
+  background-repeat: no-repeat;
+  width: 136px;
+  height: 38px;
+  display: block;
+  float: left;
+  margin-top: 2px;
+  margin-right: 4px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 1px 1px 1px #333333;
+  /*font-family: Georgia, "Times New Roman", serif;*/
+  font-family: 'Palatino Linotype', Palatino, Georgia, serif;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 38px;
+  color: #000000;
+  transition: color 0.2s linear;
+}
+.buttonbuffer {
+  margin-right: 74px;
+}
+.button:hover {
+  opacity: 0.8;
+  color: #00ffff;
+  cursor: pointer;
+}
+.button:hover div#tooltip {
+  visibility: visible;
+}
+.button:active {
+  opacity: 0.6;
+  color: #00ffff;
+}
+#topbuttonset {
+  margin-bottom: 2px;
+}
+#buttonset {
+  margin-left: 0px;
+  bottom: 200px;
+}
+#buttonMain {
+  background-image: url(../assets/images/interface/button0.jpg);
+}
+#buttonData {
+  background-image: url(../assets/images/interface/button1.jpg);
+}
+#buttonLevel {
+  background-image: url(../assets/images/interface/button2.jpg);
+}
+#buttonStats {
+  background-image: url(../assets/images/interface/button3.jpg);
+}
+#buttonPerks {
+  background-image: url(../assets/images/interface/button4.jpg);
+}
+#buttonAppearance {
+  background-image: url(../assets/images/interface/button5.jpg);
+}
+#button0,
+#button10 {
+  background-image: url(../assets/images/interface/button0.jpg);
+}
+#button1,
+#button11 {
+  background-image: url(../assets/images/interface/button1.jpg);
+}
+#button2,
+#button12 {
+  background-image: url(../assets/images/interface/button2.jpg);
+}
+#button3,
+#button13 {
+  background-image: url(../assets/images/interface/button3.jpg);
+}
+#button4,
+#button14 {
+  background-image: url(../assets/images/interface/button4.jpg);
+}
+#button5 {
+  background-image: url(../assets/images/interface/button5.jpg);
+}
+#button6 {
+  background-image: url(../assets/images/interface/button6.jpg);
+}
+#button7 {
+  background-image: url(../assets/images/interface/button7.jpg);
+}
+#button8 {
+  background-image: url(../assets/images/interface/button8.jpg);
+}
+#button9 {
+  background-image: url(../assets/images/interface/button9.jpg);
+}
+
+/* Others */
+#perkselect {
+  min-width: 200px;
+}
+#tooltip {
+  position: absolute;
+  display: block;
+  visibility: hidden;
+  z-index: 10;
+  left: 100px;
+  bottom: 100px;
+  width: 300px;
+  height: 202px;
+  background-image: url(../assets/images/interface/tooltip.png);
+  background-size: cover;
+}
+#tooltip h4 {
+  margin: 5px 10px 0px;
+  padding-top: 5px;
+  padding-left: 5px;
+  border-bottom: solid 2px #000000;
+  font-family: Georgia, Times New Roman, serif;
+}
+#tooltip p {
+  margin-top: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 0.8em;
+}

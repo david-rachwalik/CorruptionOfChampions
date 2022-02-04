@@ -42,3 +42,7 @@ The rules that govern and guide the player's actions, as well as the game's resp
 4. Inject CSS into the DOM with [Style Loader](https://github.com/webpack-contrib/style-loader) & [CSS Loader](https://github.com/webpack-contrib/css-loader)
 
    - `npm i -D style-loader css-loader`
+
+---
+
+> Conversion from React+Webpack to Vue+Vite resulted in a new project total of 359 packages with 124 packages added, 534 packages removed

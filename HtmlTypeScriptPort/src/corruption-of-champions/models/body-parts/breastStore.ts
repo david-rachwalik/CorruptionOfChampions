@@ -7,3 +7,5 @@
 // const LACTATION_STRONG = 4 //Full after  9 hours, overfull after 15 hours, overloaded after 30 hours
 // const LACTATION_HEAVY = 5 //Full after  6 hours, overfull after 12 hours, overloaded after 27 hours
 // const LACTATION_EPIC = 6 //Full after  3 hours, overfull after  9 hours, overloaded after 24 hours
+
+export {};
