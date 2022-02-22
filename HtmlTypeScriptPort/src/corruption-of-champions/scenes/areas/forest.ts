@@ -1,4 +1,12 @@
-import { liveData, GUI, UTIL, Camp, FLAG, AreasGenericExploration, TentacleBeastScene, TamaniScene, BeeGirlScene } from 'coc';
+import * as GUI from '../../engine/gui';
+import * as UTIL from '../../engine/utils';
+import * as FLAG from '../../flags/dataFlags';
+import { liveData } from '../../main-context';
+import * as BeeGirlScene from '../../scenes/areas/forest/beeGirl';
+import * as TamaniScene from '../../scenes/areas/forest/tamani';
+import * as TentacleBeastScene from '../../scenes/areas/forest/tentacleBeast';
+import * as Camp from '../../scenes/camp';
+import * as AreasGenericExploration from '../../scenes/exploration';
 
 export function explore() {
   GUI.clearOutput();
@@ -56,7 +64,6 @@ export function explore() {
         TentacleBeastScene.encounter();
         return;
       }
-      break;
     case 3: //Corrupted Glade (Not yet implemented)
       break;
     case 4: //Trip on a Root

@@ -1,6 +1,11 @@
-import { liveData, ENUM, FLAG, GUI, Camp, Inventory, Data } from 'coc';
+import * as GUI from '../../../engine/gui';
+import * as ENUM from '../../../flags/asset-enums';
+import * as FLAG from '../../../flags/dataFlags';
+import { liveData } from '../../../main-context';
+import * as Camp from '../../../scenes/camp';
+import * as Inventory from '../../../scenes/inventory';
 
-Data.addToGameFlags(FLAG.MET_OTTERGIRL);
+// Data.addToGameFlags(FLAG.MET_OTTERGIRL);
 
 export function ottahGirl() {
   GUI.clearOutput();

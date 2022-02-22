@@ -1,6 +1,15 @@
-import { liveData, GUI, FLAG, Inventory, MAIN, Data, CampEvents, RathazulScene, AreasGenericExploration, Debug, placesMenu } from 'coc';
+import * as Debug from '../debug';
+import * as GUI from '../engine/gui';
+import * as FLAG from '../flags/dataFlags';
+import * as MAIN from '../main';
+import { liveData } from '../main-context';
+import * as CampEvents from '../scenes/campEvents';
+import * as AreasGenericExploration from '../scenes/exploration';
+import * as Inventory from '../scenes/inventory';
+import * as RathazulScene from '../scenes/npcs/rathazul';
+import { placesMenu } from '../scenes/places';
 
-Data.addToGameFlags(FLAG.HAS_KEY_ITEM, FLAG.CAMP_WALL_PROGRESS);
+// Data.addToGameFlags(FLAG.HAS_KEY_ITEM, FLAG.CAMP_WALL_PROGRESS);
 
 //MENUS
 export function doCamp() {

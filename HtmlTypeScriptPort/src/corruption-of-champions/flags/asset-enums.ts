@@ -1,5 +1,3 @@
-export * from 'coc/flags/appearanceEnums';
-
 enum CharacterType {
   Unassigned,
   Creature,
@@ -114,4 +112,5 @@ enum IncubationType {
   ISABELLA = 2160, //Longest pregnancy ever.
 }
 
+export * from './appearanceEnums';
 export { CharacterType, ItemType, PregnancyType, PregType, IncubationType };

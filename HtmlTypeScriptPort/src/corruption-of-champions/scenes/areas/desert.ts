@@ -1,4 +1,12 @@
-import { liveData, GUI, UTIL, Camp, SandWitchScene, NagaScene, WandererScene, SandTrapScene, OasisScene } from 'coc';
+import * as GUI from '../../engine/gui';
+import * as UTIL from '../../engine/utils';
+import { liveData } from '../../main-context';
+import * as WandererScene from '../../scenes/areas/desert/marcusLucia';
+import * as NagaScene from '../../scenes/areas/desert/naga';
+import * as OasisScene from '../../scenes/areas/desert/oasis';
+import * as SandTrapScene from '../../scenes/areas/desert/sandTrap';
+import * as SandWitchScene from '../../scenes/areas/desert/sandWitch';
+import * as Camp from '../../scenes/camp';
 
 export function explore() {
   GUI.clearOutput();

@@ -1,4 +1,13 @@
-import { liveData, GameContext, GUI, Player, ItemSlot, StatusEffect, MAIN, Perk, KeyItem, Camp } from 'coc';
+import * as GUI from '../engine/gui';
+import { GameContext } from '../game-context';
+import { ItemSlot } from '../itemSlotClass';
+import { KeyItem } from '../keyItemClass';
+import * as MAIN from '../main';
+import { liveData } from '../main-context';
+import { Player } from '../models/player';
+import { Perk } from '../perkClass';
+import * as Camp from '../scenes/camp';
+import { StatusEffect } from '../statusEffectClass';
 
 // This code handles saving and loading of games. (Save State)
 export const totalSlots = 14;
@@ -107,12 +116,12 @@ export function saveGameObject(slot: string): boolean {
     saveData.player.armor = liveData.player.armor;
 
     //Inventory
-    saveData.player.itemSlots = [];
-    for (let i = 0; i < liveData.player.itemSlots.length; i++) {
-      saveData.player.itemSlots.push(new ItemSlot());
-      if (liveData.player.itemSlots[i].itype != undefined) saveData.player.itemSlots[i].itype.id = liveData.player.itemSlots[i].itype.id;
-      else saveData.player.itemSlots[i].itype.id = 'Nothing';
-      saveData.player.itemSlots[i].quantity = liveData.player.itemSlots[i].quantity;
+    saveData.itemSlots = [];
+    for (let i = 0; i < liveData.itemSlots.length; i++) {
+      saveData.itemSlots.push(new ItemSlot());
+      if (liveData.itemSlots[i].itype != undefined) saveData.itemSlots[i].itype.id = liveData.itemSlots[i].itype.id;
+      else saveData.itemSlots[i].itype.id = 'Nothing';
+      saveData.itemSlots[i].quantity = liveData.itemSlots[i].quantity;
     }
 
     //Perks
@@ -262,12 +271,12 @@ export function loadGameObject(slot: string): boolean {
     if (saveData.player.armor != undefined) liveData.player.armor = liveData.lookupItem(saveData.player.armor.id);
 
     //Set items
-    liveData.player.itemSlots = [];
+    liveData.itemSlots = [];
     for (let i = 0; i < 56; i++) {
-      liveData.player.itemSlots.push(new ItemSlot());
+      liveData.itemSlots.push(new ItemSlot());
     }
-    for (let i = 0; i < saveData.player.itemSlots.length; i++) {
-      liveData.player.itemSlots[i].setItemAndQty(liveData.lookupItem(saveData.player.itemSlots[i].id), saveData.player.itemSlots[i].quantity);
+    for (let i = 0; i < saveData.itemSlots.length; i++) {
+      liveData.itemSlots[i].setItemAndQty(liveData.lookupItem(saveData.itemSlots[i].id), saveData.itemSlots[i].quantity);
     }
 
     //Perks

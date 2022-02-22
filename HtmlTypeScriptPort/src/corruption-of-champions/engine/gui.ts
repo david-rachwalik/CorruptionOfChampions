@@ -1,4 +1,5 @@
-import { liveData, UTIL } from 'coc';
+import * as UTIL from '../engine/utils';
+import { liveData } from '../main-context';
 
 // This code holds the positioning of the GUI display. The look of the display is handled through the CSS file.
 // This holds some of the most important code for the engine of the game. It turns the buttons on and off, sets their labels and tooltips
@@ -281,10 +282,10 @@ export function menu(): void {
 export function addButton(
   pos: number,
   txt: string,
-  func: (a: any, b?: any, c?: any) => void = UTIL.nullFunc,
-  arg1: any = undefined,
-  arg2: any = undefined,
-  arg3: any = undefined,
+  func: ((a: any, b?: any, c?: any) => void) | null = null,
+  arg1: any | null = undefined,
+  arg2: any | null = undefined,
+  arg3: any | null = undefined,
   tooltipText = '',
   tooltipHeader = '',
 ): void {
@@ -322,7 +323,7 @@ export function removeButton(pos: number): void {
   }
 }
 
-export function doNext(func: (a: any) => void): void {
+export function doNext(func: ((a: any) => void) | null): void {
   menu();
   addButton(0, 'Next', func);
 }

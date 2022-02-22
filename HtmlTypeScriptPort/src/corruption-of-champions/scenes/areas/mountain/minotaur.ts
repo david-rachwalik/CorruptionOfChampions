@@ -1,6 +1,15 @@
-import { liveData, ENUM, FLAG, UTIL, GUI, Creature, Data, Appearance, COMBAT, Camp, Inventory } from 'coc';
+import * as Appearance from '../../../appearance';
+import * as GUI from '../../../engine/gui';
+import * as UTIL from '../../../engine/utils';
+import * as ENUM from '../../../flags/asset-enums';
+import * as FLAG from '../../../flags/dataFlags';
+import { liveData } from '../../../main-context';
+import { Creature } from '../../../models/creature';
+import * as Camp from '../../../scenes/camp';
+import * as COMBAT from '../../../scenes/combat';
+import * as Inventory from '../../../scenes/inventory';
 
-Data.addToGameFlags(FLAG.MINOTAUR_TF2, FLAG.MINOTAUR_AND_COWGIRL);
+// Data.addToGameFlags(FLAG.MINOTAUR_TF2, FLAG.MINOTAUR_AND_COWGIRL);
 
 //TODO Mino Cum Addiction Implementation and Testing
 

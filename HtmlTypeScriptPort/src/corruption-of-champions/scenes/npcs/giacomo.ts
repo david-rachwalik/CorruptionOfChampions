@@ -1,4 +1,9 @@
-import { liveData, FLAG, UTIL, GUI, Data, Camp, Inventory } from 'coc';
+import * as GUI from '../../engine/gui';
+import * as UTIL from '../../engine/utils';
+import * as FLAG from '../../flags/dataFlags';
+import { liveData } from '../../main-context';
+import * as Camp from '../../scenes/camp';
+import * as Inventory from '../../scenes/inventory';
 
 /* License schmicense ahead!
  LICENSE
@@ -25,7 +30,7 @@ import { liveData, FLAG, UTIL, GUI, Data, Camp, Inventory } from 'coc';
 
  For further information and license requests, Dxasmodeus may be contacted through private message at the Futanari Palace. http://www.futanaripalace.com/forum.php. */
 
-Data.addToGameFlags(FLAG.GIACOMO_MET, FLAG.GIACOMO_WORMS_OFFERED);
+// Data.addToGameFlags(FLAG.GIACOMO_MET, FLAG.GIACOMO_WORMS_OFFERED);
 
 export function giacomoEncounter() {
   GUI.displaySprite('giacomo');

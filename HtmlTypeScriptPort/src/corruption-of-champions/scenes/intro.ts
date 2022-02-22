@@ -1,4 +1,8 @@
-import { liveData, ENUM, GUI, Camp, Player } from 'coc';
+import * as GUI from '../engine/gui';
+import * as ENUM from '../flags/asset-enums';
+import { liveData } from '../main-context';
+import { Player } from '../models/player';
+import * as Camp from '../scenes/camp';
 
 //------------
 // CREATION
@@ -7,8 +11,10 @@ export function initializeNewGame() {
   //Initialize player
   liveData.player = new Player();
   liveData.player.HP = liveData.player.maxHP();
-  liveData.player.weapon = liveData.Items.NOTHING;
+  // liveData.player.weapon = liveData.Items.NOTHING;
   liveData.player.armor = liveData.Items.Armor.ComfortableClothes;
+  liveData.player.hunger = 80;
+  liveData.player.location = 'Camp';
   //Clear Flags
   //flags = [0] * 3000;
   //Route to character naming

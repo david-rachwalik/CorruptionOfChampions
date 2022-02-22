@@ -1,4 +1,10 @@
-import { liveData, ENUM, FLAG, GUI, UTIL, COMBAT, Creature } from 'coc';
+import * as GUI from '../../../engine/gui';
+import * as UTIL from '../../../engine/utils';
+import * as ENUM from '../../../flags/asset-enums';
+import * as FLAG from '../../../flags/dataFlags';
+import { liveData } from '../../../main-context';
+import { Creature } from '../../../models/creature';
+import * as COMBAT from '../../../scenes/combat';
 
 export class GreenSlime extends Creature {
   constructor() {

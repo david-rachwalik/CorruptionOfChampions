@@ -1,4 +1,12 @@
-import { liveData, ENUM, UTIL, GUI, Ass, Item, ItemSlot, Creature, VenomType, Appearance } from 'coc';
+import * as Appearance from '../appearance';
+import * as GUI from '../engine/gui';
+import * as UTIL from '../engine/utils';
+import * as ENUM from '../flags/asset-enums';
+import { Item } from '../itemClass';
+import { liveData } from '../main-context';
+import { VenomType } from '../statusEffectLib';
+import { Ass } from './body-parts/assClass';
+import { Creature } from './creature';
 
 class Spell {
   blind: boolean;
@@ -22,7 +30,6 @@ class Player extends Creature {
   beardType: number;
   teaseLevel: number;
   teaseXP: number;
-  itemSlots: ItemSlot[];
   //Spells
   spells: Spell;
   //Stats points
@@ -97,12 +104,6 @@ class Player extends Creature {
     this.teaseLevel = 0;
     this.teaseXP = 0;
 
-    this.itemSlots = [];
-    //Slots 0-9 are player inventory. Slots 10-55 are for gear storage options. See inventory.js for details
-    // Initializing it here makes things easier.
-    for (let i = 0; i < 56; i++) {
-      this.itemSlots.push(new ItemSlot());
-    }
     this.keyItems = [];
     this.statusEffects = [];
     this.perks = [];
@@ -1224,31 +1225,31 @@ class Player extends Creature {
 
   itemCount(itype: Item) {
     let count = 0;
-    for (let i = 0; i < this.itemSlots.length; i++) {
-      if (this.itemSlots[i].itype == itype) count += this.itemSlots[i].quantity;
+    for (let i = 0; i < liveData.itemSlots.length; i++) {
+      if (liveData.itemSlots[i].itype == itype) count += liveData.itemSlots[i].quantity;
     }
     return count;
   }
 
   roomInExistingStack(itype: Item) {
     for (let i = 0; i < 10; i++) {
-      if (this.itemSlots[i].itype == itype && this.itemSlots[i].quantity != 0 && this.itemSlots[i].quantity < 5) return i;
+      if (liveData.itemSlots[i].itype == itype && liveData.itemSlots[i].quantity != 0 && liveData.itemSlots[i].quantity < 5) return i;
     }
     return -1;
   }
 
   emptySlot() {
-    for (let i = 0; i < this.itemSlots.length; i++) {
-      if ((this.itemSlots[i].itype == undefined || this.itemSlots[i].itype == liveData.Items.NOTHING) && i < this.getMaxSlots()) return i;
+    for (let i = 0; i < liveData.itemSlots.length; i++) {
+      if ((liveData.itemSlots[i].itype == undefined || liveData.itemSlots[i].itype == liveData.Items.NOTHING) && i < this.getMaxSlots()) return i;
     }
     return -1;
   }
 
   destroyItems(itype: Item, numOfItemToRemove = 1) {
-    for (let slotNum = 0; slotNum < this.itemSlots.length; slotNum += 1) {
-      if (this.itemSlots[slotNum].itype == itype) {
-        while (this.itemSlots[slotNum].quantity > 0 && numOfItemToRemove > 0) {
-          this.itemSlots[slotNum].removeOneItem();
+    for (let slotNum = 0; slotNum < liveData.itemSlots.length; slotNum += 1) {
+      if (liveData.itemSlots[slotNum].itype == itype) {
+        while (liveData.itemSlots[slotNum].quantity > 0 && numOfItemToRemove > 0) {
+          liveData.itemSlots[slotNum].removeOneItem();
           numOfItemToRemove--;
         }
       }

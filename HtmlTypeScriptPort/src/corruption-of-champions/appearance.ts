@@ -1,4 +1,7 @@
-import { liveData, ENUM, UTIL, Creature } from 'coc';
+import * as UTIL from './engine/utils';
+import * as ENUM from './flags/asset-enums';
+import { liveData } from './main-context';
+import { Creature } from './models/creature';
 
 // Eventually, this should contain the entire char appearance.
 // At the moment, it's pretty piecemeal.
@@ -169,16 +172,13 @@ export function breastDescript(size: number, lactation = 0): string {
     case 5:
     case 6:
       return descript + 'tits';
-      break;
     case 7:
       if (lactation >= 2.5) return descript + 'udders';
       if (lactation >= 1) descript += 'milk ';
       return descript + 'jugs';
-      break;
     case 8:
       if (size > 6) return descript + 'love-pillows';
       return descript + 'boobs';
-      break;
     case 9:
       if (size > 6) return descript + 'tits';
       break;

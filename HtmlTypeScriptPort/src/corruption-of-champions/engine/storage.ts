@@ -11,23 +11,23 @@ interface IStorage {
 class Storage {
   private readonly storage: IStorage;
 
-  public constructor(getStorage = (): IStorage => window.localStorage) {
+  constructor(getStorage = (): IStorage => window.localStorage) {
     this.storage = getStorage();
   }
 
-  protected get(key: string): string | null {
-    return this.storage.getItem(key);
+  get(key: string): string {
+    return this.storage.getItem(key) || '';
   }
 
-  protected set(key: string, value: string): void {
+  set(key: string, value: string): void {
     this.storage.setItem(key, value);
   }
 
-  protected clearItem(key: string): void {
+  clearItem(key: string): void {
     this.storage.removeItem(key);
   }
 
-  protected clearItems(keys: string[]): void {
+  clearItems(keys: string[]): void {
     keys.forEach((key) => this.clearItem(key));
   }
 }

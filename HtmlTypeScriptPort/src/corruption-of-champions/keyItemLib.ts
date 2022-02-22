@@ -1,4 +1,4 @@
-import { KeyItemType } from 'coc';
+import { KeyItemType } from './keyItemClass';
 
 class KeyItemTypeContainer {
   //Books

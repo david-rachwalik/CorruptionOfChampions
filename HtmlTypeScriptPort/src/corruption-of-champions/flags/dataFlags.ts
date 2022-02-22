@@ -1,6 +1,9 @@
-// So, a bit of weirdness about these game flags. They're constants because of how the save files work. When the player reaches an area where a flag would come into play, Data.addToGameFlags() is called with these flags. This function fills an array full of these constant names and a value. That's what the game grabs when a save is loaded. So, while it may seem smart to change all of these into variables, don't!
+// So, a bit of weirdness about these game flags. They're constants because of how the save files work. When the player reaches an area where a flag
+// would come into play, Data.addToGameFlags() is called with these flags. This function fills an array full of these constant names and a value.
+// That's what the game grabs when a save is loaded. So, while it may seem smart to change all of these into variables, don't!
 
-//The default value for all of these flags is zero. To change the value of a flag, you have to call liveData.gameFlags[NAMEOFFLAG] = int or whatever it's getting set to. If you use addToGameFlags and set flags in this way, your values will be saved.
+//The default value for all of these flags is zero. To change the value of a flag, you have to call liveData.gameFlags[NAMEOFFLAG] = int or whatever
+// it's getting set to. If you use addToGameFlags and set flags in this way, your values will be saved.
 
 //------------
 // META FLAGS

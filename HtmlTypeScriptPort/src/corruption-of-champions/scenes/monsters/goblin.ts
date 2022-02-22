@@ -1,4 +1,11 @@
-import { liveData, ENUM, FLAG, UTIL, GUI, Creature, COMBAT, Appearance } from 'coc';
+import * as Appearance from '../../appearance';
+import * as GUI from '../../engine/gui';
+import * as UTIL from '../../engine/utils';
+import * as ENUM from '../../flags/asset-enums';
+import * as FLAG from '../../flags/dataFlags';
+import { liveData } from '../../main-context';
+import { Creature } from '../../models/creature';
+import * as COMBAT from '../../scenes/combat';
 
 // Goblins originally created by aimozg.
 // Updated for CoC HTML mod by Mattibun.

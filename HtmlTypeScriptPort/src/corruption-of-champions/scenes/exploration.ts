@@ -1,4 +1,17 @@
-import { liveData, ENUM, GUI, Camp, UTIL, COMBAT, FLAG, AreasMountain, AreasDesert, AreasLake, AreasForest, GiacomoScene, ImpScene, GoblinScene } from 'coc';
+import * as GUI from '../engine/gui';
+import * as UTIL from '../engine/utils';
+import * as ENUM from '../flags/asset-enums';
+import * as FLAG from '../flags/dataFlags';
+import { liveData } from '../main-context';
+import * as AreasDesert from '../scenes/areas/desert';
+import * as AreasForest from '../scenes/areas/forest';
+import * as AreasLake from '../scenes/areas/lake';
+import * as AreasMountain from '../scenes/areas/mountain';
+import * as Camp from '../scenes/camp';
+import * as COMBAT from '../scenes/combat';
+import * as GoblinScene from '../scenes/monsters/goblin';
+import * as ImpScene from '../scenes/monsters/imp';
+import * as GiacomoScene from '../scenes/npcs/giacomo';
 
 export function exploreMenu() {
   GUI.hideMenus();

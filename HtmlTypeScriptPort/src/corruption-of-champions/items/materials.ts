@@ -1,4 +1,6 @@
-import { ENUM, GUI, Item } from 'coc';
+import * as GUI from '../engine/gui';
+import * as ENUM from '../flags/asset-enums';
+import { Item } from '../itemClass';
 
 class ItemMaterials {
   GreenGel: Item;

@@ -1,4 +1,5 @@
-import { Item, ENUM } from 'coc';
+import * as ENUM from '../flags/asset-enums';
+import { Item } from '../itemClass';
 
 class ItemArmor {
   ComfortableClothes: Item;

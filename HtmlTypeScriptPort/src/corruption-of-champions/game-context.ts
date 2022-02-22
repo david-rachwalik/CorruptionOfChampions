@@ -1,22 +1,19 @@
-import {
-  UTIL,
-  FLAG,
-  Creature,
-  Player,
-  Time,
-  ItemSlot,
-  AmilyScene,
-  TamaniScene,
-  SandWitchScene,
-  ItemContainer,
-  Item,
-  KeyItemTypeContainer,
-  PerkTypeContainer,
-  StatusEffectTypeContainer,
-  StatusEffectType,
-  KeyItemType,
-  PerkType,
-} from 'coc';
+import { Storage } from './engine/storage';
+import { Time } from './engine/time';
+import * as FLAG from './flags/dataFlags';
+import { Item, ItemContainer } from './itemClass';
+import { ItemSlot } from './itemSlotClass';
+import { KeyItemType } from './keyItemClass';
+import { KeyItemTypeContainer } from './keyItemLib';
+import { Creature } from './models/creature';
+import { Player } from './models/player';
+import { PerkType } from './perkClass';
+import { PerkTypeContainer } from './perkLib';
+import * as SandWitchScene from './scenes/areas/desert/sandWitch';
+import * as TamaniScene from './scenes/areas/forest/tamani';
+import * as AmilyScene from './scenes/npcs/amily';
+import { StatusEffectType } from './statusEffectClass';
+import { StatusEffectTypeContainer } from './statusEffectLib';
 
 class Exploration {
   explored: number;
@@ -47,6 +44,11 @@ class GameContext {
   lowStandards: boolean;
   hungerEnabled: boolean; // realistic mode
   SFWMode: boolean;
+  // Player tracking (starting appearance, stats points available to distribute)
+  originalGender: number;
+  originalRace: string;
+  statPoints: number;
+  perkPoints: number;
   //Interface settings
   use12Hours: boolean;
   useMetrics: boolean;
@@ -91,9 +93,10 @@ class GameContext {
   currentRound: number;
 
   //Inventory
+  itemSlots: ItemSlot[];
   currentItemSlot?: ItemSlot;
-  callNext: () => void;
-  callOnAbandon: () => void;
+  callNext: (() => void) | null;
+  callOnAbandon: (() => void) | null;
 
   constructor() {
     //Variables that can be set as development progresses.
@@ -157,6 +160,12 @@ class GameContext {
     this.beeGirlAttitude = 9;
     this.bowSkill = 0;
 
+    // Player tracking (starting appearance, stats points available to distribute)
+    this.originalGender = 0;
+    this.originalRace = 'human';
+    this.statPoints = 0;
+    this.perkPoints = 0;
+
     // Combat
     this.nullCreature = new Creature();
     this.monster = this.nullCreature;
@@ -165,8 +174,15 @@ class GameContext {
 
     //Inventory
     this.currentItemSlot;
-    this.callNext = () => UTIL.nullFunc; // empty lambda to immediately override
-    this.callOnAbandon = () => UTIL.nullFunc;
+    this.itemSlots = [];
+    //Slots 0-9 are player inventory. Slots 10-55 are for gear storage options. See inventory.js for details
+    // Initializing it here makes things easier.
+    for (let i = 0; i < 56; i++) {
+      this.itemSlots.push(new ItemSlot());
+    }
+
+    this.callNext = null;
+    this.callOnAbandon = null;
   }
 
   advanceMinutes(minutes: number) {

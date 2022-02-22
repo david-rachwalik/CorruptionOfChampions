@@ -1,4 +1,10 @@
-import { liveData, ENUM, GUI, UTIL, FLAG, Appearance, COMBAT } from 'coc';
+import * as Appearance from '../appearance';
+import * as GUI from '../engine/gui';
+import * as UTIL from '../engine/utils';
+import * as ENUM from '../flags/asset-enums';
+import * as FLAG from '../flags/dataFlags';
+import { liveData } from '../main-context';
+import * as COMBAT from '../scenes/combat';
 
 export function beeTFs(type: number): void {
   const pure = type == 1;

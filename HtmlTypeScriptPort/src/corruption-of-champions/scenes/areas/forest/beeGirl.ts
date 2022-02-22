@@ -1,4 +1,14 @@
-import { liveData, ENUM, GUI, Creature, VenomType, UTIL, Inventory, Camp, Appearance, COMBAT, FLAG } from 'coc';
+import * as Appearance from '../../../appearance';
+import * as GUI from '../../../engine/gui';
+import * as UTIL from '../../../engine/utils';
+import * as ENUM from '../../../flags/asset-enums';
+import * as FLAG from '../../../flags/dataFlags';
+import { liveData } from '../../../main-context';
+import { Creature } from '../../../models/creature';
+import * as Camp from '../../../scenes/camp';
+import * as COMBAT from '../../../scenes/combat';
+import * as Inventory from '../../../scenes/inventory';
+import { VenomType } from '../../../statusEffectLib';
 
 export class BeeGirl extends Creature {
   constructor() {

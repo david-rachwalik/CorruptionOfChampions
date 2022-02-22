@@ -1,6 +1,11 @@
-import { liveData, GUI, UTIL, FLAG, Camp, Inventory, Data } from 'coc';
+import * as GUI from '../../../engine/gui';
+import * as UTIL from '../../../engine/utils';
+import * as FLAG from '../../../flags/dataFlags';
+import { liveData } from '../../../main-context';
+import * as Camp from '../../../scenes/camp';
+import * as Inventory from '../../../scenes/inventory';
 
-Data.addToGameFlags(FLAG.WANDERER_MET, FLAG.WANDERER_DEMON, FLAG.WANDERER_EPILOGUE);
+// Data.addToGameFlags(FLAG.WANDERER_MET, FLAG.WANDERER_DEMON, FLAG.WANDERER_EPILOGUE);
 
 export function wandererRouter() {
   GUI.clearOutput();

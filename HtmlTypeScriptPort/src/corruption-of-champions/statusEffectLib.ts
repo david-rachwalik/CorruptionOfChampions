@@ -1,4 +1,4 @@
-import { StatusEffectType } from 'coc';
+import { StatusEffectType } from './statusEffectClass';
 
 enum BindType {
   BIND_TYPE_GOO = 0,

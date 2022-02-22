@@ -1,4 +1,11 @@
-import { liveData, ENUM, GUI, FLAG, Data, Creature, COMBAT, UTIL, Camp } from 'coc';
+import * as GUI from '../../../engine/gui';
+import * as UTIL from '../../../engine/utils';
+import * as ENUM from '../../../flags/asset-enums';
+import * as FLAG from '../../../flags/dataFlags';
+import { liveData } from '../../../main-context';
+import { Creature } from '../../../models/creature';
+import * as Camp from '../../../scenes/camp';
+import * as COMBAT from '../../../scenes/combat';
 
 /**
  * Created by Sylvain on 4/2/2016.
@@ -50,7 +57,7 @@ import { liveData, ENUM, GUI, FLAG, Data, Creature, COMBAT, UTIL, Camp } from 'c
  This license supercedes all previous licenses and remains in force.
  */
 
-Data.addToGameFlags(FLAG.TENTACLE_COOL_DOWN, FLAG.TENTACLE_BIND, FLAG.TENTACLE_BAD_END, FLAG.TENTACLE_GENDERLESS_CENTAUR);
+// Data.addToGameFlags(FLAG.TENTACLE_COOL_DOWN, FLAG.TENTACLE_BIND, FLAG.TENTACLE_BAD_END, FLAG.TENTACLE_GENDERLESS_CENTAUR);
 
 //Monster definition
 //Name and references

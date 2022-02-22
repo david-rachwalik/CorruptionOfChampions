@@ -1,17 +1,25 @@
-import { liveData, ENUM, Creature, Data, FLAG, Appearance, UTIL, COMBAT, GUI, Camp } from 'coc';
+import * as Appearance from '../../../appearance';
+import * as GUI from '../../../engine/gui';
+import * as UTIL from '../../../engine/utils';
+import * as ENUM from '../../../flags/asset-enums';
+import * as FLAG from '../../../flags/dataFlags';
+import { liveData } from '../../../main-context';
+import { Creature } from '../../../models/creature';
+import * as Camp from '../../../scenes/camp';
+import * as COMBAT from '../../../scenes/combat';
 
-Data.addToGameFlags(
-  FLAG.TAMANI_MET,
-  FLAG.TAMANI_TIME_OUT,
-  FLAG.TAMANI_BAD_ENDED,
-  FLAG.TAMANI_DAUGHTER_PREGGO_COUNTDOWN,
-  FLAG.TAMANI_NUMBER_OF_DAUGHTERS,
-  FLAG.TAMANI_TIMES_HYPNOTIZED,
-  FLAG.TAMANI_DEFEAT_COUNTER,
-  FLAG.TAMANI_TIMES_IMPREGNATED,
-  FLAG.TAMANI_PREGNANCY_COUNT,
-  FLAG.TIMES_OVIPOSITED_TAMANI,
-);
+// Data.addToGameFlags(
+//   FLAG.TAMANI_MET,
+//   FLAG.TAMANI_TIME_OUT,
+//   FLAG.TAMANI_BAD_ENDED,
+//   FLAG.TAMANI_DAUGHTER_PREGGO_COUNTDOWN,
+//   FLAG.TAMANI_NUMBER_OF_DAUGHTERS,
+//   FLAG.TAMANI_TIMES_HYPNOTIZED,
+//   FLAG.TAMANI_DEFEAT_COUNTER,
+//   FLAG.TAMANI_TIMES_IMPREGNATED,
+//   FLAG.TAMANI_PREGNANCY_COUNT,
+//   FLAG.TIMES_OVIPOSITED_TAMANI,
+// );
 
 //Tamani Description
 export class Tamani extends Creature {

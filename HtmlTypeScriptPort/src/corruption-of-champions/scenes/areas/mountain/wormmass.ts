@@ -1,4 +1,11 @@
-import { liveData, ENUM, GUI, UTIL, Data, FLAG, Creature, COMBAT, Camp } from 'coc';
+import * as GUI from '../../../engine/gui';
+import * as UTIL from '../../../engine/utils';
+import * as ENUM from '../../../flags/asset-enums';
+import * as FLAG from '../../../flags/dataFlags';
+import { liveData } from '../../../main-context';
+import { Creature } from '../../../models/creature';
+import * as Camp from '../../../scenes/camp';
+import * as COMBAT from '../../../scenes/combat';
 
 /**
  * Ported by matraia on 10/7/16.
@@ -30,7 +37,7 @@ import { liveData, ENUM, GUI, UTIL, Data, FLAG, Creature, COMBAT, Camp } from 'c
 
  For further information and license requests, Dxasmodeus may be contacted through private message at the Futanari Palace. http://www.futanaripalace.com/forum.php. */
 
-Data.addToGameFlags(FLAG.WORM_INFEST_ATTEMPTED, FLAG.MET_WORMS, FLAG.INFESTED, FLAG.EVER_INFESTED);
+// Data.addToGameFlags(FLAG.WORM_INFEST_ATTEMPTED, FLAG.MET_WORMS, FLAG.INFESTED, FLAG.EVER_INFESTED);
 
 export class WormMass extends Creature {
   constructor() {

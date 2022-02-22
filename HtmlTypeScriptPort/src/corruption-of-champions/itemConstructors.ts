@@ -1,4 +1,7 @@
-import { UTIL, ENUM, Item, ConsumableEffects } from 'coc';
+import * as UTIL from './engine/utils';
+import * as ENUM from './flags/asset-enums';
+import { Item } from './itemClass';
+import { ConsumableEffects } from './items/consumableEffects';
 
 function HairDye(dyeId: string, dyeColor: string) {
   const newItem = new Item(dyeId, dyeColor + ' Dye', 'a vial of ' + dyeColor + ' hair dye', ENUM.ItemType.Consumable);

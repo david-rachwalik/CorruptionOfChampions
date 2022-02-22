@@ -1,8 +1,12 @@
-import { liveData, ENUM, GUI, UTIL, Inventory } from 'coc';
-
 /**
  * Originally Created by aimozg on 11.01.14.
  */
+
+import * as GUI from '../../engine/gui';
+import * as UTIL from '../../engine/utils';
+import * as ENUM from '../../flags/asset-enums';
+import { liveData } from '../../main-context';
+import * as Inventory from '../../scenes/inventory';
 
 export function cancelReducto() {
   GUI.clearOutput();

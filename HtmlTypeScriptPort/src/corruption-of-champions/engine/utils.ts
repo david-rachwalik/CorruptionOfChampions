@@ -116,14 +116,12 @@ export function randomChoice(...args: any[]) {
 // }
 
 //Function
-export function createCallBackFunction(func: (...args: any[]) => void, ...args: any[]): () => void {
+export function createCallBackFunction(func: ((...args: any[]) => void) | null, ...args: any[]): () => void {
   return function () {
-    func(...args);
+    if (func != null) {
+      func(...args);
+    }
   };
-}
-
-export function nullFunc(): void {
-  console.log('nullFunc');
 }
 
 // export { UTIL };

@@ -1,10 +1,17 @@
-import { liveData, ENUM, GUI, UTIL, FLAG, Data, Creature, COMBAT, Camp } from 'coc';
+import * as GUI from '../../../engine/gui';
+import * as UTIL from '../../../engine/utils';
+import * as ENUM from '../../../flags/asset-enums';
+import * as FLAG from '../../../flags/dataFlags';
+import { liveData } from '../../../main-context';
+import { Creature } from '../../../models/creature';
+import * as Camp from '../../../scenes/camp';
+import * as COMBAT from '../../../scenes/combat';
 
 /**
  * Ported by Matraia on 10/7/16.
  */
 
-Data.addToGameFlags(FLAG.SANDTRAP_LOSS_REPEATS, FLAG.TIMES_ENCOUNTERED_SAND_TRAPS, FLAG.TRAP_LEVEL, FLAG.CLIMBED_TRAP_THIS_ROUND, FLAG.FERTILE_SANDTRAP);
+// Data.addToGameFlags(FLAG.SANDTRAP_LOSS_REPEATS, FLAG.TIMES_ENCOUNTERED_SAND_TRAPS, FLAG.TRAP_LEVEL, FLAG.CLIMBED_TRAP_THIS_ROUND, FLAG.FERTILE_SANDTRAP);
 
 export class SandTrap extends Creature {
   constructor() {

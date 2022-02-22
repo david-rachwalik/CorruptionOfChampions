@@ -1,4 +1,5 @@
-import { liveData, PerkType } from 'coc';
+import { liveData } from './main-context';
+import { PerkType } from './perkClass';
 
 export function buildPerkList(): PerkType[] {
   const perksAvailable: PerkType[] = [];

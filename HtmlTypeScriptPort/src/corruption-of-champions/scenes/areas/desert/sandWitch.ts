@@ -1,6 +1,14 @@
-import { liveData, ENUM, GUI, UTIL, FLAG, Creature, Appearance, Data, Camp, COMBAT } from 'coc';
+import * as Appearance from '../../../appearance';
+import * as GUI from '../../../engine/gui';
+import * as UTIL from '../../../engine/utils';
+import * as ENUM from '../../../flags/asset-enums';
+import * as FLAG from '../../../flags/dataFlags';
+import { liveData } from '../../../main-context';
+import { Creature } from '../../../models/creature';
+import * as Camp from '../../../scenes/camp';
+import * as COMBAT from '../../../scenes/combat';
 
-Data.addToGameFlags(FLAG.SAND_WITCH_RAPED);
+// Data.addToGameFlags(FLAG.SAND_WITCH_RAPED);
 
 export class SandWitch extends Creature {
   constructor() {

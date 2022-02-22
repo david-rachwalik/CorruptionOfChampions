@@ -1,4 +1,5 @@
-import { Item, liveData } from 'coc';
+import { Item } from './itemClass';
+import { liveData } from './main-context';
 
 class ItemSlot {
   quantity: number;

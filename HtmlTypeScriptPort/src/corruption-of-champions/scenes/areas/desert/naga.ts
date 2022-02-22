@@ -1,6 +1,15 @@
-import { liveData, ENUM, GUI, FLAG, Data, Creature, Appearance, BindType, VenomType, UTIL, COMBAT, Camp } from 'coc';
+import * as Appearance from '../../../appearance';
+import * as GUI from '../../../engine/gui';
+import * as UTIL from '../../../engine/utils';
+import * as ENUM from '../../../flags/asset-enums';
+import * as FLAG from '../../../flags/dataFlags';
+import { liveData } from '../../../main-context';
+import { Creature } from '../../../models/creature';
+import * as Camp from '../../../scenes/camp';
+import * as COMBAT from '../../../scenes/combat';
+import { BindType, VenomType } from '../../../statusEffectLib';
 
-Data.addToGameFlags(FLAG.NAGA_LAST_ENCOUNTERED_AS_NAGA, FLAG.NAGA_FUCKED_AS_NAGA);
+// Data.addToGameFlags(FLAG.NAGA_LAST_ENCOUNTERED_AS_NAGA, FLAG.NAGA_FUCKED_AS_NAGA);
 
 class Naga extends Creature {
   constructor() {
@@ -477,7 +486,7 @@ export function nagaRapeChoice() {
   if (liveData.monster.HP < 1) GUI.outputText("You've defeated the naga!  ");
   else GUI.outputText("The naga writhes in the sand, masturbating feverishly!  She's completely forgotten about fighting you.  ");
 
-  let eggs = UTIL.nullFunc;
+  let eggs: (() => void) | null = null;
   if (liveData.player.canOvipositSpider()) eggs = eggUpANagaSpiderLike;
   if (liveData.player.canOvipositBee() && liveData.player.gender > 0) eggs = beePositANagaPlease;
   if (liveData.player.lust >= 33 && liveData.gameFlags[FLAG.SFW_MODE] <= 0) {

@@ -1,4 +1,9 @@
-import { liveData, ENUM, GUI, UTIL, FLAG, PerkMenuBuilder } from 'coc';
+import * as GUI from './engine/gui';
+import * as UTIL from './engine/utils';
+import * as ENUM from './flags/asset-enums';
+import * as FLAG from './flags/dataFlags';
+import { liveData } from './main-context';
+import * as PerkMenuBuilder from './perkBuildMenu';
 
 //------------
 // LEVEL UP

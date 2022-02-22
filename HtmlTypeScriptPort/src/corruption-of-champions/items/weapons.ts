@@ -1,4 +1,6 @@
-import { liveData, ENUM, Item } from 'coc';
+import * as ENUM from '../flags/asset-enums';
+import { Item } from '../itemClass';
+import { liveData } from '../main-context';
 
 class ItemWeapon {
   BeautifulSword: Item;

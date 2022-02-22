@@ -1,6 +1,14 @@
-import { liveData, ENUM, UTIL, GUI, FLAG, Data, Camp, COMBAT, ReductoMenu, Inventory } from 'coc';
+import * as GUI from '../engine/gui';
+import * as UTIL from '../engine/utils';
+import * as ENUM from '../flags/asset-enums';
+import * as FLAG from '../flags/dataFlags';
+import * as ReductoMenu from '../items/specialConsumables/reducto';
+import { liveData } from '../main-context';
+import * as Camp from '../scenes/camp';
+import * as COMBAT from '../scenes/combat';
+import * as Inventory from '../scenes/inventory';
 
-Data.addToGameFlags(FLAG.TIMES_TRANSFORMED, FLAG.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD);
+// Data.addToGameFlags(FLAG.TIMES_TRANSFORMED, FLAG.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD);
 
 abstract class ConsumableEffects {
   //Fish Fillet

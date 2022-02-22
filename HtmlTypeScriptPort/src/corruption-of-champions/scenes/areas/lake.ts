@@ -1,20 +1,17 @@
-import {
-  liveData,
-  GUI,
-  UTIL,
-  FLAG,
-  Data,
-  PlacesFarm,
-  AreasGenericExploration,
-  Camp,
-  Inventory,
-  GooGirlScene,
-  GreenSlimeScene,
-  RathazulScene,
-  TownRuins,
-} from 'coc';
+import * as GUI from '../../engine/gui';
+import * as UTIL from '../../engine/utils';
+import * as FLAG from '../../flags/dataFlags';
+import { liveData } from '../../main-context';
+import * as GooGirlScene from '../../scenes/areas/lake/gooGirl';
+import * as GreenSlimeScene from '../../scenes/areas/lake/greenSlime';
+import * as Camp from '../../scenes/camp';
+import * as AreasGenericExploration from '../../scenes/exploration';
+import * as Inventory from '../../scenes/inventory';
+import * as RathazulScene from '../../scenes/npcs/rathazul';
+import * as PlacesFarm from '../../scenes/places/farm';
+import * as TownRuins from '../../scenes/places/townruins';
 
-Data.addToGameFlags(FLAG.AMILY_VILLAGE_ACCESSIBLE);
+// Data.addToGameFlags(FLAG.AMILY_VILLAGE_ACCESSIBLE);
 
 export function explore() {
   GUI.clearOutput();

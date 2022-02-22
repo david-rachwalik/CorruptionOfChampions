@@ -1,4 +1,10 @@
-import { ENUM, GUI, UTIL, Item, BodyLotion, HairDye, SkinOil, ConsumableEffects, TransformationEffects } from 'coc';
+import * as GUI from '../engine/gui';
+import * as UTIL from '../engine/utils';
+import * as ENUM from '../flags/asset-enums';
+import { Item } from '../itemClass';
+import { BodyLotion, HairDye, SkinOil } from '../itemConstructors';
+import * as TransformationEffects from '../items/transformationEffects';
+import { ConsumableEffects } from './consumableEffects';
 
 class ItemConsumables {
   BeeHoney: Item;

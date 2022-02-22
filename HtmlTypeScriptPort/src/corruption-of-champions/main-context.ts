@@ -1,4 +1,7 @@
-import { Data, GameContext, MAIN, PlayerInfo } from 'coc';
+import * as Data from './engine/saves';
+import { GameContext } from './game-context';
+import * as MAIN from './main';
+import * as PlayerInfo from './playerInfo';
 
 //Start the game!
 console.log('--- Preparing to initialize GameContext ---');
@@ -13,6 +16,7 @@ const buttonLevelEl = document.getElementById('buttonLevel');
 const buttonStatsEl = document.getElementById('buttonStats');
 const buttonPerksEl = document.getElementById('buttonPerks');
 const buttonAppearanceEl = document.getElementById('buttonAppearance');
+
 if (buttonMainEl) buttonMainEl.addEventListener('click', MAIN.mainMenu);
 if (buttonDataEl) buttonDataEl.addEventListener('click', Data.dataScreen);
 if (buttonLevelEl) buttonLevelEl.addEventListener('click', PlayerInfo.levelScreen);

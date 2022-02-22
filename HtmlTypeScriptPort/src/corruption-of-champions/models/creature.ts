@@ -1,23 +1,18 @@
-import {
-  liveData,
-  ENUM,
-  GUI,
-  COMBAT,
-  Item,
-  FLAG,
-  Appearance,
-  Ass,
-  UTIL,
-  KeyItem,
-  KeyItemType,
-  StatusEffect,
-  StatusEffectType,
-  Perk,
-  PerkType,
-  Cock,
-  Vagina,
-  BreastRow,
-} from 'coc';
+import * as Appearance from '../appearance';
+import * as GUI from '../engine/gui';
+import * as UTIL from '../engine/utils';
+import * as ENUM from '../flags/asset-enums';
+import * as FLAG from '../flags/dataFlags';
+import { Item } from '../itemClass';
+import { KeyItem, KeyItemType } from '../keyItemClass';
+import { liveData } from '../main-context';
+import { Perk, PerkType } from '../perkClass';
+import * as COMBAT from '../scenes/combat';
+import { StatusEffect, StatusEffectType } from '../statusEffectClass';
+import { Ass } from './body-parts/assClass';
+import { BreastRow } from './body-parts/breastRowClass';
+import { Cock } from './body-parts/cockClass';
+import { Vagina } from './body-parts/vaginaClass';
 
 class Creature {
   _clitLength: number;
@@ -164,6 +159,9 @@ class Creature {
     this.hisHer = '';
     this.plural = false;
     this.battleDesc = '';
+
+    // --- Attributes ---
+
     //Core stats
     this.str = 15;
     this.tou = 15;
@@ -180,23 +178,19 @@ class Creature {
     this.level = 1;
     this.XP = 0;
     this.gems = 0;
-    //Battle letiables
-    this.weapon = liveData.Items.NOTHING;
-    this.shield = liveData.Items.NOTHING;
-    this.armor = liveData.Items.NOTHING;
-    this.upperGarment = liveData.Items.NOTHING;
-    this.lowerGarment = liveData.Items.NOTHING;
-    this.accessory1 = liveData.Items.NOTHING;
-    this.accessory2 = liveData.Items.NOTHING;
+
     this.bonusHP = 0;
     this.additionalXP = 0;
     this.lustVuln = 1;
     this.temperment = 0;
 
-    this.drops = [];
-    this.dropThresholds = [];
+    // --- Effects ---
 
-    //Appearance
+    this.statusEffects = [];
+    this.perks = [];
+
+    // --- Appearance ---
+
     this.gender = 0; //0 genderless, 1 male, 2 female, 3 hermaphrodite
     this.tallness = 36; //Height in inches
     this.skinTone = '';
@@ -266,9 +260,21 @@ class Creature {
     this.lactationMultiplier = 0;
     this._nippleLength = 0;
 
+    // --- Inventory ---
+
+    //Battle letiables
+    this.weapon = liveData.Items.NOTHING;
+    this.shield = liveData.Items.NOTHING;
+    this.armor = liveData.Items.NOTHING;
+    this.upperGarment = liveData.Items.NOTHING;
+    this.lowerGarment = liveData.Items.NOTHING;
+    this.accessory1 = liveData.Items.NOTHING;
+    this.accessory2 = liveData.Items.NOTHING;
+
+    this.drops = [];
+    this.dropThresholds = [];
+
     this.keyItems = [];
-    this.statusEffects = [];
-    this.perks = [];
 
     //Victory/defeat
     this.victory = COMBAT.cleanupAfterCombat;

@@ -1,4 +1,4 @@
-import { PerkType } from 'coc';
+import { PerkType } from './perkClass';
 
 class PerkTypeContainer {
   //------------

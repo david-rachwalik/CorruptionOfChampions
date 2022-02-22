@@ -1,4 +1,9 @@
-import { liveData, ENUM, GUI, UTIL, FLAG, COMBAT } from 'coc';
+import * as GUI from '../engine/gui';
+import * as UTIL from '../engine/utils';
+import * as ENUM from '../flags/asset-enums';
+import * as FLAG from '../flags/dataFlags';
+import { liveData } from '../main-context';
+import * as COMBAT from '../scenes/combat';
 
 export function teaseMain(justText = false) {
   COMBAT.fatigueRecovery();

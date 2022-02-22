@@ -1,4 +1,9 @@
-import { liveData, GUI, FLAG, Camp, PlacesFarm, TownRuins } from 'coc';
+import * as GUI from '../engine/gui';
+import * as FLAG from '../flags/dataFlags';
+import { liveData } from '../main-context';
+import * as Camp from '../scenes/camp';
+import * as PlacesFarm from '../scenes/places/farm';
+import * as TownRuins from '../scenes/places/townruins';
 
 export function placesMenu() {
   GUI.hideMenus();

@@ -1,4 +1,11 @@
-import { liveData, ENUM, FLAG, UTIL, GUI, Creature, COMBAT, Inventory } from 'coc';
+import * as GUI from '../../engine/gui';
+import * as UTIL from '../../engine/utils';
+import * as ENUM from '../../flags/asset-enums';
+import * as FLAG from '../../flags/dataFlags';
+import { liveData } from '../../main-context';
+import { Creature } from '../../models/creature';
+import * as COMBAT from '../../scenes/combat';
+import * as Inventory from '../../scenes/inventory';
 
 export class Imp extends Creature {
   constructor() {
@@ -730,10 +737,6 @@ export function centaurOnImpMale(vape = false) {
     }
     // Catchall
   }
-  // Failsafe
-  GUI.outputText('Reached Catchall for centaurOnImpMale. Report it please.');
-  liveData.player.orgasm();
-  COMBAT.cleanupAfterCombat();
 }
 
 // FEMALE RAPE AS TAUR
@@ -866,9 +869,6 @@ export function centaurOnImpFemale(vape = false) {
     COMBAT.cleanupAfterCombat();
     return;
   }
-  // Failsafe
-  liveData.player.orgasm();
-  COMBAT.cleanupAfterCombat();
 }
 
 // FEMALE RAPE AS TAUR, GROUP OF IMPS

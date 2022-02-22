@@ -1,6 +1,12 @@
-import { liveData, ENUM, GUI, Data, Item, Inventory, Camp, FLAG } from 'coc';
+import * as GUI from '../../engine/gui';
+import * as ENUM from '../../flags/asset-enums';
+import * as FLAG from '../../flags/dataFlags';
+import { Item } from '../../itemClass';
+import { liveData } from '../../main-context';
+import * as Camp from '../../scenes/camp';
+import * as Inventory from '../../scenes/inventory';
 
-Data.addToGameFlags(FLAG.RATHAZUL_MET, FLAG.RATHAZUL_CAMP, FLAG.RATHAZUL_PURCHASE_COUNTER, FLAG.RATHAZUL_ARMOUR_COUNTER);
+// Data.addToGameFlags(FLAG.RATHAZUL_MET, FLAG.RATHAZUL_CAMP, FLAG.RATHAZUL_PURCHASE_COUNTER, FLAG.RATHAZUL_ARMOUR_COUNTER);
 
 export function encounterRathazul() {
   GUI.clearOutput();

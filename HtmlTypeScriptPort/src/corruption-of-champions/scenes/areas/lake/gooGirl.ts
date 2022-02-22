@@ -1,4 +1,12 @@
-import { liveData, ENUM, UTIL, Creature, BindType, GUI, Camp, COMBAT, FLAG } from 'coc';
+import * as GUI from '../../../engine/gui';
+import * as UTIL from '../../../engine/utils';
+import * as ENUM from '../../../flags/asset-enums';
+import * as FLAG from '../../../flags/dataFlags';
+import { liveData } from '../../../main-context';
+import { Creature } from '../../../models/creature';
+import * as Camp from '../../../scenes/camp';
+import * as COMBAT from '../../../scenes/combat';
+import { BindType } from '../../../statusEffectLib';
 
 /**
  * Created by aimozg on 04.01.14.

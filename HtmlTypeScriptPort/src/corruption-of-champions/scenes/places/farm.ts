@@ -1,6 +1,14 @@
-import { liveData, ENUM, GUI, UTIL, Data, FLAG, Item, Camp, Inventory, WhitneyScene } from 'coc';
+import * as GUI from '../../engine/gui';
+import * as UTIL from '../../engine/utils';
+import * as ENUM from '../../flags/asset-enums';
+import * as FLAG from '../../flags/dataFlags';
+import { Item } from '../../itemClass';
+import { liveData } from '../../main-context';
+import * as Camp from '../../scenes/camp';
+import * as Inventory from '../../scenes/inventory';
+import * as WhitneyScene from '../../scenes/places/farm/whitney';
 
-Data.addToGameFlags(FLAG.FARM_DISABLED, FLAG.FARM_CORRUPTION_STARTED, FLAG.MET_WHITNEY, FLAG.WHITNEY_FLIPPED_OUT_OVER_KELLY);
+// Data.addToGameFlags(FLAG.FARM_DISABLED, FLAG.FARM_CORRUPTION_STARTED, FLAG.MET_WHITNEY, FLAG.WHITNEY_FLIPPED_OUT_OVER_KELLY);
 
 export function farmExploreEncounter() {
   GUI.clearOutput();

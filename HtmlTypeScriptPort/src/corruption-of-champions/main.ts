@@ -1,4 +1,9 @@
-import { liveData, GUI, Data, Camp, Intro } from 'coc';
+import * as GUI from './engine/gui';
+import * as Data from './engine/saves';
+import { Storage } from './engine/storage';
+import { liveData } from './main-context';
+import * as Camp from './scenes/camp';
+import * as Intro from './scenes/intro';
 
 export function mainMenu(): void {
   // Check to see if the user has a bad browser

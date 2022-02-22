@@ -1,8 +1,15 @@
-import { liveData, ENUM, GUI, FLAG, Creature, Data, UTIL, Camp, COMBAT } from 'coc';
+import * as GUI from '../../../engine/gui';
+import * as UTIL from '../../../engine/utils';
+import * as ENUM from '../../../flags/asset-enums';
+import * as FLAG from '../../../flags/dataFlags';
+import { liveData } from '../../../main-context';
+import { Creature } from '../../../models/creature';
+import * as Camp from '../../../scenes/camp';
+import * as COMBAT from '../../../scenes/combat';
 
 // Merging Oasis and Demon Pack code into one file
 
-Data.addToGameFlags(FLAG.OASIS_DEMONS_ACCEPT);
+// Data.addToGameFlags(FLAG.OASIS_DEMONS_ACCEPT);
 
 export class DemonPack extends Creature {
   constructor() {

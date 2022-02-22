@@ -1,4 +1,11 @@
-import { liveData, GUI, ItemArmor, ItemUndergarments, ItemConsumables, ItemMaterials, ItemWeapon, Inventory, ENUM } from 'coc';
+import * as GUI from './engine/gui';
+import * as ENUM from './flags/asset-enums';
+import { ItemArmor, ItemUndergarments } from './items/armor';
+import { ItemConsumables } from './items/consumables';
+import { ItemMaterials } from './items/materials';
+import { ItemWeapon } from './items/weapons';
+import { liveData } from './main-context';
+import * as Inventory from './scenes/inventory';
 
 class Item {
   //Required values, will be declared by parameters

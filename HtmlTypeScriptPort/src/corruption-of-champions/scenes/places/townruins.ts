@@ -1,6 +1,11 @@
-import { liveData, GUI, Data, UTIL, FLAG, Camp, AmilyScene } from 'coc';
+import * as GUI from '../../engine/gui';
+import * as UTIL from '../../engine/utils';
+import * as FLAG from '../../flags/dataFlags';
+import { liveData } from '../../main-context';
+import * as Camp from '../../scenes/camp';
+import * as AmilyScene from '../../scenes/npcs/amily';
 
-Data.addToGameFlags(FLAG.AMILY_VILLAGE_EXPLORED, FLAG.HAS_ARMOR_RACK, FLAG.HAS_EQUIPMENT_RACK, FLAG.HAS_WEAPON_RACK);
+// Data.addToGameFlags(FLAG.AMILY_VILLAGE_EXPLORED, FLAG.HAS_ARMOR_RACK, FLAG.HAS_EQUIPMENT_RACK, FLAG.HAS_WEAPON_RACK);
 
 export function firstExploration() {
   GUI.clearOutput();

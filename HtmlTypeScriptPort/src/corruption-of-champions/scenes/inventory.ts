@@ -1,4 +1,12 @@
-import { liveData, ENUM, GUI, UTIL, Camp, FLAG, Item, ItemSlot, COMBAT } from 'coc';
+import * as GUI from '../engine/gui';
+import * as UTIL from '../engine/utils';
+import * as ENUM from '../flags/asset-enums';
+import * as FLAG from '../flags/dataFlags';
+import { Item } from '../itemClass';
+import { ItemSlot } from '../itemSlotClass';
+import { liveData } from '../main-context';
+import * as Camp from '../scenes/camp';
+import * as COMBAT from '../scenes/combat';
 
 export const inventorySlotName = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth'];
 
@@ -25,16 +33,16 @@ export function inventoryMenu() {
   GUI.menu();
   for (let i = 0; i < 10; i++) {
     //Supports up to 10 items. You begin with 3 slots.
-    if (liveData.player.itemSlots[i].quantity > 0 && i < liveData.player.getMaxSlots()) {
+    if (liveData.itemSlots[i].quantity > 0 && i < liveData.player.getMaxSlots()) {
       GUI.addButton(
         i,
-        liveData.player.itemSlots[i].itype.shortName + ' x' + liveData.player.itemSlots[i].quantity,
+        liveData.itemSlots[i].itype.shortName + ' x' + liveData.itemSlots[i].quantity,
         useItemInInventory,
         i,
         null,
         null,
-        liveData.player.itemSlots[i].itype.getTooltipDescription(),
-        UTIL.capitalize(liveData.player.itemSlots[i].itype.longName),
+        liveData.itemSlots[i].itype.getTooltipDescription(),
+        UTIL.capitalize(liveData.itemSlots[i].itype.longName),
       );
     }
   }
@@ -101,7 +109,7 @@ export function unequipArmor() {
 }
 
 // Puts item into inventory
-export function takeItem(itype: Item, nextAction?: () => void, overrideAbandon?: () => void, source?: ItemSlot) {
+export function takeItem(itype: Item, nextAction?: (() => void) | null, overrideAbandon?: (() => void) | null, source?: ItemSlot) {
   if (overrideAbandon == undefined) {
     overrideAbandon = nextAction;
   }
@@ -116,9 +124,9 @@ export function takeItem(itype: Item, nextAction?: () => void, overrideAbandon?:
   let temp = liveData.player.roomInExistingStack(itype);
   if (temp >= 0) {
     //First slot go!
-    liveData.player.itemSlots[temp].quantity++;
+    liveData.itemSlots[temp].quantity++;
     GUI.outputText(
-      'You place ' + itype.longName + ' in your ' + inventorySlotName[temp] + ' pouch, giving you ' + liveData.player.itemSlots[temp].quantity + ' of them.',
+      'You place ' + itype.longName + ' in your ' + inventorySlotName[temp] + ' pouch, giving you ' + liveData.itemSlots[temp].quantity + ' of them.',
     );
     itemGoNext();
     return;
@@ -127,7 +135,7 @@ export function takeItem(itype: Item, nextAction?: () => void, overrideAbandon?:
   //Throw in slot 1 if there is room
   temp = liveData.player.emptySlot();
   if (temp >= 0) {
-    liveData.player.itemSlots[temp].setItemAndQty(itype, 1);
+    liveData.itemSlots[temp].setItemAndQty(itype, 1);
     GUI.outputText('You place ' + itype.longName + ' in your ' + inventorySlotName[temp] + ' pouch.');
     itemGoNext();
     return;
@@ -144,21 +152,21 @@ export function takeItem(itype: Item, nextAction?: () => void, overrideAbandon?:
 // Uses an item from the inventory
 export function useItemInInventory(slotNum: number) {
   GUI.clearOutput();
-  //if (liveData.player.itemSlots[slotNum].itype.type == ENUM.ItemType.Consumable) {
-  const item = liveData.player.itemSlots[slotNum].itype;
+  //if (liveData.itemSlots[slotNum].itype.type == ENUM.ItemType.Consumable) {
+  const item = liveData.itemSlots[slotNum].itype;
   if (liveData.shiftKeyDown) {
     deleteItemPrompt(item, slotNum);
     return;
   }
   if (item.canUse()) {
     //If an item cannot be used then canUse should provide a description of why the item cannot be used
-    liveData.player.itemSlots[slotNum].removeOneItem();
-    useItem(item, liveData.player.itemSlots[slotNum]);
+    liveData.itemSlots[slotNum].removeOneItem();
+    useItem(item, liveData.itemSlots[slotNum]);
     return;
   }
   //}
   //else {
-  //    GUI.outputText("You cannot use " + liveData.player.itemSlots[slotNum].itype.longName + "!\n\n");
+  //    GUI.outputText("You cannot use " + liveData.itemSlots[slotNum].itype.longName + "!\n\n");
   //}
   itemGoNext(); //Normally returns to the inventory menu. In combat it goes to the inventoryCombatHandler function
 }
@@ -174,11 +182,11 @@ export function deleteItemPrompt(item: Item, slotNum: number) {
   GUI.clearOutput();
   GUI.outputText(
     'Are you sure you want to destroy ' +
-      liveData.player.itemSlots[slotNum].quantity +
+      liveData.itemSlots[slotNum].quantity +
       'x ' +
       item.shortName +
       "?  You won't be able to retrieve " +
-      (liveData.player.itemSlots[slotNum].quantity == 1 ? 'it' : 'them') +
+      (liveData.itemSlots[slotNum].quantity == 1 ? 'it' : 'them') +
       '!',
   );
   GUI.menu();
@@ -191,14 +199,9 @@ export function deleteItemPrompt(item: Item, slotNum: number) {
 export function deleteItem(item: Item, slotNum: number) {
   GUI.clearOutput();
   GUI.outputText(
-    liveData.player.itemSlots[slotNum].quantity +
-      'x ' +
-      item.shortName +
-      ' ' +
-      (liveData.player.itemSlots[slotNum].quantity == 1 ? 'has' : 'have') +
-      ' been destroyed.',
+    liveData.itemSlots[slotNum].quantity + 'x ' + item.shortName + ' ' + (liveData.itemSlots[slotNum].quantity == 1 ? 'has' : 'have') + ' been destroyed.',
   );
-  liveData.player.destroyItems(item, liveData.player.itemSlots[slotNum].quantity);
+  liveData.player.destroyItems(item, liveData.itemSlots[slotNum].quantity);
   GUI.doNext(inventoryMenu);
 }
 
@@ -257,8 +260,8 @@ export function takeItemFull(itype: Item, showUseNow: boolean, source: ItemSlot)
   );
   GUI.menu();
   for (let x = 0; x < 10; x++) {
-    if (liveData.player.itemSlots[x].itype != liveData.Items.NOTHING && x < liveData.player.getMaxSlots())
-      GUI.addButton(x, liveData.player.itemSlots[x].itype.shortName + ' x' + liveData.player.itemSlots[x].quantity, replaceItem, itype, x);
+    if (liveData.itemSlots[x].itype != liveData.Items.NOTHING && x < liveData.player.getMaxSlots())
+      GUI.addButton(x, liveData.itemSlots[x].itype.shortName + ' x' + liveData.itemSlots[x].quantity, replaceItem, itype, x);
   }
   if (source != null) {
     liveData.currentItemSlot = source;
@@ -287,9 +290,13 @@ export function returnItemToInventory(item: Item, showNext: boolean) {
     COMBAT.combatRoundOver();
     return;
   }
-  if (showNext) GUI.doNext(liveData.callNext);
-  //Items with sub menus should return to the inventory screen if the player decides not to use them
-  else liveData.callNext(); //When putting items back in your stash we should skip to the take from stash menu
+  if (showNext) {
+    //Items with sub menus should return to the inventory screen if the player decides not to use them
+    GUI.doNext(liveData.callNext);
+  } else {
+    //When putting items back in your stash we should skip to the take from stash menu
+    if (liveData.callNext != null) liveData.callNext();
+  }
 }
 
 // Using items before they go into the inventory, like after combat.
@@ -306,24 +313,24 @@ export function useItemNow(item: Item, source: ItemSlot) {
 // Replacing one item with another
 export function replaceItem(itype: Item, slotNum: number) {
   GUI.clearOutput();
-  if (liveData.player.itemSlots[slotNum].itype == itype)
+  if (liveData.itemSlots[slotNum].itype == itype)
     //If it is the same as what's in the slot...just throw away the new item
     GUI.outputText('You discard ' + itype.longName + ' from the stack to make room for the new one.');
   else {
     //If they are different...
-    if (liveData.player.itemSlots[slotNum].quantity == 1)
-      GUI.outputText('You throw away ' + liveData.player.itemSlots[slotNum].itype.longName + ' and replace it with ' + itype.longName + '.');
+    if (liveData.itemSlots[slotNum].quantity == 1)
+      GUI.outputText('You throw away ' + liveData.itemSlots[slotNum].itype.longName + ' and replace it with ' + itype.longName + '.');
     else
       GUI.outputText(
         'You throw away ' +
-          liveData.player.itemSlots[slotNum].itype.longName +
+          liveData.itemSlots[slotNum].itype.longName +
           '(x' +
-          liveData.player.itemSlots[slotNum].quantity +
+          liveData.itemSlots[slotNum].quantity +
           ') and replace it with ' +
           itype.longName +
           '.',
       );
-    liveData.player.itemSlots[slotNum].setItemAndQty(itype, 1);
+    liveData.itemSlots[slotNum].setItemAndQty(itype, 1);
   }
   itemGoNext();
 }
@@ -480,7 +487,7 @@ export function weaponRackFilled() {
   if (itemAnyInStorage(10, 18)) {
     const itemList: string[] = [];
     for (let x = 10; x < 19; x++) {
-      if (liveData.player.itemSlots[x].quantity > 0) itemList[itemList.length] = liveData.player.itemSlots[x].itype.longName;
+      if (liveData.itemSlots[x].quantity > 0) itemList[itemList.length] = liveData.itemSlots[x].itype.longName;
       GUI.outputText('  It currently holds ' + UTIL.formatStringArray(itemList) + '.');
       return true;
     }
@@ -492,7 +499,7 @@ export function armorRackFilled() {
   if (itemAnyInStorage(19, 27)) {
     const itemList: string[] = [];
     for (let x = 19; x < 28; x++) {
-      if (liveData.player.itemSlots[x].quantity > 0) itemList[itemList.length] = liveData.player.itemSlots[x].itype.longName;
+      if (liveData.itemSlots[x].quantity > 0) itemList[itemList.length] = liveData.itemSlots[x].itype.longName;
       GUI.outputText('  It currently holds ' + UTIL.formatStringArray(itemList) + '.');
       return true;
     }
@@ -504,7 +511,7 @@ export function shieldRackFilled() {
   if (itemAnyInStorage(28, 36)) {
     const itemList: string[] = [];
     for (let x = 28; x < 37; x++) {
-      if (liveData.player.itemSlots[x].quantity > 0) itemList[itemList.length] = liveData.player.itemSlots[x].itype.longName;
+      if (liveData.itemSlots[x].quantity > 0) itemList[itemList.length] = liveData.itemSlots[x].itype.longName;
       GUI.outputText('  It currently holds ' + UTIL.formatStringArray(itemList) + '.');
       return true;
     }
@@ -577,8 +584,8 @@ export function placeInStorage(
   GUI.menu();
   let foundItem = false;
   for (let x = 0; x < 10; x++) {
-    if (typeAcceptableFunction(liveData.player.itemSlots[x].itype.type) == true) {
-      GUI.addButton(x, liveData.player.itemSlots[x].itype.shortName + ' x' + liveData.player.itemSlots[x].quantity, placeInStorageFunction, x);
+    if (typeAcceptableFunction(liveData.itemSlots[x].itype.type) == true) {
+      GUI.addButton(x, liveData.itemSlots[x].itype.shortName + ' x' + liveData.itemSlots[x].quantity, placeInStorageFunction, x);
       foundItem = true;
     }
   }
@@ -625,21 +632,21 @@ export function placeInShieldRack(slotNum: number) {
 	}
 	*/
 
-// This function put the stash item into the liveData.player.itemSlots array for later retrieval
+// This function put the stash item into the liveData.itemSlots array for later retrieval
 export function placeIn(startSlot: number, endSlot: number, slotNum: number) {
   GUI.clearOutput(); // Clear the output
   let x = startSlot; // Get the starting slot in the liveData.player.Itemslots array for our loop
 
-  //liveData.player.itemSlots[slotNum].emptySlot(); // Empty the slot TODO Check this with multiple items
+  //liveData.itemSlots[slotNum].emptySlot(); // Empty the slot TODO Check this with multiple items
 
-  //First, do we have that item already within the right range of liveData.player.itemSlots?
+  //First, do we have that item already within the right range of liveData.itemSlots?
   for (x = startSlot; x < endSlot; x++) {
     //Find any slots which already hold the item that is being stored
-    if (liveData.player.itemSlots[x].itype == liveData.player.itemSlots[slotNum].itype && liveData.player.itemSlots[x].quantity < 5) {
+    if (liveData.itemSlots[x].itype == liveData.itemSlots[slotNum].itype && liveData.itemSlots[x].quantity < 5) {
       // If there is an item of the same kind and there is less than five...
-      liveData.player.itemSlots[x].quantity += 1; // Increase the quantity in the slot
-      GUI.outputText('You add ' + liveData.player.itemSlots[slotNum].itype.shortName + ' into storage slot ' + UTIL.num2Text(x + 1 - startSlot) + '.<br>'); //TODO Take out storage slot number after stash code is complete.
-      liveData.player.itemSlots[slotNum].removeOneItem();
+      liveData.itemSlots[x].quantity += 1; // Increase the quantity in the slot
+      GUI.outputText('You add ' + liveData.itemSlots[slotNum].itype.shortName + ' into storage slot ' + UTIL.num2Text(x + 1 - startSlot) + '.<br>'); //TODO Take out storage slot number after stash code is complete.
+      liveData.itemSlots[slotNum].removeOneItem();
       return;
     }
   }
@@ -647,16 +654,16 @@ export function placeIn(startSlot: number, endSlot: number, slotNum: number) {
   //If not, let's slap it into an empty slot
   for (x = startSlot; x < endSlot; x++) {
     //Find any empty slots and put the item(s) there
-    if (liveData.player.itemSlots[x].quantity == 0) {
-      liveData.player.itemSlots[x].setItemAndQty(liveData.player.itemSlots[slotNum].itype, 1);
-      GUI.outputText('You place ' + liveData.player.itemSlots[slotNum].itype.shortName + ' into storage slot ' + UTIL.num2Text(x + 1 - startSlot) + '.<br>'); //TODO Take out storage slot number after stash code is complete.
-      liveData.player.itemSlots[slotNum].removeOneItem();
+    if (liveData.itemSlots[x].quantity == 0) {
+      liveData.itemSlots[x].setItemAndQty(liveData.itemSlots[slotNum].itype, 1);
+      GUI.outputText('You place ' + liveData.itemSlots[slotNum].itype.shortName + ' into storage slot ' + UTIL.num2Text(x + 1 - startSlot) + '.<br>'); //TODO Take out storage slot number after stash code is complete.
+      liveData.itemSlots[slotNum].removeOneItem();
       return;
     }
   }
 
   //Else, say that we are full
-  GUI.outputText('There is no room for ' + liveData.player.itemSlots[slotNum].itype.shortName + '. You leave it in your inventory.<br>');
+  GUI.outputText('There is no room for ' + liveData.itemSlots[slotNum].itype.shortName + '. You leave it in your inventory.<br>');
 
   //let temp = 5 - storage[x].quantity; // Used for multiple quanties of the same item in the same slot
 }
@@ -674,22 +681,21 @@ export function takeFromStorage(startSlot: number, endSlot: number, text = '') {
   let button = 0;
   GUI.menu();
   for (let x = startSlot; x < endSlot; x++, button++) {
-    if (liveData.player.itemSlots[x].quantity > 0)
-      GUI.addButton(button, liveData.player.itemSlots[x].itype.shortName + ' x' + liveData.player.itemSlots[x].quantity, pickFrom, x);
+    if (liveData.itemSlots[x].quantity > 0) GUI.addButton(button, liveData.itemSlots[x].itype.shortName + ' x' + liveData.itemSlots[x].quantity, pickFrom, x);
   }
   GUI.addButton(14, 'Back', stashMenu);
 }
 
 export function pickFrom(slotNum: number) {
   GUI.clearOutput();
-  const itype = liveData.player.itemSlots[slotNum].itype;
-  liveData.player.itemSlots[slotNum].removeOneItem();
-  takeItem(itype, liveData.callNext, liveData.callNext, liveData.player.itemSlots[slotNum]);
+  const itype = liveData.itemSlots[slotNum].itype;
+  liveData.itemSlots[slotNum].removeOneItem();
+  takeItem(itype, liveData.callNext, liveData.callNext, liveData.itemSlots[slotNum]);
 }
 
 export function itemAnyInStorage(startSlot: number, endSlot: number) {
   for (let x = startSlot; x < endSlot; x++) {
-    if (liveData.player.itemSlots[x].itype != liveData.Items.NOTHING) if (liveData.player.itemSlots[x].quantity > 0) return true;
+    if (liveData.itemSlots[x].itype != liveData.Items.NOTHING) if (liveData.itemSlots[x].quantity > 0) return true;
   }
   return false;
 }

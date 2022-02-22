@@ -1,4 +1,13 @@
-import { liveData, ENUM, GUI, UTIL, BindType, Inventory, Creature, Camp, FLAG, CombatTeases } from 'coc';
+import * as GUI from '../engine/gui';
+import * as UTIL from '../engine/utils';
+import * as ENUM from '../flags/asset-enums';
+import * as FLAG from '../flags/dataFlags';
+import { liveData } from '../main-context';
+import { Creature } from '../models/creature';
+import * as Camp from '../scenes/camp';
+import * as CombatTeases from '../scenes/combatTeases';
+import * as Inventory from '../scenes/inventory';
+import { BindType } from '../statusEffectLib';
 
 //------------
 // ACTIONS
@@ -745,14 +754,14 @@ export function checkCombatOver(): boolean {
   return false;
 }
 
-export function cleanupAfterCombat(nextFunc: () => void = UTIL.nullFunc): void {
+export function cleanupAfterCombat(nextFunc: (() => void) | null = null): void {
   if (liveData.monster.HP <= 0 || liveData.monster.lust >= liveData.monster.maxLust()) {
     // if (nextFunc == undefined) nextFunc = Camp.returnToCampUseOneHour
-    if (nextFunc == UTIL.nullFunc) nextFunc = Camp.returnToCampUseOneHour;
+    if (nextFunc == null) nextFunc = Camp.returnToCampUseOneHour;
     awardPlayer(nextFunc);
   } else if (liveData.player.HP <= 0 || liveData.player.lust >= liveData.player.maxLust()) {
     // if (nextFunc == undefined) nextFunc = Camp.returnToCampUseEightHours
-    if (nextFunc == UTIL.nullFunc) nextFunc = Camp.returnToCampUseEightHours;
+    if (nextFunc == null) nextFunc = Camp.returnToCampUseEightHours;
     let gemsLost = Math.floor(liveData.monster.level + UTIL.rand(5));
     if (gemsLost > liveData.player.gems) gemsLost = liveData.player.gems;
     GUI.outputText("<br><br>You'll probably come to your senses in eight hours or so, missing " + gemsLost + ' gems.');

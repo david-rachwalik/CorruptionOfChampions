@@ -1,4 +1,7 @@
-import { liveData, GUI, UTIL, Camp } from 'coc';
+import * as GUI from '../../../engine/gui';
+import * as UTIL from '../../../engine/utils';
+import { liveData } from '../../../main-context';
+import * as Camp from '../../../scenes/camp';
 
 //[YES]
 export function whitneyMilkerHookup(breast = true) {

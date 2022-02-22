@@ -1,14 +1,15 @@
-import { liveData, FLAG, Data } from 'coc';
+import * as FLAG from '../../flags/dataFlags';
+import { liveData } from '../../main-context';
 
-Data.addToGameFlags(
-  FLAG.MARBLE_MET,
-  FLAG.MARBLE_ADDICTION,
-  FLAG.MARBLE_AFFECTION,
-  FLAG.MARBLE_WARNING,
-  FLAG.NO_MORE_MARBLE,
-  FLAG.MARBLE_RAPE_ATTEMPTED,
-  FLAG.MURBLE_FARM_TALK_LEVELS,
-);
+// Data.addToGameFlags(
+//   FLAG.MARBLE_MET,
+//   FLAG.MARBLE_ADDICTION,
+//   FLAG.MARBLE_AFFECTION,
+//   FLAG.MARBLE_WARNING,
+//   FLAG.NO_MORE_MARBLE,
+//   FLAG.MARBLE_RAPE_ATTEMPTED,
+//   FLAG.MURBLE_FARM_TALK_LEVELS,
+// );
 
 export function marbleStatusChange(affection: number, addiction: number, isAddicted = -1) {
   //Values only change if not brought to conclusion

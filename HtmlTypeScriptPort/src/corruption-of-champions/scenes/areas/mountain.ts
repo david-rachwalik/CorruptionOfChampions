@@ -1,4 +1,12 @@
-import { liveData, GUI, UTIL, Camp, FLAG, AreasGenericExploration, MinotaurScene, HellhoundScene, WormsScene } from 'coc';
+import * as GUI from '../../engine/gui';
+import * as UTIL from '../../engine/utils';
+import * as FLAG from '../../flags/dataFlags';
+import { liveData } from '../../main-context';
+import * as HellhoundScene from '../../scenes/areas/mountain/hellhound';
+import * as MinotaurScene from '../../scenes/areas/mountain/minotaur';
+import * as WormsScene from '../../scenes/areas/mountain/wormmass';
+import * as Camp from '../../scenes/camp';
+import * as AreasGenericExploration from '../../scenes/exploration';
 
 export function explore() {
   GUI.clearOutput();

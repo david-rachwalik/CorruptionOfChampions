@@ -1,6 +1,12 @@
-import { liveData, FLAG, UTIL, GUI, Data, Camp, Item, Inventory } from 'coc';
+import * as GUI from '../../engine/gui';
+import * as UTIL from '../../engine/utils';
+import * as FLAG from '../../flags/dataFlags';
+import { Item } from '../../itemClass';
+import { liveData } from '../../main-context';
+import * as Camp from '../../scenes/camp';
+import * as Inventory from '../../scenes/inventory';
 
-Data.addToGameFlags(FLAG.LUMI_MET);
+// Data.addToGameFlags(FLAG.LUMI_MET);
 
 export function lumiEncounter() {
   GUI.clearOutput();

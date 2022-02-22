@@ -1,4 +1,7 @@
-import { liveData, GUI, FLAG, COMBAT } from 'coc';
+import * as GUI from '../engine/gui';
+import * as FLAG from '../flags/dataFlags';
+import { liveData } from '../main-context';
+import * as COMBAT from '../scenes/combat';
 
 //----------
 // Created by Matraia on 7/20/16.
