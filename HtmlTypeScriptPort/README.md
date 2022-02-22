@@ -46,3 +46,11 @@ The rules that govern and guide the player's actions, as well as the game's resp
 ---
 
 > Conversion from React+Webpack to Vue+Vite resulted in a new project total of 359 packages with 124 packages added, 534 packages removed
+
+Installed [DPDM](https://github.com/acrazing/dpdm) globally to detect circular imports - example command:
+
+- `dpdm --circular .\src\corruption-of-champions\main.ts`
+
+- <https://froala.com/wysiwyg-editor/docs/overview>
+
+- Based on [CoC Wikia WYSIWYG](https://cocxianxia.fandom.com/wiki/Goo-Girl) ([OO.ui.Toolbar](https://doc.wikimedia.org/VisualEditor/master/js/#!/api/OO.ui.Toolbar), [ve.ui.Toolbar](https://doc.wikimedia.org/VisualEditor/master/js/#!/api/ve.ui.Toolbar))
